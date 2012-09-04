@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.TestAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -37,6 +38,7 @@ import org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorIm
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -61,6 +63,7 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -434,18 +437,15 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			coService.createActivityOffering(fo1.getId(), canonicalLectureOnlyFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureB, context);
 			
+			// create a default cluster
+			List<ActivityOfferingInfo> activities =  coService.getActivityOfferingsByFormatOffering("CO-2:LEC-ONLY", context);
+			
+			ActivityOfferingClusterInfo defaultAoc = CourseOfferingServiceDataUtils.createActivityOfferingCluster("CO-2:LEC-ONLY", "Default Cluster", activities );
+			
+			defaultAoc = coService.createActivityOfferingCluster("CO-2:LEC-ONLY", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, defaultAoc, context);
+			
 			// Create a Registration Group
-			List<ActivityOfferingInfo> activities = Arrays.asList(new ActivityOfferingInfo[] {lectureOnlyFormatLectureA})
-					;
-			RegistrationGroupInfo regGroupA = CourseOfferingServiceDataUtils.createRegistrationGroup(co.getId(), fo1.getId(), "2012SP", Arrays.asList(new String[] {lectureOnlyFormatLectureA.getId()}), "Reg Group for Lecture A", "REG:LEC-A", false, false,50, LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
-			
-			regGroupA.setId("CO-2:LEC-ONLY:REG-GROUP-LEC-A");
-			
-			RegistrationGroupCodeGenerator registrationGroupCodeGenerator = registrationGroupCodeGeneratorFactory.makeCodeGenerator();
-			regGroupA.setName(registrationGroupCodeGenerator.generateRegistrationGroupCode(fo1, activities, null));
-			
-			
-			coService.createRegistrationGroup(fo1.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, regGroupA, context);
+			coService.generateRegistrationGroupsForFormatOffering("CO-2:LEC-ONLY", context);
 			
 			
 	}

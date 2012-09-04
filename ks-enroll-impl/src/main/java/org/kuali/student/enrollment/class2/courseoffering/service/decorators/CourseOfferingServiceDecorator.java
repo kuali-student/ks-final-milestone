@@ -444,7 +444,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
     @Override
     public StatusInfo deleteRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return deleteRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
+        return getNextDecorator().deleteRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
     }
 
     @Override
@@ -653,6 +653,16 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingClusterId, contextInfo);
+	}
+
+	@Override
+	public List<String> getActivityOfferingClustersIdsByFormatOffering(
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
 	}
 	
 	

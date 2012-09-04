@@ -1572,9 +1572,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo generateRegistrationGroupsForCluster(String registrationGroupTemplateId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Implement for M5");
+    public StatusInfo generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+       return businessLogic.generateRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
     }
 
     private String getTermkeyByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -2225,6 +2225,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 	@Override
 	public StatusInfo deleteActivityOfferingClusterCascaded(
 			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("implement for M5");
+	}
+
+	@Override
+	public List<String> getActivityOfferingClustersIdsByFormatOffering(
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,

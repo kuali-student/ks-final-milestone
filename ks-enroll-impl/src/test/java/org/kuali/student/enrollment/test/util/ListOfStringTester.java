@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.junit.Assert;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -17,6 +19,32 @@ import static org.junit.Assert.assertEquals;
  */
 public class ListOfStringTester {
 
+	/**
+	 * Verify that the expected elements exist in the actual list.  
+	 * order is not important
+	 * @param expectedList
+	 * @param actualList
+	 * @param failForExtraElements true if we should fail if there are other elements in the actual list.
+	 */
+	public void checkExistsAnyOrder (List<String>expectedList, List<String>actualList, boolean failForExtraElements) {
+		
+		if (failForExtraElements) 
+			Assert.assertFalse(expectedList.size() != actualList.size());
+		
+		List<String>unmatchedList = new ArrayList<String>(expectedList);
+		
+		for (String string : actualList) {
+
+			boolean removed = unmatchedList.remove(string);
+		
+			if (failForExtraElements)
+				Assert.assertTrue(removed);
+		}
+		
+		Assert.assertTrue(unmatchedList.size() == 0);
+	
+	}
+	
     public void check(List<String> expectedList, List<String> actualList) {
         if (expectedList.size () != actualList.size ()) {
             this.dump(expectedList, actualList);

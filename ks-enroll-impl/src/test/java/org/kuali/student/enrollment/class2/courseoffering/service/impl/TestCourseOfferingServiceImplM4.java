@@ -502,7 +502,19 @@ class FakeCOService implements CourseOfferingService {
         rg0300.add(createRegGroup("0302"));
     }
 
+    
     @Override
+	public List<String> getActivityOfferingClustersIdsByFormatOffering(
+			@WebParam(name = "formatOfferingId") String formatOfferingId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
     public CourseOfferingDisplayInfo getCourseOfferingDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -890,8 +902,7 @@ class FakeCOService implements CourseOfferingService {
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<ValidationResultInfo>();
 	}
 
 	@Override
@@ -916,7 +927,7 @@ class FakeCOService implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo deleteActivityOfferingCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteActivityOfferingCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
