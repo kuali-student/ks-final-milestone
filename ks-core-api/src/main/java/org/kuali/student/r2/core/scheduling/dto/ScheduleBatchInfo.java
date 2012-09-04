@@ -53,6 +53,7 @@ public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Se
     }
 
     public ScheduleBatchInfo(ScheduleBatch scheduleBatch) {
+        super(scheduleBatch);
         if (null != scheduleBatch) {
             this.requestingPersonId = scheduleBatch.getRequestingPersonId();
             this.orgId = scheduleBatch.getOrgId();
@@ -85,5 +86,15 @@ public class ScheduleBatchInfo extends IdEntityInfo implements ScheduleBatch, Se
 
     public void setStatusMessage(String statusMessage) {
         this.statusMessage = statusMessage;
+    }
+
+    @Override
+    public String toString() {
+        return "ScheduleBatchInfo{" +
+                "requestingPersonId='" + requestingPersonId + '\'' +
+                ", Id='" + getId() + '\'' +
+                ", orgId='" + orgId + '\'' +
+                ", statusMessage='" + statusMessage + '\'' +
+                '}';
     }
 }
