@@ -459,7 +459,7 @@
                 </bean>
                 <bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="N/A"/>
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
                       </property>
                 </bean>
             </list>
