@@ -384,7 +384,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 copyWrapper.getTermId(), 
                 optionKeys, 
                 getContextInfo());
-        CourseOfferingInfo courseOffering = getCourseOfferingService ().getCourseOffering(item.getTargetCourseOfferingId(), getContextInfo ());
+        CourseOfferingInfo courseOffering = getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), getContextInfo());
         ExistingCourseOffering newWrapper = new ExistingCourseOffering(courseOffering);
         CourseInfo course = getCourseInfo(copyWrapper.getCourseOfferingCode());
         newWrapper.setCredits(ViewHelperUtil.getCreditCount(courseOffering, course));
@@ -827,8 +827,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      * Method used to delete a Course Offering with all Draft activity Offerings
      **/
     @RequestMapping(params = "methodToCall=cancelDeleteCo")
-    public ModelAndView cancelDeleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                 HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView cancelDeleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) {
         CourseOfferingInfo  theCourseOffering = theForm.getTheCourseOffering();
         if(theCourseOffering == null) {
             throw new RuntimeException("No Course Offering selected!");
@@ -850,7 +849,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         try {
             getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Could not load course offerings.", e);
         }
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
@@ -865,11 +864,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         Properties urlParameters = new Properties();
         Object selectedObject = _getSelectedObject(theForm, "edit");
 
-        if (selectedObject instanceof CourseOfferingEditWrapper){
-
+        if (selectedObject instanceof CourseOfferingEditWrapper) {
             CourseOfferingInfo courseOfferingInfo = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
             urlParameters = _buildCOURLParameters(courseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT,false,getContextInfo());
-
         } else if(selectedObject instanceof ActivityOfferingWrapper) {
 
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
@@ -879,7 +876,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getTheCourseOffering().getId());
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
             urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
@@ -933,8 +929,29 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
+     /**
+     *  Determine if any COs were check-boxed.
+     *  @return True if any COs where selected. Otherwise, false.
+     */
+    private boolean hasSelectedCourseOfferings(CourseOfferingManagementForm theForm) {
+        boolean isSelected = false;
+        List<CourseOfferingEditWrapper> list = theForm.getCourseOfferingEditWrapperList();
+        for (CourseOfferingEditWrapper coWrapper : list) {
+            if (coWrapper.getIsChecked()) {
+                isSelected = true;
+                break;
+            }
+        }
+        return isSelected;
+    }
+
     @RequestMapping(params = "methodToCall=selectedCOActions")
     public ModelAndView selectedCOActions(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
+        //  Stop here if no COs are selected.
+        if ( ! hasSelectedCourseOfferings(theForm)) {
+            GlobalVariables.getMessageMap().putError("manageActivityOfferingsPage", CourseOfferingConstants.COURSEOFFERING_NONE_SELECTED);
+            return getUIFModelAndView(theForm);
+        }
 
         if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
             /*
@@ -972,7 +989,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=confirmDelete")
     public ModelAndView confirmDelete(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         Collection<Object> collection;
         Object selectedObject;
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();

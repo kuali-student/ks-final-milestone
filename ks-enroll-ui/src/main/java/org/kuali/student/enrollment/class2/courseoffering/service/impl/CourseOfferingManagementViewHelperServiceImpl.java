@@ -432,33 +432,37 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
      * @param checkedOnly True if the CO wrapper isChecked() flag should be respected.
      */
     public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers, boolean checkedOnly) throws Exception {
-        boolean isErrorAdded = false;
-        boolean isWarningAdded = false;
+        boolean hasAOWarning = false, hasStateChangedAO = false;
         for (CourseOfferingEditWrapper coWrapper : coWrappers) {
             if ((coWrapper.getIsChecked() && checkedOnly) || ! checkedOnly) {
                 List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
                 if (activityOfferingInfos.size() == 0) {
-                    if(!isErrorAdded) {
-                        GlobalVariables.getMessageMap().putError("selectedOfferingAction", CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_SELECTED_ACTION_ERROR);
-                        isErrorAdded = true;
-                    }
+                    if ( ! hasAOWarning) hasAOWarning = true;
                     continue;
                 }
-                //  Iterate through the AOs and state change Draft -> Approved.
+                // Iterate through the AOs and state change Draft -> Approved.
                 for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
                     boolean isAOStateDraft = StringUtils.equals(activityOfferingInfo.getStateKey(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                     if (isAOStateDraft) {
+                        //  Flag if any AOs can be state changed. This affects the error message whi.
+                        if ( ! hasStateChangedAO) hasStateChangedAO = true;
                         activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
                         getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo,getContextInfo());
                     } else {
-                        if ( ! isWarningAdded) {
-                            GlobalVariables.getMessageMap().putWarning("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
-                            isWarningAdded = true;
-                        }
+                        //  Flag if any AOs are not in a valid state for approval.
+                        if ( ! hasAOWarning) hasAOWarning = true;
                     }
                 }
                 // check for changes to states in CO and related FOs
                 ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coWrapper.getCoInfo(), getContextInfo());
+            }
+        }
+        //  Set feedback messages.
+        if ( ! hasStateChangedAO) {
+            GlobalVariables.getMessageMap().putError("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_NONE_APPROVED);
+        } else {
+            if (hasAOWarning) {
+                GlobalVariables.getMessageMap().putWarning("manageCourseOfferingsPage", CourseOfferingConstants.COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY);
             }
         }
     }
