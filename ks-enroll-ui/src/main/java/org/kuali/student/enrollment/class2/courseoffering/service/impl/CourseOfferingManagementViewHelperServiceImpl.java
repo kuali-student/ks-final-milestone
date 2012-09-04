@@ -382,7 +382,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             if (wrapper.getIsChecked()) {
                 //  If the action is "Set as Draft" then the current state of the AO must be "Approved".
                 if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION, selectedAction)) {
-                    // if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_SCHEDULED_KEY)){
                     if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                         wrapper.setStateName(draftState.getName());
@@ -391,7 +390,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                     } else {
                         //  Add the validation error once
                         if ( ! isErrorAdded){
-                            GlobalVariables.getMessageMap().putError("selectedOfferingAction",RiceKeyConstants.ERROR_CUSTOM,"Some Activity Offerings are not in draft state");
+                            GlobalVariables.getMessageMap().putError("selectedOfferingAction", RiceKeyConstants.ERROR_CUSTOM, "Some Activity Offerings are not in draft state");
                             isErrorAdded = true;
                         }
                     }
