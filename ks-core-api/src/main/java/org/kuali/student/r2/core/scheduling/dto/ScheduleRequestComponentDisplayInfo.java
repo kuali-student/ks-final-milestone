@@ -17,7 +17,6 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.infc.Type;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -38,9 +37,9 @@ import java.util.List;
  * @Author Mezba Mahtab
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleRequestComponentDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
+@XmlType(name = "ScheduleRequestComponentDisplayInfo", propOrder = {"id",
         "rooms", "buildings", "timeSlots", "orgs", "resourceTypes", "isTBA",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestComponentDisplay, Serializable {
 
     ////////////////////////
