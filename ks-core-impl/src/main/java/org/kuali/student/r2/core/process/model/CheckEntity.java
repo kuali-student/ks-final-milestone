@@ -71,7 +71,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     // of the process data separately.
     @Column(name = "CHILD_PROCESS_ID")
     private String childProcessId;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private final Set<CheckAttributeEntity> attributes = new HashSet<CheckAttributeEntity>();
 
@@ -79,18 +79,18 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     // CONSTRUCTORS ETC.
     //////////////////////////
 
-	public CheckEntity(Check check) {
-	    super(check);
+    public CheckEntity(Check check) {
+        super(check);
         this.setId(check.getId());
         this.setCheckType(check.getTypeKey());
         this.fromDTO(check);
     }
 
     public CheckEntity() {
-		super();
-	}
+        super();
+    }
 
-	public void fromDTO(Check check) {
+    public void fromDTO(Check check) {
         this.setCheckState(check.getStateKey());
         this.setName(check.getName());
         if (check.getDescr() != null) {
@@ -109,11 +109,11 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 
         this.attributes.clear();
 
-            for (Attribute att : check.getAttributes()) {
+        for (Attribute att : check.getAttributes()) {
             this.attributes.add(new CheckAttributeEntity(att, this));
-            }
+        }
 
-	}
+    }
 
     /**
      * @return Process Check DTO
@@ -131,7 +131,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         checkInfo.setRightComparisonAgendaId(rightAgendaId);
         checkInfo.setLeftComparisonAgendaId(leftAgendaId);
         checkInfo.setChildProcessKey(childProcessId);
-
+        checkInfo.setName(this.getName());
         List<AttributeInfo> dtoAttributes = checkInfo.getAttributes();
         dtoAttributes.clear();
         List<AttributeInfo> attributes = checkInfo.getAttributes();
@@ -139,12 +139,12 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
             for (CheckAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
                 attributes.add(attInfo);
-        }
+            }
         }
         checkInfo.setAttributes(attributes);
 
         return checkInfo;
-        }
+    }
 
     ///////////////////////////
     // GETTERS AND SETTERS
@@ -152,7 +152,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 
     public String getCheckType() {
         return checkType;
-        }
+    }
 
     public void setCheckType(String checkType) {
         this.checkType = checkType;
@@ -160,11 +160,11 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 
     public String getCheckState() {
         return checkState;
-        }
+    }
 
     public void setCheckState(String checkState) {
         this.checkState = checkState;
-	}
+    }
 
     public String getName() {
         return name;
@@ -213,6 +213,7 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     public void setAgendaId(String agendaId) {
         this.agendaId = agendaId;
     }
+
     public String getRightAgendaId() {
         return rightAgendaId;
     }
@@ -239,15 +240,15 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 
     @Override
     public Set<CheckAttributeEntity> getAttributes() {
-		 return attributes;
-	}
+        return attributes;
+    }
 
     public void setAttributes(Set<CheckAttributeEntity> attributes) {
 
-    	this.attributes.clear();
+        this.attributes.clear();
 
-    	if (attributes != null)
-    		this.attributes.addAll(attributes);
+        if (attributes != null)
+            this.attributes.addAll(attributes);
     }
 
     ///////////////////////
@@ -270,9 +271,9 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         builder.append(", leftAgendaId='" + leftAgendaId + '\'');
         builder.append(", childProcessId='" + childProcessId + '\'');
 
-        if(!attributes.isEmpty()) {
+        if (!attributes.isEmpty()) {
             builder.append(", attributes={");
-            for(CheckAttributeEntity attr : attributes) {
+            for (CheckAttributeEntity attr : attributes) {
                 builder.append(" CheckAttributeEntity [id=");
                 builder.append(attr.getId());
                 builder.append(", key=");
@@ -287,10 +288,10 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         return builder.toString();
     }
 
-	public void addAttribute(String key, String value) {
+    public void addAttribute(String key, String value) {
 
-		this.attributes.add(new CheckAttributeEntity(new AttributeInfo(key, value), this));
+        this.attributes.add(new CheckAttributeEntity(new AttributeInfo(key, value), this));
 
 
-	}
+    }
 }
