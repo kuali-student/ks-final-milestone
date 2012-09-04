@@ -85,6 +85,9 @@ public class CourseOfferingServiceConstants {
     public static final String APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY = "kuali.course.offering.optionkey.append.course.offering.suffix";
     public static final String APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY = "kuali.course.offering.optionkey.append.course.offering.internal.suffix";
 
+    public static final String COURSE_OFFERING_CODE_VALIDATION_ELEMENT = "courseOfferingCode";
+    public static final String COURSE_OFFERING_CODE_UNIQUENESS_VALIDATION_MESSAGE = "Course offering code is not unique within the term";
+
     // Activity Offering Cluster States
     public static final String AOC_ACTIVE_STATE_KEY = "kuali.activity.offering.cluster.state.active";
 

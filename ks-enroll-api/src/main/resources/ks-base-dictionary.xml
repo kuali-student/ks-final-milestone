@@ -87,7 +87,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
-        <!--TODO: create and use an integer valid chars constraint that allows positive and negative -->
         <property name="validCharactersConstraint" ref="Positive.integer" />
     </bean>
 
@@ -101,7 +100,6 @@
         <property name="control">
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
-        <!--TODO: create and use an integer valid chars constraint that allows positive and negative -->
         <property name="validCharactersConstraint" ref="Positive.integer" />
     </bean>
 

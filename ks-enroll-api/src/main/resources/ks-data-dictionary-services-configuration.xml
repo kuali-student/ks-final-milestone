@@ -41,6 +41,10 @@
         <property name="dictionaryLocations" ref="luiServiceDictionaryLocations" />
    </bean> 
 
+   <bean id="dataDictionaryServiceForScheduling" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="schedule" />
+        <property name="dictionaryLocations" ref="schedulingServiceDictionaryLocations" />
+   </bean>
 
     <!--All Objects Data Dictionary Service used by Rice-->
     <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
