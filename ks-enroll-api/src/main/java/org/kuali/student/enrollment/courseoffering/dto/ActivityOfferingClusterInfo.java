@@ -36,8 +36,8 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingClusterInfo", propOrder = {
-                "id", "typeKey", "stateKey", "name", "descr", 
-                "formatOfferingId", "activityOfferingSets",
+                "id", "typeKey", "stateKey", "name", "descr",
+                "privateName", "formatOfferingId", "activityOfferingSets",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingClusterInfo
@@ -45,6 +45,9 @@ public class ActivityOfferingClusterInfo
     implements ActivityOfferingCluster {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String privateName;
 
     @XmlElement
     private String formatOfferingId;
@@ -82,6 +85,15 @@ public class ActivityOfferingClusterInfo
                 this.activityOfferingSets.add(new ActivityOfferingSetInfo(aotemplate));
             }
         }
+    }
+
+    @Override
+    public String getPrivateName() {
+        return this.privateName;
+    }
+
+    public void setPrivateName(String privateName) {
+        this.privateName = privateName;
     }
 
     @Override
