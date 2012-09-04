@@ -457,10 +457,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                         }
                     }
                 }
+                // check for changes to states in CO and related FOs
+                ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coWrapper.getCoInfo(), getContextInfo());
             }
-
-            // check for changes to states in CO and related FOs
-            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coWrapper.getCoInfo(), getContextInfo());
         }
     }
 
