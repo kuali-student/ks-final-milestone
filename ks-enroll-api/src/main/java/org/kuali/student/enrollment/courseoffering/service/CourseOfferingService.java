@@ -1577,7 +1577,6 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @param validationTypeKey              Identifier of the extent of
      *                                       validation
      * @param formatOfferingId               Format Offering identifier
-     * @param activityOfferingClusterTypeKey Activity Offering Cluster type
      * @param activityOfferingClusterInfo    the Activity Offering Cluster
      *                                       information to be validated.
      * @param contextInfo                    Context information containing the
@@ -1594,7 +1593,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      */
-    public List<ValidationResultInfo> validateActivityOfferingCluster(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterTypeKey") String activityOfferingClusterTypeKey, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateActivityOfferingCluster(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Creates a new Activity Offering Cluster from the given Format Offering
@@ -1687,8 +1686,26 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure has occurred
+     * @throws DependentObjectsExistException Registration Groups exist for this cluster which prevents the delete from occuring.
      */
-    public StatusInfo deleteActivityOfferingCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteActivityOfferingCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
+
+    /**
+     * Deletes an existing ActivityOfferingCluster cascaded style. Deleting an activity
+     * offering cluster cascaded style would also delete all the registration groups associated with it.
+     *
+     * @param activityOfferingClusterId the Id of the ActivityOfferingCluster to be deleted
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified Activity o does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteActivityOfferingClusterCascaded(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Verifies an Activity Offering Cluster completeness for generation,
