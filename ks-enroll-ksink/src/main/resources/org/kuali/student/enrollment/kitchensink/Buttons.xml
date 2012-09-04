@@ -85,13 +85,13 @@
                                     <bean parent="KS-KitchenSink-Link-To-Source"
                                           p:href="https://svn.kuali.org/repos/student/branches/ks-1.3/ks-enroll/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Buttons.xml"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M2/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifElementDefinitions.xml"/>
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifElementDefinitions.xml"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M2/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/element/Action.java"/>
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/element/Action.java"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-API"
-                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M2/apidocs/org/kuali/rice/krad/uif/element/Action.html"/>
+                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/element/Action.html"/>
                                     <bean parent="KS-KitchenSink-Link-To-Guide"
-                                          p:href="http://site.kuali.org/rice/2.2.0-M2/reference/html/KRAD_Guide.html#d6766e6122"/>
+                                          p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e6122"/>
                                     <bean parent="KS-KitchenSink-Link-To-Bare" />
                                 </list>
                             </property>

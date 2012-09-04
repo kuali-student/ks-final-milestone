@@ -22,10 +22,18 @@
 
     <!-- The Interesting Bits -->
 
+    <!-- NOTE: parent view/theme must include script file "ks-krad/scripts/ks-krad.js" for toggling -->
+
     <bean id="KS-KitchenSink-CollectionRowSelection" parent="KS-KitchenSink-Collection-Base">
         <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
         <property name="includeLineSelectionField" value="true"/>
         <property name="lineSelectPropertyName" value="selected"/>
+        <!-- class "uif-kskrad-collection-selection" triggers javascript toggling -->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-kskrad-collection-selection</value>
+            </list>
+        </property>
     </bean>
 
 
@@ -36,7 +44,7 @@
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-CollectionRowSelection-Page">
-                    <property name="headerText" value="Collection Row Selection"/>
+                    <property name="headerText" value="Collection Row Selection and Toggle"/>
                     <property name="footer">
                         <bean parent="Uif-VerticalBoxSection">
                             <property name="header.render" value="false"/>
@@ -47,20 +55,22 @@
                                         <property name="style" value="margin-bottom:15px;font-size:125%"/>
                                         <property name="messageText">
                                             <value>
-                                                This example shows how to add the selection checkbox to each row.
+                                                This example shows how to add the selection checkbox to each row, and
+                                                also how to add a checkbox to the selection header which toggles the
+                                                row checkboxes on and off.
                                             </value>
                                         </property>
                                     </bean>
                                     <bean parent="KS-KitchenSink-Link-To-Source"
                                           p:href="https://svn.kuali.org/repos/student/branches/ks-1.3/ks-enroll/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M2/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M2/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
                                     <bean parent="KS-KitchenSink-Link-To-KRAD-API"
-                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M2/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
                                     <bean parent="KS-KitchenSink-Link-To-Guide"
-                                          p:href="http://site.kuali.org/rice/2.2.0-M2/reference/html/KRAD_Guide.html"/>
+                                          p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html"/>
                                     <bean parent="KS-KitchenSink-Link-To-Bare">
                                         <property name="finalizeMethodAdditionalArguments">
                                             <list>
