@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.courseoffering.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -25,6 +26,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -45,7 +47,6 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 
 /**
  * Course Offering is a Class II service supporting the process of offering
@@ -1735,8 +1736,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @param contextInfo               Context information containing the
      *                                  principalId and locale information about
      *                                  the caller of service operation
-     * @return a list of validation results or an empty list if validation
-     *         succeeded
+     * @return Information gleaned from verifying the ActivityOfferingCluster
      * @throws DoesNotExistException     activityOfferingClusterId not found
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException activityOfferingClusterId or
@@ -1744,7 +1744,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AOClusterVerifyResultsInfo verifyActivityOfferingClusterForGeneration(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve information about a SeatPoolDefinition
