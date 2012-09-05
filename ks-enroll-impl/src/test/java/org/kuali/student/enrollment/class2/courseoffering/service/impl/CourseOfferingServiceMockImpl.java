@@ -35,10 +35,21 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -1188,7 +1199,45 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public AOClusterVerifyResultsInfo verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+    	ActivityOfferingClusterInfo aoc = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+    
+    	AOClusterVerifyResultsInfo resultsInfo = new AOClusterVerifyResultsInfo();
+    	
+    	List<RegistrationGroupInfo> rgList = getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+    	
+    	// get reg group count
+    	
+    	Integer totalRegistrationGroups = rgList.size();
+    	
+    	resultsInfo.setExistingRGCount(totalRegistrationGroups);
+    	
+    	// get valid reg group count
+    	
+    	int validRegistrationGroups  = totalRegistrationGroups;
+    	
+//    	for (RegistrationGroupInfo registrationGroupInfo : rgList) {
+//		
+//    		// if group is valid then bump up the counter
+//    		
+//    		
+//		}
+    	
+    	resultsInfo.setValidRGCount(validRegistrationGroups);
+    	
+    	// determine if regeneration is needed
+    	
+    	// if AO's exist in the cluster but not in the reg group
+    	resultsInfo.setIsRegenerationNeeded(true);
+    	
+    	// validation result messages
+    	
+    	List<ValidationResultInfo> messages = validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), aoc.getFormatOfferingId(), aoc, contextInfo);
+    	
+    	resultsInfo.setValidationResults(messages);
+    	
+    	return resultsInfo;
+    	
     }
 
   
@@ -1670,7 +1719,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			String formatOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+			PermissionDeniedException, DataValidationErrorException {
 
 		return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
 	}
@@ -1915,8 +1964,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	public StatusInfo generateRegistrationGroupsForCluster(
 			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, AlreadyExistsException,
-			DataValidationErrorException, InvalidParameterException,
+			throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		return businessLogic.generateRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);

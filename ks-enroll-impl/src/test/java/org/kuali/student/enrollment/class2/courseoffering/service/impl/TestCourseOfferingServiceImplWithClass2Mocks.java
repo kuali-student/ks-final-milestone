@@ -216,13 +216,22 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         new ListOfStringTester().checkExistsAnyOrder(Arrays.asList(new String[] {"CO-1:LEC-AND-LAB:LEC-A", "CO-1:LEC-AND-LAB:LAB-A", "CO-1:LEC-AND-LAB:LAB-B", "CO-1:LEC-AND-LAB:LAB-C"}), extractActivityOfferingIds(actual.getActivityOfferingSets()), true);
         
         
-        try {
-			coService.generateRegistrationGroupsForCluster(actual.getId(), callContext);
-		} catch (AlreadyExistsException e) {
-			Assert.assertFalse("reg groups unexpectantly exist.", true);
-		}
+        List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
+        
+        assertEquals(0, rgList.size());
+        
+		coService.generateRegistrationGroupsForCluster(actual.getId(), callContext);
 		
+		rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
+		
+		 assertEquals(3, rgList.size());
+	
+		coService.generateRegistrationGroupsForCluster(actual.getId(), callContext);
+		
+		// verify count stays the same even after calling the method again.
+		rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
 
+		 assertEquals(3, rgList.size());
 	}
 	
 	private List<String>extractActivityOfferingIds (List<ActivityOfferingSetInfo>aoList) {
@@ -349,16 +358,9 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 		
 		assertTrue("Failed to delete existing generated registration groups", status.getIsSuccess());
 
-		try {
 			status = coService
 					.generateRegistrationGroupsForFormatOffering(
 							"CO-1:LEC-AND-LAB", callContext);
-		} catch (AlreadyExistsException e) {
-			
-			// this case should not happen.
-			// but fail the test if it does.
-			Assert.assertTrue("Failed to generate registration groups", false);
-		}
 		
 		rgList = coService.getRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 		

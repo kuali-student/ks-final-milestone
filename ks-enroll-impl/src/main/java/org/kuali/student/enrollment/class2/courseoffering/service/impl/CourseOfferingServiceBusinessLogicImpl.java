@@ -493,7 +493,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             String formatOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
-            PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+            PermissionDeniedException, DataValidationErrorException {
 
     	// check for any existing registration groups
         this._getCoService(); // Make sure coService gets set
@@ -532,8 +532,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 	public StatusInfo generateRegistrationGroupsForCluster(
 			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
 			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, AlreadyExistsException,
-			DataValidationErrorException, InvalidParameterException,
+			throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		 // check for any existing registration groups
@@ -544,7 +543,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 coService.getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
         
         if (existingRegistrationGroups.size() > 0) {
-            throw new AlreadyExistsException("Registration groups already exist for activityOfferingClusterId=" + activityOfferingClusterId);
+        	// for M4 compatibility
+        	// should be removed once M5 work starts as the delta add should be supported
+        	// and cascaded delete on an AO should remove the reg group.
+        	coService.deleteRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
+        	
         }
         
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();

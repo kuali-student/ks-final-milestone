@@ -287,11 +287,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         
-    	try {
-			StatusInfo info = getCourseOfferingService().generateRegistrationGroupsForFormatOffering(formatOfferingId, getContextInfo());
-		} catch (AlreadyExistsException e) {
-			StatusInfo info = getCourseOfferingService().deleteRegistrationGroupsByFormatOffering(formatOfferingId, getContextInfo());
-		}
+		StatusInfo info = getCourseOfferingService().generateRegistrationGroupsForFormatOffering(formatOfferingId, getContextInfo());
          
     	List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(formatOfferingId, getContextInfo());
          
