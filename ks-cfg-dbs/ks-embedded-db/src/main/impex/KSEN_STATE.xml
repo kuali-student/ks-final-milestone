@@ -318,6 +318,21 @@
         ID="kuali.soc.rollover.result.item.state.retired"
         LIFECYCLE_KEY="kuali.soc.rollover.result.process" NAME="Retired"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120905000000"
+        DESCR_FORMATTED="The SOC was submitted for mass scheduling, and the scheduling process completed"
+        DESCR_PLAIN="The SOC was submitted for mass scheduling, and the scheduling process completed"
+        ID="kuali.soc.scheduling.state.completed"
+        LIFECYCLE_KEY="kuali.soc.scheduling.process" NAME="Completed" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120905000000"
+        DESCR_FORMATTED="The SOC was submitted for mass scheduling and has not yet completed"
+        DESCR_PLAIN="The SOC was submitted for mass scheduling and has not yet completed"
+        ID="kuali.soc.scheduling.state.inprogress"
+        LIFECYCLE_KEY="kuali.soc.scheduling.process" NAME="In Progress" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120905000000"
+        DESCR_FORMATTED="The SOC has never been submitted to the scheduler"
+        DESCR_PLAIN="The SOC has never been submitted to the scheduler"
+        ID="kuali.soc.scheduling.state.notstarted"
+        LIFECYCLE_KEY="kuali.soc.scheduling.process" NAME="Not Started" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120831000000"
         DESCR_FORMATTED="State denoting that the mass scheduling event has occurred and COs and AOs are now once again available for Departmental Admin staff to edit"
         DESCR_PLAIN="State denoting that the mass scheduling event has occurred and COs and AOs are now once again available for Departmental Admin staff to edit"
@@ -333,4 +348,9 @@
         DESCR_PLAIN="State applied to courses when the final edits have been completed and courses are ready to be offered to students for enrollment"
         ID="kuali.soc.state.published" LIFECYCLE_KEY="kuali.soc.process"
         NAME="Published" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120905000000"
+        DESCR_FORMATTED="The system automatically sets this state when the state is set to Published. Then the system begins the verification and update of the AOs. When this process has completed, the system sets the SOC state to Published."
+        DESCR_PLAIN="The system automatically sets this state when the state is set to Published. Then the system begins the verification and update of the AOs. When this process has completed, the system sets the SOC state to Published."
+        ID="kuali.soc.state.publishing"
+        LIFECYCLE_KEY="kuali.soc.process" NAME="Publishing In Progress" VER_NBR="0"/>
 </dataset>

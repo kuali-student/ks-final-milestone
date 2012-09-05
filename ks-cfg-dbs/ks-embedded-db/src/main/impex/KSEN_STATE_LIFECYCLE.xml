@@ -127,4 +127,10 @@
         DESCR_PLAIN="kuali.soc.rollover.result.process state lifecycle"
         ID="kuali.soc.rollover.result.process"
         NAME="kuali.soc.rollover.result.process" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20120905000000"
+        DESCR_FORMATTED="Set of Courses Scheduling State Lifecycle"
+        DESCR_PLAIN="Set of Courses Scheduling State Lifecycle"
+        ID="kuali.soc.scheduling.process"
+        NAME="kuali.soc.scheduling.process" VER_NBR="1"/>
 </dataset>

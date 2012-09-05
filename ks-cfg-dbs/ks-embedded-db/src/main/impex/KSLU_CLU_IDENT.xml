@@ -6866,7 +6866,7 @@
         OBJ_ID="b194ce48-b328-402e-b368-d81469662284"
         SHRT_NAME="PROTOZOOLOGY" ST="Active" SUFX_CD="485"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
-    <KSLU_CLU_IDENT CD="ENGL101" DIVISION="ENGL"
+    <KSLU_CLU_IDENT CD="ENGL101REF" DIVISION="ENGL"
         ID="b832b40e-05bc-4ef8-b8d5-ebd7c2875aca"
         LNG_NAME="Academic Writing" LVL="100"
         OBJ_ID="8ec2bf6a-b84d-48d9-830a-df14e1f56d87"
