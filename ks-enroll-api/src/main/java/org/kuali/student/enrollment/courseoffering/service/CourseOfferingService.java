@@ -174,7 +174,13 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, 
+                                                @WebParam(name = "context") ContextInfo context) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Retrieves a single CourseOfferingDisplayInfo by a CourseOffering
@@ -365,6 +371,50 @@ public interface CourseOfferingService
      * @throws PermissionDeniedException authorization failure
      */
     public List<String> getCourseOfferingIdsByType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for CourseOfferings that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo context information containing the
+     *                    principalId and locale information about the
+     *                    caller of service operation
+     * @return a list of CourseOffering Ids matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is 
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForCourseOfferingIds(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /**
+     * Searches for CourseOfferings that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo context information containing the
+     *                    principalId and locale information about the
+     *                    caller of service operation
+     * @return a list of CourseOfferings matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is 
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CourseOfferingInfo> searchForCourseOfferings(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Get the valid options that can be specified to control canonical course
@@ -1041,6 +1091,49 @@ public interface CourseOfferingService
      */
     public List<ActivityOfferingInfo> getActivityOfferingsByFormatOfferingWithoutRegGroup(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Searches for ActivityOfferings that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo context information containing the
+     *                    principalId and locale information about the
+     *                    caller of service operation
+     * @return a list of ActivityOffering Ids matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is 
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForActivityOfferingIds(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /**
+     * Searches for ActivityOfferings that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo context information containing the
+     *                    principalId and locale information about the
+     *                    caller of service operation
+     * @return a list of ActivityOfferings matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is 
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ActivityOfferingInfo> searchForActivityOfferings(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Creates a new Activity Offering for a format offering.
@@ -1402,6 +1495,50 @@ public interface CourseOfferingService
      * @throws PermissionDeniedException authorization failure
      */
     public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(@WebParam (name="activityOfferingClusterId") String activityOfferingClusterId, @WebParam (name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException; 
+
+    /**
+     * Searches for RegistrationGroups that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo context information containing the
+     *                    principalId and locale information about the
+     *                    caller of service operation
+     * @return a list of RegistrationGroup Ids matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is 
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForRegistrationGroupIds(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /**
+     * Searches for RegistrationGroups that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo context information containing the
+     *                    principalId and locale information about the
+     *                    caller of service operation
+     * @return a list of RegistrationGroups matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is 
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RegistrationGroupInfo> searchForRegistrationGroups(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
     
     /**
      * Validates a registration group. Depending on the value of validationType,
@@ -1838,6 +1975,50 @@ public interface CourseOfferingService
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Searches for SeatPoolDefinitions that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo context information containing the
+     *                    principalId and locale information about the
+     *                    caller of service operation
+     * @return a list of SeatPoolDefinition Ids matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is 
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForSeatpoolDefinitionIds(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /**
+     * Searches for SeatPoolDefinitions that meet the given search criteria.
+     *
+     * @param criteria the search criteria
+     * @param contextInfo context information containing the
+     *                    principalId and locale information about the
+     *                    caller of service operation
+     * @return a list of SeatPoolDefinitions matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is 
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /**
      * Creates a new Seat Pool
      *
      * @param seatPoolDefinitionInfo Details of the SeatPoolDefinition to be
@@ -1981,141 +2162,4 @@ public interface CourseOfferingService
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
-
-
-    /**
-     * Searches for CourseOfferings that meet the given search criteria.
-     *
-     * @param criteria the search criteria
-     * @param contextInfo context information containing the
-     *                    principalId and locale information about the
-     *                    caller of service operation
-     * @return a list of CourseOffering Ids matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is
-     *         not valid
-     * @throws MissingParameterException criteria or contextInfo is 
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForCourseOfferingIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for CourseOfferings that meet the given search criteria.
-     *
-     * @param criteria the search criteria
-     * @param contextInfo context information containing the
-     *                    principalId and locale information about the
-     *                    caller of service operation
-     * @return a list of CourseOfferings matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is
-     *         not valid
-     * @throws MissingParameterException criteria or contextInfo is 
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<CourseOfferingInfo> searchForCourseOfferings(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for ActivityOfferings that meet the given search criteria.
-     *
-     * @param criteria the search criteria
-     * @param contextInfo context information containing the
-     *                    principalId and locale information about the
-     *                    caller of service operation
-     * @return a list of ActivityOffering Ids matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is
-     *         not valid
-     * @throws MissingParameterException criteria or contextInfo is 
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForActivityOfferingIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for ActivityOfferings that meet the given search criteria.
-     *
-     * @param criteria the search criteria
-     * @param contextInfo context information containing the
-     *                    principalId and locale information about the
-     *                    caller of service operation
-     * @return a list of ActivityOfferings matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is
-     *         not valid
-     * @throws MissingParameterException criteria or contextInfo is 
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ActivityOfferingInfo> searchForActivityOfferings(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for RegistrationGroups that meet the given search criteria.
-     *
-     * @param criteria the search criteria
-     * @param contextInfo context information containing the
-     *                    principalId and locale information about the
-     *                    caller of service operation
-     * @return a list of RegistrationGroup Ids matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is
-     *         not valid
-     * @throws MissingParameterException criteria or contextInfo is 
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForRegistrationGroupIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for RegistrationGroups that meet the given search criteria.
-     *
-     * @param criteria the search criteria
-     * @param contextInfo context information containing the
-     *                    principalId and locale information about the
-     *                    caller of service operation
-     * @return a list of RegistrationGroups matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is
-     *         not valid
-     * @throws MissingParameterException criteria or contextInfo is 
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<RegistrationGroupInfo> searchForRegistrationGroups(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for SeatPoolDefinitions that meet the given search criteria.
-     *
-     * @param criteria the search criteria
-     * @param contextInfo context information containing the
-     *                    principalId and locale information about the
-     *                    caller of service operation
-     * @return a list of SeatPoolDefinition Ids matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is
-     *         not valid
-     * @throws MissingParameterException criteria or contextInfo is 
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForSeatpoolDefinitionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Searches for SeatPoolDefinitions that meet the given search criteria.
-     *
-     * @param criteria the search criteria
-     * @param contextInfo context information containing the
-     *                    principalId and locale information about the
-     *                    caller of service operation
-     * @return a list of SeatPoolDefinitions matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is
-     *         not valid
-     * @throws MissingParameterException criteria or contextInfo is 
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
