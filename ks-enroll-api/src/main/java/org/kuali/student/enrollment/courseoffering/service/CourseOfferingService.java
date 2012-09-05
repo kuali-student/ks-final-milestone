@@ -54,7 +54,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 /**
- * Course Offering is a Class II service supporting the process of offering
+ * Course Offering is a class II service supporting the process of offering
  * courses for student registration.
  * 
  * Courses are offered for a specific term which is associated with a specific
@@ -97,51 +97,69 @@ public interface CourseOfferingService
 
 
     /**
-     * This method returns the TypeInfo for a given course offering type key.
+     * This method returns the TypeInfo for a given course offering
+     * type key.
      *
-     * @param courseOfferingTypeKey Key of the type
-     * @param context               Context information containing the
-     *                              principalId and locale information about the
-     *                              caller of service operation
-     * @return Information about the Type
-     * @throws DoesNotExistException     courseOfferingTypeKey not found
-     * @throws InvalidParameterException invalid courseOfferingTypeKey
-     * @throws MissingParameterException missing courseOfferingTypeKey
+     * @param courseOfferingTypeKey the unique identifier for the type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the type requested
+     * @throws DoesNotExistException courseOfferingTypeKey is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingTypeKey or
+     *         contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TypeInfo getCourseOfferingType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo getCourseOfferingType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, 
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * This method returns the valid course offering types.
      *
-     * @param context Context information containing the principalId and locale
-     *                information about the caller of service operation
-     * @return a list of valid course offering Types
-     * @throws InvalidParameterException invalid context
-     * @throws MissingParameterException missing context
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of valid CourseOffering Types
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException contextInfo is missing
+     *         or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getCourseOfferingTypes(@WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getCourseOfferingTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
-     * This method returns the valid instructor (lpr) types for a course
-     * offering type.
+     * This method returns the valid instructor (LPR) types for a
+     * CourseOffering type.
      *
-     * @param courseOfferingTypeKey a key for a course offering type
-     * @param context               information containing the principalId and
-     *                              locale information about the caller of
-     *                              service operation
+     * @param courseOfferingTypeKey a unqiue identifier for a
+     *        CourseOffering type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
      * @return a list of valid instructor types
-     * @throws DoesNotExistException     courseOfferingTypeKey not found
-     * @throws InvalidParameterException contextInfo is not valud
-     * @throws MissingParameterException courseOfferingTypeKey or contextInfo is
-     *                                   missing or null
+     * @throws DoesNotExistException deprecated
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingTypeKey or
+     *         contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getInstructorTypesForCourseOfferingType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getInstructorTypesForCourseOfferingType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, 
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Retrieve information about a CourseOffering
