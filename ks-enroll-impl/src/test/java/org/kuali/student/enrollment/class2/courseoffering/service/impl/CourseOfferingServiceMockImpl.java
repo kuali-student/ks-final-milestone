@@ -1203,7 +1203,23 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             PermissionDeniedException,
             ReadOnlyException,
             VersionMismatchException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    	
+    	// update
+    			if (!activityOfferingClusterId.equals(activityOfferingClusterInfo.getId())) {
+    				throw new InvalidParameterException(
+    						"The id parameter does not match the id on the info object");
+    			}
+    			ActivityOfferingClusterInfo copy = new ActivityOfferingClusterInfo(activityOfferingClusterInfo);
+    			CourseOfferingInfo old = this.getCourseOffering(
+    					activityOfferingClusterId, contextInfo);
+    			if (!old.getMeta().getVersionInd()
+    					.equals(copy.getMeta().getVersionInd())) {
+    				throw new VersionMismatchException(old.getMeta().getVersionInd());
+    			}
+    			copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+    			this.activityOfferingClusterMap.put(activityOfferingClusterInfo.getId(), copy);
+    			return new ActivityOfferingClusterInfo(copy);
+    	
     }
 
 	@Override
@@ -1455,7 +1471,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		throw new OperationFailedException(
-				"searchForSeatpoolDefinitionIds has not been implemented");
+				"getCourseOfferingDisplayByIds has not been implemented");
 	}
         
     @Override
