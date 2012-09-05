@@ -130,7 +130,7 @@
         <log4j.version>1.2.16</log4j.version>
         <log4j.javadoc.version>1.2</log4j.javadoc.version>
         <logkit.version>2.0</logkit.version>
-        <maven.min.version>3.0.3</maven.min.version>
+        <maven.min.version>3.0.4</maven.min.version>
         <metro.version>1.4</metro.version>
         <mysql.connector.version>5.1.18</mysql.connector.version>
         <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
