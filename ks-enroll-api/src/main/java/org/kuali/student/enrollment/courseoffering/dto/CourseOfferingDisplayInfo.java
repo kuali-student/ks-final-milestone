@@ -142,7 +142,11 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     public String getTermName() {
         return termName;
     }
-
+    
+    public void setTermName(String termName) {
+        this.termName = termName;
+    }
+    
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
@@ -160,6 +164,11 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
         return termCode;
     }
 
+    public void setTermCode(String termCode) {
+        this.termCode = termCode;
+    }
+
+     
     @Override
     public String getDisplayCredit() {
         return displayCredit;

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.courseofferingset.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -51,6 +52,15 @@ public class SocInfo
     private String subjectArea;
     @XmlElement
     private String unitsContentOwnerId;
+    @XmlElement
+    private Date lastSchedulingRunStarted;    
+    @XmlElement
+    private Date lastSchedulingRunCompleted;  
+    @XmlElement
+    private Date publishingStarted; 
+    @XmlElement
+    private Date publishingCompleted;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -107,6 +117,43 @@ public class SocInfo
     public void setUnitsContentOwnerId(String unitsContentOwnerId) {
         this.unitsContentOwnerId = unitsContentOwnerId;
     }
+
+    @Override
+    public Date getLastSchedulingRunCompleted() {
+        return lastSchedulingRunCompleted;
+    }
+
+    public void setLastSchedulingRunCompleted(Date lastSchedulingRunCompleted) {
+        this.lastSchedulingRunCompleted = lastSchedulingRunCompleted;
+    }
+
+    @Override
+    public Date getLastSchedulingRunStarted() {
+        return lastSchedulingRunStarted;
+    }
+
+    public void setLastSchedulingRunStarted(Date lastSchedulingRunStarted) {
+        this.lastSchedulingRunStarted = lastSchedulingRunStarted;
+    }
+
+    @Override
+    public Date getPublishingCompleted() {
+        return publishingCompleted;
+    }
+
+    public void setPublishingCompleted(Date publishingCompleted) {
+        this.publishingCompleted = publishingCompleted;
+    }
+
+    @Override
+    public Date getPublishingStarted() {
+        return publishingStarted;
+    }
+
+    public void setPublishingStarted(Date publishingStarted) {
+        this.publishingStarted = publishingStarted;
+    }
+    
     
     
 }

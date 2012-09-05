@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.courseofferingset.infc;
 
+import java.util.Date;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -50,8 +51,8 @@ public interface Soc
      * @name Subject Area
      */
     @Deprecated
-    public String getSubjectArea(); 
-    
+    public String getSubjectArea();
+
     /**
      * The Organization id of the content owner of the courses in this course offering 
      * set.
@@ -63,4 +64,42 @@ public interface Soc
      */
     @Deprecated
     public String getUnitsContentOwnerId();
+
+    /**
+     * Date of the last time this SOC was submitted to the scheduler
+     * 
+     * @name Last Scheduling Run Completed
+     * @readOnly
+     * @impl calculated based on the scheduling batch
+     */
+    public Date getLastSchedulingRunStarted();
+    
+    /**
+     * Date the SOC scheduling run completed
+     * 
+     * @name Last Scheduling Run Completed
+     * @readOnly
+     * @impl calculated from schedule response for the soc
+     */
+    public Date getLastSchedulingRunCompleted();
+
+
+    /**
+     * Date this SOC was submitted for publishing
+     * 
+     * @name Publishing Started
+     * @readOnly
+     * @impl Calculated ????
+     */
+    public Date getPublishingStarted();
+    
+    /**
+     * Date the publishing process was initiated
+     * 
+     * @name Publishing Completed
+     * @readOnly
+     * @impl calculated ?????
+     */
+    public Date getPublishingCompleted();
+
 }
