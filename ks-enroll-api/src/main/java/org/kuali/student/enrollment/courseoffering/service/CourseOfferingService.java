@@ -1157,7 +1157,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo startSchedulingActivityOffering (@WebParam (name="activityOfferingId")String activityOfferingId, @WebParam (name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo scheduleActivityOffering (@WebParam (name="activityOfferingId")String activityOfferingId, @WebParam (name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     /**
      * Validates an activity offering. Depending on the value of validationType,

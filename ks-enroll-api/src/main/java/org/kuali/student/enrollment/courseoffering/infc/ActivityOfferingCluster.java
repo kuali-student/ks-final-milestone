@@ -54,7 +54,7 @@ public interface ActivityOfferingCluster
      *
      * (needs an example)
      *
-     * @name Activity Offering Templates
+     * @name Activity Offering Set
      */
     public List<? extends ActivityOfferingSet> getActivityOfferingSets();
 }
