@@ -21,7 +21,7 @@
 			</list>
 		</property>
 
-		<property name="hasMetaData" value="false" />
+		<property name="hasMetaData" value="true" />
 	</bean>
 	<bean id="org.kuali.student.r2.core.statement.dto.StatementInfo"
 		parent="org.kuali.student.r2.core.statement.dto.StatementInfo-parent" />
@@ -373,7 +373,7 @@
 
 			</list>
 		</property>
-		<property name="hasMetaData" value="false" />
+		<property name="hasMetaData" value="true" />
 	</bean>
 
 	<bean id="org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo"
