@@ -725,7 +725,12 @@ public class AtpServiceImpl implements AtpService {
     @Override
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(String atpId, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; //To change body of implemented methods use File | Settings | File Templates.
+        List<AtpAtpRelationEntity> relations = atpRelDao.getAtpAtpRelationsByAtp(atpId);
+        List<AtpAtpRelationInfo> relationsDTO = new ArrayList();
+        for (AtpAtpRelationEntity relation : relations) {
+            relationsDTO.add(relation.toDto());
+        }
+        return relationsDTO;
     }
 
     @Override
