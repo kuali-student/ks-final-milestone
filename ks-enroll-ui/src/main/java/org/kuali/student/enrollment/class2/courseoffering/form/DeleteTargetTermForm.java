@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**

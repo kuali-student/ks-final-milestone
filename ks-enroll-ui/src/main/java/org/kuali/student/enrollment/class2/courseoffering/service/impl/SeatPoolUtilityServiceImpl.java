@@ -25,7 +25,10 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -33,8 +36,8 @@ import java.util.*;
  * @author Kuali Student Team
  */
 public class SeatPoolUtilityServiceImpl implements SeatPoolUtilityService {
-    private transient CourseOfferingService courseOfferingService = null;
 
+    private transient CourseOfferingService courseOfferingService = null;
 
     @Override
     public void updateSeatPoolDefinitionList(List<SeatPoolDefinitionInfo> updatedSeatPoolList, String activityOfferingId, ContextInfo context) {
@@ -107,7 +110,5 @@ public class SeatPoolUtilityServiceImpl implements SeatPoolUtilityService {
         }
         return courseOfferingService;
     }
-
-
 
 }

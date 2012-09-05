@@ -1,28 +1,36 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -30,13 +38,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 /**
  * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
  */
 @Deprecated
 public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
+
+    private final static Logger LOG = Logger.getLogger(CourseOfferingInfoMaintainableImpl.class);
+
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_DOCUMENT_DESC_FOR_CREATING_COURSE_OFFERING =
                                                             "Create a new course offering";
@@ -62,16 +72,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         CourseInfo course = null;
         try {
             course = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
-        } catch (OperationFailedException ofe) {
-            System.out.println("call getCourseService().getCourse(courseId), and get OperationFailedException:  " + ofe.toString());
-        } catch (DoesNotExistException dnee) {
-            System.out.println("call getCourseService().getCourse(courseId), and get DoesNotExistException:  " + dnee.toString());
-        } catch (InvalidParameterException ipe) {
-            System.out.println("call getCourseService().getCourse(courseId), and get InvalidParameterException:  " + ipe.toString());
-        } catch (PermissionDeniedException pde) {
-            System.out.println("call getCourseService().getCourse(courseId), and get PermissionDeniedException:  " + pde.toString());
-        } catch (MissingParameterException mpe) {
-            System.out.println("call getCourseService().getCourse(courseId), and get MissingParameterException:  " + mpe.toString());
+        } catch (Exception e) {
+            LOG.error("Error getting course", e);
         }
         // TODO - this entire method needs more complete exception handling; then remove this
         if (null == course) return;
@@ -124,22 +126,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             //update the CourseOfferingInfo coi in DB with instructors info
             try {
                 getCourseOfferingService().updateCourseOffering(coi.getId(), coi, new ContextInfo());
-            } catch (OperationFailedException ofe) {
-                System.out.println("call courseOfferingService.updateCourseOffering() method, and get OperationFailedException:  " + ofe.toString());
-            } catch (InvalidParameterException ipe) {
-                System.out.println("call courseOfferingService.updateCourseOffering() method, and get InvalidParameterException:  " + ipe.toString());
-            } catch (DoesNotExistException dnee) {
-                System.out.println("call courseOfferingService.updateCourseOffering() method, and get DoesNotExistException:  " + dnee.toString());
-            } catch (PermissionDeniedException pde) {
-                System.out.println("call courseOfferingService.updateCourseOffering() method, and get PermissionDeniedException:  " + pde.toString());
-            } catch (MissingParameterException mpe) {
-                System.out.println("call courseOfferingService.updateCourseOffering() method, and get MissingParameterException:  " + mpe.toString());
-            } catch (ReadOnlyException roe) {
-                System.out.println("call courseOfferingService.updateCourseOffering() method, and get ReadOnlyException:  " + roe.toString());
-            } catch (VersionMismatchException vme) {
-                System.out.println("call courseOfferingService.updateCourseOffering() method, and get VersionMismatchException:  " + vme.toString());
-            } catch (DataValidationErrorException dvee) {
-                System.out.println("call courseOfferingService.updateCourseOffering() method, and get DataValidationErrorException:  " + dvee.toString());
+            } catch (Exception e) {
+                throw new RuntimeException("Error updating Course offering", e) ;
             }
         }
 
@@ -306,7 +294,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         Random generator = new Random();
 
         int randomNum = generator.nextInt(2);
-        String daysString = "";
+        String daysString;
         String daysString2 = "";
         if (randomNum == 0) {
             int day1Index = generator.nextInt(4);

@@ -63,13 +63,13 @@ import java.util.Map;
 public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
 
-    private transient AcademicCalendarService acalService = null;
-    private transient CourseOfferingService coService = null;
+    private AcademicCalendarService acalService = null;
+    private CourseOfferingService coService = null;
 
     private CourseService courseService;
     private TypeService typeService;
     private StateService stateService;
-    private transient LRCService lrcService;
+    private LRCService lrcService;
     private SchedulingService schedulingService;
     private RoomService roomService;
 
@@ -434,7 +434,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers, boolean checkedOnly) throws Exception {
         boolean hasAOWarning = false, hasStateChangedAO = false;
         for (CourseOfferingEditWrapper coWrapper : coWrappers) {
-            if ((coWrapper.getIsChecked() && checkedOnly) || ! checkedOnly) {
+            if (coWrapper.getIsChecked() || ! checkedOnly) {
                 List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
                 if (activityOfferingInfos.size() == 0) {
                     if ( ! hasAOWarning) hasAOWarning = true;

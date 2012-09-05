@@ -5,25 +5,19 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 
 public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
     private transient CourseOfferingSetService courseOfferingSetService = null;
-    private ContextInfo contextInfo = null;
 
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
+        List<SocRolloverResultInfo> socRolloverResultInfos ;
         String sourceTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
         String targetTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
 
@@ -60,10 +54,4 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
         return courseOfferingSetService;
     }
 
-    public ContextInfo getContextInfo() {
-        if (contextInfo == null){
-            contextInfo =  ContextBuilder.loadContextInfo();
-        }
-        return contextInfo;
-    }
 }

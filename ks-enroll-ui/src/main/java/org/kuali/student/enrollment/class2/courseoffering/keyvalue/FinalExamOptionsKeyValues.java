@@ -21,22 +21,17 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.mock.utilities.TestHelper;
-import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -49,21 +44,13 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
 
     private transient EnumerationManagementService enumerationManagementService;
 
-    private ContextInfo contextInfo;
-
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        ContextInfo context = TestHelper.getContext1();
-        MaintenanceForm form1 = (MaintenanceForm)model;
-        CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
-
-        String finalExamType = form.getCoInfo().getFinalExamType();
-
         try {
-            List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, this.getContextInfo());
+            List<EnumeratedValueInfo> enumerationInfos = getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null, ContextUtils.createDefaultContextInfo());
             Collections.sort(enumerationInfos, new FinalExamComparator());
 
             for(EnumeratedValueInfo enumerationInfo : enumerationInfos) {
@@ -77,14 +64,8 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
             }
         } catch (DoesNotExistException e) {
             throw new RuntimeException("No subject areas found! There should be some in the database", e);
-        } catch (InvalidParameterException e) {
-            throw new RuntimeException(e);
-        } catch (MissingParameterException e) {
-            throw new RuntimeException(e);
-        } catch (OperationFailedException e) {
-            throw new RuntimeException(e);
-        } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException("Error looking up Subject Areas", e);
         }
 
         return keyValues;
@@ -110,12 +91,5 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
             int result = enumeratedValue1.getSortKey().compareToIgnoreCase(enumeratedValue2.getSortKey());
             return result;
         }
-    }
-
-    public ContextInfo getContextInfo() {
-        if (contextInfo == null){
-            contextInfo = org.kuali.student.enrollment.common.util.ContextBuilder.loadContextInfo();
-        }
-        return contextInfo;
     }
 }

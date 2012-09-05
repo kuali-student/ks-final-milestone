@@ -18,33 +18,38 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.enrollment.class2.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
+import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
-
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class //TODO ...
@@ -52,15 +57,16 @@ import java.util.*;
  * @author Kuali Student Team
  */
 public class CourseOfferingEditInquirableImpl extends InquirableImpl {
-    private transient CourseOfferingService courseOfferingService;
+    private CourseOfferingService courseOfferingService;
     private CourseService courseService;
     private LRCService lrcService;
-    private ContextInfo contextInfo = null;
     private OrganizationService organizationService;
-    public static TypeService typeService;
+    //private static TypeService typeService;
 
     @Override
     public Object retrieveDataObject(Map<String, String> parameters) {
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
         String coInfoId = parameters.get("coInfo.id");
         if(coInfoId == null || "".equals(coInfoId)){
             coInfoId = parameters.get("id");
@@ -71,10 +77,10 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         //ResultValuesGroup rvGroup = null;
 
         try {
-            CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coInfoId, getContextInfo());
+            CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coInfoId, contextInfo);
 
             //Display credit count
-            CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), getContextInfo());
+            CourseInfo courseInfo = getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
            // coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
             coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo));
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
@@ -82,7 +88,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             formObject.setCourse(courseInfo);
 
             //Display format offering
-            List<FormatOfferingInfo> formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoId, getContextInfo());
+            List<FormatOfferingInfo> formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoId, contextInfo);
             //List<FormatOfferingInfoWrapper> foList = new ArrayList<FormatOfferingInfoWrapper>();
             formObject.setFormatOfferingList(formatOfferingInfos);
 
@@ -119,7 +125,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
                     //offeringInstructorInfo.setTypeKey("Teaching Assistant");
                     instructor.setTypeName("Teaching Assistant");
                 } else if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY)) {
-                    //TO DO: set support here
+                    //TODO: set support here
                 }
                 instructorList.add(instructor);
             }
@@ -129,7 +135,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             List<OrganizationInfoWrapper> orgList = new ArrayList<OrganizationInfoWrapper>();
             if(coInfo.getUnitsDeploymentOrgIds() != null){
                 for(String orgId: coInfo.getUnitsDeploymentOrgIds()){
-                    OrgInfo orgInfo = getOrganizationService().getOrg(orgId,getContextInfo());
+                    OrgInfo orgInfo = getOrganizationService().getOrg(orgId, contextInfo);
                     orgList.add(new OrganizationInfoWrapper(orgInfo));
                 }
             }
@@ -179,12 +185,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             formObject.setStudentRegOptions(studentRegOptions);
             formObject.setCrsGradingOptions(crsGradingOptions);
 
-            String selectedStudentRegOpts = new String();
+            //TODO - please comment what the following section of code is supposed to do!
+            String selectedStudentRegOpts = "";
             if (studentRegOptions != null) {
                 ResultValuesGroupInfo rvg;
                 StringBuilder sbStudentRegOpts = new StringBuilder();
                 for(String studentGradingOption : studentRegOptions) {
-                    rvg = getLRCService().getResultValuesGroup(studentGradingOption, getContextInfo());
+                    rvg = getLRCService().getResultValuesGroup(studentGradingOption, contextInfo);
                     if (null != rvg) {
                         sbStudentRegOpts.append(rvg.getName());
                     } else {
@@ -248,20 +255,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         return this.lrcService;
     }
 
-    public ContextInfo getContextInfo() {
-        if (contextInfo == null){
-            contextInfo =  ContextBuilder.loadContextInfo();
-        }
-        return contextInfo;
-    }
-
-    private static TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = CourseOfferingResourceLoader.loadTypeService();
-        }
-
-        return typeService;
-    }
+//    private static TypeService getTypeService() {
+//        if(typeService == null) {
+//            typeService = CourseOfferingResourceLoader.loadTypeService();
+//        }
+//
+//        return typeService;
+//    }
 
     private OrganizationService getOrganizationService(){
         if(organizationService == null) {

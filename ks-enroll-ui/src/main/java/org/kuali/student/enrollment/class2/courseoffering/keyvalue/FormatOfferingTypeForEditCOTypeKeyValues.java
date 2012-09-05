@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
-
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;

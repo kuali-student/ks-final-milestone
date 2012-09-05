@@ -33,15 +33,19 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.constants.StateServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -72,7 +76,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private TypeService typeService;
     private StateService stateService;
 
-    final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
+    private static final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
     public static final String ROLLOVER_CONFIRM_RELEASE = "releaseToDepts";
 
@@ -112,7 +116,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private ModelAndView _startRolloverDetails(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
-        Map map = request.getParameterMap();
         LOGGER.info("startRolloverDetails");
         String rolloverTerm = theForm.getRolloverTargetTermCode();
 
@@ -125,7 +128,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         }
 
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     private ModelAndView _startReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,

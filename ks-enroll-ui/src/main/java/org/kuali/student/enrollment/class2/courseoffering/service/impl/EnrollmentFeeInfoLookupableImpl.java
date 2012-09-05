@@ -15,14 +15,14 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.FeeServiceConstants;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.service.FeeService;
@@ -30,7 +30,6 @@ import org.kuali.student.r2.core.fee.service.FeeService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -40,8 +39,9 @@ import java.util.Map;
  */
 public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
 
+    private static final Logger LOG = Logger.getLogger(EnrollmentFeeInfoInquirableImpl.class);
+
     private FeeService feeService;
-    private ContextInfo contextInfo;
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -51,10 +51,10 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
             String id = fieldValues.get("id");
             String refObjectURI = fieldValues.get("refObjectURI");
             String refObjectId = fieldValues.get("refObjectId");
-
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             // perform this search first so we don't have to search through the list for duplicates later
             if(refObjectId != null && !"".equals(refObjectId) && refObjectURI != null && !"".equals(refObjectURI) ){
-                List<EnrollmentFeeInfo> efiList = getFeeService().getFeesByReference(refObjectURI,refObjectId,getContextInfo());
+                List<EnrollmentFeeInfo> efiList = getFeeService().getFeesByReference(refObjectURI,refObjectId, contextInfo);
 
                 for(EnrollmentFeeInfo efi : efiList){
                     enrollmentFeeInfos.add(efi);
@@ -63,7 +63,7 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
 
 
             if(id != null && !"".equals(id)){
-               EnrollmentFeeInfo efi = getFeeService().getFee(id,getContextInfo() );
+               EnrollmentFeeInfo efi = getFeeService().getFee(id, contextInfo);
 
                if(efi != null && !enrollmentFeeInfos.contains(efi)){
                    enrollmentFeeInfos.add(efi);
@@ -90,7 +90,7 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
             enrollmentFeeInfos.add(tempObj);
             */
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+           LOG.error("Error looking up fees", e);
         }
 
         return enrollmentFeeInfos;
@@ -110,19 +110,4 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
-        return contextInfo;
-    }
-
-
 }

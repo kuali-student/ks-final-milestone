@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

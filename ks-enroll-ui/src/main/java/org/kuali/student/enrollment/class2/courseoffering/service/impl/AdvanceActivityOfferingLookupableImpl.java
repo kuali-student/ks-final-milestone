@@ -1,21 +1,22 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -24,16 +25,16 @@ import java.util.Map;
 
 public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
 
+    private static final Logger LOG = Logger.getLogger(AdvanceActivityOfferingLookupableImpl.class);
+
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
+        List<ActivityOfferingInfo> activityOfferingInfos;
         List<CourseOfferingInfo> courseOfferingList = new ArrayList<CourseOfferingInfo>();
         String termId = null;
-        String courseOfferingId = null;
+        String courseOfferingId;
         String termCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_TERM_CODE);
         String courseOfferingCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE);
-
-        //final Logger logger = Logger.getLogger(FormatOfferingInfoMaintainableImpl.class);
 
         try {
             //1. get termId based on termCode
@@ -48,14 +49,14 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 if (termList != null  && termList.size()>0 ){
                     // Always get first term
                     termId = termList.get(0).getId();
-                    System.out.println(">>> termId = "+termId);
+                    LOG.info(">>> termId = " + termId);
                     if(termList.size()>1){
                         //logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one term for specified termCode: " + termCode) ;
                         //System.out.println(">>Alert: find more than one term for specified termCode: "+termCode);
-                        throw new RuntimeException("Alert: find more than one term for specified termCode: "+termCode);
+                        throw new RuntimeException("Alert: find more than one term for specified termCode: " + termCode);
                     }
                 } else {
-                    new Exception("Error: Does not find a valid term with the termCode equal to "+ termCode);
+                    throw new RuntimeException("Error: Does not find a valid term with the termCode equal to " + termCode);
                 }
             }
 
@@ -75,7 +76,7 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
             if(!courseOfferingList.isEmpty() && courseOfferingList.size()==1){
                 //Get the courseOfferingId from THE CO
                 courseOfferingId = courseOfferingList.get(0).getId();
-                activityOfferingInfos =  getCourseOfferingService().getActivityOfferingsByCourseOffering (courseOfferingId, getContextInfo());
+                activityOfferingInfos =  getCourseOfferingService().getActivityOfferingsByCourseOffering (courseOfferingId, ContextUtils.createDefaultContextInfo());
             } else if (courseOfferingList.size()>1) {
                 throw new RuntimeException("Error: find more than one CO for specified courseOfferingCode: "+courseOfferingCode);
             } else {
@@ -89,10 +90,6 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
         return activityOfferingInfos;
     }
 
-    private boolean hasCriteria(Map<String, String> fieldValues){
-        return StringUtils.isNotBlank(fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID));
-    }
-
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
@@ -102,11 +99,6 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
                 AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
 
     }
-
-    public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo();
-    }
-
 
 }
 

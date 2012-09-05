@@ -36,7 +36,7 @@ public class FormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implemen
                 keyValues.add(new ConcreteKeyValue(formatOfferingInfo.getId(), formatOfferingInfo.getName()));
             }
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException("Error getting Formats for course offering", e);
         }
         return keyValues;
     }

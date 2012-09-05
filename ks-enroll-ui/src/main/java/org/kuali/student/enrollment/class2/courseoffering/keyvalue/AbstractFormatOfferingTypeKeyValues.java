@@ -5,22 +5,20 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  *
@@ -29,9 +27,12 @@ import java.util.Locale;
  * Time: 3:59 PM
  */
 public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    private ContextInfo contextInfo;
-    private TypeService typeService;
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractFormatOfferingTypeKeyValues.class);
+
+    private transient TypeService typeService;
     private transient CourseOfferingService courseOfferingService;
 
     @Override
@@ -43,7 +44,7 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
         List<String> existingFormatIds;
         try{
             existingFormatIds = getExistingFormatIdsFromFormatOfferings(model);
-
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             for (FormatInfo format : formatOptions) {
                 ConcreteKeyValue keyValue = new ConcreteKeyValue();
                 if(!existingFormatIds.contains(format.getId())){
@@ -56,7 +57,7 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
                     List<ActivityInfo> activityInfos = format.getActivities();
                     StringBuffer st = new StringBuffer();
                     for (ActivityInfo activityInfo : activityInfos) {
-                        TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), getContextInfo());
+                        TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
                         st.append(activityType.getName()+"/");
                     }
                     String name =st.toString();
@@ -66,7 +67,7 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
                 }
             }
         } catch(Exception e) {
-            existingFormatIds = new ArrayList<String>();
+            LOG.error("Error finding format offering types", e);
         }
         return keyValues;
     }
@@ -76,19 +77,6 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
         }
         return courseOfferingService;
-    }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
-        return contextInfo;
     }
 
     public TypeService getTypeService() {

@@ -20,8 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;

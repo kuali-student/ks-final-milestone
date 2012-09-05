@@ -41,12 +41,11 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl {
                 form);
 
         // validate something exist
-        if(this.areAllCriteriaFieldsBlank(form,searchCriteria)){
+        if(this.areAllCriteriaFieldsBlank(searchCriteria)){
             for (Map.Entry<String, String> searchKeyValue : searchCriteria.entrySet()) {
                 String searchPropertyName = searchKeyValue.getKey();
                 String searchPropertyValue = searchKeyValue.getValue();
 
-                LookupView lookupView = (LookupView) form.getPostedView();
                 InputField inputField = criteriaFields.get(searchPropertyName);
                 if (inputField != null) {
                     if (StringUtils.isBlank(searchPropertyValue)) {
@@ -66,10 +65,7 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl {
         return valid;
     }
 
-    private boolean areAllCriteriaFieldsBlank(LookupForm form, Map<String, String> searchCriteria){
-        Map<String, InputField> criteriaFields = getCriteriaFieldsForValidation((LookupView) form.getPostedView(),
-                form);
-
+    private boolean areAllCriteriaFieldsBlank(Map<String, String> searchCriteria){
         // validate required
         // TODO: this will be done by the uif validation service at some point
         int blankCount =0;

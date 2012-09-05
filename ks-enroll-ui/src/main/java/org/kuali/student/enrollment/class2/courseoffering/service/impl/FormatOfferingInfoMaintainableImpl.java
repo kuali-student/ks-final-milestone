@@ -16,21 +16,17 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -49,19 +45,17 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
             "Copy from an existing Format offering to create a new one";
 
     private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
-    final Logger logger = Logger.getLogger(FormatOfferingInfoMaintainableImpl.class);
 
     @Override
     public void saveDataObject() {
-        System.out.println (">>> in save ");
+        //System.out.println (">>> in save ");
         FormatOfferingInfo formatOfferingInfoMaintenance = (FormatOfferingInfo) getDataObject();
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {
             try {
 
-                FormatOfferingInfo formatOfferingInfoCreated = getCourseOfferingService().createFormatOffering(formatOfferingInfoMaintenance.getCourseOfferingId(), formatOfferingInfoMaintenance.getFormatId(),
-                                                                                            LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, formatOfferingInfoMaintenance, getContextInfo());
+                getCourseOfferingService().createFormatOffering(formatOfferingInfoMaintenance.getCourseOfferingId(), formatOfferingInfoMaintenance.getFormatId(),
+                                                                                            LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, formatOfferingInfoMaintenance, ContextUtils.createDefaultContextInfo());
                 //setDataObject(new FormatOfferingInfo(formatOfferingInfoCreated));
             } catch (Exception e) {
                 //logger.error("FormatOfferingInfoMaintenance - create new failed. ", e);
@@ -70,7 +64,7 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
         }
         else {   //should be edit action
             try {
-                FormatOfferingInfo formatOfferingInfoUpdated = getCourseOfferingService().updateFormatOffering(formatOfferingInfoMaintenance.getId(), formatOfferingInfoMaintenance, getContextInfo());
+                getCourseOfferingService().updateFormatOffering(formatOfferingInfoMaintenance.getId(), formatOfferingInfoMaintenance, ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
                 //logger.error("FormatOfferingInfoMaintenance - edit failed. ", e);
                 throw new RuntimeException("FormatOfferingInfoMaintenance - edit failed. ", e);
@@ -95,10 +89,9 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
-            FormatOfferingInfo info = getCourseOfferingService().getFormatOffering(dataObjectKeys.get("id"), getContextInfo());
+            FormatOfferingInfo info = getCourseOfferingService().getFormatOffering(dataObjectKeys.get("id"), ContextUtils.createDefaultContextInfo());
             return info;
         } catch (Exception e) {
-            logger.error("FormatOfferingInfoMaintenance - edit/copy failed. ", e);
             throw new RuntimeException("FormatOfferingInfoMaintenance - edit/copy failed. ", e);
         }
     }
@@ -130,19 +123,6 @@ public class FormatOfferingInfoMaintainableImpl extends MaintainableImpl {
         //set documentDescription to document.documentHeader.documentDescription
         document.getDocumentHeader().setDocumentDescription(DEFAULT_DOCUMENT_DESC_FOR_CREATING_FORMAT_OFFERING);
 
-    }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
-        return contextInfo;
     }
 
     protected CourseOfferingService getCourseOfferingService() {

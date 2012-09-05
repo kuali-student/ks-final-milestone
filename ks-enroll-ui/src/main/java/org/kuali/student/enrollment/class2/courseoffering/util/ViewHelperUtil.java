@@ -29,7 +29,14 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -44,7 +51,14 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This class //TODO ...
@@ -52,7 +66,9 @@ import java.util.*;
  * @author Kuali Student Team
  */
 public class ViewHelperUtil {
+
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ViewHelperUtil.class);
+
     public static List<Person> getInstructorByPersonId(String personId){
         Map<String, String> searchCriteria = new HashMap<String, String>();
         searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
@@ -113,7 +129,7 @@ public class ViewHelperUtil {
                         trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
             } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {                       //range
                 if (!resultValueInfos.isEmpty()) {
-                    List<Float> creditValuesF = new ArrayList();
+                    List<Float> creditValuesF = new ArrayList<Float>();
                     for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
                         creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
                     }
@@ -128,18 +144,18 @@ public class ViewHelperUtil {
             }
         } else { //Lookup original course values
             if (courseInfo == null) {
-                courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), ContextUtils.getContextInfo());
+                courseInfo = getCourseService().getCourse(coInfo.getCourseId(), ContextUtils.createDefaultContextInfo());
             }
             String creditOpt = courseInfo.getCreditOptions().get(0).getTypeKey();
             if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED) ){              //fixed
-                creditCount = trimTrailing0(getLrcService().getResultValue(courseInfo.getCreditOptions().get(0).getResultValueKeys().get(0), ContextUtils.getContextInfo()).getValue());
+                creditCount = trimTrailing0(getLrcService().getResultValue(courseInfo.getCreditOptions().get(0).getResultValueKeys().get(0), ContextUtils.createDefaultContextInfo()).getValue());
             } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE) ){    //range
                 //minCreditValue - maxCreditValue
                 creditCount = trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS))
                         +" - "+trimTrailing0(courseInfo.getCreditOptions().get(0).getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
             } else if (creditOpt.equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE) ){    //multiple
-                List<ResultValueInfo> creditValuesRVI = getLrcService().getResultValuesByKeys(courseInfo.getCreditOptions().get(0).getResultValueKeys(), ContextUtils.getContextInfo());
-                List<Float> creditValuesF = new ArrayList();
+                List<ResultValueInfo> creditValuesRVI = getLrcService().getResultValuesByKeys(courseInfo.getCreditOptions().get(0).getResultValueKeys(), ContextUtils.createDefaultContextInfo());
+                List<Float> creditValuesF = new ArrayList<Float>();
                 for (ResultValueInfo creditRVI : creditValuesRVI ) {  //convert String to Float for sorting
                     creditValuesF.add(Float.valueOf(creditRVI.getValue()));
                 }
@@ -229,7 +245,6 @@ public class ViewHelperUtil {
 
         for (FormatOfferingInfo fo : formatOfferings) {
             oldFoState = fo.getStateKey();
-            newFoState = null;
             List<ActivityOfferingInfo> activityOfferings = coService.getActivityOfferingsByFormatOffering(fo.getId(), context);
             newFoState = getNewFoState(activityOfferings);
 
