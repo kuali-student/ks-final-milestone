@@ -162,9 +162,10 @@
                 <!-- Kitchen Sink-->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/KitchenSinkView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Buttons.xml</value>
-                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionColumnSorting.xml</value>
-                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionOptions.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionActionImages.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionColumnSorting.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionHorizontal.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionOptions.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml</value>
             </list>
 		</property>

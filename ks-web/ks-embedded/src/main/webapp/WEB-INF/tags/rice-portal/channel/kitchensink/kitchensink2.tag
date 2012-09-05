@@ -37,6 +37,8 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection with horizontal stacked layout"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionHorizontal-View&methodToCall=collection" /></li>
     </ul>
 
     <strong>Button / Header Levels</strong>
