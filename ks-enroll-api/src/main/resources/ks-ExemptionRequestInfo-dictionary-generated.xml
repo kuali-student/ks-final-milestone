@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -70,7 +70,7 @@ such as all athletes, or some other group of people?
 				<ref bean="ExemptionRequestInfo.stateKey"/>
 				<ref bean="ExemptionRequestInfo.name"/>
 				<ref bean="ExemptionRequestInfo.processKey"/>
-				<ref bean="ExemptionRequestInfo.checkId"/>
+				<ref bean="ExemptionRequestInfo.checkKey"/>
 				<ref bean="ExemptionRequestInfo.personId"/>
 				<ref bean="ExemptionRequestInfo.requesterId"/>
 				<ref bean="ExemptionRequestInfo.requestDate"/>
@@ -181,11 +181,11 @@ The key of a Process that indicates to what Process in the
 the exemption is requested, if any.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ExemptionRequestInfo.checkId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="checkId"/>
+	<bean id="ExemptionRequestInfo.checkKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="checkKey"/>
 		<property name="shortLabel" value="Check Key"/>
 		<property name="summary">
 			<value>
@@ -217,6 +217,11 @@ The Id of the Person for whom the request is requested
 The Id of the Person for whom the request is requested
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="true"/>
 	</bean>
 
@@ -235,10 +240,11 @@ The Id of the Person making the request.
 			<value>
 The Id of the Person making the request.
 
-This may or may not be the person for who
+If not specified it should default to the person identified in the supplied
+contextInfo.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="ExemptionRequestInfo.requestDate-generated" abstract="true" parent="BaseKuali.date">
@@ -247,12 +253,16 @@ This may or may not be the person for who
 		<property name="summary">
 			<value>
 The date of this exemption request.
+
+
 			</value>
 		</property>
 		<property name="label" value="Request Date"/>
 		<property name="description">
 			<value>
 The date of this exemption request.
+
+If not specified it should default to today's date.
 			</value>
 		</property>
 		<property name="required" value="true"/>
@@ -297,13 +307,13 @@ The date this request was approved.
 		<property name="shortLabel" value="Date Override"/>
 		<property name="summary">
 			<value>
-The data for a date override.
+The detailed data for a date override.
 			</value>
 		</property>
 		<property name="label" value="Date Override"/>
 		<property name="description">
 			<value>
-The data for a date override.
+The detailed data for a date override.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -314,7 +324,7 @@ The data for a date override.
 				<property name="objectLabel" value="Date Override"/>
 				<property name="objectDescription">
 					<value>
-The data for a date override.
+The detailed data for a date override.
 					</value>
 				</property>
 
@@ -344,13 +354,13 @@ The data for a date override.
 		<property name="shortLabel" value="Milestone Id"/>
 		<property name="summary">
 			<value>
-The key for the Milestone.
+The id for the Milestone that is being overridden
 			</value>
 		</property>
 		<property name="label" value="Milestone id"/>
 		<property name="description">
 			<value>
-The key for the Milestone.
+The id for the Milestone that is being overridden
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -361,14 +371,14 @@ The key for the Milestone.
 		<property name="shortLabel" value="Effective Start Date"/>
 		<property name="summary">
 			<value>
-The start date thats hould be in effect to replace the
+The start date thats should be in effect to replace the
 Milestone.
 			</value>
 		</property>
 		<property name="label" value="Effective Start Date"/>
 		<property name="description">
 			<value>
-The start date thats hould be in effect to replace the
+The start date thats should be in effect to replace the
 Milestone.
 			</value>
 		</property>
@@ -400,12 +410,16 @@ Milestone.
 		<property name="summary">
 			<value>
 The data for a milestone override.
+
+
 			</value>
 		</property>
 		<property name="label" value="Milestone Override"/>
 		<property name="description">
 			<value>
 The data for a milestone override.
+
+TODO: understand the exact usage of this.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -417,6 +431,8 @@ The data for a milestone override.
 				<property name="objectDescription">
 					<value>
 The data for a milestone override.
+
+TODO: understand the exact usage of this.
 					</value>
 				</property>
 
@@ -480,12 +496,17 @@ The new milestone that should be in effect.
 		<property name="summary">
 			<value>
 The data for a learning result override.
+
+
 			</value>
 		</property>
 		<property name="label" value="Learning Result Override"/>
 		<property name="description">
 			<value>
 The data for a learning result override.
+
+This is deprecated because it is just a PLACEHOLDER for eventual overrides
+that are used in degree audit.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -497,6 +518,9 @@ The data for a learning result override.
 				<property name="objectDescription">
 					<value>
 The data for a learning result override.
+
+This is deprecated because it is just a PLACEHOLDER for eventual overrides
+that are used in degree audit.
 					</value>
 				</property>
 

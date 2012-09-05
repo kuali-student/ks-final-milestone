@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 22:30:34 EST 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -48,7 +48,7 @@ plus any of its dependencies -->
 * Information about course joints.
 			</value>
 		</property>
-		<property name="titleAttribute" value="courseOfferingTitle"/>
+		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
 				<value>typeKey</value>
@@ -59,8 +59,9 @@ plus any of its dependencies -->
 			<list>
 				<ref bean="CourseJointInfo.typeKey"/>
 				<ref bean="CourseJointInfo.stateKey"/>
+				<ref bean="CourseJointInfo.name"/>
 				<ref bean="CourseJointInfo.courseNumberSuffix"/>
-				<ref bean="CourseJointInfo.courseOfferingTitle"/>
+				<ref bean="CourseJointInfo.courseTitle"/>
 				<ref bean="CourseJointInfo.subjectArea"/>
 				<ref bean="CourseJointInfo.courseId"/>
 				<ref bean="CourseJointInfo.relationId"/>
@@ -86,6 +87,10 @@ plus any of its dependencies -->
 
 	<bean id="CourseJointInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="CourseJointInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
 	</bean>
 
 	<bean id="CourseJointInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -159,8 +164,8 @@ A description of the entity.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseJointInfo.courseOfferingTitle-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="courseOfferingTitle"/>
+	<bean id="CourseJointInfo.courseTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseTitle"/>
 		<property name="shortLabel" value="Course Title"/>
 		<property name="summary">
 			<value>

@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Jul 06 14:53:54 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -65,10 +65,9 @@ activity offerings based on the canonical format.
 				<ref bean="RegistrationGroupInfo.name"/>
 				<ref bean="RegistrationGroupInfo.formatOfferingId"/>
 				<ref bean="RegistrationGroupInfo.courseOfferingId"/>
+				<ref bean="RegistrationGroupInfo.activityOfferingClusterId"/>
 				<ref bean="RegistrationGroupInfo.termId"/>
 				<ref bean="RegistrationGroupInfo.registrationCode"/>
-				<ref bean="RegistrationGroupInfo.isHonorsOffering"/>
-				<ref bean="RegistrationGroupInfo.maximumEnrollment"/>
 				<ref bean="RegistrationGroupInfo.isGenerated"/>
 			</list>
 		</property>
@@ -200,6 +199,23 @@ Course offering for this registration group.
 		<property name="required" value="true"/>
 	</bean>
 
+	<bean id="RegistrationGroupInfo.activityOfferingClusterId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="activityOfferingClusterId"/>
+		<property name="shortLabel" value="Activity Offering Cluster Id"/>
+		<property name="summary">
+			<value>
+Activity Offering Cluster that this registration group was generated from.
+			</value>
+		</property>
+		<property name="label" value="Activity Offering Cluster Id"/>
+		<property name="description">
+			<value>
+Activity Offering Cluster that this registration group was generated from.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
 	<bean id="RegistrationGroupInfo.termId-generated" abstract="true" parent="BaseKuali.termId">
 		<property name="name" value="termId"/>
 		<property name="shortLabel" value="Term Id"/>
@@ -231,14 +247,21 @@ be nested term of courseOffering.
 		<property name="summary">
 			<value>
 Uniquely identifies an instance of the course for the purposes
-of registration.
+of registration.  
 			</value>
 		</property>
 		<property name="label" value="Registration Code"/>
 		<property name="description">
 			<value>
 Uniquely identifies an instance of the course for the purposes
-of registration.
+of registration.  This code is unique for a given term, thus, no
+two registration groups in the same term shares the same registration
+code.
+
+By contrast, the [name] field (this is inherited from IdEntity) is used to store
+a registration group code that is unique only within a course offering.
+Thus, no two registration groups would share the same registration group
+code within the same course offering (in a given term).
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -263,52 +286,6 @@ offerings listed in the course offering.
 		</property>
 		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
-	</bean>
-
-	<bean id="RegistrationGroupInfo.isHonorsOffering-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="isHonorsOffering"/>
-		<property name="shortLabel" value="Is Honors Offering"/>
-		<property name="summary">
-			<value>
-Indicates that the entire course offering is an Honors Course.
-			</value>
-		</property>
-		<property name="label" value="Is Honors Offering"/>
-		<property name="description">
-			<value>
-Indicates that the entire course offering is an Honors Course.
-			</value>
-		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="RegistrationGroupInfo.maximumEnrollment-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="maximumEnrollment"/>
-		<property name="shortLabel" value="Maximum Enrollment"/>
-		<property name="summary">
-			<value>
-Total maximum number of &quot;seats&quot; or enrollment slots that can be
-filled for the offering. 
-			</value>
-		</property>
-		<property name="label" value="Maximum Enrollment"/>
-		<property name="description">
-			<value>
-Total maximum number of &quot;seats&quot; or enrollment slots that can be
-filled for the offering. Constrained by smallest activity.
-			</value>
-		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="RegistrationGroupInfo.isGenerated-generated" abstract="true" parent="BaseKuali.boolean">

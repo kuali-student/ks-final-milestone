@@ -1,0 +1,189 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- DictionaryEntryInfo-->
+	<bean id="DictionaryEntryInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="dictionaryEntryInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo"/>
+		<property name="objectLabel" value="Dictionary Entry"/>
+		<property name="objectDescription">
+			<value>
+This is an info ojbect that contains the dictionary information
+about an object known to the system.
+			</value>
+		</property>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>objectClass</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="DictionaryEntryInfo.objectClass"/>
+				<ref bean="DictionaryEntryInfo.name"/>
+				<ref bean="DictionaryEntryInfo.objectLabel"/>
+				<ref bean="DictionaryEntryInfo.objectDescription"/>
+				<ref bean="DictionaryEntryInfo.titleAttribute"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DictionaryEntryInfo.objectClass-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="objectClass"/>
+		<property name="shortLabel" value="Object Class"/>
+		<property name="summary">
+			<value>
+The class of the object to which this dictionary entry refers.
+			</value>
+		</property>
+		<property name="label" value="Object Class"/>
+		<property name="description">
+			<value>
+The class of the object to which this dictionary entry refers.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="DictionaryEntryInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+	</bean>
+
+	<bean id="DictionaryEntryInfo.objectLabel-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="objectLabel"/>
+		<property name="shortLabel" value="Object Label"/>
+		<property name="summary">
+			<value>
+The object label provides a short name of the business object
+for use on help screens.
+			</value>
+		</property>
+		<property name="label" value="Object Label"/>
+		<property name="description">
+			<value>
+The object label provides a short name of the business object
+for use on help screens.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="DictionaryEntryInfo.objectDescription-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="objectDescription"/>
+		<property name="shortLabel" value="Object Description"/>
+		<property name="summary">
+			<value>
+The object description provides a brief description of the
+business object for use on help screens.
+			</value>
+		</property>
+		<property name="label" value="Object Description"/>
+		<property name="description">
+			<value>
+The object description provides a brief description of the
+business object for use on help screens.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="DictionaryEntryInfo.titleAttribute-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="titleAttribute"/>
+		<property name="shortLabel" value="Title Attribute"/>
+		<property name="summary">
+			<value>
+The titleAttribute element is the name of the attribute that
+will be used as an inquiry field when the lookup search results
+fields are displayed.
+
+
+			</value>
+		</property>
+		<property name="label" value="Title Attribute"/>
+		<property name="description">
+			<value>
+The titleAttribute element is the name of the attribute that
+will be used as an inquiry field when the lookup search results
+fields are displayed.
+
+For some business objects, there is no obvious field to serve
+as the inquiry field. in that case a special field may be
+required for inquiry purposes.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="DictionaryEntryInfo.primaryKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="primaryKeys"/>
+		<property name="shortLabel" value="Primary Keys"/>
+		<property name="summary">
+			<value>
+The primary key(s) associatd with the object.
+
+
+			</value>
+		</property>
+		<property name="label" value="Primary Keys"/>
+		<property name="elementLabel" value="Primary Key"/>
+		<property name="description">
+			<value>
+The primary key(s) associatd with the object.
+
+TODO: determine how/if this works with the than the &quot;unique&quot; flag on attribute definition
+TODO: determine how/if this works with the id
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+</beans>

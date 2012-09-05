@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -336,21 +336,13 @@ Narrative Description of the program
 		<property name="shortLabel" value="Code"/>
 		<property name="summary">
 			<value>
-Human readable code used to identify this program
-
-The code is typically unique within the particular context (for example
-the list of majors at the university) but it is not guaranteed to be 
-completely unique.
+???
 			</value>
 		</property>
 		<property name="label" value="Code"/>
 		<property name="description">
 			<value>
-Human readable code used to identify this program
-
-The code is typically unique within the particular context (for example
-the list of majors at the university) but it is not guaranteed to be 
-completely unique.
+???
 			</value>
 		</property>
 		<property name="required" value="true"/>
@@ -361,13 +353,13 @@ completely unique.
 		<property name="shortLabel" value="Short Title"/>
 		<property name="summary">
 			<value>
-Abbreviated title used where presentation space is at a premium
+???
 			</value>
 		</property>
 		<property name="label" value="Short Title"/>
 		<property name="description">
 			<value>
-Abbreviated title used where presentation space is at a premium
+???
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -378,13 +370,13 @@ Abbreviated title used where presentation space is at a premium
 		<property name="shortLabel" value="Long Title"/>
 		<property name="summary">
 			<value>
-Fully expressed title
+???
 			</value>
 		</property>
 		<property name="label" value="Long Title"/>
 		<property name="description">
 			<value>
-Fully expressed title
+???
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -395,13 +387,13 @@ Fully expressed title
 		<property name="shortLabel" value="Transcript Title"/>
 		<property name="summary">
 			<value>
-Title used for transcript reporting purposes
+???
 			</value>
 		</property>
 		<property name="label" value="Transcript Title"/>
 		<property name="description">
 			<value>
-Title used for transcript reporting purposes
+???
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -486,14 +478,14 @@ new enrollments. T
 		<property name="shortLabel" value="Divisions Content Owner"/>
 		<property name="summary">
 			<value>
-Identifiers for Divisions responsible to make changes to this program
+???
 			</value>
 		</property>
 		<property name="label" value="Divisions Content Owner Ids"/>
 		<property name="elementLabel" value="Divisions Content Owner"/>
 		<property name="description">
 			<value>
-Identifiers for Divisions responsible to make changes to this program
+???
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -505,18 +497,14 @@ Identifiers for Divisions responsible to make changes to this program
 		<property name="shortLabel" value="Divisions Student Oversight"/>
 		<property name="summary">
 			<value>
-Divisions responsible for overseeing students in this program.
-
-
+???
 			</value>
 		</property>
 		<property name="label" value="Divisions Student Oversight Ids"/>
 		<property name="elementLabel" value="Divisions Student Oversight"/>
 		<property name="description">
 			<value>
-Divisions responsible for overseeing students in this program.
-
-For example: Granting exceptions to requirements to students.
+???
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -528,18 +516,14 @@ For example: Granting exceptions to requirements to students.
 		<property name="shortLabel" value="Units Content Owner"/>
 		<property name="summary">
 			<value>
-Unit responsible for make changes to this program
-
-The unit is typically an academic department but does not have to be.
+???
 			</value>
 		</property>
 		<property name="label" value="Units Content Owner Ids"/>
 		<property name="elementLabel" value="Units Content Owner"/>
 		<property name="description">
 			<value>
-Unit responsible for make changes to this program
-
-The unit is typically an academic department but does not have to be.
+???
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -551,20 +535,14 @@ The unit is typically an academic department but does not have to be.
 		<property name="shortLabel" value="Units Student Oversight"/>
 		<property name="summary">
 			<value>
-Identifier of unit responsible for overseeing students in this program.
-
-
+???
 			</value>
 		</property>
 		<property name="label" value="Units Student Oversight"/>
 		<property name="elementLabel" value="Units Student Oversight"/>
 		<property name="description">
 			<value>
-Identifier of unit responsible for overseeing students in this program.
-
-For example: granting exceptions to the requirements to students.
-
-The unit is typically an academic department but does not have to be.
+???
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -800,13 +778,13 @@ Selective Admissions
 		<property name="shortLabel" value="Diploma Title"/>
 		<property name="summary">
 			<value>
-Title to print on the diploma
+???
 			</value>
 		</property>
 		<property name="label" value="Diploma Title"/>
 		<property name="description">
 			<value>
-Title to print on the diploma
+???
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -947,14 +925,14 @@ The amount of time.
 		<property name="shortLabel" value="Divisions Deployment"/>
 		<property name="summary">
 			<value>
-Division Deployment for the program variation
+???
 			</value>
 		</property>
 		<property name="label" value="Divisions Deployment"/>
 		<property name="elementLabel" value="Divisions Deployment"/>
 		<property name="description">
 			<value>
-Division Deployment for the program variation
+???
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>

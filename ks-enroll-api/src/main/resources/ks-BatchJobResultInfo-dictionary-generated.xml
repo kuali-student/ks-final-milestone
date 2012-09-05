@@ -1,0 +1,666 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- BatchJobResultInfo-->
+	<bean id="BatchJobResultInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="batchJobResultInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.batchjobresults.dto.BatchJobResultInfo"/>
+		<property name="objectLabel" value="Batch Job Result"/>
+		<property name="objectDescription">
+			<value>
+Object that holds the results of a batch job
+			</value>
+		</property>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="BatchJobResultInfo.id"/>
+				<ref bean="BatchJobResultInfo.typeKey"/>
+				<ref bean="BatchJobResultInfo.stateKey"/>
+				<ref bean="BatchJobResultInfo.name"/>
+				<ref bean="BatchJobResultInfo.itemsProcessed"/>
+				<ref bean="BatchJobResultInfo.itemsExpected"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="BatchJobResultInfo.descr"/>
+				<ref bean="BatchJobResultInfo.context"/>
+				<ref bean="BatchJobResultInfo.message"/>
+				<ref bean="BatchJobResultInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+				<ref bean="BatchJobResultInfo.parameters"/>
+				<ref bean="BatchJobResultInfo.globalResults"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="BatchJobResultInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+A description of the entity.
+			</value>
+		</property>
+		<property name="label" value="Description"/>
+		<property name="description">
+			<value>
+A description of the entity.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Description"/>
+				<property name="objectDescription">
+					<value>
+A description of the entity.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="BatchJobResultInfo.descr.plain"/>
+						<ref bean="BatchJobResultInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="BatchJobResultInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.parameters-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="parameters"/>
+		<property name="shortLabel" value="Parameters"/>
+		<property name="summary">
+			<value>
+The parameters or options specified when the batch job was run
+
+Note the list may be empty but it cannot be null
+			</value>
+		</property>
+		<property name="label" value="Parameters"/>
+		<property name="elementLabel" value="Parameter"/>
+		<property name="description">
+			<value>
+The parameters or options specified when the batch job was run
+
+Note the list may be empty but it cannot be null
+			</value>
+		</property>
+		<property name="minOccurs" value="1"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.AttributeInfo"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="context"/>
+		<property name="shortLabel" value="Context"/>
+		<property name="summary">
+			<value>
+The context under which this batch job was run
+			</value>
+		</property>
+		<property name="label" value="Context"/>
+		<property name="description">
+			<value>
+The context under which this batch job was run
+			</value>
+		</property>
+		<property name="required" value="true"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="context"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.ContextInfo"/>
+				<property name="objectLabel" value="Context"/>
+				<property name="objectDescription">
+					<value>
+The context under which this batch job was run
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="BatchJobResultInfo.context.authenticatedPrincipalId"/>
+						<ref bean="BatchJobResultInfo.context.principalId"/>
+						<ref bean="BatchJobResultInfo.context.currentDate"/>
+						<ref bean="BatchJobResultInfo.context.timeZone"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+						<ref bean="BatchJobResultInfo.context.locale"/>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.authenticatedPrincipalId-generated" abstract="true" parent="BaseKuali.principalId">
+		<property name="name" value="authenticatedPrincipalId"/>
+		<property name="shortLabel" value="Authenticated Principal Id"/>
+		<property name="summary">
+			<value>
+The Principal Id of the currently authenticated user.
+			</value>
+		</property>
+		<property name="label" value="Authenticated Principal Id"/>
+		<property name="description">
+			<value>
+The Principal Id of the currently authenticated user.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.principalId-generated" abstract="true" parent="BaseKuali.principalId">
+		<property name="name" value="principalId"/>
+		<property name="shortLabel" value="Principal Id"/>
+		<property name="summary">
+			<value>
+The Principal Id of the principal on whose behalf the
+authenticated principal is acting. 
+			</value>
+		</property>
+		<property name="label" value="Principal Id"/>
+		<property name="description">
+			<value>
+The Principal Id of the principal on whose behalf the
+authenticated principal is acting. If the authenticated
+principal is not acting on behalf of a different user, then
+this Id should be the same as the Authenticated Principal Id.
+
+(1) User is authorized to only act on behalf of
+itself. Principal Id must equal the Authenticated Principal Id
+and the authorization is performed on that Id. If the Principal
+Id differs from the Authenticated Principal Id, then the user
+is not authorized to perform the requested operation.
+
+(2) User is authorized to act on behalf of another user. The
+Principal Id differs from the Authentication Principal
+Id. Authorization is checked to see if Authenticated Principal
+Id can perform the operation on behalf of Principal Id. Then,
+authorization is checked to see if Principal Id can perform the
+operation.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.currentDate-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="currentDate"/>
+		<property name="shortLabel" value="Current Date"/>
+		<property name="summary">
+			<value>
+The current date in this context. 
+			</value>
+		</property>
+		<property name="label" value="Current Date"/>
+		<property name="description">
+			<value>
+The current date in this context. This date is used to instruct
+the provider to peform operations as if this date were the
+current date.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.locale-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="locale"/>
+		<property name="shortLabel" value="Locale"/>
+		<property name="summary">
+			<value>
+The locale information requested by the user.
+			</value>
+		</property>
+		<property name="label" value="Locale"/>
+		<property name="description">
+			<value>
+The locale information requested by the user.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="locale"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.LocaleInfo"/>
+				<property name="objectLabel" value="Locale"/>
+				<property name="objectDescription">
+					<value>
+The locale information requested by the user.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="BatchJobResultInfo.context.locale.localeLanguage"/>
+						<ref bean="BatchJobResultInfo.context.locale.localeVariant"/>
+						<ref bean="BatchJobResultInfo.context.locale.localeRegion"/>
+						<ref bean="BatchJobResultInfo.context.locale.localeScript"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.locale.localeLanguage-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="localeLanguage"/>
+		<property name="shortLabel" value="Locale Language"/>
+		<property name="summary">
+			<value>
+The language portion of the locale information used in this
+context.
+			</value>
+		</property>
+		<property name="label" value="Locale Language"/>
+		<property name="description">
+			<value>
+The language portion of the locale information used in this
+context.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.locale.localeVariant-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="localeVariant"/>
+		<property name="shortLabel" value="Locale Variant"/>
+		<property name="summary">
+			<value>
+The language variant portion of the locale information to be
+used in this context .
+			</value>
+		</property>
+		<property name="label" value="Locale Language Variant"/>
+		<property name="description">
+			<value>
+The language variant portion of the locale information to be
+used in this context .
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.locale.localeRegion-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="localeRegion"/>
+		<property name="shortLabel" value="Locale Region"/>
+		<property name="summary">
+			<value>
+The language Region portion of the locale information to be
+used in this context.
+			</value>
+		</property>
+		<property name="label" value="Locale Region"/>
+		<property name="description">
+			<value>
+The language Region portion of the locale information to be
+used in this context.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.locale.localeScript-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="localeScript"/>
+		<property name="shortLabel" value="Locale Script"/>
+		<property name="summary">
+			<value>
+The language Script to be used in this context.
+			</value>
+		</property>
+		<property name="label" value="Locale Script"/>
+		<property name="description">
+			<value>
+The language Script to be used in this context.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.context.timeZone-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="timeZone"/>
+		<property name="shortLabel" value="Time Zone"/>
+		<property name="summary">
+			<value>
+The time zone requested by the user.
+			</value>
+		</property>
+		<property name="label" value="Time Zone"/>
+		<property name="description">
+			<value>
+The time zone requested by the user.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.globalResults-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="globalResults"/>
+		<property name="shortLabel" value="Global Results"/>
+		<property name="summary">
+			<value>
+Any global results of running the batch job
+
+This may be a number or a count or a newly created id.
+
+
+			</value>
+		</property>
+		<property name="label" value="Parameters"/>
+		<property name="elementLabel" value="Global Result"/>
+		<property name="description">
+			<value>
+Any global results of running the batch job
+
+This may be a number or a count or a newly created id.
+
+This is in addition to individual Result Items that may be created.
+
+Note the list may be empty but like other lists it must not be null
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.AttributeInfo"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.itemsProcessed-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="itemsProcessed"/>
+		<property name="shortLabel" value="Items Processed"/>
+		<property name="summary">
+			<value>
+Number of items processed
+    
+Used to indicate the progress of the batch job
+
+The batch job does not have to update this field every time it processes
+a job it may decide to update it every 10 or 100 or 1000 items processed.
+
+
+			</value>
+		</property>
+		<property name="label" value="Items Processed"/>
+		<property name="description">
+			<value>
+Number of items processed
+    
+Used to indicate the progress of the batch job
+
+The batch job does not have to update this field every time it processes
+a job it may decide to update it every 10 or 100 or 1000 items processed.
+
+This can be null if the job has not started yet or there are no items 
+This may or may not correspond with the corresponding Result Items that get created
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.itemsExpected-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="itemsExpected"/>
+		<property name="shortLabel" value="Items Expected"/>
+		<property name="summary">
+			<value>
+Number of items expected to be processed
+			</value>
+		</property>
+		<property name="label" value="Items Expected"/>
+		<property name="description">
+			<value>
+Number of items expected to be processed
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.message-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="message"/>
+		<property name="shortLabel" value="Message"/>
+		<property name="summary">
+			<value>
+Messages describing details of the status.
+
+
+			</value>
+		</property>
+		<property name="label" value="Message"/>
+		<property name="description">
+			<value>
+Messages describing details of the status.
+
+Often left null if the status is that it is complete.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="message"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Message"/>
+				<property name="objectDescription">
+					<value>
+Messages describing details of the status.
+
+Often left null if the status is that it is complete.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="BatchJobResultInfo.message.plain"/>
+						<ref bean="BatchJobResultInfo.message.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="BatchJobResultInfo.message.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.message.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="BatchJobResultInfo.meta.versionInd"/>
+						<ref bean="BatchJobResultInfo.meta.createTime"/>
+						<ref bean="BatchJobResultInfo.meta.createId"/>
+						<ref bean="BatchJobResultInfo.meta.updateTime"/>
+						<ref bean="BatchJobResultInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="BatchJobResultInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="BatchJobResultInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+</beans>

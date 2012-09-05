@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -69,7 +69,7 @@ registers for the course the LPR is a RegGroupRegistration
 				<ref bean="CourseWaitlistEntryInfo.effectiveDate"/>
 				<ref bean="CourseWaitlistEntryInfo.expirationDate"/>
 				<ref bean="CourseWaitlistEntryInfo.studentId"/>
-				<ref bean="CourseWaitlistEntryInfo.regGroupId"/>
+				<ref bean="CourseWaitlistEntryInfo.registrationGroupId"/>
 				<ref bean="CourseWaitlistEntryInfo.position"/>
 				<ref bean="CourseWaitlistEntryInfo.lastCheckedIn"/>
 				<ref bean="CourseWaitlistEntryInfo.courseOfferingId"/>
@@ -130,15 +130,15 @@ Returns the student id in waitlist entry waitlisted.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.regGroupId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="regGroupId"/>
-		<property name="shortLabel" value="Reg Group Id"/>
+	<bean id="CourseWaitlistEntryInfo.registrationGroupId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="registrationGroupId"/>
+		<property name="shortLabel" value="Registration Group Id"/>
 		<property name="summary">
 			<value>
 Returns the reg group id for this waitlist entry. 
 			</value>
 		</property>
-		<property name="label" value="Reg Group Id"/>
+		<property name="label" value="Registration Group Id"/>
 		<property name="description">
 			<value>
 Returns the reg group id for this waitlist entry. A waitlist entry should

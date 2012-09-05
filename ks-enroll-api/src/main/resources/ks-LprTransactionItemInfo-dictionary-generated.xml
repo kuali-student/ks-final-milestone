@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -61,12 +61,12 @@ updating, swapping out an old LUI for a new LUI for a person.
 			<list>
 				<ref bean="LprTransactionItemInfo.id"/>
 				<ref bean="LprTransactionItemInfo.personId"/>
+				<ref bean="LprTransactionItemInfo.transactionId"/>
 				<ref bean="LprTransactionItemInfo.newLuiId"/>
 				<ref bean="LprTransactionItemInfo.existingLuiId"/>
 				<ref bean="LprTransactionItemInfo.name"/>
 				<ref bean="LprTransactionItemInfo.typeKey"/>
 				<ref bean="LprTransactionItemInfo.stateKey"/>
-				<ref bean="LprTransactionItemInfo.groupId"/>
 			</list>
 		</property>
 
@@ -103,7 +103,29 @@ The person id for whom this request is to generate or update the lpr
 The person id for whom this request is to generate or update the lpr
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="LprTransactionItemInfo.transactionId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="transactionId"/>
+		<property name="shortLabel" value="Transaction Id"/>
+		<property name="summary">
+			<value>
+The identifier of the transaction that contains this transaction item.
+			</value>
+		</property>
+		<property name="label" value="Transaction Id"/>
+		<property name="description">
+			<value>
+The identifier of the transaction that contains this transaction item.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="LprTransactionItemInfo.newLuiId-generated" abstract="true" parent="BaseKuali.luiId">
@@ -184,7 +206,7 @@ relationship.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.RequestOptionInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo"/>
 	</bean>
 
 	<bean id="LprTransactionItemInfo.lprTransactionItemResult-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -216,6 +238,7 @@ Returns the result for this transaction item once it has been processed.
 				<property name="attributes">
 					<list>
 						<ref bean="LprTransactionItemInfo.lprTransactionItemResult.resultingLprId"/>
+						<ref bean="LprTransactionItemInfo.lprTransactionItemResult.message"/>
 						<ref bean="LprTransactionItemInfo.lprTransactionItemResult.status"/>
 					</list>
 				</property>
@@ -239,48 +262,56 @@ Returns the result for this transaction item once it has been processed.
 		<property name="summary">
 			<value>
 The resulting LPR for this LPR transaction item if its successful.
+
+
 			</value>
 		</property>
 		<property name="label" value="Resulting Lpr Id"/>
 		<property name="description">
 			<value>
 The resulting LPR for this LPR transaction item if its successful.
+
+Returns null if unsuccessful, valid lpr id in case of success
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LprTransactionItemInfo.lprTransactionItemResult.messages-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="messages"/>
-		<property name="shortLabel" value="Messages"/>
+	<bean id="LprTransactionItemInfo.lprTransactionItemResult.message-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="message"/>
+		<property name="shortLabel" value="Message"/>
 		<property name="summary">
 			<value>
-The messages  for the transaction - success/failure/warning.
+The message  for the transaction
+In case of success, there may still be warning messages
 			</value>
 		</property>
-		<property name="label" value="Messages"/>
-		<property name="elementLabel" value="Message"/>
+		<property name="label" value="Message"/>
 		<property name="description">
 			<value>
-The messages  for the transaction - success/failure/warning.
+The message  for the transaction
+In case of success, there may still be warning messages
 			</value>
 		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LprTransactionItemInfo.lprTransactionItemResult.status-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="LprTransactionItemInfo.lprTransactionItemResult.status-generated" abstract="true" parent="BaseKuali.boolean">
 		<property name="name" value="status"/>
 		<property name="shortLabel" value="Status"/>
 		<property name="summary">
 			<value>
 The status of the transaction.
+
+
 			</value>
 		</property>
 		<property name="label" value="Status"/>
 		<property name="description">
 			<value>
 The status of the transaction.
+
+Returns true in case transaction item had a successful result, false otherwise.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -479,31 +510,5 @@ being thrown.
 
 	<bean id="LprTransactionItemInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
-	</bean>
-
-	<bean id="LprTransactionItemInfo.groupId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="groupId"/>
-		<property name="shortLabel" value="Group Id"/>
-		<property name="summary">
-			<value>
-A transaction item group id used to link together LPR transaction items of the
-related LUIs (if any) created as part of a single transaction item.
-
-
-			</value>
-		</property>
-		<property name="label" value="Group Id"/>
-		<property name="description">
-			<value>
-A transaction item group id used to link together LPR transaction items of the
-related LUIs (if any) created as part of a single transaction item.
-
-Note: this field is deprecated
-It was added at the last minute for core-slice as a way to group together 
-the resulting LPRs so they can be searched later but this 
-approach will be refactored out.
-			</value>
-		</property>
-		<property name="required" value="false"/>
 	</bean>
 </beans>

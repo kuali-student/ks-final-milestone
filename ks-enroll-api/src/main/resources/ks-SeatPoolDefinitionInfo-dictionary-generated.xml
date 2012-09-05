@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -61,14 +61,15 @@ to enable the most restrictive pools to be filled first.
 
 		<property name="attributes">
 			<list>
-				<ref bean="SeatPoolDefinitionInfo.courseOfferingId"/>
-				<ref bean="SeatPoolDefinitionInfo.maximumSeatCount"/>
-				<ref bean="SeatPoolDefinitionInfo.processingPriority"/>
-				<ref bean="SeatPoolDefinitionInfo.capacityRestrictionStatementId"/>
 				<ref bean="SeatPoolDefinitionInfo.id"/>
 				<ref bean="SeatPoolDefinitionInfo.typeKey"/>
 				<ref bean="SeatPoolDefinitionInfo.stateKey"/>
 				<ref bean="SeatPoolDefinitionInfo.name"/>
+				<ref bean="SeatPoolDefinitionInfo.expirationMilestoneTypeKey"/>
+				<ref bean="SeatPoolDefinitionInfo.isPercentage"/>
+				<ref bean="SeatPoolDefinitionInfo.seatLimit"/>
+				<ref bean="SeatPoolDefinitionInfo.processingPriority"/>
+				<ref bean="SeatPoolDefinitionInfo.populationId"/>
 			</list>
 		</property>
 
@@ -83,106 +84,6 @@ to enable the most restrictive pools to be filled first.
 			<list>
 			</list>
 		</property>
-	</bean>
-
-	<bean id="SeatPoolDefinitionInfo.registrationGroupIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="registrationGroupIds"/>
-		<property name="shortLabel" value="Registration Group Ids"/>
-		<property name="summary">
-			<value>
-List of registration groups that seat pool applies to.
-			</value>
-		</property>
-		<property name="label" value="Registration Group Ids"/>
-		<property name="elementLabel" value="Registration Group Id"/>
-		<property name="description">
-			<value>
-List of registration groups that seat pool applies to.
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
-	</bean>
-
-	<bean id="SeatPoolDefinitionInfo.courseOfferingId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="courseOfferingId"/>
-		<property name="shortLabel" value="Course Offering Id"/>
-		<property name="summary">
-			<value>
-Course offering Id to which the seat pool is linked to. 
-			</value>
-		</property>
-		<property name="label" value="Course Offering Id"/>
-		<property name="description">
-			<value>
-Course offering Id to which the seat pool is linked to. Course
-Offering Id should be set only if the seat pool applies across
-all the registration group in the course offering.
-			</value>
-		</property>
-		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="SeatPoolDefinitionInfo.maximumSeatCount-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="maximumSeatCount"/>
-		<property name="shortLabel" value="Maximum Seat Count"/>
-		<property name="summary">
-			<value>
-Count Maximum seats available through this seat pool.
-			</value>
-		</property>
-		<property name="label" value="Maximum Seat"/>
-		<property name="description">
-			<value>
-Count Maximum seats available through this seat pool.
-			</value>
-		</property>
-		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="SeatPoolDefinitionInfo.processingPriority-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="processingPriority"/>
-		<property name="shortLabel" value="Processing Priority"/>
-		<property name="summary">
-			<value>
-Indicates the order in which this seat pool will be processed
-during registration. 
-			</value>
-		</property>
-		<property name="label" value="Processing Priority"/>
-		<property name="description">
-			<value>
-Indicates the order in which this seat pool will be processed
-during registration. During registration students should be
-assigned to a seat pool with the lowest possible rank to which
-he or she meets the restriction requirements.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="SeatPoolDefinitionInfo.capacityRestrictionStatementId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="capacityRestrictionStatementId"/>
-		<property name="shortLabel" value="Capacity Restriction Statement Id"/>
-		<property name="summary">
-			<value>
-Statement that defines the capacity restriction that apply to
-this seat pool. 
-
-
-			</value>
-		</property>
-		<property name="label" value="Capacity Restriction Statement Id"/>
-		<property name="description">
-			<value>
-Statement that defines the capacity restriction that apply to
-this seat pool. 
-
-NOTE: linking to Statement Id instead of TreeView. The Process
-service Check entity has an Agenda Id.
-			</value>
-		</property>
-		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="SeatPoolDefinitionInfo.id-generated" abstract="true" parent="BaseKuali.id">
@@ -253,6 +154,105 @@ A description of the entity.
 
 	<bean id="SeatPoolDefinitionInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.expirationMilestoneTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="expirationMilestoneTypeKey"/>
+		<property name="shortLabel" value="Expiration Milestone Type Key"/>
+		<property name="summary">
+			<value>
+When this seat pool definition expires. 
+			</value>
+		</property>
+		<property name="label" value="Expiration Milestone Type Key"/>
+		<property name="description">
+			<value>
+When this seat pool definition expires. A seat pool whose state
+is active is active once the registration period for the
+related ActivityOffering begins. The restriction may expire
+before the end of the registration period on a Milestone. The
+Milestone is determined by the Expiration Milestone Type Key on
+the ATP for the registration period.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.isPercentage-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isPercentage"/>
+		<property name="shortLabel" value="Is Percentage"/>
+		<property name="summary">
+			<value>
+Tests if the seat limit is an absolute number or a percentage
+of MaximumEnrollment in the ActivityOffering.
+			</value>
+		</property>
+		<property name="label" value="Is Percentage"/>
+		<property name="description">
+			<value>
+Tests if the seat limit is an absolute number or a percentage
+of MaximumEnrollment in the ActivityOffering.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.seatLimit-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="seatLimit"/>
+		<property name="shortLabel" value="Seat Limit"/>
+		<property name="summary">
+			<value>
+The limit on the number of seats in this pool. 
+			</value>
+		</property>
+		<property name="label" value="Seat Limit"/>
+		<property name="description">
+			<value>
+The limit on the number of seats in this pool. The number may
+be expressed as an absolute number or as an integer
+representing a percentage (0-100) based on the IsPercentage
+flag.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.processingPriority-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="processingPriority"/>
+		<property name="shortLabel" value="Processing Priority"/>
+		<property name="summary">
+			<value>
+Indicates the order in which this seat pool will be processed
+during registration. 
+			</value>
+		</property>
+		<property name="label" value="Processing Priority"/>
+		<property name="description">
+			<value>
+Indicates the order in which this seat pool will be processed
+during registration. During registration students should be
+assigned to a seat pool with the lowest possible rank to which
+he or she meets the restriction requirements.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SeatPoolDefinitionInfo.populationId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="populationId"/>
+		<property name="shortLabel" value="Population Id"/>
+		<property name="summary">
+			<value>
+The Population to which this seat pool applies.
+			</value>
+		</property>
+		<property name="label" value="Population Id"/>
+		<property name="description">
+			<value>
+The Population to which this seat pool applies.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="SeatPoolDefinitionInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

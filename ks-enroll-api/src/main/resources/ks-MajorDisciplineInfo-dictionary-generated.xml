@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -785,13 +785,13 @@ Selective Admissions
 		<property name="shortLabel" value="Diploma Title"/>
 		<property name="summary">
 			<value>
-Title to print on the diploma
+???
 			</value>
 		</property>
 		<property name="label" value="Diploma Title"/>
 		<property name="description">
 			<value>
-Title to print on the diploma
+???
 			</value>
 		</property>
 		<property name="required" value="false"/>
