@@ -1743,6 +1743,7 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @impl See https://wiki.kuali.org/display/STUDENT/Reg+Group+Verification
      */
     public AOClusterVerifyResultsInfo verifyActivityOfferingClusterForGeneration(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
