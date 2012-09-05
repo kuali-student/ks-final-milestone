@@ -21,7 +21,7 @@
 
     <bean id="HoldIssueInfo-CreateView" parent="KSFormView">
         <property name="id" value="holdCreateView"/>
-        <property name="headerText" value="Add Hold"/>
+        <property name="headerText" value="Create Hold"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoForm" />
         <property name="singlePageView" value="true"/>
         <property name="page">
@@ -79,9 +79,9 @@
                                                 <bean parent="Uif-SmallTextAreaControl" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="organizationId" p:required="true">
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="orgName" p:required="true">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="20" />
+                                                <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
                                             <property name="quickfinder.fieldConversions">
@@ -91,7 +91,6 @@
                                                 </map>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="organizationId" p:label="" p:readOnly="true" p:hidden="true" />
                                     </list>
                                 </property>
                             </bean>

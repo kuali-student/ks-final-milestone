@@ -84,7 +84,7 @@
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop"  p:label="Owning Organization"  p:propertyName="orgName" p:style="font-weight:bold;white-space:nowrap;">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="16" />
+                                                <bean parent="Uif-TextControl" p:size="16" p:disabled="true"/>
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
                                             <property name="quickfinder.fieldConversions">
@@ -106,7 +106,6 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="organizationId" p:label="" p:readOnly="true" p:hidden="true" />
                                     </list>
                                 </property>
                             </bean>
@@ -165,9 +164,14 @@
                 <bean parent="Uif-DataField"
                       p:label="Hold Description"
                       p:propertyName="descr.plain"/>
-                <bean parent="Uif-DataField"
-                      p:label="Owning Organization"
-                      p:propertyName="organizationId"/>
+                <bean parent="Uif-InputField" p:label="Owning Organization" p:propertyName="organizationId" p:readOnly="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean id="HoldOrgNames" class="org.kuali.student.enrollment.class1.util.OrgInfoNameKeyValues" />
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:label="State" p:propertyName="stateKey"  p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />

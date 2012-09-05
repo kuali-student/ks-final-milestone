@@ -84,7 +84,6 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="organizationId" p:label="" p:readOnly="true" p:hidden="true" />
                                     </list>
                                 </property>
                             </bean>

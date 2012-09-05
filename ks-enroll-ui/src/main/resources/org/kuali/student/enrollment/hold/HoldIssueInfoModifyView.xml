@@ -24,44 +24,35 @@
         <property name="header">
             <bean parent="Uif-HeaderOne"/>
         </property>
-
         <property name="items">
             <list>
-                <bean id="KS-Hold-ModifySection-Page" parent="Uif-Page" p:disclosure.render="false"
-                      p:id="holdSectionView"
-                      p:headerText="">
-                    <property name="header">
-                        <bean parent="Uif-HeaderTwo"/>
-                    </property>
+                <bean parent="Uif-VerticalBoxSection" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxGroup">
+                            <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-HorizontalBoxSection">
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name" p:required="true">
-                                                        <property name="control">
-                                                            <bean parent="Uif-TextControl" p:size="20"/>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-InputField-LabelTop" p:label="Category Name" p:propertyName="typeKey" p:required="true">
-                                                        <property name="control">
-                                                            <bean parent="Uif-DropdownControl" />
-                                                        </property>
-                                                        <property name="optionsFinder">
-                                                            <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-InputField-LabelTop" p:label="Hold Description"  p:propertyName="descr">
-                                                        <property name="control">
-                                                            <bean parent="Uif-SmallTextAreaControl" />
-                                                        </property>
-                                                    </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Hold Name" p:propertyName="name" p:required="true">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="20"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Category Name" p:propertyName="typeKey" p:required="true">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" />
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class1.hold.keyvalues.HoldIssueInfoTypeKeyValues"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Hold Description"  p:propertyName="descr">
+                                            <property name="control">
+                                                <bean parent="Uif-SmallTextAreaControl" />
+                                            </property>
+                                        </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="Owning Organization" p:propertyName="orgName" p:required="true">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="20" />
+                                                <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                             </property>
                                             <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
                                             <property name="quickfinder.fieldConversions">
@@ -70,23 +61,27 @@
                                                     <entry key="shortName" value="orgName"/>
                                                 </map>
                                             </property>
-                                                    </bean>
-                                                    <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey"  p:required="true">
-                                                        <property name="control">
-                                                            <bean parent="Uif-HorizontalRadioControl" >
-                                                                <property name="options">
-                                                                    <list>
-                                                                        <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.active" p:value="Active"/>
-                                                                        <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.inactive" p:value="Inactive"/>
-                                                                    </list>
-                                                                </property>
-                                                            </bean>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-InputField-LabelTop" p:propertyName="organizationId" p:label="" p:readOnly="true" p:hidden="true" />
-                                                </list>
+                                        </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey"  p:required="true">
+                                            <property name="control">
+                                                <bean parent="Uif-HorizontalRadioControl" >
+                                                    <property name="options">
+                                                        <list>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.active" p:value="Active"/>
+                                                            <bean parent="Uif-KeyLabelPair" p:key="kuali.hold.issue.state.inactive" p:value="Inactive"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
                                             </property>
                                         </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update" p:methodToCall="modify"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Cancel'}" p:methodToCall="back" />
                                     </list>
                                 </property>
                             </bean>
@@ -94,16 +89,6 @@
                     </property>
                 </bean>
             </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Update'}" p:methodToCall="@{isSaveSuccess ? 'back' : 'modify'}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="back" p:hidden="@{isSaveSuccess}"/>
-                    </list>
-                </property>
-            </bean>
         </property>
     </bean>
 </beans>
