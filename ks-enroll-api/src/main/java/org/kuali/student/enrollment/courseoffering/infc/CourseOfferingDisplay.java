@@ -13,6 +13,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
     /**
      * Custom Descr for the course Offering
      * @name Course Offering Description
+     * @readOnly
      */
     public RichText getDescr();
 
