@@ -54,28 +54,30 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 /**
- * Course Offering is a class II service supporting the process of offering
- * courses for student registration.
+ * Course Offering is a class II service supporting the process of
+ * offering courses for student registration.
  * 
- * Courses are offered for a specific term which is associated with a specific
- * Academic Calendar. At the canonical level a course is defined by formats for
- * which the course will be offered. Each format describes the activity types
- * that comprise that format, e.g., lecture and lab.
+ * Courses are offered for a specific term which is associated with a
+ * specific Academic Calendar. At the canonical level a course is
+ * defined by formats for which the course will be offered. Each
+ * format describes the activity types that comprise that format,
+ * e.g., lecture and lab.
  * 
- * The purpose of multiple formats is to support different formats based on a
- * term type, e.g., Fall versus Spring offering, or to offer multiple formats in
- * the same term, e.g., in person (traditional) versus online. Offering a course
- * is the process of creating specific instances of the course, and for each
- * format to be offered in the selected term, creating a specified number of
- * each activity type that comprises the format, e.g. five (5) lectures and ten
- * (10) labs of Biology 101. 
+ * The purpose of multiple formats is to support different formats
+ * based on a term type, e.g., Fall versus Spring offering, or to
+ * offer multiple formats in the same term, e.g., in person
+ * (traditional) versus online. Offering a course is the process of
+ * creating specific instances of the course, and for each format to
+ * be offered in the selected term, creating a specified number of
+ * each activity type that comprises the format, e.g. five (5)
+ * lectures and ten (10) labs of Biology 101.
  *
  * Individual activity offerings correspond to events in a scheduling
  * system, each with a meeting pattern. The term 'section' varies by
  * institution, but refers to either the individual activity offering,
  * or it refers to the combination of activity offerings, when the
  * course has more than one activity type, that the student registers
- * in as part of that course.  
+ * in as part of that course.
  *
  * To avoid confusion, this service introduces a new entity to capture
  * the second definition of section. A registration group represents a
@@ -83,7 +85,7 @@ import javax.jws.soap.SOAPBinding;
  * in which a student registers. The design supports unrestricted
  * matching, e.g., any lecture with any lab, as well as specific
  * matching, e.g., lecture 1 with lab A or B, and lecture 2 with lab C
- * or D. 
+ * or D.
  *
  * Version: 1.0 (Dev)
  * @author Kuali Student Team (Kamal)
@@ -162,20 +164,21 @@ public interface CourseOfferingService
                PermissionDeniedException;
 
     /**
-     * Retrieve information about a CourseOffering
+     * Retrieves a single CourseOffering by a CourseOffering Id.
      *
-     * @param courseOfferingId Unique Id of the CourseOffering
-     * @param context          Context information containing the principalId
-     *                         and locale information about the caller of
-     *                         service operation
-     * @throws DoesNotExistException     courseOfferingId not found
-     * @throws InvalidParameterException invalid courseOfferingId
-     * @throws MissingParameterException missing courseOfferingId
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @param courseOfferingId the identifier for the CourseOffering
+     *        to be retrieved
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @throws DoesNotExistException courseOfferingId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, 
-                                                @WebParam(name = "context") ContextInfo context) 
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -206,19 +209,30 @@ public interface CourseOfferingService
                PermissionDeniedException;
 
     /**
-     * Retrieves a list of course offerings by id list.
+     * Retrieves a list of CourseOfferings from a list of
+     * CourseOffering Ids. The returned list may be in any order and
+     * if duplicate Ids are supplied, a unique set may or may not be
+     * returned.
      *
-     * @param courseOfferingIds List of unique Ids of CourseOffering
-     * @param context           Context information containing the principalId
-     *                          and locale information about the caller of
-     *                          service operation
-     * @throws DoesNotExistException     courseOfferingId in the list not found
-     * @throws InvalidParameterException invalid courseOfferingIds
-     * @throws MissingParameterException missing courseOfferingIds
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @param courseOfferingIds a list of CourseOffering identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @throws DoesNotExistException a courseOfferingId in the list is
+     *         not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingIds, an Id in
+     *         the courseOfferingIds, or contextInfo is missing or
+     *         null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<CourseOfferingInfo> getCourseOfferingsByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CourseOfferingInfo> getCourseOfferingsByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, 
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Retrieve a list of CourseOfferingDisplays corresponding to a
@@ -234,8 +248,8 @@ public interface CourseOfferingService
      *         not found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException courseOfferingIds, an Id in
-     *         courseOfferingId, or contextInfo is missing or null
-     * @throws OperationFailedException  unable to complete request
+     *         courseOfferingIds, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, 
@@ -247,58 +261,83 @@ public interface CourseOfferingService
                PermissionDeniedException;
 
     /**
-     * Retrieve CourseOfferings by canonical course id. This could return
-     * multiple offerings in cases of multiple offerings for formats and cross
-     * listed
+     * Retrieve CourseOfferings by canonical Course Id across all
+     * Terms.
      *
-     * @param courseId Unique Id of the Course (canonical)
-     * @param context  Context information containing the principalId and locale
+     * @param courseId the identifier for a Course
+     * @param contextInfo information containing the principalId and locale
      *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @return a list of CourseOfferings of the given Course
+     * @throws DoesNotExistException courseId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseId orcontextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<CourseOfferingInfo> getCourseOfferingsByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CourseOfferingInfo> getCourseOfferingsByCourse(@WebParam(name = "courseId") String courseId, 
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
-     * Retrieve CourseOfferings by canonical course id and term. This could
-     * return multiple offerings in cases of multiple offerings for formats and
-     * cross listed
+     * Retrieve a list of CourseOfferings by canonical Course Id and
+     * Term. There may be more than one CourseOffering for a Course in
+     * a single Term.
      *
-     * @param courseId Unique Id of the Course (canonical)
-     * @param termId   Unique key of the term in which the course is being
-     *                 offered
-     * @param context  Context information containing the principalId and locale
-     *                 information about the caller of service operation
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @param courseId the identifier for a Course
+     * @param termId the identifier for a Term
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of CourseOfferings of the given Course offered in the 
+     *         given Term
+     * @throws DoesNotExistException courseId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseId, termId, or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occured
      */
-    public List<CourseOfferingInfo> getCourseOfferingsByCourseAndTerm(@WebParam(name = "courseId") String courseId, @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CourseOfferingInfo> getCourseOfferingsByCourseAndTerm(@WebParam(name = "courseId") String courseId, 
+                                                                      @WebParam(name = "termId") String termId, 
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
-     * Retrieve CourseOffering Ids for a given term and if useIncludedTerms is
-     * set to 'true' then use included terms also
+     * Retrieves a list of CourseOffering Ids for CourseOfferings
+     * offered in a given term. If useIncludedTerms is true, then
+     * include any CourseOfferings offered within child Terms of the
+     * given Term.
      *
-     * @param termId          Unique key of the term in which the course is
-     *                        being offered
-     * @param useIncludedTerm Indicates if the offerings from included term are
-     *                        also to be returned
-     * @param context         Context information containing the principalId and
-     *                        locale information about the caller of service
-     *                        operation
-     * @return List of CourseOffering Ids
-     * @throws DoesNotExistException     courseId or termId not found
-     * @throws InvalidParameterException invalid courseId or termId
-     * @throws MissingParameterException missing courseId or termId
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @param termId the identifier for a Term
+     * @param useIncludedTerm true to include CourseOfferings of child
+     *        Terms of the given Term, false to include only
+     *        CourseOfferings offered in the given Term
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the list of CourseOffering Ids offered in the given Term
+     * @throws DoesNotExistException deprecated
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getCourseOfferingIdsByTerm(@WebParam(name = "termId") String termId, @WebParam(name = "useIncludedTerm") Boolean useIncludedTerm, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getCourseOfferingIdsByTerm(@WebParam(name = "termId") String termId, 
+                                                   @WebParam(name = "useIncludedTerm") Boolean useIncludedTerm, 
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Retrieve CourseOffering Ids for a given term and subject area. A
