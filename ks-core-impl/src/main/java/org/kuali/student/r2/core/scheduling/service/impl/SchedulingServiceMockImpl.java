@@ -42,6 +42,7 @@ import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -63,9 +64,13 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     private Map<String, ScheduleTransactionInfo> scheduleTransactionMap = new LinkedHashMap<String, ScheduleTransactionInfo>();
 
     // other services as needed
+    @Resource
     private AtpService atpService;
+    @Resource
     private RoomService roomService;
+    @Resource
     private TypeService typeService;
+    @Resource
     private OrganizationService organizationService;
 
     ////////////////////////////////
