@@ -375,44 +375,58 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         StateInfo draftState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, getContextInfo());
         StateInfo approvedState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, getContextInfo());
 
-        boolean isErrorAdded = false;
+        boolean hasBadStateWarning = false, hasStateChangedAO = false, isDraftAction = false;
+        String messageKeyWarn, messageKeyError;
+
+        //  Setup feedback message keys.
+        if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION, selectedAction)) {
+            isDraftAction = true;
+            messageKeyWarn = CourseOfferingConstants.COURSEOFFERING_SET_TO_DRAFT_SOME_AOS_UPATED;
+            messageKeyError = CourseOfferingConstants.COURSEOFFERING_SET_TO_DRAFT_NO_AOS_UPDATED;
+        } else {
+            messageKeyWarn = CourseOfferingConstants.COURSEOFFERING_APPROVE_FOR_SCHEDULING_SOME_AOS_UPDATED;
+            messageKeyError = CourseOfferingConstants.COURSEOFFERING_APPROVE_FOR_SCHEDULING_NO_AOS_UPDATED;
+        }
 
         for (ActivityOfferingWrapper wrapper : aoList) {
             //  Only evaluate items that were selected/checked in the UI.
             if (wrapper.getIsChecked()) {
                 //  If the action is "Set as Draft" then the current state of the AO must be "Approved".
-                if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_DRAFT_ACTION, selectedAction)) {
+                if (isDraftAction) {
                     if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                         wrapper.setStateName(draftState.getName());
                         ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
                         wrapper.setAoInfo(updatedAO);
+                        if ( ! hasStateChangedAO) hasStateChangedAO = true;
                     } else {
-                        //  Add the validation error once
-                        if ( ! isErrorAdded){
-                            GlobalVariables.getMessageMap().putError("selectedOfferingAction", RiceKeyConstants.ERROR_CUSTOM, "Some Activity Offerings are not in draft state");
-                            isErrorAdded = true;
-                        }
+                        if ( ! hasBadStateWarning) hasBadStateWarning = true;
                     }
                 //  If the action is "Approve for Scheduling" then AO state must be "Draft"
-                } else if (StringUtils.equals(CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION, selectedAction)) {
+                } else {
                     if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, wrapper.getAoInfo().getStateKey())) {
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
                         wrapper.setStateName(approvedState.getName());
                         ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
                         wrapper.setAoInfo(updatedAO);
-                    }else{
-                        // Add the validation error once
-                        if (!isErrorAdded){
-                            GlobalVariables.getMessageMap().putError("selectedOfferingAction",RiceKeyConstants.ERROR_CUSTOM,"Some Activity Offerings are not in draft state");
-                            isErrorAdded = true;
-                        }
+                        if ( ! hasStateChangedAO) hasStateChangedAO = true;
+                    } else {
+                        if ( ! hasBadStateWarning) hasBadStateWarning = true;
                     }
                 }
             }
         }
-        // check for changes to states in the related COs and FOs
+        //  Check for changes to states in the related COs and FOs
         ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(courseOfferingInfo, getContextInfo());
+
+        //  Set feedback message.
+        if ( ! hasStateChangedAO) {
+            GlobalVariables.getMessageMap().putError("selectedOfferingAction", messageKeyError);
+        } else {
+            if (hasBadStateWarning) {
+                GlobalVariables.getMessageMap().putWarning("selectedOfferingAction", messageKeyWarn);
+            }
+        }
     }
 
     /**

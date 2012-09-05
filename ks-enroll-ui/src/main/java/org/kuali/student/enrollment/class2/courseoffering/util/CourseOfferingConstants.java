@@ -42,6 +42,11 @@ public class CourseOfferingConstants {
     public static final String NO_AOS_SELECTED = "error.courseoffering.selected.aos.none";
     public static final String COURSEOFFERING_NONE_SELECTED = "error.courseoffering.selected.none";
 
+    public static final String COURSEOFFERING_APPROVE_FOR_SCHEDULING_NO_AOS_UPDATED = "error.courseoffering.manage_aos.approve_for_scheduling.no_aos_updated";
+    public static final String COURSEOFFERING_APPROVE_FOR_SCHEDULING_SOME_AOS_UPDATED = "error.courseoffering.manage_aos.approve_for_scheduling.some_aos_updated";
+    public static final String COURSEOFFERING_SET_TO_DRAFT_NO_AOS_UPDATED = "error.courseoffering.manage_aos.set_to_draft.no_aos_updated";
+    public static final String COURSEOFFERING_SET_TO_DRAFT_SOME_AOS_UPATED = "error.courseoffering.manage_aos.set_to_draft.some_aos_updated";
+
     public static final String REGISTRATIONGROUP_MISSING_REGGROUPS = "error.enroll.registrationgroup.missingreggroups";
     public static final String REGISTRATIONGROUP_INVALID_REGGROUPS = "error.enroll.registrationgroup.invalidreggroups";
 
