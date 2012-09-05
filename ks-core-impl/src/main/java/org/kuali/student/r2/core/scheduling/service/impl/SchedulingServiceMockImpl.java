@@ -30,6 +30,14 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
@@ -47,19 +55,54 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     ////////////////////////////////
 
     // The LinkedHashMap is just so the values come back in a predictable order
+    // The Maps to hold the mock impl data
     private Map<String, ScheduleInfo> scheduleMap = new LinkedHashMap<String, ScheduleInfo>();
-
-    // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, ScheduleBatchInfo> scheduleBatchMap = new LinkedHashMap<String, ScheduleBatchInfo>();
-
-    // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, ScheduleRequestInfo> scheduleRequestMap = new LinkedHashMap<String, ScheduleRequestInfo>();
-
-    // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, TimeSlotInfo> timeSlotMap = new LinkedHashMap<String, TimeSlotInfo>();
-
-    // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, ScheduleTransactionInfo> scheduleTransactionMap = new LinkedHashMap<String, ScheduleTransactionInfo>();
+
+    // other services as needed
+    private AtpService atpService;
+    private RoomService roomService;
+    private TypeService typeService;
+    private OrganizationService organizationService;
+
+    ////////////////////////////////
+    // ACCESSORS AND MODIFIERS
+    ////////////////////////////////
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
+    public RoomService getRoomService() {
+        return roomService;
+    }
+
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
+    public OrganizationService getOrganizationService() {
+        return organizationService;
+    }
+
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
+    }
 
     ////////////////////////////////
     // IMPLEMENTING METHODS
@@ -949,12 +992,22 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
 
     @Override
     public ScheduleDisplayInfo getScheduleDisplay(String scheduleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        ScheduleInfo scheduleInfo = getSchedule(scheduleId, contextInfo);
+        ScheduleDisplayInfo scheduleDisplayInfo  = new ScheduleDisplayInfo();
+        copyScheduleInfoIntoScheduleDisplayInfo(scheduleInfo, scheduleDisplayInfo, contextInfo);
+        return scheduleDisplayInfo;
     }
 
     @Override
     public List<ScheduleDisplayInfo> getScheduleDisplaysByIds(List<String> scheduleIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<ScheduleInfo> scheduleInfos = getSchedulesByIds(scheduleIds, contextInfo);
+        List<ScheduleDisplayInfo> scheduleDisplayInfos = new ArrayList<ScheduleDisplayInfo>();
+        for (ScheduleInfo scheduleInfo: scheduleInfos) {
+            ScheduleDisplayInfo scheduleDisplayInfo = new ScheduleDisplayInfo();
+            copyScheduleInfoIntoScheduleDisplayInfo(scheduleInfo, scheduleDisplayInfo, contextInfo);
+            scheduleDisplayInfos.add(scheduleDisplayInfo);
+        }
+        return scheduleDisplayInfos;
     }
 
     @Override
@@ -964,17 +1017,112 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
 
     @Override
     public ScheduleRequestDisplayInfo getScheduleRequestDisplay(String scheduleRequestId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        ScheduleRequestInfo scheduleRequestInfo = getScheduleRequest(scheduleRequestId, contextInfo);
+        ScheduleRequestDisplayInfo scheduleRequestDisplayInfo = new ScheduleRequestDisplayInfo();
+        copyScheduleRequestIntoScheduleRequestInfo(scheduleRequestInfo, scheduleRequestDisplayInfo, contextInfo);
+        return scheduleRequestDisplayInfo;
     }
 
     @Override
     public List<ScheduleRequestDisplayInfo> getScheduleRequestDisplaysByIds(List<String> scheduleRequestIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<ScheduleRequestInfo> scheduleRequestInfos = getScheduleRequestsByIds(scheduleRequestIds, contextInfo);
+        List<ScheduleRequestDisplayInfo> scheduleRequestDisplayInfos = new ArrayList<ScheduleRequestDisplayInfo>();
+        for (ScheduleRequestInfo scheduleRequestInfo: scheduleRequestInfos) {
+            ScheduleRequestDisplayInfo scheduleRequestDisplayInfo = new ScheduleRequestDisplayInfo();
+            copyScheduleRequestIntoScheduleRequestInfo(scheduleRequestInfo, scheduleRequestDisplayInfo, contextInfo);
+            scheduleRequestDisplayInfos.add(scheduleRequestDisplayInfo);
+        }
+        return scheduleRequestDisplayInfos;
     }
 
     @Override
     public List<ScheduleRequestDisplayInfo> searchForScheduleRequestDisplays(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
+    }
+
+    private void copyScheduleInfoIntoScheduleDisplayInfo (ScheduleInfo scheduleInfo, ScheduleDisplayInfo scheduleDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        scheduleDisplayInfo.setId(scheduleInfo.getId());
+        scheduleDisplayInfo.setDescr(scheduleInfo.getDescr());
+        scheduleDisplayInfo.setAttributes(scheduleInfo.getAttributes());
+        scheduleDisplayInfo.setMeta(scheduleInfo.getMeta());
+        scheduleDisplayInfo.setName(scheduleInfo.getName());
+        scheduleDisplayInfo.setStateKey(scheduleInfo.getStateKey());
+        scheduleDisplayInfo.setTypeKey(scheduleInfo.getTypeKey());
+        scheduleDisplayInfo.setAtp(atpService.getAtp(scheduleInfo.getAtpId(), contextInfo));
+        List<ScheduleComponentDisplayInfo> scheduleComponentDisplays = new ArrayList<ScheduleComponentDisplayInfo>();
+        for (ScheduleComponentInfo scheduleComponentInfo: scheduleInfo.getScheduleComponents()) {
+            ScheduleComponentDisplayInfo scheduleComponentDisplayInfo = new ScheduleComponentDisplayInfo();
+            copyScheduleComponentInfoIntoScheduleComponentDisplayInfo(scheduleComponentInfo, scheduleComponentDisplayInfo, contextInfo);
+            scheduleComponentDisplays.add(scheduleComponentDisplayInfo);
+        }
+        scheduleDisplayInfo.setScheduleComponentDisplays(scheduleComponentDisplays);
+    }
+
+    private void copyScheduleComponentInfoIntoScheduleComponentDisplayInfo(ScheduleComponentInfo scheduleComponentInfo, ScheduleComponentDisplayInfo scheduleComponentDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        scheduleComponentDisplayInfo.setId(scheduleComponentInfo.getId());
+        RoomInfo roomInfo = roomService.getRoom(scheduleComponentInfo.getRoomId(), contextInfo);
+        scheduleComponentDisplayInfo.setRoom(roomInfo);
+        scheduleComponentDisplayInfo.setBuilding(roomService.getBuilding(roomInfo.getBuildingId(), contextInfo));
+        List<TimeSlotInfo> timeSlotInfos = new ArrayList<TimeSlotInfo>();
+        for (String timeSlotId : scheduleComponentInfo.getTimeSlotIds()) {
+            timeSlotInfos.add(getTimeSlot(timeSlotId, contextInfo));
+        }
+        scheduleComponentDisplayInfo.setTimeSlots(timeSlotInfos);
+    }
+
+    private void copyScheduleRequestIntoScheduleRequestInfo (ScheduleRequestInfo scheduleRequestInfo, ScheduleRequestDisplayInfo scheduleRequestDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        scheduleRequestDisplayInfo.setId(scheduleRequestInfo.getId());
+        scheduleRequestDisplayInfo.setDescr(scheduleRequestInfo.getDescr());
+        scheduleRequestDisplayInfo.setAttributes(scheduleRequestInfo.getAttributes());
+        scheduleRequestDisplayInfo.setMeta(scheduleRequestInfo.getMeta());
+        scheduleRequestDisplayInfo.setName(scheduleRequestInfo.getName());
+        scheduleRequestDisplayInfo.setStateKey(scheduleRequestInfo.getStateKey());
+        scheduleRequestDisplayInfo.setTypeKey(scheduleRequestInfo.getTypeKey());
+        scheduleRequestDisplayInfo.setRefObjectId(scheduleRequestInfo.getRefObjectId());
+        scheduleRequestDisplayInfo.setRefObjectTypeKey(scheduleRequestInfo.getRefObjectTypeKey());
+        List<ScheduleRequestComponentDisplayInfo> scheduleRequestComponentDisplayInfos = new ArrayList<ScheduleRequestComponentDisplayInfo>();
+        for (ScheduleRequestComponentInfo scheduleRequestComponentInfo: scheduleRequestInfo.getScheduleRequestComponents()) {
+            ScheduleRequestComponentDisplayInfo scheduleRequestComponentDisplayInfo = new ScheduleRequestComponentDisplayInfo();
+            copyScheduleRequestComponentInfoIntoScheduleRequestComponentDisplayInfo(scheduleRequestComponentInfo, scheduleRequestComponentDisplayInfo, contextInfo);
+            scheduleRequestComponentDisplayInfos.add(scheduleRequestComponentDisplayInfo);
+        }
+        scheduleRequestDisplayInfo.setScheduleRequestComponentDisplays(scheduleRequestComponentDisplayInfos);
+    }
+
+    private void copyScheduleRequestComponentInfoIntoScheduleRequestComponentDisplayInfo(ScheduleRequestComponentInfo scheduleRequestComponentInfo, ScheduleRequestComponentDisplayInfo scheduleRequestComponentDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // id and is tba
+        scheduleRequestComponentDisplayInfo.setId(scheduleRequestComponentInfo.getId());
+        scheduleRequestComponentDisplayInfo.setIsTBA(scheduleRequestComponentInfo.getIsTBA());
+        // resource types
+        List<TypeInfo> resourceTypes = new ArrayList<TypeInfo>();
+        for (String resourceTypeKey: scheduleRequestComponentInfo.getResourceTypeKeys()) {
+             resourceTypes.add(typeService.getType(resourceTypeKey, contextInfo));
+        }
+        scheduleRequestComponentDisplayInfo.setResourceTypes(resourceTypes);
+        // rooms
+        List<RoomInfo> rooms = new ArrayList<RoomInfo>();
+        for (String roomId : scheduleRequestComponentInfo.getRoomIds()) {
+            rooms.add(roomService.getRoom(roomId, contextInfo));
+        }
+        scheduleRequestComponentDisplayInfo.setRooms(rooms);
+        // buildings
+        List<BuildingInfo> buildings = new ArrayList<BuildingInfo>();
+        for (String buildingId : scheduleRequestComponentInfo.getBuildingIds()) {
+            buildings.add(roomService.getBuilding(buildingId, contextInfo));
+        }
+        scheduleRequestComponentDisplayInfo.setBuildings(buildings);
+        // timeslots
+        List<TimeSlotInfo> timeSlotInfos = new ArrayList<TimeSlotInfo>();
+        for (String timeSlotId : scheduleRequestComponentInfo.getTimeSlotIds()) {
+            timeSlotInfos.add(getTimeSlot(timeSlotId, contextInfo));
+        }
+        scheduleRequestComponentDisplayInfo.setTimeSlots(timeSlotInfos);
+        // orgs
+        List<OrgInfo> orgs = new ArrayList<OrgInfo>();
+        for (String orgId : scheduleRequestComponentInfo.getOrgIds()) {
+            orgs.add(organizationService.getOrg(orgId, contextInfo));
+        }
+        scheduleRequestComponentDisplayInfo.setOrgs(orgs);
     }
 
     private StatusInfo newStatus() {
