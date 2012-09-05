@@ -9,14 +9,17 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
 
 package org.kuali.student.enrollment.courseoffering.service;
 
+import java.util.List;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+
 import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -27,9 +30,12 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -40,147 +46,55 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import java.util.List;
 
 /**
  * Course Offering is a Class II service supporting the process of offering
  * courses for student registration.
- * <p/>
+ * 
  * Courses are offered for a specific term which is associated with a specific
  * Academic Calendar. At the canonical level a course is defined by formats for
  * which the course will be offered. Each format describes the activity types
  * that comprise that format, e.g., lecture and lab.
- * <p/>
+ * 
  * The purpose of multiple formats is to support different formats based on a
  * term type, e.g., Fall versus Spring offering, or to offer multiple formats in
  * the same term, e.g., in person (traditional) versus online. Offering a course
  * is the process of creating specific instances of the course, and for each
  * format to be offered in the selected term, creating a specified number of
  * each activity type that comprises the format, e.g. five (5) lectures and ten
- * (10) labs of Biology 101. Individual activity offerings correspond to events
- * in a scheduling system, each with a meeting pattern. The term 'section'
- * varies by institution, but refers to either the individual activity offering,
- * or it refers to the combination of activity offerings, when the course has
- * more than one activity type, that the student registers in as part of that
- * course.  To avoid confusion, this service introduces a new entity to capture
- * the second definition of section. A registration group represents a valid
- * combination of activity offerings, even if the number is one, in which a
- * student registers. The design supports unrestricted matching, e.g., any
- * lecture with any lab, as well as specific matching, e.g., lecture 1 with lab
- * A or B, and lecture 2 with lab C or D. Version: 1.0 (Dev)
+ * (10) labs of Biology 101. 
  *
+ * Individual activity offerings correspond to events in a scheduling
+ * system, each with a meeting pattern. The term 'section' varies by
+ * institution, but refers to either the individual activity offering,
+ * or it refers to the combination of activity offerings, when the
+ * course has more than one activity type, that the student registers
+ * in as part of that course.  
+ *
+ * To avoid confusion, this service introduces a new entity to capture
+ * the second definition of section. A registration group represents a
+ * valid combination of activity offerings, even if the number is one,
+ * in which a student registers. The design supports unrestricted
+ * matching, e.g., any lecture with any lab, as well as specific
+ * matching, e.g., lecture 1 with lab A or B, and lecture 2 with lab C
+ * or D. 
+ *
+ * Version: 1.0 (Dev)
  * @author Kuali Student Team (Kamal)
  */
+
 @WebService(name = "CourseOfferingService", serviceName = "CourseOfferingService", portName = "CourseOfferingService", targetNamespace = CourseOfferingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseOfferingService extends CourseOfferingServiceBusinessLogic {
 
-    /**
-     * Retrieves a single CourseOfferingDisplayInfo by a CourseOffering
-     * Id.
-     *
-     * @param courseOfferingId an identifier for a CourseOffering
-     * @param contextInfo      information containing the principalId and locale
-     *                         information about the caller of service
-     *                         operation
-     * @return a CourseOfferingDisplay
-     * @throws DoesNotExistException     courseOfferingId does not exist
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException courseOfferingId or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public CourseOfferingDisplayInfo getCourseOfferingDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId,
-                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+public interface CourseOfferingService 
+    extends CourseOfferingServiceBusinessLogic {
 
-    /**
-     * Retrieve a list of CourseOfferingDisplayInfos corresponding to a
-     * list of CourseOfferingIds.
-     *
-     * @param courseOfferingIds a list of CourseOffering identifiers
-     * @param contextInfo       information containing the principalId and
-     *                          locale information about the caller of service
-     *                          operation
-     * @return a list of CourseOfferingDisplayInfos
-     * @throws DoesNotExistException     a courseOfferingId in the list not
-     *                                   found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException courseOfferingIds, an Id in
-     *                                   courseOfferingId, or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves a single ActivityOfferingDisplayInfo by a ActivityOffering
-     * Id.
-     *
-     * @param activityOfferingId an identifier for an ActivityOffering
-     * @param contextInfo        information containing the principalId and
-     *                           locale information about the caller of service
-     *                           operation
-     * @return an ActivityOfferingDisplay
-     * @throws DoesNotExistException     activityOfferingId does not exist
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException activityOfferingId or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public ActivityOfferingDisplayInfo getActivityOfferingDisplay(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieve a list of ActivitAOfferingAdminDisplayInfos corresponding to a
-     * list of ActivityOfferingIds.
-     *
-     * @param activityOfferingIds a list of ActivityOffering identifiers
-     * @param contextInfo         information containing the principalId and
-     *                            locale information about the caller of service
-     *                            operation
-     * @return a list of ActivityOfferingDisplayInfos
-     * @throws DoesNotExistException     an activityOfferingId in the list not
-     *                                   found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException activityOfferingIds, an Id in
-     *                                   activityOfferingId, or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieve a list of ActivityOfferingDisplayInfos corresponding to a
-     * CourseOffering Id. Activity Offerings for all FormatOfferings within the
-     * given CourseOffering are used to assemble this administrative view.
-     *
-     * @param courseOfferingId the identifier for a CourseOffering
-     * @param contextInfo      information containing the principalId and locale
-     *                         information about the caller of service
-     *                         operation
-     * @return a list of ActivityOfferingDisplayInfos
-     * @throws DoesNotExistException     courseOfferingId is not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException courseOfferingId or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method returns the TypeInfo for a given course offering type key.
@@ -245,6 +159,29 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public CourseOfferingInfo getCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a single CourseOfferingDisplayInfo by a CourseOffering
+     * Id.
+     *
+     * @param courseOfferingId an identifier for a CourseOffering
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the CourseOfferingDisplay requested
+     * @throws DoesNotExistException courseOfferingId does not exist
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public CourseOfferingDisplayInfo getCourseOfferingDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException,
+               InvalidParameterException,
+               MissingParameterException,
+               OperationFailedException,
+               PermissionDeniedException;
+
+    /**
      * Retrieves a list of course offerings by id list.
      *
      * @param courseOfferingIds List of unique Ids of CourseOffering
@@ -258,6 +195,32 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException authorization failure
      */
     public List<CourseOfferingInfo> getCourseOfferingsByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieve a list of CourseOfferingDisplays corresponding to a
+     * list of CourseOfferingIds. The returned list may be in any
+     * order and if duplicate Ids are supplied, a unique set may or
+     * may not be returned.
+     *
+     * @param courseOfferingIds a list of CourseOffering identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of CourseOfferingDisplays
+     * @throws DoesNotExistException a courseOfferingId in the list
+     *         not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingIds, an Id in
+     *         courseOfferingId, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(@WebParam(name = "courseOfferingIds") List<String> courseOfferingIds, 
+                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Retrieve CourseOfferings by canonical course id. This could return
@@ -884,6 +847,29 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
     public ActivityOfferingInfo getActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a single ActivityOfferingDisplay by a
+     * ActivityOffering Id.
+     *
+     * @param activityOfferingId an identifier for an ActivityOffering
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the ActivityOfferingDisplay requested
+     * @throws DoesNotExistException activityOfferingId does not exist
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException activityOfferingId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public ActivityOfferingDisplayInfo getActivityOfferingDisplay(@WebParam(name = "activityOfferingId") String activityOfferingId, 
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
+    /**
      * Retrieves a list of activity offerings by id list.
      *
      * @param activityOfferingIds List of unique Ids of ActivityCourseOffering
@@ -899,6 +885,33 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException authorization failure
      */
     public List<ActivityOfferingInfo> getActivityOfferingsByIds(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Retrieve a list of ActivitAOfferingAdminDisplays corresponding
+     * to a list of ActivityOffering Ids. The returned list may be in
+     * any order and if duplicate Ids are supplied, a unique set may
+     * or may not be returned.
+     *
+     * @param activityOfferingIds a list of ActivityOffering identifiers
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of ActivityOfferingDisplays
+     * @throws DoesNotExistException an activityOfferingId in the list
+     *         not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException activityOfferingIds, an Id in
+     *         activityOfferingId, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, 
+                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Retrieves a list of ActivityOffering records that belongs to a
@@ -916,6 +929,31 @@ public interface CourseOfferingService extends CourseOfferingServiceBusinessLogi
      * @throws PermissionDeniedException authorization failure
      */
     public List<ActivityOfferingInfo> getActivityOfferingsByCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieve a list of ActivityOfferingDisplays corresponding to a
+     * CourseOffering Id. Activity Offerings for all FormatOfferings
+     * within the given CourseOffering are used to assemble this
+     * administrative view.
+     *
+     * @param courseOfferingId the identifier for a CourseOffering
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of ActivityOfferingDisplayInfos
+     * @throws DoesNotExistException courseOfferingId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, 
+                                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Retrieves a list of ActivityOffering records that belongs to an
