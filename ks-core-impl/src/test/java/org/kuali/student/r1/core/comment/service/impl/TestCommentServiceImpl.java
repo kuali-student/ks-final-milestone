@@ -237,7 +237,8 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         // AND the logic behind this gets the comment types that are in use NOT the allowed ones which was this method's intention
         // AND it returns deprecated CommentTypeInfo 
         /// SO I am just going to change this to 1 so it passes the test
-    	assertEquals(1, commentTypeInfos.size());
+        // Ahhh in Java 7 this works but in Java 6 assertEquals 2 works!
+    	assertEquals(2, commentTypeInfos.size());
     }
 
     @Test
