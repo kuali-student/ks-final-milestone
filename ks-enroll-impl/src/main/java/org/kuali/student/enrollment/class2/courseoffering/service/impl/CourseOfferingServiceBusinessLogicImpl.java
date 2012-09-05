@@ -231,6 +231,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 TermInfo termInfo = acalService.getTerm(targetTermId, context);
                 targetAo.setTermCode(termInfo.getCode());
                 targetAo.setMeta(null);
+                // Make sure to copy the activity code
+                targetAo.setActivityCode(sourceAo.getActivityCode());
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
                     targetAo.setScheduleId(null);
                     // TODO: set the schedule request to null as well

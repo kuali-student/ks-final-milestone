@@ -33,11 +33,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -536,9 +532,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 form.setSocReleasedToDepts(true);
             } else {
                 // It's draft, so change to state to open
-                socInfo.setStateKey(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY);
-                // Persist the state change
-                _getSocService().updateSoc(socInfo.getId(), socInfo, new ContextInfo());
+                _getSocService().updateSocState(socInfo.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, new ContextInfo());
                 form.setSocReleasedToDepts(true);
             }
             // Do a refresh of the data on rollover details

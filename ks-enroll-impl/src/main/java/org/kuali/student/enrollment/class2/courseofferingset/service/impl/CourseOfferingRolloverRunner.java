@@ -142,6 +142,17 @@ public class CourseOfferingRolloverRunner implements Runnable {
         }
     }
 
+    private String _computeDiffInSeconds(Date start, Date end) {
+        long diffInMillis = end.getTime() - start.getTime();
+        int seconds = (int)(diffInMillis / 1000);  // Convert to seconds
+        int fraction = (int)(diffInMillis % 1000);
+        String fractionStr = "" + fraction;
+        while (fractionStr.length() < 3) {
+            fractionStr = "0" + fractionStr;
+        }
+        return seconds + "." + fractionStr + "s";
+    }
+
     private void runInternal() throws Exception {
         if (this.context == null) {
             throw new NullPointerException("context not set");
@@ -171,11 +182,17 @@ public class CourseOfferingRolloverRunner implements Runnable {
         int aoRolledOver = 0;
         int errors = 0;
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
+        int count = 1;
+        Date start = new Date();
         for (String sourceCoId : sourceCoIds) {
-            logger.info("Processing: " + sourceCoId);
             // System.out.println("processing: " + sourceCoId);
             try {
                 SocRolloverResultItemInfo item = rolloverOneCourseOfferingReturningItem(sourceCoId);
+                Date end = new Date();
+                String timeInSeconds = _computeDiffInSeconds(start, end);
+                start = end; // Get ready for next one
+                logger.info("(" + count + ") Processing: " + sourceCoId + " (" + timeInSeconds + ")");
+
                 items.add(item);
                 reportProgressIfModulo(items, sourceCoIdsHandled);
                 if (!CourseOfferingSetServiceConstants.SUCCESSFUL_RESULT_ITEM_STATES.contains(item.getStateKey())) {
@@ -198,6 +215,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
                 throw ex;
             }
             sourceCoIdsHandled++;
+            count++;
         }
         logger.info("======= Finished processing rollover =======");
         reportProgress(items, sourceCoIdsHandled - errors);      // Items Processed = Items - Errors
