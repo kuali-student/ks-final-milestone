@@ -28,6 +28,16 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomFixedResourceInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.dto.RoomUsageInfo;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
@@ -38,10 +48,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 /**
  * This class tests Scheduling Service
@@ -52,6 +62,30 @@ import static org.junit.Assert.assertEquals;
 @ContextConfiguration(locations = {"classpath:scheduling-mock-impl-test-context.xml"})
 public class TestSchedulingServiceMockImpl {
 
+    ///////////////////////////////
+    // DATA VARIABLES
+    ///////////////////////////////
+
+    @Resource
+    private SchedulingService schedulingService;
+    @Resource
+    private AtpService atpService;
+    @Resource
+    private RoomService roomService;
+    @Resource
+    private TypeService typeService;
+    @Resource
+    private OrganizationService organizationService;
+
+    public static String principalId1 = "123";
+    public static String principalId2 = "321";
+    public ContextInfo callContext = null;
+    public CrudInfoTester crudInfoTester = null;
+
+    /////////////////////////////
+    // ACCESSORS AND MODIFIERS
+    /////////////////////////////
+
     public SchedulingService getSchedulingService() {
         return schedulingService;
     }
@@ -59,12 +93,42 @@ public class TestSchedulingServiceMockImpl {
     public void setSchedulingService(SchedulingService schedulingService) {
         this.schedulingService = schedulingService;
     }
-    @Resource
-    private SchedulingService schedulingService;
-    public static String principalId1 = "123";
-    public static String principalId2 = "321";
-    public ContextInfo callContext = null;
-    public CrudInfoTester crudInfoTester = null;
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
+    public RoomService getRoomService() {
+        return roomService;
+    }
+
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
+    public OrganizationService getOrganizationService() {
+        return organizationService;
+    }
+
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
+    }
+
+    //////////////////////////////
+    // TESTS AND FUNCTIONALS
+    //////////////////////////////
 
     @Before
     public void setUp() {
@@ -1190,6 +1254,117 @@ public class TestSchedulingServiceMockImpl {
         ts.setStateKey(stateKey);
         ts.setTypeKey(typeKey);
         schedulingService.createTimeSlot(typeKey, ts, callContext);
+    }
+
+    // test the schedule display methods
+    @Test
+    public void testDisplayObjects () throws DataValidationErrorException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+            ,Exception {
+
+        // test data
+        // -------------------------
+
+        // create Building BUILDING
+        BuildingInfo BUILDING = new BuildingInfo();
+        BUILDING.setName("TEST BLD");
+        BUILDING.setTypeKey("TEST BLD");
+        crudInfoTester.initializeInfoForTestCreate(BUILDING, BUILDING.getTypeKey(), BUILDING.getStateKey());
+        BUILDING = roomService.createBuilding(BUILDING.getTypeKey(), BUILDING, callContext);
+        List<BuildingInfo> BUILDINGS = new ArrayList<BuildingInfo>();
+        BUILDINGS.add(BUILDING);
+        List<String> BLD_IDS = new ArrayList<String>();
+        BLD_IDS.add(BUILDING.getId());
+
+        // create Room ROOM
+        RoomInfo ROOM = new RoomInfo();
+        ROOM.setRoomCode("TEST ROOM");
+        ROOM.setName("LAB");
+        ROOM.setTypeKey("TEST ROOM");
+        ROOM.setStateKey("TEST");
+        crudInfoTester.initializeInfoForTestCreate(ROOM, ROOM.getTypeKey(), ROOM.getStateKey());
+        ROOM.setAccessibilityTypeKeys(new ArrayList<String>());
+        ROOM.setRoomFixedResources(new ArrayList<RoomFixedResourceInfo>());
+        ROOM.setRoomUsages(new ArrayList<RoomUsageInfo>());
+        ROOM.setBuildingId(BUILDING.getId());
+        ROOM = roomService.createRoom(BUILDING.getId(), ROOM.getTypeKey(), ROOM, callContext);
+        List<RoomInfo> ROOMS = new ArrayList<RoomInfo>();
+        ROOMS.add(ROOM);
+        List<String> ROOM_IDS = new ArrayList<String>();
+        ROOM_IDS.add(ROOM.getId());
+
+        // create TimeSlot TIME_SLOT
+        Long START_TIME_MILLIS_8_00_AM = (long) (8 * 60 * 60 * 1000);
+        Long END_TIME_MILLIS_8_50_AM = (long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000);
+        List<Integer> DOW_T_TH = new ArrayList<Integer>();
+        DOW_T_TH.add(Calendar.TUESDAY);
+        DOW_T_TH.add(Calendar.THURSDAY);
+        TimeSlotInfo expected = new TimeSlotInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        expected.setWeekdays(DOW_T_TH);
+        TimeOfDayInfo startTime = new TimeOfDayInfo();
+        startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
+        expected.setStartTime(startTime);
+        TimeOfDayInfo endTime = new TimeOfDayInfo();
+        endTime.setMilliSeconds(END_TIME_MILLIS_8_50_AM);
+        expected.setEndTime(endTime);
+        TimeSlotInfo TIME_SLOT = schedulingService.createTimeSlot(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, expected, callContext);
+        List<String> TIME_SLOT_IDS = new ArrayList<String>();
+        TIME_SLOT_IDS.add(TIME_SLOT.getId());
+
+        // create ScheduleComponent SCHEDULE_COMPONENT
+        ScheduleComponentInfo SCHEDULE_COMPONENT = new ScheduleComponentInfo();
+        SCHEDULE_COMPONENT.setId("0");
+        SCHEDULE_COMPONENT.setRoomId(ROOM.getId());
+        SCHEDULE_COMPONENT.setTimeSlotIds(TIME_SLOT_IDS);
+        List<ScheduleComponentInfo> SCHEDULE_COMPONENTS = new ArrayList<ScheduleComponentInfo>();
+        SCHEDULE_COMPONENTS.add(SCHEDULE_COMPONENT);
+
+        // create an academic time period ATP_INFO
+        AtpInfo ATP_INFO = new AtpInfo();
+        ATP_INFO.setStartDate(new Date(System.currentTimeMillis()));
+        ATP_INFO.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        ATP_INFO = atpService.createAtp(AtpServiceConstants.ATP_FALL_TYPE_KEY, ATP_INFO, callContext);
+
+        // create a schedule SCHEDULE
+        ScheduleInfo SCHEDULE = new ScheduleInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(SCHEDULE, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
+        SCHEDULE.setAtpId(ATP_INFO.getId());
+        SCHEDULE.setScheduleComponents(SCHEDULE_COMPONENTS);
+        SCHEDULE = schedulingService.createSchedule(SCHEDULE.getTypeKey(), SCHEDULE, callContext);
+
+        // test get display object
+        ScheduleDisplayInfo scheduleDisplayInfo = schedulingService.getScheduleDisplay(SCHEDULE.getId(), callContext);
+        assertEquals(scheduleDisplayInfo.getId(), SCHEDULE.getId());
+        assertEquals(scheduleDisplayInfo.getAtp().getId(), SCHEDULE.getAtpId());
+
+        // create a Schedule Request
+        ScheduleRequestComponentInfo SCHEDULE_REQUEST_CMP = new ScheduleRequestComponentInfo();
+        SCHEDULE_REQUEST_CMP.setIsTBA(false);
+        SCHEDULE_REQUEST_CMP.setBuildingIds(BLD_IDS);
+        SCHEDULE_REQUEST_CMP.setRoomIds(ROOM_IDS);
+        SCHEDULE_REQUEST_CMP.setTimeSlotIds(TIME_SLOT_IDS);
+        List<ScheduleRequestComponentInfo> SCHEDULE_REQUEST_CMPS = new ArrayList<ScheduleRequestComponentInfo>();
+        SCHEDULE_REQUEST_CMPS.add(SCHEDULE_REQUEST_CMP);
+
+        ScheduleRequestInfo SCHEDULE_REQUEST = new ScheduleRequestInfo();
+        SCHEDULE_REQUEST.setScheduleRequestComponents(SCHEDULE_REQUEST_CMPS);
+        SCHEDULE_REQUEST.setRefObjectId("1");
+        SCHEDULE_REQUEST.setRefObjectTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
+        crudInfoTester.initializeInfoForTestCreate(SCHEDULE_REQUEST, SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+        SCHEDULE_REQUEST = schedulingService.createScheduleRequest(SCHEDULE_REQUEST.getTypeKey(), SCHEDULE_REQUEST, callContext);
+
+        // test the request display
+        ScheduleRequestDisplayInfo SR_DISPL_INF = schedulingService.getScheduleRequestDisplay(SCHEDULE_REQUEST.getId(), callContext);
+        assertEquals(SR_DISPL_INF.getRefObjectId(), SCHEDULE_REQUEST.getRefObjectId());
+        assertEquals(SR_DISPL_INF.getRefObjectTypeKey(), SCHEDULE_REQUEST.getRefObjectTypeKey());
+
+
     }
 
 }

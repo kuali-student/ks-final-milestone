@@ -20,6 +20,16 @@
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>
     
-    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl" autowire="byType">
     </bean>
+
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">
+    </bean>
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplNew">
+    </bean>
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl">
+    </bean>
+    <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl">
+    </bean>
+
 </beans>
