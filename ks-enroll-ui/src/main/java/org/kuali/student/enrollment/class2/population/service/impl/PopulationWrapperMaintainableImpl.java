@@ -1,10 +1,18 @@
 package org.kuali.student.enrollment.class2.population.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
@@ -14,9 +22,7 @@ import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class performs Population Maintenance
@@ -37,7 +43,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
             else if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)){
                 updatePopulation(wrapper);
             }
-     
+
         } catch (Exception e) {
             throw new RuntimeException("PopulationWrapperMaintainableImpl exception. ", e);
         }
@@ -166,10 +172,10 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
         wrapper.setPopulationRuleInfo(populationRuleInfo);
         wrapper.setId(populationInfo.getId());
     }
-    
+
     public List<PopulationInfo> getChildPopulations(List<String> childPopulationIds) throws Exception{
         ContextInfo context = ContextUtils.getContextInfo();
-        List<PopulationInfo> childPopulations = new ArrayList<PopulationInfo>(); 
+        List<PopulationInfo> childPopulations = new ArrayList<PopulationInfo>();
         for (String id : childPopulationIds){
             PopulationInfo populationInfo = getPopulationService().getPopulation(id, context);
             childPopulations.add(populationInfo);
@@ -208,4 +214,48 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
         return populationService;
     }
 
+
+    @Override
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        ContextInfo context = ContextUtils.getContextInfo();
+        Map<String, String> fieldValues = new HashMap<String, String>();
+
+        if (addLine instanceof PopulationInfo) {
+            PopulationInfo populationInfo = (PopulationInfo) addLine;
+            fieldValues.put("name", populationInfo.getName());
+
+            try {
+                QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+                List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, context);
+
+                if(populationInfoList == null || populationInfoList.isEmpty()){
+                    GlobalVariables.getMessageMap().putErrorForSectionId("populations_table", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, populationInfo.getName());
+                    return false;
+                } else {
+                    populationInfo.setId(populationInfoList.get(0).getId());
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    }
+
+
+    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
+        String populationName = fieldValues.get("name");
+
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (StringUtils.isNotBlank(populationName)) {
+            predicates.add(PredicateFactory.equal("name", populationName));
+        }
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria qbc = qbcBuilder.build();
+
+        return qbc;
+    }
 }
