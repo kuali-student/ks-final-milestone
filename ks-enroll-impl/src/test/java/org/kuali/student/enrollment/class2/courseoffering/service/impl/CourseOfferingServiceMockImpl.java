@@ -31,19 +31,11 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -63,10 +55,14 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		MockService {
@@ -86,7 +82,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
 	@Resource
 	private TypeService typeService;
+        
+        @Resource
+	private StateService stateService;
 	
+        @Resource 
+        private LRCService lrcService;
+        
 	@Override
 	public void clear() {
 
@@ -834,7 +836,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 	
 
 	@Override
-	public StatusInfo startSchedulingActivityOffering(String activityOfferingId,
+	public StatusInfo scheduleActivityOffering(String activityOfferingId,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -1184,12 +1186,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		
     }
 
-
     @Override
-    public List<ValidationResultInfo> verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("unsupported");
+    public AOClusterVerifyResultsInfo verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
+  
     @Override
     public ActivityOfferingClusterInfo updateActivityOfferingCluster(String formatOfferingId, String activityOfferingClusterId,
             ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
@@ -1405,14 +1407,46 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 				"searchForSeatpoolDefinitionIds has not been implemented");
 	}
 
-	@Override
-	public CourseOfferingDisplayInfo getCourseOfferingDisplay(
-			String courseOfferingId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("Not supported yet.");
-	}
+	   @Override
+    public CourseOfferingDisplayInfo getCourseOfferingDisplay(
+            String courseOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        CourseOfferingInfo co = this.getCourseOffering(courseOfferingId, context);
+        CourseOfferingDisplayInfo info = new CourseOfferingDisplayInfo();
+        info.setId(co.getId());
+        info.setTypeKey(co.getTypeKey());
+        info.setStateKey(co.getStateKey());
+        info.setCourseId(co.getCourseId());
+        info.setTermId(co.getTermId());
+        info.setCourseOfferingCode(co.getCourseOfferingCode());
+        info.setCourseOfferingTitle(co.getCourseOfferingTitle());
+        info.setSubjectArea(co.getSubjectArea());        
+        TermInfo term = this.acalService.getTerm(co.getTermId(), context);
+        info.setTermName(term.getName());
+        info.setTermCode(term.getCode());
+        info.setDisplayGrading(co.getGradingOption());        
+        info.setDisplayCredit(co.getCreditOptionDisplay());        
+        TypeInfo type = typeService.getType(co.getTypeKey(), context);
+        info.setTypeName(type.getName());
+        StateInfo state = stateService.getState(co.getStateKey(), context);
+        info.setStateName(state.getName());
+        info.setActivtyOfferingTypes(calcActivityOfferingTypes (co, context));
+        info.setMeta(co.getMeta());
+        info.setAttributes(co.getAttributes());
+        return info;
+    }
+           
+    private List<String> calcActivityOfferingTypes (CourseOfferingInfo co, ContextInfo context) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String> ();
+        for (FormatOfferingInfo fo : this.getFormatOfferingsByCourseOffering(co.getId(), context)) {
+            list.addAll (fo.getActivityOfferingTypeKeys());
+        }
+        return list;
+    }
 
 	@Override
 	public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(
@@ -1423,16 +1457,49 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 		throw new OperationFailedException(
 				"searchForSeatpoolDefinitionIds has not been implemented");
 	}
+        
+    @Override
+    public ActivityOfferingDisplayInfo getActivityOfferingDisplay(
+            String activityOfferingId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        ActivityOfferingInfo ao = this.getActivityOffering(activityOfferingId, contextInfo);
+        ActivityOfferingDisplayInfo info = new ActivityOfferingDisplayInfo();
+        info.setId(ao.getId());
+        info.setTypeKey(ao.getTypeKey());
+        info.setStateKey(ao.getStateKey());
+        info.setName(ao.getName());
+        info.setDescr(ao.getDescr());
+        TypeInfo type = typeService.getType(ao.getTypeKey(), contextInfo);
+        info.setTypeName(type.getName());
+        StateInfo state = stateService.getState(ao.getStateKey(), contextInfo);
+        info.setStateName(state.getName());
+        info.setCourseOfferingTitle (ao.getCourseOfferingTitle());
+        info.setCourseOfferingCode(ao.getCourseOfferingCode());
+        info.setFormatOfferingId(ao.getFormatOfferingId());
+        info.setFormatOfferingName(ao.getFormatOfferingName());
+        info.setActivityOfferingCode(ao.getActivityCode ());
+        for (OfferingInstructorInfo instr: ao.getInstructors()) {
+          info.setInstructorId(instr.getPersonId());
+          info.setInstructorName(instr.getPersonName());
+          break;
+        }
+        info.setIsHonorsOffering(ao.getIsHonorsOffering());
+        info.setMaximumEnrollment(ao.getMaximumEnrollment());
+        info.setScheduleDisplay(calcScheduleDisplay (ao, contextInfo));
+        info.setMeta(ao.getMeta());
+        info.setAttributes(ao.getAttributes());
+        return info;
+    }
 
-	@Override
-	public ActivityOfferingDisplayInfo getActivityOfferingDisplay(
-			String activityOfferingId, ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		throw new UnsupportedOperationException("Not supported yet");
-	}
-
+    
+    private ScheduleDisplayInfo calcScheduleDisplay (ActivityOfferingInfo ao, ContextInfo context) {
+        ScheduleDisplayInfo sd = new ScheduleDisplayInfo ();
+        // TODO: call scheduling service to calc
+        return sd;
+    }
+    
 	@Override
 	public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(
 			List<String> activityOfferingIds, ContextInfo contextInfo)

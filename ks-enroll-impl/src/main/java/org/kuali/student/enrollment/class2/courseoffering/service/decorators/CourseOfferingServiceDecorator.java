@@ -629,11 +629,11 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 	}
 
 	@Override
-	public StatusInfo startSchedulingActivityOffering(String activityOfferingId,
+	public StatusInfo scheduleActivityOffering(String activityOfferingId,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		return getNextDecorator().startSchedulingActivityOffering(activityOfferingId, contextInfo);
+		return getNextDecorator().scheduleActivityOffering(activityOfferingId, contextInfo);
 	}
 
 	@Override

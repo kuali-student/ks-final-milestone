@@ -142,6 +142,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         if (copy.getId() == null) {
             copy.setId(socMap.size() + "");
         }
+        this.logStateChange(copy, context);
         copy.setMeta(newMeta(context));
         socMap.put(copy.getId(), copy);
         return new SocInfo(copy);
@@ -643,11 +644,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             // TODO: call verifySocForState to make sure it is legal to change the state
             soc.setStateKey(nextStateKey);
             this.updateMeta(soc.getMeta(), contextInfo);
-            // add the state change to the log
-            // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-            Date date = contextInfo.getCurrentDate();
-            soc.getAttributes().add(new AttributeInfo(nextStateKey, formatter.format(date)));
+            this.logStateChange(soc, contextInfo);
             return newStatus();
 
         } catch (Exception e) {
@@ -655,6 +652,14 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         }
     }
 
+    private void logStateChange(SocInfo soc, ContextInfo contextInfo) {
+        // add the state change to the log
+        // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        Date date = contextInfo.getCurrentDate();
+        soc.getAttributes().add(new AttributeInfo(soc.getStateKey(), formatter.format(date)));
+    }
+    
     @Override
     public StatusInfo updateSocRolloverResultState(
             @WebParam(name = "socRolloverResultId") String socRolloverResultId,

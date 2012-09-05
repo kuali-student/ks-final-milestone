@@ -108,6 +108,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new InvalidParameterException("typeKey does not match the value in the info object");
         }
         SocEntity entity = new SocEntity(info);
+        this.logStateChange(entity, context);
         entity.setEntityCreated(context);
         socDao.persist(entity);
         return entity.toDto();
@@ -715,17 +716,21 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         }
         entity.setSocState(nextStateKey);
         entity.setEntityUpdated(contextInfo);
-        // add the state change to the log
-        // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        Date date = contextInfo.getCurrentDate();
-        AttributeInfo attr = new AttributeInfo(nextStateKey, formatter.format(date));
-        entity.getAttributes().add(new SocAttributeEntity(attr, entity));
+        this.logStateChange(entity, contextInfo);
         entity = socDao.merge(entity);
         socDao.getEm().flush(); // need to flush to get the version ind to update
         StatusInfo status = new StatusInfo ();
         status.setSuccess(Boolean.TRUE);
         return status;
+    }
+    
+    private void logStateChange(SocEntity entity, ContextInfo contextInfo) {
+        // add the state change to the log
+        // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        Date date = contextInfo.getCurrentDate();
+        AttributeInfo attr = new AttributeInfo(entity.getSocState(), formatter.format(date));
+        entity.getAttributes().add(new SocAttributeEntity(attr, entity));
     }
 
     @Override
