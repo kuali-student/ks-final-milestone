@@ -108,11 +108,16 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Activity Offering(s)" p:methodToCall="deleteSelectedAoList"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelDeleteAOs"/>
+                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelDeleteAOs">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-enrollment-cancel-link</value>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
-
             </list>
         </property>
     </bean>
