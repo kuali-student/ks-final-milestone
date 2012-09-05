@@ -301,23 +301,25 @@ public final class CourseOfferingServiceDataUtils {
 	}
 
 	public static RegistrationGroupInfo createRegistrationGroup(
-			String courseOfferingId, String formatOfferingId, String termId,
+			String courseOfferingId, String formatOfferingId, String activityOfferingClusterId, String termId,
 			List<String> activityOfferingIds, String name,
 			String registrationCode, Integer maximumEnrollment) {
 		return createRegistrationGroup(courseOfferingId, formatOfferingId,
-				termId, activityOfferingIds, name, registrationCode, true,
-				true, maximumEnrollment,
-				LuiServiceConstants.LUI_DRAFT_STATE_KEY);
+				termId, activityOfferingClusterId, activityOfferingIds, name, registrationCode,
+				true, true,
+				maximumEnrollment, LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 
 	}
 
 	public static RegistrationGroupInfo createRegistrationGroup(
 			String courseOfferingId, String formatOfferingId, String termId,
-			List<String> activityOfferingIds, String name,
-			String registrationCode, boolean generated, Boolean honorsOffering,
-			Integer maximumEnrollment, String registrationGroupStateKey) {
+			String activityOfferingClusterId, List<String> activityOfferingIds,
+			String name, String registrationCode, boolean generated,
+			Boolean honorsOffering, Integer maximumEnrollment, String registrationGroupStateKey) {
 
 		RegistrationGroupInfo rg = new RegistrationGroupInfo();
+		
+		rg.setActivityOfferingClusterId(activityOfferingClusterId);
 
 		rg.setActivityOfferingIds(activityOfferingIds);
 

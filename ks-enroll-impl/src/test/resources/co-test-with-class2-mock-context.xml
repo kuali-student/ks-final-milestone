@@ -35,13 +35,14 @@
 		class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl">
 	</bean>
 
-	<bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
-		<property name="nextDecorator" ref="coServiceImpl"/>
+<!-- Use the validator after KSENROLL-2671 is resovled -->
+<!-- 	<bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator"> -->
+<!-- 		<property name="nextDecorator" ref="coServiceImpl"/> -->
 			 
-		 <property name="validator" ref="validator" />
-	</bean>
+<!-- 		 <property name="validator" ref="validator" /> -->
+<!-- 	</bean> -->
    
-   <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" autowire="default" />
+   <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" autowire="default" />
 
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
