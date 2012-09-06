@@ -56,7 +56,7 @@ import static org.junit.Assert.*;
 /**
  * This class tests Scheduling Service
  *
- * @author Kuali Student Team
+ * @author Mezba Mahtab
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:scheduling-mock-impl-test-context.xml"})

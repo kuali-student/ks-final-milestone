@@ -43,8 +43,6 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:mock-room-service-impl-test-context.xml"})
-//@Transactional
-//@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 
 /**
  * This class tests the RoomServiceMockImpl

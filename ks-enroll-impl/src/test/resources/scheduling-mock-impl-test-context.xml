@@ -25,7 +25,7 @@
 
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">
     </bean>
-    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplNew">
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
     </bean>
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl">
     </bean>
