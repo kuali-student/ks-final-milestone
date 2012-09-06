@@ -101,10 +101,15 @@ public class SchedulingServiceUtil {
         }
     }
 
+    /**
+     * Compares two time slots and sees if they 'overlap'. Will return true even if there is a millisecond overlap.
+     * @author Mezba Mahtab
+     * @param timeSlotInfo1 the first time slot
+     * @param timeSlotInfo2 the second time slot
+     * @return true if the timeslots share at least one common weekday and on that day the start and and end times of one time slot is within
+     * the start and end times of the other timeslot.
+     */
     public static boolean areTimeSlotsInConflict(TimeSlotInfo timeSlotInfo1, TimeSlotInfo timeSlotInfo2) {
-
-        System.out.println("TS 1: " +  timeSlotInfo1);
-        System.out.println("TS 2: " +  timeSlotInfo2);
 
         // Check if any of weekdays is common. If the two TimeSlots are on different weekdays,
         // no need to check for start/end times.
@@ -143,5 +148,4 @@ public class SchedulingServiceUtil {
         }
         return false;
     }
-
 }

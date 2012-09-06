@@ -12,7 +12,14 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 
 @MappedSuperclass
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"ATTR_KEY", "OWNER_ID"})})
+// 9/06/2012 nwright commented this out as the contract DOES specify that you can have 2 entries with the same key
+// This was a deliberate change from how R1 Dynamic Attributes worked at the request of an implementing institution 
+// The design change was to allow dynamic attributes could implement a list of values more naturally by repeating keys
+//
+// Also constraints defined here as annotations have no effect except on unit tests because this 
+// constraint does not exist in the schemas created by DBAs and generated via IMPEX
+// this would make the unit tests be out of sync with the actual implementation
+//@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"ATTR_KEY", "OWNER_ID"})})
 public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends BaseEntity {
 
     @Column(name = "ATTR_KEY")
