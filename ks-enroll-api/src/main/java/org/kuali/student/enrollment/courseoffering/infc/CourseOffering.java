@@ -213,12 +213,13 @@ public interface CourseOffering extends IdNamelessEntity {
     public List<String> getStudentRegistrationGradingOptions();
 
     /**
-     * A display string for the credit option.
+     * The name of the credit option
      * 
-     * @name Credit Option Display
+     * @name Credit Option Name
      * @readOnly
+     * @impl the name of the RVG for the creditOptionId
      */
-    public String getCreditOptionDisplay();
+    public String getCreditOptionName();
 
     /**
      * Type of credit of course offering. This field is initially copied from
@@ -398,13 +399,13 @@ public interface CourseOffering extends IdNamelessEntity {
     public String getCreditCnt();
 
     /**
-     * Gets the Grading Name
+     * Gets the Grading Option Name
      *
-     * @name Grading
+     * @name Grading Option Name
      * @readOnly
-     * @impl this is the grading name - last word in gradingOptionId
+     * @impl this is the name of the RVG matching the gradingOptionId
      */
-    public String getGradingOption();
+    public String getGradingOptionName();
 
    /**
      * A suffix is the system generated code that is hidden from the user

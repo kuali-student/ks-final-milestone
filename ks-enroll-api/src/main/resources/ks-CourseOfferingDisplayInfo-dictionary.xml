@@ -57,6 +57,21 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+	<bean id="CourseOfferingDisplayInfo.descr" parent="CourseOfferingDisplayInfo.descr-parent"/>
+	<bean id="CourseOfferingDisplayInfo.descr-parent" abstract="true" parent="CourseOfferingDisplayInfo.descr-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="CourseOfferingDisplayInfo.descr.plain" parent="CourseOfferingDisplayInfo.descr.plain-parent"/>
+	<bean id="CourseOfferingDisplayInfo.descr.plain-parent" abstract="true" parent="CourseOfferingDisplayInfo.descr.plain-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="CourseOfferingDisplayInfo.descr.formatted" parent="CourseOfferingDisplayInfo.descr.formatted-parent"/>
+	<bean id="CourseOfferingDisplayInfo.descr.formatted-parent" abstract="true" parent="CourseOfferingDisplayInfo.descr.formatted-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="CourseOfferingDisplayInfo.courseId" parent="CourseOfferingDisplayInfo.courseId-parent"/>
 	<bean id="CourseOfferingDisplayInfo.courseId-parent" abstract="true" parent="CourseOfferingDisplayInfo.courseId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
@@ -92,13 +107,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingDisplayInfo.displayGrading" parent="CourseOfferingDisplayInfo.displayGrading-parent"/>
-	<bean id="CourseOfferingDisplayInfo.displayGrading-parent" abstract="true" parent="CourseOfferingDisplayInfo.displayGrading-generated">
+	<bean id="CourseOfferingDisplayInfo.gradingOptionName" parent="CourseOfferingDisplayInfo.gradingOptionName-parent"/>
+	<bean id="CourseOfferingDisplayInfo.gradingOptionName-parent" abstract="true" parent="CourseOfferingDisplayInfo.gradingOptionName-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingDisplayInfo.displayCredit" parent="CourseOfferingDisplayInfo.displayCredit-parent"/>
-	<bean id="CourseOfferingDisplayInfo.displayCredit-parent" abstract="true" parent="CourseOfferingDisplayInfo.displayCredit-generated">
+	<bean id="CourseOfferingDisplayInfo.creditOptionName" parent="CourseOfferingDisplayInfo.creditOptionName-parent"/>
+	<bean id="CourseOfferingDisplayInfo.creditOptionName-parent" abstract="true" parent="CourseOfferingDisplayInfo.creditOptionName-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

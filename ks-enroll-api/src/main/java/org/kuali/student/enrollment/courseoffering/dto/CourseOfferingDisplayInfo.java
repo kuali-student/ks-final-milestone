@@ -21,8 +21,8 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea", "termName", "termCode", "displayGrading",
-        "displayCredit", "typeName", "stateName", "activtyOfferingTypes", "meta", "attributes", "_futureElements"})
+        "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea", "termName", "termCode", "gradingOptionName",
+        "creditOptionName", "typeName", "stateName", "activtyOfferingTypes", "meta", "attributes", "_futureElements"})
 public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingDisplay, Serializable {
 
     @XmlElement
@@ -50,10 +50,10 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     private String termCode;
 
     @XmlElement
-    private String displayGrading;
+    private String gradingOptionName;
 
     @XmlElement
-    private String displayCredit;
+    private String creditOptionName;
 
 
     @XmlElement
@@ -81,8 +81,8 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
             this.termCode = courseOfferingDisplay.getTermCode();
             this.termName = courseOfferingDisplay.getTermName();
             this.termId = courseOfferingDisplay.getTermId();
-            this.displayCredit = courseOfferingDisplay.getDisplayCredit();
-            this.displayGrading = courseOfferingDisplay.getDisplayGrading();
+            this.creditOptionName = courseOfferingDisplay.getCreditOptionName();
+            this.gradingOptionName = courseOfferingDisplay.getGradingOptionName();
             this.activtyOfferingTypes = new ArrayList<String>(courseOfferingDisplay.getActivtyOfferingTypes());
             this.typeName = courseOfferingDisplay.getTypeName();
             this.stateName = courseOfferingDisplay.getStateName();
@@ -99,6 +99,10 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
         return this.descr;
     }
 
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+    
     @Override
     public String getCourseId() {
         return this.courseId;
@@ -179,12 +183,12 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
 
 
     @Override
-    public String getDisplayCredit() {
-        return displayCredit;
+    public String getCreditOptionName() {
+        return creditOptionName;
     }
 
-    public void setDisplayCredit(String displayCredit) {
-        this.displayCredit = displayCredit;
+    public void setCreditOptionName(String creditOptionName) {
+        this.creditOptionName = creditOptionName;
     }
 
     @Override
@@ -203,11 +207,11 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
 
 
     @Override
-    public String getDisplayGrading() {
-        return displayGrading;
+    public String getGradingOptionName() {
+        return gradingOptionName;
     }
 
-    public void setDisplayGrading(String displayGrading) {
-        this.displayGrading = displayGrading;
+    public void setGradingOptionName(String gradingOptionName) {
+        this.gradingOptionName = gradingOptionName;
     }
 }

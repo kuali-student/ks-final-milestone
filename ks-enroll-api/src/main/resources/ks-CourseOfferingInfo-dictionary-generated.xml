@@ -72,8 +72,8 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.maximumEnrollment"/>
 				<ref bean="CourseOfferingInfo.minimumEnrollment"/>
 				<ref bean="CourseOfferingInfo.gradingOptionId"/>
-				<ref bean="CourseOfferingInfo.gradingOption"/>
-				<ref bean="CourseOfferingInfo.creditOptionDisplay"/>
+				<ref bean="CourseOfferingInfo.gradingOptionName"/>
+				<ref bean="CourseOfferingInfo.creditOptionName"/>
 				<ref bean="CourseOfferingInfo.creditOptionId"/>
 				<ref bean="CourseOfferingInfo.waitlistLevelTypeKey"/>
 				<ref bean="CourseOfferingInfo.waitlistMaximum"/>
@@ -553,18 +553,18 @@ Pass/Fail or Letter Graded option.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.gradingOption-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="gradingOption"/>
-		<property name="shortLabel" value="Grading Option"/>
+	<bean id="CourseOfferingInfo.gradingOptionName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="gradingOptionName"/>
+		<property name="shortLabel" value="Grading Option Name"/>
 		<property name="summary">
 			<value>
-Gets the Grading Name
+Gets the Grading Option Name
 			</value>
 		</property>
-		<property name="label" value="Grading"/>
+		<property name="label" value="Grading Option Name"/>
 		<property name="description">
 			<value>
-Gets the Grading Name
+Gets the Grading Option Name
 			</value>
 		</property>
 		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
@@ -598,18 +598,18 @@ additional grading schemes, such as P/F or Audit.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptionDisplay-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="creditOptionDisplay"/>
-		<property name="shortLabel" value="Credit Option Display"/>
+	<bean id="CourseOfferingInfo.creditOptionName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditOptionName"/>
+		<property name="shortLabel" value="Credit Option Name"/>
 		<property name="summary">
 			<value>
-A display string for the credit option.
+The name of the credit option
 			</value>
 		</property>
-		<property name="label" value="Credit Option Display"/>
+		<property name="label" value="Credit Option Name"/>
 		<property name="description">
 			<value>
-A display string for the credit option.
+The name of the credit option
 			</value>
 		</property>
 		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered

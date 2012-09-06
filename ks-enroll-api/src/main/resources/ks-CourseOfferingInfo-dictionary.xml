@@ -155,8 +155,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.gradingOption" parent="CourseOfferingInfo.gradingOption-parent"/>
-	<bean id="CourseOfferingInfo.gradingOption-parent" abstract="true" parent="CourseOfferingInfo.gradingOption-generated">
+	<bean id="CourseOfferingInfo.gradingOptionName" parent="CourseOfferingInfo.gradingOptionName-parent"/>
+	<bean id="CourseOfferingInfo.gradingOptionName-parent" abstract="true" parent="CourseOfferingInfo.gradingOptionName-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -165,8 +165,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.creditOptionDisplay" parent="CourseOfferingInfo.creditOptionDisplay-parent"/>
-	<bean id="CourseOfferingInfo.creditOptionDisplay-parent" abstract="true" parent="CourseOfferingInfo.creditOptionDisplay-generated">
+	<bean id="CourseOfferingInfo.creditOptionName" parent="CourseOfferingInfo.creditOptionName-parent"/>
+	<bean id="CourseOfferingInfo.creditOptionName-parent" abstract="true" parent="CourseOfferingInfo.creditOptionName-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
