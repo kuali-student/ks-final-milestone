@@ -8,8 +8,6 @@ import org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevel
 import org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.WaitlistLevel;
-import org.springframework.ui.Model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -22,7 +22,8 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.enrollment.courseoffering.dto.WaitlistLevel;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class //TODO ...

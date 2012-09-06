@@ -23,20 +23,18 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -47,12 +45,11 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
 
     private static final long serialVersionUID = 1L;
 
-    private CourseService courseService;
+    private transient CourseService courseService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
-        List<String> gradingOptions;
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         MaintenanceForm form1 = (MaintenanceForm)model;
@@ -63,23 +60,15 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
 
         if (courseId != null) {
             try {
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+                CourseInfo courseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                 creditOptions = courseInfo.getCreditOptions();
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
-            } catch (InvalidParameterException e) {
-                throw new RuntimeException(e);
-            } catch (MissingParameterException e) {
-                throw new RuntimeException(e);
-            } catch (OperationFailedException e) {
-                throw new RuntimeException(e);
-            } catch (PermissionDeniedException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                throw new RuntimeException("Error finding subject Areas", e);
             }
 
             for (ResultValuesGroupInfo rVGI : creditOptions) {
-                String value = null;
-                String translatedR2TypeKey = "";
                 String typeKey =  rVGI.getTypeKey();
                 if(typeKey.equals(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED)||typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                     keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));

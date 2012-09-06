@@ -14,19 +14,17 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.FeeServiceConstants;
 import org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo;
 import org.kuali.student.r2.core.fee.service.FeeService;
 
 import javax.xml.namespace.QName;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -36,8 +34,9 @@ import java.util.Map;
  */
 public class EnrollmentFeeInfoInquirableImpl extends InquirableImpl {
 
+    private static final Logger LOG = Logger.getLogger(EnrollmentFeeInfoInquirableImpl.class);
+
     private FeeService feeService;
-    private ContextInfo contextInfo;
 
     @Override
     public EnrollmentFeeInfo retrieveDataObject(Map<String, String> parameters) {
@@ -48,10 +47,10 @@ public class EnrollmentFeeInfoInquirableImpl extends InquirableImpl {
             String id = parameters.get("id");
 
             if(id != null && !"".equals(id)){
-                efiRet = getFeeService().getFee(id,getContextInfo() );
+                efiRet = getFeeService().getFee(id, ContextUtils.createDefaultContextInfo());
             }
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            LOG.error("Error retrieving enrollment fee info", e);
         }
         return efiRet;
     }
@@ -70,20 +69,6 @@ public class EnrollmentFeeInfoInquirableImpl extends InquirableImpl {
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
-        return contextInfo;
-    }
-
 
 }
 

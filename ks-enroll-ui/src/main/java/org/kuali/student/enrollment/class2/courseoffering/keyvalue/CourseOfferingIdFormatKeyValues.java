@@ -16,44 +16,38 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.student.mock.utilities.TestHelper;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
+
+import javax.xml.namespace.QName;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private CourseOfferingService courseOfferingService;
-    private CourseService courseService;
+    private transient CourseOfferingService courseOfferingService;
+    private transient CourseService courseService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
-        List<FormatInfo> formats = new ArrayList<FormatInfo>();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         MaintenanceForm form1 = (MaintenanceForm)model;
@@ -63,20 +57,15 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
         String courseOfferingId = form.getCourseOfferingId();
 
         if (courseOfferingId != null) {
+            List<FormatInfo> formats;
             try {
-                CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getCourseOfferingService().getCourseOffering(courseOfferingId, context);
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(courseOfferingInfo.getCourseId(), context);
+                CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(courseOfferingId, context);
+                CourseInfo courseInfo = getCourseService().getCourse(courseOfferingInfo.getCourseId(), context);
                 formats = courseInfo.getFormats();
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("No subject areas found! There should be some in the database", e);
-            } catch (InvalidParameterException e) {
-                throw new RuntimeException(e);
-            } catch (MissingParameterException e) {
-                throw new RuntimeException(e);
-            } catch (OperationFailedException e) {
-                throw new RuntimeException(e);
-            } catch (PermissionDeniedException e) {
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                throw new RuntimeException("Error looking up subject areas", e);
             }
 
             for(FormatInfo format : formats) {

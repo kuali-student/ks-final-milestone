@@ -21,8 +21,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -48,7 +46,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/deleteTargetTerm")
 public class DeleteTargetTermController extends UifControllerBase {
-    final static Logger LOGGER = Logger.getLogger(DeleteTargetTermForm.class);
+    private final static Logger LOGGER = Logger.getLogger(DeleteTargetTermForm.class);
     private CourseOfferingViewHelperService viewHelperService;
 
     @Override
@@ -73,8 +71,8 @@ public class DeleteTargetTermController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         DeleteTargetTermForm theForm = (DeleteTargetTermForm) form;
         Date date = Calendar.getInstance().getTime();
-        System.err.println(date.toString() + " ");
-        System.err.println(theForm);
+        LOGGER.error(date.toString() + " ");
+        LOGGER.error(theForm);
         return getUIFModelAndView(theForm);
         // return super.start(theForm, result, request, response);
     }

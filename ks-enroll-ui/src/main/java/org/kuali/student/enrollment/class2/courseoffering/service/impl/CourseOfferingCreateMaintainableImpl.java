@@ -1,11 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
@@ -13,27 +13,27 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
 
+    private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
+
     private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
@@ -63,7 +63,7 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
                 courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
                 courseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
 
-                CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), wrapper.getTerm().getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, getContextInfo());
+                CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), wrapper.getTerm().getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, ContextUtils.createDefaultContextInfo());
                 wrapper.setCoInfo(info);
                 createFormatOffering(wrapper);
                 //FIXEM:create formatoffering relation
@@ -74,14 +74,15 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
     }
 
     private void createFormatOffering(CourseOfferingCreateWrapper wrapper){
-        List<FormatOfferingInfo> updatedFOs = new ArrayList();
+        List<FormatOfferingInfo> updatedFOs = new ArrayList<FormatOfferingInfo>();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         for (FormatOfferingInfo formatOfferingInfo : wrapper.getFormatOfferingList()) {
             formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY);
             formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
             formatOfferingInfo.setTermId(wrapper.getCoInfo().getTermId());
             formatOfferingInfo.setCourseOfferingId(wrapper.getCoInfo().getId());
             try {
-                FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCoInfo().getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, getContextInfo());
+                FormatOfferingInfo createdFormatOffering = getCourseOfferingService().createFormatOffering(wrapper.getCoInfo().getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, contextInfo);
                 updatedFOs.add(createdFormatOffering);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -92,29 +93,31 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
 
     @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof FormatOfferingInfo){
-          FormatOfferingInfo formatOfferingInfo = (FormatOfferingInfo)addLine;
-            CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
-            for( FormatInfo formatInfo : coCreateWrapper.getCourse().getFormats()){
-                if (StringUtils.equals(formatInfo.getId(), formatOfferingInfo.getFormatId())){
+        if (addLine instanceof FormatOfferingInfo) {
+            FormatOfferingInfo formatOfferingInfo = (FormatOfferingInfo) addLine;
+            CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper) ((MaintenanceForm) model).getDocument().getNewMaintainableObject().getDataObject();
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            for (FormatInfo formatInfo : coCreateWrapper.getCourse().getFormats()) {
+                if (StringUtils.equals(formatInfo.getId(), formatOfferingInfo.getFormatId())) {
                     // TODO: fix R2 Format to include name and short name
 //                    formatOfferingInfo.setName("FIX ME!");
 //                    formatOfferingInfo.setShortName("FIX ME!");
                     //Bonnie: this is only a temporary walk-around solution.
                     //Still need to address the issue that FormatInfo does not include name and short name
-                    try{
+                    try {
                         List<ActivityInfo> activityInfos = formatInfo.getActivities();
                         StringBuffer st = new StringBuffer();
                         for (ActivityInfo activityInfo : activityInfos) {
-                            TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), getContextInfo());
-                            st.append(activityType.getName()+"/");
+                            TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
+                            st.append(activityType.getName() + "/");
                         }
-                        String name =st.toString();
-                        name=name.substring(0,name.length()-1);
+                        String name = st.toString();
+                        name = name.substring(0, name.length() - 1);
                         formatOfferingInfo.setName(name);
                         formatOfferingInfo.setShortName(name);
-                    } catch(Exception e) {
-                        //need to log error
+                    } catch (Exception e) {
+                        //This was just swallowing the exception so a log entry was added
+                        LOG.error("An exception was thrown!", e);
                     }
 
                 }
@@ -128,19 +131,6 @@ public class CourseOfferingCreateMaintainableImpl extends MaintainableImpl {
         if (requestParameters.get("targetTermCode") != null && requestParameters.get("targetTermCode").length != 0){
             ((CourseOfferingCreateWrapper)document.getNewMaintainableObject().getDataObject()).setTargetTermCode(requestParameters.get("targetTermCode")[0]);
         }
-    }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
-        return contextInfo;
     }
 
     public TypeService getTypeService() {

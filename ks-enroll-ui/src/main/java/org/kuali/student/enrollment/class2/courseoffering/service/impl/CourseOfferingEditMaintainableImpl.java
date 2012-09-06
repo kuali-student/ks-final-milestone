@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
@@ -38,27 +39,27 @@ import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
@@ -67,7 +68,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -77,10 +77,10 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingEditMaintainableImpl.class);
+
+    private final static Logger LOG = Logger.getLogger(CourseOfferingEditMaintainableImpl.class);
 
     private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
@@ -97,7 +97,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             updateCourseOffering(coEditWrapper);
         }
         else{//for new and copy action, report error
-             System.out.println(">>>Do not support!");
+             LOG.error(">>>Do not support!");
         }        
  
     }
@@ -116,21 +116,23 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
             coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
 
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
             // Credit Options (also creates extra-line)
             if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
                     !coEditWrapper.getCreditOption().getFixedCredit().isEmpty()) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coEditWrapper.getCreditOption().getFixedCredit(),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE) &&
                     !coEditWrapper.getCreditOption().getMinCredits().isEmpty() && !coEditWrapper.getCreditOption().getMaxCredits().isEmpty()) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(coEditWrapper.getCreditOption().getMinCredits(),
-                        coEditWrapper.getCreditOption().getMaxCredits(), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
+                        coEditWrapper.getCreditOption().getMaxCredits(), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             } else if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) &&
                     !coEditWrapper.getCreditOption().getCredits().isEmpty()) {
                 ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(coEditWrapper.getCreditOption().getCredits(),
-                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, getContextInfo());
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
                 coInfo.setCreditOptionId(rvgInfo.getKey());
             }
 
@@ -147,10 +149,10 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 coInfo.setWaitlistLevelTypeKey(null);
             }
 
-            getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, getContextInfo());
+            getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
-            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coInfo, getContextInfo());
+            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coInfo, contextInfo);
 
         }   catch (Exception ex){
             throw new RuntimeException(ex);
@@ -163,6 +165,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
         List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
         CourseOfferingInfo coInfo = coEditWrapper.getCoInfo();
         List <String> currentFOIds = getExistingFormatOfferingIds(coInfo.getId());
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         if (formatOfferingList != null && !formatOfferingList.isEmpty())  {
             for(FormatOfferingInfo formatOfferingInfo : formatOfferingList){
                 if(formatOfferingInfo.getId()!=null &&
@@ -173,7 +176,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         formatOfferingInfo.setFinalExamLevelTypeKey(null);
                     }
                     FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
-                            updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, getContextInfo());
+                            updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, contextInfo);
                     updatedFormatOfferingList.add(updatedFormatOffering);
                     currentFOIds.remove(formatOfferingInfo.getId());
                 }
@@ -187,7 +190,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         formatOfferingInfo.setFinalExamLevelTypeKey(null);
                     }
                     FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
-                            createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, getContextInfo());
+                            createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, contextInfo);
                     updatedFormatOfferingList.add(createdFormatOffering);
                 }
             }
@@ -200,13 +203,13 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 //delete all AOs associated with this FO, then delete FO
                 //Note by bonnie deleteAO invoked in deleteFormatOfferingCascaded seems not completely correct.
                 //I didn't see the code if removing FO-AO relations before deleting AOs....
-                getCourseOfferingService().deleteFormatOfferingCascaded(formatOfferingId, getContextInfo());
+                getCourseOfferingService().deleteFormatOfferingCascaded(formatOfferingId, contextInfo);
             }
         }
     }
 
     private List<String> getExistingFormatOfferingIds(String courseOfferingId) throws Exception{
-        List<FormatOfferingInfo> formatOfferingInfoList = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, getContextInfo());
+        List<FormatOfferingInfo> formatOfferingInfoList = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
         List<String> formatOfferingIds = new ArrayList<String>();
 
         if(formatOfferingInfoList != null && !formatOfferingInfoList.isEmpty()){
@@ -253,7 +256,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             String formatId = newLine.getFormatId();
             MaintenanceForm form = (MaintenanceForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-            FormatInfo theFormat = getFormatInfo(coEditWrapper, formatId);
+            getFormatInfo(coEditWrapper, formatId);
             // TODO: fix R2 Format to include name and short name
             newLine.setName("FIX ME!");
             newLine.setShortName("FIX ME!");
@@ -282,10 +285,12 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
             if (getDataObject() instanceof CourseOfferingEditWrapper){
                 //0. get credit count from CourseInfo
-                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), getContextInfo());
-                CourseInfo courseInfo = (CourseInfo) getCourseService().getCourse(coInfo.getCourseId(), getContextInfo());
+                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), contextInfo);
+                CourseInfo courseInfo = getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
                 coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo)); //set for CO title
 
                 //1. set CourseOfferingInfo
@@ -295,7 +300,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 formObject.setCourse(courseInfo);
 
                 //3. set formatOfferingList
-                List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(), getContextInfo());
+                List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(), contextInfo);
                 formObject.setFormatOfferingList(formatOfferingList);
 
                 //4. Checking if Grading Options should be disabled or not and assign default (if no value)
@@ -331,7 +336,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 List<ResultValuesGroupInfo> courseCreditOptions = courseInfo.getCreditOptions();
 
                 //Lookup the related course's credit constraints and set them on the creditOption
-                if (coInfo.getCourseId() != null && courseInfo != null && !courseCreditOptions.isEmpty()) {
+                if (coInfo.getCourseId() != null && !courseCreditOptions.isEmpty()) {
                     ResultValuesGroupInfo resultValuesGroupInfo = courseCreditOptions.get(0);
                     //Check for fixed
                     if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
@@ -373,11 +378,11 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 //Lookup the selected credit option and set from persisted values
                 if (creditOptionId != null) {
                     //Lookup the resultValueGroup Information
-                    ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, getContextInfo());
+                    ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
                     String typeKey = resultValuesGroupInfo.getTypeKey();
 
                     //Get the actual values
-                    List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), getContextInfo());
+                    List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
 
                     if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
@@ -409,14 +414,14 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
 
                 if(coInfo.getUnitsDeploymentOrgIds() != null){
                     for(String orgId: coInfo.getUnitsDeploymentOrgIds()){
-                        OrgInfo orgInfo = getOrganizationService().getOrg(orgId,getContextInfo());
+                        OrgInfo orgInfo = getOrganizationService().getOrg(orgId,contextInfo);
                         orgList.add(new OrganizationInfoWrapper(orgInfo));
                     }
                 }
                 formObject.setOrganizationNames(orgList);
 
                 // Setting term string: Fall 2012 (09/28/2012 to 12/15/2012)
-                TermInfo termInfo = getAcalService().getTerm(coInfo.getTermId(), getContextInfo());
+                TermInfo termInfo = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
                 StringBuilder termStartDate = new StringBuilder(dateFormat.format(termInfo.getStartDate()));
                 StringBuilder termEndDate = new StringBuilder(dateFormat.format(termInfo.getEndDate()));
@@ -427,7 +432,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 document.getOldMaintainableObject().setDataObject(formObject);
                 document.getDocumentHeader().setDocumentDescription("Edit CO - " + coInfo.getCourseOfferingCode());
 
-                //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
+                //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), contextInfo());
     //            formObject.setStateName(state.getName());
                 return formObject;
             }
@@ -445,19 +450,6 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
             }
         }
         return null;
-    }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
-        return contextInfo;
     }
 
     public TypeService getTypeService() {

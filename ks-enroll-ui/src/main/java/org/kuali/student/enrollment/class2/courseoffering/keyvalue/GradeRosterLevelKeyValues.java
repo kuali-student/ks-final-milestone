@@ -19,7 +19,6 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
@@ -27,17 +26,15 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEdit
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Build key-value pairs for the Grade Roster Level dropdown when creating Format Offerings
@@ -46,7 +43,7 @@ import java.util.Locale;
  */
 public class GradeRosterLevelKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
-    public static TypeService typeService;
+    private static TypeService typeService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -78,9 +75,7 @@ public class GradeRosterLevelKeyValues extends UifKeyValuesFinderBase implements
         // Always include an option for Course
         results.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, CourseOfferingConstants.FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY));
 
-        ContextInfo contextInfo = getContextInfo();
-
-        results.addAll(ViewHelperUtil.collectActivityTypeKeyValues(course, getTypeService(), contextInfo));
+        results.addAll(ViewHelperUtil.collectActivityTypeKeyValues(course, getTypeService(), ContextUtils.createDefaultContextInfo()));
 
         return results;
     }
@@ -94,16 +89,4 @@ public class GradeRosterLevelKeyValues extends UifKeyValuesFinderBase implements
 
         return typeService;
     }
-
-    public ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-        return contextInfo;
-    }
-
 }

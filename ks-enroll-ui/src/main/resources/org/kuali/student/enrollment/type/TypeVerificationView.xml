@@ -54,12 +54,16 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
+                            <bean parent="Uif-HeaderFour" p:headerText="This table shows database type keys which have corresponding Java constants" p:render="true"/>
                             <ref bean="KS-TypeVerification-EquivalenceSection"/>
+                            <bean parent="Uif-HeaderFour" p:headerText="This table shows database type keys which do not have corresponding Java constants" p:render="true"/>
                             <ref bean="KS-TypeVerification-NotInJavaSection"/>
+                            <bean parent="Uif-HeaderFour" p:headerText="This table Java constants with no corresponding database type keys" p:render="true"/>
                             <ref bean="KS-TypeVerification-NotInDBSection"/>
+
                         </list>
                     </property>
                 </bean>
@@ -69,6 +73,7 @@
 
 
     <bean id="KS-TypeVerification-EquivalenceSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.type.dto.TypeVerificationBasics" />
         <property name="propertyName" value="equivalences" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -97,6 +102,7 @@
         </property>
     </bean>
     <bean id="KS-TypeVerification-NotInJavaSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.type.dto.TypeVerificationBasics" />
         <property name="propertyName" value="notInJava" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -125,6 +131,9 @@
         </property>
     </bean>
     <bean id="KS-TypeVerification-NotInDBSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+
+
+
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.type.dto.TypeVerificationBasics" />
         <property name="propertyName" value="notInDB" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />

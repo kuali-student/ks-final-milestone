@@ -15,23 +15,21 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+
+import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import javax.xml.namespace.QName;
-
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 
 /**
  * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
@@ -43,29 +41,21 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
     
     private static final String SUBJECT_AREA_ENUM_KEY = "kuali.lu.subjectArea";
     
-    private EnumerationManagementService enumService;
-    private SubjectAreasComparator subjectAreasComparator = new SubjectAreasComparator();
+    private transient EnumerationManagementService enumService;
+    private transient SubjectAreasComparator subjectAreasComparator = new SubjectAreasComparator();
 
-    private ContextInfo contextInfo;
-    
     @Override
     public List<KeyValue> getKeyValues() {
         
         List<EnumeratedValueInfo> subjectAreas;
         
         try {
-            subjectAreas = getEnumService().getEnumeratedValues(SUBJECT_AREA_ENUM_KEY, null, null, null, this.getContextInfo());
+            subjectAreas = getEnumService().getEnumeratedValues(SUBJECT_AREA_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
             Collections.sort(subjectAreas, subjectAreasComparator);
         } catch (DoesNotExistException e) {
             throw new RuntimeException("No subject areas found! There should be some in the database", e);
-        } catch (InvalidParameterException e) {
-            throw new RuntimeException(e);
-        } catch (MissingParameterException e) {
-            throw new RuntimeException(e);
-        } catch (OperationFailedException e) {
-            throw new RuntimeException(e);
-        } catch (PermissionDeniedException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException("Error looking up subject areas", e);
         }
         
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -84,7 +74,7 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
         return this.enumService;
     }
 
-    private class SubjectAreasComparator implements Comparator {
+    private static class SubjectAreasComparator implements Comparator {
 
         @Override
         public int compare(Object o1, Object o2) {
@@ -99,10 +89,4 @@ public class SubjectAreaKeyValues extends KeyValuesBase implements Serializable 
         }
     }
 
-    public ContextInfo getContextInfo() {
-        if (contextInfo == null){
-            contextInfo =  org.kuali.student.enrollment.common.util.ContextBuilder.loadContextInfo();
-        }
-        return contextInfo;
-    }
 }

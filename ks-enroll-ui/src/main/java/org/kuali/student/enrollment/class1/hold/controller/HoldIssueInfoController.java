@@ -66,7 +66,6 @@ public class HoldIssueInfoController extends UifControllerBase {
     private transient HoldService holdService;
     private ContextInfo contextInfo;
     private transient OrganizationService organizationService;
-    private OrgInfo orgInfo;
 
     private Map<String, String> actionParameters;
 
@@ -131,12 +130,10 @@ public class HoldIssueInfoController extends UifControllerBase {
         HoldIssueInfo createHoldIssueInfo;
         try {
             holdService = getHoldService();
-
             createHoldIssueInfo = holdService.createHoldIssue(holdIssueInfo.getTypeKey(), holdIssueInfo, getContextInfo() );
         } catch (Exception e) {
 
             return getUIFModelAndView(form);
-            //throw new RuntimeException("Create new failed. ", e);
         }
         form.setValidateDirty(false);
         form.setId(createHoldIssueInfo.getId());
@@ -159,19 +156,17 @@ public class HoldIssueInfoController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "view");
 
-        organizationService = getOrganizationService();
         try{
-            orgInfo = organizationService.getOrg(holdIssue.getOrganizationId(),getContextInfo());
-
             if ((holdIssue.getId() != null) && !holdIssue.getId().trim().isEmpty()) {
                 try {
+                    OrgInfo orgInfo = getOrganizationService().getOrg(holdIssue.getOrganizationId(),getContextInfo());
                     HoldIssueInfo holdIssueInfo = getHoldService().getHoldIssue(holdIssue.getId(), getContextInfo());
                     form.setName(holdIssueInfo.getName());
                     form.setTypeKey(holdIssueInfo.getTypeKey());
                     form.setDescr(holdIssueInfo.getDescr().getPlain());
                     form.setOrganizationId(holdIssueInfo.getOrganizationId());
                     form.setStateKey(holdIssueInfo.getStateKey());
-                    form.setOrgName(orgInfo.getLongName());
+                    form.setOrgName(orgInfo.getShortName());
                 } catch (Exception ex) {
                     throw new RuntimeException("unable to get hold issue");
                 }
@@ -189,18 +184,11 @@ public class HoldIssueInfoController extends UifControllerBase {
     public ModelAndView edit(@ModelAttribute("KualiForm") HoldIssueInfoForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "edit");
-        organizationService = getOrganizationService();
         form.setIsSaveSuccess(false);
-
-        try{
-            orgInfo = organizationService.getOrg(holdIssue.getOrganizationId(),getContextInfo());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("organization not found. ", e);
-        }
 
         if ((holdIssue.getId() != null) && !holdIssue.getId().trim().isEmpty()) {
             try {
+                OrgInfo orgInfo = getOrganizationService().getOrg(holdIssue.getOrganizationId(),getContextInfo());
                 HoldIssueInfo holdInfo = getHoldService().getHoldIssue(holdIssue.getId(), getContextInfo());
                 form.setId(holdInfo.getId());
                 form.setName(holdInfo.getName());
@@ -232,11 +220,11 @@ public class HoldIssueInfoController extends UifControllerBase {
         holdIssueInfo.setDescr(richTextInfo);
 
         try {
-            holdService = getHoldService();
-            holdService.updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo() );
+            getHoldService().updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo());
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Modify Hold failed. ", e);
+            return getUIFModelAndView(form);
+            /*e.printStackTrace();
+            throw new RuntimeException("Modify Hold failed. ", e);*/
         }
         form.setValidateDirty(false);
         GlobalVariables.getMessageMap().putInfo("Hold Issue Info", "info.enroll.save.success");
@@ -292,6 +280,7 @@ public class HoldIssueInfoController extends UifControllerBase {
         form.setStateKey("");
         form.setTypeKey("");
         form.setDescr("");
+        form.setOrgName("");
     }
 
     private void resetForm(HoldIssueInfoForm form) {

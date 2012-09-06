@@ -22,6 +22,7 @@
     <bean id="KS-PopulationWrapper-MaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="@{(maintenanceAction eq 'New') ? 'Create a New Population' : 'Edit Population'}"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperMaintainableImpl" />
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
@@ -170,21 +171,21 @@
     </bean>
 
     <!-- This is a collection of Child Populations -->
-    <bean id="KS-PopulationWrapper-AddPopulationsSection" parent="Uif-HorizontalBoxSubSection">
-        <property name="headerText" value="Population(s)"/>
+    <bean id="KS-PopulationWrapper-AddPopulationsSection" parent="Uif-HorizontalBoxSubSection" >
+        <property name="headerText" value=""/>
         <property name="items">
             <list>
                 <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-TableCollectionSubSection"
-                      p:collectionLookup.render="false" p:width="27%">
-                    <property name="headerText" value="" />
+                      p:collectionLookup.render="false" p:width="27%" p:id="populations_table">
+                    <property name="headerText" value="Population(s)" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                     <property name="propertyName" value="childPopulations" />
                     <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.richTable.render" value="false" />
-                    <property name="layoutManager.id" value="populations_table" />
-                    <property name="addLineActions">
+
+                    <!--<property name="addLineActions">
                         <list>
                             <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
                                   p:actionEvent="addLine" p:id="addPop_button"/>
@@ -193,15 +194,15 @@
                     <property name="lineActions">
                         <list>
                             <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete"
-                                p:actionEvent="deleteLine" p:id="deletePop_button"/>
+                                  p:actionEvent="deleteLine" p:id="deletePop_button"/>
                         </list>
-                    </property>
+                    </property>  -->
                     <property name="addLineItems">
                         <list>
                             <bean parent="Uif-InputField" p:fieldLabel.render="false" p:propertyName="name"
                                   p:style="font-weight:bold;" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
                                 </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                                 <property name="quickfinder.fieldConversions">
@@ -227,6 +228,9 @@
                             <bean parent="Uif-DataField" p:fieldLabel.render="false" p:propertyName="name"
                                   p:style="font-weight:bold;" p:required="true">
                             </bean>
+                            <bean parent="Uif-DataField" p:render="false" p:propertyName="id" p:required="true"/>
+
+
                         </list>
                     </property>
                 </bean>

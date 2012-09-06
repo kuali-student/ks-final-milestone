@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+
 import java.util.List;
 
 /**

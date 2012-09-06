@@ -457,6 +457,11 @@
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
+                <bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
+                      </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -480,7 +485,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:id='featuresList' p:propertyName="newScheduleRequest.features" p:label="Features" p:readOnlyDisplayReplacementPropertyName="newScheduleRequest.featuesUI"
+                <bean parent="Uif-InputField" p:id='featuresList' p:propertyName="newScheduleRequest.features" p:label="Features" p:readOnlyDisplayReplacementPropertyName="newScheduleRequest.featuresUI"
                         p:instructionalText="Any features requested will reduce the room assignement possibilities (we only have so many rooms with operable windows!)">
                   <property name="control">
                     <bean parent="Uif-DropdownControl" p:multiple="true" p:size="7" p:options-ref="features-options"/>

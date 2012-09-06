@@ -23,7 +23,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
@@ -40,7 +40,6 @@ import java.util.Map;
  */
 public class OrganizationInfoLookupableImpl extends LookupableImpl {
     private OrganizationService organizationService;
-    ContextInfo contextInfo = new ContextInfo();
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -68,14 +67,12 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 
             OrganizationService  organizationService = getOrganizationService();
 
-
-            java.util.List<OrgInfo> orgInfos = organizationService.searchForOrgs(query, getContextInfo());
+            List<OrgInfo> orgInfos = organizationService.searchForOrgs(query, ContextUtils.createDefaultContextInfo());
             if (!orgInfos.isEmpty()){
                 results.addAll(orgInfos);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error Performing Search",e); //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException("Error Performing Search", e); //To change body of catch statement use File | Settings | File Templates.
         }
         return results;
     }
@@ -87,12 +84,5 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         }
         return organizationService;
 
-    }
-
-    public ContextInfo getContextInfo() {
-        if (contextInfo == null){
-            contextInfo =  org.kuali.student.enrollment.common.util.ContextBuilder.loadContextInfo();
-        }
-        return contextInfo;
     }
 }

@@ -11,10 +11,9 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.List;
-import java.util.Locale;
 
 public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
 
@@ -32,7 +31,7 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
             // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
             String newCoCode = (coWrapper.getCatalogCourseCode().toUpperCase()) + coWrapper.getCourseOfferingSuffix();
             try {
-                List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getTerm().getId(), getContextInfo());
+                List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getTerm().getId(), ContextUtils.createDefaultContextInfo());
                 for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
                     if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
@@ -50,19 +49,6 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
         }
 
         return true;
-    }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
-        return contextInfo;
     }
 
     protected CourseOfferingService getCourseOfferingService() {

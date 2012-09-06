@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 public class ExistingCourseOffering {

@@ -3,17 +3,17 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
-        String courseId = null;
+        String courseId;
         List<SearchParam> searchParams = new ArrayList<SearchParam>();
         SearchParam qpv1 = new SearchParam();
         qpv1.setKey("lu.queryParam.luOptionalType");

@@ -18,16 +18,12 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.ContextUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.apache.log4j.Logger;
 
 /**
  * This class //TODO ...
@@ -35,32 +31,19 @@ import org.apache.log4j.Logger;
  * @author Kuali Student Team
  */
 public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
+
     public final static String COURSE_OFFER_ID = "courseOfferingId";
+
     private transient CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo = null;
-    final Logger logger = Logger.getLogger(FormatOfferingInfoLookupableImpl.class);
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<FormatOfferingInfo> formatOfferingInfos;
 
         try {
-            formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(fieldValues.get(COURSE_OFFER_ID), getContextInfo());
-        } catch (DoesNotExistException e) {
-            logger.error("FormatOfferingInfo does not exist. ", e);
-            throw new RuntimeException("FormatOfferingInfo does not exist. ", e);
-        } catch (InvalidParameterException e) {
-            logger.error("FormatOfferingInfo invalid parameter. ", e);
-            throw new RuntimeException("FormatOfferingInfo invalid parameter. ", e);
-        } catch (MissingParameterException e) {
-            logger.error("FormatOfferingInfo missing parameter. ", e);
-            throw new RuntimeException("FormatOfferingInfo missing parameter. ", e);
-        } catch (OperationFailedException e) {
-            logger.error("FormatOfferingInfo operation failed. ", e);
-            throw new RuntimeException("FormatOfferingInfo operation failed. ", e);
-        } catch (PermissionDeniedException e) {
-            logger.error("FormatOfferingInfo permission denied. ", e);
-            throw new RuntimeException("FormatOfferingInfo permission denied. ", e);
+            formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(fieldValues.get(COURSE_OFFER_ID), ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting FormatOfferingInfo.", e);
         }
 
         return formatOfferingInfos;
@@ -72,10 +55,4 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
         return courseOfferingService;
     }
 
-    public ContextInfo getContextInfo() {
-        if (contextInfo == null){
-            contextInfo =  ContextBuilder.loadContextInfo();
-        }
-        return contextInfo;
-    }
 }
