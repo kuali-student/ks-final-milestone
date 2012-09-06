@@ -59,6 +59,9 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -97,7 +100,34 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Resource
     private LRCService lrcService;
+    
+    @Resource
+    private SchedulingService schedulingService;
 
+    public SchedulingService getSchedulingService() {
+        return schedulingService;
+    }
+
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
+    }
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
+    }
+
+    public LRCService getLrcService() {
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
+    
     @Override
     public void clear() {
 
@@ -1438,6 +1468,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         info.setId(co.getId());
         info.setTypeKey(co.getTypeKey());
         info.setStateKey(co.getStateKey());
+        info.setDescr (co.getDescr ());
         info.setCourseId(co.getCourseId());
         info.setTermId(co.getTermId());
         info.setCourseOfferingCode(co.getCourseOfferingCode());
@@ -1446,8 +1477,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         TermInfo term = this.acalService.getTerm(co.getTermId(), context);
         info.setTermName(term.getName());
         info.setTermCode(term.getCode());
-        info.setDisplayGrading(co.getGradingOption());
-        info.setDisplayCredit(co.getCreditOptionDisplay());
+        info.setGradingOptionName(co.getGradingOptionName());        
+        info.setCreditOptionName(co.getCreditOptionName());        
         TypeInfo type = typeService.getType(co.getTypeKey(), context);
         info.setTypeName(type.getName());
         StateInfo state = stateService.getState(co.getStateKey(), context);
@@ -1507,27 +1538,23 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         }
         info.setIsHonorsOffering(ao.getIsHonorsOffering());
         info.setMaximumEnrollment(ao.getMaximumEnrollment());
-        info.setScheduleDisplay(calcScheduleDisplay(ao, contextInfo));
+        if (ao.getScheduleId() != null) {
+            info.setScheduleDisplay(schedulingService.getScheduleDisplay(ao.getScheduleId(), contextInfo));
+        }
         info.setMeta(ao.getMeta());
         info.setAttributes(ao.getAttributes());
         return info;
     }
 
-
-    private ScheduleDisplayInfo calcScheduleDisplay(ActivityOfferingInfo ao, ContextInfo context) {
-        ScheduleDisplayInfo sd = new ScheduleDisplayInfo();
-        // TODO: call scheduling service to calc
-        return sd;
-    }
-
-    @Override
-    public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(
-            List<String> activityOfferingIds, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet");
-    }
+    
+	@Override
+	public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(
+			List<String> activityOfferingIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("Not supported yet");
+	}
 
     @Override
     public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysForCourseOffering(
@@ -1673,7 +1700,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
             String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
-            PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
+            PermissionDeniedException, DataValidationErrorException {
 
         return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
     }
@@ -1913,11 +1940,12 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     }
 
+    
     @Override
     public StatusInfo generateRegistrationGroupsForCluster(
             @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, AlreadyExistsException,
+            throws DoesNotExistException, 
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

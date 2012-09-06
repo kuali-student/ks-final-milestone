@@ -715,8 +715,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(socId);
         }
         entity.setSocState(nextStateKey);
-        entity.setEntityUpdated(contextInfo);
         this.logStateChange(entity, contextInfo);
+        entity.setEntityUpdated(contextInfo);
         entity = socDao.merge(entity);
         socDao.getEm().flush(); // need to flush to get the version ind to update
         StatusInfo status = new StatusInfo ();

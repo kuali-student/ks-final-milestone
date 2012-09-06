@@ -39,7 +39,7 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-impl</artifactId>
             <version>${ks.core.version}</version>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
         <!-- Add to be able to use LuDao on LuService as per discussion with Kamal -->
         <dependency>

@@ -140,6 +140,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
             targetSoc = new SocInfo(sourceSoc);
             foundTargetSoc = false;
             targetSoc.setId(null);
+            targetSoc.getAttributes().clear();
             targetSoc.setTermId(targetTermId);
             targetSoc.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
             try {

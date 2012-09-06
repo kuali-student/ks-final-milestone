@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity;
 
 @Entity
 @Table(name = "KSEN_SOC")
@@ -60,10 +61,11 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
             this.setDescrPlain(null);
         }
         this.setSubjectArea(soc.getSubjectArea());
-        this.setUnitsContentOwnerId(soc.getUnitsContentOwnerId());
-        this.setAttributes(new HashSet<SocAttributeEntity>());
+        this.setUnitsContentOwnerId(soc.getUnitsContentOwnerId());// dynamic attributes
+        this.attributes.clear();
         for (Attribute att : soc.getAttributes()) {
-            this.getAttributes().add(new SocAttributeEntity(att, this));
+            SocAttributeEntity attEntity = new SocAttributeEntity(att, this);
+            this.getAttributes().add(attEntity);
         }
     }
 

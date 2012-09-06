@@ -4,8 +4,10 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.Resource;
 import org.junit.Before;
@@ -17,6 +19,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -83,7 +86,22 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getSubjectArea(), info.getSubjectArea());
         assertEquals(orig.getUnitsContentOwnerId(), info.getUnitsContentOwnerId());
-        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
+        List<AttributeInfo> attrs = info.getAttributes();
+        List<AttributeInfo> attrs2 = new ArrayList<AttributeInfo> ();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        Date date = null;
+        for (AttributeInfo attr : attrs) {
+            if (attr.getKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
+                if (date != null) {
+                    fail ("should only be one dynamic attribute for draft state");
+                }
+                date = formatter.parse(attr.getValue());
+            } else {
+                attrs2.add(attr);
+            }
+        }
+        assertNotNull (date);        
+        new AttributeTester().check(orig.getAttributes(), attrs2);
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
         assertNotNull(info.getMeta().getCreateTime());
@@ -173,7 +191,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getSubjectArea(), info.getSubjectArea());
-        assertEquals (3, info.getAttributes().size());
+        assertEquals (4, info.getAttributes().size());
         assertNotNull (info.getAttributeValue(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY));
 //        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
