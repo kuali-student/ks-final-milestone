@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,16 +51,12 @@ public class KitchenSinkController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-/*
         KitchenSinkForm uiTestForm = (KitchenSinkForm) form;
 
-        uiTestForm.setStringField1("Field One");
-        uiTestForm.setStringField2("Field Two");
+        // pre-select option key "3" in checkbox controls
+        uiTestForm.setCheckboxSelections(Arrays.asList("3"));
 
-        //return super.start(uiTestForm, result, request, response);
         return getUIFModelAndView(uiTestForm);
-*/
-        return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=collection")

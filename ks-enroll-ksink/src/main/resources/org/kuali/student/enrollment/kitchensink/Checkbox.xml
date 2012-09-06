@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- The Interesting Bits -->
+
+    <bean id="KS-KitchenSink-Checkbox-Overview" parent="Uif-InputField">
+        <!-- NOTE:
+             If "checkboxSelections" list is pre-filled with option key values, the corresponding checkboxes
+             (if any) will be checked by default.  For this example, KitchenSinkController.start() fills
+             the "checkboxSelections" list with option key "3".
+             -->
+        <property name="propertyName" value="checkboxSelections"/>
+        <property name="label" value="Checkboxes"/>
+        <property name="instructionalText" value="CheckboxGroupControl using an optionsFinder."/>
+        <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.kitchensink.CheckboxKeyValues"/>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-Group" parent="Uif-InputField">
+        <property name="propertyName" value="checkboxSelections"/>
+        <property name="label" value="Checkbox Group"/>
+        <property name="instructionalText"
+                  value="CheckboxGroupControl using explicitly defined key-value pairs from the data dictionary."/>
+        <property name="control">
+            <bean parent="Uif-VerticalCheckboxesControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Use catalog as source for canonical data"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Do not copy scheduling information"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Do not copy instructor information"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-OptIn" parent="Uif-CheckboxInputField">
+        <property name="propertyName" value="checkboxSelected"/>
+        <property name="label" value="Here is a checkbox"/>
+        <property name="defaultValue" value="true"/>
+        <property name="instructionalText"
+                  value="Single CheckboxControl with defaultValue=&quot;true&quot; so checkbox is checked by default."/>
+    </bean>
+
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-Checkbox-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Checkboxes"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Checkbox-Page">
+                    <property name="headerText" value="Checkboxes"/>
+                    <property name="footer">
+                        <bean parent="Uif-VerticalBoxSection">
+                            <property name="header.render" value="false"/>
+                            <property name="style" value="margin-top:10px"/>
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message">
+                                        <property name="style" value="margin-bottom:15px;font-size:125%"/>
+                                        <property name="messageText">
+                                            <value>
+                                                Various checkbox examples, for selection of one or multiple items.
+                                            </value>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-LinkField"
+                                          p:label="Page Configuration"
+                                          p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkbox.xml" p:target="_blank"
+                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkbox.xml"/>
+                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-LinkField"
+                                                      p:label="KRAD XML Configuration"
+                                                      p:linkText="UifFieldDefinitions.xml" p:target="_blank"
+                                                      p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                                <bean parent="Uif-LinkField"
+                                                      p:linkText="UifControlDefinitions.xml" p:target="_blank"
+                                                      p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-LinkField"
+                                                      p:label="KRAD Java Source"
+                                                      p:linkText="InputField.java" p:target="_blank"
+                                                      p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                                <bean parent="Uif-LinkField"
+                                                      p:linkText="CheckboxControl.java" p:target="_blank"
+                                                      p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/CheckboxControl.java"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-LinkField"
+                                                      p:label="KRAD Java API"
+                                                      p:linkText="InputField.html" p:target="_blank"
+                                                      p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                                <bean parent="Uif-LinkField"
+                                                      p:linkText="CheckboxControl.html" p:target="_blank"
+                                                      p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/control/CheckboxControl.html"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-LinkField"
+                                                      p:label="KRAD Guide"
+                                                      p:linkText="Checkbox control" p:target="_blank"
+                                                      p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e4898"/>
+                                                <bean parent="Uif-LinkField"
+                                                      p:linkText="Checkbox group control" p:target="_blank"
+                                                      p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5254"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-HorizontalFieldGroup" p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:5px;">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-LinkField"
+                                                      p:label="Widget-Only Links (UIM)"
+                                                      p:linkText="Overview" p:target="_blank"
+                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-Overview-View-Bare&amp;methodToCall=start"/>
+                                                <bean parent="Uif-LinkField"
+                                                      p:linkText="Checkbox Group" p:target="_blank"
+                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-Group-View-Bare&amp;methodToCall=start"/>
+                                                <bean parent="Uif-LinkField"
+                                                      p:linkText="Opt-in Checkbox" p:target="_blank"
+                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-OptIn-View-Bare&amp;methodToCall=start"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-Page" parent="KS-KitchenSink-Page">
+        <property name="items">
+            <list>
+                <bean parent="Uif-TabSection" p:width="500px"
+                      p:instructionalText="An input field used to indicate one or more selections from a list in a form.">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Checkbox-Overview-Section"/>
+                            <ref bean="KS-KitchenSink-Checkbox-Group-Section"/>
+                            <ref bean="KS-KitchenSink-Checkbox-OptIn-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-Overview-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Overview" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Checkbox-Overview"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-Group-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Checkbox Group" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Checkbox-Group"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-OptIn-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Opt-in Checkbox" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Checkbox-OptIn"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-Overview-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Checkbox-Overview-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-Group-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Checkbox-Group-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Checkbox-OptIn-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Checkbox-OptIn-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
