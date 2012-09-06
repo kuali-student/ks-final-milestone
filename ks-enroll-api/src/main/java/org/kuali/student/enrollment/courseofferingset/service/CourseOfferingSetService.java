@@ -183,12 +183,39 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
             OperationFailedException, PermissionDeniedException;
 
     /**
+     *
+     * @param criteria What to search for in SocInfo table
+     * @param context Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return A list of SocInfo objects matching criteria.  Empty list if none matches
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<SocInfo> searchForSocs(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                       @WebParam(name = "contextInfo") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     *
+     * @param criteria What to search for in SocInfo table
+     * @param context Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return A list of SocInfo object IDs matching criteria.  Empty list if none matches
+     * @throws InvalidParameterException invalid parameter
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForSocIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                          @WebParam(name = "contextInfo") ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
      * Creates a new Soc for a term
      * 
      * Fields in course offering will be initialized with data from the canonical.
      *
-     * @param courseId     Canonical course Id of soc Id that the
-     *                     ActivityOffering will belong to
      * @param termId       Unique key of the term in which the course is being offered
      *                     course offering
      * @param context      Context information containing the principalId and locale
@@ -525,7 +552,6 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
      * the new soc using the supplied options.
      *
      * @param sourceSocId Unique Id of the source Soc
-     * @param targetSocId Unique Id of the source Soc
      * @param optionKeys keys identifying optional processing to occur
      * @return newly created Soc 
      * @param context  Context information containing the principalId and locale
@@ -635,7 +661,6 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
      * Retrieves a list of rollover result items by result id and target course offering id
      *
      * @param socRolloverResultId Unique Id of the rollover result for which the items are to be fetched
-     * @param sourceCourseOfferingId Unique Id of target course offering id
      * @param context           Context information containing the principalId and locale
      *                          information about the caller of service operation
      * @throws DoesNotExistException     rolloverResultId in the list not found
