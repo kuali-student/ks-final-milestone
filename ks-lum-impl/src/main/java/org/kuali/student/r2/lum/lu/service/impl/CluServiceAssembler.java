@@ -696,7 +696,8 @@ public class CluServiceAssembler extends BaseAssembler {
         }
         AmountInfo dto = new AmountInfo();
 
-        BeanUtils.copyProperties(entity, dto);
+        BeanUtils.copyProperties(entity, dto, new String[] {"unitType"});
+        dto.setUnitTypeKey(entity.getUnitType());
 
         return dto;
     }
