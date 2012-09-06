@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author Sri komandur@uw.edu
  */
-public interface AOClusterVerifyResults  {
+public interface AOClusterVerifyResults {
 
     /**
      * The number of registration groups that exist
@@ -39,6 +39,7 @@ public interface AOClusterVerifyResults  {
      * The number of valid registration groups that exist
      *
      * @name Valid RG Count
+     * @impl Invalid RGs: time conflicts and canceled ActivityOfferings
      */
     public Integer getValidRGCount();
 
