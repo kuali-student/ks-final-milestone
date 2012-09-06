@@ -38,6 +38,10 @@ import org.w3c.dom.Element;
     "termId",
     "subjectArea",
     "unitsContentOwnerId",
+    "lastSchedulingRunStarted",
+    "lastSchedulingRunCompleted",
+    "publishingStarted",
+    "publishingCompleted",
     "meta",
     "attributes",
     "_futureElements"})
