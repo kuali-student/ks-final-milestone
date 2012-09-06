@@ -113,7 +113,7 @@ public class ProcessInfoController extends UifControllerBase {
                 QueryByCriteria.Builder query = buildQueryByCriteria(processInfo.getName(), null, null, null, null);
                 List<ProcessInfo> processInfos = processService.searchForProcess(query.build(), getContextInfo());
                 if (processInfos.size() > 0) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId("processName", " error.enroll.process.save.failed",processInfo.getName());
+                    GlobalVariables.getMessageMap().putErrorForSectionId("processName", "error.enroll.process.save.failed",processInfo.getName());
                     form.setIsSaveSuccess(false);
                     return getUIFModelAndView(form);
                 }
