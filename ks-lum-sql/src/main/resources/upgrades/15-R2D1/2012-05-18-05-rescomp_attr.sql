@@ -1,3 +1,6 @@
+delete from KSLR_RESCOMP_ATTR
+/
+
 INSERT INTO KSLR_RESCOMP_ATTR (ATTR_NAME,ATTR_VALUE,ID,OBJ_ID,OWNER,VER_NBR)
   VALUES ('minCreditValue','5.0','04476558-f69f-4049-be8f-e47f482ef2c6','f9d976c0-5565-4cec-a047-3b6aeaa8dfdb','kuali.creditType.credit.degree.5.0-12.0',0)
 /
