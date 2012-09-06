@@ -325,6 +325,38 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<SocInfo> searchForSocs(QueryByCriteria criteria,
+                                       ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<String> socIds = searchForSocIds(criteria, context);
+        List<SocInfo> socInfoList = new ArrayList<SocInfo>();
+        for (String socId: socIds) {
+            try {
+                SocInfo socInfo = getSoc(socId, context);
+                socInfoList.add(socInfo);
+            } catch (DoesNotExistException ex) {
+                throw new OperationFailedException(socId, ex);
+            }
+        }
+        return socInfoList;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForSocIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        GenericQueryResults<SocEntity> results = criteriaLookupService.lookup(SocEntity.class, criteria);
+        List<String> socIds = new ArrayList<String>(results.getResults().size());
+        for (SocEntity socEntity : results.getResults()) {
+            socIds.add(socEntity.getId());
+        }
+        return socIds;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public SocRolloverResultInfo getSocRolloverResult(String id, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         SocRolloverResultEntity entity = socRorDao.find(id);

@@ -59,6 +59,17 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
         return getNextDecorator().searchForSocRolloverResults(criteria, context);
     }
 
+
+    @Override
+    public List<SocInfo> searchForSocs(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForSocs(criteria, context);
+    }
+
+    @Override
+    public List<String> searchForSocIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForSocIds(criteria, context);
+    }
+
     @Override
     public List<ValidationResultInfo> validateSocRolloverResult(String validationType, SocRolloverResultInfo socRolloverResultInfo, ContextInfo context) throws
             DoesNotExistException,
@@ -191,6 +202,7 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getSocIdsByType(typeKey, context);
     }
+
 
     @Override
     public List<String> getSocIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId, ContextInfo context) throws

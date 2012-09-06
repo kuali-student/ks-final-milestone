@@ -125,7 +125,18 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         }
         return list;
     }
-    // cache variable 
+
+    @Override
+    public List<SocInfo> searchForSocs(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("To be Implemented by services team");
+    }
+
+    @Override
+    public List<String> searchForSocIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("To be Implemented by services team");
+    }
+
+    // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
     private Map<String, SocInfo> socMap = new LinkedHashMap<String, SocInfo>();
 
