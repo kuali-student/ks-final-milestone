@@ -1047,11 +1047,11 @@
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="PROCESS_KEY" size="255" type="VARCHAR"/>
     </table>
-    <table name="KSEN_CO_REG_GRP_TMPLT">
+    <table name="KSEN_CO_AO_CLUSTER">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="255" type="VARCHAR"/>
-        <column name="REG_GRP_TMPLT_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="REG_GRP_TMPLT_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="AO_CLUSTER_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="AO_CLUSTER_STATE" required="true" size="255" type="VARCHAR"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
@@ -1061,30 +1061,42 @@
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_CO_REG_GRP_TMPLT_AO">
-        <column name="REG_GRP_TMPLT_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ACTIVITY_OFFERING_TMPLT_ID" primaryKey="true"
-            size="255" type="VARCHAR"/>
-        <column name="ACTIVITY_OFFERING_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_CO_REG_GRP_TMPLT" name="KSEN_CO_RGT_AO_FK1">
-            <reference foreign="ID" local="REG_GRP_TMPLT_ID"/>
-        </foreign-key>
-        <index name="KSEN_CO_RGT_AO_IF1">
-            <index-column name="REG_GRP_TMPLT_ID"/>
+        <index name="KSEN_CO_AO_CLUSTER_I1">
+            <index-column name="FORMAT_OFFERING_ID"/>
         </index>
     </table>
-    <table name="KSEN_CO_REG_GRP_TMPLT_ATTR">
+    <table name="KSEN_CO_AO_CLUSTER_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
         <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_CO_REG_GRP_TMPLT" name="KSEN_CO_RGT_ATTR_FK1">
+        <foreign-key foreignTable="KSEN_CO_AO_CLUSTER" name="KSEN_CO_AO_CLUSTER_ATTR_FK1">
             <reference foreign="ID" local="OWNER_ID"/>
         </foreign-key>
-        <index name="KSEN_CO_RGT_ATTR_IF1">
+        <index name="KSEN_CO_AO_CLUSTER_ATTR_IF1">
             <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_CO_AO_CLUSTER_SET">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="AO_CLUSTER_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="ACTIVITY_OFFERING_TYPE" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_CO_AO_CLUSTER" name="KSEN_CO_AO_CLUSTER_SET_FK1">
+            <reference foreign="ID" local="AO_CLUSTER_ID"/>
+        </foreign-key>
+        <index name="KSEN_CO_AO_CLISTER_SET_IF1">
+            <index-column name="AO_CLUSTER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_CO_AO_CLUSTER_SET_AO">
+        <column name="AOC_SET_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ACTIVITY_OFFERING_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_CO_AO_CLUSTER_SET" name="KSEN_CO_AOC_SET_AO_FK1">
+            <reference foreign="ID" local="AOC_SET_ID"/>
+        </foreign-key>
+        <index name="XIF1KSEN_CO_AOC_SET_AO_IF1">
+            <index-column name="AOC_SET_ID"/>
         </index>
     </table>
     <table name="KSEN_CO_SEAT_POOL_DEFN">
@@ -1104,6 +1116,9 @@
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_CO_SEAT_POOL_DEFN_I1">
+            <index-column name="ACTIVITY_OFFERING_ID"/>
+        </index>
     </table>
     <table name="KSEN_CO_SEAT_POOL_DEFN_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
