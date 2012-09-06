@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.room.service.impl;
 
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -37,7 +38,7 @@ import java.util.Map;
  * A mock implementation of RoomService for M5.
  * @author Mezba Mahtab, 6-Sep-2012
  */
-public class RoomServiceMockImplM5 implements RoomService
+public class RoomServiceMockImplM5 implements RoomService, MockService
 {
     ///////////////////////////////////
     // DATA VARIABLES
@@ -51,6 +52,13 @@ public class RoomServiceMockImplM5 implements RoomService
     ///////////////////////////////////
     // IMPLEMENTING METHODS
     ///////////////////////////////////
+
+    @Override
+    public void clear() {
+        this.roomMap.clear();
+        this.buildingMap.clear();
+        this.roomResponsibleOrgMap.clear();
+    }
 
     @Override
     public RoomInfo getRoom(String roomId, ContextInfo contextInfo)
