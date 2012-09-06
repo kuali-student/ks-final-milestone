@@ -19,7 +19,8 @@
 <div class="body">
     <strong>Input Fields</strong>
     <ul class="chan">
-        <li></li>
+        <li><portal:portalLink displayTitle="true" title="Checkboxes"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Other Fields</strong>

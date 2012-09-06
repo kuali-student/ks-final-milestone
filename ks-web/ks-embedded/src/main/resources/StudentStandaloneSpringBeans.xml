@@ -162,6 +162,7 @@
                 <!-- Kitchen Sink-->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/KitchenSinkView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Buttons.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/Checkbox.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionActionImages.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionColumnSorting.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionHorizontal.xml</value>
