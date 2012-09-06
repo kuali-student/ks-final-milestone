@@ -185,7 +185,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    public void testCreateActivityOfferintgCluster() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+    public void testCreateActivityOfferingCluster() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
 
         // default cluster is 2x3 = 6 reg groups
 
@@ -245,28 +245,6 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         }
         return idList;
-    }
-
-    @Test
-    public void testGenerateRegGroupsFromActivityOfferingCluster() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
-
-        ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{
-                coService.getActivityOffering("CO-1:LEC-AND-LAB:LEC-A",
-                        callContext),
-                coService.getActivityOffering("CO-1:LEC-AND-LAB:LAB-A",
-                        callContext),
-                coService.getActivityOffering("CO-1:LEC-AND-LAB:LAB-B",
-                        callContext),
-                coService.getActivityOffering("CO-1:LEC-AND-LAB:LAB-C",
-                        callContext),};
-
-        ActivityOfferingClusterInfo cluster = CourseOfferingServiceDataUtils
-                .createActivityOfferingCluster("CO-1:LEC-AND-LAB", "Default",
-                        Arrays.asList(activities));
-
-        ActivityOfferingClusterInfo created = coService.createActivityOfferingCluster("CO-1:LEC-AND-LAB", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, cluster, callContext);
-
-
     }
 
 
@@ -342,18 +320,14 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         Assert.assertEquals(6, ao.size());
 
-        boolean exception = false;
-
-        try {
-            status = coService
+        status = coService
                     .generateRegistrationGroupsForFormatOffering(
                             "CO-1:LEC-AND-LAB", callContext);
 
-        } catch (OperationFailedException e) {
-            exception = true;
-        }
+        ao = coService.getActivityOfferingsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 
-        Assert.assertTrue("Exception should have occured when generating on top of existing reg groups.", exception);
+        // should stay the same size.
+        Assert.assertEquals(6, ao.size());
 
         status = coService.deleteGeneratedRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 
