@@ -614,7 +614,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             coCopyWrapper.setCourseTitle(courseOfferingInfo.getCourseOfferingTitle());
             coCopyWrapper.setTermId(courseOfferingInfo.getTermId());
             coCopyWrapper.setCreditCount(courseOfferingInfo.getCreditCnt());
-            coCopyWrapper.setGradingOption(courseOfferingInfo.getGradingOption());
+            coCopyWrapper.setGradingOption(courseOfferingInfo.getGradingOptionName());
             coCopyWrapper.setStudentRegistrationGradingOptionsList(courseOfferingInfo.getStudentRegistrationGradingOptions());
             coCopyWrapper.setFinalExamType(courseOfferingInfo.getFinalExamType());
             coCopyWrapper.setWaitlistLevelTypeKey(courseOfferingInfo.getWaitlistLevelTypeKey());
