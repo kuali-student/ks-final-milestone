@@ -33,9 +33,24 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-
-public class RoomServiceMockImplNew implements RoomService
+/**
+ * A mock implementation of RoomService for M5.
+ * @author Mezba Mahtab, 6-Sep-2012
+ */
+public class RoomServiceMockImplM5 implements RoomService
 {
+    ///////////////////////////////////
+    // DATA VARIABLES
+    ///////////////////////////////////
+
+    // cache variables
+    private Map<String, RoomInfo> roomMap = new LinkedHashMap<String, RoomInfo>();
+    private Map<String, BuildingInfo> buildingMap = new LinkedHashMap<String, BuildingInfo>();
+    private Map<String, RoomResponsibleOrgInfo> roomResponsibleOrgMap = new LinkedHashMap<String, RoomResponsibleOrgInfo>();
+
+    ///////////////////////////////////
+    // IMPLEMENTING METHODS
+    ///////////////////////////////////
 
     @Override
     public RoomInfo getRoom(String roomId, ContextInfo contextInfo)
@@ -198,9 +213,6 @@ public class RoomServiceMockImplNew implements RoomService
         // validate
         return new ArrayList<ValidationResultInfo> ();
     }
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, RoomInfo> roomMap = new LinkedHashMap<String, RoomInfo>();
 
     @Override
     public RoomInfo createRoom(String buildingId, String roomTypeKey, RoomInfo roomInfo, ContextInfo contextInfo)
@@ -343,9 +355,6 @@ public class RoomServiceMockImplNew implements RoomService
         // validate
         return new ArrayList<ValidationResultInfo> ();
     }
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, BuildingInfo> buildingMap = new LinkedHashMap<String, BuildingInfo>();
 
     @Override
     public BuildingInfo createBuilding(String buildingTypeKey, BuildingInfo buildingInfo, ContextInfo contextInfo)
@@ -514,9 +523,6 @@ public class RoomServiceMockImplNew implements RoomService
         // validate
         return new ArrayList<ValidationResultInfo> ();
     }
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, RoomResponsibleOrgInfo> roomResponsibleOrgMap = new LinkedHashMap<String, RoomResponsibleOrgInfo>();
 
     @Override
     public RoomResponsibleOrgInfo createRoomResponsibleOrg(String roomId, String orgId, String roomResponsibleOrgTypeKey, RoomResponsibleOrgInfo roomResponsibleOrgInfo, ContextInfo contextInfo)
