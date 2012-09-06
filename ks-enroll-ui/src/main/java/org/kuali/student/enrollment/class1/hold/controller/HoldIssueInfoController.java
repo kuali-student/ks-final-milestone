@@ -134,7 +134,6 @@ public class HoldIssueInfoController extends UifControllerBase {
         } catch (Exception e) {
 
             return getUIFModelAndView(form);
-            //throw new RuntimeException("Create new failed. ", e);
         }
         form.setValidateDirty(false);
         form.setId(createHoldIssueInfo.getId());
@@ -221,7 +220,7 @@ public class HoldIssueInfoController extends UifControllerBase {
         holdIssueInfo.setDescr(richTextInfo);
 
         try {
-            getHoldService().updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo() );
+            getHoldService().updateHoldIssue(holdIssueInfo.getId(), holdIssueInfo, getContextInfo());
         } catch (Exception e) {
             return getUIFModelAndView(form);
             /*e.printStackTrace();
