@@ -4,18 +4,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.jws.WebParam;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -33,7 +21,6 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
-import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -53,32 +40,41 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
-import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
- *
  * @author nwright
  */
-public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingServiceBusinessLogic  {
+public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingServiceBusinessLogic {
 
-	private static final Logger log = Logger.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
-
-	@Resource
-    private CourseService courseService;
-
-	@Resource
-	private AcademicCalendarService acalService;
-
-	@Resource
-	private CourseOfferingService coService;
+    private static final Logger log = Logger.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
 
     @Resource
-	private RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory;
+    private CourseService courseService;
+
+    @Resource
+    private AcademicCalendarService acalService;
+
+    @Resource
+    private CourseOfferingService coService;
+
+    @Resource
+    private RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory;
 
     public CourseOfferingService getCoService() {
         return coService;
@@ -122,9 +118,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     @Override
     public SocRolloverResultItemInfo rolloverCourseOffering(String sourceCoId,
-            String targetTermId,
-            List<String> optionKeys,
-            ContextInfo context) throws AlreadyExistsException,
+                                                            String targetTermId,
+                                                            List<String> optionKeys,
+                                                            ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
@@ -214,7 +210,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             Map<String, String> sourceAoIdToTargetAoId = new HashMap<String, String>();
             for (ActivityOfferingInfo sourceAo : aoInfoList) {
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY) &&
-                    StringUtils.equals(sourceAo.getTypeKey(),LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)){
+                        StringUtils.equals(sourceAo.getTypeKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
                     continue;
                 }
                 ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
@@ -252,8 +248,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                             targetSP.setId(null);
                             targetSP.setTypeKey(LuiServiceConstants.SEATPOOL_LUI_CAPACITY_TYPE_KEY);
                             targetSP.setStateKey(LuiServiceConstants.LUI_CAPACITY_ACTIVE_STATE_KEY);
-                            SeatPoolDefinitionInfo seatPoolCreated = this._getCoService().createSeatPoolDefinition(targetSP,context);
-                            this._getCoService().addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(),targetAo.getId(), context);
+                            SeatPoolDefinitionInfo seatPoolCreated = this._getCoService().createSeatPoolDefinition(targetSP, context);
+                            this._getCoService().addSeatPoolDefinitionToActivityOffering(seatPoolCreated.getId(), targetAo.getId(), context);
                         }
                     }
                 } catch (Exception e) {
@@ -270,6 +266,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         targetRg.setId(null);
                         targetRg.setCourseOfferingId(targetCo.getId());
                         targetRg.setDescr(sourceRg.getDescr());
+                        targetRg.setActivityOfferingClusterId(sourceRg.getActivityOfferingClusterId());
                         targetRg.setFormatOfferingId(targetFo.getId());
                         targetRg.setIsGenerated(sourceRg.getIsGenerated());
                         targetRg.setName(sourceRg.getName());
@@ -283,20 +280,20 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         if (sourceAoIdList != null && !sourceAoIdList.isEmpty()) {
                             for (String sourceAoId : sourceAoIdList) {
                                 String tempTargetAoId = sourceAoIdToTargetAoId.get(sourceAoId);
-                                if (tempTargetAoId!=null) {
-                                    targetAoIdList.add (tempTargetAoId);
+                                if (tempTargetAoId != null) {
+                                    targetAoIdList.add(tempTargetAoId);
                                 }
                             }
                             targetRg.setActivityOfferingIds(targetAoIdList);
                         }
 
-                        RegistrationGroupInfo rgInfo = this._getCoService().createRegistrationGroup(targetFo.getId(),
+                        RegistrationGroupInfo rgInfo = this._getCoService().createRegistrationGroup(targetFo.getId(), targetRg.getActivityOfferingClusterId(),
                                 LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, targetRg, context);
 
                     }
                 }
             } catch (Exception e) {
-                throw new OperationFailedException ("problem generating reg. groups", e);
+                throw new OperationFailedException("problem generating reg. groups", e);
             }
         }
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
@@ -312,8 +309,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
     private CourseOfferingInfo generateTargetCourseOffering(CourseOfferingInfo sourceCo, String targetTermId, List<String> optionKeys, ContextInfo context)
-        throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, DataValidationErrorException{
+            throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, DataValidationErrorException {
         CourseOfferingInfo targetCo = new CourseOfferingInfo(sourceCo);
         targetCo.setId(null);
         // clear out the ids on the internal sub-objects too
@@ -408,7 +405,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     @Override
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo,
-            List<String> optionKeys, ContextInfo context) throws DoesNotExistException,
+                                                                          List<String> optionKeys, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(courseOfferingInfo.getCourseId());
@@ -484,10 +481,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return rg;
     }
 
-    
+
     /*
-     * The core generation logic should work with in the impl as well.
-     */
+    * The core generation logic should work with in the impl as well.
+    */
     @Override
     public StatusInfo generateRegistrationGroupsForFormatOffering(
             String formatOfferingId, ContextInfo contextInfo)
@@ -495,68 +492,68 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, DataValidationErrorException {
 
-    	// check for any existing registration groups
+        // check for any existing registration groups
         this._getCoService(); // Make sure coService gets set
-        
+
         // verify we are allowed to do this.
-        
+
         boolean generated = false;
-        
-    	List<String> aocIdList = coService.getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
-    	
-    	if (aocIdList.size() == 0)
-    		throw new DoesNotExistException("No ActivityOfferingCluster's exist for formatOfferingId = " + formatOfferingId);
-    	
-    	for (String aocId : aocIdList) {
-			
-    		try {
-				StatusInfo status = generateRegistrationGroupsForCluster(aocId, contextInfo);
-			
-				generated = status.getIsSuccess();
-				
-    		} catch (Exception e) {
-				throw new OperationFailedException("formatOfferingId = " + formatOfferingId + ": failed to generate reg groups for activityOfferingClusterId = " + aocId, e);
-			}
-    		
-    		
-		}
-        
+
+        List<String> aocIdList = coService.getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
+
+        if (aocIdList.size() == 0)
+            throw new DoesNotExistException("No ActivityOfferingCluster's exist for formatOfferingId = " + formatOfferingId);
+
+        for (String aocId : aocIdList) {
+
+            try {
+                StatusInfo status = generateRegistrationGroupsForCluster(aocId, contextInfo);
+
+                generated = status.getIsSuccess();
+
+            } catch (Exception e) {
+                throw new OperationFailedException("formatOfferingId = " + formatOfferingId + ": failed to generate reg groups for activityOfferingClusterId = " + aocId, e);
+            }
+
+
+        }
+
         StatusInfo success = new StatusInfo();
-        
+
         success.setSuccess(generated);
-        
-		return success;
+
+        return success;
     }
 
-	@Override
-	public StatusInfo generateRegistrationGroupsForCluster(
-			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		 // check for any existing registration groups
+    @Override
+    public StatusInfo generateRegistrationGroupsForCluster(
+            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // check for any existing registration groups
         this._getCoService(); // Make sure coService gets set
-        
+
         // TODO: this should be moved to the validation decorator in the verify method
         List<RegistrationGroupInfo> existingRegistrationGroups =
                 coService.getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-        
+
         if (existingRegistrationGroups.size() > 0) {
-        	// for M4 compatibility
-        	// should be removed once M5 work starts as the delta add should be supported
-        	// and cascaded delete on an AO should remove the reg group.
-        	coService.deleteRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
-        	
+            // for M4 compatibility
+            // should be removed once M5 work starts as the delta add should be supported
+            // and cascaded delete on an AO should remove the reg group.
+            coService.deleteRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
+
         }
-        
+
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
-        
+
         ActivityOfferingClusterInfo aoc = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-        
-        List<String>typeList = extractTypes (aoc.getActivityOfferingSets());
-        
-        Map<String, List<String>>activityOfferingTypeToOfferingMap = extractActivityOfferingMap(aoc.getActivityOfferingSets());
+
+        List<String> typeList = extractTypes(aoc.getActivityOfferingSets());
+
+        Map<String, List<String>> activityOfferingTypeToOfferingMap = extractActivityOfferingMap(aoc.getActivityOfferingSets());
 
         List<List<String>> generatedPermutations = new ArrayList<List<String>>();
 
@@ -568,12 +565,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // New instance created each time if desired
         RegistrationGroupCodeGenerator generator =
                 registrationCodeGeneratorFactory.makeCodeGenerator();
-        
+
         FormatOfferingInfo fo = coService.getFormatOffering(aoc.getFormatOfferingId(), contextInfo);
-        
-        List<ActivityOfferingInfo>aoList = coService.getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
-        
-		generator.initializeGenerator(coService, fo, contextInfo, null);
+
+        List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
+
+        generator.initializeGenerator(coService, fo, contextInfo, null);
 
         for (List<String> activityOfferingPermutation : generatedPermutations) {
 
@@ -583,7 +580,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             RegistrationGroupInfo rg = _makeRegGroup(regGroupCode, activityOfferingPermutation, fo, aoc.getId());
 
             try {
-                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(aoc.getFormatOfferingId(),
+                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(aoc.getFormatOfferingId(), aoc.getId(),
                         LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
 
                 regGroupList.add(rgInfo);
@@ -596,48 +593,46 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         "Failed to write registration group", e);
             }
         }
-		
-		    StatusInfo success = new StatusInfo();
-	        
-	        success.setSuccess(true);
-	        
-			return success;
-	}
 
-	private Map<String, List<String>> extractActivityOfferingMap(
-			List<ActivityOfferingSetInfo> activityOfferingSets) {
-		Map<String, List<String>> aoTypeToListMap = new LinkedHashMap<String, List<String>>();
-		
-		for (ActivityOfferingSetInfo aoSet : activityOfferingSets) {
-			
-			for (String aoId : aoSet.getActivityOfferingIds()) {
-				
-				List<String>aoIdList = aoTypeToListMap.get(aoSet.getActivityOfferingType());
-				
-				if (aoIdList == null) {
-					aoIdList = new ArrayList<String>();
-					
-					aoTypeToListMap.put(aoSet.getActivityOfferingType(), aoIdList);
-				}
+        StatusInfo success = new StatusInfo();
 
-				aoIdList.add(aoId);
-			}
-		}
-		return aoTypeToListMap;
-	}
+        success.setSuccess(true);
 
-	private List<String> extractTypes(
-			List<ActivityOfferingSetInfo> activityOfferingSets) {
-		List<String> typeList = new ArrayList<String>();
-		
-		for (ActivityOfferingSetInfo activityOfferingSetInfo : activityOfferingSets) {
-			
-			typeList.add(activityOfferingSetInfo.getActivityOfferingType());
-		}
-		return typeList;
-	}
-    
-    
+        return success;
+    }
+
+    private Map<String, List<String>> extractActivityOfferingMap(
+            List<ActivityOfferingSetInfo> activityOfferingSets) {
+        Map<String, List<String>> aoTypeToListMap = new LinkedHashMap<String, List<String>>();
+
+        for (ActivityOfferingSetInfo aoSet : activityOfferingSets) {
+
+            for (String aoId : aoSet.getActivityOfferingIds()) {
+
+                List<String> aoIdList = aoTypeToListMap.get(aoSet.getActivityOfferingType());
+
+                if (aoIdList == null) {
+                    aoIdList = new ArrayList<String>();
+
+                    aoTypeToListMap.put(aoSet.getActivityOfferingType(), aoIdList);
+                }
+
+                aoIdList.add(aoId);
+            }
+        }
+        return aoTypeToListMap;
+    }
+
+    private List<String> extractTypes(
+            List<ActivityOfferingSetInfo> activityOfferingSets) {
+        List<String> typeList = new ArrayList<String>();
+
+        for (ActivityOfferingSetInfo activityOfferingSetInfo : activityOfferingSets) {
+
+            typeList.add(activityOfferingSetInfo.getActivityOfferingType());
+        }
+        return typeList;
+    }
 
 
 }

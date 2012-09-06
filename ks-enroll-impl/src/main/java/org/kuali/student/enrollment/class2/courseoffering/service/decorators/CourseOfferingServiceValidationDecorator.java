@@ -21,7 +21,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
-import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
@@ -37,7 +36,7 @@ public class CourseOfferingServiceValidationDecorator
     public DataDictionaryValidator getValidator() {
         return validator;
     }
-    
+
     @Override
     public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;
@@ -51,7 +50,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateCourseOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    courseOfferingInfo, context);
+                            courseOfferingInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -70,7 +69,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateCourseOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    courseOfferingInfo, context);
+                            courseOfferingInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -94,7 +93,7 @@ public class CourseOfferingServiceValidationDecorator
             throw new OperationFailedException("Error validating", ex);
         }
 
-        if(errors.isEmpty()) {
+        if (errors.isEmpty()) {
             // Check for uniqueness in the course offering code
             List<CourseOfferingInfo> existingCos = null;
             try {
@@ -125,7 +124,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    formatOfferingInfo, context);
+                            formatOfferingInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -143,7 +142,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    formatOfferingInfo, context);
+                            formatOfferingInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -177,7 +176,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    activityOfferingInfo, context);
+                            activityOfferingInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -196,7 +195,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    activityOfferingInfo, context);
+                            activityOfferingInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -223,21 +222,23 @@ public class CourseOfferingServiceValidationDecorator
     }
 
     @Override
-    public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
+    public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String activityOfferingClusterId, String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // create 
         try {
             List<ValidationResultInfo> errors =
                     this.validateRegistrationGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    registrationGroupInfo, context);
+                            activityOfferingClusterId,
+                            registrationGroupType,
+                            registrationGroupInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
-        return getNextDecorator().createRegistrationGroup(formatOfferingId, registrationGroupType, registrationGroupInfo, context);
+        return getNextDecorator().createRegistrationGroup(formatOfferingId, activityOfferingClusterId, registrationGroupType, registrationGroupInfo, context);
     }
 
     @Override
@@ -248,7 +249,9 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateRegistrationGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    registrationGroupInfo, context);
+                            null,
+                            null,
+                            registrationGroupInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -259,13 +262,14 @@ public class CourseOfferingServiceValidationDecorator
     }
 
     @Override
-    public List<ValidationResultInfo> validateRegistrationGroup(String validationType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
+    public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // validate
         List<ValidationResultInfo> errors;
         try {
             errors = ValidationUtils.validateInfo(validator, validationType, registrationGroupInfo, context);
             List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateRegistrationGroup(validationType,
+                    activityOfferingClusterId, registrationGroupType,
                     registrationGroupInfo, context);
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
@@ -328,7 +332,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateSeatPoolDefinition(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    seatPoolDefinitionInfo, context);
+                            seatPoolDefinitionInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -355,104 +359,103 @@ public class CourseOfferingServiceValidationDecorator
         return errors;
     }
 
-	
 
-	@Override
-	public StatusInfo deleteFormatOffering(String formatOfferingId,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DependentObjectsExistException {
-		
-		// check for activities
-		List<ActivityOfferingInfo> activities = getActivityOfferingsByFormatOffering(formatOfferingId, context);
-		
-		if (activities.size() > 0)
-			throw new DependentObjectsExistException("Activity Offerings Exist that refer to FormatOfferingId = " + formatOfferingId);
-		
-		// check for reg groups
-		List<RegistrationGroupInfo> rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
-		
-		if (rgs.size() > 0)
-			throw new DependentObjectsExistException("Registration Groups Exist that refer to Format Offering Id = " + formatOfferingId);
-		
-		// check for seat pools
-		for (ActivityOfferingInfo activityOfferingInfo : activities) {
-			
-			List<SeatPoolDefinitionInfo> spls = getSeatPoolDefinitionsForActivityOffering(activityOfferingInfo.getId(), context);
-			
-			if (spls.size() > 0) {
-				throw new DependentObjectsExistException("SeatPoolDefinitions Exist that refer to Format Offering Id = " + formatOfferingId);
-			}
-		
-					
-		}
-		
-		return super.deleteFormatOffering(formatOfferingId, context);
-	}
+    @Override
+    public StatusInfo deleteFormatOffering(String formatOfferingId,
+                                           ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            DependentObjectsExistException {
 
-	@Override
-	public StatusInfo deleteCourseOffering(String courseOfferingId,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DependentObjectsExistException {
-		
-		List<FormatOfferingInfo> formats = getFormatOfferingsByCourseOffering(courseOfferingId, context);
-		
-		if (formats.size() > 0)
-			throw new DependentObjectsExistException("Formats exist for course offering with id = "+ courseOfferingId);
-		
-		List<ActivityOfferingInfo> activities = getActivityOfferingsByCourseOffering(courseOfferingId, context);
-		
-		if (activities.size() > 0)
-			throw new DependentObjectsExistException("Activities exist for course offering with id = "+ courseOfferingId);
-		
-		List<RegistrationGroupInfo> registrationGroups = getRegistrationGroupsForCourseOffering(courseOfferingId, context);
-		
-		if (registrationGroups.size() > 0)
-			throw new DependentObjectsExistException("RegistrationGroups exist for course offering with id = "+ courseOfferingId);
-		
-		return getNextDecorator().deleteCourseOffering(courseOfferingId, context);
-	}
+        // check for activities
+        List<ActivityOfferingInfo> activities = getActivityOfferingsByFormatOffering(formatOfferingId, context);
 
-	@Override
-	public StatusInfo deleteActivityOffering(String activityOfferingId,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DependentObjectsExistException {
-		
-		ActivityOfferingInfo offering = getActivityOffering(activityOfferingId, context);
-		
-		// check for reg groups
-		List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByFormatOffering(offering.getFormatOfferingId(), context);
-		
-		for (RegistrationGroupInfo rg : regGroups) {
-			
-			if (rg.getActivityOfferingIds().contains(activityOfferingId))
-				throw new DependentObjectsExistException("Registration Groups Exist that refer to ActivityOfferingId = " + activityOfferingId);
-			
-		}
-		
-		// check for seat pools
-		List<SeatPoolDefinitionInfo> seatPools = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
-		
-		if (seatPools.size() > 0)
-			throw new DependentObjectsExistException("Seat Pools Exist that refer to ActivityOfferingId = " + activityOfferingId);
-		
-		return getNextDecorator().deleteActivityOffering(activityOfferingId, context);
-	}
+        if (activities.size() > 0)
+            throw new DependentObjectsExistException("Activity Offerings Exist that refer to FormatOfferingId = " + formatOfferingId);
 
-	@Override
-	public List<ValidationResultInfo> validateActivityOfferingCluster(
-			String validationTypeKey, String formatOfferingId,
-			ActivityOfferingClusterInfo activityOfferingClusterInfo,
-			ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		
-		 // validate 
+        // check for reg groups
+        List<RegistrationGroupInfo> rgs = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+
+        if (rgs.size() > 0)
+            throw new DependentObjectsExistException("Registration Groups Exist that refer to Format Offering Id = " + formatOfferingId);
+
+        // check for seat pools
+        for (ActivityOfferingInfo activityOfferingInfo : activities) {
+
+            List<SeatPoolDefinitionInfo> spls = getSeatPoolDefinitionsForActivityOffering(activityOfferingInfo.getId(), context);
+
+            if (spls.size() > 0) {
+                throw new DependentObjectsExistException("SeatPoolDefinitions Exist that refer to Format Offering Id = " + formatOfferingId);
+            }
+
+
+        }
+
+        return super.deleteFormatOffering(formatOfferingId, context);
+    }
+
+    @Override
+    public StatusInfo deleteCourseOffering(String courseOfferingId,
+                                           ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            DependentObjectsExistException {
+
+        List<FormatOfferingInfo> formats = getFormatOfferingsByCourseOffering(courseOfferingId, context);
+
+        if (formats.size() > 0)
+            throw new DependentObjectsExistException("Formats exist for course offering with id = " + courseOfferingId);
+
+        List<ActivityOfferingInfo> activities = getActivityOfferingsByCourseOffering(courseOfferingId, context);
+
+        if (activities.size() > 0)
+            throw new DependentObjectsExistException("Activities exist for course offering with id = " + courseOfferingId);
+
+        List<RegistrationGroupInfo> registrationGroups = getRegistrationGroupsForCourseOffering(courseOfferingId, context);
+
+        if (registrationGroups.size() > 0)
+            throw new DependentObjectsExistException("RegistrationGroups exist for course offering with id = " + courseOfferingId);
+
+        return getNextDecorator().deleteCourseOffering(courseOfferingId, context);
+    }
+
+    @Override
+    public StatusInfo deleteActivityOffering(String activityOfferingId,
+                                             ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            DependentObjectsExistException {
+
+        ActivityOfferingInfo offering = getActivityOffering(activityOfferingId, context);
+
+        // check for reg groups
+        List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByFormatOffering(offering.getFormatOfferingId(), context);
+
+        for (RegistrationGroupInfo rg : regGroups) {
+
+            if (rg.getActivityOfferingIds().contains(activityOfferingId))
+                throw new DependentObjectsExistException("Registration Groups Exist that refer to ActivityOfferingId = " + activityOfferingId);
+
+        }
+
+        // check for seat pools
+        List<SeatPoolDefinitionInfo> seatPools = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
+
+        if (seatPools.size() > 0)
+            throw new DependentObjectsExistException("Seat Pools Exist that refer to ActivityOfferingId = " + activityOfferingId);
+
+        return getNextDecorator().deleteActivityOffering(activityOfferingId, context);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateActivityOfferingCluster(
+            String validationTypeKey, String formatOfferingId,
+            ActivityOfferingClusterInfo activityOfferingClusterInfo,
+            ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+
+        // validate
         List<ValidationResultInfo> errors;
         try {
             errors = ValidationUtils.validateInfo(validator, validationTypeKey, activityOfferingClusterInfo, contextInfo);
@@ -462,75 +465,73 @@ public class CourseOfferingServiceValidationDecorator
             throw new OperationFailedException("Error validating", ex);
         }
         return errors;
-	       
-	}
 
-	@Override
-	public ActivityOfferingClusterInfo createActivityOfferingCluster(
-			String formatOfferingId, String activityOfferingClusterTypeKey,
-			ActivityOfferingClusterInfo activityOfferingClusterInfo,
-			ContextInfo contextInfo) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, ReadOnlyException {
-		
-		 try {
-	            List<ValidationResultInfo> errors =
-	                    this.validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingId, activityOfferingClusterInfo, contextInfo);
-	            if (!errors.isEmpty()) { 
-	                throw new DataValidationErrorException("Error(s) occurred validating", errors);
-	            }
-	        } catch (DoesNotExistException ex) {
-	            throw new OperationFailedException("Error validating", ex);
-	        }
-		
-		return getNextDecorator().createActivityOfferingCluster(formatOfferingId,
-				activityOfferingClusterTypeKey, activityOfferingClusterInfo,
-				contextInfo);
-	}
+    }
 
-	@Override
-	public ActivityOfferingClusterInfo updateActivityOfferingCluster(
-			String formatOfferingId, String activityOfferingClusterId,
-			ActivityOfferingClusterInfo activityOfferingClusterInfo,
-			ContextInfo contextInfo) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, ReadOnlyException,
-			VersionMismatchException {
-		
-		 try {
-	            List<ValidationResultInfo> errors =
-	                    this.validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingId, activityOfferingClusterInfo, contextInfo);
-	            if (!errors.isEmpty()) { 
-	                throw new DataValidationErrorException("Error(s) occurred validating", errors);
-	            }
-	        } catch (DoesNotExistException ex) {
-	            throw new OperationFailedException("Error validating", ex);
-	        }
-		 
-		return getNextDecorator().updateActivityOfferingCluster(formatOfferingId,
-				activityOfferingClusterId, activityOfferingClusterInfo, contextInfo);
-	}
+    @Override
+    public ActivityOfferingClusterInfo createActivityOfferingCluster(
+            String formatOfferingId, String activityOfferingClusterTypeKey,
+            ActivityOfferingClusterInfo activityOfferingClusterInfo,
+            ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
 
-	@Override
-	public StatusInfo deleteActivityOfferingCluster(
-			String activityOfferingClusterId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DependentObjectsExistException {
-		
-			
-			List<RegistrationGroupInfo> existingRegGroups = getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, context);
+        try {
+            List<ValidationResultInfo> errors =
+                    this.validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingId, activityOfferingClusterInfo, contextInfo);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) occurred validating", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        }
 
-			if (existingRegGroups.size() > 0)
-				throw new DependentObjectsExistException("Registration Groups Exist that refer to this ActivityOfferingClusterId = " + activityOfferingClusterId);
-		
-		
-		return getNextDecorator().deleteActivityOfferingCluster(activityOfferingClusterId, context);
-	}
-    
-	
-	
-    
+        return getNextDecorator().createActivityOfferingCluster(formatOfferingId,
+                activityOfferingClusterTypeKey, activityOfferingClusterInfo,
+                contextInfo);
+    }
+
+    @Override
+    public ActivityOfferingClusterInfo updateActivityOfferingCluster(
+            String formatOfferingId, String activityOfferingClusterId,
+            ActivityOfferingClusterInfo activityOfferingClusterInfo,
+            ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException,
+            VersionMismatchException {
+
+        try {
+            List<ValidationResultInfo> errors =
+                    this.validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingId, activityOfferingClusterInfo, contextInfo);
+            if (!errors.isEmpty()) {
+                throw new DataValidationErrorException("Error(s) occurred validating", errors);
+            }
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException("Error validating", ex);
+        }
+
+        return getNextDecorator().updateActivityOfferingCluster(formatOfferingId,
+                activityOfferingClusterId, activityOfferingClusterInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteActivityOfferingCluster(
+            String activityOfferingClusterId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DependentObjectsExistException {
+
+
+        List<RegistrationGroupInfo> existingRegGroups = getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, context);
+
+        if (existingRegGroups.size() > 0)
+            throw new DependentObjectsExistException("Registration Groups Exist that refer to this ActivityOfferingClusterId = " + activityOfferingClusterId);
+
+
+        return getNextDecorator().deleteActivityOfferingCluster(activityOfferingClusterId, context);
+    }
+
+
 }

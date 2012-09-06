@@ -2,27 +2,35 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -30,20 +38,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 /**
- * @deprecated This class is leftover from Core Slice. Delete when no longer needed or un deprecate if needed.
+ * @deprecated This class is leftover from Core Slice. Delete when no longer
+ *             needed or un deprecate if needed.
  */
 @Deprecated
 public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
     private static final long serialVersionUID = 1L;
     private static final String DEFAULT_DOCUMENT_DESC_FOR_CREATING_COURSE_OFFERING =
-                                                            "Create a new course offering";
+            "Create a new course offering";
     private static final String DEFAULT_DOCUMENT_DESC_FOR_EDITING_COURSE_OFFERING =
-                                                            "Edit an existing course offering";
+            "Edit an existing course offering";
     private static final String DEFAULT_DOCUMENT_DESC_FOR_COPYING_COURSE_OFFERING =
-                                                            "Copy from an existing course offering to create a new one";
+            "Copy from an existing course offering to create a new one";
     private transient CourseService courseService;
     private transient CourseOfferingService courseOfferingService;
 
@@ -91,19 +99,19 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             formatIds.add(firstFormat.getId());
         }
 
-        CourseOfferingInfo coi = new CourseOfferingInfo ();
+        CourseOfferingInfo coi = new CourseOfferingInfo();
         coi.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         coi.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         try {
             //create a CourseOfferingInfo coi
-            coi = getCourseOfferingService().createCourseOffering(courseId, 
-                    termId, 
-                    coi.getTypeKey(), 
-                    coi, 
+            coi = getCourseOfferingService().createCourseOffering(courseId,
+                    termId,
+                    coi.getTypeKey(),
+                    coi,
                     Collections.EMPTY_LIST,
                     new ContextInfo());
         } catch (Exception ex) {
-          throw new RuntimeException (ex);
+            throw new RuntimeException(ex);
         }
 
         /*
@@ -173,14 +181,14 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     String scheduleId = null;
                     activityOfferingInfo.setScheduleId(scheduleId);
                     // activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
-                    List<FormatOfferingInfo> formats = this. getCourseOfferingService().getFormatOfferingsByCourseOffering(coi.getId(), new ContextInfo());
-                    activityOfferingInfo.setFormatOfferingId(formats.get(0).getId ());
+                    List<FormatOfferingInfo> formats = this.getCourseOfferingService().getFormatOfferingsByCourseOffering(coi.getId(), new ContextInfo());
+                    activityOfferingInfo.setFormatOfferingId(formats.get(0).getId());
                     activityOfferingInfo = getCourseOfferingService().createActivityOffering
                             (activityOfferingInfo.getFormatOfferingId(),
-                            activityOfferingInfo.getActivityId(),
-                            activityOfferingInfo.getTypeKey(),
-                            activityOfferingInfo, 
-                            new ContextInfo());
+                                    activityOfferingInfo.getActivityId(),
+                                    activityOfferingInfo.getTypeKey(),
+                                    activityOfferingInfo,
+                                    new ContextInfo());
 
                     activityOfferingInfoList.add(activityOfferingInfo);
                     activityOfferingIds.add(activityOfferingInfo.getId());
@@ -193,8 +201,9 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
                     // TODO Change this formatOffering to actual one when implementing
                     String formatOfferingId = null;
+                    String activityOfferingClusterId = null;
                     try {
-                        getCourseOfferingService().createRegistrationGroup(formatOfferingId,registrationGroupInfo.getTypeKey(), registrationGroupInfo, new ContextInfo());
+                        getCourseOfferingService().createRegistrationGroup(formatOfferingId, activityOfferingClusterId, registrationGroupInfo.getTypeKey(), registrationGroupInfo, new ContextInfo());
                     } catch (OperationFailedException ofe) {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get OperationFailedException:  " + ofe.toString());
                     } catch (InvalidParameterException ipe) {
@@ -243,8 +252,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             newCourseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
 
             //for each instructor, set personId to Id field, state, and type
-            List<OfferingInstructorInfo> instructors =  newCourseOffering.getInstructors();
-            for(OfferingInstructorInfo instructor: instructors){
+            List<OfferingInstructorInfo> instructors = newCourseOffering.getInstructors();
+            for (OfferingInstructorInfo instructor : instructors) {
                 instructor.setId(instructor.getPersonId());
                 instructor.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
                 instructor.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);

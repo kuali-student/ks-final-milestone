@@ -1,19 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.jws.WebParam;
-
 import junit.framework.Assert;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -60,6 +47,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
 
 /*
  * This class was used to test the class1 backed implementation of CourseOfferingService for CourseOffering, FormatOffering and ActivityOffering.
@@ -92,7 +90,7 @@ public class TestCourseOfferingServiceImplM4 {
     @Resource
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
 
-    private void before()  {
+    private void before() {
         contextInfo = ContextUtils.createDefaultContextInfo();
         contextInfo.setPrincipalId("admin");
         contextInfo.setAuthenticatedPrincipalId("admin");
@@ -103,7 +101,7 @@ public class TestCourseOfferingServiceImplM4 {
         }
     }
 
-    private SeatPoolDefinitionInfo _constructSeatPoolDefinitionInfoById (Integer val) {
+    private SeatPoolDefinitionInfo _constructSeatPoolDefinitionInfoById(Integer val) {
         String extension = "";
         if (val != null) {
             extension += val;
@@ -173,7 +171,7 @@ public class TestCourseOfferingServiceImplM4 {
         return populationRuleInfo;
     }
 
-    private RegistrationGroupInfo _constructRegistrationGroupInfoById (Integer val) {
+    private RegistrationGroupInfo _constructRegistrationGroupInfoById(Integer val) {
         String extension = "";
         if (val != null) {
             extension += val;
@@ -260,9 +258,10 @@ public class TestCourseOfferingServiceImplM4 {
             }
             assertFalse(codeGenerated);
         } catch (Exception e) {
-            assert(false);
+            assert (false);
         }
     }
+
     @Test
     public void testGetAndRemoveRegistrationGroupsByFormatOffering() {
         before();
@@ -271,14 +270,15 @@ public class TestCourseOfferingServiceImplM4 {
         RegistrationGroupInfo info2 = _constructRegistrationGroupInfo2();
         try {
             String foId = "Lui-6";
-            RegistrationGroupInfo created = coServiceImpl.createRegistrationGroup(foId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
-            RegistrationGroupInfo created2 = coServiceImpl.createRegistrationGroup(foId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info2, contextInfo);
+            String aocId = "Aoc-1";
+            RegistrationGroupInfo created = coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
+            RegistrationGroupInfo created2 = coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info2, contextInfo);
 
             List<RegistrationGroupInfo> rgInfos = coServiceImpl.getRegistrationGroupsByFormatOffering(foId, contextInfo);
             assertEquals(2, rgInfos.size());
-            for (RegistrationGroupInfo rgInfo: rgInfos) {
+            for (RegistrationGroupInfo rgInfo : rgInfos) {
                 List<String> aoIds = rgInfo.getActivityOfferingIds();
-                for (String aoId: aoIds) {
+                for (String aoId : aoIds) {
                     // I would prefer to get AO via the coService, but the Lui Loader only handles LUIs
                     LuiInfo luiInfo = luiService.getLui(aoId, contextInfo);
                     assertNotNull(luiInfo); // Should be trivially true
@@ -288,7 +288,7 @@ public class TestCourseOfferingServiceImplM4 {
             coServiceImpl.deleteRegistrationGroupsByFormatOffering(foId, contextInfo);
             List<RegistrationGroupInfo> rgInfos2 = coServiceImpl.getRegistrationGroupsByFormatOffering(foId, contextInfo);
             assertEquals(0, rgInfos2.size());
-            for (RegistrationGroupInfo rgInfo: rgInfos) {
+            for (RegistrationGroupInfo rgInfo : rgInfos) {
                 boolean found = true;
                 try {
                     // Should not be able to find the old registration groups
@@ -297,21 +297,22 @@ public class TestCourseOfferingServiceImplM4 {
                     found = false;
                 }
                 if (found) {
-                    assert(false);
+                    assert (false);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
-            assert(false);
+            assert (false);
         }
     }
+
     @Test
     public void testCreateUpdateRegistrationGroupInfoGet() {
         before();
 
         RegistrationGroupInfo info = _constructRegistrationGroupInfoById(null);
         try {
-            RegistrationGroupInfo created = coServiceImpl.createRegistrationGroup("Lui-6", LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
+            RegistrationGroupInfo created = coServiceImpl.createRegistrationGroup("Lui-6", "Aoc-1", LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
             RegistrationGroupInfo fetched = coServiceImpl.getRegistrationGroup(created.getId(), contextInfo);
             Assert.assertEquals(created.getName(), fetched.getName());
             Assert.assertEquals(created.getStateKey(), fetched.getStateKey());
@@ -336,19 +337,19 @@ public class TestCourseOfferingServiceImplM4 {
             coServiceImpl.deleteRegistrationGroup(updated.getId(), contextInfo);
 
             List<LuiLuiRelationInfo> llrsAfter = luiService.getLuiLuiRelationsByLui(updated.getId(), contextInfo);
-            try{
+            try {
                 RegistrationGroupInfo fetchedAfterDelete = coServiceImpl.getRegistrationGroup(updated.getId(), contextInfo);
                 //This should throw an exception since the reg group was deleted
-                assert(false);
-            }catch(DoesNotExistException e){
-                assert(true);
+                assert (false);
+            } catch (DoesNotExistException e) {
+                assert (true);
             }
             System.out.println("here");
 
 
         } catch (Exception e) {
             e.printStackTrace();
-            assert(false);
+            assert (false);
         }
     }
 
@@ -380,7 +381,7 @@ public class TestCourseOfferingServiceImplM4 {
             assertEquals(combined.getId(), retrieved.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            assert(false);
+            assert (false);
         }
     }
 
@@ -400,7 +401,7 @@ public class TestCourseOfferingServiceImplM4 {
             Assert.assertEquals(info.getProcessingPriority(), fetched.getProcessingPriority());
         } catch (Exception e) {
             e.printStackTrace();
-            assert(false);
+            assert (false);
         }
     }
 
@@ -425,30 +426,30 @@ public class TestCourseOfferingServiceImplM4 {
                 found = false;
             }
             if (found) {
-                assert(false); // Exception should have been thrown
+                assert (false); // Exception should have been thrown
             }
         } catch (Exception e) {
             e.printStackTrace();
-            assert(false);
+            assert (false);
         }
     }
 
     @Test
     public void testGenerateRegistrationGroupsSimple() throws DoesNotExistException,
-       			InvalidParameterException, MissingParameterException,
-       			OperationFailedException, PermissionDeniedException, AlreadyExistsException {
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, AlreadyExistsException {
 
         before();
         try {
-        	StatusInfo status = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
-        	
-        	assertEquals(true, status.getIsSuccess());
-        	
+            StatusInfo status = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
+
+            assertEquals(true, status.getIsSuccess());
+
             List<RegistrationGroupInfo> rgList = coServiceImpl.getRegistrationGroupsByFormatOffering("Lui-6", contextInfo);
             Assert.assertEquals(1, rgList.size());
         } catch (Exception e) {
             e.printStackTrace();
-            assert(false);
+            assert (false);
         }
     }
 
@@ -503,19 +504,19 @@ class FakeCOService implements CourseOfferingService {
         rg0300.add(createRegGroup("0302"));
     }
 
-    
-    @Override
-	public List<String> getActivityOfferingClustersIdsByFormatOffering(
-			@WebParam(name = "formatOfferingId") String formatOfferingId,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
+    @Override
+    public List<String> getActivityOfferingClustersIdsByFormatOffering(
+            @WebParam(name = "formatOfferingId") String formatOfferingId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public CourseOfferingDisplayInfo getCourseOfferingDisplay(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -529,32 +530,31 @@ class FakeCOService implements CourseOfferingService {
     public ActivityOfferingDisplayInfo getActivityOfferingDisplay(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
-    
-    
+
 
     @Override
-	public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
-			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
+            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
-			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
+            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
+    @Override
     public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -844,12 +844,12 @@ class FakeCOService implements CourseOfferingService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateRegistrationGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "registrationGroupType") String registrationGroupType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String activityOfferingClusterId, String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -893,31 +893,30 @@ class FakeCOService implements CourseOfferingService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-   
 
     @Override
-	public List<ValidationResultInfo> validateActivityOfferingCluster(
-			@WebParam(name = "validationTypeKey") String validationTypeKey,
-			@WebParam(name = "formatOfferingId") String formatOfferingId,
-			@WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		return new ArrayList<ValidationResultInfo>();
-	}
+    public List<ValidationResultInfo> validateActivityOfferingCluster(
+            @WebParam(name = "validationTypeKey") String validationTypeKey,
+            @WebParam(name = "formatOfferingId") String formatOfferingId,
+            @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        return new ArrayList<ValidationResultInfo>();
+    }
 
-	@Override
-	public StatusInfo deleteActivityOfferingClusterCascaded(
-			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo deleteActivityOfferingClusterCascaded(
+            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
+    @Override
     public ActivityOfferingClusterInfo createActivityOfferingCluster(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterTypeKey") String activityOfferingClusterTypeKey, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -1022,85 +1021,80 @@ class FakeCOService implements CourseOfferingService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-	@Override
-	public StatusInfo updateCourseOfferingState(
-			@WebParam(name = "courseOfferingId") String courseOfferingId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo updateCourseOfferingState(
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public StatusInfo updateFormatOfferingState(
-			@WebParam(name = "formatOfferingId") String formatOfferingId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException
-			 {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo updateFormatOfferingState(
+            @WebParam(name = "formatOfferingId") String formatOfferingId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public StatusInfo updateActivityOfferingState(
-			@WebParam(name = "activityOfferingId") String activityOfferingId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException
-			 {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo updateActivityOfferingState(
+            @WebParam(name = "activityOfferingId") String activityOfferingId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public StatusInfo updateRegistrationGroupState(
-			@WebParam(name = "registrationGroupId") String registrationGroupId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException
-			 {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo updateRegistrationGroupState(
+            @WebParam(name = "registrationGroupId") String registrationGroupId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public StatusInfo updateActivityOfferingClusterState(
-			@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException
-			 {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo updateActivityOfferingClusterState(
+            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public StatusInfo updateSeatPoolDefinitionState(
-			@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
-			@WebParam(name = "nextStateKey") String nextStateKey,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException
-			 {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo updateSeatPoolDefinitionState(
+            @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+            @WebParam(name = "nextStateKey") String nextStateKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public StatusInfo scheduleActivityOffering(String activityOfferingId,
-			ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-    
+    @Override
+    public StatusInfo scheduleActivityOffering(String activityOfferingId,
+                                               ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
 }

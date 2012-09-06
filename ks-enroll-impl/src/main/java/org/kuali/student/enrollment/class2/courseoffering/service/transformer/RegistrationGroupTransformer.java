@@ -2,14 +2,17 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -20,6 +23,7 @@ import java.util.List;
 
 public class RegistrationGroupTransformer {
     private LuiService luiService;
+
     public LuiService getLuiService() {
         return luiService;
     }
@@ -37,15 +41,17 @@ public class RegistrationGroupTransformer {
         regGroup.setTypeKey(lui.getTypeKey());
         regGroup.setDescr(lui.getDescr());
 
-        if (lui.getOfficialIdentifier() != null){
+        if (lui.getOfficialIdentifier() != null) {
             regGroup.setRegistrationCode(lui.getOfficialIdentifier().getCode());
         }
 
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
         List<AttributeInfo> attributes = regGroup.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
-            if (CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR.equals(attr.getKey())){
+            if (CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR.equals(attr.getKey())) {
                 regGroup.setIsGenerated(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.AOCLUSTER_ID_ATTR.equals(attr.getKey())) {
+                regGroup.setActivityOfferingClusterId(attr.getValue());
             } else {
                 attributes.add(new AttributeInfo(attr));
             }
@@ -71,10 +77,10 @@ public class RegistrationGroupTransformer {
 
         return regGroup;
     }
-    
-    
+
+
     public LuiInfo rg2Lui(RegistrationGroupInfo regGroup, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        
+
         LuiInfo lui = new LuiInfo();
         lui.setId(regGroup.getId());
         lui.setTypeKey(regGroup.getTypeKey());
@@ -98,6 +104,13 @@ public class RegistrationGroupTransformer {
         isGenerated.setKey(CourseOfferingServiceConstants.IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR);
         isGenerated.setValue(String.valueOf(regGroup.getIsGenerated()));
         attributes.add(isGenerated);
+
+
+        AttributeInfo aocIdAttrib = new AttributeInfo();
+        aocIdAttrib.setKey(CourseOfferingServiceConstants.AOCLUSTER_ID_ATTR);
+        aocIdAttrib.setValue(String.valueOf(regGroup.getActivityOfferingClusterId()));
+        attributes.add(aocIdAttrib);
+
         lui.setAttributes(attributes);
 
         lui.setName(regGroup.getName());
@@ -109,7 +122,7 @@ public class RegistrationGroupTransformer {
         }
 
         lui.setAtpId(regGroup.getTermId());
-        
+
         //below undecided
         //lui.setHasWaitlist(rg.getHasWaitlist());
         //lui.setIsWaitlistCheckinRequired(rg.getIsWaitlistCheckinRequired());
@@ -119,7 +132,7 @@ public class RegistrationGroupTransformer {
 
 
         return lui;
-    
+
     }
 
     private void assembleLuiLuiRelations(RegistrationGroupInfo rg, String luiId, ContextInfo context)
@@ -131,7 +144,7 @@ public class RegistrationGroupTransformer {
         if (rels != null && !rels.isEmpty()) {
             for (LuiLuiRelationInfo rel : rels) {
                 if (rel.getLuiId().equals(luiId)
-                    && rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY)) {
+                        && rel.getTypeKey().equals(LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY)) {
                     if (!activityIds.contains(rel.getRelatedLuiId())) {
                         activityIds.add(rel.getRelatedLuiId());
                     }
