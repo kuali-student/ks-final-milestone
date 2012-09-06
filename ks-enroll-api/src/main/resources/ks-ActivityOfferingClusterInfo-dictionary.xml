@@ -79,6 +79,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+	<bean id="ActivityOfferingClusterInfo.privateName" parent="ActivityOfferingClusterInfo.privateName-parent"/>
+	<bean id="ActivityOfferingClusterInfo.privateName-parent" abstract="true" parent="ActivityOfferingClusterInfo.privateName-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="ActivityOfferingClusterInfo.formatOfferingId" parent="ActivityOfferingClusterInfo.formatOfferingId-parent"/>
 	<bean id="ActivityOfferingClusterInfo.formatOfferingId-parent" abstract="true" parent="ActivityOfferingClusterInfo.formatOfferingId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->

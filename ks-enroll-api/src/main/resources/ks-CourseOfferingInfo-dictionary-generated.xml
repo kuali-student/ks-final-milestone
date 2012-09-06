@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Jul 05 08:31:03 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -65,25 +65,27 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.courseCode"/>
 				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
 				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
-                <ref bean="CourseOfferingInfo.courseNumberInternalSuffix"/>
 				<ref bean="CourseOfferingInfo.courseOfferingTitle"/>
+				<ref bean="CourseOfferingInfo.creditCnt"/>
 				<ref bean="CourseOfferingInfo.isHonorsOffering"/>
 				<ref bean="CourseOfferingInfo.subjectArea"/>
 				<ref bean="CourseOfferingInfo.maximumEnrollment"/>
 				<ref bean="CourseOfferingInfo.minimumEnrollment"/>
-				<ref bean="CourseOfferingInfo.creditOptionId"/>
-				<ref bean="CourseOfferingInfo.creditCnt"/>
 				<ref bean="CourseOfferingInfo.gradingOptionId"/>
-				<ref bean="CourseOfferingInfo.gradingOption"/>
+				<ref bean="CourseOfferingInfo.gradingOptionName"/>
+				<ref bean="CourseOfferingInfo.creditOptionName"/>
+				<ref bean="CourseOfferingInfo.creditOptionId"/>
 				<ref bean="CourseOfferingInfo.waitlistLevelTypeKey"/>
+				<ref bean="CourseOfferingInfo.waitlistMaximum"/>
 				<ref bean="CourseOfferingInfo.hasWaitlist"/>
 				<ref bean="CourseOfferingInfo.waitlistTypeKey"/>
-				<ref bean="CourseOfferingInfo.finalExamType"/>
 				<ref bean="CourseOfferingInfo.isEvaluated"/>
 				<ref bean="CourseOfferingInfo.fundingSource"/>
 				<ref bean="CourseOfferingInfo.isFeeAtActivityOffering"/>
+				<ref bean="CourseOfferingInfo.courseNumberInternalSuffix"/>
 				<ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
 				<ref bean="CourseOfferingInfo.courseOfferingURL"/>
+				<ref bean="CourseOfferingInfo.finalExamType"/>
 			</list>
 		</property>
 
@@ -300,23 +302,7 @@ in the calculation of the courseCode.
 		</property>
 		<property name="required" value="false"/>
 	</bean>
-	<bean id="CourseOfferingInfo.courseNumberInternalSuffix-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="courseNumberInternalSuffix"/>
-		<property name="shortLabel" value="Course Number Internal Suffix"/>
-		<property name="summary">
-            <value>
-A suffix is the system generated code.
-			</value>
-		</property>
-		<property name="label" value="Course Number Internal Suffix"/>
-		<property name="description">
-			<value>
-A suffix is the system generated code that is hidden from the user
-            that parallels with courseOfferingNumberSuffix.
-            </value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
+
 	<bean id="CourseOfferingInfo.courseOfferingTitle-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="courseOfferingTitle"/>
 		<property name="shortLabel" value="Course Offering Title"/>
@@ -340,6 +326,28 @@ example: SPECIAL TOPICS: AN EXPLORATION OF DEEP SPACE ARTIFACTS
 l
 			</value>
 		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.creditCnt-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditCnt"/>
+		<property name="shortLabel" value="Credit Cnt"/>
+		<property name="summary">
+			<value>
+Gets the Credit Count
+			</value>
+		</property>
+		<property name="label" value="Credit Count"/>
+		<property name="description">
+			<value>
+Gets the Credit Count
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="false"/>
 	</bean>
 
@@ -473,6 +481,11 @@ for the offering. Calculated based on sum of all the maximum seats of
 primary activity type offerings.
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="false"/>
 	</bean>
 
@@ -517,6 +530,96 @@ offering is joint-listed
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
+	<bean id="CourseOfferingInfo.gradingOptionId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="gradingOptionId"/>
+		<property name="shortLabel" value="Grading Option Id"/>
+		<property name="summary">
+			<value>
+The options/scales that indicate the allowable grades within a
+grading scheme that can be awarded. 
+			</value>
+		</property>
+		<property name="label" value="Grading Option Id"/>
+		<property name="description">
+			<value>
+The options/scales that indicate the allowable grades within a
+grading scheme that can be awarded. Typically, the values here
+are constrained by the values on the canonical course. If the
+value is set here then the Clu must have a grading option set
+on the canonical activity. For example: an id might point to
+Pass/Fail or Letter Graded option.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.gradingOptionName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="gradingOptionName"/>
+		<property name="shortLabel" value="Grading Option Name"/>
+		<property name="summary">
+			<value>
+Gets the Grading Option Name
+			</value>
+		</property>
+		<property name="label" value="Grading Option Name"/>
+		<property name="description">
+			<value>
+Gets the Grading Option Name
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.studentRegistrationGradingOptions-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="studentRegistrationGradingOptions"/>
+		<property name="shortLabel" value="Student Registration Grading Options"/>
+		<property name="summary">
+			<value>
+The options/scales that indicate the allowable grades within a
+grading scheme in which an eligible student can register. 
+			</value>
+		</property>
+		<property name="label" value="Student Registration Grading Options"/>
+		<property name="elementLabel" value="Student Registration Grading Option"/>
+		<property name="description">
+			<value>
+The options/scales that indicate the allowable grades within a
+grading scheme in which an eligible student can register. This
+list of options includes the Grading Option Id plus any
+additional grading schemes, such as P/F or Audit.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.creditOptionName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditOptionName"/>
+		<property name="shortLabel" value="Credit Option Name"/>
+		<property name="summary">
+			<value>
+The name of the credit option
+			</value>
+		</property>
+		<property name="label" value="Credit Option Name"/>
+		<property name="description">
+			<value>
+The name of the credit option
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="CourseOfferingInfo.creditOptionId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="creditOptionId"/>
 		<property name="shortLabel" value="Credit Option Id"/>
@@ -525,105 +628,18 @@ offering is joint-listed
 Type of credit of course offering. 
 			</value>
 		</property>
-		<property name="label" value="Credit Option"/>
+		<property name="label" value="Credit Option Id"/>
 		<property name="description">
 			<value>
-Type of credit of course offering. This field is initially copied and constrained
-from the canonical course but then, depending on configuration, it may be
-updated. Often it is just a fixed single
+Type of credit of course offering. This field is initially copied from
+the canonical course but then, depending on configuration, it may be
+updated. TODO: figure out which of the credit options will be copied down
+because the canonical has more than one! Often it is just a fixed single
 value but a ResultValuesGroup could contain a range (with increments) or
 even a discrete list of possible credit values.
-These are the constraint/mapping rules:
-- A fixed option on clu maps to a fixed option on lui.
-- A variable option on clu can map to a fixed, variable or multiple option on lui constrained by the min and max
-- A multiple option on clu can map to a fixed or multiple option on lui constrained by the clu options
-It is possible that the canonical has more than one!
 			</value>
 		</property>
 		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="CourseOfferingInfo.creditCnt-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="creditCnt"/>
-		<property name="shortLabel" value="Credit Cnt"/>
-		<property name="summary">
-			<value>
-Gets the Credit Count
-			</value>
-		</property>
-		<property name="label" value="Credit Count"/>
-		<property name="description">
-			<value>
-Gets the Credit Count
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="CourseOfferingInfo.gradingOptionId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="gradingOptionId"/>
-		<property name="shortLabel" value="Grading Option Id"/>
-		<property name="summary">
-			<value>
-The options/scale that indicates the allowable grades that can be
-awarded. 
-			</value>
-		</property>
-		<property name="label" value="Grading Option Id"/>
-		<property name="description">
-			<value>
-The options/scale that indicates the allowable grades that can be
-awarded. Typically the value here are constrained by the values on the
-canonical course. If the value is set here then the Clu must have a
-grading option set on the canonical activity. For example: an id might
-point to Pass/Fail or Letter Graded option.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="CourseOfferingInfo.gradingOption-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="gradingOption"/>
-		<property name="shortLabel" value="Grading Option"/>
-		<property name="summary">
-			<value>
-Gets the Grading Name
-			</value>
-		</property>
-		<property name="label" value="Grading"/>
-		<property name="description">
-			<value>
-Gets the Grading Name
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="CourseOfferingInfo.studentRegistrationOptionIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="studentRegistrationOptionIds"/>
-		<property name="shortLabel" value="Student Registration Option Ids"/>
-		<property name="summary">
-			<value>
-The options/scales that indicate the allowable grades that can be
-awarded. 
-			</value>
-		</property>
-		<property name="label" value="Student Registration Option Ids"/>
-		<property name="elementLabel" value="Student Registration Option Id"/>
-		<property name="description">
-			<value>
-The options/scales that indicate the allowable grades that can be
-awarded. Typically the values here are constrained by the values on the
-canonical course. If the value is set here then the Clu must have a
-grading option set on the canonical activity. For example: an id might
-point to Pass/Fail or Letter Graded option.
-
-This is the same as gradingOptionIds, but the student registration specific
-ids are pulled out and placed in this collection.
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
 	<bean id="CourseOfferingInfo.waitlistLevelTypeKey-generated" abstract="true" parent="BaseKuali.string">
@@ -640,6 +656,23 @@ Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
 			<value>
 Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
  Values are in WaitListLevel enum.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.waitlistMaximum-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="waitlistMaximum"/>
+		<property name="shortLabel" value="Waitlist Maximum"/>
+		<property name="summary">
+			<value>
+Maximum number of students to be allowed on the wait list.
+			</value>
+		</property>
+		<property name="label" value="Waitlist Maximum"/>
+		<property name="description">
+			<value>
+Maximum number of students to be allowed on the wait list.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -714,25 +747,6 @@ Places where this Course offering is offered.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.finalExamType-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="finalExamType"/>
-		<property name="shortLabel" value="Final Exam Type"/>
-		<property name="summary">
-			<value>
-Indicates the type of final exam ('STANDARD', 'ALTERNATE',
-'NONE') to be given for this format Offering, if any.
-			</value>
-		</property>
-		<property name="label" value="Final Exam Type"/>
-		<property name="description">
-			<value>
-Indicates the type of final exam ('STANDARD', 'ALTERNATE',
-'NONE') to be given for this format Offering, if any.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
 	<bean id="CourseOfferingInfo.isEvaluated-generated" abstract="true" parent="BaseKuali.boolean">
 		<property name="name" value="isEvaluated"/>
 		<property name="shortLabel" value="Is Evaluated"/>
@@ -787,6 +801,25 @@ if false its at CourseOffering level.
 		<property name="required" value="false"/>
 	</bean>
 
+	<bean id="CourseOfferingInfo.courseNumberInternalSuffix-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseNumberInternalSuffix"/>
+		<property name="shortLabel" value="Course Number Internal Suffix"/>
+		<property name="summary">
+			<value>
+A suffix is the system generated code that is hidden from the user
+that parallels with courseOfferingNumberSuffix.
+			</value>
+		</property>
+		<property name="label" value="Course Number Internal Suffix"/>
+		<property name="description">
+			<value>
+A suffix is the system generated code that is hidden from the user
+that parallels with courseOfferingNumberSuffix.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="CourseOfferingInfo.isFinancialAidEligible-generated" abstract="true" parent="BaseKuali.boolean">
 		<property name="name" value="isFinancialAidEligible"/>
 		<property name="shortLabel" value="Is Financial Aid Eligible"/>
@@ -819,6 +852,27 @@ Gets the Course Offering URL.
 		<property name="description">
 			<value>
 Gets the Course Offering URL.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseOfferingInfo.finalExamType-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="finalExamType"/>
+		<property name="shortLabel" value="Final Exam Type"/>
+		<property name="summary">
+			<value>
+Indicates whether a final exam is to be given  for this format Offering
+and if its true, the level at which it exists
+Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+			</value>
+		</property>
+		<property name="label" value="Final Exam Type"/>
+		<property name="description">
+			<value>
+Indicates whether a final exam is to be given  for this format Offering
+and if its true, the level at which it exists
+Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
 			</value>
 		</property>
 		<property name="required" value="false"/>

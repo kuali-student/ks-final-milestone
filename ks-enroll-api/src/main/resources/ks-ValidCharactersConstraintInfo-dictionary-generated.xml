@@ -1,0 +1,171 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- ValidCharactersConstraintInfo-->
+	<bean id="ValidCharactersConstraintInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="validCharactersConstraintInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.datadictionary.dto.ValidCharactersConstraintInfo"/>
+		<property name="objectLabel" value="Valid Characters Constraint"/>
+		<property name="objectDescription">
+			<value>
+Constraint that applied a regular expression to check if the
+characters are valid
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>jsValue</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="ValidCharactersConstraintInfo.jsValue"/>
+				<ref bean="ValidCharactersConstraintInfo.value"/>
+				<ref bean="ValidCharactersConstraintInfo.isApplyClientSide"/>
+				<ref bean="ValidCharactersConstraintInfo.labelKey"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ValidCharactersConstraintInfo.jsValue-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="jsValue"/>
+		<property name="shortLabel" value="Js Value"/>
+		<property name="summary">
+			<value>
+Javascript version of the regex defined in value.  
+			</value>
+		</property>
+		<property name="label" value="Java Script Value"/>
+		<property name="description">
+			<value>
+Javascript version of the regex defined in value.  This does
+not have to be set if this constraint's key maps to one of the
+default valid character methods contained in jQuery - (insert
+that list here).  This must be set if there is NO default
+method that matches the label key and applyClientSide is true.
+
+This is completely ignored if applyClientSide is set to false.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ValidCharactersConstraintInfo.value-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="value"/>
+		<property name="shortLabel" value="Value"/>
+		<property name="summary">
+			<value>
+The Java based regex for valid characters
+There are two forms:
+regex:xxxxx
+and just: xxxx
+
+If the 2nd form then it is interpreted as a simple list of valid characters.
+
+			</value>
+		</property>
+		<property name="label" value="Value"/>
+		<property name="description">
+			<value>
+The Java based regex for valid characters
+There are two forms:
+regex:xxxxx
+and just: xxxx
+
+If the 2nd form then it is interpreted as a simple list of valid characters.
+Note: it is actualy converted to a regular expression by wrapping it in [].
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ValidCharactersConstraintInfo.isApplyClientSide-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isApplyClientSide"/>
+		<property name="shortLabel" value="Is Apply Client Side"/>
+		<property name="summary">
+			<value>
+If this is true, the constraint should be applied on the client
+side when the user interacts with a field - if this constraint
+can be interpreted for client side use. 
+			</value>
+		</property>
+		<property name="label" value="Is Apply Client Side"/>
+		<property name="description">
+			<value>
+If this is true, the constraint should be applied on the client
+side when the user interacts with a field - if this constraint
+can be interpreted for client side use. Default is true.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ValidCharactersConstraintInfo.labelKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="labelKey"/>
+		<property name="shortLabel" value="Label Key"/>
+		<property name="summary">
+			<value>
+LabelKey should be a single word key.  
+			</value>
+		</property>
+		<property name="label" value="Label Key"/>
+		<property name="description">
+			<value>
+LabelKey should be a single word key.  This key is used to find
+a message to use for this constraint from available messages.
+The key is also used for defining/retrieving validation method
+names when applicable - as such this key MUST exist for valid
+character constraints.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

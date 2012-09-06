@@ -24,9 +24,9 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 /**
  * Course Offering Service Constants
- * @see LuiServiceConstants
  *
  * @author nwright
+ * @see LuiServiceConstants
  */
 public class CourseOfferingServiceConstants {
 
@@ -53,7 +53,7 @@ public class CourseOfferingServiceConstants {
     public static final String WAIT_LIST_INDICATOR_ATTR = "kuali.attribute.wait.list.indicator";
     public static final String COURSE_NUMBER_IN_SUFX_ATTR = "kuali.attribute.course.number.internal.suffix";
     public static final String IS_REGISTRATION_GROUP_GENERATED_INDICATOR_ATTR = "kuali.attribute.registration.group.is.generated";
-
+    public static final String AOCLUSTER_ID_ATTR = "kuali.attribute.registration.group.aocluster.id";
     // The type/states are defined in LuiServiceConstants.java
 
     //The list of all Student registration-specific grading options

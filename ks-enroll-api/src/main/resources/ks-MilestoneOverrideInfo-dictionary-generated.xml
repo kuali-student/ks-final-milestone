@@ -1,0 +1,110 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- MilestoneOverrideInfo-->
+	<bean id="MilestoneOverrideInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="milestoneOverrideInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.MilestoneOverrideInfo"/>
+		<property name="objectLabel" value="Milestone Override"/>
+		<property name="objectDescription">
+			<value>
+Information about a MilestoneOverride. A Milestone override
+describes data related to replacing a milestone with a new
+milestone.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>milestoneId</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="MilestoneOverrideInfo.milestoneId"/>
+				<ref bean="MilestoneOverrideInfo.effectiveMilestoneId"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="MilestoneOverrideInfo.milestoneId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="milestoneId"/>
+		<property name="shortLabel" value="Milestone Id"/>
+		<property name="summary">
+			<value>
+The key for the overridden Milestone.
+			</value>
+		</property>
+		<property name="label" value="Milestone type Key"/>
+		<property name="description">
+			<value>
+The key for the overridden Milestone.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="MilestoneOverrideInfo.effectiveMilestoneId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="effectiveMilestoneId"/>
+		<property name="shortLabel" value="Effective Milestone Id"/>
+		<property name="summary">
+			<value>
+The new milestone that should be in effect.
+			</value>
+		</property>
+		<property name="label" value="Effective Milestone id"/>
+		<property name="description">
+			<value>
+The new milestone that should be in effect.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

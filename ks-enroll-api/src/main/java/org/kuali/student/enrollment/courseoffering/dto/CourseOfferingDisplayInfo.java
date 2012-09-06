@@ -2,10 +2,15 @@ package org.kuali.student.enrollment.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingDisplay;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +20,13 @@ import java.util.List;
  * @author Kuali Student Team (Sambit)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseOfferingDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "courseId",
-        "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea","termName", "termCode", "displayGrading",
-         "displayCredit","typeName", "stateName", "activtyOfferingTypes", "meta", "attributes", "_futureElements"})
+@XmlType(name = "CourseOfferingDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
+        "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea", "termName", "termCode", "gradingOptionName",
+        "creditOptionName", "typeName", "stateName", "activtyOfferingTypes", "meta", "attributes", "_futureElements"})
 public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingDisplay, Serializable {
+
+    @XmlElement
+    RichTextInfo descr;
 
     @XmlElement
     private String courseId;
@@ -35,17 +43,17 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     @XmlElement
     private String subjectArea;
 
-   @XmlElement
+    @XmlElement
     private String termName;
 
     @XmlElement
     private String termCode;
 
     @XmlElement
-    private String displayGrading;
+    private String gradingOptionName;
 
     @XmlElement
-    private String displayCredit;
+    private String creditOptionName;
 
 
     @XmlElement
@@ -69,12 +77,12 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
 
         super(courseOfferingDisplay);
         if (courseOfferingDisplay != null) {
-
+            this.descr = (null != courseOfferingDisplay.getDescr()) ? new RichTextInfo(courseOfferingDisplay.getDescr()) : null;
             this.termCode = courseOfferingDisplay.getTermCode();
             this.termName = courseOfferingDisplay.getTermName();
             this.termId = courseOfferingDisplay.getTermId();
-            this.displayCredit = courseOfferingDisplay.getDisplayCredit();
-            this.displayGrading = courseOfferingDisplay.getDisplayGrading();
+            this.creditOptionName = courseOfferingDisplay.getCreditOptionName();
+            this.gradingOptionName = courseOfferingDisplay.getGradingOptionName();
             this.activtyOfferingTypes = new ArrayList<String>(courseOfferingDisplay.getActivtyOfferingTypes());
             this.typeName = courseOfferingDisplay.getTypeName();
             this.stateName = courseOfferingDisplay.getStateName();
@@ -88,9 +96,13 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
 
     @Override
     public RichText getDescr() {
-        return this.getDescr();
+        return this.descr;
     }
 
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+    
     @Override
     public String getCourseId() {
         return this.courseId;
@@ -143,6 +155,10 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
         return termName;
     }
 
+    public void setTermName(String termName) {
+        this.termName = termName;
+    }
+
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
@@ -155,18 +171,24 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     public void setActivtyOfferingTypes(List<String> activtyOfferingTypes) {
         this.activtyOfferingTypes = activtyOfferingTypes;
     }
-     @Override
+
+    @Override
     public String getTermCode() {
         return termCode;
     }
 
-    @Override
-    public String getDisplayCredit() {
-        return displayCredit;
+    public void setTermCode(String termCode) {
+        this.termCode = termCode;
     }
 
-    public void setDisplayCredit(String displayCredit) {
-        this.displayCredit = displayCredit;
+
+    @Override
+    public String getCreditOptionName() {
+        return creditOptionName;
+    }
+
+    public void setCreditOptionName(String creditOptionName) {
+        this.creditOptionName = creditOptionName;
     }
 
     @Override
@@ -185,11 +207,11 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
 
 
     @Override
-    public String getDisplayGrading() {
-        return displayGrading;
+    public String getGradingOptionName() {
+        return gradingOptionName;
     }
 
-    public void setDisplayGrading(String displayGrading) {
-        this.displayGrading = displayGrading;
+    public void setGradingOptionName(String gradingOptionName) {
+        this.gradingOptionName = gradingOptionName;
     }
 }

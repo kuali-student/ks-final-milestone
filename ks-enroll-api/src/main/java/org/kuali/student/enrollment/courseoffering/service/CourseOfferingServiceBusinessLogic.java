@@ -70,15 +70,13 @@ public interface CourseOfferingServiceBusinessLogic {
      * @throws MissingParameterException the formatOfferingId or context is missing.
      * @throws OperationFailedException unable to complete request, can also occur when verification of any AOC in the format offering fails.
      * @throws PermissionDeniedException authorization failure
-     * @throws AlreadyExistsException Registration Groups exist for the formatOfferingId 
-     * @throws DataValidationErrorException TODO
      * @throws DataValidationErrorException verification of any of the underlying Activity Offering Cluster's failed.
      */
 	public StatusInfo generateRegistrationGroupsForFormatOffering(
 			String formatOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, AlreadyExistsException, DataValidationErrorException;
+			PermissionDeniedException, DataValidationErrorException;
 	
 	/**
      * Generates all possible registration groups for the Activity Offering
@@ -90,16 +88,16 @@ public interface CourseOfferingServiceBusinessLogic {
      *                                  principalId and locale information about
      *                                  the caller of service operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     activityOfferingClusterId does not
+	 * @throws DoesNotExistException     activityOfferingClusterId does not
      *                                   exist
-     * @throws AlreadyExistsException RegistrationGroup's already exist for the identified activity offering cluster.
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws DataValidationErrorException verification of the Activity Offering Cluster failed.
-     * @throws MissingParameterException activityOfferingClusterId or
+	 * @throws DataValidationErrorException verification of the Activity Offering Cluster failed.
+	 * @throws InvalidParameterException invalid contextInfo
+	 * @throws MissingParameterException activityOfferingClusterId or
      *                                   contextInfo is missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure has occurred
+	 * @throws OperationFailedException  unable to complete request
+	 * @throws PermissionDeniedException an authorization failure has occurred
+     * @impl Does 'delta' generation: Creates only new RGs
      */
-    public StatusInfo generateRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo generateRegistrationGroupsForCluster(@WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 }

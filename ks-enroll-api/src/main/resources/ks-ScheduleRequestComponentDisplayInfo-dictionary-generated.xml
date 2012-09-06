@@ -1,0 +1,199 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- ScheduleRequestComponentDisplayInfo-->
+	<bean id="ScheduleRequestComponentDisplayInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="scheduleRequestComponentDisplayInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentDisplayInfo"/>
+		<property name="objectLabel" value="Schedule Request Component Display"/>
+		<property name="objectDescription">
+			<value>
+This class represents a reusable display object in the Scheduling Service for Schedule Request Component.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="ScheduleRequestComponentDisplayInfo.id"/>
+				<ref bean="ScheduleRequestComponentDisplayInfo.isTBA"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+				<ref bean="ScheduleRequestComponentDisplayInfo.rooms"/>
+				<ref bean="ScheduleRequestComponentDisplayInfo.buildings"/>
+				<ref bean="ScheduleRequestComponentDisplayInfo.timeSlots"/>
+				<ref bean="ScheduleRequestComponentDisplayInfo.orgs"/>
+				<ref bean="ScheduleRequestComponentDisplayInfo.resourceTypes"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ScheduleRequestComponentDisplayInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="ScheduleRequestComponentDisplayInfo.rooms-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="rooms"/>
+		<property name="shortLabel" value="Rooms"/>
+		<property name="summary">
+			<value>
+The Rooms.
+			</value>
+		</property>
+		<property name="label" value="Rooms"/>
+		<property name="elementLabel" value="Room"/>
+		<property name="description">
+			<value>
+The Rooms.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
+	</bean>
+
+	<bean id="ScheduleRequestComponentDisplayInfo.buildings-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="buildings"/>
+		<property name="shortLabel" value="Buildings"/>
+		<property name="summary">
+			<value>
+The Building.
+			</value>
+		</property>
+		<property name="label" value="Buildings"/>
+		<property name="elementLabel" value="Building"/>
+		<property name="description">
+			<value>
+The Building.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
+	</bean>
+
+	<bean id="ScheduleRequestComponentDisplayInfo.timeSlots-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="timeSlots"/>
+		<property name="shortLabel" value="Time Slots"/>
+		<property name="summary">
+			<value>
+The Time Slots
+			</value>
+		</property>
+		<property name="label" value="Time Slots"/>
+		<property name="elementLabel" value="Time Slot"/>
+		<property name="description">
+			<value>
+The Time Slots
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo"/>
+	</bean>
+
+	<bean id="ScheduleRequestComponentDisplayInfo.orgs-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="orgs"/>
+		<property name="shortLabel" value="Orgs"/>
+		<property name="summary">
+			<value>
+The Orgs to specify a Room or Building &quot;owned&quot; by an
+Organization.
+			</value>
+		</property>
+		<property name="label" value="Orgs"/>
+		<property name="elementLabel" value="Org"/>
+		<property name="description">
+			<value>
+The Orgs to specify a Room or Building &quot;owned&quot; by an
+Organization.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+	</bean>
+
+	<bean id="ScheduleRequestComponentDisplayInfo.resourceTypes-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="resourceTypes"/>
+		<property name="shortLabel" value="Resource Types"/>
+		<property name="summary">
+			<value>
+The resource types.
+			</value>
+		</property>
+		<property name="label" value="Resource Types"/>
+		<property name="elementLabel" value="Resource Type"/>
+		<property name="description">
+			<value>
+The resource types.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.type.dto.TypeInfo"/>
+	</bean>
+
+	<bean id="ScheduleRequestComponentDisplayInfo.isTBA-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isTBA"/>
+		<property name="shortLabel" value="Is TBA"/>
+		<property name="summary">
+			<value>
+The flag that holds whether this is a TBA schedule request.
+
+			</value>
+		</property>
+		<property name="label" value="Is T B A"/>
+		<property name="description">
+			<value>
+The flag that holds whether this is a TBA schedule request.
+A ScheduleRequestComponent is TBA if the Room is TBA, or timeslot is completely TBA (not there), or is of type TBA (weekday or start/end time TBA).
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

@@ -1,0 +1,200 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- SearchRequestInfo-->
+	<bean id="SearchRequestInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="searchRequestInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchRequestInfo"/>
+		<property name="objectLabel" value="Search Request"/>
+		<property name="objectDescription">
+			<value>
+null
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>searchKey</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="SearchRequestInfo.searchKey"/>
+				<ref bean="SearchRequestInfo.sortColumn"/>
+				<ref bean="SearchRequestInfo.sortDirection"/>
+				<ref bean="SearchRequestInfo.startAt"/>
+				<ref bean="SearchRequestInfo.maxResults"/>
+				<ref bean="SearchRequestInfo.neededTotalResults"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+				<ref bean="SearchRequestInfo.params"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="SearchRequestInfo.searchKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="searchKey"/>
+		<property name="shortLabel" value="Search Key"/>
+		<property name="summary">
+			<value>
+The search key.
+			</value>
+		</property>
+		<property name="label" value="Search Key"/>
+		<property name="description">
+			<value>
+The search key.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="SearchRequestInfo.params-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="params"/>
+		<property name="shortLabel" value="Params"/>
+		<property name="summary">
+			<value>
+The search parameters.
+			</value>
+		</property>
+		<property name="label" value="Search Paramaeters"/>
+		<property name="elementLabel" value="Param"/>
+		<property name="description">
+			<value>
+The search parameters.
+			</value>
+		</property>
+		<property name="minOccurs" value="1"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.search.dto.SearchParamInfo"/>
+	</bean>
+
+	<bean id="SearchRequestInfo.sortColumn-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="sortColumn"/>
+		<property name="shortLabel" value="Sort Column"/>
+		<property name="summary">
+			<value>
+The sort column.
+			</value>
+		</property>
+		<property name="label" value="Sort Column"/>
+		<property name="description">
+			<value>
+The sort column.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SearchRequestInfo.sortDirection-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="sortDirection"/>
+		<property name="shortLabel" value="Sort Direction"/>
+		<property name="summary">
+			<value>
+The sort column direction.
+			</value>
+		</property>
+		<property name="label" value="Sort Direction"/>
+		<property name="description">
+			<value>
+The sort column direction.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SearchRequestInfo.startAt-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="startAt"/>
+		<property name="shortLabel" value="Start At"/>
+		<property name="summary">
+			<value>
+The starting position of the results.
+			</value>
+		</property>
+		<property name="label" value="Starting Position"/>
+		<property name="description">
+			<value>
+The starting position of the results.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SearchRequestInfo.maxResults-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="maxResults"/>
+		<property name="shortLabel" value="Max Results"/>
+		<property name="summary">
+			<value>
+The maximum number of results.
+			</value>
+		</property>
+		<property name="label" value="Maximum Results"/>
+		<property name="description">
+			<value>
+The maximum number of results.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SearchRequestInfo.neededTotalResults-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="neededTotalResults"/>
+		<property name="shortLabel" value="Needed Total Results"/>
+		<property name="summary">
+			<value>
+The minimum number of needed results.
+			</value>
+		</property>
+		<property name="label" value="Neeed Total Results"/>
+		<property name="description">
+			<value>
+The minimum number of needed results.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

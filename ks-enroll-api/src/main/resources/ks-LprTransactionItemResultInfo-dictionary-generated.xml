@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -45,7 +45,7 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Lpr Transaction Item Result"/>
 		<property name="objectDescription">
 			<value>
-This is a description of what this class does - sambitpatnaik don't forget to fill this in.
+null
 			</value>
 		</property>
 		<property name="primaryKeys">
@@ -57,6 +57,7 @@ This is a description of what this class does - sambitpatnaik don't forget to fi
 		<property name="attributes">
 			<list>
 				<ref bean="LprTransactionItemResultInfo.resultingLprId"/>
+				<ref bean="LprTransactionItemResultInfo.message"/>
 				<ref bean="LprTransactionItemResultInfo.status"/>
 			</list>
 		</property>
@@ -78,48 +79,56 @@ This is a description of what this class does - sambitpatnaik don't forget to fi
 		<property name="summary">
 			<value>
 The resulting LPR for this LPR transaction item if its successful.
+
+
 			</value>
 		</property>
 		<property name="label" value="Resulting Lpr Id"/>
 		<property name="description">
 			<value>
 The resulting LPR for this LPR transaction item if its successful.
+
+Returns null if unsuccessful, valid lpr id in case of success
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LprTransactionItemResultInfo.messages-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="messages"/>
-		<property name="shortLabel" value="Messages"/>
+	<bean id="LprTransactionItemResultInfo.message-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="message"/>
+		<property name="shortLabel" value="Message"/>
 		<property name="summary">
 			<value>
-The messages  for the transaction - success/failure/warning.
+The message  for the transaction
+In case of success, there may still be warning messages
 			</value>
 		</property>
-		<property name="label" value="Messages"/>
-		<property name="elementLabel" value="Message"/>
+		<property name="label" value="Message"/>
 		<property name="description">
 			<value>
-The messages  for the transaction - success/failure/warning.
+The message  for the transaction
+In case of success, there may still be warning messages
 			</value>
 		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LprTransactionItemResultInfo.status-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="LprTransactionItemResultInfo.status-generated" abstract="true" parent="BaseKuali.boolean">
 		<property name="name" value="status"/>
 		<property name="shortLabel" value="Status"/>
 		<property name="summary">
 			<value>
 The status of the transaction.
+
+
 			</value>
 		</property>
 		<property name="label" value="Status"/>
 		<property name="description">
 			<value>
 The status of the transaction.
+
+Returns true in case transaction item had a successful result, false otherwise.
 			</value>
 		</property>
 		<property name="required" value="false"/>

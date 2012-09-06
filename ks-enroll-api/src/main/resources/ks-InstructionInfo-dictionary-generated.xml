@@ -297,7 +297,7 @@ warning. If false, the Check failure is interpreted as an
 error.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="InstructionInfo.continueOnFail-generated" abstract="true" parent="BaseKuali.boolean">
@@ -314,7 +314,7 @@ Tests if processing should continue if this Check fails.
 Tests if processing should continue if this Check fails.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="InstructionInfo.isExemptible-generated" abstract="true" parent="BaseKuali.boolean">
@@ -322,16 +322,16 @@ Tests if processing should continue if this Check fails.
 		<property name="shortLabel" value="Is Exemptible"/>
 		<property name="summary">
 			<value>
-Tests an Exemption can be requested to this Instruction.
+Tests if an Exemption can be requested to this Instruction.
 			</value>
 		</property>
-		<property name="label" value="Is Exemptable"/>
+		<property name="label" value="Is Exemptible"/>
 		<property name="description">
 			<value>
-Tests an Exemption can be requested to this Instruction.
+Tests if an Exemption can be requested to this Instruction.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="InstructionInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Mon Jun 11 11:57:51 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -66,7 +66,11 @@ Read only object that holds the results of a rollover process
 				<ref bean="SocRolloverResultInfo.itemsExpected"/>
 				<ref bean="SocRolloverResultInfo.courseOfferingsCreated"/>
 				<ref bean="SocRolloverResultInfo.courseOfferingsSkipped"/>
+				<ref bean="SocRolloverResultInfo.activityOfferingsCreated"/>
+				<ref bean="SocRolloverResultInfo.activityOfferingsSkipped"/>
 				<ref bean="SocRolloverResultInfo.sourceTermId"/>
+				<ref bean="SocRolloverResultInfo.dateInitiated"/>
+				<ref bean="SocRolloverResultInfo.dateCompleted"/>
 			</list>
 		</property>
 
@@ -222,7 +226,7 @@ Number of items expected to be processed
 
 	<bean id="SocRolloverResultInfo.courseOfferingsCreated-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="courseOfferingsCreated"/>
-		<property name="shortLabel" value="Items Created"/>
+		<property name="shortLabel" value="Course Offerings Created"/>
 		<property name="summary">
 			<value>
 Number of course offerings created
@@ -244,7 +248,7 @@ Number of course offerings created
 
 	<bean id="SocRolloverResultInfo.courseOfferingsSkipped-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="courseOfferingsSkipped"/>
-		<property name="shortLabel" value="Items Skipped"/>
+		<property name="shortLabel" value="Course Offerings Skipped"/>
 		<property name="summary">
 			<value>
 Number of course offerings skipped (not rolled over)
@@ -388,6 +392,40 @@ Often left null if the status is that it is complete.
 
 	<bean id="SocRolloverResultInfo.message.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.dateInitiated-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="dateInitiated"/>
+		<property name="shortLabel" value="Date Initiated"/>
+		<property name="summary">
+			<value>
+Get date that the rollover started on.  
+			</value>
+		</property>
+		<property name="label" value="Date Initiated"/>
+		<property name="description">
+			<value>
+Get date that the rollover started on.  Date includes hours/minutes/seconds.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocRolloverResultInfo.dateCompleted-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="dateCompleted"/>
+		<property name="shortLabel" value="Date Completed"/>
+		<property name="summary">
+			<value>
+Get the date that the rollover completed.  
+			</value>
+		</property>
+		<property name="label" value="Date Completed"/>
+		<property name="description">
+			<value>
+Get the date that the rollover completed.  Date includes hours/minutes/seconds.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="SocRolloverResultInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

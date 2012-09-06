@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -41,15 +41,23 @@ plus any of its dependencies -->
 	<!-- LprRosterInfo-->
 	<bean id="LprRosterInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="lprRosterInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.LprRosterInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.roster.dto.LprRosterInfo"/>
 		<property name="objectLabel" value="Lpr Roster"/>
 		<property name="objectDescription">
 			<value>
-LprRoster is a collection or group of LPR Roster entries which can be used to
-model any collection of LPRs at the class I level, e.g. a garde sheet or a
-waitlist for a course. The LPR roster entries in an LPR Roster will always
-belong to of a particular course or to a section(s) within the course. The
-associated LUIs are a way to show thsi relation.
+Copyright 2012 The Kuali Foundation 
+
+Licensed under the Educational Community License, Version 2.0 (the
+&quot;License&quot;); you may not use this file except in compliance with the
+License. You may obtain a copy of the License at
+
+http://www.osedu.org/licenses/ECL-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied. See the License for the specific language governing
+permissions and limitations under the License.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
@@ -159,16 +167,16 @@ A description of the entity.
 		<property name="shortLabel" value="Associated Lui Ids"/>
 		<property name="summary">
 			<value>
-This method gets the IDs of the associated LUIs for the LPR Roster.
-
+This method gets the Ids of the associated LUIs for the LPR
+Roster. 
 			</value>
 		</property>
 		<property name="label" value="Associated Lui Ids"/>
 		<property name="elementLabel" value="Associated Lui Id"/>
 		<property name="description">
 			<value>
-This method gets the IDs of the associated LUIs for the LPR Roster.
-{@link LprRoster}
+This method gets the Ids of the associated LUIs for the LPR
+Roster. A roster may be serve one or more Luis.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -180,15 +188,16 @@ This method gets the IDs of the associated LUIs for the LPR Roster.
 		<property name="shortLabel" value="Maximum Capacity"/>
 		<property name="summary">
 			<value>
-The maximum capacaty of the roster; contraints the maximum number of
-roster entries in this roster.
+The maximum capacity of the roster. 
 			</value>
 		</property>
 		<property name="label" value="Maximum Capacity"/>
 		<property name="description">
 			<value>
-The maximum capacaty of the roster; contraints the maximum number of
-roster entries in this roster.
+The maximum capacity of the roster. This number contraints the
+maximum number of roster entries in this roster. If null, there
+is no roster size constraint. Size constraints are used with
+rosters that implement waitlists.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -199,16 +208,19 @@ roster entries in this roster.
 		<property name="shortLabel" value="Check In Required"/>
 		<property name="summary">
 			<value>
-Is check in required to maintain an active status in this roster.
+Is check in required to maintain an active status in this
+roster. 
 			</value>
 		</property>
-		<property name="label" value="Check In Required"/>
+		<property name="label" value="CheckIn Required"/>
 		<property name="description">
 			<value>
-Is check in required to maintain an active status in this roster.
+Is check in required to maintain an active status in this
+roster. This is an optional flag for use with rosters that
+implement waitlist checkins.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="LprRosterInfo.checkInFrequency-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -216,16 +228,19 @@ Is check in required to maintain an active status in this roster.
 		<property name="shortLabel" value="Check In Frequency"/>
 		<property name="summary">
 			<value>
-The frequency in terms of time period that an entry has to check in to
-maintain active status in this roster. 
+The frequency in terms of time period that an entry has to
+check in to maintain active status in this roster. 
 			</value>
 		</property>
-		<property name="label" value="Check In Frequency"/>
+		<property name="label" value="CheckIn  Frequency"/>
 		<property name="description">
 			<value>
-The frequency in terms of time period that an entry has to check in to
-maintain active status in this roster. This is only populated if check in
-is required for the roster.
+The frequency in terms of time period that an entry has to
+check in to maintain active status in this roster. This is only
+populated if check in is required for the roster.
+
+This is an optional value for use with rosters that implement
+waitlist checkins.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -233,12 +248,15 @@ is required for the roster.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="checkInFrequency"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TimeAmountInfo"/>
-				<property name="objectLabel" value="Check In Frequency"/>
+				<property name="objectLabel" value="CheckIn  Frequency"/>
 				<property name="objectDescription">
 					<value>
-The frequency in terms of time period that an entry has to check in to
-maintain active status in this roster. This is only populated if check in
-is required for the roster.
+The frequency in terms of time period that an entry has to
+check in to maintain active status in this roster. This is only
+populated if check in is required for the roster.
+
+This is an optional value for use with rosters that implement
+waitlist checkins.
 					</value>
 				</property>
 

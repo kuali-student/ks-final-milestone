@@ -1,0 +1,116 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- LprTransactionItemRequestOptionInfo-->
+	<bean id="LprTransactionItemRequestOptionInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="lprTransactionItemRequestOptionInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo"/>
+		<property name="objectLabel" value="Lpr Transaction Item Request Option"/>
+		<property name="objectDescription">
+			<value>
+Specifies the request options in a LPR transaction. The options can be used
+to create specific kinds of LPR relation.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="LprTransactionItemRequestOptionInfo.id"/>
+				<ref bean="LprTransactionItemRequestOptionInfo.optionKey"/>
+				<ref bean="LprTransactionItemRequestOptionInfo.optionValue"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="LprTransactionItemRequestOptionInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="LprTransactionItemRequestOptionInfo.optionKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="optionKey"/>
+		<property name="shortLabel" value="Option Key"/>
+		<property name="summary">
+			<value>
+The option value data type of the request option e.g., Boolean, String
+etc.
+			</value>
+		</property>
+		<property name="label" value="Option Key"/>
+		<property name="description">
+			<value>
+The option value data type of the request option e.g., Boolean, String
+etc.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="LprTransactionItemRequestOptionInfo.optionValue-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="optionValue"/>
+		<property name="shortLabel" value="Option Value"/>
+		<property name="summary">
+			<value>
+This value of the option
+			</value>
+		</property>
+		<property name="label" value="Option Value"/>
+		<property name="description">
+			<value>
+This value of the option
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

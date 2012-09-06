@@ -1,0 +1,133 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- ResultValueRangeInfo-->
+	<bean id="ResultValueRangeInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="resultValueRangeInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo"/>
+		<property name="objectLabel" value="Result Value Range"/>
+		<property name="objectDescription">
+			<value>
+Captures the legal value range for a numeric result.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>minValue</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="ResultValueRangeInfo.minValue"/>
+				<ref bean="ResultValueRangeInfo.maxValue"/>
+				<ref bean="ResultValueRangeInfo.increment"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ResultValueRangeInfo.minValue-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="minValue"/>
+		<property name="shortLabel" value="Min Value"/>
+		<property name="summary">
+			<value>
+Min Result Value string Lower end of the value range. 
+			</value>
+		</property>
+		<property name="label" value="Min Value"/>
+		<property name="description">
+			<value>
+Min Result Value string Lower end of the value range. Typically
+corresponds with the short coded form of the result(ex. &quot;1.0&quot;,
+&quot;25.0&quot; etc.) Should the data resultTypeKey of values (min/max)
+be numbers and not Strings in the value range?
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ResultValueRangeInfo.maxValue-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="maxValue"/>
+		<property name="shortLabel" value="Max Value"/>
+		<property name="summary">
+			<value>
+Max Result Value string Upper end of the value range. 
+			</value>
+		</property>
+		<property name="label" value="Max Value"/>
+		<property name="description">
+			<value>
+Max Result Value string Upper end of the value range. Typically
+corresponds with the short coded form of the result(ex. &quot;3.0&quot;,
+&quot;100.0&quot; etc.). Upper end can be left empty to indicate
+unbounded upper end.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ResultValueRangeInfo.increment-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="increment"/>
+		<property name="shortLabel" value="Increment"/>
+		<property name="summary">
+			<value>
+Increment number Legal increments in the result values. 
+			</value>
+		</property>
+		<property name="label" value="Increment"/>
+		<property name="description">
+			<value>
+Increment number Legal increments in the result values. This
+has to be a decimal e.g 0.5)
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>

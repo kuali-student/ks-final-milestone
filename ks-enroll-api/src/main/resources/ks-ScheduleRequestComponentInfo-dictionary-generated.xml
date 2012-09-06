@@ -57,6 +57,7 @@ Information about a Schedule Request Item.
 		<property name="attributes">
 			<list>
 				<ref bean="ScheduleRequestComponentInfo.id"/>
+				<ref bean="ScheduleRequestComponentInfo.isTBA"/>
 			</list>
 		</property>
 
@@ -191,5 +192,24 @@ The Time Slot Ids to specify a time slot.
 		</property>
 		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="ScheduleRequestComponentInfo.isTBA-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isTBA"/>
+		<property name="shortLabel" value="Is TBA"/>
+		<property name="summary">
+			<value>
+The flag that holds whether this is a TBA schedule request.
+
+			</value>
+		</property>
+		<property name="label" value="Is T B A"/>
+		<property name="description">
+			<value>
+The flag that holds whether this is a TBA schedule request.
+A ScheduleRequestComponent is TBA if the Room is TBA, or timeslot is completely TBA (not there), or is of type TBA (weekday or start/end time TBA).
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 </beans>

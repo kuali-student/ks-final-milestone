@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Fri Jun 08 11:56:34 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -69,6 +69,7 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.termCode"/>
 				<ref bean="ActivityOfferingInfo.activityCode"/>
 				<ref bean="ActivityOfferingInfo.scheduleId"/>
+				<ref bean="ActivityOfferingInfo.schedulingStateKey"/>
 				<ref bean="ActivityOfferingInfo.isHonorsOffering"/>
 				<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
 				<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours"/>
@@ -84,12 +85,17 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.courseOfferingId"/>
 				<ref bean="ActivityOfferingInfo.courseOfferingTitle"/>
 				<ref bean="ActivityOfferingInfo.courseOfferingCode"/>
+				<ref bean="ActivityOfferingInfo.hasWaitlist"/>
+				<ref bean="ActivityOfferingInfo.waitlistTypeKey"/>
+				<ref bean="ActivityOfferingInfo.waitlistMaximum"/>
+				<ref bean="ActivityOfferingInfo.isWaitlistCheckinRequired"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
 				<ref bean="ActivityOfferingInfo.descr"/>
+				<ref bean="ActivityOfferingInfo.waitlistCheckinFrequency"/>
 				<ref bean="ActivityOfferingInfo.meta"/>
 			</list>
 		</property>
@@ -290,13 +296,34 @@ course offering.
 		<property name="shortLabel" value="Schedule Id"/>
 		<property name="summary">
 			<value>
-Gets the schedule Id for this offering.
+Gets the schedule Id for this activity offering.
+
+
 			</value>
 		</property>
 		<property name="label" value="Schedule Id"/>
 		<property name="description">
 			<value>
-Gets the schedule Id for this offering.
+Gets the schedule Id for this activity offering.
+
+No value will exist until the scheduling process has been completed for this activity offering.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.schedulingStateKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="schedulingStateKey"/>
+		<property name="shortLabel" value="Scheduling State Key"/>
+		<property name="summary">
+			<value>
+Indicates where this activity offering is in the scheduling process.
+			</value>
+		</property>
+		<property name="label" value="Scheduling State Key"/>
+		<property name="description">
+			<value>
+Indicates where this activity offering is in the scheduling process.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -317,6 +344,28 @@ Indicates that the course is an Honors Course.
 			</value>
 		</property>
 		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.gradingOptionKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="gradingOptionKeys"/>
+		<property name="shortLabel" value="Grading Option Keys"/>
+		<property name="summary">
+			<value>
+The options/scales that indicate the allowable grades that can
+be awarded.  
+			</value>
+		</property>
+		<property name="label" value="Grading Option Keys"/>
+		<property name="elementLabel" value="Grading Option Key"/>
+		<property name="description">
+			<value>
+The options/scales that indicate the allowable grades that can
+be awarded.  If the value is set here then the canonical course
+must have a grading option set on the canonical activity.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.instructors-generated" abstract="true" parent="CollectionDefinition">
@@ -584,6 +633,158 @@ Course Offering code the activity is being offered in.
 			</value>
 		</property>
 		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.hasWaitlist-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="hasWaitlist"/>
+		<property name="shortLabel" value="Has Waitlist"/>
+		<property name="summary">
+			<value>
+Indicates whether a RegistrationGroup has a waitlist.
+			</value>
+		</property>
+		<property name="label" value="Has Waitlist"/>
+		<property name="description">
+			<value>
+Indicates whether a RegistrationGroup has a waitlist.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.waitlistTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="waitlistTypeKey"/>
+		<property name="shortLabel" value="Waitlist Type Key"/>
+		<property name="summary">
+			<value>
+Indicates the type of waitlist as it relates to processing
+students on and off.
+			</value>
+		</property>
+		<property name="label" value="Waitlist Type"/>
+		<property name="description">
+			<value>
+Indicates the type of waitlist as it relates to processing
+students on and off.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.waitlistMaximum-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="waitlistMaximum"/>
+		<property name="shortLabel" value="Waitlist Maximum"/>
+		<property name="summary">
+			<value>
+Maximum number of students to be allowed on the wait list.
+			</value>
+		</property>
+		<property name="label" value="Waitlist Maximum"/>
+		<property name="description">
+			<value>
+Maximum number of students to be allowed on the wait list.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.isWaitlistCheckinRequired-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isWaitlistCheckinRequired"/>
+		<property name="shortLabel" value="Is Waitlist Checkin Required"/>
+		<property name="summary">
+			<value>
+Indicates if the waitlist requires checkin.
+			</value>
+		</property>
+		<property name="label" value="Is Waitlist Checkin Required"/>
+		<property name="description">
+			<value>
+Indicates if the waitlist requires checkin.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="waitlistCheckinFrequency"/>
+		<property name="shortLabel" value="Waitlist Checkin Frequency"/>
+		<property name="summary">
+			<value>
+Frequency for the waitlist checkin.
+			</value>
+		</property>
+		<property name="label" value="Waitlist Checkin Frequency"/>
+		<property name="description">
+			<value>
+Frequency for the waitlist checkin.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="waitlistCheckinFrequency"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TimeAmountInfo"/>
+				<property name="objectLabel" value="Waitlist Checkin Frequency"/>
+				<property name="objectDescription">
+					<value>
+Frequency for the waitlist checkin.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey"/>
+						<ref bean="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="atpDurationTypeKey"/>
+		<property name="shortLabel" value="Atp Duration Type Key"/>
+		<property name="summary">
+			<value>
+The kind of units associated with the quantity, such as
+Semesters.
+			</value>
+		</property>
+		<property name="label" value="Academic Time Period Duration Type Key"/>
+		<property name="description">
+			<value>
+The kind of units associated with the quantity, such as
+Semesters.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="timeQuantity"/>
+		<property name="shortLabel" value="Time Quantity"/>
+		<property name="summary">
+			<value>
+The amount of time.
+			</value>
+		</property>
+		<property name="label" value="Time Quantity"/>
+		<property name="description">
+			<value>
+The amount of time.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

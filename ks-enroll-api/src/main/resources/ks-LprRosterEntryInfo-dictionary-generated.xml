@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		This dictionary file was automatically generated
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -41,11 +41,23 @@ plus any of its dependencies -->
 	<!-- LprRosterEntryInfo-->
 	<bean id="LprRosterEntryInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="lprRosterEntryInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.LprRosterEntryInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo"/>
 		<property name="objectLabel" value="Lpr Roster Entry"/>
 		<property name="objectDescription">
 			<value>
+Copyright 2012 The Kuali Foundation 
 
+Licensed under the Educational Community License, Version 2.0 (the
+&quot;License&quot;); you may not use this file except in compliance with the
+License. You may obtain a copy of the License at
+
+http://www.osedu.org/licenses/ECL-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied. See the License for the specific language governing
+permissions and limitations under the License.
 			</value>
 		</property>
 		<property name="primaryKeys">
@@ -104,16 +116,21 @@ plus any of its dependencies -->
 		<property name="shortLabel" value="Lpr Roster Id"/>
 		<property name="summary">
 			<value>
-The LPR Roster Id this LPR roster entry is a part of.
+The LPR Roster Id to which this LPR roster entry belongs.
 			</value>
 		</property>
-		<property name="label" value="Lui Person Relation Roster Id"/>
+		<property name="label" value="LprRoster Id"/>
 		<property name="description">
 			<value>
-The LPR Roster Id this LPR roster entry is a part of.
+The LPR Roster Id to which this LPR roster entry belongs.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="LprRosterEntryInfo.lprId-generated" abstract="true" parent="BaseKuali.string">
@@ -121,16 +138,21 @@ The LPR Roster Id this LPR roster entry is a part of.
 		<property name="shortLabel" value="Lpr Id"/>
 		<property name="summary">
 			<value>
-The LPR that this roster entry represents.
+The LPR Id of this entry.
 			</value>
 		</property>
-		<property name="label" value="Lui Person Relation Id"/>
+		<property name="label" value="Lpr Id"/>
 		<property name="description">
 			<value>
-The LPR that this roster entry represents.
+The LPR Id of this entry.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="LprRosterEntryInfo.position-generated" abstract="true" parent="BaseKuali.integer">
@@ -138,7 +160,7 @@ The LPR that this roster entry represents.
 		<property name="shortLabel" value="Position"/>
 		<property name="summary">
 			<value>
-The position of this entry within the LPR Roster.
+The position of this entry within an ordered LPR Roster.
 
 
 			</value>
@@ -146,22 +168,25 @@ The position of this entry within the LPR Roster.
 		<property name="label" value="Position"/>
 		<property name="description">
 			<value>
-The position of this entry within the LPR Roster.
+The position of this entry within an ordered LPR Roster.
 
-If not supplied when the entry is created the service should set it to the next 
-sequential number available.
+If not supplied when the entry is created the service should
+set it to the next sequential number available if needed for an
+ordered roster.
 
-The service does not have to guarantee uniqueness of this field within a roster.
+The service does not have to guarantee uniqueness of this field
+within a roster.
 
-This field cannot be relied upon to determine exactly how many people are 
-ahead of a person in the roster because the sequence may contain
-gaps (because of deletes) or duplicates.  Moreover a particular roster may 
-order entries using different algorithms, for example it may be FIFO or LIFO or 
-it may take other factors into account, such as the state, to determine which entry 
-process next.
+This field cannot be relied upon to determine exactly how many
+people are ahead of a person in the roster because the sequence
+may contain gaps (because of deletes) or duplicates.  Moreover
+a particular roster may order entries using different
+algorithms, for example it may be FIFO or LIFO or it may take
+other factors into account, such as the state, to determine
+which entry process next.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="LprRosterEntryInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

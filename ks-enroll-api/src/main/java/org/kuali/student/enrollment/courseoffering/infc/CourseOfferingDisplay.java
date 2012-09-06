@@ -13,6 +13,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
     /**
      * Custom Descr for the course Offering
      * @name Course Offering Description
+     * @readOnly
      */
     public RichText getDescr();
 
@@ -96,7 +97,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * is of.
      *
      * @name Type name
-     * @readOnly on updates
+     * @readOnly
      * @impl Name of the type the CO Info is of, read from TypeInfo object
      */
     public String getTypeName();
@@ -106,7 +107,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * is in.
      *
      * @name State Name Owner
-     * @readOnly on updates
+     * @readOnly
      * @impl Name of the state the CO Info is in, read from StateInfo object
      */
     public String getStateName();
@@ -115,28 +116,28 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * The display value of the credit, this is derived by fetching the result value groups for the credit option tied
      * to the course offering and concatenating the values of the options.
      *
-     * @name Display Credit
-     * @impl Get the credit option values and concatenate to a single field
-     * @readOnly on updates
+     * @name Credit Option Name
+     * @impl copy from CO.creditOptionName
+     * @readOnly
      */
-    public String getDisplayCredit();
+    public String getCreditOptionName ();
 
     /**
      * The display value of the grading options, this is derived by fetching the result value groups for the grading option tied
      * to the course offering and concatenating the values of the options.
      *
-     * @name Display Grading
-     * @impl Get the credit option values and concatenate to a single field
-     * @readOnly on updates
+     * @name Grading Option Name
+     * @impl copy from Co.gradingOptionName
+     * @readOnly
      */
-    public String getDisplayGrading();
+    public String getGradingOptionName();
 
     /**
      * Activty offering types for the course offering
      *
      * @name Actvity Offering Types
      * @impl Get the format offering for the course offering and then the activity types from the Format offering
-     * @readOnly on updates
+     * @readOnly
      */
     public List<String> getActivtyOfferingTypes();
 
@@ -144,7 +145,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * Code for the term the course offering is in
      *
      * @name Term Code
-     * @readOnly on updates
+     * @readOnly
      */
     public String getTermCode();
 
@@ -154,7 +155,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * Name of the Term the Course Offering is in
      *
      * @name Term Name
-     * @readOnly on updates
+     * @readOnly
      */
     public String getTermName();
 

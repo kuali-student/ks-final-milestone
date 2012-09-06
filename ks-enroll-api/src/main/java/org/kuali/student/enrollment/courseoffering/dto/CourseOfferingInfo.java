@@ -40,8 +40,8 @@ import org.w3c.dom.Element;
         "termId", "courseCode", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle",
         "creditCnt", "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds",
         "unitsContentOwnerOrgIds",  "maximumEnrollment", 
-        "minimumEnrollment", "jointOfferingIds", "gradingOptionId", "gradingOption",
-        "studentRegistrationGradingOptions", "creditOptionDisplay", "creditOptionId",
+        "minimumEnrollment", "jointOfferingIds", "gradingOptionId", "gradingOptionName",
+        "studentRegistrationGradingOptions", "creditOptionName", "creditOptionId",
         "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
         "isEvaluated", "fundingSource", "isFeeAtActivityOffering", "courseNumberInternalSuffix",
         "isFinancialAidEligible", "courseOfferingURL", "finalExamType",
@@ -96,7 +96,7 @@ public class CourseOfferingInfo
     private String gradingOptionId;
 
     @XmlElement
-    private String gradingOption;
+    private String gradingOptionName;
 
     @XmlElement
     private String creditCnt;
@@ -105,7 +105,7 @@ public class CourseOfferingInfo
     private List<String> studentRegistrationGradingOptions;
 
     @XmlElement
-    private String creditOptionDisplay;
+    private String creditOptionName;
 
     @XmlElement
     private String creditOptionId;
@@ -199,9 +199,9 @@ public class CourseOfferingInfo
 
         this.gradingOptionId =  offering.getGradingOptionId();
         this.creditCnt = offering.getCreditCnt();
-        this.gradingOption = offering.getGradingOption();
+        this.gradingOptionName = offering.getGradingOptionName();
         this.studentRegistrationGradingOptions = (null != offering.getStudentRegistrationGradingOptions()) ? new ArrayList<String>(offering.getStudentRegistrationGradingOptions()) : null;
-        this.creditOptionDisplay = offering.getCreditOptionDisplay();
+        this.creditOptionName = offering.getCreditOptionName();
         this.creditOptionId = offering.getCreditOptionId();
 
         this.campusLocations = (null != offering.getCampusLocations()) ? new ArrayList<String>(offering.getCampusLocations()) : null;
@@ -402,12 +402,12 @@ public class CourseOfferingInfo
     }
 
     @Override
-    public String getCreditOptionDisplay() {
-        return this.creditOptionDisplay;
+    public String getCreditOptionName() {
+        return this.creditOptionName;
     }
 
-    public void setCreditOptionDisplay(String creditOptionDisplay) {
-        this.creditOptionDisplay = creditOptionDisplay;
+    public void setCreditOptionName(String creditOptionName) {
+        this.creditOptionName = creditOptionName;
     }
 
     @Override
@@ -544,12 +544,12 @@ public class CourseOfferingInfo
 	}
 
     @Override
-    public String getGradingOption() {
-        return gradingOption;
+    public String getGradingOptionName() {
+        return gradingOptionName;
     }
 
-    public void setGradingOption(String gradingOption) {
-       this.gradingOption = gradingOption;
+    public void setGradingOption(String gradingOptionName) {
+       this.gradingOptionName = gradingOptionName;
     }
 
     @Override

@@ -45,7 +45,7 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Activity Offering Cluster"/>
 		<property name="objectDescription">
 			<value>
-The Registration Template lists the allowable combinations of
+ActivityOfferingCluster lists the allowable combinations of
 activity offerings to constrain or generate RegistrationGroups.
 			</value>
 		</property>
@@ -62,6 +62,7 @@ activity offerings to constrain or generate RegistrationGroups.
 				<ref bean="ActivityOfferingClusterInfo.typeKey"/>
 				<ref bean="ActivityOfferingClusterInfo.stateKey"/>
 				<ref bean="ActivityOfferingClusterInfo.name"/>
+				<ref bean="ActivityOfferingClusterInfo.privateName"/>
 				<ref bean="ActivityOfferingClusterInfo.formatOfferingId"/>
 			</list>
 		</property>
@@ -150,6 +151,23 @@ A description of the entity.
 		<property name="name" value="formatted"/>
 	</bean>
 
+	<bean id="ActivityOfferingClusterInfo.privateName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="privateName"/>
+		<property name="shortLabel" value="Private Name"/>
+		<property name="summary">
+			<value>
+Private name of ActivityOfferingCluster
+			</value>
+		</property>
+		<property name="label" value="Private Name"/>
+		<property name="description">
+			<value>
+Private name of ActivityOfferingCluster
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="ActivityOfferingClusterInfo.formatOfferingId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="formatOfferingId"/>
 		<property name="shortLabel" value="Format Offering Id"/>
@@ -175,7 +193,7 @@ Gets the format offering Id to which this template applies.
 Gets the activity offering Id combinations. 
 			</value>
 		</property>
-		<property name="label" value="Activity Offering Templates"/>
+		<property name="label" value="Activity Offering Set"/>
 		<property name="elementLabel" value="Activity Offering Set"/>
 		<property name="description">
 			<value>
