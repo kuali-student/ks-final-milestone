@@ -1130,7 +1130,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         scheduleRequestComponentDisplayInfo.setOrgs(orgs);
     }
 
-    private StatusInfo newStatus() {
+    protected StatusInfo newStatus() {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
