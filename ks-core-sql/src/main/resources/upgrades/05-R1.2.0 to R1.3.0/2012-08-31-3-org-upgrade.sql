@@ -20,6 +20,12 @@ INSERT INTO KSOR_ORG (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, E
 values ('227', '', '', '', '', 0, '01-JUL-10 12.00.00.000000 AM', '', '', 'Entomology Dept Curriculum Committee', '', 'EntomologyCOC', 'Active', 'kuali.org.COC', 'c12a6b9f-2f01-420c-8826-c9684db174b4')
 /
 
+--update relationships so new orgs are in correct hierarchy
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, ST, ORG, RELATED_ORG, TYPE, OBJ_ID) values ('ba7b62b4-f93f-4555-84ae-f5e8308b087b', null, null, 'admin', TIMESTAMP '2010-12-13 12:10:36', 3, TIMESTAMP '2009-12-31 03:00:00', null, null, '15', '222', 'kuali.org.Contain', '98771af9-0071-4c7e-9b0d-7a6b2039f60d')
+/
+insert into KSOR_ORG_ORG_RELTN (ID, CREATEID, CREATETIME, UPDATEID, UPDATETIME, VER_NBR, EFF_DT, EXPIR_DT, ST, ORG, RELATED_ORG, TYPE, OBJ_ID) values ('ba7b62b4-f93f-4555-84ae-f5e8308b087c', null, null, 'admin', TIMESTAMP '2010-12-13 12:10:36', 3, TIMESTAMP '2009-12-31 03:00:00', null, null, '222', '223', 'kuali.org.Contain', '98771af9-0071-4c7e-9b0d-7a6b2039f60e')
+/
+
 -- delete circular relationship of alumni relation office to the alumni association
 delete KSOR_ORG_ORG_RELTN
 WHERE ORG = 14
@@ -38,8 +44,8 @@ and a.type = 'kuali.org.CurriculumParent'
 and c.type = 'kuali.org.COC'
 and a.related_org = c.id
 order by a.type, c.type, b.shrt_name, c.shrt_name
-
 /
+
 -- add the COC to parent COC relationship
 INSERT INTO KSOR_ORG_ORG_RELTN (EFF_DT,ID,OBJ_ID,ORG,RELATED_ORG,TYPE,ST, createid, createtime, UPDATEID,UPDATETIME,VER_NBR) values  (to_date ('20000101', 'YYYYMMDD'),sys_guid (), sys_guid (), 174, 215,'kuali.org.Parent2CurriculumChild','Active','nwright',sysdate,'nwright',sysdate,0)
 /
