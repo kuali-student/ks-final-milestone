@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,7 +21,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
         "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea", "termName", "termCode", "gradingOptionName",
-        "creditOptionName", "typeName", "stateName", "activtyOfferingTypes", "meta", "attributes", "_futureElements"})
+        "creditOptionName", "typeName", "stateName", "meta", "attributes", "_futureElements"})
 public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingDisplay, Serializable {
 
     @XmlElement
@@ -63,9 +62,6 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     @XmlElement
     private String stateName;
 
-    @XmlElement
-    private List<String> activtyOfferingTypes;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -83,7 +79,6 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
             this.termId = courseOfferingDisplay.getTermId();
             this.creditOptionName = courseOfferingDisplay.getCreditOptionName();
             this.gradingOptionName = courseOfferingDisplay.getGradingOptionName();
-            this.activtyOfferingTypes = new ArrayList<String>(courseOfferingDisplay.getActivtyOfferingTypes());
             this.typeName = courseOfferingDisplay.getTypeName();
             this.stateName = courseOfferingDisplay.getStateName();
             this.courseId = courseOfferingDisplay.getCourseId();
@@ -161,15 +156,6 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
-    }
-
-    @Override
-    public List<String> getActivtyOfferingTypes() {
-        return activtyOfferingTypes;
-    }
-
-    public void setActivtyOfferingTypes(List<String> activtyOfferingTypes) {
-        this.activtyOfferingTypes = activtyOfferingTypes;
     }
 
     @Override

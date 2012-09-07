@@ -3,8 +3,6 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
 
-import java.util.List;
-
 
 public interface CourseOfferingDisplay extends IdNamelessEntity {
 
@@ -131,15 +129,6 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * @readOnly
      */
     public String getGradingOptionName();
-
-    /**
-     * Activty offering types for the course offering
-     *
-     * @name Actvity Offering Types
-     * @impl Get the format offering for the course offering and then the activity types from the Format offering
-     * @readOnly
-     */
-    public List<String> getActivtyOfferingTypes();
 
     /**
      * Code for the term the course offering is in
