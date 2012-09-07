@@ -232,6 +232,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
                     GlobalVariables.getMessageMap().putErrorForSectionId("populations_table", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, populationInfo.getName());
                     return false;
                 } else {
+                    populationInfo.setName(populationInfoList.get(0).getName());
                     populationInfo.setId(populationInfoList.get(0).getId());
                 }
 
@@ -249,7 +250,8 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
 
         List<Predicate> predicates = new ArrayList<Predicate>();
         if (StringUtils.isNotBlank(populationName)) {
-            predicates.add(PredicateFactory.equal("name", populationName));
+            predicates.add(PredicateFactory.equalIgnoreCase("name", populationName));
+            predicates.add(PredicateFactory.and(PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY)));
         }
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
