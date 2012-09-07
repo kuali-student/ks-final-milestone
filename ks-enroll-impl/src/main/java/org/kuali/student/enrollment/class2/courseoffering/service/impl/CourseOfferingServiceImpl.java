@@ -59,6 +59,7 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -343,8 +344,30 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = true)
-    public CourseOfferingDisplayInfo getCourseOfferingDisplay(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet");
+    public CourseOfferingDisplayInfo getCourseOfferingDisplay(String courseOfferingId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        CourseOfferingInfo coInfo = getCourseOffering(courseOfferingId, context);
+        CourseOfferingDisplayInfo displayInfo = new CourseOfferingDisplayInfo();
+        // Fields use in course offering display info
+        // descr, courseId, termId, courseOfferingTitle,  courseOfferingCode, subjectArea,
+        displayInfo.setDescr(coInfo.getDescr());
+        displayInfo.setCourseId(coInfo.getCourseId());
+        displayInfo.setTermId(coInfo.getTermId());
+        displayInfo.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
+        displayInfo.setSubjectArea(coInfo.getSubjectArea());
+        // termName, termCode, gradingOptionName, creditOptionName, typeName, stateName
+        AtpInfo atpInfo = atpService.getAtp(coInfo.getTermId(), context);
+        displayInfo.setTermName(atpInfo.getName());
+        displayInfo.setTermCode(atpInfo.getCode());
+        displayInfo.setGradingOptionName(coInfo.getGradingOptionName());
+        displayInfo.setCreditOptionName(coInfo.getCreditOptionName());
+        TypeInfo typeInfo = typeService.getType(coInfo.getTypeKey(), context);
+        displayInfo.setTypeName(typeInfo.getName());
+        StateInfo stateInfo = stateService.getState(coInfo.getStateKey(), context);
+        displayInfo.setStateName(stateInfo.getName());
+
+        return displayInfo;
     }
 
     @Override
