@@ -1054,7 +1054,7 @@ Questions please contact Norm Wright.
 		<property name="fields">
 			<list>
 				<ref bean="activities.id" />
-				<ref bean="activities.activityType" />
+				<ref bean="activities.typeKey" />
 				<ref bean="activities.contactHours" />
 				<ref bean="activities.duration" />
 				<ref bean="activities.defaultEnrollmentEstimate" />
@@ -1078,8 +1078,8 @@ Questions please contact Norm Wright.
 			</list>
 		</property>
 	</bean>
-	<bean id="activities.activityType" parent="dataFieldDescriptor">
-		<property name="name" value="activityType" />
+	<bean id="activities.typeKey" parent="dataFieldDescriptor">
+		<property name="name" value="typeKey" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />

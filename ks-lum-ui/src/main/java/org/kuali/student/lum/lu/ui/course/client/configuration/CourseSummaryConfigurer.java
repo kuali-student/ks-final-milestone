@@ -88,8 +88,8 @@ public class CourseSummaryConfigurer extends Configurer implements
 
     protected static final String OPTIONAL = "o";
 
-    private List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
-    private boolean showingValidation = false;
+    protected List<ValidationResultInfo> validationInfos = new ArrayList<ValidationResultInfo>();
+    protected boolean showingValidation = false;
 
     protected List<StatementTypeInfo> stmtTypes;
 
@@ -97,7 +97,7 @@ public class CourseSummaryConfigurer extends Configurer implements
     protected SummaryTableSection tableSection; // review proposal data display
     protected String modelId;
 
-    private List<Anchor> validateLinks = new ArrayList<Anchor>(); //KSLAB-1985
+    protected List<Anchor> validateLinks = new ArrayList<Anchor>(); //KSLAB-1985
 
     protected class EditHandler implements ClickHandler {
 
@@ -392,7 +392,7 @@ public class CourseSummaryConfigurer extends Configurer implements
 
     }
 
-    private SummaryTableFieldBlock generateProposalDocumentsSection() {
+    protected SummaryTableFieldBlock generateProposalDocumentsSection() {
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();
         block.addEditingHandler(new EditHandler(CourseSections.DOCUMENTS));
         block.setTitle(getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
@@ -407,7 +407,7 @@ public class CourseSummaryConfigurer extends Configurer implements
     }
 
     // Initializes a WarnContainer with Action options dropdown, and Curriculum Management link 
-    private WarnContainer generateWorkflowWidgetContainer(Widget w) {
+    protected WarnContainer generateWorkflowWidgetContainer(Widget w) {
 
         WarnContainer warnContainer = new WarnContainer();
 
@@ -732,7 +732,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                         + QueryPath.getWildCard()
                         + QueryPath.getPathSeparator() + ACTIVITIES,
                 LUUIConstants.ACTIVITY_LITERAL_LABEL_KEY,
-                Arrays.asList(Arrays.asList(ACTIVITY_TYPE,
+                Arrays.asList(Arrays.asList(TYPE_KEY,
                         LUUIConstants.ACTIVITY_TYPE_LABEL_KEY), Arrays.asList(
                         CONTACT_HOURS + "/" + "unitQuantity",
                         LUUIConstants.CONTACT_HOURS_LABEL_KEY), Arrays.asList(
@@ -1151,7 +1151,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                         + QueryPath.getWildCard()
                         + QueryPath.getPathSeparator() + ACTIVITIES,
                 LUUIConstants.ACTIVITY_LITERAL_LABEL_KEY, Arrays.asList(Arrays
-                        .asList(ACTIVITY_TYPE,
+                        .asList(TYPE_KEY,
                                 LUUIConstants.ACTIVITY_TYPE_LABEL_KEY), Arrays
                         .asList(CONTACT_HOURS + "/" + "unitQuantity",
                                 LUUIConstants.CONTACT_HOURS_LABEL_KEY), Arrays
