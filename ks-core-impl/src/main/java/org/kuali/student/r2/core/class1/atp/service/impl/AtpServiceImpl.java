@@ -1,17 +1,13 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebParam;
-
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
 import org.kuali.student.r1.common.dao.SearchableDao;
-import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -26,7 +22,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -39,8 +34,12 @@ import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
-
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AtpServiceImpl implements AtpService {
@@ -235,7 +234,15 @@ public class AtpServiceImpl implements AtpService {
     public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        List<AtpEntity> atps = atpDao.getByDateAndType(searchDate, searchTypeKey);
+
+        List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
+        if (null != atps) {
+            for (AtpEntity entity : atps) {
+                result.add(entity.toDto());
+            }
+        }
+        return result;
     }
 
     @Override

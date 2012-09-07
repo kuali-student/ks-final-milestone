@@ -46,4 +46,11 @@ public class AtpDao extends GenericEntityDao<AtpEntity> {
                 .setParameter("searchType", searchType)
                 .getResultList();
     }
+
+    public List<AtpEntity> getByDateAndType(Date searchDate, String searchTypeKey) {
+        return em.createQuery("from AtpEntity a where :searchDate between a.startDate and a.endDate and atpType = :searchTypeKey")
+                .setParameter("searchDate", searchDate, DATE)
+                .setParameter("searchTypeKey", searchTypeKey)
+                .getResultList();
+    }
 }
