@@ -18,7 +18,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.Predicate;
@@ -70,7 +69,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-    @Ignore
     public void testAtpServiceValidationSetup() {
         assertNotNull(atpService);
     }
@@ -85,7 +83,6 @@ public class TestAtpServiceImpl {
    
 
     @Test
-//    @Ignore
     public void testGetAtp() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo atpInfo = atpService.getAtp("testAtpId1", callContext);
@@ -104,7 +101,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testAtpCrud() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, VersionMismatchException, ReadOnlyException {
@@ -162,7 +158,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testUpdateAtp() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, VersionMismatchException, ReadOnlyException {
@@ -180,7 +175,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testCreateAtp() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException {
@@ -207,7 +201,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testDeleteAtp() throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpInfo atpInfo = atpService.getAtp("testDeleteAtpId2", callContext);
@@ -227,7 +220,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetAtpsByDate()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -253,7 +245,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testSearchForAtps() throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -275,7 +266,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testCreateMilestone() throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException,
             ReadOnlyException {
@@ -313,7 +303,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testUpdateMilestone() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, VersionMismatchException {
@@ -381,7 +370,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testDeleteMilestone() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException,
             DataValidationErrorException {
@@ -409,7 +397,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         MilestoneInfo milestoneInfo = atpService.getMilestone("testId", callContext);
@@ -430,7 +417,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetMilestonesByKeyList() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> milestoneIds = new ArrayList<String>();
@@ -463,7 +449,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetMilestonesByDates()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -514,7 +499,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetMilestoneIdsByType() throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         String expectedMilestoneType = "kuali.atp.milestone.RegistrationPeriod";
@@ -526,7 +510,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetMilestonesForAtp() throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> milestones = atpService.getMilestonesForAtp("testAtpId1", callContext);
@@ -556,7 +539,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testSearchForMilestones() throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -596,7 +578,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testValidateAtpAtpRelation()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
@@ -617,19 +598,11 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testCreateAtpAtpRelation()
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException,
             ReadOnlyException {
-        AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
-        atpRel.setAtpId("testAtpId1");
-        atpRel.setRelatedAtpId("testAtpId2");
-        atpRel.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
-        atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
-        atpRel.setEffectiveDate(new Date());
-
-        atpService.createAtpAtpRelation("testAtpId1", "testAtpId2", atpRel.getTypeKey(), atpRel, callContext);
+        AtpAtpRelationInfo atpRel = createSimpleAtpAtpRelation(false);
 
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("testAtpId1 to new holiday calendar");
@@ -655,31 +628,152 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
-    public void testGetAtpAtpRelationsByTypeAndAtp() {
-        try {
-            List<AtpAtpRelationInfo> aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("testTermId1",
-                    AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
-            assertEquals(1, aaRelInfos.size());
-            assertEquals("testTermId2", aaRelInfos.get(0).getRelatedAtpId());
+    public void testGetAtpAtpRelation() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+        AtpAtpRelationInfo atpRel = createSimpleAtpAtpRelation(true);
 
-            aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("totallyBogusAtpIdJustMadeUpForTesting",
-                    AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
-            assertTrue(null == aaRelInfos || aaRelInfos.size() == 0);
-            //	            fail("atpService.getAtpAtpRelationsByAtpAndRelationType() did not throw expected DoesNotExistException for nonexistent Atp ID");
-            // should return empty list for bogus relation type
-            aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("testAtpId1",
-                    "totallyBogusRelationTypeJustMadeUpForTesting", callContext);
-            // sigh. service is returning an empty list, but atpService seems to get a null. have asked KSDevs chat about how to fix; not finding a solution via my google-fu
-            assertTrue(null == aaRelInfos || aaRelInfos.size() == 0);
-            // assertEquals(0, aaRelInfos.size());
-        } catch (Exception e) {
-            fail(e.getMessage());
+        // test retrieval
+        AtpAtpRelationInfo retrieved = atpService.getAtpAtpRelation(atpRel.getId(), callContext);
+        assertNotNull(retrieved);
+        assertEquals(atpRel.getId(), retrieved.getId());
+        assertEquals(atpRel.getAtpId(), retrieved.getAtpId());
+        assertEquals(atpRel.getRelatedAtpId(), retrieved.getRelatedAtpId());
+        assertEquals(atpRel.getTypeKey(), retrieved.getTypeKey());
+        assertEquals(atpRel.getStateKey(), retrieved.getStateKey());
+
+        // assert getting a bogus atp id throws exception
+        AtpAtpRelationInfo shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.getAtpAtpRelation("totallyBogusAtpAtpRelationId", callContext);
+            fail("Expected a DoesNotExistException");
+        } catch (DoesNotExistException e) {
+            assertNull(shouldBeNull);
         }
     }
 
     @Test
-//    @Ignore
+    public void testUpdateAtpAtpRelation() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
+        AtpAtpRelationInfo createdRel = createSimpleAtpAtpRelation(true);
+
+        Date newExpirationDate = new Date();
+        String newState = AtpServiceConstants.ATP_ATP_RELATION_INACTIVE_STATE_KEY;
+
+        createdRel.setStateKey(newState);
+        createdRel.setExpirationDate(newExpirationDate);
+
+        AtpAtpRelationInfo result = atpService.updateAtpAtpRelation(createdRel.getId(), createdRel, callContext);
+
+        // assert updated fields have been changed
+        assertEquals(newState, result.getStateKey());
+        assertEquals(newExpirationDate, result.getExpirationDate());
+
+        // make sure expected failure happens if we update a non-existent Atp-Atp Relation
+        AtpAtpRelationInfo shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.updateAtpAtpRelation("totallMadeUpAtpAtpRelation", new AtpAtpRelationInfo(), callContext);
+            fail("Expecting a DoesNotExistException");
+        }
+        catch (DoesNotExistException e) {
+            assertNull(shouldBeNull);
+        }
+    }
+
+    private AtpAtpRelationInfo createSimpleAtpAtpRelation(boolean persist) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
+        atpRel.setAtpId("testAtpId1");
+        atpRel.setRelatedAtpId("testAtpId2");
+        atpRel.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
+        atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
+        atpRel.setEffectiveDate(new Date());
+
+        if(persist) {
+            return atpService.createAtpAtpRelation("testAtpId1", "testAtpId2", atpRel.getTypeKey(), atpRel, callContext);
+        }
+        else {
+            return atpRel;
+        }
+    }
+
+    @Test
+    public void testDeleteAtpAtpRelation() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+        AtpAtpRelationInfo createdRel = createSimpleAtpAtpRelation(true);
+
+        StatusInfo result = atpService.deleteAtpAtpRelation(createdRel.getId(), callContext);
+
+        assertTrue(result.getIsSuccess());
+
+        // assert the record is deleted
+        AtpAtpRelationInfo shouldBeNull = null;
+        try {
+            shouldBeNull = atpService.getAtpAtpRelation(createdRel.getId(), callContext);
+            fail("Expecting a DoesNotExistException");
+        } catch (DoesNotExistException e) {
+            assertNull(shouldBeNull);
+        }
+
+        // assert the same record cannot be deleted twice
+        StatusInfo shouldBeNullStatus = null;
+        try {
+            shouldBeNullStatus = atpService.deleteAtpAtpRelation(createdRel.getId(), callContext);
+            fail("Expecting a DoesNotExistException");
+        } catch (DoesNotExistException e) {
+            assertNull(shouldBeNullStatus);
+        }
+
+
+    }
+
+    @Test
+    public void testGetAtpAtpRelationsByTypeAndAtp() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<AtpAtpRelationInfo> aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("testTermId1", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
+        assertEquals(1, aaRelInfos.size());
+        assertEquals("testTermId2", aaRelInfos.get(0).getRelatedAtpId());
+
+        // should return empty list for bogus atp id
+        aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("totallyBogusAtpIdJustMadeUpForTesting", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
+        assertEquals(0, aaRelInfos.size());
+
+        // should return empty list for bogus relation type
+        aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("testAtpId1", "totallyBogusRelationTypeJustMadeUpForTesting", callContext);
+        assertEquals(0, aaRelInfos.size());
+    }
+
+    @Test
+    public void testGetAtpAtpRelationsByAtp() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+        String targetAtpId = "termRelationTestingTerm1";
+        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtp(targetAtpId, callContext);
+
+        assertEquals(2, results.size());
+
+        // One result should have a relation with the target id as the 'parent',
+        // the other should have the target id as the 'child'
+        AtpAtpRelationInfo parent = null;
+        AtpAtpRelationInfo child = null;
+        for (AtpAtpRelationInfo relInfo : results) {
+
+            // all the relations should have the same state and type
+            assertEquals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, relInfo.getTypeKey());
+            assertEquals(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, relInfo.getStateKey());
+
+            if (relInfo.getAtpId().equals(targetAtpId)) {
+                parent = relInfo;
+            } else if (relInfo.getRelatedAtpId().equals(targetAtpId)) {
+                child = relInfo;
+            }
+        }
+
+        assertNotNull(parent);
+        assertEquals("termRelationTestingTerm2", parent.getRelatedAtpId());
+
+        assertNotNull(child);
+        assertEquals("termRelationTestingAcal1", child.getAtpId());
+
+        // assert that searching for a bogus atp id returns an empty list
+        results = atpService.getAtpAtpRelationsByAtp("bogusAtpMadeUpForTesting", callContext);
+
+        assertEquals(0, results.size());
+    }
+
+    @Test
     public void testGetAtpsByKeys()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -709,7 +803,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetAtpsByDates()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -746,7 +839,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetAtpIdsByType()
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -765,7 +857,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testGetImpactedMilestones() throws InvalidParameterException, MissingParameterException,
             DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<MilestoneInfo> impactedMilestones = atpService.getImpactedMilestones("FALLTERM1990INSTRUCTIONPERIOD",
@@ -779,7 +870,6 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-//    @Ignore
     public void testCalculateMilestone() throws InvalidParameterException, MissingParameterException,
             DoesNotExistException, PermissionDeniedException, OperationFailedException {
         // Census start needs to be recalculated to 14-sept-1990
