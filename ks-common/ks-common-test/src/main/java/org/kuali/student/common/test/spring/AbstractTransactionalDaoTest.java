@@ -200,7 +200,6 @@ public abstract class AbstractTransactionalDaoTest {
 			while((ln=in.readLine())!=null){
 				if(!ln.startsWith("/")&&!ln.startsWith("--")&&StringUtils.isNotBlank(ln)){
 					ln=ln.replaceFirst("[;/]\\s*$","");
-                    System.err.println(ln);
 					em.createNativeQuery(ln).executeUpdate();
 				}
 			}
