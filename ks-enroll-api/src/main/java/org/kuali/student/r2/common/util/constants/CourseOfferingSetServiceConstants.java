@@ -16,6 +16,7 @@
 package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 import java.util.Arrays;
@@ -33,7 +34,7 @@ import java.util.Set;
 public class CourseOfferingSetServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseOfferingSet";
-    public static final String SERVICE_NAME_LOCAL_PART = "socService";
+    public static final String SERVICE_NAME_LOCAL_PART = CourseOfferingSetService.class.getSimpleName();
     public static final String REF_OBJECT_URI_SOC = NAMESPACE + "/" + SocInfo.class.getSimpleName();
     public static final String MAIN_SOC_TYPE_KEY = "kuali.soc.type.main";
     public static final String SUBJECT_AREA_SOC_TYPE_KEY = "kuali.soc.type.subject.area";
