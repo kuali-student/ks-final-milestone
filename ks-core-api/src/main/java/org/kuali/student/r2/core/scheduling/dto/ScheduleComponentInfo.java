@@ -59,6 +59,7 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
             for (String timeSlotId: scheduleComponent.getTimeSlotIds()) {
                 this.timeSlotIds.add(timeSlotId);
             }
+            this.isTBA = scheduleComponent.getIsTBA();
         }
     }
 
@@ -110,7 +111,9 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
                     return false;
                 }
             }
-            return true;
+            if (this.isTBA==null && sci.getIsTBA()==null) return true;
+            if (this.isTBA.equals(sci.getIsTBA())) { return true; }
+            return false;
         } else {
             return false;
         }
