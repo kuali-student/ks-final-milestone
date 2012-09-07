@@ -20,17 +20,14 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -98,10 +95,12 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             coWrapper.getExistingOfferingsInCurrentTerm().clear();
 
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
-                ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
-                co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
-                co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
-                coWrapper.getExistingOfferingsInCurrentTerm().add(co);
+                if (StringUtils.equals(courseOfferingInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)){
+                    ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
+                    co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
+                    co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
+                    coWrapper.getExistingOfferingsInCurrentTerm().add(co);
+                }
             }
 
             //Get past 5 years CO
@@ -210,11 +209,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 createWrapper.getTerm().getId(),
                 optionKeys,
                 contextInfo);
-        CourseOfferingInfo co = getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
-        ExistingCourseOffering newWrapper = new ExistingCourseOffering(co);
-        newWrapper.setCredits(ViewHelperUtil.getCreditCount(co, createWrapper.getCourse()));
-        newWrapper.setGrading(getGradingOption(co.getGradingOptionId()));
-        createWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
+
+        getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
 
         return getUIFModelAndView(form);
 
