@@ -91,7 +91,9 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         for (int i=0; i<this.roomIds.size(); i++) { if (!this.roomIds.get(i).equals(srci.roomIds.get(i))) { return false; }}
         if (this.timeSlotIds.size()!=srci.timeSlotIds.size()) return false;
         for (int i=0; i<this.timeSlotIds.size(); i++) { if (!this.timeSlotIds.get(i).equals(srci.timeSlotIds.get(i))) { return false; }}
-        return this.isTBA.equals(srci.getIsTBA());
+        if (this.isTBA==null && srci.getIsTBA()==null) return true;
+        if (this.isTBA.equals(srci.getIsTBA())) { return true; }
+        return false;
     }
 
     public String getId() {

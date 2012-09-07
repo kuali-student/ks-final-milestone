@@ -32,7 +32,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleComponentInfo", propOrder = {"id", "roomId", "timeSlotIds"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+@XmlType(name = "ScheduleComponentInfo", propOrder = {"id", "roomId", "timeSlotIds", "isTBA" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
 
     @XmlElement
@@ -45,6 +45,9 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 
+    @XmlElement
+    private Boolean isTBA;
+
     public ScheduleComponentInfo() {
     }
 
@@ -56,6 +59,7 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
             for (String timeSlotId: scheduleComponent.getTimeSlotIds()) {
                 this.timeSlotIds.add(timeSlotId);
             }
+            this.isTBA = scheduleComponent.getIsTBA();
         }
     }
 
@@ -107,11 +111,22 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
                     return false;
                 }
             }
-            return true;
+            if (this.isTBA==null && sci.getIsTBA()==null) return true;
+            if (this.isTBA.equals(sci.getIsTBA())) { return true; }
+            return false;
         } else {
             return false;
         }
 
+    }
+
+    @Override
+    public Boolean getIsTBA() {
+        return isTBA;
+    }
+
+    public void setIsTBA(Boolean isTBA) {
+        this.isTBA = isTBA;
     }
 
     @Override

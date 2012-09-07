@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.HasId;
+
+import java.util.List;
 
 
 /**
@@ -43,4 +43,9 @@ public interface ScheduleComponent extends HasId {
      * @name Room Id
      */
     public String getRoomId();
+
+    /**
+     * The flag that holds whether this is a TBA schedule.
+     */
+    public Boolean getIsTBA();
 }
