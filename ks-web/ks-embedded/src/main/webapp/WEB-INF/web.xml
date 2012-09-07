@@ -52,10 +52,9 @@
 
     <filter>
 		<filter-name>UserLoginFilter</filter-name>
-        <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
-        <!-- to enable KS Kitchen Sink pages to bypass login.jsp
+        <!-- enable KS Kitchen Sink pages to bypass login.jsp: -->
         <filter-class>org.kuali.student.enrollment.kitchensink.UserLoginFilter</filter-class>
-        -->
+        <!--<filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>-->
     </filter>
 
     <filter>
