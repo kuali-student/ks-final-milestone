@@ -466,10 +466,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
      * 
      * The Registration Code will be a globally unique key used during registration and exactly how this works is not yet defined (see the null below).
      */
-    private RegistrationGroupInfo _makeRegGroup(String regGroupCode, List<String> activityOfferingPermuation, FormatOfferingInfo formatOffering, String activityOfferingClusterId) {
+    private RegistrationGroupInfo _makeRegGroup(String regGroupCode, List<String> activityOfferingPermutation, FormatOfferingInfo formatOffering, String activityOfferingClusterId) {
         RegistrationGroupInfo rg = new RegistrationGroupInfo();
 
-        rg.setActivityOfferingIds(activityOfferingPermuation);
+        rg.setActivityOfferingIds(activityOfferingPermutation);
         rg.setCourseOfferingId(formatOffering.getCourseOfferingId());
         rg.setDescr(new RichTextInfo(regGroupCode, regGroupCode));
         rg.setFormatOfferingId(formatOffering.getId());
@@ -483,7 +483,103 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return rg;
     }
 
+    // TODO: Delete method once M5 is further completed
+    private Map<String, List<String>> _m4ConstructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {
+        Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
 
+        for (ActivityOfferingInfo info : aoList) {
+            String activityType = info.getTypeKey();
+            List<String> activityList = activityOfferingTypeToAvailableActivityOfferingMap
+                    .get(activityType);
+
+            if (activityList == null) {
+                activityList = new ArrayList<String>();
+                activityOfferingTypeToAvailableActivityOfferingMap.put(
+                        activityType, activityList);
+            }
+
+            activityList.add(info.getId());
+
+        }
+        return activityOfferingTypeToAvailableActivityOfferingMap;
+    }
+
+    // TODO: Delete method once M5 is further completed
+    private RegistrationGroupInfo _m4MakeRegGroup(String regGroupCode, List<String> activityOfferingPermuation, FormatOfferingInfo formatOffering) {
+        RegistrationGroupInfo rg = new RegistrationGroupInfo();
+
+        rg.setActivityOfferingIds(activityOfferingPermuation);
+        rg.setCourseOfferingId(formatOffering.getCourseOfferingId());
+        rg.setDescr(new RichTextInfo(regGroupCode, regGroupCode));
+        rg.setFormatOfferingId(formatOffering.getId());
+        rg.setIsGenerated(true);
+        rg.setName(regGroupCode);
+        rg.setRegistrationCode(null);
+        rg.setTermId(formatOffering.getTermId());
+        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+        return rg;
+    }
+
+    // TODO: Delete method once M5 is further completed
+    private StatusInfo _m4GenerateRegGroups(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        this._getCoService();
+        List<RegistrationGroupInfo> existingRegistrationGroups =
+                coService.getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+        if (existingRegistrationGroups.size() > 0) {
+            //throw new AlreadyExistsException("Registration groups already exist for formatOfferingId=" + formatOfferingId);
+            coService.deleteRegistrationGroupsByFormatOffering(formatOfferingId, context);
+        }
+        FormatOfferingInfo formatOffering = coService.getFormatOffering(formatOfferingId, context);
+
+        List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
+        List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByFormatOffering(
+                formatOfferingId, context);
+
+        Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
+                _m4ConstructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
+
+        List<List<String>> generatedPermutations = new ArrayList<List<String>>();
+
+        PermutationUtils.generatePermutations(new ArrayList<String>(
+                activityOfferingTypeToAvailableActivityOfferingMap.keySet()),
+                new ArrayList<String>(),
+                activityOfferingTypeToAvailableActivityOfferingMap,
+                generatedPermutations);
+
+        CourseOfferingInfo courseOffering = coService.getCourseOffering(formatOffering.getCourseOfferingId(), context);
+
+        // New instance created each time if desired
+        RegistrationGroupCodeGenerator generator =
+                registrationCodeGeneratorFactory.makeCodeGenerator();
+        generator.initializeGenerator(coService, formatOffering, context, null);
+
+        for (List<String> activityOfferingPermutation : generatedPermutations) {
+
+            String regGroupCode = generator.generateRegistrationGroupCode(formatOffering, aoList, null);
+            // Honours Offering and max enrollment is out of scope for M4 so this hard set is ok.
+            String name = regGroupCode;
+            RegistrationGroupInfo rg = _m4MakeRegGroup(regGroupCode, activityOfferingPermutation, formatOffering);
+
+            try {
+                // createRegistrationGroup now takes a cluster id, but it is currently unused.
+                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(formatOfferingId, null,
+                        LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, context);
+
+                regGroupList.add(rgInfo);
+            } catch (DataValidationErrorException e) {
+                throw new OperationFailedException(
+                        "Failed to validate registration group", e);
+
+            } catch (ReadOnlyException e) {
+                throw new OperationFailedException(
+                        "Failed to write registration group", e);
+            }
+        }
+        StatusInfo success = new StatusInfo();
+        success.setSuccess(Boolean.TRUE);
+        return success;
+    }
     /*
     * The core generation logic should work with in the impl as well.
     */
@@ -494,20 +590,22 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, DataValidationErrorException {
 
+        if (true) { // TODO: Remove this if-block when M5 is further down the line
+            return _m4GenerateRegGroups(formatOfferingId, contextInfo);
+        }
+        // TODO: Original code is below--see above TODO
         // check for any existing registration groups
         this._getCoService(); // Make sure coService gets set
 
         // verify we are allowed to do this.
 
         boolean generated = false;
-
         List<String> aocIdList = coService.getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
 
         if (aocIdList.size() == 0)
             throw new DoesNotExistException("No ActivityOfferingCluster's exist for formatOfferingId = " + formatOfferingId);
 
         for (String aocId : aocIdList) {
-
             try {
                 StatusInfo status = generateRegistrationGroupsForCluster(aocId, contextInfo);
 
@@ -516,14 +614,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             } catch (Exception e) {
                 throw new OperationFailedException("formatOfferingId = " + formatOfferingId + ": failed to generate reg groups for activityOfferingClusterId = " + aocId, e);
             }
-
-
         }
 
         StatusInfo success = new StatusInfo();
-
         success.setSuccess(generated);
-
         return success;
     }
 
