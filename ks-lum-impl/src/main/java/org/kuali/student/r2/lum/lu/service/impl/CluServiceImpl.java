@@ -111,6 +111,7 @@ import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.student.r2.core.search.dto.SearchParamHelper;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
@@ -2432,7 +2433,7 @@ public class CluServiceImpl implements CluService {
         SearchRequest r1Request = null;
         SearchResult r1Result = this.searchDispatcher.dispatchSearch(r1Request);
 //        TODO: copy R1 result to an R2 result
-        SearchResultInfo result = null;
+        SearchResultInfo result = new SearchResultInfo();
 
         Set<String> cluIds = new HashSet<String>();
         List<SearchResultRowInfo> rows = result.getRows();
