@@ -191,17 +191,19 @@ public class ViewHelperUtil {
             float highestInstEffortComparison = 0f;
 
             for (OfferingInstructorInfo instructor : instructors) {
-                // if this instructor has a higher percent effort than any previous instructors,
-                // clear the list we are keeping track of and set the new comparison number to this instructor's percentage effort
-                if(instructor.getPercentageEffort() > highestInstEffortComparison) {
-                    highestInstEffortInstructors.clear();
-                    highestInstEffortComparison = instructor.getPercentageEffort();
-                    highestInstEffortInstructors.add(instructor);
-                }
-                // if this instructor's percent effort is tied with the comparison number,
-                // add this instructor to the list of highest effort instructors
-                else if (instructor.getPercentageEffort() == highestInstEffortComparison) {
-                    highestInstEffortInstructors.add(instructor);
+                if(instructor.getPercentageEffort() != null){
+                    // if this instructor has a higher percent effort than any previous instructors,
+                    // clear the list we are keeping track of and set the new comparison number to this instructor's percentage effort
+                    if(instructor.getPercentageEffort() > highestInstEffortComparison) {
+                        highestInstEffortInstructors.clear();
+                        highestInstEffortComparison = instructor.getPercentageEffort();
+                        highestInstEffortInstructors.add(instructor);
+                    }
+                    // if this instructor's percent effort is tied with the comparison number,
+                    // add this instructor to the list of highest effort instructors
+                    else if (instructor.getPercentageEffort() == highestInstEffortComparison) {
+                        highestInstEffortInstructors.add(instructor);
+                    }
                 }
             }
 

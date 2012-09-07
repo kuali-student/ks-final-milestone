@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FormatOfferingTransformer {
@@ -67,7 +68,7 @@ public class FormatOfferingTransformer {
         lui.setDescr(format.getDescr());
         lui.setRelatedLuiTypes(format.getActivityOfferingTypeKeys());
         lui.setMeta(format.getMeta());
-        lui.setAttributes(format.getAttributes());
+        lui.getAttributes().clear();
 
         //Dynamic Attributes in Format Offering
         List<AttributeInfo> attributes = lui.getAttributes();
