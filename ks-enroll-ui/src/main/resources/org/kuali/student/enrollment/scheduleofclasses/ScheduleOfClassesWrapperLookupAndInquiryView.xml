@@ -64,7 +64,7 @@
             <list>
                 <bean parent="Uif-DataField" p:propertyName="courseOfferingDisplayInfo.courseOfferingCode" p:label="COURSE"/>
                 <bean parent="Uif-DataField" p:propertyName="courseOfferingDisplayInfo.courseOfferingTitle" p:label="TITLE"/>
-                <bean parent="Uif-DataField" p:propertyName="courseOfferingDisplayInfo.displayCredit"  p:label="CREDITS"/>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingDisplayInfo.creditOptionName"  p:label="CREDITS"/>
                 <bean parent="Uif-DataField" p:propertyName="information"  p:label="INFORMATION"/>
             </list>
         </property>
