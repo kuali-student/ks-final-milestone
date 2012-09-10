@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="CourseOfferingDisplayInfo" parent="CourseOfferingDisplayInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
+    <bean id="ScheduleOfClassesWrapper" parent="ScheduleOfClassesWrapper-parentBean"/>
+    <bean id="ScheduleOfClassesWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ScheduleOfClassesWrapper"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="ScheduleOfClassesWrapper.id"/>
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="ScheduleOfClassesWrapper.CourseOfferingDisplayInfo"/>
+            </list>
+        </property>
+        <property name="objectLabel" value="Course Offering"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="ScheduleOfClassesWrapper.id" parent="CourseOfferingDisplayInfo.id" p:name="id" p:label="ID"/>
+
+    <bean id="ScheduleOfClassesWrapper.CourseOfferingDisplayInfo" parent="ComplexAttributeDefinition">
+        <property name="name" value="courseOfferingDisplayInfo"/>
+        <property name="dataObjectEntry" ref="CourseOfferingDisplayInfo"/>
+    </bean>
+
+    <!-- LookupView -->
+    <bean id="KS-ScheduleOfClasses-LookupView" parent="KSLookupView">
+        <property name="headerText" value="Display Schedule of Classes" />
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ScheduleOfClassesWrapper" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
+        <property name="resultsGroup">
+            <bean parent="Uif-LookupResultsCollectionSection" p:id="scheduleOfClasses_lookup"/>
+        </property>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LookupCriteriaInputField" p:label="Terms" p:propertyName="term" />
+                            <bean parent="Uif-LookupCriteriaInputField" p:label="Type of Search" p:propertyName="searchType" />
+                            <bean parent="Uif-LookupCriteriaInputField" p:label="Course" p:propertyName="course" />
+                            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="search" p:actionLabel="Show" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingDisplayInfo.courseOfferingCode" p:label="COURSE"/>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingDisplayInfo.courseOfferingTitle" p:label="TITLE"/>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingDisplayInfo.displayCredit"  p:label="CREDITS"/>
+                <bean parent="Uif-DataField" p:propertyName="information"  p:label="INFORMATION"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Uif-LookupCriteriaGroup" parent="Uif-GridGroup">
+        <property name="fieldBindingObjectPath" value="lookupCriteria"/>
+        <property name="layoutManager.numberOfColumns" value="2"/>
+    </bean>
+</beans>
