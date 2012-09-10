@@ -4653,6 +4653,7 @@
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
         <column name="FORMAT_OFFERING_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="PRIVATE_NAME" size="255" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
