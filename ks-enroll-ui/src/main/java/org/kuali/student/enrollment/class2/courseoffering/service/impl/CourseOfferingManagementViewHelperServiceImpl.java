@@ -137,7 +137,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 if (termList != null  && termList.size()>0 ){
                     // Always get first term
                     termId = termList.get(0).getId();
-                    System.out.println(">>> termId = "+termId);
                     if(termList.size()>1){
                         //logger.warn("AdvanceActivityOfferingLookupableImpl - find more than one term for specified termCode: " + termCode) ;
                         //System.out.println(">>Alert: find more than one term for specified termCode: "+termCode);
