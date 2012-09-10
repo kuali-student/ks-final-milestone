@@ -68,6 +68,7 @@ Information about a Schedule Component.
 
 		<property name="collections">
 			<list>
+                <ref bean="ScheduleComponentInfo.timeSlotIds" />
 			</list>
 		</property>
 	</bean>
