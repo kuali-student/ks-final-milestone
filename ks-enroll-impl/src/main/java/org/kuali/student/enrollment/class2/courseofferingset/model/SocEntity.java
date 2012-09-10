@@ -18,6 +18,13 @@ import org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity
 
 @Entity
 @Table(name = "KSEN_SOC")
+@NamedQueries({
+        @NamedQuery(name="Soc.getSocsBySocTypeId", query="Select a from SocEntity a where a.socType =:socType"),
+        @NamedQuery(name="Soc.getSocsByTerm", query="Select a from SocEntity a where a.termId =:termId"),
+        @NamedQuery(name="Soc.getSocsByTermAndSubjectArea", query="Select a from SocEntity a where a.termId=:termId and a.subjectArea = :subjectArea"),
+        @NamedQuery(name="Soc.getSocsByTermAndUnitsContentOwner", query="Select a from SocEntity a where a.termId=:termId and a.unitsContentOwnerId = :unitsContentOwnerId")
+
+})
 public class SocEntity extends MetaEntity implements AttributeOwner<SocAttributeEntity> {
 
     @Column(name = "SOC_TYPE", nullable = false)

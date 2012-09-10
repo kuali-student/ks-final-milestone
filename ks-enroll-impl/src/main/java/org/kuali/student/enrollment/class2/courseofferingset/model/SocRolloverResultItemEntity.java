@@ -15,6 +15,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_SOC_ROR_ITEM")
+@NamedQueries({
+        @NamedQuery(name="SocRorItem.getSocRorItemsBySocType", query="Select a from SocRolloverResultItemEntity a where a.socRorType =:socRorType"),
+        @NamedQuery(name="SocRorItem.getSocRorItemsBySocRorId", query="Select a from SocRolloverResultItemEntity a where a.socRolloverResultId=:socRolloverResultId"),
+        @NamedQuery(name="SocRor.getSocRorItemsBySocRorIdAndSourceCourseOfferingId", query="Select a from SocRolloverResultItemEntity a where a.socRolloverResultId=:socRolloverResultId and a.sourceCourseOfferingId=:sourceCourseOfferingId"),
+        @NamedQuery(name="SocRor.getSocRorItemsBySocRorIdAndTargetCourseOfferingId", query="Select a from SocRolloverResultItemEntity a where a.socRolloverResultId=:socRolloverResultId and a.targetCourseOfferingId=:targetCourseOfferingId")
+})
 public class SocRolloverResultItemEntity extends MetaEntity implements AttributeOwner<SocRolloverResultItemAttributeEntity> {
 
     @Column(name = "ROR_ID")

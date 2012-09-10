@@ -27,6 +27,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "KSEN_SOC_ROR")
+@NamedQueries({
+        @NamedQuery(name="SocRor.getSocRorsByType", query="Select a from SocRolloverResultEntity a where a.socRorType =:socRorType"),
+        @NamedQuery(name="SocRor.getSocRorsBySourceSocId", query="Select a from SocRolloverResultEntity a where a.sourceSocId=:sourceSocId"),
+        @NamedQuery(name="SocRor.getSocRorsByTargetSocId", query="Select a from SocRolloverResultEntity a where a.targetSocId=:targetSocId")
+
+})
 public class SocRolloverResultEntity extends MetaEntity implements AttributeOwner<SocRolloverResultAttributeEntity> {
 
     @Column(name = "SOC_ROR_TYPE", nullable = false)
