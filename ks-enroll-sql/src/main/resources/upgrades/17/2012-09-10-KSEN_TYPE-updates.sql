@@ -2,7 +2,7 @@
 --Delete and recreate the type-type-relations
 delete from KSEN_TYPETYPE_RELTN where ID in ('kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.electionday',
 'kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.roshhashana',
-'kuali.type.type.relation.type.group.kuali.milestone.type.group.res adgistration.kuali.atp.milestone.RegistrationPeriod1',
+'kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.RegistrationPeriod1',
 'kuali.type.type.relation.type.group.kuali.milestone.type.group.appt.regperiods.kuali.atp.milestone.RegistrationPeriod1',
 'kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.RegistrationPeriod2',
 'kuali.type.type.relation.type.group.kuali.milestone.type.group.appt.regperiods.kuali.atp.milestone.RegistrationPeriod2',
