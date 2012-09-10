@@ -48,8 +48,7 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
     @XmlElement
     private Boolean isTBA;
 
-    public ScheduleComponentInfo() {
-    }
+    public ScheduleComponentInfo() {}
 
     public ScheduleComponentInfo(ScheduleComponent scheduleComponent) {
         if (null != scheduleComponent) {
