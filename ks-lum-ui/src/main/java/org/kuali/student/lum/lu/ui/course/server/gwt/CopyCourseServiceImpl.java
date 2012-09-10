@@ -12,7 +12,6 @@ import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
-import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
@@ -29,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -55,7 +55,7 @@ public class CopyCourseServiceImpl {
     private StatementService statementService;
     private ProposalService proposalService;
 
-    private String defaultDocumentType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE;
+    private String defaultDocumentType = CLUConstants.PROPOSAL_TYPE_COURSE_CREATE;
     private String defaultState = DtoConstants.STATE_DRAFT;
 
     private List<String> ignoreProperties;
@@ -182,7 +182,7 @@ public class CopyCourseServiceImpl {
     /**
      * Clears out ids recursively and also copies adhock clusets
      * @param statementTreeView
-     * @param luService
+     * @param cluService
      * @throws OperationFailedException
      */
     private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView, String newState,

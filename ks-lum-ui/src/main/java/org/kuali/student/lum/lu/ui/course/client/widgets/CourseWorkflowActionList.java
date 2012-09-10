@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -30,7 +31,6 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
@@ -162,7 +162,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	if(hasCourseId(viewContext)){
 			viewContext.setId(getCourseVersionIndId(model));
 			viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
         }
 
 		HistoryManager.navigate(modifyPath, viewContext);
@@ -172,7 +172,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
         if(hasCourseId(viewContext)){
             viewContext.setId((String)model.get(CreditCourseConstants.ID));
             viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
+            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
         }
 
         HistoryManager.navigate(retirePath, viewContext);
@@ -403,7 +403,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
                             viewContext.setId(getCourseVersionIndId(model));
                             viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
                             // FIXME: This needs to use a new workflow document type for admin modify with version
-                            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
+                            viewContext.setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
                         }
 
                         Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);

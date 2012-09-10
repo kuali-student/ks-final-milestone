@@ -25,13 +25,13 @@ import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -67,7 +67,7 @@ public class CourseDataService extends AbstractDataService {
 		CourseInfo courseInfo = (CourseInfo)dto;
 		
 		//For retire course we don't want to actually save anything
-        if(LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
+        if(CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
             if(courseInfo.getVersionInfo()==null){
                 courseInfo = (CourseInfo) get(courseInfo.getId(), contextInfo);
             } 
@@ -83,8 +83,8 @@ public class CourseDataService extends AbstractDataService {
 		//Set derived course fields before saving/updating
 		courseInfo = calculateCourseDerivedFields(courseInfo);
 		
-		if(properties!=null&&(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))||
-				LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE)))){
+		if(properties!=null&&(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))||
+				CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE)))){
 			//For Modify Course, see if we need to create a new version instead of create
 			if(courseInfo.getId() == null){
 			    
@@ -136,7 +136,7 @@ public class CourseDataService extends AbstractDataService {
 
 	@Override
 	protected String getDefaultWorkflowDocumentType() {
-		return LUConstants.PROPOSAL_TYPE_COURSE_CREATE;
+		return CLUConstants.PROPOSAL_TYPE_COURSE_CREATE;
 	}
 
 	@Override

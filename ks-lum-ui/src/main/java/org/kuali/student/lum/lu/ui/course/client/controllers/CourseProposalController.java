@@ -30,6 +30,7 @@ import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -88,7 +89,6 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
@@ -139,7 +139,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
     private static final String MSG_GROUP = "course";
 	
-	protected String currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE;
+	protected String currentDocType = CLUConstants.PROPOSAL_TYPE_COURSE_CREATE;
 	protected String proposalPath = "";
 	protected String currentTitle;
 
@@ -253,8 +253,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
             // Admin Retire and Loading an approved Proposal go here
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){
-        	if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))||
-       			LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))){
+        	if(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))||
+       			CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME))){
         		createModifyCluProposalModel("versionComment", callback, workCompleteCallback);
         	}else{
         		createCopyCourseModel(getViewContext().getId(), callback, workCompleteCallback);
@@ -308,14 +308,14 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 		    		//  Change to Modify if we're coming in as create (not retire or other future doctypes)
                     //  and the version_key has a value
-                    if ((currentDocType.equals(LUConstants.PROPOSAL_TYPE_COURSE_CREATE)) && 
+                    if ((currentDocType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_CREATE)) && 
                             (cluProposalModel.get(VERSION_KEY) != null) && (!(cluProposalModel.get(VERSION_KEY).equals(""))))
                     {
-		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY;
+		    			currentDocType = CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY;
 		    		}
 		    		//Check for admin modify type
-		    		if(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(cluProposalModel.get(cfg.getProposalPath()+"/type"))){
-		    			currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN;
+		    		if(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(cluProposalModel.get(cfg.getProposalPath()+"/type"))){
+		    			currentDocType = CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN;
 		    		}
 		    		
 		    		//Get the state for save action
@@ -332,8 +332,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		    		idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, currentDocType);		    				    		
 		    		idAttributes.put(DtoConstants.DTO_STATE, dtoState);		    		
 		    		idAttributes.put(DtoConstants.DTO_NEXT_STATE, cfg.getNextState());
-		    		if (LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equalsIgnoreCase(currentDocType) ||
-		    			LUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(currentDocType)){		    			
+		    		if (CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equalsIgnoreCase(currentDocType) ||
+		    			CLUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(currentDocType)){		    			
 		    			idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);
 		    		}
 
@@ -441,7 +441,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 						public void onModelReady(DataModel model) {
 							//Only display if this is a modification
 						    String proposalType = model.get("proposal/type");
-                            if ((proposalType!=null) && (proposalType.equals(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY))){	
+                            if ((proposalType!=null) && (proposalType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY))){	
 							    KSLabel descLabel = new KSLabel();
 							    descLabel.setText(Application.getApplicationContext().getUILabel("course", LUUIConstants.FINAL_APPROVAL_DIALOG));
 							    if (workflowUtil.getApproveDialogue() != null) {
@@ -1068,16 +1068,16 @@ public class CourseProposalController extends MenuEditableSectionController impl
             if (viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID
                     && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID) {
                 //Id provided, and not a copy id, so opening an existing proposal
-                attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);
+                attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE);
             }
             //Copy id provided, so creating a proposal for modification or retire           
-            else if (currentDocType.equals(LUConstants.PROPOSAL_TYPE_COURSE_MODIFY)) {
-                attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
-            } else if (currentDocType.equals(LUConstants.PROPOSAL_TYPE_COURSE_RETIRE)) {
-                attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
+            else if (currentDocType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY)) {
+                attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+            } else if (currentDocType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE)) {
+                attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
             } else {
                 //No id in view context, so creating new empty proposal
-                attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);
+                attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE);
             }
         }
 	}
@@ -1235,7 +1235,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	}
 	
     public KSButton getSaveButton(){
-    	if(currentDocType != LUConstants.PROPOSAL_TYPE_COURSE_MODIFY && currentDocType != LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN){
+    	if(currentDocType != CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY && currentDocType != CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN){
 	        return new KSButton("Save and Continue", new ClickHandler(){
 	                    public void onClick(ClickEvent event) {
 	                    	CourseProposalController.this.fireApplicationEvent(new SaveActionEvent(true));
@@ -1315,7 +1315,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
      */
     @Override
     public String getExportTemplateName() {
-        if (LUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(currentDocType)){
+        if (CLUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(currentDocType)){
             return "base.template";
         }
         return "proposal.template";

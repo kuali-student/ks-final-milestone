@@ -25,8 +25,8 @@ import org.kuali.student.lum.lu.ui.course.client.configuration.CourseRetireByPro
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseRetireProposalRpcService;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.lum.lu.LUConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -75,7 +75,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");  
-   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_RETIRE;	 
+   		currentDocType = CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE;	 
    	    
     }
 	
@@ -88,7 +88,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
         	// Admin Retire goes here
             getCluProposalFromProposalId(getViewContext().getId(), callback, workCompleteCallback);
         } else if (getViewContext().getIdType() == IdType.COPY_OF_OBJECT_ID){        	
-        	 if (LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME)))
+        	 if (CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(getViewContext().getAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME)))
         	    { // Retire By Proposal
         		createRetireCluProposalModel(callback, workCompleteCallback);
         	}
@@ -100,7 +100,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
         cluProposalModel.setRoot(data);        
         
         Data proposalData = new Data();
-        proposalData.set(new Data.StringKey("type"), LUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
+        proposalData.set(new Data.StringKey("type"), CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
         data.set(new Data.StringKey("proposal"), proposalData);
         if (cfg.getNextState() == null && cfg.getNextState().isEmpty()){
         	proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");

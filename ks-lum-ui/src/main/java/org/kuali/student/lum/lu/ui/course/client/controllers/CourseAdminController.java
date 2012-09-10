@@ -33,9 +33,9 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -73,7 +73,7 @@ public class CourseAdminController extends CourseProposalController{
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");
-   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;
+   		currentDocType = CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;
         setViewContext(getViewContext());
     }
 
@@ -393,14 +393,14 @@ public class CourseAdminController extends CourseProposalController{
     	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
     		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
     			//Id provided, and not a copy id, so opening an existing proposal
-    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
     		} else{
     			//Copy id provided, so creating a proposal for modification
-    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
     		}
     	} else{
     		//No id in view context, so creating new empty proposal
-    		attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);    		
+    		attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);    		
     	}    	
 	}
 	
