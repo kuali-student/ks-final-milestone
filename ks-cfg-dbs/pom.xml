@@ -427,6 +427,7 @@
             <modules>
                 <module>ks-rice-db</module>
                 <module>ks-embedded-db</module>
+                <module>ks-regression-db</module>
                 <module>ks-standalone-db</module>
             </modules>
         </profile>
@@ -446,6 +447,12 @@
             <id>embedded-only</id>
             <modules>
                 <module>ks-embedded-db</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>regression-only</id>
+            <modules>
+                <module>ks-regression-db</module>
             </modules>
         </profile>
         <profile>
