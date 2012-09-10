@@ -458,8 +458,37 @@
     </bean>
 
     <!-- Subject Code service -->
-    <bean id="subjectCodeServiceImpl"
-          class="org.kuali.student.r1.core.subjectcode.service.impl.MockSubjectCodeServiceImpl"/>
+    <bean id="subjectCodeEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="SubjectCode"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/subjectcode-persistence.xml" />
+        <property name="dataSource" ref="coreDataSource" />
+    </bean>
+
+    <bean id="subjectCodeEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="subjectCodeEntityManagerFactory" />
+    </bean>
+
+    <bean id="subjectCodeDao"
+          class="org.kuali.student.r1.core.subjectcode.dao.SubjectCodeDao">
+        <property name="em" ref="subjectCodeEntityManager" />
+    </bean>
+
+    <bean id="subjectCodeJoinOrgDao"
+          class="org.kuali.student.r1.core.subjectcode.dao.SubjectCodeJoinOrgDao">
+        <property name="em" ref="subjectCodeEntityManager" />
+    </bean>
+
+    <bean id="subjectCodeServiceImpl" class="org.kuali.student.r1.core.subjectcode.service.impl.SubjectCodeServiceImpl" >
+        <property name="cachingEnabled" value="false"/>
+        <property name="searchManager" ref="subjectCodeSearchManager"/>
+        <property name="subjectCodeDao" ref="subjectCodeDao"/>
+        <property name="subjectCodeJoinOrgDao" ref="subjectCodeJoinOrgDao"/>
+    </bean>
+
+    <bean id="subjectCodeSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:subjectcode-search-config.xml" />
+    </bean>
 
     <bean id="ks.exp.subjectCodeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
