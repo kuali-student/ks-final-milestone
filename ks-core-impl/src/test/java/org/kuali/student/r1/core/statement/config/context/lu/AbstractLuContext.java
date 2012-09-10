@@ -65,7 +65,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      */
     public MockCluInfo getCluInfo(String cluId) throws OperationFailedException {
 		try {
-			//CluInfo clu = this.luService.getClu(cluId);
+			//CluInfo clu = this.cluService.getClu(cluId);
 			//return clu;
 			return cluMap.get(cluId);
 		} catch(Exception e) {
@@ -82,7 +82,7 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
      */
     public MockCluSetInfo getCluSetInfo(String cluSetId) throws OperationFailedException {
 		try {
-	    	//CluSetInfo cluSet = this.luService.getCluSetInfo(cluSetId);
+	    	//CluSetInfo cluSet = this.cluService.getCluSetInfo(cluSetId);
 	    	//return cluSet;
 			return cluSetMap.get(cluSetId);
 		} catch(Exception e) {

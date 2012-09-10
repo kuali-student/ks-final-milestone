@@ -63,8 +63,8 @@ public class NaturalLanguageTranslatorTest {
     	createMessageBuilder();
     	createReqComponent();
     	createLuStatement();
-//    	luService.clear();
-//    	luService.addAll(NaturalLanguageUtil.createData());
+//    	cluService.clear();
+//    	cluService.addAll(NaturalLanguageUtil.createData());
     }
 
     @Before
@@ -128,7 +128,7 @@ public class NaturalLanguageTranslatorTest {
     
     private void createTranslator() {
     	ContextRegistry<Context<ReqComponentInfo>> reqComponentContextRegistry = NaturalLanguageUtil.getReqComponentContextRegistry();
-//    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = NaturalLanguageUtil.getStatementContextRegistry(luService);
+//    	ContextRegistry<Context<LuStatementAnchor>> statementContextRegistry = NaturalLanguageUtil.getStatementContextRegistry(cluService);
 
     	ReqComponentTranslator englishReqComponentTranslator = new ReqComponentTranslator();
     	englishReqComponentTranslator.setContextRegistry(reqComponentContextRegistry);

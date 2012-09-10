@@ -584,8 +584,8 @@ public class StatementAssembler extends BaseAssembler {
         Statement stmt = new Statement();
         stmt.setName(statementInfo.getName());
         stmt.setOperator(statementInfo.getOperator());
-        // TODO: Fix with LuService RC1.4 changes
-        // LuStatementTypeInfo stmtType = this.luService.getLuStatementType(statementInfo.getStatementTypeId());
+        // TODO: Fix with CluService RC1.4 changes
+        // LuStatementTypeInfo stmtType = this.cluService.getLuStatementType(statementInfo.getStatementTypeId());
         // stmt.setLuStatementType(stmtType);
         StatementType type = this.statementDao.fetch(StatementType.class, statementInfo.getType());
         stmt.setStatementType(type);
@@ -606,7 +606,7 @@ public class StatementAssembler extends BaseAssembler {
      * InvalidParameterException, MissingParameterException, OperationFailedException { for(ReqComponentInfo req : reqList) {
      * setReqComponentType(req); } } private void setReqComponentType(ReqComponentInfo req) throws DoesNotExistException,
      * InvalidParameterException, MissingParameterException, OperationFailedException { if(req.getRequiredComponentType() ==
-     * null) { //TODO: Fix with LuService RC1.4 changes ReqComponentType type =
+     * null) { //TODO: Fix with CluService RC1.4 changes ReqComponentType type =
      * this.statementDao.fetch(ReqComponentType.class, req.getType());
      * req.setRequiredComponentType(toReqComponentTypeInfo(type)); } }
      */
@@ -617,8 +617,8 @@ public class StatementAssembler extends BaseAssembler {
             stmt.setName(luNlStmt.getName());
             stmt.setOperator(luNlStmt.getOperator());
             if (luNlStmt.getType() != null) {
-                // TODO: Fix with LuService RC1.4 changes
-                // stmt.setLuStatementType(this.luService.getLuStatementType(luNlStmt.getStatementTypeId()));
+                // TODO: Fix with CluService RC1.4 changes
+                // stmt.setLuStatementType(this.cluService.getLuStatementType(luNlStmt.getStatementTypeId()));
                 StatementType type = this.statementDao.fetch(StatementType.class, luNlStmt.getType());
                 stmt.setStatementType(type);
             }
