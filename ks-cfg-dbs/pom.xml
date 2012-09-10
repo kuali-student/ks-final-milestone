@@ -45,7 +45,7 @@
         <ks.impex.date.format>yyyyMMddHHmmss</ks.impex.date.format>
 
         <!-- Oracle specific properties -->
-        <ks.impex.masterdb.url>jdbc:oracle:thin:@localhost:1521:XE</ks.impex.masterdb.url>
+        <ks.impex.masterdb.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</ks.impex.masterdb.url>
         <ks.impex.masterdb.schema>KSMASTER_13</ks.impex.masterdb.schema>
         <ks.impex.masterdb.username>KSMASTER_13</ks.impex.masterdb.username>
         <ks.impex.masterdb.password>KSMASTER_13</ks.impex.masterdb.password>
@@ -57,8 +57,8 @@
         <ks.impex.oracle.quota>UNLIMITED</ks.impex.oracle.quota>
         <ks.impex.oracle.error.sqlcode.userDoesNotExist>-01918</ks.impex.oracle.error.sqlcode.userDoesNotExist>
         <ks.impex.oracle.error.sqlcode.userAlreadyExists>-01920</ks.impex.oracle.error.sqlcode.userAlreadyExists>
-        <ks.impex.oracle.dba.username>sys as sysdba</ks.impex.oracle.dba.username>
-        <ks.impex.oracle.dba.password>password</ks.impex.oracle.dba.password>
+        <ks.impex.oracle.dba.username>master</ks.impex.oracle.dba.username>
+        <ks.impex.oracle.dba.password>change_on_install</ks.impex.oracle.dba.password>
 
         <!-- Simple select query for validating connection properties -->
         <ks.impex.oracle.sql.validate>
