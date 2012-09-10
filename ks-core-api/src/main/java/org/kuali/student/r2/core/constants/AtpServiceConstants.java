@@ -150,6 +150,7 @@ public class AtpServiceConstants {
     public static final String MILESTONE_COLUMBUS_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.ColumbusDay";
     public static final String MILESTONE_ELECTION_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.electionday";
     public static final String MILESTONE_ROSHHASHANAH_OBSERVED_TYPE_KEY = "kuali.atp.milestone.roshhashanah";
+    public static final String MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.IndependenceDayObserved";
 
     // events
     public static final String MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
