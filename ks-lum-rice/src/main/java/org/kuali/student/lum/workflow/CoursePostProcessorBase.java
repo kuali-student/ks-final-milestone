@@ -18,12 +18,13 @@ import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r1.lum.lu.LUConstants;
+
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,8 +59,8 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             // The current two proposal docTypes which being withdrawn will cause a course to be 
             // disapproved are Create and Modify (because a new DRAFT version is created when these 
             // proposals are submitted.)
-            if ( LUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(proposalDocType)
-                    ||  LUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(proposalDocType)) {
+            if ( CLUConstants.PROPOSAL_TYPE_COURSE_CREATE.equals(proposalDocType)
+                    ||  CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals(proposalDocType)) {
                 LOG.info("Will set CLU state to '"
                         + DtoConstants.STATE_NOT_APPROVED + "'");
                 // Get Clu
@@ -71,7 +72,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             } 
             // Retire proposal is the only proposal type at this time which will not require a 
             // change to the clu if withdrawn.
-                        else if ( LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(proposalDocType)) {
+                        else if ( CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(proposalDocType)) {
                 LOG.info("Withdrawing a retire proposal with ID'" + proposalInfo.getId() 
                         + ", will not change any CLU state as there is no new CLU object to set.");
             }
@@ -206,7 +207,7 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      * @return the CLU state to set or null if the CLU does not need it's state changed
      */
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode, String docType) {
-        if (LUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(docType)) {
+        if (CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals(docType)) {
             // This is for Retire Proposal, Course State should remain active for
             // all other route statuses.            
             if (KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)){
