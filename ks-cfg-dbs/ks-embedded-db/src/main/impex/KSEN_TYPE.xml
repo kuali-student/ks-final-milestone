@@ -263,47 +263,50 @@
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.RegistrationOpen" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Priority Registration Period for Continuing Students"
-        DESCR_PLAIN="Priority Registration Period for Continuing Students"
+        DESCR_FORMATTED="Freshmen" DESCR_PLAIN="Freshmen"
         NAME="Registration Period 1"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.RegistrationPeriod1" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Registration Period for Newly Admitted and Returning Former Students"
-        DESCR_PLAIN="Registration Period for Newly Admitted and Returning Former Students"
+        DESCR_FORMATTED="Sophomores" DESCR_PLAIN="Sophomores"
         NAME="Registration Period 2"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.RegistrationPeriod2" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
-        DESCR_FORMATTED="Registration Period open to all students for adds and changes."
-        DESCR_PLAIN="Registration Period open to all students for adds and changes."
+        DESCR_FORMATTED="Juniors" DESCR_PLAIN="Juniors"
         NAME="Registration Period 3"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.RegistrationPeriod3" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
+        DESCR_FORMATTED="Seniors" DESCR_PLAIN="Seniors"
+        NAME="Registration Period 4"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.RegistrationPeriod4" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Date of first late registration charge for quarter if not registered prior to the first day of the quarter"
         DESCR_PLAIN="Date of first late registration charge for quarter if not registered prior to the first day of the quarter"
         NAME="Late Registration Period 1"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
-        TYPE_KEY="kuali.atp.milestone.RegistrationPeriod4" VER_NBR="0"/>
+        TYPE_KEY="kuali.atp.milestone.RegistrationPeriod5" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Date of second late registration charge for quarter if not registered prior to the fifteenth calendar day of the quarter"
         DESCR_PLAIN="Date of second late registration charge for quarter if not registered prior to the fifteenth calendar day of the quarter"
         NAME="Late Registration Period 2"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
-        TYPE_KEY="kuali.atp.milestone.RegistrationPeriod5" VER_NBR="0"/>
+        TYPE_KEY="kuali.atp.milestone.RegistrationPeriod6" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Date that late change fee begins (eighth calendar day) for any add/drops/changes in registration."
         DESCR_PLAIN="Date that late change fee begins (eighth calendar day) for any add/drops/changes in registration."
         NAME="Late Schedule Changes"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
-        TYPE_KEY="kuali.atp.milestone.RegistrationPeriod6" VER_NBR="0"/>
+        TYPE_KEY="kuali.atp.milestone.RegistrationPeriod7" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         NAME="Thanksgiving Break"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
@@ -319,6 +322,12 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.VeteransDayObserved" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120910000000"
+        DESCR_FORMATTED="Election Day" DESCR_PLAIN="Election Day"
+        NAME="Election Day"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.electionday" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120801000000"
         DESCR_FORMATTED="End of First Week of Classes"
         DESCR_PLAIN="End of First Week of Classes"
@@ -346,6 +355,12 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.monthpriortostartofclasses" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120910000000"
+        DESCR_FORMATTED="Rosh Hashanah" DESCR_PLAIN="Rosh Hashanah"
+        NAME="Rosh Hashanah"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.roshhashana" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         NAME="Academic Calendar"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"

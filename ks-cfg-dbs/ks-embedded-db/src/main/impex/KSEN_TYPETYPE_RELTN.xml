@@ -595,6 +595,14 @@
         TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
     <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
+        ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.appt.regperiods.kuali.atp.milestone.RegistrationPeriod7"
+        OWNER_TYPE_ID="kuali.milestone.type.group.appt.regperiods"
+        RANK="0"
+        RELATED_TYPE_ID="kuali.atp.milestone.RegistrationPeriod7"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
         ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.event.kuali.atp.milestone.Commencement"
         OWNER_TYPE_ID="kuali.milestone.type.group.event" RANK="0"
         RELATED_TYPE_ID="kuali.atp.milestone.Commencement"
@@ -714,6 +722,20 @@
         TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
     <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
+        ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.electionday"
+        OWNER_TYPE_ID="kuali.milestone.type.group.holiday" RANK="0"
+        RELATED_TYPE_ID="kuali.atp.milestone.electionday"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.holiday.kuali.atp.milestone.roshhashana"
+        OWNER_TYPE_ID="kuali.milestone.type.group.holiday" RANK="0"
+        RELATED_TYPE_ID="kuali.atp.milestone.roshhashana"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
         ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.instructional.kuali.atp.milestone.FinalExamPeriod"
         OWNER_TYPE_ID="kuali.milestone.type.group.instructional"
         RANK="0" RELATED_TYPE_ID="kuali.atp.milestone.FinalExamPeriod"
@@ -802,6 +824,13 @@
         ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.RegistrationPeriod6"
         OWNER_TYPE_ID="kuali.milestone.type.group.registration" RANK="0"
         RELATED_TYPE_ID="kuali.atp.milestone.RegistrationPeriod6"
+        TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
+        TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
+    <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
+        CREATETIME="20120301000000"
+        ID="kuali.type.type.relation.type.group.kuali.milestone.type.group.registration.kuali.atp.milestone.RegistrationPeriod7"
+        OWNER_TYPE_ID="kuali.milestone.type.group.registration" RANK="0"
+        RELATED_TYPE_ID="kuali.atp.milestone.RegistrationPeriod7"
         TYPETYPE_RELTN_STATE="kuali.type.type.relation.state.active"
         TYPETYPE_RELTN_TYPE="kuali.type.type.relation.type.group" VER_NBR="0"/>
     <KSEN_TYPETYPE_RELTN CREATEID="SYSTEMLOADER"
