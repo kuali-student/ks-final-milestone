@@ -37,10 +37,11 @@ public class TypeOfSearchKeyValues extends KeyValuesBase implements Serializable
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Fall", "Fall" ));
-        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Winter", "Winter"));
-        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Spring", "Spring"));
-        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Summer", "Summer"));
+        keyValues.add(new ConcreteKeyValue("courseId", "Course ID" ));
+        keyValues.add(new ConcreteKeyValue("department", "Department"));
+        keyValues.add(new ConcreteKeyValue("instructor", "Instructor"));
+        keyValues.add(new ConcreteKeyValue("titleDesc", "Title & Description"));
+
         return keyValues;
     }
 
