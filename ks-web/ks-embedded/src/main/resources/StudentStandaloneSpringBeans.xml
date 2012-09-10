@@ -53,6 +53,7 @@
                 <value>classpath:ks-TermInfo-dictionary.xml</value>
                 <value>classpath:ks-PopulationInfo-dictionary.xml</value>
                 <value>classpath:ks-PopulationRuleInfo-dictionary.xml</value>
+                <value>classpath:ks-CourseOfferingDisplayInfo-dictionary.xml</value>
 
                 <!--
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
@@ -128,6 +129,9 @@
                 <!-- Population -->
                 <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperLookupAndInquiryView.xml</value>
+
+                <!-- Schedule of Classes -->
+                <value>classpath:org/kuali/student/enrollment/scheduleofclasses/ScheduleOfClassesWrapperLookupAndInquiryView.xml</value>
 
                 <!-- Holds -->
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoSearchView.xml</value>
