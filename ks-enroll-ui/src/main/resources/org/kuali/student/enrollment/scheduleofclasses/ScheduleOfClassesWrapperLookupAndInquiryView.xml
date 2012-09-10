@@ -52,7 +52,14 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-LookupCriteriaInputField" p:label="Terms" p:propertyName="term" />
-                            <bean parent="Uif-LookupCriteriaInputField" p:label="Type of Search" p:propertyName="searchType" />
+                            <bean parent="Uif-LookupCriteriaInputField" p:label="Type of Search" p:propertyName="searchType">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.TypeOfSearchKeyValues"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-LookupCriteriaInputField" p:label="Course" p:propertyName="course" />
                             <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="search" p:actionLabel="Show" />
                         </list>
