@@ -15,7 +15,9 @@ import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefiniti
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingDisplayTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingDisplayTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.OfferingInstructorTransformer;
@@ -64,6 +66,11 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -348,24 +355,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         CourseOfferingInfo coInfo = getCourseOffering(courseOfferingId, context);
-        CourseOfferingDisplayInfo displayInfo = new CourseOfferingDisplayInfo();
-        // Fields use in course offering display info
-        // descr, courseId, termId, courseOfferingTitle,  courseOfferingCode, subjectArea,
-        displayInfo.setDescr(coInfo.getDescr());
-        displayInfo.setCourseId(coInfo.getCourseId());
-        displayInfo.setTermId(coInfo.getTermId());
-        displayInfo.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
-        displayInfo.setSubjectArea(coInfo.getSubjectArea());
-        // termName, termCode, gradingOptionName, creditOptionName, typeName, stateName
-        AtpInfo atpInfo = atpService.getAtp(coInfo.getTermId(), context);
-        displayInfo.setTermName(atpInfo.getName());
-        displayInfo.setTermCode(atpInfo.getCode());
-        displayInfo.setGradingOptionName(coInfo.getGradingOptionName());
-        displayInfo.setCreditOptionName(coInfo.getCreditOptionName());
-        TypeInfo typeInfo = typeService.getType(coInfo.getTypeKey(), context);
-        displayInfo.setTypeName(typeInfo.getName());
-        StateInfo stateInfo = stateService.getState(coInfo.getStateKey(), context);
-        displayInfo.setStateName(stateInfo.getName());
+        CourseOfferingDisplayInfo displayInfo =
+                CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, typeService, stateService, context);
 
         return displayInfo;
     }
@@ -377,18 +368,40 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ActivityOfferingDisplayInfo getActivityOfferingDisplay(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet");
+        ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, contextInfo);
+        // TODO: Once scheduling service is wired in, replace null below
+        ActivityOfferingDisplayInfo displayInfo =
+                ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, typeService, stateService, null, contextInfo);
+        return displayInfo;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByIds(List<String> activityOfferingIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet");
+        // For now, just do it simply
+        List<ActivityOfferingDisplayInfo> displayInfos = new ArrayList<ActivityOfferingDisplayInfo>();
+        for (String id: activityOfferingIds) {
+            ActivityOfferingDisplayInfo displayInfo = getActivityOfferingDisplay(id, contextInfo);
+            displayInfos.add(displayInfo);
+        }
+        return displayInfos;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysForCourseOffering(String courseOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet");
+        // Straight-forward implementation--might not be fully optimized
+        List<ActivityOfferingInfo> aoInfos = getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
+        List<ActivityOfferingDisplayInfo> aoDisplayInfos = new ArrayList<ActivityOfferingDisplayInfo>();
+        for (ActivityOfferingInfo aoInfo: aoInfos) {
+            // TODO: Once scheduling service is wired in, replace null below
+            ActivityOfferingDisplayInfo aoDisplayInfo =
+                    ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, typeService, stateService, null, contextInfo);
+            aoDisplayInfos.add(aoDisplayInfo);
+        }
+        return aoDisplayInfos;
     }
 
     @Override
@@ -1031,6 +1044,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> strings, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -1038,6 +1052,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ActivityOfferingInfo> getActivityOfferingsByCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -1906,20 +1921,32 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return status;
     }
 
+
+    @Override
+    public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        List<String> courseOfferingIds = new ArrayList<String>(results.getResults().size());
+        for (LuiEntity lui : results.getResults()) {
+            if (checkTypeForCourseOfferingType(lui.getLuiType())) {
+                courseOfferingIds.add(lui.getId());
+            }
+        }
+        return courseOfferingIds;
+    }
+
     @Override
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
-        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(results.getResults().size());
-        for (LuiEntity lui : results.getResults()) {
+        List<String> courseOfferingIds = searchForCourseOfferingIds(criteria, context);
+        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
+        for (String coId: courseOfferingIds) {
             try {
-                if (checkTypeForCourseOfferingType(lui.getLuiType())) {
-                    CourseOfferingInfo co = this.getCourseOffering(lui.getId(), context);
-                    courseOfferings.add(co);
-                }
+                CourseOfferingInfo co = this.getCourseOffering(coId, context);
+                courseOfferings.add(co); // Add the course offering
             } catch (DoesNotExistException ex) {
-                throw new OperationFailedException(lui.getId(), ex);
+                throw new OperationFailedException(coId, ex);
             }
         }
         return courseOfferings;
@@ -1943,12 +1970,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (DoesNotExistException e) {
             throw new OperationFailedException();
         }
-    }
-
-    @Override
-    public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
     }
 
     @Override
