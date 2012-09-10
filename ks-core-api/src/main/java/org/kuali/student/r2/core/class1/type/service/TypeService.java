@@ -97,7 +97,7 @@ public interface TypeService {
      * in which the object is defined and then the simple java name (no class path)
      * of the object itself.
      * 
-     * For example: http://student.kuali.org/wsdl/luService/CluInfo
+     * For example: http://student.kuali.org/wsdl/cluService/CluInfo
      * 
      * @param contextInfo Context information containing the principalId
      *        and locale information about the caller of service
@@ -114,7 +114,7 @@ public interface TypeService {
      * This method returns a list of TypeInfo that belong to a
      * RefObjectUri. For e.g all types for CluInfo
      * 
-     * @param refObjectUri a URI identifying the object e.g http://student.kuali.org/wsdl/luService/CluInfo
+     * @param refObjectUri a URI identifying the object e.g http://student.kuali.org/wsdl/cluService/CluInfo
      * @param contextInfo Context information containing the principalId
      *        and locale information about the caller of service
      *        operation

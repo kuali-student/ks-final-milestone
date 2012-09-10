@@ -55,11 +55,11 @@ public interface Type
         
     /**
      * The reference to the Object URI to which the Type belongs.
-     * E.g http://student.kuali.org/luService/wsdl/CluInfo will be the
+     * E.g http://student.kuali.org/cluService/wsdl/CluInfo will be the
      *          //objectTypeURI for type 'kuali.lu.type.CreditCourse'
      * The refObjectURI has three parts:<ol>
      * <li>http://student.kuali.org/wsdl -- which is fixed
-     * <li>luService -- which should match the namespace of the service in which the object is defined
+     * <li>cluService -- which should match the namespace of the service in which the object is defined
      * <li>CluInfo -- which should match the java class's simple name
      * </ol>
      *
