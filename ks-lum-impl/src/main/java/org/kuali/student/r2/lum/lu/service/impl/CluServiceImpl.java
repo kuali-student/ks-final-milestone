@@ -2425,21 +2425,18 @@ public class CluServiceImpl implements CluService {
         if (query == null) {
             return null;
         }
-        SearchRequestInfo sr = new SearchRequestInfo();
-        sr.setSearchKey(query.getSearchTypeKey());
-        sr.setParams(query.getQueryParamValues());
 
-        // TODO: Copy r2 request to an R1 request 
-        SearchRequest r1Request = null;
-        SearchResult r1Result = this.searchDispatcher.dispatchSearch(r1Request);
-//        TODO: copy R1 result to an R2 result
-        SearchResultInfo result = new SearchResultInfo();
+        SearchRequest request = new SearchRequest();
+        request.setSearchKey(query.getSearchTypeKey());
+        request.setParams(SearchParamHelper.toSearchParams(query.getQueryParamValues()));
+
+        SearchResult result = this.searchDispatcher.dispatchSearch(request);
 
         Set<String> cluIds = new HashSet<String>();
-        List<SearchResultRowInfo> rows = result.getRows();
-        for (SearchResultRowInfo row : rows) {
-            List<SearchResultCellInfo> cells = row.getCells();
-            for (SearchResultCellInfo cell : cells) {
+        List<SearchResultRow> rows = result.getRows();
+        for (SearchResultRow row : rows) {
+            List<SearchResultCell> cells = row.getCells();
+            for (SearchResultCell cell : cells) {
                 if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId") && cell.getValue() != null) {
                     cluIds.add(cell.getValue());
                 }
