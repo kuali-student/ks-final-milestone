@@ -108,7 +108,7 @@
                         <id>generate-contract-documentation</id>
                         <phase>${ks.contractdoc.phase}</phase>
                         <goals>
-                            <goal>kscontractdoc</goal>
+<!--                             <goal>kscontractdoc</goal> -->
                         </goals>
                         <configuration>
                             <!-- generate on all kuali dependencies -->

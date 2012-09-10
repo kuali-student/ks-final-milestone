@@ -14,7 +14,7 @@
  */
 package org.kuali.student.r2.common.infc;
 
-import org.kuali.student.r1.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
 
 
@@ -27,11 +27,11 @@ public interface HoldsLuService {
 	/**
 	 * Gets the underlying service provider.
 	 */
-	public LuService getLuService();
+	public CluService getCluService();
 		
 
 	/**
 	 * Sets lui service
 	 */
-	public void setLuService(LuService luiService);
+	public void setCLuService(CluService cluService);
 }

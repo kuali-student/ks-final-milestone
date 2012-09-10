@@ -154,13 +154,13 @@ The reference to the Object URI to which the lifecycle is associated.
 			<value>
 The reference to the Object URI to which the lifecycle is associated.
 
-E.g http://student.kuali.org/luService/wsdl/CluInfo will be the
+E.g http://student.kuali.org/cluService/wsdl/CluInfo will be the
          //objectTypeURI for type 'kuali.lu.type.CreditCourse'
 
 The refObjectURI has three parts:
 &lt;ol&gt;
    &lt;li&gt;http://student.kuali.org/wsdl -- which is fixed
-   &lt;li&gt;luService -- which should match the namespace of the service 
+   &lt;li&gt;cluService -- which should match the namespace of the service 
                     in which the object is defined
    &lt;li&gt;CluInfo -- which should match the java class's simple name
 &lt;/ol&gt;

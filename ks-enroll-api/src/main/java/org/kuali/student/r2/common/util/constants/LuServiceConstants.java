@@ -16,7 +16,7 @@
 package org.kuali.student.r2.common.util.constants;
 
 /**
- * Constants used by LuService 
+ * Constants used by CluService 
  * 
  * @author @nina
  *
