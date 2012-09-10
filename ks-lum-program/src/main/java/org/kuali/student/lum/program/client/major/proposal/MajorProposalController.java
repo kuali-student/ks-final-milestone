@@ -53,8 +53,8 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
 import java.util.*;
 
@@ -482,7 +482,7 @@ public class MajorProposalController extends MajorController implements Workflow
                 viewContextId = null;
             }
         }
-        idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);       
+        idAttributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);       
         if (programModel.getRoot() != null) {
             ProgramStatus programStatus = ProgramStatus.of(programModel);
             idAttributes.put(DtoConstants.DTO_STATE, programStatus.getValue());
@@ -650,7 +650,7 @@ public class MajorProposalController extends MajorController implements Workflow
 				//Create a new view Context and navigate if coming from action list
         		ViewContext viewContext = new ViewContext();
                 viewContext.setId(proposalId);
-                getViewContext().setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
+                getViewContext().setAttribute(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
                 viewContext.setIdType(IdType.KS_KEW_OBJECT_ID);
                 Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
 			}
@@ -948,7 +948,7 @@ public class MajorProposalController extends MajorController implements Workflow
             //This is to handle the case where entry into the proposal screens is by clicking parent breadcrumb or 
             //parent link from within specialization
             attributes.put(IdType.KS_KEW_OBJECT_ID.toString(), ProgramUtils.getProposalId(programModel));
-            attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
+            attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
         } else if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) && getViewContext().getIdType() != null ) {
             if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID || getViewContext().getIdType() == IdType.DOCUMENT_ID){
                 attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
