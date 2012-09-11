@@ -805,7 +805,7 @@ public class CluServiceAssembler extends BaseAssembler {
         CluFeeRecordInfo dto = new CluFeeRecordInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[]{"affiliatedOrgs", "currencyAmount", "attributes", "descr"});
+                new String[]{"affiliatedOrgs", "feeAmounts", "attributes", "descr", "meta"});
 
         dto.setAffiliatedOrgs(toAffiliatedOrgInfos(entity.getAffiliatedOrgs()));
         dto.setFeeAmounts(toFeeAmounts(entity.getFeeAmounts()));

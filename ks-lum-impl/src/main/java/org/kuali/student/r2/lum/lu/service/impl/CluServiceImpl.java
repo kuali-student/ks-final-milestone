@@ -1116,10 +1116,11 @@ public class CluServiceImpl implements CluService {
                     LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
                     luDao));
             BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
-                    "attributes", "meta"});
+                    "attributes", "meta", "descr", "typeKey"});
             if (luCodeInfo.getDescr() != null) {
                 luCode.setDescr(luCodeInfo.getDescr().getPlain());
             }
+            luCode.setType(luCodeInfo.getTypeKey());
             luCode.setClu(clu);
             luCodes.add(luCode);
         }
