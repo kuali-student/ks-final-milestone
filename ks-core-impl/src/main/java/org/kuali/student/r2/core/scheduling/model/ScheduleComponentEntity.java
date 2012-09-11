@@ -1,21 +1,26 @@
 package org.kuali.student.r2.core.scheduling.model;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
 
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collection;
 
 /**
  *  Schedule Component Entity
  */
 @Entity
 @Table(name = "KSEN_SCHED_CMP")
-public class ScheduleComponentEntity extends MetaEntity {
+public class ScheduleComponentEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "SCHED_ID")
