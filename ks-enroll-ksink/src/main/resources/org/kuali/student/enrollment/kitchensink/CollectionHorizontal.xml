@@ -95,8 +95,9 @@
                                         <property name="messageText">
                                             <value>
                                                 This example shows how to have a collection with a horizontal stacked
-                                                layout.  Horizontally-stacked subcollections are also possible.  The
-                                                collection bean name is KS-[Disclosure-]HorizontalCollection[Sub]Section.
+                                                layout (for both the add line and existing lines).  Horizontally-stacked
+                                                subcollections are also possible.  The collection bean name is
+                                                KS-[Disclosure-]HorizontalCollection[Sub]Section.
                                             </value>
                                         </property>
                                     </bean>
