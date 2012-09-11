@@ -25,7 +25,7 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
 public class CourseInfoLookupableImpl extends LookupableImpl {
 	private static final long serialVersionUID = 1L;	
 	
-    private transient CluService luService;
+    private transient CluService cluService;
     private transient CourseService courseService;
 
     public enum QueryParamEnum {
@@ -100,10 +100,10 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
 
     //Note: here I am using r1 CluService implementation!!!
     protected CluService getCluService() {
-        if(luService == null) {
-            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(cluService == null) {
+            cluService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
-        return this.luService;
+        return this.cluService;
     }
 
     protected CourseService getCourseService() {

@@ -30,7 +30,7 @@ import java.util.Map;
 public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
      private static final String COURSE_CODE_PROPERTY_PATH = "document.newMaintainableObject.dataObject.courseOfferingCode";
 
-     private transient CluService luService;
+     private transient CluService cluService;
      private transient IdentityService identityService;
 
     /**
@@ -93,10 +93,10 @@ public class CourseOfferingRule extends MaintenanceDocumentRuleBase {
 
     //Note: here I am using r1 CluService implementation!!!
     protected CluService getCluService() {
-        if(luService == null) {
-            luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(cluService == null) {
+            cluService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
-        return this.luService;
+        return this.cluService;
     }
 
     protected IdentityService getIdentityService() {

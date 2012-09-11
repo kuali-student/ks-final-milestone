@@ -74,8 +74,8 @@ public class CourseOfferingResourceLoader {
     }
 
     public static CluService loadCluService() {
-        CluService luService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
-        return luService;
+        CluService cluService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return cluService;
     }
 
     public static AcademicCalendarService loadAcademicCalendarService() {

@@ -58,7 +58,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 @RequestMapping(value = "/courseOffering")
 public class CourseOfferingController extends MaintenanceDocumentController {
 
-    private CluService luService;
+    private CluService cluService;
     private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
     private CourseOfferingService courseOfferingService;
@@ -339,10 +339,10 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     }
 
     private CluService getCluService() {
-        if(luService == null) {
-            luService = CourseOfferingResourceLoader.loadCluService();
+        if(cluService == null) {
+            cluService = CourseOfferingResourceLoader.loadCluService();
         }
-        return luService;
+        return cluService;
     }
 
    protected LRCService getLrcService() {

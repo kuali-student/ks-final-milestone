@@ -62,7 +62,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 @RequestMapping(value = "/courseOfferingManagement")
 public class CourseOfferingManagementController extends UifControllerBase  {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
-    private CluService luService;
+    private CluService cluService;
     private LRCService lrcService;
     private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
@@ -571,10 +571,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     private CluService getCluService() {
-        if(luService == null) {
-            luService = CourseOfferingResourceLoader.loadCluService();
+        if(cluService == null) {
+            cluService = CourseOfferingResourceLoader.loadCluService();
         }
-        return luService;
+        return cluService;
     }
 
     protected LRCService getLrcService() {
