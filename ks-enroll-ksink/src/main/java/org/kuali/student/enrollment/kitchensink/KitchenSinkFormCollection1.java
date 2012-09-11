@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class just holds a field fields for the collection properties in KitchenSinkForm
+ * This class just holds fields for the collection properties in KitchenSinkForm
  *
  * @author Kuali Student Team
  */
