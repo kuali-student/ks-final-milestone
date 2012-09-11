@@ -191,6 +191,10 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="scheduleDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
     <bean id="timeSlotDao" class="org.kuali.student.r2.core.scheduling.dao.TimeSlotDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
