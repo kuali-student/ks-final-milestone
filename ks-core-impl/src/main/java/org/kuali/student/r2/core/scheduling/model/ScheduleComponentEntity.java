@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.scheduling.model;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
@@ -7,6 +8,7 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
 
 /**
  *  Schedule Component Entity
@@ -41,13 +43,23 @@ public class ScheduleComponentEntity extends MetaEntity {
         fromDto(scheduleComponent);
     }
 
+    /**
+     *  Replace the list of time slot ids associated with the entity and return
+     *  a list of time slot ids which are no longer associated with the entity.
+     */
     public List<Object> fromDto(ScheduleComponent scheduleComponent) {
-        if (scheduleComponent.getTimeSlotIds() != null) {
-            timeSlotIds = new ArrayList<String>(scheduleComponent.getTimeSlotIds());
-        } else {
-            timeSlotIds = null;
+        List<String> newTimeSlotIds = scheduleComponent.getTimeSlotIds();
+        if (newTimeSlotIds == null) {
+            newTimeSlotIds = new ArrayList<String>();
         }
-        return new ArrayList<Object>();
+        if (timeSlotIds == null) {
+             timeSlotIds = new ArrayList<String>();
+        }
+        @SuppressWarnings("unchecked")
+        List<Object> orphans = (List<Object>) CollectionUtils.subtract(timeSlotIds, newTimeSlotIds);
+        timeSlotIds = new ArrayList<String>(scheduleComponent.getTimeSlotIds());
+
+        return orphans;
     }
 
     public ScheduleComponentInfo toDto() {
