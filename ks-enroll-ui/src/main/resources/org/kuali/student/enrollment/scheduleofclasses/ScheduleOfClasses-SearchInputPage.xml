@@ -53,7 +53,10 @@
                                     <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.TypeOfSearchKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:label="Course" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="course" p:required="true"/>
+                            <bean parent="Uif-InputField" p:label="Course" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="course" p:required="true" p:progressiveRender="@{#dp.searchType eq 'courseId'}"/>
+                            <bean parent="Uif-InputField" p:label="Department" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="department" p:required="true" p:progressiveRender="@{#dp.searchType eq 'department'}"/>
+                            <bean parent="Uif-InputField" p:label="Instructor" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="instructor" p:required="true" p:progressiveRender="@{#dp.searchType eq 'instructor'}"/>
+                            <bean parent="Uif-InputField" p:label="Title and/or Description" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:propertyName="titleDesc" p:required="true" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}"/>
                             <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:17px;"/>
                         </list>
                     </property>
