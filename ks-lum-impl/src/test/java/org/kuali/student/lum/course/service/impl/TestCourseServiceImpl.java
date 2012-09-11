@@ -739,7 +739,7 @@ public class TestCourseServiceImpl{
                 e.printStackTrace();
                 fail("failed creating course:" + e.getMessage());
             }
-            // Check in LuService if the attributes are mapped properly
+            // Check in CluService if the attributes are mapped properly
 
             // CourseInfo rInfo = courseService.getCourse(cInfo.getId());
            

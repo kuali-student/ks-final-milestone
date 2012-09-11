@@ -204,7 +204,7 @@
           class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
         <property name="services">
             <list>
-                <ref bean="luServiceImpl"/>
+                <ref bean="cluServiceImpl"/>
                 <ref bean="statementService"/>
             </list>
         </property>
@@ -226,7 +226,7 @@
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
 
-    <bean id="luServiceImpl"
+    <bean id="cluServiceImpl"
         class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
         <property name="luDao" ref="luDao"/>
         <property name="searchManager" ref="luSearchManager"/>

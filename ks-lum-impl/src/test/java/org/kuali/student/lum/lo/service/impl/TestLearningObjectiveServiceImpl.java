@@ -64,7 +64,7 @@ import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
-import org.kuali.student.r1.lum.lu.dto.FieldInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
 @Daos({@Dao(value = "org.kuali.student.r2.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})

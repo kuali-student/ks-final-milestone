@@ -220,7 +220,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         // Don't make any changes to nested datastructures if this is
         if (!shallowBuild) {
             try {
-                // Use the luService to find Joints, then convert and add to the
+                // Use the cluService to find Joints, then convert and add to the
                 // course
                 List<CluCluRelationInfo> cluClus = cluService.getCluCluRelationsByClu(clu.getId(),contextInfo);
 
@@ -243,7 +243,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             }
 
             try {
-                // Use the luService to find formats, then convert and add to
+                // Use the cluService to find formats, then convert and add to
                 // the course
                 List<CluInfo> formats = cluService.getRelatedClusByCluAndRelationType(course
                         .getId(),

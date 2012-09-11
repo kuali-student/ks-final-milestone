@@ -52,7 +52,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	final static Logger LOG = Logger.getLogger(FormatAssembler.class);
 
 	private BOAssembler<ActivityInfo, CluInfo> activityAssembler;
-	private CluService luService;
+	private CluService cluService;
 
 	@Override
 	public FormatInfo assemble(CluInfo clu, FormatInfo formatInfo,
@@ -76,10 +76,10 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 		// Don't make any changes to nested datastructures if this is
 		if (!shallowBuild) {
-			// Use the luService to find activities, then convert and add to the
+			// Use the cluService to find activities, then convert and add to the
 			// format
 			try {
-				List<CluInfo> activities = luService.getRelatedClusByCluAndRelationType(
+				List<CluInfo> activities = cluService.getRelatedClusByCluAndRelationType(
 										format.getId(),
 										CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE,
                                         contextInfo);
@@ -115,7 +115,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
         try {
         	clu = null;
           
-        	clu = (NodeOperation.UPDATE == operation) ? clu = luService.getClu(format.getId(),contextInfo) : new CluInfo();
+        	clu = (NodeOperation.UPDATE == operation) ? clu = cluService.getClu(format.getId(),contextInfo) : new CluInfo();
         } catch (Exception e) {
             throw new AssemblyException("Error retrieving course format shell during update", e);
         } 
@@ -160,7 +160,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	 * This method will return assembly nodes representing activities and
 	 * activity->format relations for a format based on the operation CREATE:
 	 * all activities and format-> activity relations will be created UPDATE:
-	 * activities will be taken from the luService and compared with the
+	 * activities will be taken from the cluService and compared with the
 	 * incomming format's activities. Any new activites will be created with a
 	 * corresponding CluCluRelation Any existing activities will be Updated All
 	 * leftover activities and their CluCluRelations will be deleted DELETE: all
@@ -190,7 +190,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<CluCluRelationInfo> activityRelationships = luService.getCluCluRelationsByClu(format.getId(),contextInfo);
+				List<CluCluRelationInfo> activityRelationships = cluService.getCluCluRelationsByClu(format.getId(),contextInfo);
 				
 				for (CluCluRelationInfo activityRelation : activityRelationships) {
 										if (CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE
@@ -282,9 +282,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
             relationToDeleteNode.setOperation(NodeOperation.DELETE);
             results.add(relationToDeleteNode);
 
-            CluInfo activityCluToDelete = luService.getClu(entry.getKey(), contextInfo);
+            CluInfo activityCluToDelete = cluService.getClu(entry.getKey(), contextInfo);
 
-            luService.getClu(entry.getKey(),contextInfo);
+            cluService.getClu(entry.getKey(),contextInfo);
             ActivityInfo activityToDelete = activityAssembler.assemble(activityCluToDelete, null, false,contextInfo);
             BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
             .disassemble(activityToDelete, NodeOperation.DELETE,contextInfo);
@@ -305,10 +305,10 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	}
 
 	public CluService getCluService() {
-		return luService;
+		return cluService;
 	}
 
-	public void setCluService(CluService luService) {
-		this.luService = luService;
+	public void setCluService(CluService cluService) {
+		this.cluService = cluService;
 	}
 }

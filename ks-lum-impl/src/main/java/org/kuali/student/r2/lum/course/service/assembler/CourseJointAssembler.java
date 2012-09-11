@@ -36,14 +36,14 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 	CluService cluService;		
 	
 	/**
-	 * @return the luService
+	 * @return the cluService
 	 */
 	public CluService getCluService() {
 		return cluService;
 	}
 
 	/**
-	 * @param luService the luService to set
+	 * @param cluService the cluService to set
 	 */
 	public void setCluService(CluService cluService) {
 		this.cluService = cluService;

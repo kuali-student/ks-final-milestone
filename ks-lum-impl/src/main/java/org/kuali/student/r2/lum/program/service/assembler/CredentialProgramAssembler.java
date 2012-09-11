@@ -8,7 +8,7 @@ import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;

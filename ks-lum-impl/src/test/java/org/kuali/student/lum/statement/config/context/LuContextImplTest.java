@@ -20,7 +20,7 @@ import java.util.*;
 
 public class LuContextImplTest {
 
-	private CluService cluService = new LuServiceMock();
+	private CluService cluService = new CluServiceMock();
 	private CluContextImpl cluContext = new CluContextImpl();
 
 	private ReqComponentInfo reqComponent1;
@@ -206,13 +206,13 @@ public class LuContextImplTest {
 
 	}
 
-	private static class LuServiceMock implements CluService {
+	private static class CluServiceMock implements CluService {
 
 		private Map<String, CluInfo> cluMap = new HashMap<String, CluInfo>();
 		private Map<String, CluSetInfo> cluSetMap = new HashMap<String, CluSetInfo>();
 		private Map<String, CluSetTreeViewInfo> cluSetTreeViewMap = new HashMap<String, CluSetTreeViewInfo>();
 
-		public LuServiceMock() {
+		public CluServiceMock() {
 			CluInfo clu1 = new CluInfo();
 			clu1.setId("CLU-NL-1");
 			clu1.setTypeKey("kuali.lu.type.CreditCourse");

@@ -1199,10 +1199,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		List<LuiInfo> luiInfos;
 		try {
 			luiInfos = atpService.getLuisByIds(null, contextInfo);
-			fail("LuService.getLuiByIdList() did not throw MissingParameterException for null Lui ID");
+			fail("CluService.getLuiByIdList() did not throw MissingParameterException for null Lui ID");
 		} catch (MissingParameterException mpe) {
 		} catch (Exception e) {
-			fail("LuService.getLuiByIdList() threw unexpected "
+			fail("CluService.getLuiByIdList() threw unexpected "
 					+ e.getClass().getSimpleName() + " for null Lui ID");
 		}
 		luiInfos = atpService.getLuisByIds(Arrays.asList("Not a LUI ID",
@@ -1234,15 +1234,15 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		// Read
 		try {
 			luiInfo = atpService.getLui("notARealLui", contextInfo);
-			fail("LuService.getLui() did not throw DoesNotExistException for non-existent Lui");
+			fail("CluService.getLui() did not throw DoesNotExistException for non-existent Lui");
 		} catch (DoesNotExistException dnee) {
 		} catch (Exception e) {
-			fail("LuService.getLui() threw unexpected "
+			fail("CluService.getLui() threw unexpected "
 					+ e.getClass().getSimpleName() + " for null Lui ID");
 		}
 		try {
 			luiInfo = atpService.getLui(null, contextInfo);
-			fail("LuService.getLui() did not throw MissingParameterException for null Lui ID");
+			fail("CluService.getLui() did not throw MissingParameterException for null Lui ID");
 		} catch (MissingParameterException mpe) {
 		}
 		luiInfo = atpService.getLui("LUI-1", contextInfo);
@@ -1286,7 +1286,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		try {
 			updatedLui = atpService.updateLui(createdLui.getId(), createdLui, contextInfo);
 		} catch (VersionMismatchException vme) {
-			fail("LuService.updateLui() threw unexpected VersionMismatchException");
+			fail("CluService.updateLui() threw unexpected VersionMismatchException");
 		}
 
 		// confirm update worked
@@ -1304,7 +1304,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		// optimistic locking working?
 		try {
 			atpService.updateLui(createdLui.getId(), createdLui, contextInfo);
-			fail("LuService.updateLui did not throw expected VersionMismatchException");
+			fail("CluService.updateLui did not throw expected VersionMismatchException");
 		} catch (VersionMismatchException e) {
 		}
 
@@ -1313,7 +1313,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		// and try it again
 		try {
 			atpService.deleteLui(createdLui.getId(), contextInfo);
-			fail("LuService.deleteLui() of previously-delete Lui did not throw expected DoesNotExistException");
+			fail("CluService.deleteLui() of previously-delete Lui did not throw expected DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
 		}
 	}
@@ -1326,7 +1326,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		List<String> luiIds = null;
 		try {
 			luiIds = atpService.getLuiIdsByCluId(null, contextInfo);
-			fail("LuService.getLuiIdsByCluId() did not throw MissingParameterException for null Clu ID");
+			fail("CluService.getLuiIdsByCluId() did not throw MissingParameterException for null Clu ID");
 		} catch (MissingParameterException e) {
 		}
 		luiIds = atpService.getLuiIdsByCluId("CLU-1", contextInfo);
@@ -1352,12 +1352,12 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		List<String> luiIds = null;
 		try {
 			luiIds = atpService.getLuiIdsInAtpByCluId(null, "ATP-1", contextInfo);
-			fail("LuService.getLuiIdsInAtpByCluId() did not throw MissingParameterException for null Clu ID");
+			fail("CluService.getLuiIdsInAtpByCluId() did not throw MissingParameterException for null Clu ID");
 		} catch (MissingParameterException e) {
 		}
 		try {
 			luiIds = atpService.getLuiIdsInAtpByCluId("CLU-1", null, contextInfo);
-			fail("LuService.getLuiIdsInAtpByCluId() did not throw MissingParameterException for null AtpKey");
+			fail("CluService.getLuiIdsInAtpByCluId() did not throw MissingParameterException for null AtpKey");
 		} catch (MissingParameterException e) {
 		}
 		luiIds = atpService.getLuiIdsInAtpByCluId("CLU-1", "ATP-2", contextInfo);
@@ -1382,7 +1382,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		try {
 			atpService.getLuLuRelationType(null, contextInfo);
-			fail("LuService.getLuLuRelationTypeInfo() did not throw MissingParameterException for null LuLuRelationType key");
+			fail("CluService.getLuLuRelationTypeInfo() did not throw MissingParameterException for null LuLuRelationType key");
 		} catch (MissingParameterException e) {
         }
 		luLuRelTypeInfo = atpService.getLuLuRelationType("luLuType.type1", contextInfo);
@@ -1393,7 +1393,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("rev desc2", luLuRelTypeInfo.getDescr());
 		try {
 			atpService.getLuLuRelationType("Non-existent LuLuRelationType", contextInfo);
-			fail("LuService.getLuLuRelationTypeInfo() did not throw DoesNotExistException when retrieving non-existent LuLuRelationType");
+			fail("CluService.getLuLuRelationTypeInfo() did not throw DoesNotExistException when retrieving non-existent LuLuRelationType");
 		} catch (DoesNotExistException dnee) {
 		}
 	}*/
@@ -1425,12 +1425,12 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		try {
 			atpService.updateLuiState(null, "Suspended", contextInfo);
-			fail("LuService.updateLuiState() did not throw MissingParameterException for null Lui ID");
+			fail("CluService.updateLuiState() did not throw MissingParameterException for null Lui ID");
 		} catch (MissingParameterException e) {
 		}
 		try {
 			atpService.updateLuiState("LUI-1", null, contextInfo);
-			fail("LuService.updateLuiState() did not throw MissingParameterException for null state");
+			fail("CluService.updateLuiState() did not throw MissingParameterException for null state");
 		} catch (MissingParameterException e) {
 		}
 
