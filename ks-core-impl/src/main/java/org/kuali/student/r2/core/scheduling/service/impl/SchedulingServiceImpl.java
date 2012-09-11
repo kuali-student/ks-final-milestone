@@ -20,12 +20,25 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dao.ScheduleDao;
 import org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao;
 import org.kuali.student.r2.core.scheduling.dao.TimeSlotDao;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.model.ScheduleEntity;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity;
@@ -67,6 +80,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ScheduleInfo getSchedule(@WebParam(name = "scheduleId") String scheduleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ScheduleEntity scheduleEntity = scheduleDao.find(scheduleId);
         if (null == scheduleEntity) {
@@ -106,13 +120,31 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ScheduleInfo updateSchedule(@WebParam(name = "scheduleId") String scheduleId, @WebParam(name = "scheduleInfo") ScheduleInfo scheduleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new UnsupportedOperationException();
+        ScheduleEntity scheduleEntity = scheduleDao.find(scheduleId);
+        if (null != scheduleEntity) {
+            scheduleEntity.fromDto(scheduleInfo);
+            scheduleDao.merge(scheduleEntity);
+            return scheduleEntity.toDto();
+        } else {
+            throw new DoesNotExistException(scheduleId);
+        }
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteSchedule(@WebParam(name = "scheduleId") String scheduleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        ScheduleEntity scheduleEntity = scheduleDao.find(scheduleId);
+        if (null != scheduleEntity) {
+            scheduleDao.remove(scheduleEntity);
+        } else {
+            throw new DoesNotExistException(scheduleId);
+        }
+        return status;
     }
 
     @Override
@@ -241,15 +273,6 @@ public class SchedulingServiceImpl implements SchedulingService {
         scheduleRequestEntity.setSchedReqType(scheduleRequestTypeKey);
         scheduleRequestEntity.setEntityCreated(contextInfo);
 
-        if(scheduleRequestEntity.getScheduleRequestComponents() != null){
-            for(ScheduleRequestComponentEntity srComp : scheduleRequestEntity.getScheduleRequestComponents()){
-                srComp.setCreateId(contextInfo.getPrincipalId());
-                srComp.setCreateTime(contextInfo.getCurrentDate());
-                srComp.setUpdateId(contextInfo.getPrincipalId());
-                srComp.setUpdateTime(contextInfo.getCurrentDate());
-            }
-        }
-
         scheduleRequestDao.persist(scheduleRequestEntity);
         return scheduleRequestEntity.toDto();
     }
@@ -277,18 +300,6 @@ public class SchedulingServiceImpl implements SchedulingService {
         //Update any Meta information
         scheduleRequestEntity.setEntityUpdated(contextInfo);
 
-        if(scheduleRequestEntity.getScheduleRequestComponents() != null){
-            for(ScheduleRequestComponentEntity srComp : scheduleRequestEntity.getScheduleRequestComponents()){
-                if(srComp.getCreateId() == null){
-                    srComp.setCreateId(contextInfo.getPrincipalId());
-                }
-                if(srComp.getCreateTime() == null){
-                    srComp.setCreateTime(contextInfo.getCurrentDate());
-                }
-                srComp.setUpdateId(contextInfo.getPrincipalId());
-                srComp.setUpdateTime(contextInfo.getCurrentDate());
-            }
-        }
         scheduleRequestDao.merge(scheduleRequestEntity);
         return scheduleRequestEntity.toDto();
 

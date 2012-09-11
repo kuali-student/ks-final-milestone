@@ -72,8 +72,6 @@ public class ScheduleRequestTestDataLoader {
         comp.setRoomIds(getIds("room", suffix));
         comp.setResourceTypeKeys(getIds("resource", suffix));
         comp.setTimeSlotIds(getIds("timeslot", suffix));
-        comp.setCreateId("TESTDATALOADER");
-        comp.setCreateTime(new Date ());
         comps.add(comp);
         entity.setScheduleRequestComponents(comps);
 
