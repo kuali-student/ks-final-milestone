@@ -49,8 +49,8 @@
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
                             <className>org.kuali.student.r2.lum.clu.service.CluService</className>
-                            <serviceName>LuService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/wsdl/lu</targetNameSpace>
+                            <serviceName>CluService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/clu</targetNameSpace>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>
