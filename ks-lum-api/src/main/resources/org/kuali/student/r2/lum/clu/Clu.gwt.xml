@@ -18,4 +18,5 @@
 <module>
     <source path='dto'/>
     <source path='infc'/>
+     <source path='' includes='CLUConstants.java' />
 </module>
