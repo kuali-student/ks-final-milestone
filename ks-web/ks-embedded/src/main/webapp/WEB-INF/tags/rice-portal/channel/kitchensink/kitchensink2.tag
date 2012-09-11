@@ -29,6 +29,8 @@
 
     <strong>Collections</strong>
     <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Collections"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection action image buttons"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionImages-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection column sorting"
