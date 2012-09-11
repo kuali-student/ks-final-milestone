@@ -179,7 +179,7 @@
 
 	<bean id="luClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
 		<property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService" />
-		<property name="serviceQName" value="{http://student.kuali.org/wsdl/lu}LuService" />
+		<property name="serviceQName" value="{http://student.kuali.org/wsdl/clu}CluService" />
 	</bean>
 
 	<bean id="proposalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -187,7 +187,7 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
 	</bean>
 
-	<bean id="luServiceImpl"
+	<bean id="cluServiceImpl"
 		class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
 		<property name="luDao" ref="luDao" />
         <property name="searchManager" ref="luSearchManager" />
@@ -278,7 +278,7 @@
 		<property name="services">
 			<list>
 				<ref bean="loServiceImpl"/>
-				<ref bean="luServiceImpl"/>
+				<ref bean="cluServiceImpl"/>
 				<ref bean="lrcServiceImpl"/>
 				<ref bean="orgServiceImpl"/>
 				<ref bean="emServiceImpl"/>
@@ -288,7 +288,7 @@
 
 	<!-- CourseService -->
 	<bean id="courseServiceImpl" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl">
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 		<property name="dictionaryServiceDelegate" ref="dictionaryService"/>
 		<property name="courseAssembler" ref="courseAssembler"/>
 		<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>
@@ -297,7 +297,7 @@
 	</bean>
 
 	<bean id="courseServiceMethodInvoker" class="org.kuali.student.r2.lum.course.service.impl.CourseServiceMethodInvoker">
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 		<property name="loService" ref="loServiceImpl"/>
 		<property name="statementService" ref="statementServiceImpl"/>
 		<property name="atpService" ref="atpServiceImpl"/>
@@ -308,7 +308,7 @@
 	<bean id="courseAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseAssembler">
 		<property name="formatAssembler" ref="formatAssembler"/>
 		<property name="courseJointAssembler" ref="courseJointAssembler"/>
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 		<property name="loService" ref="loServiceImpl"/>
 		<property name="lrcService" ref="lrcServiceImpl"/>
 		<property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
@@ -321,20 +321,20 @@
 
 	<bean id="formatAssembler" class="org.kuali.student.r2.lum.course.service.assembler.FormatAssembler">
 		<property name="activityAssembler" ref="activityAssembler"/>
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 	</bean>
 
 	<bean id="activityAssembler" class="org.kuali.student.r2.lum.course.service.assembler.ActivityAssembler">
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 	</bean>
 
 	<bean id="courseJointAssembler" class="org.kuali.student.r2.lum.course.service.assembler.CourseJointAssembler">
-		<property name="cluService" ref="luServiceImpl"/>
+		<property name="cluService" ref="cluServiceImpl"/>
 	</bean>
 
     <bean id="cluAssemblerUtils"
           class="org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils">
-        <property name="cluService" ref="luServiceImpl"/>
+        <property name="cluService" ref="cluServiceImpl"/>
         <property name="loService" ref="loServiceImpl"/>
         <property name="loAssembler" ref="loAssembler"/>
     </bean>

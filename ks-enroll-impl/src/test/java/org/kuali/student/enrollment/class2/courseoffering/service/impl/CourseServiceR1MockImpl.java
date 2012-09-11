@@ -13,7 +13,7 @@ import java.util.Map;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.lum.lu.service.LuServiceConstants;
+
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -39,6 +39,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
  *
@@ -210,7 +211,7 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
                 VersionInfo vi = info.getVersionInfo();
                 VersionDisplayInfo vd = new VersionDisplayInfo ();
                 vd.setId(info.getId());
-                vd.setRefObjectUri(LuServiceConstants.CLU_NAMESPACE_URI);
+                vd.setRefObjectUri(CluServiceConstants.CLU_NAMESPACE_URI);
                 vd.setVersionedFromId(vi.getVersionedFromId());
                 vd.setCurrentVersionStart(vi.getCurrentVersionStart());
                 vd.setCurrentVersionEnd(vi.getCurrentVersionEnd());

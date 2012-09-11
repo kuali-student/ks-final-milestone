@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 public class CourseSetResolver implements TermResolver<Collection<String>> {
 
     @Resource
-    private CluService luService;
+    private CluService cluService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -56,7 +56,7 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
 
         List<String> results = null;
         try {
-            results = luService.getCluIdsFromCluSet(courseSetId, context);
+            results = cluService.getCluIdsFromCluSet(courseSetId, context);
         } catch (DoesNotExistException e) {
             throw new TermResolutionException("", this, parameters, e);
         } catch (InvalidParameterException e) {
