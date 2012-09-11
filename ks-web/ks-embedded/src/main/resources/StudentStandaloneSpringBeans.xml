@@ -132,7 +132,8 @@
                 <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperLookupAndInquiryView.xml</value>
 
                 <!-- Schedule of Classes -->
-                <value>classpath:org/kuali/student/enrollment/scheduleofclasses/ScheduleOfClassesWrapperLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/scheduleofclasses/ScheduleOfClassesSearchView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/scheduleofclasses/ScheduleOfClasses-SearchInputPage.xml</value>
 
                 <!-- Holds -->
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoSearchView.xml</value>
