@@ -79,7 +79,7 @@
 	
 	<bean id="modifyCreditCourseProposalManager" class="org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager">
 		<property name="creditCourseAssembler" ref="courseAssembler"/>
-		<property name="luService" ref="luClient"/>
+		<property name="cluService" ref="cluClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 	</bean>
 	
@@ -92,7 +92,7 @@
 	<bean id="creditCourseProposalAssembler" class="org.kuali.student.lum.lu.assembly.CreditCourseProposalAssembler" parent="baseAssembler">
 		<constructor-arg value="draft"/>
 		<property name="learningObjectiveService" ref="loClient"/>
-		<property name="luService" ref="cluClient"/>
+		<property name="cluService" ref="cluClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 		<property name="proposalService" ref="proposalClient"/>
 		<property name="orgService" ref="orgClient"/>
@@ -134,7 +134,7 @@
 
 	<bean id="courseAssembler" class="org.kuali.student.lum.lu.assembly.CourseAssembler" parent="baseAssembler">
 		<property name="loService" ref="loClient"/>
-		<property name="luService" ref="cluClient"/>
+		<property name="cluService" ref="cluClient"/>
 		<property name="statementService" ref="statementServiceClient"/>
 		<property name="orgService" ref="orgClient"/>
 		<property name="atpService" ref="atpClient"/>
