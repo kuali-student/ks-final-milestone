@@ -24,6 +24,16 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
  */
 public class RichTextHelper {
 
+    public static RichTextInfo buildRichTextInfo(String plain, String formatted) {
+        if (plain == null) {
+            return null;
+        }
+        RichTextInfo info = new RichTextInfo();
+        info.setFormatted(formatted);
+        info.setPlain(plain);
+        return info;
+    }
+
     public RichTextInfo toRichTextInfo(String plain, String formatted) {
         if (plain == null) {
             return null;
