@@ -115,6 +115,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ScheduleInfo createSchedule(String scheduleTypeKey, ScheduleInfo scheduleInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (!scheduleInfo.getTypeKey().equals(scheduleTypeKey)) {
             throw new InvalidParameterException(scheduleTypeKey + " does not match the type in the info object " + scheduleInfo.getTypeKey());
