@@ -89,15 +89,12 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
         scheduleRequestComponents = new ArrayList<ScheduleRequestComponentEntity>();
         if(scheduleRequest.getScheduleRequestComponents() != null) {
             for(ScheduleRequestComponent srComponent :  scheduleRequest.getScheduleRequestComponents()){
-                ScheduleRequestComponentEntity srCmpEntity;
                 if(existingCmpEntities.containsKey(srComponent.getId())){
-                    srCmpEntity = existingCmpEntities.remove(srComponent.getId());
-                    orphansToDelete.addAll(srCmpEntity.fromDto(srComponent));
-                }else{
-                    srCmpEntity = new ScheduleRequestComponentEntity(srComponent);
-                    srCmpEntity.setScheduleRequest(this);
+                    existingCmpEntities.remove(srComponent.getId());
                 }
 
+                ScheduleRequestComponentEntity srCmpEntity = new ScheduleRequestComponentEntity(srComponent);
+                srCmpEntity.setScheduleRequest(this);
                 scheduleRequestComponents.add(srCmpEntity);
             }
         }

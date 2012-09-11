@@ -17,10 +17,9 @@ import java.util.Collection;
 @Table(name = "KSEN_SCHED_CMP")
 public class ScheduleComponentEntity extends MetaEntity {
 
-    //  TODO: Uncomment this when the entity becomes available.
-    //@ManyToOne
-    //@JoinColumn(name = "SCHED_ID")
-    //private ScheduleEntity schedule;
+    @ManyToOne
+    @JoinColumn(name = "SCHED_ID")
+    private ScheduleEntity schedule;
 
     @Column (name = "ROOM_ID")
     private String roomId;
@@ -97,5 +96,13 @@ public class ScheduleComponentEntity extends MetaEntity {
 
     public void setIsTBA(Boolean TBA) {
         isTBA = TBA;
+    }
+
+    public ScheduleEntity getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(ScheduleEntity schedule) {
+        this.schedule = schedule;
     }
 }
