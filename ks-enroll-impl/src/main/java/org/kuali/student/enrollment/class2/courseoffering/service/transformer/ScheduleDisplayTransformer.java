@@ -32,16 +32,15 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
-import org.kuali.student.r2.core.scheduling.infc.Schedule;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * Transforms scheduleInfo to scheduleDisplayInfo and scheduleComponentInfo to scheduleComponentDisplayInfo
  *
- * @author Kuali Student Team
+ * @author Kuali Student Team (charles)
  */
 public class ScheduleDisplayTransformer {
     public static ScheduleDisplayInfo schedule2scheduleDisplay(ScheduleInfo scheduleInfo,
@@ -72,6 +71,15 @@ public class ScheduleDisplayTransformer {
             }
         }
         displayInfo.setScheduleComponentDisplays(compDisplayInfos);
+        // Other fields via inheritance--for completeness (may not be used)
+        displayInfo.setId(scheduleInfo.getId());
+        displayInfo.setDescr(scheduleInfo.getDescr());
+        displayInfo.setAttributes(scheduleInfo.getAttributes());
+        displayInfo.setName(scheduleInfo.getName());
+        displayInfo.setStateKey(scheduleInfo.getStateKey());
+        displayInfo.setTypeKey(scheduleInfo.getTypeKey());
+        displayInfo.setMeta(scheduleInfo.getMeta());
+
         return displayInfo;
     }
 
