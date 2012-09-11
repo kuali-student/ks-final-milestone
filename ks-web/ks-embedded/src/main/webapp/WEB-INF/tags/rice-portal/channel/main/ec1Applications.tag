@@ -19,7 +19,7 @@
 
     <strong>Schedule of Classes</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Schedule of Classes (Lookup)" url="${ConfigProperties.application.url}/kr-krad/lookup?viewId=KS-ScheduleOfClasses-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.scheduleofclasses.dto.ScheduleOfClassesWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Schedule of Classes" url="${ConfigProperties.application.url}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&pageId=searchInputPage&methodToCall=start"/></li>
     </ul>
 </div>
 
