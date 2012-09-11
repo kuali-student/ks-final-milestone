@@ -76,7 +76,7 @@ public class ScheduleEntity extends MetaEntity implements AttributeOwner<Schedul
         this.setScheduleType(schedule.getTypeKey());
         this.setAtpId(schedule.getAtpId());
         this.setName(schedule.getName());
-        if(schedule.getDescr() != null) {
+        if (schedule.getDescr() != null) {
             this.setPlain(schedule.getDescr().getPlain());
             this.setFormatted(schedule.getDescr().getFormatted());
         }
@@ -87,14 +87,16 @@ public class ScheduleEntity extends MetaEntity implements AttributeOwner<Schedul
 
         //Map the existing cmp relations by their id
         Map<String,ScheduleComponentEntity> existingCmpEntities = new HashMap<String, ScheduleComponentEntity>();
-        if(scheduleComponents != null) {
-            for(ScheduleComponentEntity cmpEntity : scheduleComponents){
+        if (scheduleComponents != null) {
+            for (ScheduleComponentEntity cmpEntity : scheduleComponents){
                 existingCmpEntities.put(cmpEntity.getId(), cmpEntity);
             }
+        } else {
+            scheduleComponents = new ArrayList<ScheduleComponentEntity>();
         }
 
         scheduleComponents.clear();
-        if(!schedule.getScheduleComponents().isEmpty()) {
+        if (!schedule.getScheduleComponents().isEmpty()) {
             for (ScheduleComponent component : schedule.getScheduleComponents()) {
                 if (existingCmpEntities.containsKey(component.getId())) {
                     existingCmpEntities.remove(component.getId());

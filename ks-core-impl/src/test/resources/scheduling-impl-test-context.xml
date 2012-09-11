@@ -90,6 +90,7 @@
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
+        <property name="scheduleDao" ref="scheduleDao"/>
     </bean>
 
     <bean id="timeSlotDao" class="org.kuali.student.r2.core.scheduling.dao.TimeSlotDao">
@@ -105,6 +106,11 @@
     -->
 
     <bean id="scheduleRequestDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+
+    <bean id="scheduleDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleDao">
         <property name="em" ref="entityManager"/>
     </bean>
 

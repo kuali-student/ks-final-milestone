@@ -115,8 +115,17 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    public ScheduleInfo createSchedule(@WebParam(name = "scheduleTypeKey") String scheduleTypeKey, @WebParam(name = "scheduleInfo") ScheduleInfo scheduleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException();
+    public ScheduleInfo createSchedule(String scheduleTypeKey, ScheduleInfo scheduleInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (!scheduleInfo.getTypeKey().equals(scheduleTypeKey)) {
+            throw new InvalidParameterException(scheduleTypeKey + " does not match the type in the info object " + scheduleInfo.getTypeKey());
+        }
+
+        ScheduleEntity scheduleEntity = new ScheduleEntity(scheduleInfo);
+        scheduleEntity.setScheduleType(scheduleTypeKey); // a bit redundant (constructor handles this)
+        scheduleEntity.setEntityCreated(contextInfo);
+
+        scheduleDao.persist(scheduleEntity);
+        return scheduleEntity.toDto();
     }
 
     @Override
