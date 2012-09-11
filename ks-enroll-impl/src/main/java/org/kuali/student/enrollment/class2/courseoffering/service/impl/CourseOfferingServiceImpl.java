@@ -373,7 +373,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, contextInfo);
         // TODO: Once scheduling service is wired in, replace null below
         ActivityOfferingDisplayInfo displayInfo =
-                ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, typeService, stateService, null, contextInfo);
+                ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, null, stateService, typeService, contextInfo);
         return displayInfo;
     }
 
@@ -398,7 +398,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         for (ActivityOfferingInfo aoInfo: aoInfos) {
             // TODO: Once scheduling service is wired in, replace null below
             ActivityOfferingDisplayInfo aoDisplayInfo =
-                    ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, typeService, stateService, null, contextInfo);
+                    ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, null, stateService, typeService, contextInfo);
             aoDisplayInfos.add(aoDisplayInfo);
         }
         return aoDisplayInfos;

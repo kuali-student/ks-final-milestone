@@ -25,14 +25,17 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
@@ -68,9 +71,9 @@ public class ActivityOfferingDisplayTransformer {
     }
 
     public static ActivityOfferingDisplayInfo ao2aoDisplay(ActivityOfferingInfo aoInfo,
-                                                           TypeService typeService,
-                                                           StateService stateService,
                                                            SchedulingService schedulingService,
+                                                           StateService stateService,
+                                                           TypeService typeService,
                                                            ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             PermissionDeniedException, OperationFailedException {
@@ -110,7 +113,13 @@ public class ActivityOfferingDisplayTransformer {
         displayInfo.setIsHonorsOffering(aoInfo.getIsHonorsOffering());
         displayInfo.setMaximumEnrollment(aoInfo.getMaximumEnrollment());
         // scheduleDisplay
-        ScheduleDisplayInfo scheduleDisplayInfo = _createTempDisplayInfo();
+        ScheduleInfo scheduleInfo = schedulingService.getSchedule(aoInfo.getScheduleId(), contextInfo);
+        ScheduleDisplayInfo scheduleDisplayInfo = null;
+        if (scheduleInfo == null) {
+            scheduleDisplayInfo = _createTempDisplayInfo();  // stopgap TODO: eventually remove
+        } else {
+            scheduleDisplayInfo = schedulingService.getScheduleDisplay(scheduleInfo.getId(), contextInfo);
+        }
         displayInfo.setScheduleDisplay(scheduleDisplayInfo);
         return displayInfo;
     }
