@@ -22,9 +22,11 @@ import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dao.ScheduleDao;
 import org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao;
 import org.kuali.student.r2.core.scheduling.dao.TimeSlotDao;
 import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.model.ScheduleEntity;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity;
 import org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity;
@@ -49,27 +51,28 @@ import java.util.List;
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class SchedulingServiceImpl implements SchedulingService {
     private ScheduleRequestDao scheduleRequestDao;
+    private ScheduleDao scheduleDao;
     private TimeSlotDao timeSlotDao;
-
-    public ScheduleRequestDao getScheduleRequestDao() {
-        return scheduleRequestDao;
-    }
 
     public void setScheduleRequestDao(ScheduleRequestDao scheduleRequestDao) {
         this.scheduleRequestDao = scheduleRequestDao;
-    }
-
-    public TimeSlotDao getTimeSlotDao() {
-        return timeSlotDao;
     }
 
     public void setTimeSlotDao(TimeSlotDao timeSlotDao) {
         this.timeSlotDao = timeSlotDao;
     }
 
+    public void setScheduleDao(ScheduleDao scheduleDao) {
+        this.scheduleDao = scheduleDao;
+    }
+
     @Override
     public ScheduleInfo getSchedule(@WebParam(name = "scheduleId") String scheduleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        ScheduleEntity scheduleEntity = scheduleDao.find(scheduleId);
+        if (null == scheduleEntity) {
+            throw new DoesNotExistException(scheduleId);
+        }
+        return scheduleEntity.toDto();
     }
 
     @Override
