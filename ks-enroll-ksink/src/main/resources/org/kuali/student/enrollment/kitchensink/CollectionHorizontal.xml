@@ -101,11 +101,12 @@
                                             </value>
                                         </property>
                                     </bean>
-                                    <!-- HorizontalFieldGroup sometimes throws this exception on localhost:
-                                         org.kuali.rice.krad.web.bind.UifHandlerExceptionResolver - Object for which
-                                         expression is configured on is null or does not implement Configurable:
-                                         'header.lowerGroup'
-                                        -->
+                                    <!--
+                                        HorizontalFieldGroup sometimes throws this exception on localhost:
+                                        org.kuali.rice.krad.web.bind.UifHandlerExceptionResolver - Object for which
+                                        expression is configured on is null or does not implement Configurable:
+                                        'header.lowerGroup'
+                                    -->
                                     <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
                                         <property name="items">
                                             <list>

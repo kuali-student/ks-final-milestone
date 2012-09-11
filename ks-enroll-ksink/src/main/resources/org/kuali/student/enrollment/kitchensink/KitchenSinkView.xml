@@ -59,14 +59,25 @@
                 <bean parent="Uif-InputField">
                     <property name="propertyName" value="name"/>
                     <property name="label" value="Name"/>
+                    <property name="required" value="true"/>
                 </bean>
                 <bean parent="Uif-InputField">
                     <property name="propertyName" value="description"/>
                     <property name="label" value="Description"/>
+                    <property name="required" value="true"/>
                 </bean>
                 <bean parent="Uif-InputField">
                     <property name="propertyName" value="date"/>
                     <property name="label" value="Date"/>
+                    <property name="required" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-DateControl">
+                            <property name="watermarkText" value="mm/dd/yyyy"/>
+                        </bean>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
                 </bean>
             </list>
         </property>

@@ -19,6 +19,9 @@ package org.kuali.student.enrollment.kitchensink;
 import org.hsqldb.lib.StringUtil;
 import org.kuali.rice.krad.uif.field.LinkField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.web.form.UifFormBase;
 
 import java.text.MessageFormat;
 
@@ -50,6 +53,26 @@ public class KitchenSinkHelper extends ViewHelperServiceImpl {
     }
     public void setDirectLinkUrl(LinkField linkField, Object model) {
         setDirectLinkUrl(linkField, model, null);
+    }
+
+    @Override
+    public void processCollectionSaveLine(View view, Object model, String collectionPath, int lineIndex) {
+        //
+        // Code goes here to save existing collection line to database...
+        //
+        GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.saveLine", String.valueOf(lineIndex));
+
+        super.processCollectionSaveLine(view, model, collectionPath, lineIndex);
+    }
+
+    @Override
+    public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
+        //
+        // Code goes here to delete existing collection line from database...
+        //
+        GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.deleteLine", String.valueOf(lineIndex));
+
+        super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
     }
 
 }

@@ -34,6 +34,7 @@ public class KitchenSinkForm extends UifFormBase {
     private Boolean checkboxSelected;
     private List<String> checkboxSelections;
     private List<KitchenSinkFormCollection1> collection;
+    private List<KitchenSinkFormCollection1> collection2;
 
     public KitchenSinkForm() {
         super();
@@ -78,4 +79,12 @@ public class KitchenSinkForm extends UifFormBase {
     public void setCollection(List<KitchenSinkFormCollection1> collection) {
         this.collection = collection;
     }
+
+    public List<KitchenSinkFormCollection1> getCollection2() {
+        return collection2;
+    }
+    public void setCollection2(List<KitchenSinkFormCollection1> collection2) {
+        this.collection2 = collection2;
+    }
+
 }
