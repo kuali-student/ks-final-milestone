@@ -165,12 +165,15 @@
     <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
     <property name="businessLogic" ref="businessLogic" />
     <property name="typeService" ref="typeService"/>
+    <property name="atpService" ref="atpService"/>
     <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
     <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>
     <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao"/>
+    <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
   </bean>
 
+    <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
     <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">

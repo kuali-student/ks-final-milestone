@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import junit.framework.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -10,6 +11,7 @@ import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInf
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -20,6 +22,9 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.enrollment.test.util.AttributeTester;
+import org.kuali.student.enrollment.test.util.ListOfStringTester;
+import org.kuali.student.enrollment.test.util.MetaTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -35,6 +40,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -50,6 +56,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -231,6 +238,16 @@ public class TestCourseOfferingServiceImplM4 {
         return rgList;
     }
 
+    private List<String> extractActivityOfferingIds(List<ActivityOfferingSetInfo> aoList) {
+        List<String> idList = new ArrayList<String>();
+
+        for (ActivityOfferingSetInfo activityOfferingSetInfo : aoList) {
+
+            idList.addAll(activityOfferingSetInfo.getActivityOfferingIds());
+
+        }
+        return idList;
+    }
     // ============================================== TESTS ======================================================
     @Test
     public void testRegCodeGenerator() {
@@ -451,6 +468,52 @@ public class TestCourseOfferingServiceImplM4 {
             e.printStackTrace();
             assert (false);
         }
+    }
+
+    @Test
+    @Ignore
+    public void testCreateActivityOfferingClusterGet() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        before();
+
+        ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{
+//                coServiceImpl.getActivityOffering("Lui-2", contextInfo),
+//                coServiceImpl.getActivityOffering("Lui-5", contextInfo),
+                coServiceImpl.getActivityOffering("Lui-Lab2", contextInfo)};
+
+
+        ActivityOfferingClusterInfo expected = CourseOfferingServiceDataUtils
+                .createActivityOfferingCluster("CO-1:LEC-AND-LAB", "Default Cluster",
+                        Arrays.asList(activities));
+
+        new AttributeTester().add2ForCreate(expected.getAttributes());
+
+        ActivityOfferingClusterInfo actual = coServiceImpl.createActivityOfferingCluster("CO-1:LEC-AND-LAB", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, expected, contextInfo);
+
+        assertNotNull(actual.getId());
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+
+        // check that the union of activity id's matches what we declared
+        new ListOfStringTester().checkExistsAnyOrder(Arrays.asList(new String[]{"CO-1:LEC-AND-LAB:LEC-A", "CO-1:LEC-AND-LAB:LAB-A", "CO-1:LEC-AND-LAB:LAB-B", "CO-1:LEC-AND-LAB:LAB-C"}),
+                extractActivityOfferingIds(actual.getActivityOfferingSets()), true);
+
+
+        List<RegistrationGroupInfo> rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
+
+        assertEquals(0, rgList.size());
+
+        coServiceImpl.generateRegistrationGroupsForCluster(actual.getId(), contextInfo);
+
+        rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
+
+        assertEquals(3, rgList.size());
+
+        coServiceImpl.generateRegistrationGroupsForCluster(actual.getId(), contextInfo);
+
+        // verify count stays the same even after calling the method again.
+        rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
+
+        assertEquals(3, rgList.size());
     }
 
 }

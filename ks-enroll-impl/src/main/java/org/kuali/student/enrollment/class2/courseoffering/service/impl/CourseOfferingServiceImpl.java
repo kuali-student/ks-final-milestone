@@ -10,8 +10,10 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
+import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
 import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
+import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -26,6 +28,7 @@ import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInf
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -105,6 +108,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
     private SeatPoolDefinitionDao seatPoolDefinitionDao;
+    private ActivityOfferingClusterDao activityOfferingClusterDao;
     private RegistrationGroupTransformer registrationGroupTransformer;
 
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
@@ -332,6 +336,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     public void setSeatPoolDefinitionDao(SeatPoolDefinitionDao seatPoolDefinitionDao) {
         this.seatPoolDefinitionDao = seatPoolDefinitionDao;
+    }
+
+    public ActivityOfferingClusterDao getActivityOfferingClusterDao() {
+        return activityOfferingClusterDao;
+    }
+
+    public void setActivityOfferingClusterDao(ActivityOfferingClusterDao activityOfferingClusterDao) {
+        this.activityOfferingClusterDao = activityOfferingClusterDao;
     }
 
     @Override
@@ -1748,12 +1760,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public ActivityOfferingClusterInfo getActivityOfferingCluster(String activityOfferingClusterId,
                                                                   ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+
+        ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
+        if (null == activityOfferingClusterEntity) {
+            throw new DoesNotExistException(activityOfferingClusterId);
+        }
+        return activityOfferingClusterEntity.toDto();
     }
 
     @Override
     public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<ActivityOfferingClusterEntity> entities = activityOfferingClusterDao.getByFormatOffering(formatOfferingId);
+        List<ActivityOfferingClusterInfo> list = new ArrayList<ActivityOfferingClusterInfo>(entities.size());
+        for (ActivityOfferingClusterEntity entity : entities) {
+            list.add(entity.toDto());
+        }
+        return list;
     }
 
     @Override
@@ -1778,7 +1800,27 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        // validate params
+        if (!formatOfferingId.equals(activityOfferingClusterInfo.getFormatOfferingId())) {
+            throw new InvalidParameterException(formatOfferingId + " does not match the corresponding value in the object " + activityOfferingClusterInfo.getFormatOfferingId());
+        }
+        if (!activityOfferingClusterTypeKey.equals(activityOfferingClusterInfo.getTypeKey())) {
+            throw new InvalidParameterException(activityOfferingClusterTypeKey + " does not match the corresponding value in the object " + activityOfferingClusterInfo.getTypeKey());
+        }
+
+        // persist
+        ActivityOfferingClusterEntity activityOfferingClusterEntity = new ActivityOfferingClusterEntity(activityOfferingClusterInfo);
+        try {
+
+            activityOfferingClusterEntity.setEntityCreated(contextInfo);
+            activityOfferingClusterEntity.setEntityUpdated(contextInfo);
+            activityOfferingClusterDao.persist(activityOfferingClusterEntity);
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+
+        return activityOfferingClusterEntity.toDto();
     }
 
     @Override
@@ -1798,14 +1840,31 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             PermissionDeniedException,
             ReadOnlyException,
             VersionMismatchException {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
+        if (null != activityOfferingClusterEntity) {
+            activityOfferingClusterEntity.fromDto(activityOfferingClusterInfo);
+            activityOfferingClusterEntity.setEntityUpdated(contextInfo);
+            return activityOfferingClusterDao.merge(activityOfferingClusterEntity).toDto();
+        } else {
+            throw new DoesNotExistException("No activityOfferingCluster has been found for activityOfferingClusterId=" + activityOfferingClusterId);
+        }
     }
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo deleteActivityOfferingCluster(String registrationGroupTemplateId, ContextInfo context)
+    public StatusInfo deleteActivityOfferingCluster(String activityOfferingClusterId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
-        throw new UnsupportedOperationException();
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
+        if (null != activityOfferingClusterEntity) {
+            activityOfferingClusterDao.remove(activityOfferingClusterEntity);
+        } else {
+            throw new DoesNotExistException(activityOfferingClusterId);
+        }
+        return status;
     }
 
     @Override
@@ -2283,7 +2342,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new UnsupportedOperationException("implement for M5");
+        List<ActivityOfferingClusterEntity> entities = activityOfferingClusterDao.getByFormatOffering(formatOfferingId);
+        List<String> list = new ArrayList<String>(entities.size());
+        for (ActivityOfferingClusterEntity entity : entities) {
+            list.add(entity.getId());
+        }
+        return list;
     }
 
 

@@ -183,6 +183,10 @@
         <property name="em" ref="enrollEntityManager" />
     </bean>
 
+    <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" >
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao">
         <property name="em" ref="enrollEntityManager" />
     </bean>

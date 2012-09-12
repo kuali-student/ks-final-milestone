@@ -430,6 +430,7 @@
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
         <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao" />
+        <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
         <property name="atpService" ref="atpEnrService"/>
   </bean>
