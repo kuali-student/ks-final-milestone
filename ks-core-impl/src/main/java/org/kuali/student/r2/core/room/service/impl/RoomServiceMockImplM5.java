@@ -619,5 +619,12 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
         return meta;
     }
 
+    public void setRoomMap(Map<String, RoomInfo> roomMap) {
+        this.roomMap = roomMap;
+    }
+
+    public void setBuildingMap(Map<String, BuildingInfo> buildingMap) {
+        this.buildingMap = buildingMap;
+    }
 }
 
