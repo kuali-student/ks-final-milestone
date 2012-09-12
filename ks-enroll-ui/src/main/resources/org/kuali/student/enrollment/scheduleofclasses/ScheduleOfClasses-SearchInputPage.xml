@@ -45,12 +45,12 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
-                                <!-- property name="control">
+                                <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.TermKeyValues"/>
-                                </property-->
+                                </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="searchType" p:label="Type of Search" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
                                 <property name="control">
