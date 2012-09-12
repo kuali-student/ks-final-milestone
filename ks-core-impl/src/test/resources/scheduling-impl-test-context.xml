@@ -88,9 +88,17 @@
     </bean>
 
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
+        <property name="atpService" ref="atpMockImpl"/>
+        <property name="roomService" ref="roomServiceMockImpl"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
+    </bean>
+
+    <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl">
+    </bean>
+
+    <bean id="atpMockImpl" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">
     </bean>
 
     <bean id="timeSlotDao" class="org.kuali.student.r2.core.scheduling.dao.TimeSlotDao">
