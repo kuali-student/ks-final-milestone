@@ -346,19 +346,4 @@
             <artifactId>antlr</artifactId>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>Jenkins surrogate environment variables</id>
-            <properties>
-                <env.BUILD_NUMBER>UNKNOWN</env.BUILD_NUMBER>
-                <env.JOB_NAME>${project.artifactId}</env.JOB_NAME>
-            </properties>
-            <activation>
-                <property>
-                    <!-- Activated if Jenkins does not set the BUILD_NUMBER -->
-                    <name>!env.BUILD_NUMBER</name>
-                </property>
-            </activation>
-        </profile>
-    </profiles>
 </project>

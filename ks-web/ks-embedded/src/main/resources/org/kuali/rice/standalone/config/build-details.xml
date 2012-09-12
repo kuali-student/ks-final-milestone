@@ -22,5 +22,5 @@
         syntax: ${varname} ${institution}
     -->
 <config>
-    <param name="version">${project.name} :: ${project.version} :: ${env.JOB_NAME}-build-${env.BUILD_NUMBER} :: ${kuali.build.timestamp}</param>
+    <param name="version">${project.name} :: ${project.version} :: ${kuali.build.timestamp}</param>
 </config>
