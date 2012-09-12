@@ -218,7 +218,7 @@
     <bean id="keyword2LikeTransform" class="org.kuali.student.r2.common.criteria.transform.Keyword2LikeTransform">
         <property name="keywordAttribute" value="keywordSearch" />    
         <property name="likeAttributes">
-            <list>      
+            <list>
                 <value>name</value>
                 <value>descr.plain</value>
                 <value>descr.formatted</value>                   
@@ -438,9 +438,6 @@
    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
        <property name="lprService" ref="lprPersistenceService" />
        <property name="lrcService" ref="lrcPersistenceService" />
-   </bean>
-
-   <bean id="seatPoolUtilityService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.SeatPoolUtilityServiceImpl">
    </bean>
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
@@ -855,6 +852,7 @@
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService" />
     </bean>
 
     <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceValidationDecorator">
