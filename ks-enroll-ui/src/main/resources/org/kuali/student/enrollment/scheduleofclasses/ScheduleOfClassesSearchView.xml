@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-CourseOfferingManagement-View" parent="KSFormView" p:applyDirtyCheck="true"
+    <bean id="KS-ScheduleOfClassesSearch-View" parent="KSFormView" p:applyDirtyCheck="true"
           p:id="scheduleOfClassesSearchView"
           p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl"
