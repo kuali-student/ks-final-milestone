@@ -477,7 +477,7 @@ public class TestCourseOfferingServiceImplM4 {
     }
 
     @Test
-//    @Ignore
+    @Ignore
     public void testCreateActivityOfferingClusterGet() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         try {
