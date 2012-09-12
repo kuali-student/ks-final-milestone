@@ -24,17 +24,10 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
@@ -54,17 +47,12 @@ public class TermKeyValues extends UifKeyValuesFinderBase implements Serializabl
     private transient CourseOfferingSetService courseOfferingSetService;
     private transient AtpService atpService;
 
-
-
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<SocInfo> socs;
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         List<String> termIds = new ArrayList<String>();
         List<AtpInfo> atps;
-
-        MaintenanceForm form1 = (MaintenanceForm)model;
-        FormatOfferingInfo form = (FormatOfferingInfo)form1.getDocument().getDocumentDataObject();
 
         ContextInfo context = TestHelper.getContext1();
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
@@ -84,9 +72,7 @@ public class TermKeyValues extends UifKeyValuesFinderBase implements Serializabl
             throw new RuntimeException("Error Performing Search", e);
         }
 
-
         return keyValues;
-
     }
 
     protected CourseOfferingSetService getCourseOfferingSetService() {
