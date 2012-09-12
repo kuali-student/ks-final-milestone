@@ -16,6 +16,22 @@
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
     </properties>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/org/kuali/rice/standalone/config/build-details.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/org/kuali/rice/standalone/config/build-details.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -330,4 +346,19 @@
             <artifactId>antlr</artifactId>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>Jenkins surrogate environment variables</id>
+            <properties>
+                <env.BUILD_NUMBER>UNKNOWN</env.BUILD_NUMBER>
+                <env.JOB_NAME>${project.artifactId}</env.JOB_NAME>
+            </properties>
+            <activation>
+                <property>
+                    <!-- Activated if Jenkins does not set the BUILD_NUMBER -->
+                    <name>!env.BUILD_NUMBER</name>
+                </property>
+            </activation>
+        </profile>
+    </profiles>
 </project>
