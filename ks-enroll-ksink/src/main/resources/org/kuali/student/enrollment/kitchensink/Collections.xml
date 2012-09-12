@@ -257,7 +257,7 @@
                                 <property name="items">
                                     <list merge="true">
                                         <bean parent="Uif-MessageField"
-                                              p:messageText="Better description goes here."/>
+                                              p:messageText="Description goes here."/>
                                     </list>
                                 </property>
                             </bean>
@@ -265,7 +265,7 @@
                                 <property name="items">
                                     <list merge="true">
                                         <bean parent="Uif-MessageField"
-                                              p:messageText="Better description goes here."/>
+                                              p:messageText="Description goes here."/>
                                     </list>
                                 </property>
                             </bean>
@@ -273,7 +273,7 @@
                                 <property name="items">
                                     <list merge="true">
                                         <bean parent="Uif-MessageField"
-                                              p:messageText="Better description goes here."/>
+                                              p:messageText="Description goes here."/>
                                     </list>
                                 </property>
                             </bean>
@@ -281,7 +281,7 @@
                                 <property name="items">
                                     <list merge="true">
                                         <bean parent="Uif-MessageField"
-                                              p:messageText="Better description goes here."/>
+                                              p:messageText="Description goes here."/>
                                     </list>
                                 </property>
                             </bean>

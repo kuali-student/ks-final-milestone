@@ -92,7 +92,7 @@
                                     <bean parent="Uif-LinkField"
                                           p:label="Page Configuration"
                                           p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkbox.xml" p:target="_blank"
-                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkbox.xml"/>
+                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkboxes.xml"/>
                                     <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
                                         <property name="items">
                                             <list>
