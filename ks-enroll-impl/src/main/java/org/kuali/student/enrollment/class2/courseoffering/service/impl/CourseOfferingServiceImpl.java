@@ -12,8 +12,8 @@ import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
-import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
+import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -28,7 +28,6 @@ import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInf
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -64,16 +63,11 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -110,6 +104,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private SeatPoolDefinitionDao seatPoolDefinitionDao;
     private ActivityOfferingClusterDao activityOfferingClusterDao;
     private RegistrationGroupTransformer registrationGroupTransformer;
+    private SchedulingService schedulingService;
 
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -385,7 +380,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, contextInfo);
         // TODO: Once scheduling service is wired in, replace null below
         ActivityOfferingDisplayInfo displayInfo =
-                ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, null, stateService, typeService, contextInfo);
+                ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, schedulingService, stateService, typeService, contextInfo);
         return displayInfo;
     }
 
@@ -2348,6 +2343,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             list.add(entity.getId());
         }
         return list;
+    }
+
+
+    public SchedulingService getSchedulingService() {
+        return schedulingService;
+    }
+
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
     }
 
 
