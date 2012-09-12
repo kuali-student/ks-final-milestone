@@ -245,6 +245,7 @@
 
 	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
     <bean id="luiServiceDataLoader" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader" autowire="byType" />
+    <bean id="atpTestDataLoader" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader" autowire="byType" />
 
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
 	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />

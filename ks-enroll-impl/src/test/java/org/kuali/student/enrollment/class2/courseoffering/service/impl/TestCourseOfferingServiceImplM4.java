@@ -42,6 +42,8 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
@@ -90,12 +92,16 @@ public class TestCourseOfferingServiceImplM4 {
     private PopulationService populationService;
     @Resource
     private LuiService luiService;
+    @Resource
+    private AtpService atpService;
 
     //private SeatPoolDefinitionDao seatPoolDefinitionDao;
     private ContextInfo contextInfo;
 
     @Resource
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
+    @Resource
+    private AtpTestDataLoader atpTestDataLoader = new AtpTestDataLoader(atpService);
 
     private void before() {
         contextInfo = ContextUtils.createDefaultContextInfo();
@@ -471,13 +477,19 @@ public class TestCourseOfferingServiceImplM4 {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     public void testCreateActivityOfferingClusterGet() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        try {
+            atpTestDataLoader.loadDataOneRecord();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
         before();
 
         ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{
 //                coServiceImpl.getActivityOffering("Lui-2", contextInfo),
-//                coServiceImpl.getActivityOffering("Lui-5", contextInfo),
+                coServiceImpl.getActivityOffering("Lui-5", contextInfo),
                 coServiceImpl.getActivityOffering("Lui-Lab2", contextInfo)};
 
 
