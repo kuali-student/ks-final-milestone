@@ -1483,7 +1483,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         info.setTypeName(type.getName());
         StateInfo state = stateService.getState(co.getStateKey(), context);
         info.setStateName(state.getName());
-        info.setActivtyOfferingTypes(calcActivityOfferingTypes(co, context));
         info.setMeta(co.getMeta());
         info.setAttributes(co.getAttributes());
         return info;
