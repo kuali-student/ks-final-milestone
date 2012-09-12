@@ -348,19 +348,19 @@
         OBJ_ID="A88F796B2B434941830E06D97F982A22" SORT_KEY="1435"
         VAL="Canadian Government and Politics." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Undergrad Standard" CD="05"
-        EFF_DT="20120911152158" ENUM_KEY="kuali.enum.type.slotrule"
+        EFF_DT="20120912085713" ENUM_KEY="kuali.enum.type.slotrule"
         ID="04112012221" OBJ_ID="04112012221" SORT_KEY="1"
         VAL="2,4,6;480;960;kuali.atp.duration.Minutes;15;kuali.atp.duration.Minutes;0" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Undergrad Special" CD="06"
-        EFF_DT="20120911152158" ENUM_KEY="kuali.enum.type.slotrule"
+        EFF_DT="20120912085713" ENUM_KEY="kuali.enum.type.slotrule"
         ID="04112012222" OBJ_ID="04112012222" SORT_KEY="2"
         VAL="3,5;540;1020;kuali.atp.duration.Minutes;30;kuali.atp.duration.Minutes;0" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="AdvancedRegistration" CD="07"
-        EFF_DT="20120911152158" ENUM_KEY="kuali.enum.type.slotrule"
+        EFF_DT="20120912085713" ENUM_KEY="kuali.enum.type.slotrule"
         ID="04112012223" OBJ_ID="04112012223" SORT_KEY="1"
         VAL="2,3,6;600;1080;kuali.atp.duration.Minutes;45;kuali.atp.duration.Minutes;0" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="Graduate/Profession" CD="08"
-        EFF_DT="20120911152158" ENUM_KEY="kuali.enum.type.slotrule"
+        EFF_DT="20120912085713" ENUM_KEY="kuali.enum.type.slotrule"
         ID="04112012224" OBJ_ID="04112012224" SORT_KEY="1"
         VAL="2,3,4,5;480;1020;kuali.atp.duration.Minutes;20;kuali.atp.duration.Minutes;0" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="47.0110" CD="47.0110"
@@ -872,7 +872,7 @@
         CD="kuali.statement.type.course.academicReadiness.coreq"
         EFF_DT="20000101000000" ENUM_KEY="kuali.dependency.course.types"
         ID="09a9e57b-1078-4bfe-88fd-9bb7fc189b8c"
-        OBJ_ID="C96F9CE69B986FEEE040720A04831A6B" SORT_KEY="4"
+        OBJ_ID="C97E5ABBAFFFE1A6E040720A04835694" SORT_KEY="4"
         VAL="Corequisite" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0206" CD="60.0206"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -1133,7 +1133,7 @@
         CD="kuali.atp.intensity.parttime" EFF_DT="20000101000000"
         ENUM_KEY="kuali.atptype.intensity"
         ID="0c253cda-8583-4608-9df8-5ae2c22777f6"
-        OBJ_ID="C96F9CE69B306FEEE040720A04831A6B" SORT_KEY="2321"
+        OBJ_ID="C97E5ABBAF97E1A6E040720A04835694" SORT_KEY="2321"
         VAL="Part Time" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="30.05" CD="30.05"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -2982,7 +2982,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="Specialization" CD="SPEC"
         ENUM_KEY="kuali.lu.code.UniversityClassification"
         ID="205b06aa-15e1-4263-ba15-02573cf51040"
-        OBJ_ID="C96F9CE69B326FEEE040720A04831A6B" SORT_KEY="11"
+        OBJ_ID="C97E5ABBAF99E1A6E040720A04835694" SORT_KEY="11"
         VAL="Program Specialization" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="45.10" CD="45.10"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3650,7 +3650,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="Both" CD="kuali.atp.intensity.both"
         EFF_DT="20000101000000" ENUM_KEY="kuali.atptype.intensity"
         ID="27cac13b-5d76-4d4e-a556-5f485410b959"
-        OBJ_ID="C96F9CE69B316FEEE040720A04831A6B" SORT_KEY="2322"
+        OBJ_ID="C97E5ABBAF98E1A6E040720A04835694" SORT_KEY="2322"
         VAL="Both" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="50.0701" CD="50.0701"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -3686,7 +3686,7 @@
         EFF_DT="20000101000000"
         ENUM_KEY="kuali.dependency.program.types"
         ID="2805b962-ad17-401d-bd53-b1fba35a3ef1"
-        OBJ_ID="C96F9CE69B9D6FEEE040720A04831A6B" SORT_KEY="2"
+        OBJ_ID="C97E5ABBB004E1A6E040720A04835694" SORT_KEY="2"
         VAL="Satisfactory Progress Requirements" VER_NBR="2"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="30.1301" CD="30.1301"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -3945,7 +3945,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="BMGT" CD="BMGT" EFF_DT="20100701000000"
         ENUM_KEY="kuali.lu.subjectArea"
         ID="2b561e88-4b2d-437b-ae13-c3233be73e48"
-        OBJ_ID="C96F9CE69B846FEEE040720A04831A6B" SORT_KEY="72"
+        OBJ_ID="C97E5ABBAFEBE1A6E040720A04835694" SORT_KEY="72"
         VAL="Business Management" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="11.0804" CD="11.0804"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -4492,7 +4492,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="GVPT" CD="GVPT" EFF_DT="20100701000000"
         ENUM_KEY="kuali.lu.subjectArea"
         ID="31d25b7f-7822-4d24-997d-6324cfb46bad"
-        OBJ_ID="C96F9CE69B896FEEE040720A04831A6B" SORT_KEY="77"
+        OBJ_ID="C97E5ABBAFF0E1A6E040720A04835694" SORT_KEY="77"
         VAL="Political Science" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="32.0104" CD="32.0104"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -4573,9 +4573,9 @@
         ID="32ec8dc8-0a81-4842-b56c-ed515a8bad98"
         OBJ_ID="DE37D1D09229489690793F6BE8E141BF" SORT_KEY="314"
         VAL="Culinary Arts and Related Services, Other." VER_NBR="0"/>
-    <KSEM_ENUM_VAL_T ABBREV_VAL="Seattle" CD="SEA"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
-        ID="33" OBJ_ID="50F795EF658A4D5BA89BF4EF9FB125FB" SORT_KEY="31"
+    <KSEM_ENUM_VAL_T ABBREV_VAL="North" CD="NO" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.campusLocation" ID="33"
+        OBJ_ID="50F795EF658A4D5BA89BF4EF9FB125FB" SORT_KEY="31"
         VAL="North" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.18" CD="52.18"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -4601,7 +4601,7 @@
         CD="kuali.adminOrg.type.StudentOversightUnit"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="3322abe6-a514-46b9-a502-1799c9030906"
-        OBJ_ID="C96F9CE69BA66FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB00DE1A6E040720A04835694" SORT_KEY="0"
         VAL="Student Oversight Unit" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="12.0508" CD="12.0508"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -4683,9 +4683,9 @@
         ID="33fbe642-1071-4f40-b816-961ca504b399"
         OBJ_ID="C0461F0C3CB848E191263319FB77055E" SORT_KEY="1007"
         VAL="Aircraft Armament Systems Technology." VER_NBR="0"/>
-    <KSEM_ENUM_VAL_T ABBREV_VAL="Bothell" CD="BOT"
-        EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
-        ID="34" OBJ_ID="45CDEA3809424FE3921EAC06C2B89478" SORT_KEY="32"
+    <KSEM_ENUM_VAL_T ABBREV_VAL="South" CD="SO" EFF_DT="20000101000000"
+        ENUM_KEY="kuali.lu.campusLocation" ID="34"
+        OBJ_ID="45CDEA3809424FE3921EAC06C2B89478" SORT_KEY="32"
         VAL="South" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.1502" CD="51.1502"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -5382,7 +5382,7 @@
         CD="kuali.adminOrg.type.DeploymentDivision"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="3c934273-0fce-4090-bb37-8343882b9dc4"
-        OBJ_ID="C96F9CE69BA26FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB009E1A6E040720A04835694" SORT_KEY="0"
         VAL="Deployment Division" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="19.07" CD="19.07"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -5817,7 +5817,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="CCJS" CD="CCJS" EFF_DT="20100701000000"
         ENUM_KEY="kuali.lu.subjectArea"
         ID="40e5d836-fff1-436c-b99c-8d16674022ff"
-        OBJ_ID="C96F9CE69B856FEEE040720A04831A6B" SORT_KEY="73"
+        OBJ_ID="C97E5ABBAFECE1A6E040720A04835694" SORT_KEY="73"
         VAL="Criminal Justice" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="47.0408" CD="47.0408"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -6817,7 +6817,7 @@
         CD="kuali.adminOrg.type.FinancialControlUnit"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="4bd0e397-0764-4f7a-a010-d9191e7c7af9"
-        OBJ_ID="C96F9CE69BA96FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB010E1A6E040720A04835694" SORT_KEY="0"
         VAL="Financial Control Unit" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.1910" CD="52.1910"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -7118,7 +7118,7 @@
         CD="kuali.adminOrg.type.CurriculumOversightUnit"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="4fa57988-a40c-45c6-8b21-3a419389cc9c"
-        OBJ_ID="C96F9CE69BA56FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB00CE1A6E040720A04835694" SORT_KEY="0"
         VAL="Curriculum Oversight Unit" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="54.0108" CD="54.0108"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -7129,7 +7129,7 @@
         CD="kuali.adminOrg.type.StudentOversightDivision"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="4fb74c25-84e1-4df4-acd5-c9d9a8e393ee"
-        OBJ_ID="C96F9CE69BA16FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB008E1A6E040720A04835694" SORT_KEY="0"
         VAL="Student Oversight Division" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0544" CD="60.0544"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -8090,7 +8090,7 @@
         CD="kuali.adminOrg.type.FinancialResourcesDivision"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="596d5399-4899-4519-bff2-9067f2e027d6"
-        OBJ_ID="C96F9CE69BA36FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB00AE1A6E040720A04835694" SORT_KEY="0"
         VAL="Financial Resources Division" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="14.1601" CD="14.1601"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -8636,7 +8636,7 @@
         CD="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
         EFF_DT="20000101000000" ENUM_KEY="kuali.dependency.course.types"
         ID="5fcd4c7c-e638-4028-8287-68d7bd1f4988"
-        OBJ_ID="C96F9CE69B966FEEE040720A04831A6B" SORT_KEY="3"
+        OBJ_ID="C97E5ABBAFFDE1A6E040720A04835694" SORT_KEY="3"
         VAL="Student Eligibility and Prerequisite" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="11.0102" CD="11.0102"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -9043,7 +9043,7 @@
         ID="63ff5d7e-af23-4a62-b55a-06b94ed5e659"
         OBJ_ID="CD549C76423244FBBE1F54B7508625E6" SORT_KEY="1318"
         VAL="Experimental Psychology." VER_NBR="0"/>
-    <KSEM_ENUM_VAL_T ABBREV_VAL="Tacoma" CD="TAC"
+    <KSEM_ENUM_VAL_T ABBREV_VAL="Extended" CD="EX"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.campusLocation"
         ID="64" OBJ_ID="5AD835728CA74894B16AE32CCEFED971" SORT_KEY="64"
         VAL="Extended" VER_NBR="0"/>
@@ -9330,7 +9330,7 @@
         CD="kuali.adminOrg.type.Institution" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.adminOrg"
         ID="67e99363-5be4-4996-aeef-aad3172c314f"
-        OBJ_ID="C96F9CE69BAA6FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB011E1A6E040720A04835694" SORT_KEY="0"
         VAL="Institution" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.16" CD="52.16"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -10710,7 +10710,7 @@
         CD="kuali.statement.type.course.credit.restriction"
         EFF_DT="20000101000000" ENUM_KEY="kuali.dependency.course.types"
         ID="777dc110-1707-41ed-9014-13e6e769d815"
-        OBJ_ID="C96F9CE69B996FEEE040720A04831A6B" SORT_KEY="7"
+        OBJ_ID="C97E5ABBB000E1A6E040720A04835694" SORT_KEY="7"
         VAL="Course that Restricts Credits" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.0399" CD="52.0399"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -11321,7 +11321,7 @@
         CD="kuali.adminOrg.type.FinancialResourcesUnit"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="7db97425-d6bb-45b2-9873-1905d228f203"
-        OBJ_ID="C96F9CE69BA86FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB00FE1A6E040720A04835694" SORT_KEY="0"
         VAL="Financial Resources Unit" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="14.08" CD="14.08"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -11950,7 +11950,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="cross-listed" CD="crossListed"
         EFF_DT="20000101000000" ENUM_KEY="kuali.dependency.course.types"
         ID="850a28c9-ebfb-4199-8769-6693404ce4af"
-        OBJ_ID="C96F9CE69B946FEEE040720A04831A6B" SORT_KEY="2"
+        OBJ_ID="C97E5ABBAFFBE1A6E040720A04835694" SORT_KEY="2"
         VAL="Cross-Listed Courses" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="33.0104" CD="33.0104"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -12242,7 +12242,7 @@
         EFF_DT="20000101000000"
         ENUM_KEY="kuali.dependency.program.types"
         ID="8804149a-038a-47f7-932d-bcf392d3d263"
-        OBJ_ID="C96F9CE69B9B6FEEE040720A04831A6B" SORT_KEY="3"
+        OBJ_ID="C97E5ABBB002E1A6E040720A04835694" SORT_KEY="3"
         VAL="Completion Requirements" VER_NBR="2"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="50.0399" CD="50.0399"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -13098,7 +13098,7 @@
         CD="kuali.adminOrg.type.DeploymentUnit" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.adminOrg"
         ID="91c476ec-89f5-4386-a52f-ab69064d0caa"
-        OBJ_ID="C96F9CE69BA76FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB00EE1A6E040720A04835694" SORT_KEY="0"
         VAL="Deployment Unit" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.0510" CD="51.0510"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -14222,43 +14222,43 @@
         VAL="Soil Microbiology." VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="ARHU" CD="ARHU" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA61"
-        OBJ_ID="C96F9CE69B336FEEE040720A04831A6B" SORT_KEY="61"
+        OBJ_ID="C97E5ABBAF9AE1A6E040720A04835694" SORT_KEY="61"
         VAL="Arts and Humanities" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="BCHM" CD="BCHM" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA62"
-        OBJ_ID="C96F9CE69B346FEEE040720A04831A6B" SORT_KEY="62"
+        OBJ_ID="C97E5ABBAF9BE1A6E040720A04835694" SORT_KEY="62"
         VAL="Bio Chemistry" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="BIOM" CD="BIOM" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA63"
-        OBJ_ID="C96F9CE69B356FEEE040720A04831A6B" SORT_KEY="63"
+        OBJ_ID="C97E5ABBAF9CE1A6E040720A04835694" SORT_KEY="63"
         VAL="Biometrics" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="BSCI" CD="BSCI" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA64"
-        OBJ_ID="C96F9CE69B366FEEE040720A04831A6B" SORT_KEY="64"
+        OBJ_ID="C97E5ABBAF9DE1A6E040720A04835694" SORT_KEY="64"
         VAL="Biological Sciences" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="GEMS" CD="GEMS" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA65"
-        OBJ_ID="C96F9CE69B376FEEE040720A04831A6B" SORT_KEY="65"
+        OBJ_ID="C97E5ABBAF9EE1A6E040720A04835694" SORT_KEY="65"
         VAL="Gemstone" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="HONR" CD="HONR" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA66"
-        OBJ_ID="C96F9CE69B386FEEE040720A04831A6B" SORT_KEY="66"
+        OBJ_ID="C97E5ABBAF9FE1A6E040720A04835694" SORT_KEY="66"
         VAL="Honors" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="MATH" CD="MATH" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA67"
-        OBJ_ID="C96F9CE69B396FEEE040720A04831A6B" SORT_KEY="67"
+        OBJ_ID="C97E5ABBAFA0E1A6E040720A04835694" SORT_KEY="67"
         VAL="Math" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="PHYS" CD="PHYS" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA68"
-        OBJ_ID="C96F9CE69B3A6FEEE040720A04831A6B" SORT_KEY="68"
+        OBJ_ID="C97E5ABBAFA1E1A6E040720A04835694" SORT_KEY="68"
         VAL="Physics" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="STAT" CD="STAT" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA69"
-        OBJ_ID="C96F9CE69B3B6FEEE040720A04831A6B" SORT_KEY="69"
+        OBJ_ID="C97E5ABBAFA2E1A6E040720A04835694" SORT_KEY="69"
         VAL="Statistics" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="UNIV" CD="UNIV" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.subjectArea" ID="SUBJAREA70"
-        OBJ_ID="C96F9CE69B3C6FEEE040720A04831A6B" SORT_KEY="70"
+        OBJ_ID="C97E5ABBAFA3E1A6E040720A04835694" SORT_KEY="70"
         VAL="University Studies" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="60.0108" CD="60.0108"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -14684,7 +14684,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="ECON" CD="ECON" EFF_DT="20100701000000"
         ENUM_KEY="kuali.lu.subjectArea"
         ID="a594b618-0d7b-4945-a970-805b8ec1eeb5"
-        OBJ_ID="C96F9CE69B876FEEE040720A04831A6B" SORT_KEY="75"
+        OBJ_ID="C97E5ABBAFEEE1A6E040720A04835694" SORT_KEY="75"
         VAL="Economics" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="52.0406" CD="52.0406"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -14720,7 +14720,7 @@
         CD="kuali.adminOrg.type.Administration" EFF_DT="20000101000000"
         ENUM_KEY="kuali.lu.adminOrg"
         ID="a5d39acc-80d8-4cba-a8bb-13cce6561ab8"
-        OBJ_ID="C96F9CE69B9F6FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB006E1A6E040720A04835694" SORT_KEY="0"
         VAL="Admistering Org" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="42.01" CD="42.01"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -14911,7 +14911,7 @@
         CD="kuali.atp.intensity.fulltime" EFF_DT="20000101000000"
         ENUM_KEY="kuali.atptype.intensity"
         ID="a8fdd335-ecac-4075-9feb-89266fa6e4d7"
-        OBJ_ID="C96F9CE69B2F6FEEE040720A04831A6B" SORT_KEY="2320"
+        OBJ_ID="C97E5ABBAF96E1A6E040720A04835694" SORT_KEY="2320"
         VAL="Full Time" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.0910" CD="51.0910"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -15177,7 +15177,7 @@
         CD="kuali.adminOrg.type.FinancialControlDivision"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="abb0a915-1400-4faf-8295-6baf28ff008d"
-        OBJ_ID="C96F9CE69BA46FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB00BE1A6E040720A04835694" SORT_KEY="0"
         VAL="Financial Control Division" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.3499" CD="51.3499"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -15713,7 +15713,7 @@
         CD="kuali.statement.type.course.recommendedPreparation"
         EFF_DT="20000101000000" ENUM_KEY="kuali.dependency.course.types"
         ID="b1ad331a-c607-40de-ad68-6e66a9aaff0c"
-        OBJ_ID="C96F9CE69CFB6FEEE040720A04831A6B" SORT_KEY="5"
+        OBJ_ID="C97E5ABBB162E1A6E040720A04835694" SORT_KEY="5"
         VAL="Recommended Preparation" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="11.0901" CD="11.0901"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -16219,7 +16219,7 @@
         CD="kuali.adminOrg.type.CurriculumOversight"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="b75a9fac-fa91-4cf1-93ee-890189a454f9"
-        OBJ_ID="C96F9CE69B9E6FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB005E1A6E040720A04835694" SORT_KEY="0"
         VAL="Curriculum Oversight" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="13.0601" CD="13.0601"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -16249,7 +16249,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="Jointly-Offered" CD="joint"
         EFF_DT="20000101000000" ENUM_KEY="kuali.dependency.course.types"
         ID="b7d8c960-fb52-4db9-8a02-99c6ad802d74"
-        OBJ_ID="C96F9CE69B956FEEE040720A04831A6B" SORT_KEY="1"
+        OBJ_ID="C97E5ABBAFFCE1A6E040720A04835694" SORT_KEY="1"
         VAL="Jointly-Offered Courses" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.04" CD="51.04"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -17519,7 +17519,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="ARTH" CD="ARTH" EFF_DT="20100701000000"
         ENUM_KEY="kuali.lu.subjectArea"
         ID="c70d6d2d-b3cf-4346-a246-5a84874e343b"
-        OBJ_ID="C96F9CE69B836FEEE040720A04831A6B" SORT_KEY="71"
+        OBJ_ID="C97E5ABBAFEAE1A6E040720A04835694" SORT_KEY="71"
         VAL="Art History" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="37.01" CD="37.01"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -17681,7 +17681,7 @@
         EFF_DT="20000101000000"
         ENUM_KEY="kuali.dependency.program.types"
         ID="c8f2e35a-9bb2-4803-903a-ab877133840e"
-        OBJ_ID="C96F9CE69B9C6FEEE040720A04831A6B" SORT_KEY="1"
+        OBJ_ID="C97E5ABBB003E1A6E040720A04835694" SORT_KEY="1"
         VAL="Entrance Requirements" VER_NBR="2"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="36.0110" CD="36.0110"
         ENUM_KEY="kuali.enum.type.cip2000"
@@ -19041,7 +19041,7 @@
         CD="kuali.adminOrg.type.CurriculumOversightDivision"
         EFF_DT="20000101000000" ENUM_KEY="kuali.lu.adminOrg"
         ID="d88d37fa-cdb0-458b-9e1f-c51100d51172"
-        OBJ_ID="C96F9CE69BA06FEEE040720A04831A6B" SORT_KEY="0"
+        OBJ_ID="C97E5ABBB007E1A6E040720A04835694" SORT_KEY="0"
         VAL="Curriculum Oversight Division" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="42.05" CD="42.05"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -20036,7 +20036,7 @@
     <KSEM_ENUM_VAL_T ABBREV_VAL="THET" CD="THET" EFF_DT="20100701000000"
         ENUM_KEY="kuali.lu.subjectArea"
         ID="e31e16b8-4b3b-4f3b-84a6-31a229eb65bb"
-        OBJ_ID="C96F9CE69B8B6FEEE040720A04831A6B" SORT_KEY="79"
+        OBJ_ID="C97E5ABBAFF2E1A6E040720A04835694" SORT_KEY="79"
         VAL="Theater" VER_NBR="0"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.3818" CD="51.3818"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -21357,7 +21357,7 @@
         EFF_DT="20000101000000"
         ENUM_KEY="kuali.dependency.courseSet.types"
         ID="f32403a1-cc9d-4004-9a95-f5da290b55e2"
-        OBJ_ID="C96F9CE69B9A6FEEE040720A04831A6B" SORT_KEY="2"
+        OBJ_ID="C97E5ABBB001E1A6E040720A04835694" SORT_KEY="2"
         VAL="All Course Sets" VER_NBR="4"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="30.2202" CD="30.2202"
         ENUM_KEY="kuali.enum.type.cip2010"
@@ -21993,7 +21993,7 @@
         CD="kuali.statement.type.course.academicReadiness.antireq"
         EFF_DT="20000101000000" ENUM_KEY="kuali.dependency.course.types"
         ID="fa86a628-9601-4308-8a28-71d406bd19e9"
-        OBJ_ID="C96F9CE69B976FEEE040720A04831A6B" SORT_KEY="6"
+        OBJ_ID="C97E5ABBAFFEE1A6E040720A04835694" SORT_KEY="6"
         VAL="Antirequisite" VER_NBR="1"/>
     <KSEM_ENUM_VAL_T ABBREV_VAL="51.35" CD="51.35"
         ENUM_KEY="kuali.enum.type.cip2000"
