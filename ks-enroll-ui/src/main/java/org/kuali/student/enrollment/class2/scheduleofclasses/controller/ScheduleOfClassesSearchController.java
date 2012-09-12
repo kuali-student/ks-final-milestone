@@ -49,7 +49,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         ScheduleOfClassesSearchForm scheduleOfClassesSearchForm = (ScheduleOfClassesSearchForm)form;
-        ((ScheduleOfClassesSearchForm) form).setSearchType("courseId");
+        ((ScheduleOfClassesSearchForm) form).setSearchType("course");
 
         return super.start(form, result, request, response);
     }
