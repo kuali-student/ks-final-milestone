@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.service;
 
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
+
 /**
  * Created with IntelliJ IDEA.
  * User: vgadiyak
@@ -8,4 +10,7 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.service;
  * To change this template use File | Settings | File Templates.
  */
 public interface ScheduleOfClassesViewHelperService {
+
+    public void loadCourseOfferingsByTermAndCourseCode (String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception;;
+
 }
