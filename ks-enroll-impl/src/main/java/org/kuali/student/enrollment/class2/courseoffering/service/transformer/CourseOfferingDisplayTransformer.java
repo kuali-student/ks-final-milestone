@@ -46,7 +46,8 @@ public class CourseOfferingDisplayTransformer {
             PermissionDeniedException, OperationFailedException {
         CourseOfferingDisplayInfo displayInfo = new CourseOfferingDisplayInfo();
         // Fields use in course offering display info
-        // descr, courseId, termId, courseOfferingTitle,  courseOfferingCode, subjectArea,
+        // code, descr, courseId, termId, courseOfferingTitle,  courseOfferingCode, subjectArea,
+        displayInfo.setCourseOfferingCode(coInfo.getCourseOfferingCode());
         displayInfo.setDescr(coInfo.getDescr());
         displayInfo.setCourseId(coInfo.getCourseId());
         displayInfo.setTermId(coInfo.getTermId());
