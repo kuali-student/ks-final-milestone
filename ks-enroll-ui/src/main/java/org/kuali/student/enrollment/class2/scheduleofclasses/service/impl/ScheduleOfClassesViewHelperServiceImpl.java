@@ -57,8 +57,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
         if(courseOfferingIds.size() > 0){
             form.getCoDisplayInfoList().clear();
-//            List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, getContextInfo());
-//            form.setCoDisplayInfoList(coDisplayInfoList);
+            List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, getContextInfo());
+            form.setCoDisplayInfoList(coDisplayInfoList);
         } else {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError("Term & courseCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "courseCode", courseCode, termId);
