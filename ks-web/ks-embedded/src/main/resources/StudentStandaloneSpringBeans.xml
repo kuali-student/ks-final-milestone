@@ -134,6 +134,7 @@
                 <!-- Schedule of Classes -->
                 <value>classpath:org/kuali/student/enrollment/scheduleofclasses/ScheduleOfClassesSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/scheduleofclasses/ScheduleOfClasses-SearchInputPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/scheduleofclasses/ScheduleOfClasses-ResultsPage.xml</value>
 
                 <!-- Holds -->
                 <value>classpath:org/kuali/student/enrollment/hold/HoldIssueInfoSearchView.xml</value>
