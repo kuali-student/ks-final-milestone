@@ -30,7 +30,6 @@ import java.util.List;
  */
 public class ScheduleOfClassesSearchForm extends UifFormBase {
 
-    private List<CourseOfferingDisplayInfo> coDisplayInfoList; //The core info (name+description+meta)
     private String termCode;
     private String searchType;
     private String course;
@@ -38,6 +37,9 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
     private String instructor;
     private String titleDesc;
     private String information;
+
+    private List<CourseOfferingDisplayInfo> coDisplayInfoList; //The core info (name+description+meta)
+    private String termName;
 
     public ScheduleOfClassesSearchForm (){
         coDisplayInfoList = new ArrayList<CourseOfferingDisplayInfo>();
@@ -105,5 +107,13 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
 
     public void setInformation(String information) {
         this.information = information;
+    }
+
+    public String getTermName(){
+        return termName;
+    }
+
+    public void setTermName(String termName){
+        this.termName = termName;
     }
 }

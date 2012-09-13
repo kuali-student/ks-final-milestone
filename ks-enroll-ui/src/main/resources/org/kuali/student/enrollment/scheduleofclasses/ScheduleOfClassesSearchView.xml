@@ -43,7 +43,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-ScheduleOfClasses-SearchInputPage"/>
-                <!-- ref bean="KS-CourseOfferingManagement-ManageCourseOfferingsPage"/-->
+                <ref bean="KS-ScheduleOfClasses-ResultsSection"/>
             </list>
         </property>
     </bean>
