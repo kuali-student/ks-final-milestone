@@ -38,6 +38,10 @@ public class RegistrationGroupWrapper implements Serializable {
         rgInfo = new RegistrationGroupInfo();
     }
 
+    public RegistrationGroupWrapper(RegistrationGroupInfo info) {
+        rgInfo = info;
+    }
+
     public RegistrationGroupInfo getRgInfo() {
         return rgInfo;
     }
