@@ -22,15 +22,10 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -46,11 +41,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * This class contains a suite of unit tests for the KS implementation of the Scheduling Service
@@ -648,5 +639,85 @@ public class TestSchedulingServiceImpl {
         // make sure all of our expected ids have been removed
         assertTrue(expectedIds.isEmpty());
     }
+
+    @Test
+    public void testCreateScheduleInfo () throws Exception {
+
+        String scheduleId = "1";
+        String atpId = "TestATP1";
+        String roomId = "room1";
+
+        ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
+        ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
+
+        assertNotNull(returnedInfo);
+
+        scheduleInfo = schedulingService.getSchedule(scheduleId,contextInfo);
+
+        assertEquals(scheduleId,scheduleInfo.getId());
+        assertEquals(atpId,scheduleInfo.getAtpId());
+        assertEquals(1,scheduleInfo.getScheduleComponents().size());
+        assertEquals(2,scheduleInfo.getScheduleComponents().get(0).getTimeSlotIds().size());
+        assertEquals(false,scheduleInfo.getScheduleComponents().get(0).getIsTBA());
+        assertEquals(roomId,scheduleInfo.getScheduleComponents().get(0).getRoomId());
+
+    }
+
+
+    @Test
+    public void testUpdateScheduleInfo () throws Exception {
+
+        String scheduleId = "1";
+        String atpId = "TestATP1";
+        String roomId = "room1";
+
+        ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
+        ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
+
+        assertNotNull(returnedInfo);
+        assertEquals(1,returnedInfo.getScheduleComponents().size());
+
+        AttributeInfo attributeInfo = new AttributeInfo();
+        attributeInfo.setKey("Test");
+        attributeInfo.setValue("test");
+
+        returnedInfo.getAttributes().add(attributeInfo);
+        returnedInfo.getScheduleComponents().get(0).setIsTBA(false);
+
+        scheduleInfo = schedulingService.updateSchedule(scheduleId,returnedInfo,contextInfo);
+
+        assertNotNull(scheduleInfo);
+        assertEquals(false,scheduleInfo.getScheduleComponents().get(0).getIsTBA());
+        assertEquals(1,scheduleInfo.getAttributes().size());
+
+    }
+
+    @Test
+    public void testDeleteScheduleInfo () throws Exception {
+
+        String scheduleId = "1";
+        String atpId = "TestATP1";
+        String roomId = "room1";
+
+        ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
+        ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
+
+        assertNotNull(returnedInfo);
+
+        scheduleInfo = schedulingService.getSchedule(scheduleId,contextInfo);
+        assertNotNull(scheduleInfo);
+
+        StatusInfo status = schedulingService.deleteSchedule(scheduleId,contextInfo);
+        assertEquals(true,status.getIsSuccess());
+
+        try{
+           schedulingService.getSchedule(scheduleId,contextInfo);
+            fail("Found a schedule after deleting it.");
+        } catch(DoesNotExistException e){
+
+        }
+
+    }
+
 
 }

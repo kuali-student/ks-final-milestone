@@ -18,17 +18,9 @@ package org.kuali.student.r2.core.scheduling;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
@@ -188,5 +180,33 @@ public class SchedulingServiceDataLoader {
         scheduleRequestInfo.setScheduleRequestComponents(componentInfoList);
 
         return scheduleRequestInfo;
+    }
+
+    public static ScheduleInfo setupScheduleInfo(String id,String atpId,boolean isTBA,String roomId){
+
+        ScheduleInfo info = new ScheduleInfo();
+
+        info.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
+        info.setStateKey(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
+        info.setAtpId(atpId);
+        info.setId(id);
+
+        List<ScheduleComponentInfo> scheduleComponents = new ArrayList<ScheduleComponentInfo>();
+
+        ScheduleComponentInfo scheduleComponentInfo = new ScheduleComponentInfo();
+        scheduleComponentInfo.setId("ScheduleComponent1");
+        scheduleComponentInfo.setIsTBA(Boolean.valueOf(isTBA));
+
+        List<String> timeSlotIds = new ArrayList();
+        timeSlotIds.add("1");
+        timeSlotIds.add("2");
+
+        scheduleComponentInfo.setRoomId(roomId);
+        scheduleComponentInfo.setTimeSlotIds(timeSlotIds);
+        scheduleComponents.add(scheduleComponentInfo);
+
+        info.setScheduleComponents(scheduleComponents);
+
+        return info;
     }
 }
