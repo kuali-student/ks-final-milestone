@@ -168,6 +168,10 @@
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionAttributeEntity</class>
 
+        <!-- Activity Offering Cluster -->
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity</class>
 
         <!-- Process Entities -->
         <class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>

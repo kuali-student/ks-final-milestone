@@ -55,9 +55,10 @@ public class LuiServiceDataLoader {
         loadLui("Lui-3", "Lui three", "cluId3", "atpId3", "kuali.lui.type.course.offering", "kuali.lui.state.draft", "<p>Lui Desc 301</p>", "Lui Desc 301 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-4", "Lui four", "cluId4", "atpId4", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 401</p>", "Lui Desc 401 for deletion", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-5", "Lui five", "cluId5", "atpId5", "kuali.lui.type.activity.offering.lab", "kuali.lui.state.draft", "<p>Lui Desc 501</p>", "Lui Desc 501", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
-        loadLui("Lui-Lab2", "Lui five", "cluId5", "atpId5", "kuali.lui.type.activity.offering.lab", "kuali.lui.state.draft", "<p>Lui Desc 501</p>", "Lui Desc 501", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+        loadLui("Lui-Lab2", "Lui Lab2", "cluId5", "atpId5", "kuali.lui.type.activity.offering.lab", "kuali.lui.state.draft", "<p>Lui Desc 501</p>", "Lui Desc 501", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-6", "Lui six", "cluId6", "20122", "kuali.lui.type.course.format.offering", "kuali.lui.state.draft", "<p>Lui Desc 601</p>", "Lui Desc 601", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-7", "Lui seven", "cluId7", "20122", "kuali.lui.type.course.format.offering", "kuali.lui.state.draft", "<p>Lui Desc 701</p>", "Lui Desc 701", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+        loadLui("Lui-8", "Lui eight", "cluId8", "atpId8", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 701</p>", "Lui Desc 701", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
 
         loadLuiLuiRel("LUILUIREL-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-1 Formatted</p>", "LUILUIREL-1 Plain", "Lui-1", "kuali.lui.lui.relation.associated", "Lui-2");
         loadLuiLuiRel("LUILUIREL-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-2 Formatted</p>", "LUILUIREL-2 Plain", "Lui-3", "kuali.lui.lui.relation.associated", "Lui-4");
@@ -68,6 +69,8 @@ public class LuiServiceDataLoader {
         loadLuiLuiRel("LUILUIREL-7", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-6", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-Lab2");
         loadLuiLuiRel("LUILUIREL-8", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-7", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-Lab2");
         loadLuiLuiRel("LUILUIREL-9", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-6 Formatted</p>", "LUILUIREL-6 Plain", "Lui-1", "kuali.lui.lui.relation.type.deliveredvia.co2fo", "Lui-7");
+        loadLuiLuiRel("LUILUIREL-10", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "Lui-6", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-8");
+        loadLuiLuiRel("LUILUIREL-11", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-10 Formatted</p>", "LUILUIREL-10 Plain", "Lui-7", "kuali.lui.lui.relation.type.deliveredvia.fo2ao", "Lui-8");
     }
 
     private void loadLui(String id,

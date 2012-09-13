@@ -488,18 +488,18 @@ public class TestCourseOfferingServiceImplM4 {
         before();
 
         ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{
-//                coServiceImpl.getActivityOffering("Lui-2", contextInfo),
                 coServiceImpl.getActivityOffering("Lui-5", contextInfo),
-                coServiceImpl.getActivityOffering("Lui-Lab2", contextInfo)};
+                coServiceImpl.getActivityOffering("Lui-Lab2", contextInfo),
+                coServiceImpl.getActivityOffering("Lui-8", contextInfo)};
 
 
         ActivityOfferingClusterInfo expected = CourseOfferingServiceDataUtils
-                .createActivityOfferingCluster("CO-1:LEC-AND-LAB", "Default Cluster",
+                .createActivityOfferingCluster("Lui-6", "Default Cluster",
                         Arrays.asList(activities));
 
         new AttributeTester().add2ForCreate(expected.getAttributes());
 
-        ActivityOfferingClusterInfo actual = coServiceImpl.createActivityOfferingCluster("CO-1:LEC-AND-LAB", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, expected, contextInfo);
+        ActivityOfferingClusterInfo actual = coServiceImpl.createActivityOfferingCluster("Lui-6", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, expected, contextInfo);
 
         assertNotNull(actual.getId());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());

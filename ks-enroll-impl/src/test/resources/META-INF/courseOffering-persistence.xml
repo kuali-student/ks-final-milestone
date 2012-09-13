@@ -236,6 +236,9 @@
 
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity</class>
 
         <class>org.kuali.student.r2.core.population.model.PopulationEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>

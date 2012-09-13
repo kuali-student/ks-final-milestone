@@ -332,5 +332,6 @@ public class AtpTestDataLoader {
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
         loadAtp("atpId5", "atpId5", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Draft", "Desc 101");
+        loadAtp("atpId8", "atpId8", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.AcademicCalendar", "kuali.atp.state.Draft", "Desc 101");
     }
 }
