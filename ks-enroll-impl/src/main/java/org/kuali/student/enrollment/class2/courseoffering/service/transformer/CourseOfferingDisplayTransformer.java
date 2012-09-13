@@ -46,19 +46,23 @@ public class CourseOfferingDisplayTransformer {
             PermissionDeniedException, OperationFailedException {
         CourseOfferingDisplayInfo displayInfo = new CourseOfferingDisplayInfo();
         // Fields use in course offering display info
-        // code, descr, courseId, termId, courseOfferingTitle,  courseOfferingCode, subjectArea,
-        displayInfo.setCourseOfferingCode(coInfo.getCourseOfferingCode());
+        // descr, courseId,
         displayInfo.setDescr(coInfo.getDescr());
         displayInfo.setCourseId(coInfo.getCourseId());
+        //  termId, courseOfferingTitle,  courseOfferingCode,
         displayInfo.setTermId(coInfo.getTermId());
         displayInfo.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
+        displayInfo.setCourseOfferingCode(coInfo.getCourseOfferingCode());
+        // subjectArea,
         displayInfo.setSubjectArea(coInfo.getSubjectArea());
-        // termName, termCode, gradingOptionName, creditOptionName, typeName, stateName
+        // termName, termCode
         AtpInfo atpInfo = atpService.getAtp(coInfo.getTermId(), context);
         displayInfo.setTermName(atpInfo.getName());
         displayInfo.setTermCode(atpInfo.getCode());
+        // gradingOptionName, creditOptionName,
         displayInfo.setGradingOptionName(coInfo.getGradingOptionName());
         displayInfo.setCreditOptionName(coInfo.getCreditOptionName());
+        // typeName, stateName
         TypeInfo typeInfo = typeService.getType(coInfo.getTypeKey(), context);
         displayInfo.setTypeName(typeInfo.getName());
         StateInfo stateInfo = stateService.getState(coInfo.getStateKey(), context);
