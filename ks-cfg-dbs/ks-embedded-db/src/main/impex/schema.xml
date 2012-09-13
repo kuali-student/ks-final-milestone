@@ -4678,6 +4678,7 @@
     </table>
     <table name="KSEN_CO_AO_CLUSTER_SET">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="AO_CLUSTER_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ACTIVITY_OFFERING_TYPE" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_CO_AO_CLUSTER" name="KSEN_CO_AO_CLUSTER_SET_FK1">
