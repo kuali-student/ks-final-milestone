@@ -19,7 +19,7 @@
 
     <strong>Schedule of Classes</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Schedule of Classes" url="${ConfigProperties.application.url}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&pageId=searchInputPage&methodToCall=start"/></li>
+        <li><portal:portalLink displayTitle="true" title="Schedule of Classes" url="${ConfigProperties.application.url}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&pageId=scheduleOfClassesSearchInputPage&methodToCall=start"/></li>
     </ul>
 </div>
 
