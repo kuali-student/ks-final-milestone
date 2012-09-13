@@ -1809,7 +1809,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         try {
 
             activityOfferingClusterEntity.setEntityCreated(contextInfo);
-            activityOfferingClusterEntity.setEntityUpdated(contextInfo);
+            //activityOfferingClusterEntity.setEntityUpdated(contextInfo);
             activityOfferingClusterDao.persist(activityOfferingClusterEntity);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
