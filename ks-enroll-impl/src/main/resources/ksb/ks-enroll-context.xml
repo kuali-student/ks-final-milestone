@@ -851,6 +851,7 @@
 
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
         <property name="atpService" ref="atpEnrService"/>
+        <property name="typeService" ref="typeService"/>
         <property name="roomService" ref="roomServiceMockImpl"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
