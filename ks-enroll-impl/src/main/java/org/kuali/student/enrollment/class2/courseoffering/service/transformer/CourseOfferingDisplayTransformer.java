@@ -39,8 +39,8 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 public class CourseOfferingDisplayTransformer {
     public static CourseOfferingDisplayInfo co2coDisplay(CourseOfferingInfo coInfo,
                                                          AtpService atpService,
-                                                         TypeService typeService,
                                                          StateService stateService,
+                                                         TypeService typeService,
                                                          ContextInfo context)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             PermissionDeniedException, OperationFailedException {

@@ -363,7 +363,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         CourseOfferingInfo coInfo = getCourseOffering(courseOfferingId, context);
         CourseOfferingDisplayInfo displayInfo =
-                CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, typeService, stateService, context);
+                CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, stateService, typeService, context);
 
         return displayInfo;
     }
@@ -371,7 +371,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet");
+        List<CourseOfferingInfo> coList = getCourseOfferingsByIds(courseOfferingIds, context);
+        List<CourseOfferingDisplayInfo> displayList = new ArrayList<CourseOfferingDisplayInfo>();
+        if (coList != null) {
+            for (CourseOfferingInfo coInfo: coList) {
+                CourseOfferingDisplayInfo displayInfo =
+                        CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, stateService, typeService, context);
+                displayList.add(displayInfo);
+            }
+        }
+        return displayList;
     }
 
     @Override
