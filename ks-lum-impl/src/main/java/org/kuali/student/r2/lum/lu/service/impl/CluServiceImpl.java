@@ -15,6 +15,7 @@
 package org.kuali.student.r2.lum.lu.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.lu.entity.Clu;
@@ -1190,7 +1191,7 @@ public class CluServiceImpl implements CluService {
         }
 
         // Now copy all not standard properties
-        BeanUtils.copyProperties(cluInfo, clu, new String[]{"luType",
+        BeanUtils.copyProperties(R1R2ConverterUtil.convert(cluInfo, org.kuali.student.r1.lum.lu.dto.CluInfo.class), clu, new String[]{"luType",
                 "officialIdentifier", "alternateIdentifiers", "descr",
                 "luCodes", "primaryInstructor", "instructors", "stdDuration",
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
@@ -2431,7 +2432,7 @@ public class CluServiceImpl implements CluService {
         request.setSearchKey(query.getSearchTypeKey());
         request.setParams(SearchParamHelper.toSearchParams(query.getQueryParamValues()));
 
-        SearchResult result = this.searchDispatcher.dispatchSearch(request);
+        SearchResult result = search(request);
 
         Set<String> cluIds = new HashSet<String>();
         List<SearchResultRow> rows = result.getRows();
@@ -2726,6 +2727,8 @@ public class CluServiceImpl implements CluService {
         checkForMissingParameter(cluId, "cluId");
         checkForMissingParameter(cluSetId, "cluSetId");
 
+        StatusInfo statusInfo = new StatusInfo();
+
         CluSet cluSet;
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
@@ -2733,35 +2736,39 @@ public class CluServiceImpl implements CluService {
             throw new DoesNotExistException(cluSetId, ex);
         }
 
-        checkCluAlreadyAdded(cluSet, cluId);
+        if(!checkCluAlreadyAdded(cluSet, cluId)) {
+            statusInfo.setSuccess(Boolean.FALSE);
+            statusInfo.setMessage("CluSet already contains Clu (id='" + cluId + "')");
+        }else {
+            try {
+                luDao.getCurrentCluVersionInfo(cluId, CluServiceConstants.CLU_NAMESPACE_URI);
+            } catch (NoResultException e) {
+                throw new DoesNotExistException("Could not get current clu version info by cluId", e);
+            }
 
-        try {
-            luDao.getCurrentCluVersionInfo(cluId, CluServiceConstants.CLU_NAMESPACE_URI);
-        } catch (NoResultException e) {
-            throw new DoesNotExistException("Could not get current clu version info by cluId", e);
+            CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+            join.setCluSet(cluSet);
+            join.setCluVersionIndId(cluId);
+
+            cluSet.getCluVerIndIds().add(join);
+
+            luDao.update(cluSet);
+
+
+            statusInfo.setSuccess(true);
         }
-
-        CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
-        join.setCluSet(cluSet);
-        join.setCluVersionIndId(cluId);
-
-        cluSet.getCluVerIndIds().add(join);
-
-        luDao.update(cluSet);
-
-        StatusInfo statusInfo = new StatusInfo();
-        statusInfo.setSuccess(true);
 
         return statusInfo;
     }
 
-    private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
+    private boolean checkCluAlreadyAdded(CluSet cluSet, String cluId)
             throws OperationFailedException {
         for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
             if (join.getCluVersionIndId().equals(cluId)) {
-                throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
+                return false;
             }
         }
+        return true;
     }
 
     @Override
@@ -2873,6 +2880,7 @@ public class CluServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, UnsupportedActionException {
+        StatusInfo statusInfo = new StatusInfo();
 
         checkForMissingParameter(cluIds, "cluIds");
         checkForMissingParameter(cluSetId, "cluSetId");
@@ -2880,11 +2888,14 @@ public class CluServiceImpl implements CluService {
         for (String cluId : cluIds) {
             StatusInfo status = addCluToCluSet(cluId, cluSetId, context);
             if (!status.getIsSuccess()) {
-                return status;
+                if(statusInfo.getMessage().isEmpty()){
+                    statusInfo.setMessage(status.getMessage());
+                }else{
+                    statusInfo.setMessage(statusInfo.getMessage()+"\n"+status.getMessage());
+                }
             }
         }
 
-        StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(true);
 
         return statusInfo;

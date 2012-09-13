@@ -333,8 +333,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		createdSet1.getCluIds().add("CLU-3");
 //		createdSet1.getCluSetIds().remove(1);
 //		createdSet1.getCluSetIds().add("CLUSET-3");
-		createdSet1.getAttributes().add(new AttributeInfo("cluSet1ArrtKey1", "UPcluSet1ArrtValue1"));
-		createdSet1.getAttributes().remove(1);
+		createdSet1.getAttributes().set(0,new AttributeInfo("cluSet1ArrtKey1", "UPcluSet1ArrtValue1"));
+        createdSet1.getAttributes().remove(1);
 		createdSet1.getAttributes().add(new AttributeInfo("cluSet1ArrtKey3", "cluSet1ArrtValue3"));
 
 		CluSetInfo updatedSet1 = client.updateCluSet(createdSet1.getId(), createdSet1, contextInfo);
@@ -1037,7 +1037,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertNotNull(created.getMeta().getVersionInd());
 
 		created.getAttributes().remove(1);
-		created.getAttributes().add(new AttributeInfo("clucluAttrKey3", "clucluAttrValue3-A"));
+		created.getAttributes().set(1, new AttributeInfo("clucluAttrKey3", "clucluAttrValue3-A"));
 		created.getAttributes().add(new AttributeInfo("clucluAttrKey4", "clucluAttrValue4"));
 		created.setCluId("CLU-2");
 		created.setEffectiveDate(expirationDate);
@@ -2006,12 +2006,8 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-2", "CLU-4"});
 
-		try {
-            StatusInfo status = client.addClusToCluSet(cluIdList, createdCluSet.getId(), contextInfo);
-            fail("OperationFailedException should have been thrown when adding duplicate cluId");
-        } catch (OperationFailedException ofe) {
-		    assertEquals("CluSet already contains Clu (id='CLU-2')", ofe.getMessage());
-        }
+        StatusInfo status = client.addClusToCluSet(cluIdList, createdCluSet.getId(), contextInfo);
+        assertEquals("CluSet already contains Clu (id='CLU-2')", status.getMessage());
 	}
 
 	@Test
