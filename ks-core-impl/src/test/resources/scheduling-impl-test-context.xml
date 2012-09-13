@@ -94,6 +94,7 @@
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
+        <property name="typeService" ref="typeServiceImpl"/>
     </bean>
 
     <bean id="mockRoomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl">
@@ -160,6 +161,30 @@
 
     -->
 
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
+    </bean>
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao"/>
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao"/>
+
+    <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.core.class1.type.decorators.TypeServiceCacheDecorator">
+        <property name="nextDecorator" ref="typeServiceImpl" />
+    </bean>
+
+
+ <!--   <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="typeServiceCacheDecorator" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService" />
+                <property name="localServiceName" value="TypeService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
+            </bean>
+        </property>
+    </bean>
+-->
     <bean id="scheduleRequestDao" class="org.kuali.student.r2.core.scheduling.dao.ScheduleRequestDao">
         <property name="em" ref="entityManager"/>
     </bean>
