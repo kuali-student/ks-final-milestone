@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverRe
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingCluster;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingSet;
+import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
@@ -37,7 +38,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_CO_AO_CLUSTER_SET")
-public class ActivityOfferingSetEntity extends MetaEntity {
+public class ActivityOfferingSetEntity extends BaseEntity {
 
     @Column(name = "ACTIVITY_OFFERING_TYPE")
     private String aoType;
