@@ -141,7 +141,7 @@
                                             <property name="quickfinder.fieldConversions">
                                                 <map>
                                                     <entry key="name" value="offeringInstructorInfo.personName"/>
-                                                    <entry key="entityId" value="offeringInstructorInfo.personId"/>
+                                                    <entry key="principalId" value="offeringInstructorInfo.personId"/>
                                                 </map>
                                             </property>
                                             <property name="quickfinder.viewName" value="ks_simplePersonLookup" />

@@ -15,12 +15,12 @@
                         <bean parent="Uif-TextControl" p:watermarkText="user1" p:minLength="3" />
                     </property>
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="entityId" p:label="ID" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" p:label="ID" />
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="entityId" p:label="ID"/>
+                <bean parent="Uif-DataField" p:propertyName="principalId" p:label="ID"/>
                 <bean parent="Uif-DataField" p:propertyName="principalName"/>
                 <bean parent="Uif-DataField" p:propertyName="name"/>
             </list>

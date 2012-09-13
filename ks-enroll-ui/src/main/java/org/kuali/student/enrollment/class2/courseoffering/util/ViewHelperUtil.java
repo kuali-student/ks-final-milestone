@@ -71,7 +71,7 @@ public class ViewHelperUtil {
 
     public static List<Person> getInstructorByPersonId(String personId){
         Map<String, String> searchCriteria = new HashMap<String, String>();
-        searchCriteria.put(KIMPropertyConstants.Person.ENTITY_ID, personId);
+        searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_ID, personId);
         List<Person> lstPerson = getPersonService().findPeople(searchCriteria);
         return lstPerson;
     }
