@@ -29,12 +29,13 @@ import java.util.List;
 public class KitchenSinkForm extends UifFormBase {
     private static final long serialVersionUID = 4678031668930436995L;
 
-    private String stringField1;
-    private String stringField2;
+    //private String stringField1;
+    //private String stringField2;
     private Boolean checkboxSelected;
     private List<String> checkboxSelections;
     private List<KitchenSinkFormCollection1> collection;
     private List<KitchenSinkFormCollection1> collection2;
+    private List<String> multiSelections;
 
     public KitchenSinkForm() {
         super();
@@ -45,19 +46,19 @@ public class KitchenSinkForm extends UifFormBase {
         super.postBind(request);
     }
 
-    public String getStringField1() {
-        return stringField1;
-    }
-    public void setStringField1(String stringField1) {
-        this.stringField1 = stringField1;
-    }
-
-    public String getStringField2() {
-        return stringField2;
-    }
-    public void setStringField2(String stringField2) {
-        this.stringField2 = stringField2;
-    }
+//    public String getStringField1() {
+//        return stringField1;
+//    }
+//    public void setStringField1(String stringField1) {
+//        this.stringField1 = stringField1;
+//    }
+//
+//    public String getStringField2() {
+//        return stringField2;
+//    }
+//    public void setStringField2(String stringField2) {
+//        this.stringField2 = stringField2;
+//    }
 
     public Boolean getCheckboxSelected() {
         return checkboxSelected;
@@ -87,4 +88,10 @@ public class KitchenSinkForm extends UifFormBase {
         this.collection2 = collection2;
     }
 
+    public List<String> getMultiSelections() {
+        return multiSelections;
+    }
+    public void setMultiSelections(List<String> multiSelections) {
+        this.multiSelections = multiSelections;
+    }
 }

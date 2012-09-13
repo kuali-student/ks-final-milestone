@@ -86,6 +86,12 @@
 
     <!-- Miscellaneous definitions -->
 
+    <bean id="KS-KitchenSink-Page-Summary" parent="Uif-Message" abstract="true"
+          p:style="margin-bottom:1em;font-size:125%"/>
+
+    <bean id="KS-KitchenSink-Page-Links" parent="Uif-VerticalBoxSection" abstract="true"
+          p:style="margin-top:2em;margin-bottom:0;"/>
+
     <bean id="KS-KitchenSink-Link-To-Guide" parent="KS-KitchenSink-LinkField-Base" abstract="true"
           p:label="KRAD Guide"/>
     <bean id="KS-KitchenSink-Link-To-Source" parent="KS-KitchenSink-LinkField-Base" abstract="true"

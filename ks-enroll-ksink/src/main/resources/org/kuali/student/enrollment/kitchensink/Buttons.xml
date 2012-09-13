@@ -66,11 +66,9 @@
         <property name="actionImagePlacement" value="RIGHT"/>
         <property name="actionImage">
             <bean parent="Uif-Image">
-<!--
                 <property name="source" value="@{#ConfigProperties['krad.externalizable.images.url']}h2_expand-back-ks.png"/>
--->
                 <!-- using ConfigProperties sometimes throws a freemarker exception; if so use -->
-                <property name="source" value="../krad/images/h2_expand-back-ks.png"/>
+                <!--<property name="source" value="../krad/images/h2_expand-back-ks.png"/>-->
             </bean>
         </property>
     </bean>
@@ -109,114 +107,49 @@
         <property name="headerText" value="Button / Header Levels"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-Buttons-Page">
-                    <property name="headerText" value="Buttons"/>
-                    <property name="footer">
-                        <bean parent="Uif-VerticalBoxSection">
-                            <property name="header.render" value="false"/>
-                            <property name="style" value="margin-top:10px"/>
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-LinkField"
-                                          p:label="Page Configuration"
-                                          p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Buttons.xml" p:target="_blank"
-                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Buttons.xml"/>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="KRAD XML Configuration"
-                                                      p:linkText="UifElementDefinitions.xml" p:target="_blank"
-                                                      p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="KRAD Java Source"
-                                                      p:linkText="InputField.java" p:target="_blank"
-                                                      p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/element/Action.java"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="KRAD Java API"
-                                                      p:linkText="InputField.html" p:target="_blank"
-                                                      p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/element/Action.html"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="KRAD Guide"
-                                                      p:linkText="Action and Action Field" p:target="_blank"
-                                                      p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e6122"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:5px;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="Widget-Only Links (UIM)"
-                                                      p:linkText="Overview" p:target="_blank"
-                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Overview-View-Bare&amp;methodToCall=start"/>
-                                                <bean parent="Uif-LinkField"
-                                                      p:linkText="Primary Buttons" p:target="_blank"
-                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Primary-View-Bare&amp;methodToCall=start"/>
-                                                <bean parent="Uif-LinkField"
-                                                      p:linkText="Secondary Buttons" p:target="_blank"
-                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Secondary-View-Bare&amp;methodToCall=start"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Buttons">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        A labeled form object that triggers a programmed response.
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-Buttons-Content"/>
+                            <ref bean="KS-KitchenSink-Buttons-Links"/>
+                        </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-Buttons-Page" parent="KS-KitchenSink-Page">
+    <bean id="KS-KitchenSink-Buttons-Content" parent="Uif-TabSection" p:width="500px">
         <property name="items">
             <list>
-                <bean parent="Uif-TabSection" p:width="500px"
-                      p:instructionalText="A labeled form object that triggers a programmed response.">
+                <bean parent="KS-KitchenSink-Buttons-Overview-Section">
                     <property name="items">
-                        <list>
-                            <bean parent="KS-KitchenSink-Buttons-Overview-Section">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="Uif-MessageField"
-                                              p:messageText="A gallery of buttons. The final example is a custom class for image-only buttons, an extension of KRAD's secondary small button."/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-Buttons-Primary-Section">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="Uif-MessageField"
-                                              p:messageText="A gallery of primary buttons."/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-Buttons-Secondary-Section">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="Uif-MessageField"
-                                              p:messageText="A gallery of secondary buttons."/>
-                                    </list>
-                                </property>
-                            </bean>
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="A gallery of buttons. The final example is a custom class for image-only buttons, an extension of KRAD's secondary small button."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Buttons-Primary-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="A gallery of primary buttons."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Buttons-Secondary-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="A gallery of secondary buttons."/>
                         </list>
                     </property>
                 </bean>
@@ -225,20 +158,6 @@
     </bean>
 
     <!-- Overview containers -->
-
-    <bean id="KS-KitchenSink-Buttons-Overview-View-BareXXX" parent="KS-KitchenSink-FormView-Bare">
-        <property name="items">
-            <list>
-                <bean parent="KS-KitchenSink-Page" p:header.render="false">
-                    <property name="items">
-                        <list>
-                            <ref bean="KS-KitchenSink-Buttons-Overview"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
 
     <bean id="KS-KitchenSink-Buttons-Overview-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
@@ -391,6 +310,75 @@
                             <bean parent="KS-KitchenSink-Buttons-SecondaryImage" p:disabled="true"/>
                             <bean parent="KS-KitchenSink-Buttons-SecondarySmall" p:disabled="true"/>
                             <bean parent="KS-KitchenSink-Buttons-SecondarySmallImage-Left" p:disabled="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-Buttons-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField"
+                      p:label="Page Configuration"
+                      p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Buttons.xml" p:target="_blank"
+                      p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Buttons.xml"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD XML Configuration"
+                                  p:linkText="UifElementDefinitions.xml" p:target="_blank"
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Java Source"
+                                  p:linkText="Action.java" p:target="_blank"
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/element/Action.java"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Java API"
+                                  p:linkText="Action.html" p:target="_blank"
+                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/element/Action.html"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Guide"
+                                  p:linkText="Action and Action Field" p:target="_blank"
+                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e6122"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:5px;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="Widget-Only Links (UIM)"
+                                  p:linkText="Overview" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Overview-View-Bare&amp;methodToCall=start"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="Primary Buttons" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Primary-View-Bare&amp;methodToCall=start"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="Secondary Buttons" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Secondary-View-Bare&amp;methodToCall=start"/>
                         </list>
                     </property>
                 </bean>

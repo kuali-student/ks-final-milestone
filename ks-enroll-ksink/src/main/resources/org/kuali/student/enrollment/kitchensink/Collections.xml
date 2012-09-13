@@ -153,146 +153,25 @@
         <property name="headerText" value="Collections"/>
         <property name="items">
             <list>
+                <!--
                 <bean parent="KS-KitchenSink-Collections-Page">
                     <property name="headerText" value="Collections"/>
                     <property name="footer">
-                        <bean parent="Uif-VerticalBoxSection">
-                            <property name="header.render" value="false"/>
-                            <property name="style" value="margin-top:10px"/>
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-Message">
-                                        <property name="style" value="margin-bottom:15px;font-size:125%"/>
-                                        <property name="messageText">
-                                            <value>
-                                                Various collection examples.
-                                            </value>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-LinkField"
-                                          p:label="Page Configuration"
-                                          p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Collections.xml" p:target="_blank"
-                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Collections.xml"/>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="KRAD XML Configuration"
-                                                      p:linkText="UifGroupDefinitions.xml" p:target="_blank"
-                                                      p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
-                                                <bean parent="Uif-MessageField"
-                                                      p:messageText="(Uif-TableCollectionSection)"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="KRAD Java Source"
-                                                      p:linkText="CollectionGroup.java" p:target="_blank"
-                                                      p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="KRAD Java API"
-                                                      p:linkText="CollectionGroup.html" p:target="_blank"
-                                                      p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="KRAD Guide"
-                                                      p:linkText="Collection Groups" p:target="_blank"
-                                                      p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-HorizontalFieldGroup" p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:5px;">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-LinkField"
-                                                      p:label="Widget-Only Links (UIM)"
-                                                      p:linkText="Overview" p:target="_blank"
-                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-Overview-View-Bare&amp;methodToCall=collection"/>
-                                                <bean parent="Uif-LinkField"
-                                                      p:linkText="Single-Field Collection" p:target="_blank"
-                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-SingleField-View-Bare&amp;methodToCall=collection"/>
-                                                <bean parent="Uif-LinkField"
-                                                      p:linkText="Nested Collection" p:target="_blank"
-                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-Nested-View-Bare&amp;methodToCall=collection"/>
-                                                <bean parent="Uif-LinkField"
-                                                      p:linkText="Collection IN Form" p:target="_blank"
-                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-InForm-View-Bare&amp;methodToCall=collection"/>
-                                                <bean parent="Uif-LinkField"
-                                                      p:linkText="Collection AS Form" p:target="_blank"
-                                                      p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-AsForm-View-Bare&amp;methodToCall=collection"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
                     </property>
                 </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-KitchenSink-Collections-Page" parent="KS-KitchenSink-Page">
-        <property name="items">
-            <list>
-                <bean parent="Uif-TabSection"
-                      p:instructionalText="An expandable group of components that share the same data object in a form.">
+                -->
+                <bean parent="KS-KitchenSink-Page" p:headerText="Collections">
                     <property name="items">
                         <list>
-                            <bean parent="KS-KitchenSink-Collections-Overview-Section">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="Uif-MessageField"
-                                              p:messageText="Description goes here."/>
-                                    </list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        An expandable group of components that share the same data object in a form.
+                                    </value>
                                 </property>
                             </bean>
-                            <bean parent="KS-KitchenSink-Collections-SingleField-Section">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="Uif-MessageField"
-                                              p:messageText="Description goes here."/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-Collections-Nested-Section">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="Uif-MessageField"
-                                              p:messageText="Description goes here."/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-Collections-InForm-Section">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="Uif-MessageField"
-                                              p:messageText="Description goes here."/>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-Collections-AsForm-Section">
-                                <property name="items">
-                                    <list merge="true">
-                                        <bean parent="Uif-MessageField"
-                                              p:messageText="This example shows how to customize the add, save and delete methods to add validation and/or update a collection row instantly in the database."/>
-                                    </list>
-                                </property>
-                            </bean>
+                            <ref bean="KS-KitchenSink-Collections-Content"/>
+                            <ref bean="KS-KitchenSink-Collections-Links"/>
                         </list>
                     </property>
                 </bean>
@@ -300,51 +179,54 @@
         </property>
     </bean>
 
-
-    <bean id="KS-KitchenSink-Collections-Overview-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="Overview" p:header.render="false">
+    <bean id="KS-KitchenSink-Collections-Content" parent="Uif-TabSection">
         <property name="items">
             <list>
-                <ref bean="KS-KitchenSink-Collections-Overview"/>
+                <bean parent="KS-KitchenSink-Collections-Overview-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="Description goes here."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Collections-SingleField-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="Description goes here."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Collections-Nested-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="Description goes here."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Collections-InForm-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="Description goes here."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Collections-AsForm-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="This example shows how to customize the add, save and delete methods to add validation and/or update a collection row instantly in the database."/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-Collections-SingleField-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="Single-Field Collection" p:header.render="false">
-        <property name="items">
-            <list>
-                <ref bean="KS-KitchenSink-Collections-SingleField"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-KitchenSink-Collections-Nested-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="Nested Collection" p:header.render="false">
-        <property name="items">
-            <list>
-                <ref bean="KS-KitchenSink-Collections-Nested"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-KitchenSink-Collections-InForm-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="Collection IN Form" p:header.render="false">
-        <property name="items">
-            <list>
-                <ref bean="KS-KitchenSink-Collections-InForm"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-KitchenSink-Collections-AsForm-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="Collection AS Form" p:header.render="false">
-        <property name="items">
-            <list>
-                <ref bean="KS-KitchenSink-Collections-AsForm"/>
-            </list>
-        </property>
-    </bean>
+    <!-- Overview containers -->
 
     <bean id="KS-KitchenSink-Collections-Overview-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
@@ -360,6 +242,17 @@
         </property>
     </bean>
 
+    <bean id="KS-KitchenSink-Collections-Overview-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Overview" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Collections-Overview"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Single-Field Collection containers -->
+
     <bean id="KS-KitchenSink-Collections-SingleField-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
             <list>
@@ -373,6 +266,17 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KS-KitchenSink-Collections-SingleField-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Single-Field Collection" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Collections-SingleField"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Nested Collection containers -->
 
     <bean id="KS-KitchenSink-Collections-Nested-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
@@ -388,6 +292,17 @@
         </property>
     </bean>
 
+    <bean id="KS-KitchenSink-Collections-Nested-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Nested Collection" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Collections-Nested"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Collection IN Form containers -->
+
     <bean id="KS-KitchenSink-Collections-InForm-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
             <list>
@@ -402,6 +317,17 @@
         </property>
     </bean>
 
+    <bean id="KS-KitchenSink-Collections-InForm-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Collection IN Form" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Collections-InForm"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Collection AS Form containers -->
+
     <bean id="KS-KitchenSink-Collections-AsForm-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
             <list>
@@ -409,6 +335,92 @@
                     <property name="items">
                         <list>
                             <ref bean="KS-KitchenSink-Collections-AsForm-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Collections-AsForm-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Collection AS Form" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Collections-AsForm"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-Collections-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField"
+                      p:label="Page Configuration"
+                      p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Collections.xml" p:target="_blank"
+                      p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Collections.xml"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD XML Configuration"
+                                  p:linkText="UifGroupDefinitions.xml" p:target="_blank"
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="(Uif-TableCollectionSection)"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Java Source"
+                                  p:linkText="CollectionGroup.java" p:target="_blank"
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Java API"
+                                  p:linkText="CollectionGroup.html" p:target="_blank"
+                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Guide"
+                                  p:linkText="Collection Groups" p:target="_blank"
+                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:5px;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="Widget-Only Links (UIM)"
+                                  p:linkText="Overview" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-Overview-View-Bare&amp;methodToCall=collection"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="Single-Field Collection" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-SingleField-View-Bare&amp;methodToCall=collection"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="Nested Collection" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-Nested-View-Bare&amp;methodToCall=collection"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="Collection IN Form" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-InForm-View-Bare&amp;methodToCall=collection"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="Collection AS Form" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-AsForm-View-Bare&amp;methodToCall=collection"/>
                         </list>
                     </property>
                 </bean>

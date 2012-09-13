@@ -28,7 +28,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class CheckboxKeyValues extends KeyValuesBase {
+public class KitchenSinkKeyValues extends KeyValuesBase {
 
     /**
      * This is a fake implementation of a key value finder, normally this would make a request to
@@ -39,11 +39,13 @@ public class CheckboxKeyValues extends KeyValuesBase {
     @Override
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("1", "Option 1"));
-        keyValues.add(new ConcreteKeyValue("2", "Option 2"));
-        keyValues.add(new ConcreteKeyValue("3", "Option 3"));
-        keyValues.add(new ConcreteKeyValue("4", "Option 4"));
-        keyValues.add(new ConcreteKeyValue("5", "Option 5"));
+        keyValues.add(new ConcreteKeyValue("1", "A dwarf named Bashful"));
+        keyValues.add(new ConcreteKeyValue("2", "A dwarf named Doc"));
+        keyValues.add(new ConcreteKeyValue("3", "A dwarf named Dopey"));
+        keyValues.add(new ConcreteKeyValue("4", "A dwarf named Grumpy"));
+        keyValues.add(new ConcreteKeyValue("5", "A dwarf named Happy"));
+        keyValues.add(new ConcreteKeyValue("6", "A dwarf named Sleepy"));
+        keyValues.add(new ConcreteKeyValue("7", "A dwarf named Sneezy"));
         return keyValues;
     }
 
