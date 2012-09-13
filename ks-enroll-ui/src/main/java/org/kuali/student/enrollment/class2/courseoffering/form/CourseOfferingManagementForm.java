@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 
@@ -34,8 +35,9 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO;
-    private List<ActivityOfferingClusterInfo> filteredAOClusters;
-    private List<RegistrationGroupWrapper> filteredRGsForSelectedFO;
+//    private List<ActivityOfferingClusterInfo> filteredAOClusters;
+//    private List<RegistrationGroupWrapper> filteredRGsForSelectedFO;
+    private List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList;
     private boolean hasAOCluster;
     private String privateClusterName;
     private String publishedClusterName;
@@ -60,7 +62,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         filteredUnassignedAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
-        filteredRGsForSelectedFO = new ArrayList<RegistrationGroupWrapper>();
+//        filteredRGsForSelectedFO = new ArrayList<RegistrationGroupWrapper>();
+        filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
         setCourseOfferingCopyWrapper(null);
         hasAOCluster = false;
@@ -178,20 +181,29 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.filteredUnassignedAOsForSelectedFO = filteredUnassignedAOsForSelectedFO;
     }
 
-    public List<ActivityOfferingClusterInfo> getFilteredAOClusters() {
-        return filteredAOClusters;
+//    public List<ActivityOfferingClusterInfo> getFilteredAOClusters() {
+//        return filteredAOClusters;
+//    }
+//
+//    public void setFilteredAOClusters(List<ActivityOfferingClusterInfo> filteredAOClusters) {
+//        this.filteredAOClusters = filteredAOClusters;
+//    }
+//
+//    public List<RegistrationGroupWrapper> getFilteredRGsForSelectedFO() {
+//        return filteredRGsForSelectedFO;
+//    }
+//
+//    public void setFilteredRGsForSelectedFO(List<RegistrationGroupWrapper> filteredRGsForSelectedFO) {
+//        this.filteredRGsForSelectedFO = filteredRGsForSelectedFO;
+//    }
+
+
+    public List<ActivityOfferingClusterWrapper> getFilteredAOClusterWrapperList() {
+        return filteredAOClusterWrapperList;
     }
 
-    public void setFilteredAOClusters(List<ActivityOfferingClusterInfo> filteredAOClusters) {
-        this.filteredAOClusters = filteredAOClusters;
-    }
-
-    public List<RegistrationGroupWrapper> getFilteredRGsForSelectedFO() {
-        return filteredRGsForSelectedFO;
-    }
-
-    public void setFilteredRGsForSelectedFO(List<RegistrationGroupWrapper> filteredRGsForSelectedFO) {
-        this.filteredRGsForSelectedFO = filteredRGsForSelectedFO;
+    public void setFilteredAOClusterWrapperList(List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList) {
+        this.filteredAOClusterWrapperList = filteredAOClusterWrapperList;
     }
 
     public String getFormatIdForNewAO() {

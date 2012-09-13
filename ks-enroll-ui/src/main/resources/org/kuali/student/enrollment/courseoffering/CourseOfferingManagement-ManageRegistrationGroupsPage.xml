@@ -48,9 +48,10 @@
                             <bean parent="Uif-VerticalBoxGroup" p:refreshWhenChangedPropertyNames="formatOfferingIdForViewRG" p:methodToCallOnRefresh="filterAOsAndRGsPerFO">
                                 <property name="items">
                                     <list>
-                                        <ref bean="KS-ViewRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection"/>
-                                        <ref bean="KS-ViewRegistrationGroupPage-NoClusterCondition"/>
-                                        <!--<ref bean="KS-ViewRegistrationGroupPage-HasClusterCondition"/>-->
+                                        <ref bean="KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection-WithDisclosure"/>
+                                        <ref bean="KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection"/>
+                                        <ref bean="KS-ManageRegistrationGroupPage-NoClusterCondition"/>
+                                        <ref bean="KS-ManageRegistrationGroupPage-HasClusterCondition"/>
 
 
 
@@ -70,8 +71,8 @@
         </property>
     </bean>
 
-    <bean id="KS-ViewRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection" parent="Uif-Disclosure-TableCollectionSection"
-          p:renderAddLine="false"  p:renderLineActions="false">
+    <bean id="KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection-WithDisclosure" parent="Uif-Disclosure-TableCollectionSection"
+          p:renderAddLine="false"  p:renderLineActions="false" p:render="@{!hasAOCluster}">
         <!--<property name="disclosure.render" value="true"/>-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="filteredUnassignedAOsForSelectedFO" />
@@ -89,11 +90,6 @@
         </property>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:render="@{hasAOCluster}">-->
-                    <!--<property name="control">-->
-                        <!--<bean parent="Uif-CheckboxControl" p:disabled="false"/>-->
-                    <!--</property>-->
-                <!--</bean>-->
                 <bean parent="Uif-DataField"
                       p:label="CODE"
                       p:propertyName="aoInfo.activityCode">
@@ -129,7 +125,66 @@
         </property>
     </bean>
 
-    <bean id="KS-ViewRegistrationGroupPage-NoClusterCondition" parent="Uif-VerticalBoxSection" p:render="@{!hasAOCluster}">
+    <bean id="KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection" parent="Uif-TableCollectionSection"
+          p:renderAddLine="false"  p:renderLineActions="false" p:render="@{hasAOCluster}">
+        <!--<property name="disclosure.render" value="true"/>-->
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
+        <property name="propertyName" value="filteredUnassignedAOsForSelectedFO" />
+        <property name="headerText" value="Unassigned Activity Offerings"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 3, 'asc' ], [1, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="CODE"
+                      p:propertyName="aoInfo.activityCode">
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="STATUS"
+                      p:propertyName="stateName" />
+                <bean parent="Uif-DataField"
+                      p:label="TYPE"
+                      p:propertyName="typeName"/>
+                <bean parent="Uif-DataField"
+                      p:label="MAX ENR"
+                      p:propertyName="aoInfo.maximumEnrollment"/>
+                <bean parent="Uif-DataField"
+                      p:label="DAYS"
+                      p:propertyName="daysDisplayName"/>
+                <bean parent="Uif-DataField"
+                      p:label="START TIME"
+                      p:propertyName="startTimeDisplay"/>
+                <bean parent="Uif-DataField"
+                      p:label="END TIME"
+                      p:propertyName="endTimeDisplay"/>
+                <bean parent="Uif-DataField"
+                      p:label="BUILDING"
+                      p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField"
+                      p:label="ROOM"
+                      p:propertyName="roomName"/>
+                <bean parent="Uif-DataField"
+                      p:label="INSTRUCTOR"
+                      p:propertyName="firstInstructorDisplayName"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ManageRegistrationGroupPage-NoClusterCondition" parent="Uif-VerticalBoxSection" p:render="@{!hasAOCluster}">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
@@ -158,7 +213,165 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-ViewRegistrationGroupPage-HasClusterCondition" parent="Uif-TableCollectionSection" p:render="@{hasAOCluster}"-->
-          <!--p:renderAddLine="false"  p:renderLineActions="false">-->
-    <!--</bean>        -->
+
+    <bean id="KS-ManageRegistrationGroupPage-HasClusterCondition" parent="KS-HorizontalCollectionSection" p:render="@{hasAOCluster}"
+          p:renderAddLine="true"  p:renderLineActions="false">
+        <property name="disclosure.render" value="false"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
+        <property name="propertyName" value="filteredAOClusterWrapperList" />
+        <property name="headerText" value="Activity Offering Clusters"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.aoCluster.name}(@{#line.aoCluster.privateName})"/>
+        <property name="layoutManager.addLineGroup.header.render" value="true"/>
+        <!--<property name="layoutManager.lineGroupPrototype">-->
+            <!--<bean parent="Uif-HorizontalBoxSection" p:header.render="false" p:layoutManager.orientation="HORIZONTAL" >-->
+                <!--<property name="items">-->
+                    <!--<list>-->
+                        <!--<bean parent="Uif-Label" p:labelText="@{rgStatus}" p:renderColon="false"/>-->
+                        <!--<bean parent="Uif-LinkGroup" p:style="float:right">-->
+                            <!--<property name="items">-->
+                                <!--<list>-->
+                                    <!--<bean parent="Uif-ActionLink" p:methodToCall="viewRegGroups" p:actionLabel="View Registration Groups" p:render="@{hasRegGroups}"/>-->
+                                    <!--<bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsForACluster" p:actionLabel="Generate Registration Groups" p:render="@{!hasRegGroups}"/>-->
+                                    <!--<bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!previousCourseOfferingCodeUI?.empty}"/>-->
+                                    <!--<bean parent="Uif-ActionLink" p:methodToCall="renameCluster" p:actionLabel="Rename Cluster" />-->
+                                    <!--<bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />-->
+                                    <!--<bean parent="Uif-ActionLink" p:methodToCall="removeCluster" p:actionLabel="Remove Cluster" />-->
+                                <!--</list>-->
+                            <!--</property>-->
+                        <!--</bean>-->
+                    <!--</list>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</property>-->
+        <!--<property name="addLineGroup">-->
+
+        <!--</property>-->
+        <property name="layoutManager.addLineGroup.header.lowerGroup">
+            <ref bean="KS-ManageRegistrationGroupPage-StateAndActionLinks" />
+        </property>
+        <!--<property name="layoutManager.addLineGroup">-->
+            <!--<ref bean="KS-ManageRegistrationGroupPage-CreateNewClusterSection"/>-->
+        <!--</property>-->
+
+        <property name="items">
+            <list>                
+                <!--<ref bean="KS-ManageRegistrationGroupPage-StateAndActionLinks" />-->
+            </list>
+         </property>
+        <property name="subCollections">
+            <list>
+                <!--<ref bean="KS-ManageRegistrationGroupPage-StateAndActionLinks" />-->
+                <ref bean="KS-ManageRegistrationGroupPage-AOClusterTableSubSection" />
+            </list>
+        </property>
+    </bean>
+    
+    <!--<bean id="KS-ManageRegistrationGroupPage-CreateNewClusterSection" parent="Uif-VerticalBoxSection">-->
+        <!--<property name="id" value="createNewClusterSection" />-->
+        <!--<property name="disclosure.render" value="false"/>-->
+        <!--<property name="headerText" value="Create New Cluster"/>-->
+        <!--<property name="items">-->
+            <!--<list>-->
+                <!--<bean parent="Uif-InputField"  p:label="Private Name" p:labelPlacement="LEFT" p:required="true" p:render="true">-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>-->
+                    <!--</property>-->
+                <!--</bean>-->
+                <!--<bean parent="Uif-InputField"  p:label="Published Name" p:labelPlacement="LEFT" p:required="true" p:render="true">-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>-->
+                    <!--</property>-->
+                <!--</bean>-->
+
+                <!--<bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="createNewCluster" />-->
+
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="KS-ManageRegistrationGroupPage-StateAndActionLinks" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{#line.rgStatus}" p:renderColon="false"/>
+                <bean parent="Uif-LinkGroup" p:style="float:right">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroupsPerCluster" p:actionLabel="View Registration Groups" p:render="@{#line.hasRegGroups}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasRegGroups}"/>
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="renameCluster" p:actionLabel="Rename Cluster" />
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="removeCluster" p:actionLabel="Remove Cluster" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ManageRegistrationGroupPage-AOClusterTableSubSection" parent="Uif-TableCollectionSubSection"
+          p:renderAddLine="false"  p:renderLineActions="true">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
+        <property name="propertyName" value="aoWrapperList" />
+        <property name="headerText" value=""/>
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 2, 'asc' ], [0, 'asc']]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="CODE"
+                      p:propertyName="aoInfo.activityCode">
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="STATUS"
+                      p:propertyName="stateName" />
+                <bean parent="Uif-DataField"
+                      p:label="TYPE"
+                      p:propertyName="typeName"/>
+                <bean parent="Uif-DataField"
+                      p:label="MAX ENR"
+                      p:propertyName="aoInfo.maximumEnrollment"/>
+                <bean parent="Uif-DataField"
+                      p:label="DAYS"
+                      p:propertyName="daysDisplayName"/>
+                <bean parent="Uif-DataField"
+                      p:label="START TIME"
+                      p:propertyName="startTimeDisplay"/>
+                <bean parent="Uif-DataField"
+                      p:label="END TIME"
+                      p:propertyName="endTimeDisplay"/>
+                <bean parent="Uif-DataField"
+                      p:label="BUILDING"
+                      p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField"
+                      p:label="ROOM"
+                      p:propertyName="roomName"/>
+                <bean parent="Uif-DataField"
+                      p:label="INSTRUCTOR"
+                      p:propertyName="firstInstructorDisplayName"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeACluster" p:actionLabel="Remove"/>
+            </list>
+        </property>
+    </bean>
 </beans>
