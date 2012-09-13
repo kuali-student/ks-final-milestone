@@ -39,16 +39,16 @@
     <bean id="KS-ScheduleOfClasses-ResultSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="@{termName} Schedule of Classes" />
         <property name="disclosure.render" value="false"/>
-        <!-- property name="items">
+        <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
+                <ref bean="KS-ScheduleOfClasses-CourseOfferingListSection"/>
             </list>
-        </property -->
+        </property>
     </bean>
 
-    <!--bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
-        <property name="propertyName" value="courseOfferingEditWrapperList" />
+    <bean id="KS-ScheduleOfClasses-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo" />
+        <property name="propertyName" value="coDisplayInfoList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
@@ -62,31 +62,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode">
-                    <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="coInfo.id" />
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField"
-                      p:label="STATUS"
-                      p:propertyName="stateName"/>
-                <bean parent="Uif-DataField"
-                      p:label="TITLE"
-                      p:propertyName="coInfo.courseOfferingTitle"/>
-                <bean parent="Uif-DataField"
-                      p:label="CREDITS"
-                      p:propertyName="coInfo.creditCnt"/>
-                <bean parent="Uif-DataField"
-                      p:label="GRADING"
-                      p:propertyName="gradingOption"/>
+                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="courseOfferingCode"/>
+                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="courseOfferingTitle"/>
+                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="creditOptionName"/>
+                <bean parent="Uif-DataField" p:label="GRADING" p:propertyName="gradingOptionName"/>
             </list>
         </property>
-        <property name="layoutManager.actionFieldPrototype">
+        <!-- property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
@@ -96,7 +78,7 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
             </list>
-        </property>
-    </bean-->
+        </property -->
+    </bean>
 
 </beans>
