@@ -21,6 +21,8 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Checkboxes"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Multi-Select Control"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Other Fields</strong>

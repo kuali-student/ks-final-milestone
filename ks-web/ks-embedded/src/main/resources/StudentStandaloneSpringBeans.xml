@@ -176,6 +176,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionOptions.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Collections.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
