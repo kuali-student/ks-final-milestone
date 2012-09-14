@@ -82,6 +82,7 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
         this.setActivityOfferingClusterState(aoCluster.getStateKey());
         this.setActivityOfferingClusterType(aoCluster.getTypeKey());
         this.setName(aoCluster.getName());
+        this.setFormatOfferingId(aoCluster.getFormatOfferingId());
         if (aoCluster.getDescr() != null) {
             this.setDescrFormatted(aoCluster.getDescr().getFormatted());
             this.setDescrPlain(aoCluster.getDescr().getPlain());
