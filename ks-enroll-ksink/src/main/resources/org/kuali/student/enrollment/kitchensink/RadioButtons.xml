@@ -15,54 +15,48 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-                           http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!-- The Interesting Bits -->
 
-    <bean parent="Uif-InputField"  id="KS-KitchenSink-MultiSelect-Example1">
-        <property name="propertyName" value="multiSelections"/>
-        <property name="label" value="Multi-Select Label"/>
-        <property name="width" value="auto"/>
-        <property name="instructionalText"
-                  value="Please select one or more items. To select multiple items, hold the control key while selecting items."/>
+    <bean parent="Uif-InputField"  id="KS-KitchenSink-RadioButtons-Example1">
+        <property name="propertyName" value="radioButtonSelection"/>
+        <property name="label" value="Radio Buttons"/>
+        <property name="instructionalText" value="Instructional text goes here."/>
         <property name="helpSummary" value="Additional help or information for this field can go here."/>
         <property name="control">
-            <bean parent="Uif-DropdownControl"
-                  p:multiple="true" p:size="3" p:options-ref="KS-KitchenSink-MultiSelect-Example1-Options"
-                  p:toolTip.tooltipContent="Additional text can go here as well."/>
-        </property>
-    </bean>
-
-    <util:list id="KS-KitchenSink-MultiSelect-Example1-Options">
-        <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Select option #1"/>
-        <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Select option #2"/>
-        <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Select option #3"/>
-        <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Select option #4"/>
-        <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Select option #5"/>
-    </util:list>
-
-    <bean parent="Uif-InputField"  id="KS-KitchenSink-MultiSelect-Example2">
-        <property name="propertyName" value="multiSelections"/>
-        <property name="label" value="Multi-Select Label"/>
-        <!--<property name="labelPlacement" value="RIGHT"/>-->
-        <property name="width" value="auto"/>
-        <property name="instructionalText"
-                  value="Please select one or more items. To select multiple items, hold the control key while selecting items."/>
-        <property name="helpSummary" value="Additional help or information for this field can go here."/>
-        <property name="control">
-            <bean parent="Uif-DropdownControl"
-                  p:multiple="true" p:size="4"
-                  p:toolTip.tooltipContent="Additional text can go here as well."/>
+            <bean parent="Uif-VerticalRadioControl"/>
         </property>
         <property name="optionsFinder">
             <bean class="org.kuali.student.enrollment.kitchensink.KitchenSinkKeyValues"/>
+        </property>
+    </bean>
+
+    <bean parent="Uif-InputField"  id="KS-KitchenSink-RadioButtons-Example2">
+        <!-- NOTE:
+            If "radioButtonSelection" is pre-filled with an option key value, the corresponding checkbox
+            (if it exists) will be checked by default.  For this example, KitchenSinkController.start()
+            sets "radioButtonSelection" to value "2".
+        -->
+        <property name="propertyName" value="radioButtonSelection"/>
+        <property name="label" value="Checkbox Group"/>
+        <property name="instructionalText" value="Instructional text goes here."/>
+        <property name="helpSummary" value="Additional help or information for this field can go here."/>
+        <property name="control">
+            <bean parent="Uif-VerticalRadioControl"
+                  p:toolTip.tooltipContent="Additional text can go here as well.">
+                <property name="options">
+                    <list>
+                        <!-- See the Multi-Select Control for a different way of defining a list -->
+                        <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Radio option #1"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Radio option #2"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Radio option #3"/>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
@@ -70,45 +64,43 @@
 
     <!-- just the various containers for the interesting bits -->
 
-    <bean id="KS-KitchenSink-MultiSelect-View" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-RadioButtons-View" parent="KS-KitchenSink-FormView">
         <property name="headerText" value="Input Fields"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-Page" p:headerText="Multi-Select Control">
+                <bean parent="KS-KitchenSink-Page" p:headerText="Radio Buttons">
                     <property name="items">
                         <list>
                             <bean parent="KS-KitchenSink-Page-Summary">
                                 <property name="messageText">
                                     <value>
-                                        A form field that provides a scrollable list of options.
+                                        An input field used to indicate one selection from a list in a form.
                                     </value>
                                 </property>
                             </bean>
-                            <ref bean="KS-KitchenSink-MultiSelect-Content"/>
-                            <ref bean="KS-KitchenSink-MultiSelect-Links"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-KitchenSink-MultiSelect-Content" parent="Uif-TabSection" p:width="500px">
-        <property name="items">
-            <list>
-                <bean parent="KS-KitchenSink-MultiSelect-Example1-Section">
-                    <property name="items">
-                        <list merge="true">
-                            <bean parent="Uif-MessageField"
-                                  p:messageText="Uif-DropdownControl with multiple=&quot;true&quot;, size=&quot;3&quot;, using explicitly defined key-value pairs from the XML configuration."/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-KitchenSink-MultiSelect-Example2-Section">
-                    <property name="items">
-                        <list merge="true">
-                            <bean parent="Uif-MessageField"
-                                  p:messageText="Uif-DropdownControl with multiple=&quot;true&quot;, size=&quot;4&quot;, using the &quot;optionsFinder&quot; property."/>
+                            <bean parent="Uif-TabSection" p:width="500px">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-KitchenSink-RadioButtons-Example1-Section">
+                                            <property name="items">
+                                                <list merge="true">
+                                                    <bean parent="Uif-MessageField"
+                                                          p:messageText="Uif-VerticalRadioControl using the &quot;optionsFinder&quot; property."/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-KitchenSink-RadioButtons-Example2-Section">
+                                            <property name="items">
+                                                <list merge="true">
+                                                    <bean parent="Uif-MessageField"
+                                                          p:messageText="Uif-VerticalRadioControl using explicitly defined key-value pairs from the XML configuration."/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-RadioButtons-Links"/>
                         </list>
                     </property>
                 </bean>
@@ -118,13 +110,13 @@
 
     <!-- Example #1 containers -->
 
-    <bean id="KS-KitchenSink-MultiSelect-Example1-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+    <bean id="KS-KitchenSink-RadioButtons-Example1-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
                     <property name="items">
                         <list>
-                            <ref bean="KS-KitchenSink-MultiSelect-Example1-Section"/>
+                            <ref bean="KS-KitchenSink-RadioButtons-Example1-Section"/>
                         </list>
                     </property>
                 </bean>
@@ -132,24 +124,24 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-MultiSelect-Example1-Section" parent="Uif-VerticalBoxSection"
+    <bean id="KS-KitchenSink-RadioButtons-Example1-Section" parent="Uif-VerticalBoxSection"
           p:headerText="Example #1" p:header.render="false">
         <property name="items">
             <list>
-                <ref bean="KS-KitchenSink-MultiSelect-Example1"/>
+                <ref bean="KS-KitchenSink-RadioButtons-Example1"/>
             </list>
         </property>
     </bean>
 
     <!-- Example #2 containers -->
 
-    <bean id="KS-KitchenSink-MultiSelect-Example2-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+    <bean id="KS-KitchenSink-RadioButtons-Example2-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
                     <property name="items">
                         <list>
-                            <ref bean="KS-KitchenSink-MultiSelect-Example2-Section"/>
+                            <ref bean="KS-KitchenSink-RadioButtons-Example2-Section"/>
                         </list>
                     </property>
                 </bean>
@@ -157,24 +149,24 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-MultiSelect-Example2-Section" parent="Uif-VerticalBoxSection"
+    <bean id="KS-KitchenSink-RadioButtons-Example2-Section" parent="Uif-VerticalBoxSection"
           p:headerText="Example #2" p:header.render="false">
         <property name="items">
             <list>
-                <ref bean="KS-KitchenSink-MultiSelect-Example2"/>
+                <ref bean="KS-KitchenSink-RadioButtons-Example2"/>
             </list>
         </property>
     </bean>
 
     <!-- Links -->
 
-    <bean id="KS-KitchenSink-MultiSelect-Links" parent="KS-KitchenSink-Page-Links">
+    <bean id="KS-KitchenSink-RadioButtons-Links" parent="KS-KitchenSink-Page-Links">
         <property name="items">
             <list>
                 <bean parent="Uif-LinkField"
                       p:label="Page Configuration"
-                      p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml" p:target="_blank"
-                      p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml"/>
+                      p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/RadioButtons.xml" p:target="_blank"
+                      p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/RadioButtons.xml"/>
                 <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
                     <property name="items">
                         <list>
@@ -211,8 +203,8 @@
                         <list>
                             <bean parent="Uif-LinkField"
                                   p:label="KRAD Guide"
-                                  p:linkText="InputField - Select Control" p:target="_blank"
-                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5292"/>
+                                  p:linkText="InputField - RadioGroup Control" p:target="_blank"
+                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5281"/>
                         </list>
                     </property>
                 </bean>

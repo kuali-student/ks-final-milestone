@@ -62,6 +62,7 @@ public class KitchenSinkController extends UifControllerBase {
 
         // pre-select option key "3" in checkbox controls
         uiTestForm.setCheckboxSelections(Arrays.asList("3"));
+        uiTestForm.setRadioButtonSelection("2");
 
         return getUIFModelAndView(uiTestForm);
     }

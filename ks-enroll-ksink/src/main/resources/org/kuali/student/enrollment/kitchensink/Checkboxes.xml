@@ -70,7 +70,7 @@
     <!-- just the various containers for the interesting bits -->
 
     <bean id="KS-KitchenSink-Checkbox-View" parent="KS-KitchenSink-FormView">
-        <property name="headerText" value="Checkboxes"/>
+        <property name="headerText" value="Input Fields"/>
         <property name="items">
             <list>
                 <!--

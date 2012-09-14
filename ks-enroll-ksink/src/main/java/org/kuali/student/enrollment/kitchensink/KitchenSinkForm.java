@@ -36,6 +36,7 @@ public class KitchenSinkForm extends UifFormBase {
     private List<KitchenSinkFormCollection1> collection;
     private List<KitchenSinkFormCollection1> collection2;
     private List<String> multiSelections;
+    private String radioButtonSelection;
 
     public KitchenSinkForm() {
         super();
@@ -94,4 +95,12 @@ public class KitchenSinkForm extends UifFormBase {
     public void setMultiSelections(List<String> multiSelections) {
         this.multiSelections = multiSelections;
     }
+
+    public String getRadioButtonSelection() {
+        return radioButtonSelection;
+    }
+    public void setRadioButtonSelection(String radioButtonSelection) {
+        this.radioButtonSelection = radioButtonSelection;
+    }
+
 }
