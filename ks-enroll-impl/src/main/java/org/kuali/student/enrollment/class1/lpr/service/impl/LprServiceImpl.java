@@ -194,8 +194,7 @@ public class LprServiceImpl implements LprService {
     public List<String> getLuiIdsByPersonAndTypeAndState(String personId, String luiPersonRelationType, String relationState, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.lprDao.getLuiIdsByPersonAndTypeAndState(personId, luiPersonRelationType, relationState);
     }
 
     @Override
@@ -383,6 +382,7 @@ public class LprServiceImpl implements LprService {
     public List<LprInfo> getLprsByPersonForAtp(String personId, String atpId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	// TODO: get a reference to the luiService so we can resolve the atpid
+
     	throw new UnsupportedOperationException("Operation not implemented");
     }
 

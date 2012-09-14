@@ -42,7 +42,7 @@
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
     </bean>
 
-    <bean id="coCodeTransform" class=" org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingTransform"/>
+    <bean id="coCodeTransform" class=" org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
 
     <!-- Atp Service - Criteria Lookup Service -->
   	<bean id="atpCriteriaLookupService" parent="criteriaLookupService">

@@ -81,7 +81,7 @@
         </property>
   	</bean>
 
-    <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingTransform"/>
+    <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
 
   <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpEnrDao" />
@@ -566,6 +566,19 @@
     <property name="nextDecorator" ref="lprPersistenceService" />
     <property name="validator" ref="validator" />
   </bean>
+
+    <bean id="ks.exp.LprService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="lprServiceValidation" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.lpr.service.LprService" />
+                <property name="localServiceName" value="LprService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lpr" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
 
   <bean id="lrrPersistenceService" class="org.kuali.student.enrollment.class1.lrr.service.impl.LearningResultRecordServiceImpl">
     <property name="lrrDao" ref="lrrDao" />

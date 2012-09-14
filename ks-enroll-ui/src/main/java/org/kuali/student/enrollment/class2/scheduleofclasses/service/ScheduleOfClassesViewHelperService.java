@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClas
  */
 public interface ScheduleOfClassesViewHelperService {
 
-    public void loadCourseOfferingsByTermAndCourseCode (String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception;;
+    public void loadCourseOfferingsByTermAndCourseCode (String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception;
 
+    public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, ScheduleOfClassesSearchForm form) throws Exception;
 }

@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PropertyPathPredicate;
 import org.kuali.rice.core.api.criteria.SingleValuedPredicate;
 import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
+import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.r2.common.criteria.transform.BaseTransform;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -34,15 +35,22 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingTransform extends BaseTransform{
+public class CourseOfferingCriteriaTransform extends BaseTransform{
 
     private static final String IDENT_PROPERTY = "identifiers";
     private static final String IDENT_ALIAS = "ident";
+    private static final String AO_REL_ALIAS = "aoRel";
+    private static final String FO_REL_ALIAS = "foRel";
+
+    private static final String PROPERTY_LLR_LUI_ID = "lui.id";
+    private static final String PROPERTY_LLR_RELATED_LUI_ID = "relatedLui.id";
     private static final String PROPERTY_CO_CODE = "courseOfferingCode";
+    private static final String PROPERTY_LUI_ID = "id";
     private static final String PROPERTY_LUI_IDENT_CODE = "code";
     private static final String PROPERTY_LUI_IDENT_TYPE = "type";
     private static final String PROPERTY_CO_SUBJECT_AREA = "subjectArea";
     private static final String PROPERTY_LUI_IDENT_DIVISION = "division";
+    private static final String PROPERTY_AO_ID = "aoid";
 
     @Override
     public Predicate apply(final Predicate input, Criteria criteria) {
@@ -53,24 +61,36 @@ public class CourseOfferingTransform extends BaseTransform{
                 //Add a join to the ident table
                 criteria.join(IDENT_PROPERTY, IDENT_ALIAS, false, true);
                 //Rename the property using the alias
-                Predicate codePredicate = this.createPredicate(input, getPropertyDesc() + PROPERTY_LUI_IDENT_CODE);
+                Predicate codePredicate = this.createPredicate(input, getPropertyDesc(IDENT_ALIAS, PROPERTY_LUI_IDENT_CODE));
                 //Make sure only official identifiers are matched
-                return and(equal(getPropertyDesc() + PROPERTY_LUI_IDENT_TYPE, LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY), codePredicate);
+                return and(equal(getPropertyDesc(IDENT_ALIAS, PROPERTY_LUI_IDENT_TYPE), LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY), codePredicate);
             }else if(PROPERTY_CO_SUBJECT_AREA.equals(pp)){
                 //Add a join to the ident table
                 criteria.join(IDENT_PROPERTY, IDENT_ALIAS, false, true);
                 //Rename the property using the alias
-                Predicate codePredicate = this.createPredicate(input, getPropertyDesc() + PROPERTY_LUI_IDENT_DIVISION);
+                Predicate codePredicate = this.createPredicate(input, getPropertyDesc(IDENT_ALIAS, PROPERTY_LUI_IDENT_DIVISION));
                 //Make sure only official identifiers are matched
-                return and(equal(getPropertyDesc() + PROPERTY_LUI_IDENT_TYPE, LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY), codePredicate);
+                return and(equal(getPropertyDesc(IDENT_ALIAS, PROPERTY_LUI_IDENT_TYPE), LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY), codePredicate);
+            }else if(PROPERTY_AO_ID.equals(pp)){
+                //This takes the aoid property and looks for COs with related Aos that have that id
+                //Add two joins to dereference COLui->FOLui->AOLui
+                criteria.from(LuiLuiRelationEntity.class.getSimpleName(), AO_REL_ALIAS, false);
+                criteria.from(LuiLuiRelationEntity.class.getSimpleName(), FO_REL_ALIAS, false);
+                criteria.rawJpql(getPropertyDesc(FO_REL_ALIAS,PROPERTY_LLR_RELATED_LUI_ID) + " = " + getPropertyDesc(AO_REL_ALIAS, PROPERTY_LLR_LUI_ID) +
+                        " AND " + getPropertyDesc(criteria.getAlias(),PROPERTY_LUI_ID) + " = " + getPropertyDesc(FO_REL_ALIAS, PROPERTY_LLR_LUI_ID));
+
+                //Rename the property and alias
+                Predicate aoidPredicate = this.createPredicate(input, getPropertyDesc(AO_REL_ALIAS, PROPERTY_LLR_RELATED_LUI_ID));
+
+                return aoidPredicate;
             }
         }
 
         return input;
     }
 
-    private String getPropertyDesc(){
-        return Criteria.JPA_ALIAS_PREFIX + "'" + IDENT_ALIAS + "'" + Criteria.JPA_ALIAS_SUFFIX + ".";
+    private String getPropertyDesc(String alias, String property){
+        return Criteria.JPA_ALIAS_PREFIX + "'" + alias + "'" + Criteria.JPA_ALIAS_SUFFIX + "." + property;
     }
 
 }
