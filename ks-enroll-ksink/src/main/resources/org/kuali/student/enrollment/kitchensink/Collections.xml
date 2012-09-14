@@ -402,7 +402,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:5px;">
+                <bean parent="KS-KitchenSink-Group-UimLinks">
                     <property name="items">
                         <list>
                             <bean parent="Uif-LinkField"

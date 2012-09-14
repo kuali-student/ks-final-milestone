@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    
+    <!-- The Interesting Bits -->
+
+    <bean parent="Uif-LinkField"  id="KS-KitchenSink-Links-Text">
+        <property name="label" value="Uif-LinkField is used for href links"/>
+        <property name="linkText" value="Kuali Website"/>
+        <property name="href" value="http://www.kuali.org"/>
+        <property name="target" value="_blank"/>
+    </bean>
+
+    <bean parent="Uif-LinkField"  id="KS-KitchenSink-Links-Text-Lightbox">
+        <property name="label" value="Uif-LinkField can be used with a lightbox"/>
+        <property name="linkText" value="Kuali Website"/>
+        <property name="href" value="http://www.kuali.org"/>
+        <property name="target" value="_blank"/>
+        <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+        </property>
+    </bean>
+
+    <bean parent="Uif-LinkGroup"  id="KS-KitchenSink-Links-Group">
+        <!-- instructionalText doesn't look like a normal link label; mimic with instructionalMessage
+        <property name="instructionalText" value="LinkGroup with | delimiter, [ begin delimiter, and ] end delimiter"/>
+        -->
+        <property name="instructionalMessage">
+            <bean parent="Uif-Message"
+                  p:style="font-weight:bold"
+                  p:messageText="LinkGroup with | delimiter, [ begin delimiter, and ] end delimiter:"/>
+        </property>
+        <property name="groupBeginDelimiter" value="["/>
+        <property name="groupEndDelimiter" value="]"/>
+        <property name="linkSeparator" value="|"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionScript" value="alert('You clicked link #1');"/>
+                    <property name="actionLabel" value="ActionLink 1"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionScript" value="alert('You clicked link #2');"/>
+                    <property name="actionLabel" value="ActionLink 2"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionScript" value="alert('You clicked link #3');"/>
+                    <property name="actionLabel" value="ActionLink 3"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean parent="Uif-ActionField"  id="KS-KitchenSink-Links-Image">
+        <property name="actionScript" value="window.open('http://www.kuali.org','_blank');"/>
+        <property name="label" value="Uif-ActionField simulating an image link"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="../ks-enroll-ksink/images/kuali_16px.gif"
+                  p:altText="Kuali Website" p:title="Kuali Website"/>
+        </property>
+    </bean>
+
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-Links-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Input Fields"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Link Fields">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        Standard text links to websites.
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-Links-Content"/>
+                            <ref bean="KS-KitchenSink-Links-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-KitchenSink-Links-Content" parent="Uif-TabSection" p:width="500px">-->
+    <bean id="KS-KitchenSink-Links-Content" parent="Uif-VerticalBoxSection"
+          p:header.render="false" p:style="border:solid 1px black;margin-bottom:0;padding:1em 1em 0.5em 1em;">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Links-Section"/>
+                <!--
+                <bean parent="KS-KitchenSink-Links-Example2-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText=""/>
+                        </list>
+                    </property>
+                </bean>
+                -->
+            </list>
+        </property>
+    </bean>
+
+    <!-- Example #1 containers -->
+
+    <bean id="KS-KitchenSink-Links-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Links-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Links-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Link fields" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Links-Text"/>
+                <ref bean="KS-KitchenSink-Links-Text-Lightbox"/>
+                <ref bean="KS-KitchenSink-Links-Group"/>
+                <ref bean="KS-KitchenSink-Links-Image"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-Links-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="Uif-LinkField"
+                      p:label="Page Configuration"
+                      p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/LinkFields.xml" p:target="_blank"
+                      p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/LinkFields.xml"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD XML Configuration"
+                                  p:linkText="UifFieldDefinitions.xml" p:target="_blank"
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                            <bean parent="Uif-MessageField" p:messageText="(Uif-LinkField)"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="UifGroupDefinitions.xml" p:target="_blank"
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                            <bean parent="Uif-MessageField" p:messageText="(Uif-LinkGroup)"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Java Source"
+                                  p:linkText="LinkField.java" p:target="_blank"
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/LinkField.java"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="LinkGroup.java" p:target="_blank"
+                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/LinkGroup.java"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Java API"
+                                  p:linkText="LinkField.html" p:target="_blank"
+                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/LinkField.html"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="LinkGroup.html" p:target="_blank"
+                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/LinkGroup.html"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="KRAD Guide"
+                                  p:linkText="Link and Link Field" p:target="_blank"
+                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#linkAndLinkField"/>
+                            <bean parent="Uif-LinkField"
+                                  p:linkText="Link Group" p:target="_blank"
+                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7692"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Group-UimLinks">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-LinkField"
+                                  p:label="Widget-Only Links (UIM)"
+                                  p:linkText="Link Fields" p:target="_blank"
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Links-View-Bare&amp;methodToCall=start"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

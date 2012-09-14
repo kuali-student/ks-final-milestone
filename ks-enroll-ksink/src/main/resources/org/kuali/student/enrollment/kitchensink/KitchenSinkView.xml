@@ -92,6 +92,12 @@
     <bean id="KS-KitchenSink-Page-Links" parent="Uif-VerticalBoxSection" abstract="true"
           p:style="margin-top:2em;margin-bottom:0;"/>
 
+    <bean id="KS-KitchenSink-VerticalBoxSection" parent="Uif-VerticalBoxSection"
+          p:style="margin-bottom:0;"/>
+
+    <bean id="KS-KitchenSink-Group-UimLinks" parent="Uif-HorizontalFieldGroup"
+          p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:0.5em;"/>
+
     <bean id="KS-KitchenSink-Link-To-Guide" parent="KS-KitchenSink-LinkField-Base" abstract="true"
           p:label="KRAD Guide"/>
     <bean id="KS-KitchenSink-Link-To-Source" parent="KS-KitchenSink-LinkField-Base" abstract="true"
@@ -110,7 +116,7 @@
     <bean id="KS-KitchenSink-Link-To-Bare" parent="Uif-LinkField" abstract="true">
         <property name="label" value="Widget-Only Link"/>
         <property name="target" value="_blank"/>
-        <property name="style" value="border-top:solid 1px #333333;padding-top:5px;"/>
+        <property name="style" value="border-top:solid 1px #333333;padding-top:0.5em;"/>
         <property name="finalizeMethodToCall" value="setDirectLinkUrl"/>
         <!-- pass a the 3rd "methodToCall" param to setDirectLinkUrl() method:
         <property name="finalizeMethodAdditionalArguments">
