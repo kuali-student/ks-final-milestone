@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<!--
+ Copyright 2007-2009 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+	<!-- Overwrite some ActivityOfferingInfo attributes for UI -->
+    <import resource="classpath:ks-ActivityOfferingInfo-dictionary.xml"/>
+
+    <bean id="ActivityOfferingInfoUI" parent="ActivityOfferingInfo-parent">
+        <property name="objectLabel" value="Registration Group"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+
+                <!--  other attributes not used by UI -->
+                <ref bean="ActivityOfferingInfo.activityId"/>
+		<ref bean="ActivityOfferingInfo.activityCode"/>
+		<ref bean="ActivityOfferingInfo.termId"/>
+		<ref bean="ActivityOfferingInfo.isHonorsOffering"/>
+		<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
+		<ref bean="ActivityOfferingInfo.finalExamEndTime"/>
+		<ref bean="ActivityOfferingInfo.weeklyInclassContactHours"/>
+		<ref bean="ActivityOfferingInfo.weeklyOutofclassContactHours"/>
+		<ref bean="ActivityOfferingInfo.weeklyTotalContactHours"/>
+		<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
+		<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
+		<ref bean="ActivityOfferingInfo.id"/>
+		<ref bean="ActivityOfferingInfo.typeKey"/>
+		<ref bean="ActivityOfferingInfo.stateKey"/>
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+		<ref bean="ActivityOfferingInfo.descr"/>
+		<ref bean="ActivityOfferingInfo.meta"/>
+            </list>
+        </property>        
+    </bean>
+
+</beans>

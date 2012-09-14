@@ -1,0 +1,13 @@
+/*-- Holiday Calendar View ----------------------------------------------------------------------*/
+.ks-hcal-info, .ks-hcal-info-table, .ks-hcal-holidays-table { width:650px; }
+.ks-hcal-info .uif-header { margin-bottom:2px; }
+.ks-hcal-info .uif-headerText { border-bottom:solid 2px #000; margin-bottom:0; }
+.ks-hcal-info-table tr { border-bottom:dotted 1px #333; }
+.ks-hcal-info-table th { white-space:nowrap; padding:5px; text-align:left; }
+.ks-hcal-info-table td { padding:5px 0 5px 0; }
+
+.ks-hcal-holidays .uif-header, .dataTables_wrapper { margin:0; }
+.ks-hcal-holidays .uif-headerText { margin-bottom:0; margin-top:25px; }
+.ks-hcal-holidays-table thead th { background-color:transparent; border-bottom:solid 2px #000; font-weight:bold; }
+.ks-hcal-holidays-table tbody tr { border-bottom:dotted 1px #333; }
+/*-- End of Holiday Calendar View ---------------------------------------------------------------*/
