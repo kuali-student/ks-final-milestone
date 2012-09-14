@@ -2316,7 +2316,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new UnsupportedOperationException("implement for M5");
+
+        ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+        List<RegistrationGroupInfo> regGroupsForAOC = new ArrayList<RegistrationGroupInfo>();
+        List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByFormatOffering(aoCInfo.getFormatOfferingId(),contextInfo);
+
+        for (RegistrationGroupInfo regGroup : regGroups ) {
+
+            if (regGroup.getActivityOfferingClusterId().equals(activityOfferingClusterId))
+                regGroupsForAOC.add(regGroup);
+        }
+
+        return regGroupsForAOC;
     }
 
     @Override
