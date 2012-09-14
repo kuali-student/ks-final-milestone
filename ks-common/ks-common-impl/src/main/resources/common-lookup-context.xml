@@ -2296,7 +2296,14 @@
 					<property name="desc" value="Result Component Type"/>
 					<property name="dataType" value="STRING"/>
 					<property name="writeAccess" value="NEVER"/>
-					<property name="defaultValueString" value="kuali.resultComponentType.grade.finalGrade"/>
+					<!--property name="defaultValueString" value="kuali.resultComponentType.grade.finalGrade"/-->
+                    <property name="defaultValueList">
+                        <list>
+                            <value>kuali.result.values.group.type.multiple</value>
+                            <value>kuali.result.values.group.type.range</value>
+                            <value>kuali.result.values.group.type.fixed</value>
+                        </list>
+                    </property>
 				</bean>
 				<bean parent="param">
 					<property name="key" value="lrc.queryParam.resultComponent.idRestrictionList"/>

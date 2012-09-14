@@ -195,6 +195,29 @@
         </property>
     </bean>
 
+    <!-- Type Service config -->
+    <bean id="typeEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Type"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/type-persistence.xml"/>
+        <property name="dataSource" ref="coreDataSource"/>
+    </bean>
+
+    <bean id="typeEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="typeEntityManagerFactory"/>
+    </bean>
+
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao">
+        <property name="em" ref="typeEntityManager" />
+    </bean>
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
+        <property name="em" ref="typeEntityManager" />
+    </bean>
+
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
+    </bean>
+
     <!-- Kim identity service atpService -->
     <bean id="coreIdentityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService"/>
