@@ -1,5 +1,6 @@
 package org.kuali.student.lum.dto.test;
 
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.ComplexSubstructuresHelper;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +17,7 @@ public class DictionaryDiscrepencyTesterHelper {
     private PrintStream out;
     private Set<String> startingClasses;
     private String dictFileName;
+    private List<String> exclusions;
     private boolean processSubstructures = false;
     private boolean printDescrepenciesOnly = false;
 
@@ -25,6 +27,23 @@ public class DictionaryDiscrepencyTesterHelper {
         this.dictFileName = dictFileName;
         this.processSubstructures = processSubstructures;
         this.printDescrepenciesOnly = printDescrepenciesOnly;
+        // get printstream from file
+        this.file = new File(this.outputFileName);
+        try {
+            outputStream = new FileOutputStream(file, false);
+        } catch (FileNotFoundException ex) {
+            throw new IllegalArgumentException(ex);
+        }
+        this.out = new PrintStream(outputStream);
+    }
+
+    public DictionaryDiscrepencyTesterHelper(String outputFileName, Set<String> startingClasses, String dictFileName, boolean processSubstructures, List<String> exclusions) {
+        this.outputFileName = outputFileName;
+        this.startingClasses = startingClasses;
+        this.dictFileName = dictFileName;
+        this.processSubstructures = processSubstructures;
+        this.printDescrepenciesOnly = printDescrepenciesOnly;
+        this.exclusions = exclusions;
         // get printstream from file
         this.file = new File(this.outputFileName);
         try {
@@ -114,7 +133,18 @@ public class DictionaryDiscrepencyTesterHelper {
         //
         if (!isInterface) {
 
-            ObjectStructureDefinition os = os = objectStructures.get(className);
+            ObjectStructureDefinition os = objectStructures.get(className);
+            if(exclusions != null) {
+                List<FieldDefinition> fdToRemove = new ArrayList<FieldDefinition>();
+                for(FieldDefinition fd : os.getAttributes()) {
+                    for(String ex : exclusions) {
+                        if(fd.getName().equals(ex)) {
+                            fdToRemove.add(fd);
+                        }
+                    }
+                }
+                os.getAttributes().removeAll(fdToRemove);
+            }
             String simpleName = calcSimpleName(className);
             System.out.println("processing " + simpleName);
 

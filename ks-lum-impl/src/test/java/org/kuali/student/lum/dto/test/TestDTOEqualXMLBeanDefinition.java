@@ -4,6 +4,7 @@ import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -51,9 +52,6 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
 public class TestDTOEqualXMLBeanDefinition {
-
-
-
 
 	private String formatAsString(List<String> errors) {
 		int i = 0;
@@ -122,6 +120,7 @@ public class TestDTOEqualXMLBeanDefinition {
 	public void testCourseDTOsAgainstDataDictionary() {
 		System.out.println("testing statement dictionary");
 		Set<String> startingClasses = new LinkedHashSet();
+        List<String> exclusions = Arrays.asList("searchCourseVersions", "cluset", "findCourse");
 		startingClasses.add(ActivityInfo.class.getName());
 		startingClasses.add(CourseCrossListingInfo.class.getName());
 		startingClasses.add(CourseExpenditureInfo.class.getName());
@@ -136,7 +135,7 @@ public class TestDTOEqualXMLBeanDefinition {
 		String contextFile = "ks-courseInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
-				outFile, startingClasses, contextFile + ".xml", false);
+				outFile, startingClasses, contextFile + ".xml", false, exclusions);
 		helper.setPrintDescrepenciesOnly(true);
 		List<String> errors = helper.doTest();
 		if (errors.size() > 0) {
