@@ -24,6 +24,7 @@ package org.kuali.student.r2.core.scheduling.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -215,7 +216,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         }
         ScheduleInfo copy = new ScheduleInfo(scheduleInfo);
         if (copy.getId() == null) {
-            copy.setId(scheduleMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         scheduleMap.put(copy.getId(), copy);
@@ -354,7 +355,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         }
         ScheduleBatchInfo copy = new ScheduleBatchInfo(scheduleBatchInfo);
         if (copy.getId() == null) {
-            copy.setId(scheduleBatchMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         scheduleBatchMap.put(copy.getId(), copy);
@@ -525,7 +526,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         }
         ScheduleRequestInfo copy = new ScheduleRequestInfo(scheduleRequestInfo);
         if (copy.getId() == null) {
-            copy.setId(scheduleRequestMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         scheduleRequestMap.put(copy.getId(), copy);
@@ -706,7 +707,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         }
         TimeSlotInfo copy = new TimeSlotInfo(timeSlotInfo);
         if (copy.getId() == null) {
-            copy.setId(timeSlotMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         timeSlotMap.put(copy.getId(), copy);
@@ -942,7 +943,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         }
         ScheduleTransactionInfo copy = new ScheduleTransactionInfo(scheduleTransactionInfo);
         if (copy.getId() == null) {
-            copy.setId(scheduleTransactionMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         scheduleTransactionMap.put(copy.getId(), copy);

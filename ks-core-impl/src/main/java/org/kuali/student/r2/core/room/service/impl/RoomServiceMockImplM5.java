@@ -18,6 +18,7 @@ package org.kuali.student.r2.core.room.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -237,10 +238,9 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
         if (!roomTypeKey.equals (roomInfo.getTypeKey())) {
             throw new InvalidParameterException ("The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         RoomInfo copy = new RoomInfo(roomInfo);
         if (copy.getId() == null) {
-            copy.setId(roomMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         roomMap.put(copy.getId(), copy);
@@ -381,7 +381,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
         }
         BuildingInfo copy = new BuildingInfo(buildingInfo);
         if (copy.getId() == null) {
-            copy.setId(buildingMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         buildingMap.put(copy.getId(), copy);
@@ -546,10 +546,9 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
         if (!roomResponsibleOrgTypeKey.equals (roomResponsibleOrgInfo.getTypeKey())) {
             throw new InvalidParameterException ("The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         RoomResponsibleOrgInfo copy = new RoomResponsibleOrgInfo(roomResponsibleOrgInfo);
         if (copy.getId() == null) {
-            copy.setId(roomResponsibleOrgMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         roomResponsibleOrgMap.put(copy.getId(), copy);

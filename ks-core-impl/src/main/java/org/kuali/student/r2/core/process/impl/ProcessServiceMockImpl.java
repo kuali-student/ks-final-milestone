@@ -14,6 +14,7 @@ package org.kuali.student.r2.core.process.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -203,7 +204,7 @@ public class ProcessServiceMockImpl
         }
         ProcessCategoryInfo copy = new ProcessCategoryInfo(processCategoryInfo);
         if (copy.getId() == null) {
-            copy.setId(processCategoryMap.size() + 1 + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         if (processCategoryMap.containsKey(copy.getId())) {
@@ -432,7 +433,7 @@ public class ProcessServiceMockImpl
         }
         ProcessInfo copy = new ProcessInfo(processInfo);
         if (copy.getKey() == null) {
-            copy.setKey(processMap.size() + 1 + "");
+            copy.setKey(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         if (processMap.containsKey(copy.getKey())) {
@@ -586,7 +587,7 @@ public class ProcessServiceMockImpl
         }
         CheckInfo copy = new CheckInfo(checkInfo);
         if (copy.getId() == null) {
-            copy.setId(checkMap.size() + 1 + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         if (checkMap.containsKey(copy.getId())) {
@@ -795,7 +796,7 @@ public class ProcessServiceMockImpl
         }
         InstructionInfo copy = new InstructionInfo(instructionInfo);
         if (copy.getId() == null) {
-            copy.setId(instructionMap.size() + 1 + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         if (instructionMap.containsKey(copy.getId())) {
