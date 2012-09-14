@@ -73,6 +73,7 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -107,6 +108,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private ActivityOfferingClusterDao activityOfferingClusterDao;
     private RegistrationGroupTransformer registrationGroupTransformer;
     private SchedulingService schedulingService;
+    private LRCService lrcService;
 
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -365,7 +367,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         CourseOfferingInfo coInfo = getCourseOffering(courseOfferingId, context);
         CourseOfferingDisplayInfo displayInfo =
-                CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, stateService, typeService, context);
+                CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, stateService, typeService, lrcService, context);
 
         return displayInfo;
     }
@@ -378,7 +380,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (coList != null) {
             for (CourseOfferingInfo coInfo: coList) {
                 CourseOfferingDisplayInfo displayInfo =
-                        CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, stateService, typeService, context);
+                        CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, stateService, typeService, lrcService, context);
                 displayList.add(displayInfo);
             }
         }
@@ -2398,5 +2400,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.schedulingService = schedulingService;
     }
 
-
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
+    }
 }

@@ -30,6 +30,9 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 /**
  * This class //TODO ...
@@ -41,6 +44,7 @@ public class CourseOfferingDisplayTransformer {
                                                          AtpService atpService,
                                                          StateService stateService,
                                                          TypeService typeService,
+                                                         LRCService lrcService,
                                                          ContextInfo context)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             PermissionDeniedException, OperationFailedException {
@@ -61,12 +65,17 @@ public class CourseOfferingDisplayTransformer {
         displayInfo.setTermCode(atpInfo.getCode());
         // gradingOptionName, creditOptionName,
         displayInfo.setGradingOptionName(coInfo.getGradingOptionName());
-        displayInfo.setCreditOptionName(coInfo.getCreditOptionName());
+        if(coInfo.getCreditOptionId() != null && !coInfo.getCreditOptionId().isEmpty()){
+            ResultValuesGroupInfo rvgInfo = lrcService.getResultValuesGroup(coInfo.getCreditOptionId(), context);
+            displayInfo.setCreditOptionName(rvgInfo.getName());
+        }
         // typeName, stateName
         TypeInfo typeInfo = typeService.getType(coInfo.getTypeKey(), context);
         displayInfo.setTypeName(typeInfo.getName());
         StateInfo stateInfo = stateService.getState(coInfo.getStateKey(), context);
         displayInfo.setStateName(stateInfo.getName());
+
+
 
         return displayInfo;
     }

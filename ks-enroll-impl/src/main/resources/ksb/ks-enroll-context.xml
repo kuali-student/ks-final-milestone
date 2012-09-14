@@ -435,6 +435,7 @@
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
         <property name="atpService" ref="atpEnrService"/>
         <property name="schedulingService" ref="schedulingServiceImpl"/>
+        <property name="lrcService" ref="lrcPersistenceService"/>
   </bean>
 
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
