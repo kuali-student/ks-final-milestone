@@ -702,6 +702,7 @@ public class SchedulingServiceImpl implements SchedulingService {
         List<ScheduleRequestDisplayInfo> scheduleDisplayInfos = new ArrayList<ScheduleRequestDisplayInfo>(results.getResults().size());
         if(results != null && results.getResults() != null){
             ScheduleRequestInfo scheduleInfo;
+            ScheduleRequestDisplayInfo scheduleDisplayInfo;
             for(ScheduleRequestEntity scheduleEntity : results.getResults()){
                 try {
                     scheduleInfo = getScheduleRequest(scheduleEntity.getId(), contextInfo);
@@ -709,7 +710,8 @@ public class SchedulingServiceImpl implements SchedulingService {
                     continue;
                 }
                 try{
-                    ScheduleDisplayTransformer.scheduleRequestInfo2SceduleRequestDisplayInfo(scheduleInfo, getTypeService(), getRoomService(), this, contextInfo);
+                    scheduleDisplayInfo = ScheduleDisplayTransformer.scheduleRequestInfo2SceduleRequestDisplayInfo(scheduleInfo, getTypeService(), getRoomService(), this, contextInfo);
+                    scheduleDisplayInfos.add(scheduleDisplayInfo);
                 }catch (Exception e){
                     throw new RuntimeException("Error Transforming Schedule to ScheduleDisplay", e);
                 }

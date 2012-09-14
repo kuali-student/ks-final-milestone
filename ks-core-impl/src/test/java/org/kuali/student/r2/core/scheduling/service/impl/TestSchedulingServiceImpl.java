@@ -18,7 +18,10 @@ package org.kuali.student.r2.core.scheduling.service.impl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -48,6 +51,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
  * This class contains a suite of unit tests for the KS implementation of the Scheduling Service
@@ -67,6 +71,9 @@ public class TestSchedulingServiceImpl {
 
     @Resource(name = "typeServiceImpl" )
     private TypeService typeService;
+
+    @Resource(name = "criteriaLookupService" )
+    private CriteriaLookupService criteriaLookupService;
 
 
     public TypeService getTypeService() {
@@ -137,6 +144,13 @@ public class TestSchedulingServiceImpl {
         this.roomService = roomService;
     }
 
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
+    }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
 
     @Test
     public void testSchedulingServiceSetup() {
@@ -826,6 +840,74 @@ public class TestSchedulingServiceImpl {
         requestIdList.add(scheduleRequestInfoId);
         List<ScheduleRequestDisplayInfo> displayInfoList = getSchedulingService().getScheduleRequestDisplaysByIds(requestIdList, contextInfo);
 
+        assertNotNull(displayInfoList);
+        assertTrue(displayInfoList.size() > 0);
+        assertEquals(displayInfoList.get(0).getId(), scheduleRequestInfo.getId());
+        assertEquals(displayInfoList.get(0).getName(), scheduleRequestInfo.getName());
+
+        for (ScheduleRequestDisplayInfo displayInfo : displayInfoList) {
+            assertNotNull(displayInfo);
+            assertTrue(displayInfo.getScheduleRequestComponentDisplays().size() > 0);
+            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().size() > 0);
+            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().size() > 0);
+            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().size() > 0);
+        }
+
+    }
+
+    @Test
+    public void searchForScheduleRequestDisplays() throws Exception {
+        String requestType =  SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST;
+
+        // create a ScheduleRequestInfo
+        String scheduleRequestInfoId = "ScheduleRequestsByRefObject-Id1";
+        String scheduleRequestInfoRefObjectId = "getRequestsByRefObject-RefObjectId";
+        String scheduleRequestComponentInfoId = "scheduleRequest-ComponentInfoId1";
+        String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
+        ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
+                scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
+
+        ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(requestType,
+                scheduleRequestInfo,  contextInfo);
+
+        // creation success
+        assertNotNull(returnInfo);
+
+        // get schedule request display info
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        Predicate p = null;
+
+        qBuilder.setPredicates();
+        p = equal("name", scheduleRequestInfoName);
+        pList.add(p);
+
+        qBuilder.setPredicates(p);
+
+        List<ScheduleRequestDisplayInfo> displayInfoList = getSchedulingService().searchForScheduleRequestDisplays(qBuilder.build(), contextInfo);
+
+        assertNotNull(displayInfoList);
+        assertTrue(displayInfoList.size() > 0);
+        assertEquals(displayInfoList.get(0).getId(), scheduleRequestInfo.getId());
+        assertEquals(displayInfoList.get(0).getName(), scheduleRequestInfo.getName());
+
+        for (ScheduleRequestDisplayInfo displayInfo : displayInfoList) {
+            assertNotNull(displayInfo);
+            assertTrue(displayInfo.getScheduleRequestComponentDisplays().size() > 0);
+            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().size() > 0);
+            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().size() > 0);
+            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().size() > 0);
+        }
+
+        pList.clear();
+        displayInfoList.clear();
+        qBuilder.setPredicates();
+        p = equal("refObjectId", scheduleRequestInfoRefObjectId);
+        pList.add(p);
+
+        qBuilder.setPredicates(p);
+
+        displayInfoList = getSchedulingService().searchForScheduleRequestDisplays(qBuilder.build(), contextInfo);
         assertNotNull(displayInfoList);
         assertTrue(displayInfoList.size() > 0);
         assertEquals(displayInfoList.get(0).getId(), scheduleRequestInfo.getId());

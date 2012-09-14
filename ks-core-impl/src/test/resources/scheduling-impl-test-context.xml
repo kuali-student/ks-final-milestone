@@ -95,6 +95,7 @@
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
         <property name="typeService" ref="typeServiceImpl"/>
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
 
     <bean id="mockRoomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImpl">
