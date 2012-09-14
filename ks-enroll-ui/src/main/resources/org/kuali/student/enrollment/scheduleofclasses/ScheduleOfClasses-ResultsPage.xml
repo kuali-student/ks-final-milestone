@@ -31,7 +31,6 @@
             <list>
                 <ref bean="KS-ScheduleOfClasses-CriteriaSection"/>
                 <ref bean="KS-ScheduleOfClasses-ResultSection"/>
-                <!-- ref bean="KS-CourseOfferingManagement-CourseOfferingActionSection"/-->
             </list>
         </property>
     </bean>
@@ -47,38 +46,38 @@
     </bean>
 
     <bean id="KS-ScheduleOfClasses-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo" />
-        <property name="propertyName" value="coDisplayInfoList" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper" />
+        <property name="propertyName" value="coDisplayWrapperList" />
+        <property name="renderLineActions" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
-                <entry key="bPaginate" value="false"/>
+                <entry key="bFilter" value="false"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':true},
+                                {'bSortable':false},
+                                {'bSortable':false},
+                                {'bSortable':false}
+                           ]"/>
             </map>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="courseOfferingCode"/>
-                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="courseOfferingTitle"/>
-                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="creditOptionName"/>
-                <bean parent="Uif-DataField" p:label="GRADING" p:propertyName="gradingOptionName"/>
+                <!-- bean parent="Uif-DataField" p:label="COURSE" p:propertyName="courseOfferingCode">
+                    <property name="onClickScript" value="alert('test!!!')" />
+                </bean -->
+                <bean parent="Uif-MessageField" p:label="COURSE" p:messageText="&lt;a&gt;+&lt;/a&gt; @{#line.coDisplayInfo.courseOfferingCode}">
+                    <property name="onClickScript" value="alert('test!!!')" />
+                </bean>
+                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
+                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOptionName"/>
+                <bean parent="Uif-DataField" p:label="GRADING" p:propertyName="coDisplayInfo.gradingOptionName"/>
             </list>
         </property>
-        <!-- property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS" p:style="display:inline;"/>
-        </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
-            </list>
-        </property -->
     </bean>
 
 </beans>

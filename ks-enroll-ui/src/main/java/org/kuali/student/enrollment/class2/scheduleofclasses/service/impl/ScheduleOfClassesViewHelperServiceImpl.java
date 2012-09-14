@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
@@ -64,13 +65,22 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
         if(courseOfferingIds.size() > 0){
-            form.getCoDisplayInfoList().clear();
+            form.getCoDisplayWrapperList().clear();
             List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-            form.setCoDisplayInfoList(coDisplayInfoList);
+            List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
+            for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
+                CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
+                coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
+                // TO DO
+            //  coDisplayWrapper.setInformation(information);
+            //  coDisplayWrapper.setAoDisplayInfoList(aoDisplayInfoList); may or may not need it depending on AJAX
+                coDisplayWrapperList.add(coDisplayWrapper);
+            }
+            form.setCoDisplayWrapperList(coDisplayWrapperList);
         } else {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError("Term & courseCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "courseCode", courseCode, termId);
-            form.getCoDisplayInfoList().clear();
+            form.getCoDisplayWrapperList().clear();
         }
     }
 
@@ -98,9 +108,18 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
             if(courseOfferingIds.size() > 0){
-                form.getCoDisplayInfoList().clear();
+                form.getCoDisplayWrapperList().clear();
                 List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-                form.setCoDisplayInfoList(coDisplayInfoList);
+                List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
+                for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
+                    CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
+                    coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
+                    // TO DO
+                    //  coDisplayWrapper.setInformation(information);
+                    //  coDisplayWrapper.setAoDisplayInfoList(aoDisplayInfoList); may or may not need it depending on AJAX
+                    coDisplayWrapperList.add(coDisplayWrapper);
+                }
+                form.setCoDisplayWrapperList(coDisplayWrapperList);
             }
         }
 
@@ -108,7 +127,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
             LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
             GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
-            form.getCoDisplayInfoList().clear();
+            form.getCoDisplayWrapperList().clear();
         }
     }
 

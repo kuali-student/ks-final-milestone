@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 
 import java.util.ArrayList;
@@ -38,19 +39,19 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
     private String titleDesc;
     private String information;
 
-    private List<CourseOfferingDisplayInfo> coDisplayInfoList; //The core info (name+description+meta)
+    private List<CourseOfferingDisplayWrapper> coDisplayWrapperList; //The core info (name+description+meta)
     private String termName;
 
     public ScheduleOfClassesSearchForm (){
-        coDisplayInfoList = new ArrayList<CourseOfferingDisplayInfo>();
+        coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
     }
 
-    public List<CourseOfferingDisplayInfo> getCoDisplayInfoList() {
-        return coDisplayInfoList;
+    public List<CourseOfferingDisplayWrapper> getCoDisplayWrapperList() {
+        return coDisplayWrapperList;
     }
 
-    public void setCoDisplayInfoList(List<CourseOfferingDisplayInfo> coDisplayInfoList) {
-        this.coDisplayInfoList = coDisplayInfoList;
+    public void setCoDisplayWrapperList(List<CourseOfferingDisplayWrapper> coDisplayWrapperList) {
+        this.coDisplayWrapperList = coDisplayWrapperList;
     }
 
     public String getTermCode(){
