@@ -92,7 +92,7 @@ public class ActivityOfferingDisplayTransformer {
         // activityOfferingCode, instructorId, instructorName;
         displayInfo.setActivityOfferingCode(aoInfo.getActivityCode());
         List<OfferingInstructorInfo> instructorInfos = aoInfo.getInstructors();
-        if (!instructorInfos.isEmpty()) {
+        if (instructorInfos != null && !instructorInfos.isEmpty()) {
             // Find instructor with largest percentage effort
             OfferingInstructorInfo mainInstructor = instructorInfos.get(0);
             Float mainPercentageEffort = mainInstructor.getPercentageEffort();
