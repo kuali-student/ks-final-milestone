@@ -109,6 +109,14 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
     }
 
     @Override
+    public int hashCode() {
+        int result = weekdays != null ? weekdays.hashCode() : 0;
+        result = 31 * result + (startTime != null ? startTime.hashCode() : 0);
+        result = 31 * result + (endTime != null ? endTime.hashCode() : 0);
+        return result;
+    }
+
+    @Override
     public String toString() {
         return "TimeSlotInfo{" +
                 "weekdays=" + weekdays +

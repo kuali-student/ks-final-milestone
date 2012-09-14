@@ -102,6 +102,9 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
      */
     public boolean equals (Object e) {
         ScheduleComponentInfo sci = (ScheduleComponentInfo) e; // throws ClassCastException if not the case
+        if ((this.id==null && sci.id!=null) || (this.id!=null && sci.id==null)) return false;
+        if ((this.roomId==null && sci.roomId!=null) || (this.roomId!=null && sci.roomId==null)) return false;
+        if ((this.timeSlotIds==null && sci.timeSlotIds!=null) || (this.timeSlotIds!=null && sci.timeSlotIds==null)) return false;
         if (this.id.equals(sci.getId()) && this.roomId.equals(sci.getRoomId())) {
             // compare time slot ids
             if (this.timeSlotIds.size() != sci.getTimeSlotIds().size()) return false;
@@ -117,6 +120,15 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
             return false;
         }
 
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (roomId != null ? roomId.hashCode() : 0);
+        result = 31 * result + (timeSlotIds != null ? timeSlotIds.hashCode() : 0);
+        result = 31 * result + (isTBA != null ? isTBA.hashCode() : 0);
+        return result;
     }
 
     @Override
