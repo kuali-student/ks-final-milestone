@@ -249,24 +249,37 @@
 	</bean>
 
 	<!-- Learning Result service config -->
-
-	<bean id="lrcDao"
-		class="org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl">
+	<bean id="lrcSearchableDao" class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
         <property name="em" ref="entityManager" />
 	</bean>
 
-	<bean id="lrcSearchManager"
-		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+	<bean id="lrcSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
 		<constructor-arg index="0" value="classpath:lrc-search-config.xml" />
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
 
+    <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+
 	<bean id="lrcServiceImpl"
-		class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
-		<property name="lrcDao" ref="lrcDao" />
+		class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+		<property name="searchableDao" ref="lrcSearchableDao" />
         <property name="searchManager" ref="lrcSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>        
-        <property name="validatorFactory" ref="validatorFactory"/>
+        <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
+        <property name="resultValueDao" ref="resultValueDao" />
+        <property name="resultScaleDao" ref="resultScaleDao" />
+        <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
 	</bean>
 
 	<!-- Search -->
