@@ -17,8 +17,15 @@ package org.kuali.student.r2.core.scheduling;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -56,13 +63,35 @@ public class SchedulingServiceDataLoader {
     public final static Long START_TIME_MILLIS_5_10_PM = (long) (17 * 60 * 60 * 1000 + 10 * 60 * 1000);
     public final static Long END_TIME_MILLIS_6_00_PM = (long) (18 * 60 * 60 * 1000);
 
+    public final static String ATP_ID = "TestATP";
+    public final static String ROOM_ID = "Room1";
+
     private ContextInfo contextInfo;
     public static final String REF_OBJECT_TYPE_KEY_ACTIVITY_OFFERING = "kuali.type.refobject.activity.offering";
+
+    private AtpService atpService;
+    private RoomService roomService;
 
     public SchedulingServiceDataLoader() {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
         contextInfo.setCurrentDate(new Date());
+    }
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
+    public RoomService getRoomService() {
+        return roomService;
+    }
+
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
     }
 
     public SchedulingServiceDataLoader (SchedulingService schedulingService) {
@@ -80,7 +109,7 @@ public class SchedulingServiceDataLoader {
     private SchedulingService schedulingService;
     private static String principalId = SchedulingServiceDataLoader.class.getSimpleName();
 
-    public void loadData () throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, OperationFailedException, PermissionDeniedException {
+    public void loadData () throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, DoesNotExistException, ReadOnlyException, OperationFailedException, PermissionDeniedException {
         //////////////////////////
         // DAYS OF WEEK
         //////////////////////////
@@ -121,6 +150,8 @@ public class SchedulingServiceDataLoader {
         loadTimeSlotInfo("toUpdate", SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, DOW_M_W_F, START_TIME_MILLIS_5_10_PM, END_TIME_MILLIS_6_00_PM);
 
         CommonServiceConstants.setIsIdAllowedOnCreate(contextInfo, false);
+
+        setupAtpAndRoomForDisplay(ATP_ID,ROOM_ID);
     }
 
     private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
@@ -182,7 +213,7 @@ public class SchedulingServiceDataLoader {
         return scheduleRequestInfo;
     }
 
-    public static ScheduleInfo setupScheduleInfo(String id,String atpId,boolean isTBA,String roomId){
+    public static ScheduleInfo setupScheduleInfo(String id,String atpId,boolean isTBA,String roomId) {
 
         ScheduleInfo info = new ScheduleInfo();
 
@@ -209,4 +240,38 @@ public class SchedulingServiceDataLoader {
 
         return info;
     }
+
+    private void setupAtpAndRoomForDisplay(String atpId,String roomId)
+    throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, PermissionDeniedException, OperationFailedException{
+
+        AtpInfo atp = new AtpInfo();
+        atp.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        atp.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+        atp.setCode("123");
+        atp.setName("Test");
+        atp.setStartDate(new Date());
+        atp.setEndDate(new Date());
+        atp.setId(atpId);
+        RichTextInfo descr = new RichTextInfo();
+        descr.setPlain("Test");
+        atp.setDescr(descr);
+
+        atpService.createAtp(atp.getTypeKey(),atp,contextInfo);
+
+        BuildingInfo buildingInfo = new BuildingInfo();
+        buildingInfo.setId("Building1");
+        buildingInfo.setStateKey("kuali.room.building.state.active");
+        buildingInfo.setTypeKey("kuali.room.building.type.test");
+
+        getRoomService().createBuilding(buildingInfo.getTypeKey(),buildingInfo,contextInfo);
+
+        RoomInfo room = new RoomInfo();
+        room.setId(roomId);
+        room.setTypeKey("kuali.room.type.classroom");
+        room.setStateKey("kuali.room.room.state.active");
+
+        getRoomService().createRoom("Building1",room.getTypeKey(),room,contextInfo);
+
+    }
+
 }

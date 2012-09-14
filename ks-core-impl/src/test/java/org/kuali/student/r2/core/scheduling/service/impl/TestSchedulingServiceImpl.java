@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
@@ -75,6 +76,9 @@ public class TestSchedulingServiceImpl {
     @Resource(name = "criteriaLookupService" )
     private CriteriaLookupService criteriaLookupService;
 
+    @Resource(name = "atpEnrService" )
+    private AtpService atpService;
+
 
     public TypeService getTypeService() {
         if(typeService == null) {
@@ -101,8 +105,10 @@ public class TestSchedulingServiceImpl {
         }
     }
 
-     private void loadData() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+     private void loadData() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         SchedulingServiceDataLoader loader = new SchedulingServiceDataLoader(this.schedulingService);
+        loader.setAtpService(atpService);
+         loader.setRoomService(roomService);
         loader.loadData();
 
         TypeInfo info =  createTypeInfo(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, "testType", "This is a test", "refObjectUri");
@@ -513,7 +519,7 @@ public class TestSchedulingServiceImpl {
 
         ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(
                 SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,
-                scheduleRequestInfo,  contextInfo);
+                scheduleRequestInfo, contextInfo);
 
         // creation success
         assertNotNull(returnInfo);
@@ -712,7 +718,7 @@ public class TestSchedulingServiceImpl {
     public void testCreateScheduleInfo () throws Exception {
 
         String scheduleId = "1";
-        String atpId = "TestATP1";
+        String atpId = SchedulingServiceDataLoader.ATP_ID;
         String roomId = "room1";
 
         ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
@@ -736,8 +742,8 @@ public class TestSchedulingServiceImpl {
     public void testUpdateScheduleInfo () throws Exception {
 
         String scheduleId = "1";
-        String atpId = "TestATP1";
-        String roomId = "room1";
+        String atpId = SchedulingServiceDataLoader.ATP_ID;
+        String roomId = SchedulingServiceDataLoader.ROOM_ID;
 
         ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
         ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
@@ -764,8 +770,8 @@ public class TestSchedulingServiceImpl {
     public void testDeleteScheduleInfo () throws Exception {
 
         String scheduleId = "1";
-        String atpId = "TestATP1";
-        String roomId = "room1";
+        String atpId = SchedulingServiceDataLoader.ATP_ID;
+        String roomId = SchedulingServiceDataLoader.ROOM_ID;
 
         ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
         ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
@@ -776,7 +782,7 @@ public class TestSchedulingServiceImpl {
         assertNotNull(scheduleInfo);
 
         StatusInfo status = schedulingService.deleteSchedule(scheduleId,contextInfo);
-        assertEquals(true,status.getIsSuccess());
+        assertEquals(true, status.getIsSuccess());
 
         try{
            schedulingService.getSchedule(scheduleId,contextInfo);
@@ -921,5 +927,73 @@ public class TestSchedulingServiceImpl {
             assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().size() > 0);
         }
 
+    }
+
+    @Test
+    public void testGetScheduleDisplay() throws Exception {
+
+        String scheduleId = "1";
+        String atpId = SchedulingServiceDataLoader.ATP_ID;
+        String roomId = SchedulingServiceDataLoader.ROOM_ID;
+
+        ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
+
+        ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
+
+        assertNotNull(returnedInfo);
+
+        ScheduleDisplayInfo displayInfo = schedulingService.getScheduleDisplay(scheduleId,contextInfo);
+        assertNotNull(displayInfo);
+
+        assertEquals(scheduleId,displayInfo.getId());
+        assertNotNull(displayInfo.getAtp());
+        assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getRoom());
+        assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getBuilding());
+
+    }
+
+    @Test
+    public void testSearchForScheduleDisplays() throws Exception {
+
+        String scheduleId = "1";
+        String atpId = SchedulingServiceDataLoader.ATP_ID;
+        String roomId = SchedulingServiceDataLoader.ROOM_ID;
+
+        ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
+
+        ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
+
+        assertNotNull(returnedInfo);
+
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+
+        qBuilder.setPredicates();
+        Predicate p = equal("atpId", SchedulingServiceDataLoader.ATP_ID);
+        pList.add(p);
+
+        qBuilder.setPredicates(p);
+
+        List<ScheduleDisplayInfo> list = schedulingService.searchForScheduleDisplays(qBuilder.build(),contextInfo);
+
+        assertEquals(1,list.size());
+
+        ScheduleDisplayInfo displayInfo = list.get(0);
+
+        assertNotNull(displayInfo);
+
+        assertEquals(scheduleId,displayInfo.getId());
+        assertNotNull(displayInfo.getAtp());
+        assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getRoom());
+        assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getBuilding());
+
+    }
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 }

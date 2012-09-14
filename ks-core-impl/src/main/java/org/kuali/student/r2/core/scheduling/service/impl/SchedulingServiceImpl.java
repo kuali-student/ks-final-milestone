@@ -662,7 +662,8 @@ public class SchedulingServiceImpl implements SchedulingService {
         if(results != null && results.getResults() != null){
             for(ScheduleEntity scheduleEntity : results.getResults()){
                 try{
-                    ScheduleDisplayTransformer.schedule2scheduleDisplay(scheduleEntity.toDto(), getAtpService(), getRoomService(), this, contextInfo);
+                    ScheduleDisplayInfo info = ScheduleDisplayTransformer.schedule2scheduleDisplay(scheduleEntity.toDto(), getAtpService(), getRoomService(), this, contextInfo);
+                    scheduleDisplayInfos.add(info);
                 }catch (Exception e){
                     throw new RuntimeException("Error Transforming Schedule to ScheduleDisplay", e);
                 }
