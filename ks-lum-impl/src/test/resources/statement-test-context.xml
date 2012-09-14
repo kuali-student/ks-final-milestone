@@ -316,8 +316,7 @@
         <property name="entityManagerFactory" ref="lrcEntityManagerFactory" />
     </bean>
 
-    <bean id="lrcDao"
-        class="org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl">
+    <bean id="lrcSearchableDao" class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
         <property name="em" ref="lrcEntityManager" />
     </bean>
 
@@ -327,10 +326,25 @@
         <!-- property name="crossSearchManager" ref="lumCrossServiceSearchManager"/-->
     </bean>
 
-    <bean id="lrcServiceImpl"
-        class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
-        <property name="lrcDao" ref="lrcDao" />
+    <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
+        <property name="em" ref="lrcEntityManager"/>
+    </bean>
+
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
+        <property name="em" ref="lrcEntityManager"/>
+    </bean>
+
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
+        <property name="em" ref="lrcEntityManager"/>
+    </bean>
+
+    <bean id="lrcServiceImpl" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+        <property name="searchableDao" ref="lrcSearchableDao" />
         <property name="searchManager" ref="lrcSearchManager" />
+        <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
+        <property name="resultValueDao" ref="resultValueDao" />
+        <property name="resultScaleDao" ref="resultScaleDao" />
+        <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
     </bean>
 
 </beans>

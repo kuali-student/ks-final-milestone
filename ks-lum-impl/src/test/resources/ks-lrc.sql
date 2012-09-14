@@ -48,25 +48,25 @@ INSERT INTO KSLR_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('DEGREE-BSC'
 
 
 // ResultComponentType
-INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('resultComponentType.credential', 'A Basic ResultComponent 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 1',0)
+INSERT INTO KSEN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('resultComponentType.credential', 'A Basic ResultComponent 1', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 1',0)
 /
-INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('resultComponentType.credit', 'A Basic ResultComponent 2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 2',0)
+INSERT INTO KSEN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('resultComponentType.credit', 'A Basic ResultComponent 2', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 2',0)
 /
-INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('resultComponentType.grade', 'A Basic ResultComponent 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 3',0)
+INSERT INTO KSEN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('resultComponentType.grade', 'A Basic ResultComponent 3', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'ResultComponent 3',0)
 /
-INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.resultComponentType.degree', 'This indicates the type of degree that can be awarded for a program', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Degree Type',0)
+INSERT INTO KSEN_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME,VER_NBR) VALUES ('kuali.resultComponentType.degree', 'This indicates the type of degree that can be awarded for a program', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Degree Type',0)
 /
 
 // ResultComponent
-INSERT INTO KSLR_RESCOMP (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'LRC-RESCOMP-1', 'ResultComponent 1', 'RT-DESC-LCR-7',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.credential', 'Active', 0)
+INSERT INTO KSEN_LRC_RVG (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'LRC-RESCOMP-1', 'ResultComponent 1', 'RT-DESC-LCR-7',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.credential', 'Active', 0)
 /
-INSERT INTO KSLR_RESCOMP (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'LRC-RESCOMP-2', 'ResultComponent 2', 'RT-DESC-LCR-8',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.credit', 'Active', 0)
+INSERT INTO KSEN_LRC_RVG (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'LRC-RESCOMP-2', 'ResultComponent 2', 'RT-DESC-LCR-8',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.credit', 'Active', 0)
 /
-INSERT INTO KSLR_RESCOMP (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'LRC-RESCOMP-3', 'ResultComponent 3', 'RT-DESC-LCR-9',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
+INSERT INTO KSEN_LRC_RVG (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'LRC-RESCOMP-3', 'ResultComponent 3', 'RT-DESC-LCR-9',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
 /
-INSERT INTO KSLR_RESCOMP (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'LRC-RESCOMP-4', 'ResultComponent 4', 'RT-DESC-LCR-9',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
+INSERT INTO KSEN_LRC_RVG (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'LRC-RESCOMP-4', 'ResultComponent 4', 'RT-DESC-LCR-9',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
 /
-INSERT INTO KSLR_RESCOMP (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'kuali.resultComponent.degree.ba', 'Bachelor of Arts', 'DEGREE-BA',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
+INSERT INTO KSEN_LRC_RVG (CREATEID, CREATETIME, ID, NAME, RT_DESCR_ID, EFF_DT, EXPIR_DT, TYPE, STATE, VER_NBR) VALUES ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'kuali.resultComponent.degree.ba', 'Bachelor of Arts', 'DEGREE-BA',  {ts '2000-01-01 00:00:00.0'},  {ts '2000-12-31 00:00:00.0'}, 'resultComponentType.grade', 'Active', 0)
 /
 
 // ResultValue

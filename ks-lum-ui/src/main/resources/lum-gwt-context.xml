@@ -877,6 +877,7 @@
                 <ref bean="enumServiceClient"/>
                 <ref bean="lrcClient"/>
                 <ref bean="subjectCodeClient"/>
+                <ref bean="typeSearchService"/>
             </list>
         </property>
     </bean>
@@ -950,7 +951,7 @@
     </bean>
 
     <bean id="lrcClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.lum.lrc.service.LrcService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
     </bean>
 
@@ -1009,7 +1010,16 @@
         <property name="serviceQName" value="{http://rice.kuali.org/kew/v2_0}documentTypeService"/>
     </bean>
 
-	<!-- Export services and service to present exported file to user in browser -->
+    <bean id="typeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/type}TypeService"/>
+    </bean>
+
+    <bean id="typeSearchService" class="org.kuali.student.r2.lum.service.search.TypeSearchServiceImpl">
+        <property name="typeService" ref="typeClient"/>
+    </bean>
+
+    <!-- Export services and service to present exported file to user in browser -->
 	<bean id="GwtExportServletController"
 		class="org.kuali.student.common.ws.ServletWrappingController">
 		<property name="servletName" value="GwtExportRpcService" />

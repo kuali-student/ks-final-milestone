@@ -17,30 +17,41 @@ package org.kuali.student.r2.lum.statement.config.context;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List   ;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
+import java.util.List;
 
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r1.lum.lrc.service.LrcService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 /**
  * This class creates the template context for grade condition type.
  */
 public class LrcContextImpl extends BasicContextImpl {
 	
-	private LrcService lrcService;
+	private LRCService lrcService;
+    private TypeService typeService;
 	
 	/** Total credits template token */ 
 	public final static String GRADE_TOKEN = "grade";
     public final static String GRADE_TYPE_TOKEN = "gradeType";	
 
-	public void setLrcService(LrcService lrcService) {
+	public void setLrcService(LRCService lrcService) {
 		this.lrcService = lrcService;
 	}
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
 
 	private ResultValuesGroupInfo getResultComponentByResultComponentId(String resultComponentId, ContextInfo contextInfo) throws OperationFailedException {
 		if (resultComponentId == null) {
@@ -74,9 +85,9 @@ public class LrcContextImpl extends BasicContextImpl {
 		
 		try {
 
-			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes(contextInfo);
-			for(ResultComponentTypeInfo type : typeList) {
-				List<String> resultComponentIdList = lrcService.getResultValuesGroupIdsByType(type.getId(), contextInfo);
+            List<TypeInfo> typeList = typeService.getTypesByRefObjectUri(LrcServiceConstants.REF_OBJECT_URI_RESULT_VALUES_GROUP,contextInfo);
+			for(TypeInfo type : typeList) {
+				List<String> resultComponentIdList = lrcService.getResultValuesGroupKeysByType(type.getKey(), contextInfo);
 				for(String resultComponentId : resultComponentIdList) {
 				    ResultValuesGroupInfo resultComponent = lrcService.getResultValuesGroup(resultComponentId, contextInfo);
 					if(resultComponent.getResultValueKeys().contains(resultValueId)) {

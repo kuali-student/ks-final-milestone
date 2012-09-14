@@ -40,7 +40,7 @@ import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r1.lum.lrc.service.LrcService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	final Logger LOG = Logger.getLogger(LumServiceMethodInvoker.class);
@@ -49,7 +49,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	private LearningObjectiveService loService;
 	private OrganizationService orgService;
 	private AtpService atpService;
-	private LrcService lrcService;
+	private LRCService lrcService;
 
 	@SuppressWarnings("unchecked")
     @Override
@@ -231,7 +231,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		    ResultValuesGroupInfo resultComponent = (ResultValuesGroupInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				ResultValuesGroupInfo createdResultComponent = lrcService.createResultValuesGroup(resultComponent, contextInfo);
+				ResultValuesGroupInfo createdResultComponent = lrcService.createResultValuesGroup(resultComponent.getResultScaleKey(), resultComponent.getTypeKey(), resultComponent, contextInfo);
 				//Copy the created back to the reference Should there be an assembler for this?
 				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultValuesGroupInfo){
 				    ResultValuesGroupInfo resultComponentToUpdate = (ResultValuesGroupInfo) results.getBusinessDTORef();
@@ -380,7 +380,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		this.atpService = atpService;
 	}
 
-	public void setLrcService(LrcService lrcService) {
+	public void setLrcService(LRCService lrcService) {
 		this.lrcService = lrcService;
 	}
 

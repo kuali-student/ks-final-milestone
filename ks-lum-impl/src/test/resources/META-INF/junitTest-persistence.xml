@@ -194,14 +194,12 @@
         <class>org.kuali.student.r2.lum.lo.entity.AllowedLoLoRelationType</class>
 
         <!-- Lrc Persistence -->
-        <class>org.kuali.student.r1.lum.lrc.entity.LrcRichText</class>
-        <class>org.kuali.student.r1.lum.lrc.entity.ResultComponent</class>
-        <class>org.kuali.student.r1.lum.lrc.entity.ResultComponentAttribute</class>
-        <class>org.kuali.student.r1.lum.lrc.entity.ResultComponentType</class>
-        <class>org.kuali.student.r1.lum.lrc.entity.ResultComponentTypeAttribute</class>
-        <class>org.kuali.student.r1.lum.lrc.entity.ResultValue</class>
-        <class>org.kuali.student.r1.lum.lrc.entity.Scale</class>
-        <class>org.kuali.student.r1.lum.lrc.entity.ScaleAttribute</class>
+        <class>org.kuali.student.r2.lum.lrc.model.ResultScaleAttributeEntity</class>
+        <class>org.kuali.student.r2.lum.lrc.model.ResultScaleEntity</class>
+        <class>org.kuali.student.r2.lum.lrc.model.ResultValueAttributeEntity</class>
+        <class>org.kuali.student.r2.lum.lrc.model.ResultValueEntity</class>
+        <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupAttributeEntity</class>
+        <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

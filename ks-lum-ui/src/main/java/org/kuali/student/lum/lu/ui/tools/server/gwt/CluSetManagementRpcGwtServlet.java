@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.r1.lum.lrc.service.LrcService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.core.search.dto.SearchParamHelper;
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
@@ -49,7 +49,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CluSetManagementRpcGwtServlet.class);
 	private CluService cluService;
-	private LrcService lrcService;
+	private LRCService lrcService;
     
 	public CluService getCluService() {
         return cluService;
@@ -59,11 +59,11 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         this.cluService = cluService;
     }
 
-    public LrcService getLrcService() {
+    public LRCService getLrcService() {
         return lrcService;
     }
 
-    public void setLrcService(LrcService lrcService) {
+    public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
     

@@ -13,15 +13,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r1.lum.lrc.entity;
+package org.kuali.student.r2.lum.lrc.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
 
-import org.kuali.student.r1.common.entity.RichText;
-
-@Entity
-@Table(name = "KSLR_RICH_TEXT_T")
-public class LrcRichText extends RichText {
+public class LrcSearchableDao extends AbstractSearchableCrudDaoImpl {
 
 }

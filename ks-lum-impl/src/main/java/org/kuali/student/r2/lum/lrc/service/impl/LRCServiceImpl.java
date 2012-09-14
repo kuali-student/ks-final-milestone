@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.r1.common.dao.SearchableDao;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.lum.lrc.dao.ResultScaleDao;
 import org.kuali.student.r2.lum.lrc.dao.ResultValueDao;
 import org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao;
@@ -38,6 +42,24 @@ public class LRCServiceImpl implements LRCService {
     private ResultValueDao resultValueDao;
     private ResultScaleDao resultScaleDao;
     private LrcServiceBusinessLogic lrcServiceBusinessLogic;
+    private SearchManager searchManager;
+    private SearchableDao searchableDao;
+
+    public SearchableDao getSearchableDao() {
+        return searchableDao;
+    }
+
+    public void setSearchableDao(SearchableDao searchableDao) {
+        this.searchableDao = searchableDao;
+    }
+
+    public SearchManager getSearchManager() {
+        return searchManager;
+    }
+
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
+    }
 
     public LrcServiceBusinessLogic getLrcServiceBusinessLogic() {
         return lrcServiceBusinessLogic;
@@ -640,5 +662,54 @@ public class LRCServiceImpl implements LRCService {
             MissingParameterException,
             OperationFailedException {
         throw new OperationFailedException("Should have been implemented in the Validation Decorator");
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
+        return searchManager.getSearchTypes();
+    }
+
+    @Override
+    public SearchTypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchType(searchTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+        return searchManager.getSearchResultTypes();
+    }
+
+    @Override
+    public SearchResultTypeInfo getSearchResultType(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchResultType(searchResultTypeKey);
+    }
+
+    @Override
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes();
+    }
+
+    @Override
+    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+    }
+
+    @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        if (searchRequest==null) {
+            throw new MissingParameterException(searchRequest + " can not be null");
+        }
+        SearchResult searchResult = searchManager.search(searchRequest, searchableDao);
+        return searchResult;
     }
 }

@@ -30,7 +30,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r1.lum.lrc.service.LrcService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
@@ -90,7 +90,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
     private LoAssembler loAssembler;
     private LearningObjectiveService loService;
     private CluAssemblerUtils cluAssemblerUtils;
-    private LrcService lrcService;
+    private LRCService lrcService;
     private AtpService atpService;
     private float defaultCreditIncrement = 1.0f;
     //
@@ -579,13 +579,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
             try{
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupIdsByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED, contextInfo));
                 } catch (DoesNotExistException e) {}
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupIdsByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE, contextInfo));
                 } catch (DoesNotExistException e) {}
                 try {
-                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupIdsByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE, contextInfo));
+                    resultValueGroupIds.addAll(lrcService.getResultValuesGroupKeysByType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE, contextInfo));
                 } catch (DoesNotExistException e) {}
 
                 //Create any LRCs that do not yet exist
@@ -1258,7 +1258,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         this.cluAssemblerUtils = cluAssemblerUtils;
     }
 
-    public void setLrcService(LrcService lrcService) {
+    public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
 

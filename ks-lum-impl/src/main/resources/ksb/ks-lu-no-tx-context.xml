@@ -19,12 +19,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 
 
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager'
         be defined
@@ -205,7 +206,19 @@
         <property name="entityManagerFactory" ref="lrcEntityManagerFactory"/>
     </bean>
 
-    <bean id="lrcDao" class="org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl">
+    <bean id="lrcSearchableDao" class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
+        <property name="em" ref="lrcEntityManager"/>
+    </bean>
+
+    <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
+        <property name="em" ref="lrcEntityManager"/>
+    </bean>
+
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
+        <property name="em" ref="lrcEntityManager"/>
+    </bean>
+
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
         <property name="em" ref="lrcEntityManager"/>
     </bean>
 
@@ -234,6 +247,7 @@
                 <ref bean="statementServiceClient"/>
                 <ref bean="subjectCodeClient"/>
                 <ref bean="proposalClient"/>
+                <ref bean="typeSearchService"/>
             </list>
         </property>
     </bean>
@@ -241,16 +255,20 @@
     <bean id="lrcClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
-                  value="org.kuali.student.r1.lum.lrc.service.LrcService"/>
+                  value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/lrc}LearningResultService"/>
     </bean>
 
-    <bean id="lrcServiceImpl" class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
-        <property name="lrcDao" ref="lrcDao"/>
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+
+    <bean id="lrcServiceImpl" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+        <property name="searchableDao" ref="lrcSearchableDao"/>
         <property name="searchManager" ref="lrcSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
-        <property name="validatorFactory" ref="lumValidatorFactory"/>                
+        <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
+        <property name="resultValueDao" ref="resultValueDao" />
+        <property name="resultScaleDao" ref="resultScaleDao" />
+        <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
     </bean>
 
     <bean id="ks.exp.lrcService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -259,7 +277,7 @@
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="lrcServiceImpl"/>
                 <property name="serviceInterface"
-                          value="org.kuali.student.r1.lum.lrc.service.LrcService"/>
+                          value="org.kuali.student.r2.lum.lrc.service.LRCService"/>
                 <property name="localServiceName" value="LearningResultService"/>
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc"/>
                 <property name="busSecurity" value="${ks.lum.bus.security}"/>
@@ -517,6 +535,16 @@
         </property>
     </bean>
 
+    <!-- Type Search Service Helper -->
+    <bean id="typeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/type}TypeService"/>
+    </bean>
+
+    <bean id="typeSearchService" class="org.kuali.student.r2.lum.service.search.TypeSearchServiceImpl">
+            <property name="typeService" ref="typeClient"/>
+    </bean>
+
  	<!-- Clients to external Services -->
     <bean id="atpClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -544,7 +572,6 @@
                   value="{http://student.kuali.org/wsdl/statement}StatementService"/>
     </bean>
 
-
     <!-- Exception mapping. This is needed because many operations are proxied
         and do not throw exceptions until a later time
     -->
@@ -566,7 +593,7 @@
                     pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl.*(..))"
+                    pointcut="execution(* org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl.*(..))"
                     method="afterThrowing" throwing="ex"/>
             <aop:after-throwing
                     pointcut="execution(* org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"

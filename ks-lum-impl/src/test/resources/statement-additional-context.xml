@@ -284,9 +284,20 @@
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
 
-    <bean id="lrcDao"
-        class="org.kuali.student.r1.lum.lrc.dao.impl.LrcDaoImpl">
+    <bean id="lrcSearchableDao" class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
         <property name="em" ref="lrcEntityManager" />
+    </bean>
+
+    <bean id="resultValuesGroupDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao">
+        <property name="em" ref="lrcEntityManager"/>
+    </bean>
+
+    <bean id="resultValueDao" class="org.kuali.student.r2.lum.lrc.dao.ResultValueDao">
+        <property name="em" ref="lrcEntityManager"/>
+    </bean>
+
+    <bean id="resultScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
+        <property name="em" ref="lrcEntityManager"/>
     </bean>
 
     <bean id="lrcSearchManager"
@@ -295,10 +306,25 @@
         <!-- property name="crossSearchManager" ref="lumCrossServiceSearchManager"/-->
     </bean>
 
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+
     <bean id="lrcServiceImpl"
-        class="org.kuali.student.r1.lum.lrc.service.impl.LrcServiceImpl">
-        <property name="lrcDao" ref="lrcDao" />
+        class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+        <property name="searchableDao" ref="lrcSearchableDao" />
         <property name="searchManager" ref="lrcSearchManager" />
+        <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
+        <property name="resultValueDao" ref="resultValueDao" />
+        <property name="resultScaleDao" ref="resultScaleDao" />
+        <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
+    </bean>
+
+    <!-- Type Service config -->
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao"/>
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao"/>
+
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
 
 </beans>
