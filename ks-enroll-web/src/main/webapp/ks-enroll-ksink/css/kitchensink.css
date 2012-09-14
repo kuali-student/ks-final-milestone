@@ -1,1 +1,57 @@
 /* used by ks-enroll-ksink */
+
+.ks-uif-imageButton {
+    background: inherit;
+    border: none;
+    width: 2em;
+    /*background-image: url(images/button.png);*/
+}
+
+.uif-horizontal-comboBox {
+    background: inherit;
+    display: inline-block;
+    border: none;
+}
+
+.uif-comboBox-button {
+    position: absolute;
+    left: 211px;
+    top: 90px;
+    marging-top: 18px;
+    float: left;
+    width: 23px;
+    height: 23px;
+}
+
+.uif-filter-textBox {
+    position: absolute;
+    float: left;
+}
+
+.uif-dropDown-comboBox {
+    position: absolute;
+    left: 100px;
+}
+
+.uif-target-comboBox {
+    display: block;
+    position: relative;
+    top: 20px;
+    /*border: 1px solid;*/
+}
+
+.uif-dropDown-control-comboBox {
+    width: 219px;
+    margin: 0;
+}
+
+#ul_id_temp {
+    border: 1px solid;
+    width: 215px;
+}
+
+ul#ul_id_temp li:hover
+{
+    color: #ffff00;
+    background-color: #003366;
+}

@@ -28,6 +28,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +70,7 @@ public class KitchenSinkController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=collection")
     public ModelAndView collection(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+                                   HttpServletRequest request, HttpServletResponse response) {
 
         List<KitchenSinkFormCollection1> collectionList = new ArrayList<KitchenSinkFormCollection1>();
         collectionList.add(new KitchenSinkFormCollection1("Item #1", "This is the first item", "2001-01-01"));
@@ -104,5 +105,27 @@ public class KitchenSinkController extends UifControllerBase {
 
         return super.addLine(form, result, request, response);
     }
+
+    @RequestMapping(params = "methodToCall=getActivities")
+    public ModelAndView getActivities(
+            @RequestParam(value = "actionParameters", required = false) Map<String, Integer> actionParameters,
+            @ModelAttribute("KualiForm") KitchenSinkForm form,
+            BindingResult result,
+            HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        List<ActivityMockData> activities = new ArrayList<ActivityMockData>();
+
+        Integer index = actionParameters.get("index");
+
+        if (displayScheduleList != null && !(displayScheduleList.size() < index.intValue())) {
+            activities = displayScheduleList.get(index.intValue()).getActivities();
+        }
+
+        form.setActivityList(activities);
+        return getUIFModelAndView(form);
+    }
+
+    List<DisplayScheduleMockData> displayScheduleList = DisplayScheduleMockData.mockTestData();
 
 }

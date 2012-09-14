@@ -20,6 +20,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * This class //TODO ...
@@ -29,14 +30,20 @@ import java.util.List;
 public class KitchenSinkForm extends UifFormBase {
     private static final long serialVersionUID = 4678031668930436995L;
 
-    //private String stringField1;
-    //private String stringField2;
+    private String stringField1;
+    private String stringField2;
     private Boolean checkboxSelected;
     private List<String> checkboxSelections;
     private List<KitchenSinkFormCollection1> collection;
     private List<KitchenSinkFormCollection1> collection2;
     private List<String> multiSelections;
     private String radioButtonSelection;
+
+    private List<UITestObject> list1 = new ArrayList<UITestObject>();
+    private List<UITestObject> list3 = new ArrayList<UITestObject>();
+
+    private List<DisplayScheduleMockData> displayScheduleMockDataList = DisplayScheduleMockData.mockTestData();
+    private List<ActivityMockData> activityList;
 
     public KitchenSinkForm() {
         super();
@@ -47,19 +54,19 @@ public class KitchenSinkForm extends UifFormBase {
         super.postBind(request);
     }
 
-//    public String getStringField1() {
-//        return stringField1;
-//    }
-//    public void setStringField1(String stringField1) {
-//        this.stringField1 = stringField1;
-//    }
-//
-//    public String getStringField2() {
-//        return stringField2;
-//    }
-//    public void setStringField2(String stringField2) {
-//        this.stringField2 = stringField2;
-//    }
+    public String getStringField1() {
+        return stringField1;
+    }
+    public void setStringField1(String stringField1) {
+        this.stringField1 = stringField1;
+    }
+
+    public String getStringField2() {
+        return stringField2;
+    }
+    public void setStringField2(String stringField2) {
+        this.stringField2 = stringField2;
+    }
 
     public Boolean getCheckboxSelected() {
         return checkboxSelected;
@@ -80,6 +87,50 @@ public class KitchenSinkForm extends UifFormBase {
     }
     public void setCollection(List<KitchenSinkFormCollection1> collection) {
         this.collection = collection;
+    }
+
+    /**
+     * @return the list1
+     */
+    public List<UITestObject> getList1() {
+        return this.list1;
+    }
+
+    /**
+     * @param list1 the list1 to set
+     */
+    public void setList1(List<UITestObject> list1) {
+        this.list1 = list1;
+    }
+
+    /**
+     * @return the list3
+     */
+    public List<UITestObject> getList3() {
+        return this.list3;
+    }
+
+    /**
+     * @param list3 the list3 to set
+     */
+    public void setList3(List<UITestObject> list3) {
+        this.list3 = list3;
+    }
+
+    public List<DisplayScheduleMockData> getDisplayScheduleMockDataList() {
+        return displayScheduleMockDataList;
+    }
+
+    public void setDisplayScheduleMockDataList(List<DisplayScheduleMockData> displayScheduleMockDataList) {
+        this.displayScheduleMockDataList = displayScheduleMockDataList;
+    }
+
+    public List<ActivityMockData> getActivityList() {
+        return activityList;
+    }
+
+    public void setActivityList(List<ActivityMockData> activityList) {
+        this.activityList = activityList;
     }
 
     public List<KitchenSinkFormCollection1> getCollection2() {
