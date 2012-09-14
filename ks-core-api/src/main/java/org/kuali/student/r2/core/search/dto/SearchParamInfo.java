@@ -106,47 +106,6 @@ public class SearchParamInfo
         return values;
     }
 
-    /** 
-     * R1 compatibility method to return the value
-     * as an object
-     * If there is only one value set it returns that as a String otherwise it 
-     * returns the value as a list
-     * @deprecated
-     */
-    @Deprecated
-    public Object getValue() {
-        if (values == null) {
-            return null;
-        }
-        if (values.size() == 1) {
-            return values.get(0);
-        }
-        return values;
-    }
-
-    /** 
-     * R1 compatibility method to set the value as a string
-     * 
-     * Equivalent to calling setValues (Arrays.asList (value))
-     * 
-     * @deprecated
-     */
-    @Deprecated
-    public void setValue(String value) {
-        this.values = Arrays.asList(value);
-    }
-
-    /** 
-     * R1 compatibility method to set the value as a list 
-     * equivalent to calling setValues
-     * as a string
-     * @deprecated
-     */
-    @Deprecated
-    public void setValue(List<String> values) {
-        this.values = values;
-    }
-
     public void setValues(List<String> values) {
         this.values = values;
     }
