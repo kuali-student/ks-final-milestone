@@ -477,7 +477,6 @@ public class TestCourseOfferingServiceImplM4 {
     }
 
     @Test
-    @Ignore
     public void testCreateActivityOfferingClusterGet() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         try {
@@ -499,33 +498,59 @@ public class TestCourseOfferingServiceImplM4 {
 
         new AttributeTester().add2ForCreate(expected.getAttributes());
 
+        //test createActivityOfferingCluster
         ActivityOfferingClusterInfo actual = coServiceImpl.createActivityOfferingCluster("Lui-6", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, expected, contextInfo);
-
         assertNotNull(actual.getId());
+        
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterCreate(actual.getMeta());
 
+        //test  CRUD ActivityOfferingCluster
+        try {
+            //test createActivityOfferingCluster
+            ActivityOfferingClusterInfo copy = coServiceImpl.createActivityOfferingCluster("Lui-6", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, expected, contextInfo);
+            assertEquals(copy.getName(), "Default Cluster");
+            copy.setName("Updated");
+            //test getActivityOfferingCluster
+            coServiceImpl.updateActivityOfferingCluster("Lui-6", copy.getId(), copy, contextInfo) ;
+            //test updateActivityOfferingCluster
+            copy = coServiceImpl.getActivityOfferingCluster(copy.getId(), contextInfo);
+            assertEquals(copy.getName(), "Updated");
+            //test deleteActivityOfferingCluster
+            coServiceImpl.deleteActivityOfferingCluster(copy.getId(), contextInfo);
+            boolean found = true;
+            try {
+                coServiceImpl.getActivityOfferingCluster(copy.getId(), contextInfo);
+            } catch (DoesNotExistException e) {
+                found = false;
+            }
+            if (found) {
+                assert (false); // Exception should have been thrown
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("update failed - " + ex);
+        }
+
         // check that the union of activity id's matches what we declared
-        new ListOfStringTester().checkExistsAnyOrder(Arrays.asList(new String[]{"CO-1:LEC-AND-LAB:LEC-A", "CO-1:LEC-AND-LAB:LAB-A", "CO-1:LEC-AND-LAB:LAB-B", "CO-1:LEC-AND-LAB:LAB-C"}),
+        new ListOfStringTester().checkExistsAnyOrder(Arrays.asList(new String[]{"Lui-5", "Lui-Lab2", "Lui-8"}),
                 extractActivityOfferingIds(actual.getActivityOfferingSets()), true);
 
-
+        //test getRegistrationGroupsByActivityOfferingCluster
         List<RegistrationGroupInfo> rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
-
         assertEquals(0, rgList.size());
 
+        //test generateRegistrationGroupsForCluster and deleteRegistrationGroupsForCluster
         coServiceImpl.generateRegistrationGroupsForCluster(actual.getId(), contextInfo);
 
         rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
+        assertEquals(2, rgList.size());
 
-        assertEquals(3, rgList.size());
-
+        //test deleteRegistrationGroupsForCluster within generateRegistrationGroupsForCluster
         coServiceImpl.generateRegistrationGroupsForCluster(actual.getId(), contextInfo);
 
         // verify count stays the same even after calling the method again.
         rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
-
-        assertEquals(3, rgList.size());
+        assertEquals(2, rgList.size());
     }
 
 }
