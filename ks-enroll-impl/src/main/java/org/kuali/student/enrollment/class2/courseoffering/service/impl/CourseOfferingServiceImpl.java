@@ -28,12 +28,14 @@ import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInf
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingSet;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -2337,7 +2339,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new UnsupportedOperationException("implement for M5");
+        List<ActivityOfferingInfo> aoInfoList = new ArrayList<ActivityOfferingInfo>();
+        ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+        List<ActivityOfferingSetInfo> aoSetInfos = aoCInfo.getActivityOfferingSets();
+        for (ActivityOfferingSetInfo aoSetInfo : aoSetInfos ){
+            List<String> aoIdList = aoSetInfo.getActivityOfferingIds();
+            for (String aoId : aoIdList) {
+                aoInfoList.add(getActivityOffering(aoId, contextInfo));
+            }
+        }
+        return aoInfoList;
     }
 
     @Override
