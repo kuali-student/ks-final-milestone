@@ -67,12 +67,7 @@
         </property>
         <property name="items">
             <list>
-                <!-- bean parent="Uif-DataField" p:label="COURSE" p:propertyName="courseOfferingCode">
-                    <property name="onClickScript" value="alert('test!!!')" />
-                </bean -->
-                <bean parent="Uif-MessageField" p:label="COURSE" p:messageText="&lt;a&gt;+&lt;/a&gt; @{#line.coDisplayInfo.courseOfferingCode}">
-                    <property name="onClickScript" value="alert('test!!!')" />
-                </bean>
+                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="courseOfferingCode" />
                 <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
                 <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOptionName"/>
                 <bean parent="Uif-DataField" p:label="GRADING" p:propertyName="coDisplayInfo.gradingOptionName"/>
