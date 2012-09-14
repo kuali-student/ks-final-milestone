@@ -24,7 +24,7 @@
 
     <strong>Lookups, etc</strong>
     <ul class="chan">
-        <li></li>
+        <li><portal:portalLink displayTitle="true" title="Combo Boxes" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ComboBoxes-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Collections</strong>
@@ -39,8 +39,9 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
-        <li><portal:portalLink displayTitle="true" title="Collection with horizontal stacked layout"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionHorizontal-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection Group Table Layout" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection Group Stacked Layout" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionSL-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Nested Table" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-NestedTable-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Button / Header Levels</strong>
