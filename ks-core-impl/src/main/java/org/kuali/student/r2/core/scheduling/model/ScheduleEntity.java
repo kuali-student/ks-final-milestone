@@ -62,15 +62,11 @@ public class ScheduleEntity extends MetaEntity implements AttributeOwner<Schedul
 
     /**
      * Populates the entity with data from the instance of Schedule passed in.
-     * Builds a list of objects orphaned by this operation and returns it.
      *
      * @param schedule
      * @return a non-null collection of objects that were orphaned from this entity
      */
-    public Collection<Object> fromDto(Schedule schedule) {
-        // Create a list of objects that contains any objects orphaned by copying new content
-        Collection<Object> orphanedObjects = new ArrayList<Object>();
-
+    public void fromDto(Schedule schedule) {
         this.setId(schedule.getId());
         this.setScheduleState(schedule.getStateKey());
         this.setScheduleType(schedule.getTypeKey());
@@ -85,34 +81,21 @@ public class ScheduleEntity extends MetaEntity implements AttributeOwner<Schedul
             this.setFormatted(null);
         }
 
-        //Map the existing cmp relations by their id
-        Map<String,ScheduleComponentEntity> existingCmpEntities = new HashMap<String, ScheduleComponentEntity>();
         if (scheduleComponents != null) {
-            for (ScheduleComponentEntity cmpEntity : scheduleComponents){
-                existingCmpEntities.put(cmpEntity.getId(), cmpEntity);
-            }
+            scheduleComponents.clear();
         } else {
             scheduleComponents = new ArrayList<ScheduleComponentEntity>();
         }
 
-        scheduleComponents.clear();
         if (!schedule.getScheduleComponents().isEmpty()) {
             for (ScheduleComponent component : schedule.getScheduleComponents()) {
-                if (existingCmpEntities.containsKey(component.getId())) {
-                    existingCmpEntities.remove(component.getId());
-                }
                 ScheduleComponentEntity componentEntity = new ScheduleComponentEntity(component);
                 componentEntity.setSchedule(this);
                 scheduleComponents.add(componentEntity);
             }
         }
 
-        orphanedObjects.addAll(existingCmpEntities.values());
-
-        // Merge attributes into entity and add leftovers to be deleted
-        orphanedObjects.addAll(TransformUtility.mergeToEntityAttributes(ScheduleAttributeEntity.class, schedule, this));
-
-        return orphanedObjects;
+        TransformUtility.mergeToEntityAttributes(ScheduleAttributeEntity.class, schedule, this);
 
     }
 

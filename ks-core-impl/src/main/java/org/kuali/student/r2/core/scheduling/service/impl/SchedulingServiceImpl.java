@@ -180,6 +180,9 @@ public class SchedulingServiceImpl implements SchedulingService {
         ScheduleEntity scheduleEntity = scheduleDao.find(scheduleId);
         if (null != scheduleEntity) {
             scheduleEntity.fromDto(scheduleInfo);
+
+            scheduleEntity.setEntityUpdated(contextInfo);
+
             scheduleDao.merge(scheduleEntity);
             return scheduleEntity.toDto();
         } else {
@@ -348,13 +351,8 @@ public class SchedulingServiceImpl implements SchedulingService {
             throw new DoesNotExistException(scheduleRequestId);
         }
 
-        //Transform the DTO to the entity
-        List<Object> orphans = scheduleRequestEntity.fromDto(scheduleRequestInfo);
-
-        //Delete any orphaned children
-        for(Object orphan : orphans){
-            scheduleRequestDao.getEm().remove(orphan);
-        }
+        // Copy data from the DTO into the entity
+        scheduleRequestEntity.fromDto(scheduleRequestInfo);
 
         //Update any Meta information
         scheduleRequestEntity.setEntityUpdated(contextInfo);
