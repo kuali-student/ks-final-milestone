@@ -1746,7 +1746,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     public StatusInfo deleteRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        try {
+            ActivityOfferingClusterInfo aocInfo = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+            List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByFormatOffering(aocInfo.getFormatOfferingId(), contextInfo);
+            for (RegistrationGroupInfo rgInfo : regGroups){
+                if (rgInfo.getActivityOfferingClusterId().equals(activityOfferingClusterId)) {
+                    deleteRegistrationGroup(rgInfo.getId(),contextInfo);
+                }
+            }
+        } catch (Exception e) {
+            statusInfo.setSuccess(Boolean.FALSE);
+            statusInfo.setMessage(e.getMessage());
+        }
+        return statusInfo;
     }
 
     @Override
