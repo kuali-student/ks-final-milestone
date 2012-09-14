@@ -177,6 +177,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Collections.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/RadioButtons.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
