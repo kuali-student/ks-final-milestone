@@ -414,9 +414,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<ActivityOfferingInfo> aoInfos = getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
         List<ActivityOfferingDisplayInfo> aoDisplayInfos = new ArrayList<ActivityOfferingDisplayInfo>();
         for (ActivityOfferingInfo aoInfo: aoInfos) {
-            // TODO: Once scheduling service is wired in, replace null below
             ActivityOfferingDisplayInfo aoDisplayInfo =
-                    ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, null, stateService, typeService, contextInfo);
+                    ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, schedulingService, stateService, typeService, contextInfo);
             aoDisplayInfos.add(aoDisplayInfo);
         }
         return aoDisplayInfos;
