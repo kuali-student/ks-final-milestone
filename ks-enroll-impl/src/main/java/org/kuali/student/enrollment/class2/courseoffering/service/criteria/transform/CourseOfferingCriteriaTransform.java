@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PropertyPathPredicate;
 import org.kuali.rice.core.api.criteria.SingleValuedPredicate;
 import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
+import org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.r2.common.criteria.transform.BaseTransform;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -76,11 +77,12 @@ public class CourseOfferingCriteriaTransform extends BaseTransform{
                 //Add two joins to dereference COLui->FOLui->AOLui
                 criteria.from(LuiLuiRelationEntity.class.getSimpleName(), AO_REL_ALIAS, false);
                 criteria.from(LuiLuiRelationEntity.class.getSimpleName(), FO_REL_ALIAS, false);
-                criteria.rawJpql(getPropertyDesc(FO_REL_ALIAS,PROPERTY_LLR_RELATED_LUI_ID) + " = " + getPropertyDesc(AO_REL_ALIAS, PROPERTY_LLR_LUI_ID) +
-                        " AND " + getPropertyDesc(criteria.getAlias(),PROPERTY_LUI_ID) + " = " + getPropertyDesc(FO_REL_ALIAS, PROPERTY_LLR_LUI_ID));
 
                 //Rename the property and alias
                 Predicate aoidPredicate = this.createPredicate(input, getPropertyDesc(AO_REL_ALIAS, PROPERTY_LLR_RELATED_LUI_ID));
+                String s = criteria.toQuery(QueryByCriteria.QueryByCriteriaType.SELECT); //Get the query so far and add an "AND" or not
+                criteria.rawJpql((s.contains(" WHERE ")?"AND ":"") + getPropertyDesc(FO_REL_ALIAS,PROPERTY_LLR_RELATED_LUI_ID) + " = " + getPropertyDesc(AO_REL_ALIAS, PROPERTY_LLR_LUI_ID) +
+                        " AND " + getPropertyDesc(criteria.getAlias(),PROPERTY_LUI_ID) + " = " + getPropertyDesc(FO_REL_ALIAS, PROPERTY_LLR_LUI_ID));
 
                 return aoidPredicate;
             }
