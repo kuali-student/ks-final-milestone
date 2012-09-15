@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean id="ManageSOCView" parent="KSFormView">
+   	  <property name="id" value="ManageSOCView"/>
+      <property name="headerText" value="@{termCode} Set of Courses" />
+	  <property name="singlePageView" value="true"/>
+      <property name="page">
+            <bean parent="Uif-Page"/>
+        </property>
+      <property name="items">
+          <list>
+               <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="ManageSOCView-Section1"/>
+                            <ref bean="ManageSOCView-Section2"/>
+                        </list>
+                    </property>
+               </bean>
+          </list>
+      </property>
+
+   </bean>
+
+   <bean id="ManageSOCView-Section1" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="To be developed..."/>
+            </list>
+        </property>
+   </bean>
+
+   <bean id="ManageSOCView-Section2" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="To be developed..."/>
+            </list>
+        </property>
+   </bean>
+
+</beans>
