@@ -126,6 +126,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-SelectTermPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingWrapperLookupAndInquiryView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/ManageSOCView.xml</value>
 
                 <!-- Population -->
                 <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperMaintenanceDocument.xml</value>
