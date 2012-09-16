@@ -4,28 +4,20 @@
  */
 package org.kuali.student.r2.lum.lrc.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -264,15 +256,15 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             if (rvg.getResultValueRange() == null) {
                 throw new OperationFailedException("Calculated key does not point to an RVG with a range: " + rvgKey);
             }
-            if (!rvg.getResultValueRange().getMinValue().equals(creditValueMin)) {
+            if (!stringNumberEquals(rvg.getResultValueRange().getMinValue(),creditValueMin)) {
                 throw new OperationFailedException("Calculated key does not point to an RVG with a range with the same min value: " +
                         rvgKey);
             }
-            if (!rvg.getResultValueRange().getMaxValue().equals(creditValueMax)) {
+            if (!stringNumberEquals(rvg.getResultValueRange().getMaxValue(), creditValueMax)) {
                 throw new OperationFailedException("Calculated key does not point to an RVG with a range with the same max value: " +
                         rvgKey);
             }
-            if (!rvg.getResultValueRange().getIncrement().equals(creditValueIncrement)) {
+            if (!stringNumberEquals(rvg.getResultValueRange().getIncrement(),creditValueIncrement)) {
                 throw new OperationFailedException("Calculated key does not point to an RVG with a range with the same increment value: " +
                         rvgKey);
             }
@@ -302,6 +294,22 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             throw new OperationFailedException("unexpected", ex);
         }
         return rvg;
+    }
+
+    /**
+     * This method converts the two input strings into floats and returns true if they're equal, false otherwise.
+     *
+     * This is needed because  getCreateRangeCreditResultValuesGroup was throwing errors saying strings
+     * 1.0 != 1.
+     *
+     * @param value1
+     * @param value2
+     * @return
+     */
+    protected static boolean stringNumberEquals(String value1, String value2){
+        Float f1 = new Float(value1);
+        Float f2 = new Float(value2);
+        return f1.equals(f2);
     }
 
     /** 
