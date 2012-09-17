@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Igor
@@ -38,8 +39,37 @@ public class GenericEntityDao<T> implements EntityDao<T> {
 
     @Override
     public List<T> findByIds(List<? extends Serializable> primaryKeys) throws DoesNotExistException {
-        return findByIds("id", primaryKeys);
+
+        if(primaryKeys.size() >= 1000){
+            return this.findByIdsMaxKeys(primaryKeys);
+        } else {
+            return this.findByIds("id", primaryKeys); // faster but has a limit of 1000 in oracle 10g
+        }
     }
+
+    /**
+     * Use this method if the size of primary keys >= 1000. 1000 is the "in" limit for many databases.
+     *
+     * @param primaryKeys
+     * @return
+     * @throws DoesNotExistException
+     */
+    protected List<T> findByIdsMaxKeys(List<? extends Serializable> primaryKeys) throws DoesNotExistException {
+        List<T> resultList = new ArrayList<T>();
+        for (Serializable primaryKey : primaryKeys) {
+
+            T entity = find(primaryKey);
+
+            if (entity == null) {
+
+                throw new DoesNotExistException("No data was found for :" + primaryKey);
+
+            }
+            resultList.add(entity);
+        }
+        return resultList;
+    }
+
 
     @Override
     @SuppressWarnings("unchecked")
