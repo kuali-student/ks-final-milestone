@@ -1668,6 +1668,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // get it
         LuiInfo lui = luiService.getLui(registrationGroupId, context);
 
+        // Throw exception if a state change is attempted
+        if (!registrationGroupInfo.getStateKey().equals(lui.getStateKey())) {
+            throw new ReadOnlyException("state key can only be changed by calling updateRegistrationGroupState");
+        }
         //TO DO: Check that the Registration code is unique within a CO. If it is a duplicate, do not change it
 
         Set<String> existingRelatedLuiIds = new HashSet<String>();
@@ -1871,7 +1875,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
         if (null != activityOfferingClusterEntity) {
             if (!activityOfferingClusterEntity.getActivityOfferingClusterState().equals(activityOfferingClusterInfo.getStateKey())) {
-                throw new ReadOnlyException ("state key can only be changed by calling updateActivityOfferingClusterState");
+                throw new ReadOnlyException("state key can only be changed by calling updateActivityOfferingClusterState");
             }
 
             activityOfferingClusterEntity.fromDto(activityOfferingClusterInfo);
@@ -2274,6 +2278,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo removeSeatPoolDefinitionFromActivityOffering(
             String seatPoolDefinitionId, String activityOfferingId,
             ContextInfo contextInfo) throws DoesNotExistException,
@@ -2331,13 +2336,36 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo updateRegistrationGroupState(
-            @WebParam(name = "registrationGroupId") String registrationGroupId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String registrationGroupId,
+            String nextStateKey,
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("To be Implemented in M5");
+
+        LuiInfo lui = luiService.getLui(registrationGroupId, contextInfo);
+        lui.setStateKey(nextStateKey); // Only modify the state key, and nothing else
+        boolean exceptionOccurred = false;
+        String exceptionMessage = "None";
+        try {
+            luiService.updateLui(lui.getId(), lui, contextInfo);
+        } catch (DataValidationErrorException e) {
+            exceptionOccurred = true;
+            exceptionMessage = e.getMessage();
+        } catch (ReadOnlyException e) {
+            exceptionOccurred = true;
+            exceptionMessage = e.getMessage();
+        } catch (VersionMismatchException e) {
+            exceptionOccurred = true;
+            exceptionMessage = e.getMessage();
+        }
+        if (exceptionOccurred) {
+            throw new OperationFailedException(exceptionMessage);
+        }
+        StatusInfo status = new StatusInfo ();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     @Override
