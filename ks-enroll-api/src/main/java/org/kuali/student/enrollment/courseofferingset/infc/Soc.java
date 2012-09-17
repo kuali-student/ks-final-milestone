@@ -66,6 +66,15 @@ public interface Soc
     public String getUnitsContentOwnerId();
 
     /**
+     * Indicates where this Set of CourseOffering's is in the scheduling process.
+     * 
+     * @return the scheduling state type key
+     * @readonly
+     * @impl The scheduling state is a calculated field
+     */
+    public String getSchedulingStateKey();
+    
+    /**
      * Date of the last time this SOC was submitted to the scheduler
      * 
      * @name Last Scheduling Run Completed
