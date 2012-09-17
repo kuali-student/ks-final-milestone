@@ -1408,7 +1408,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
 
-        if (!checkTypeForActivityOfferingType(lui.getTypeKey(), context)) {
+        if (!_checkTypeForActivityOfferingType(lui.getTypeKey(), context)) {
             throw new InvalidParameterException("Given lui id ( " + activityOfferingId + " ) is not an Activity Offering");
         }
 
@@ -2003,12 +2003,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
         List<String> courseOfferingIds = new ArrayList<String>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {
-            if (checkTypeForCourseOfferingType(lui.getLuiType())) {
+            if (_checkTypeForCourseOfferingType(lui.getLuiType())) {
                 courseOfferingIds.add(lui.getId());
             }
         }
@@ -2016,6 +2017,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -2059,7 +2061,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {
             try {
-                if (checkTypeForActivityOfferingType(lui.getLuiType(), context)) {
+                if (_checkTypeForActivityOfferingType(lui.getLuiType(), context)) {
                     ActivityOfferingInfo ao = this.getActivityOffering(lui.getId(), context);
                     activityOfferingInfos.add(ao);
                 }
@@ -2081,28 +2083,49 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> searchForRegistrationGroups(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+
+        List<String> registrationGroupIds = searchForRegistrationGroupIds(criteria, context);
+        List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
+        for (String rgId: registrationGroupIds) {
+            try {
+                RegistrationGroupInfo rgInfo = this.getRegistrationGroup(rgId, context);
+                regGroups.add(rgInfo); // Add the reg group
+            } catch (DoesNotExistException ex) {
+                throw new OperationFailedException(rgId, ex);
+            }
+        }
+        return regGroups;
+    }
+
+    private boolean _checkTypeForRegistrationGroupType(String typeKey) {
+        return LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(typeKey);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForRegistrationGroupIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        List<String> registrationGroupIds = new ArrayList<String>(results.getResults().size());
+        for (LuiEntity lui : results.getResults()) {
+            if (_checkTypeForRegistrationGroupType(lui.getLuiType())) {
+                registrationGroupIds.add(lui.getId());
+            }
+        }
+        return registrationGroupIds;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<SeatPoolDefinitionInfo> searchForSeatpoolDefinitions(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         GenericQueryResults<SeatPoolDefinitionEntity> results = criteriaLookupService.lookup(SeatPoolDefinitionEntity.class, criteria);
         List<SeatPoolDefinitionInfo> seatPoolDefinitions = new ArrayList<SeatPoolDefinitionInfo>(results.getResults().size());
         for (SeatPoolDefinitionEntity seatPoolEntity : results.getResults()) {
-
-
             SeatPoolDefinitionInfo sp = seatPoolEntity.toDto();
             seatPoolDefinitions.add(sp);
-
         }
         return seatPoolDefinitions;
     }
@@ -2114,11 +2137,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new UnsupportedOperationException();
     }
 
-    private boolean checkTypeForCourseOfferingType(String typeKey) {
+    private boolean _checkTypeForCourseOfferingType(String typeKey) {
         return typeKey.equals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
     }
 
-    private boolean checkTypeForActivityOfferingType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    private boolean _checkTypeForActivityOfferingType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> types = getActivityOfferingTypes(context);
         return checkTypeInTypes(typeKey, types);
     }
