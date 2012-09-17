@@ -1047,4 +1047,16 @@ public class OrganizationServiceImpl implements OrganizationService {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
+
+    @Override
+    public List<OrgHierarchyInfo> searchForOrgHierarchies(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> searchForOrgHierarchyIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
 }

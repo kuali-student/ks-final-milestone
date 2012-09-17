@@ -48,7 +48,9 @@ public class AtpServiceImpl implements AtpService {
     private AtpAtpRelationDao atpRelDao;
     private MilestoneDao milestoneDao;
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
-    private CriteriaLookupService criteriaLookupService;
+    private CriteriaLookupService atpCriteriaLookupService;
+    private CriteriaLookupService milestoneCriteriaLookupService;
+    private CriteriaLookupService atpAtpRelationCriteriaLookupService;
     private SearchManager searchManager;
     private SearchableDao searchableDao;     //Remove this, just a temp fix to get CM running.
 
@@ -84,13 +86,31 @@ public class AtpServiceImpl implements AtpService {
         this.atpMilestoneRelationDao = atpMilestoneRelationDao;
     }
 
-    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
-        this.criteriaLookupService = criteriaLookupService;
+    public CriteriaLookupService getAtpAtpRelationCriteriaLookupService() {
+        return atpAtpRelationCriteriaLookupService;
     }
 
-    public CriteriaLookupService getCriteriaLookupService() {
-        return criteriaLookupService;
+    public void setAtpAtpRelationCriteriaLookupService(CriteriaLookupService atpAtpRelationCriteriaLookupService) {
+        this.atpAtpRelationCriteriaLookupService = atpAtpRelationCriteriaLookupService;
     }
+
+    public CriteriaLookupService getAtpCriteriaLookupService() {
+        return atpCriteriaLookupService;
+    }
+
+    public void setAtpCriteriaLookupService(CriteriaLookupService atpCriteriaLookupService) {
+        this.atpCriteriaLookupService = atpCriteriaLookupService;
+    }
+
+    public CriteriaLookupService getMilestoneCriteriaLookupService() {
+        return milestoneCriteriaLookupService;
+    }
+
+    public void setMilestoneCriteriaLookupService(CriteriaLookupService milestoneCriteriaLookupService) {
+        this.milestoneCriteriaLookupService = milestoneCriteriaLookupService;
+    }
+
+    
 
     public SearchableDao getSearchableDao() {
         return searchableDao;
@@ -429,21 +449,27 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForAtpIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-
-        return new ArrayList<String>();
+            OperationFailedException, PermissionDeniedException {      
+        List<String> ids = new ArrayList<String>();
+        GenericQueryResults<AtpEntity> results = atpCriteriaLookupService.lookup(AtpEntity.class, criteria);
+        for (AtpEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AtpInfo> searchForAtps(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<AtpInfo> atpInfos = new ArrayList<AtpInfo>();
-        GenericQueryResults<AtpEntity> results = criteriaLookupService.lookup(AtpEntity.class, criteria);
-
+        GenericQueryResults<AtpEntity> results = atpCriteriaLookupService.lookup(AtpEntity.class, criteria);
+        // TODO: remove this null check because the lookup service contract says the impl should never return null
         if (null != results && results.getResults().size() > 0) {
             for (AtpEntity atp : results.getResults()) {
                 atpInfos.add(atp.toDto());
@@ -536,10 +562,16 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForMilestoneIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        return null; //To change body of implemented methods use File | Settings | File Templates.
+            PermissionDeniedException {        
+        List<String> ids = new ArrayList<String>();
+        GenericQueryResults<MilestoneEntity> results = milestoneCriteriaLookupService.lookup(MilestoneEntity.class, criteria);
+        for (MilestoneEntity milestone : results.getResults()) {
+            ids.add(milestone.getId());
+        }
+        return ids;
     }
 
     @Override
@@ -548,8 +580,8 @@ public class AtpServiceImpl implements AtpService {
             OperationFailedException, PermissionDeniedException {
 
         List<MilestoneInfo> milestoneInfos = new ArrayList<MilestoneInfo>();
-        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
-
+        GenericQueryResults<MilestoneEntity> results = milestoneCriteriaLookupService.lookup(MilestoneEntity.class, criteria);
+        // TODO: remove this null check since the lookupService says it will never return null
         if (null != results && results.getResults().size() > 0) {
             for (MilestoneEntity milestone : results.getResults()) {
                 milestoneInfos.add(milestone.toDto());
@@ -753,19 +785,29 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-
-        return new ArrayList<String>();
+            PermissionDeniedException {    
+        List<String> ids = new ArrayList<String>();
+        GenericQueryResults<AtpAtpRelationEntity> results = atpAtpRelationCriteriaLookupService.lookup(AtpAtpRelationEntity.class, criteria);
+        for (AtpAtpRelationEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-
-        return new ArrayList<AtpAtpRelationInfo>();
+            OperationFailedException, PermissionDeniedException {  
+        List<AtpAtpRelationInfo> infos = new ArrayList<AtpAtpRelationInfo>();
+        GenericQueryResults<AtpAtpRelationEntity> results = atpAtpRelationCriteriaLookupService.lookup(AtpAtpRelationEntity.class, criteria);
+        for (AtpAtpRelationEntity entity : results.getResults()) {
+            infos.add(entity.toDto());
+        }
+        return infos;
     }
 
     @Override

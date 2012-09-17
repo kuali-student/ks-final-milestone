@@ -8,6 +8,7 @@
 package org.kuali.student.r2.core.class1.type.decorators;
 
 import java.util.List;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -128,5 +129,26 @@ private TypeService nextDecorator;
    public StatusInfo deleteTypeTypeRelation(String typeTypeRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
        return getNextDecorator().deleteTypeTypeRelation(typeTypeRelationId, contextInfo);
    }
+
+    @Override
+    public List<TypeInfo> searchForTypes(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForTypes(criteria, contextInfo);
+    }
+
+    @Override
+    public List<TypeTypeRelationInfo> searchForTypeTypeRelations(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForTypeTypeRelations(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForTypeTypeRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForTypeTypeRelationIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForTypeKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForTypeKeys(criteria, contextInfo);
+    }
+   
    
 }

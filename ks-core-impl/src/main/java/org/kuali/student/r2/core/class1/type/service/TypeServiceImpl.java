@@ -3,6 +3,9 @@ package org.kuali.student.r2.core.class1.type.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -18,6 +21,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.class1.type.dao.TypeDao;
 import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
@@ -29,6 +34,8 @@ public class TypeServiceImpl implements TypeService {
 
     private TypeDao typeDao;
     private TypeTypeRelationDao typeTypeRelationDao;
+    private CriteriaLookupService typeCriteriaLookupService;
+    private CriteriaLookupService typeTypeRelationCriteriaLookupService;
 
     public TypeDao getTypeDao() {
         return typeDao;
@@ -45,6 +52,24 @@ public class TypeServiceImpl implements TypeService {
     public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
         this.typeTypeRelationDao = typeTypeRelationDao;
     }
+
+    public CriteriaLookupService getTypeCriteriaLookupService() {
+        return typeCriteriaLookupService;
+    }
+
+    public void setTypeCriteriaLookupService(CriteriaLookupService typeCriteriaLookupService) {
+        this.typeCriteriaLookupService = typeCriteriaLookupService;
+    }
+
+    public CriteriaLookupService getTypeTypeRelationCriteriaLookupService() {
+        return typeTypeRelationCriteriaLookupService;
+    }
+
+    public void setTypeTypeRelationCriteriaLookupService(CriteriaLookupService typeTypeRelationCriteriaLookupService) {
+        this.typeTypeRelationCriteriaLookupService = typeTypeRelationCriteriaLookupService;
+    }
+    
+ 
 
     @Override
     @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -305,4 +330,57 @@ public class TypeServiceImpl implements TypeService {
         }
         return typeRelationInfos;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForTypeKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> keys = new ArrayList<String>();
+        GenericQueryResults<TypeEntity> results = typeCriteriaLookupService.lookup(TypeEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (TypeEntity state : results.getResults()) {
+                keys.add(state.getId());
+            }
+        }
+        return keys;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForTypeTypeRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> ids = new ArrayList<String>();
+        GenericQueryResults<TypeTypeRelationEntity> results = typeTypeRelationCriteriaLookupService.lookup(TypeTypeRelationEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (TypeTypeRelationEntity entity : results.getResults()) {
+                ids.add(entity.getId ());
+            }
+        }
+        return ids;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TypeTypeRelationInfo> searchForTypeTypeRelations(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeTypeRelationInfo> infos = new ArrayList<TypeTypeRelationInfo>();
+        GenericQueryResults<TypeTypeRelationEntity> results = typeTypeRelationCriteriaLookupService.lookup(TypeTypeRelationEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (TypeTypeRelationEntity entity : results.getResults()) {
+                infos.add(entity.toDto());
+            }
+        }
+        return infos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TypeInfo> searchForTypes(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeInfo> infos = new ArrayList<TypeInfo>();
+        GenericQueryResults<TypeEntity> results = typeCriteriaLookupService.lookup(TypeEntity.class, criteria);
+        if (null != results && results.getResults().size() > 0) {
+            for (TypeEntity entity : results.getResults()) {
+                infos.add(entity.toDto());
+            }
+        }
+        return infos;
+    } 
+    
 }
