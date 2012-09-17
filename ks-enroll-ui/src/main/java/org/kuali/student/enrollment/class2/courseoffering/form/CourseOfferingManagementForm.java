@@ -46,6 +46,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
     //For Adding Activity
     private String formatIdForNewAO;
 
+    private String clusterIdIdForNewFO;
+
     private String activityIdForNewAO;
     private String noOfActivityOfferings;
 
@@ -212,6 +214,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setFormatIdForNewAO(String formatIdForNewAO) {
         this.formatIdForNewAO = formatIdForNewAO;
+    }
+
+    public String getClusterIdIdForNewFO() {
+        return clusterIdIdForNewFO;
+    }
+
+    public void setClusterIdIdForNewFO(String clusterIdIdForNewFO) {
+        this.clusterIdIdForNewFO = clusterIdIdForNewFO;
     }
 
     public String getActivityIdForNewAO() {

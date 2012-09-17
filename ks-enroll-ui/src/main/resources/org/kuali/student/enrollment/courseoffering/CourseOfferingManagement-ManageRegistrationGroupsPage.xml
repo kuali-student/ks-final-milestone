@@ -50,6 +50,7 @@
                                     <list>
                                         <ref bean="KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection-WithDisclosure"/>
                                         <ref bean="KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection"/>
+                                        <ref bean="KS-ManageRegistrationGroupPage-ClusterForFormat"/>
                                         <ref bean="KS-ManageRegistrationGroupsPage-CreateNewClusterSection" />
                                         <ref bean="KS-ManageRegistrationGroupPage-NoClusterCondition"/>
                                         <ref bean="KS-ManageRegistrationGroupPage-HasClusterCondition"/>
@@ -182,6 +183,15 @@
                       p:label="INSTRUCTOR"
                       p:propertyName="firstInstructorDisplayName"/>
             </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ManageRegistrationGroupPage-ClusterForFormat" parent="Uif-InputField" p:propertyName="clusterIdIdForNewFO" p:label="List of Clusters" p:labelPlacement="TOP" p:required="false" >
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfOfferingForFOKeyValues" p:addBlankOption="false" />
         </property>
     </bean>
 
