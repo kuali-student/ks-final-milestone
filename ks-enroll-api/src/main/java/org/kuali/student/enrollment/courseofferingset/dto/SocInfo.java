@@ -38,6 +38,7 @@ import org.w3c.dom.Element;
     "termId",
     "subjectArea",
     "unitsContentOwnerId",
+    "schedulingStateKey",
     "lastSchedulingRunStarted",
     "lastSchedulingRunCompleted",
     "publishingStarted",
@@ -50,18 +51,28 @@ public class SocInfo
         implements Soc {
 
     private static final long serialVersionUID = 1L;
+    
     @XmlElement
     private String termId;
+    
     @XmlElement
     private String subjectArea;
+    
     @XmlElement
     private String unitsContentOwnerId;
+    
+    @XmlElement
+    private String schedulingStateKey;
+    
     @XmlElement
     private Date lastSchedulingRunStarted;    
+    
     @XmlElement
     private Date lastSchedulingRunCompleted;  
+    
     @XmlElement
     private Date publishingStarted; 
+    
     @XmlElement
     private Date publishingCompleted;
     
@@ -69,28 +80,34 @@ public class SocInfo
     private List<Element> _futureElements;
 
     /**
-     * Constructs a new CourseOfferingInfo.
+     * Constructs a new CourseOffering Set object.
      */
     public SocInfo() {
     }
 
     /**
-     * Constructs a new CourseOfferingInfo from another
-     * CourseOffering.
+     * Constructs a new Set of Offered Courses from an existing Set.
      *
-     * @param offering the course offering to copy
+     * @param soc The Set of Offered Courses to copy
      */
-    public SocInfo(Soc offering) {
+    public SocInfo(Soc soc) {
 
-        super(offering);
+        super(soc);
 
-        if (offering == null) {
+        if (soc == null) {
             return;
         }
 
-        this.termId = offering.getTermId();
-        this.subjectArea = offering.getSubjectArea();
-        this.unitsContentOwnerId = offering.getUnitsContentOwnerId();
+        this.termId = soc.getTermId();
+        this.subjectArea = soc.getSubjectArea();
+        this.unitsContentOwnerId = soc.getUnitsContentOwnerId();
+        
+        this.lastSchedulingRunCompleted = soc.getLastSchedulingRunCompleted();
+        this.lastSchedulingRunStarted = soc.getLastSchedulingRunStarted();
+        this.publishingCompleted = soc.getPublishingCompleted();
+        this.publishingStarted = soc.getPublishingStarted();
+        
+        this.schedulingStateKey = soc.getSchedulingStateKey();
 
 
     }
@@ -157,6 +174,14 @@ public class SocInfo
     public void setPublishingStarted(Date publishingStarted) {
         this.publishingStarted = publishingStarted;
     }
+
+	public String getSchedulingStateKey() {
+		return schedulingStateKey;
+	}
+
+	public void setSchedulingStateKey(String schedulingStateKey) {
+		this.schedulingStateKey = schedulingStateKey;
+	}
     
     
     
