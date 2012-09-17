@@ -30,12 +30,12 @@
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
-        <!-- property name="additionalScriptFiles">
+        <property name="additionalScriptFiles">
             <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
+                <value>ks-enroll/scripts/scheduleOfClasses.js</value>
             </list>
         </property>
-        <property name="additionalCssFiles">
+        <!-- property name="additionalCssFiles">
             <list merge="true">
                 <value>ks-enroll/css/acal.css</value>
             </list>
