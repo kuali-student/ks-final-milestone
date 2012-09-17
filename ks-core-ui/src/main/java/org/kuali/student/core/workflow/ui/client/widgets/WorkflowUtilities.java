@@ -46,6 +46,7 @@ import org.kuali.student.common.ui.client.util.SearchUtils;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.KSLightBox.Size;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
@@ -790,15 +791,14 @@ public class WorkflowUtilities{
                 
 //              final ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL);                
                                   
-                approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
+                approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(true);
                 
                 approveCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
                     @Override
                     public void exec(ButtonEnumerations.ButtonEnum result) {
                         if (result != ButtonEnumerations.ApproveCancelEnum.CANCEL) {
-                            if (rationaleEditor.getText().trim().equals("")) {
-                                required.setText("Please enter the decision rationale");
-                            } else {
+                            {
+                                // - Removed check here to make Rational for Approvals not required.
                                 if (approveDialogView != null) {
                                     // Validate all the fields on the current section (the additional required fields)
                                     parentController.requestModel(new ModelRequestCallback<DataModel>() {
@@ -922,12 +922,13 @@ public class WorkflowUtilities{
                 SectionTitle headerTitle = SectionTitle.generateH3Title("Approve Proposal");
                 SectionTitle dialogLabel = SectionTitle.generateH4Title("You are approving the " + proposalName +" proposal");
                 SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");               
-                required = new AbbrPanel("Required", "ks-form-module-elements-required", " * ");
+                required = new AbbrPanel("Required", "ks-form-module-elements-required", "  ");
                 required.setVisible(true);              
                 HorizontalPanel rationalePanel = new HorizontalPanel();                
                 rationalePanel.add(fieldLabel);
                 rationalePanel.add(required);               
                 rationaleEditor.addStyleName("KS-Comment-Create-Editor");
+                rationaleEditor.setPixelSize( 520,180);
                 dialogPanel.clear();
                 submitSuccessDialog.clearButtons();
                 submitSuccessDialog.setNonCaptionHeader(headerTitle);
@@ -937,9 +938,9 @@ public class WorkflowUtilities{
                 if(approveDialogView!=null && !approveDialogView.getFields().isEmpty()){
                     dialogPanel.add(approveDialogView.asWidget());
                 }
-                submitSuccessDialog.addButtonGroup(approveCancelButtons);
-                //dialogPanel.setSize("580px", "450px");
-                dialogPanel.setHeight("380px");
+                submitSuccessDialog.addButtonGroup(approveCancelButtons);               
+                dialogPanel.setWidth("380px");              
+                submitSuccessDialog.setSize(Size.MEDIUM);
                 submitSuccessDialog.show();
             }        
         });

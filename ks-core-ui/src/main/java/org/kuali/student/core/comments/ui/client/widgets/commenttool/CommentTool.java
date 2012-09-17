@@ -121,19 +121,41 @@ public class CommentTool implements HasReferenceId {
         }
     });
     
+    protected void setCommentsWarningText(VerticalFlowPanel contentPanel)
+    {
+        htmlLabel = new HTML("<b>All comments posted here will be visible to authors, and " +
+                "to reviewers after you submit the proposal.</b>");
+        contentPanel.add(htmlLabel);
+    }
+    
+    //Used to get the number of comments that will be used in the Comments(x) row 
+    protected int getDecisionsCommentsCount(List<CommentInfo> commentInfos)
+    {
+        return commentInfos.size();
+    }
+    
+    protected KSLabel commentTextLabelProperties(RichTextInfo commentRT)
+    {
+        String commentText = commentRT.getPlain();
+        KSLabel commentTextLabel = new KSLabel(commentText);
+        commentTextLabel.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
+        //Change this line to configure the size of the table cell that displays the comment
+        commentTextLabel.setWidth("120px");
+        commentTextLabel.getElement().getStyle().setProperty("wordWrap", "break-word");
+        return commentTextLabel;
+    }
+    
     private void init() {
         commentLightBox = new KSLightBox();
         VerticalFlowPanel contentPanel = new VerticalFlowPanel();
         // light box title and instructions
         SectionTitle title = SectionTitle.generateH2Title(this.title);
         title.addStyleName("ks-layout-header");
-        htmlLabel = new HTML("<b>All comments posted here will be visible to authors, and " +
-                "to reviewers after you submit the proposal.</b>");
         title.setStyleName("cluProposalTitleSection");
         proposalTitle.setVisible(false);
         contentPanel.add(proposalTitle);
         commentLightBox.setNonCaptionHeader(title);
-        contentPanel.add(htmlLabel);
+        setCommentsWarningText(contentPanel);
         
         // comments section title
         leaveACommentTitle = SectionTitle.generateH3Title("Leave a Comment");
@@ -319,7 +341,7 @@ public class CommentTool implements HasReferenceId {
                 }
                 if (rowIndex == 0) {
                     StringBuilder titleTextSb = new StringBuilder();
-                    titleTextSb.append("Comments (").append(commentInfos.size()).append(")");
+                    titleTextSb.append("Comments (").append(getDecisionsCommentsCount(commentInfos)).append(")");
                     SectionTitle commentsSectionHeader = SectionTitle.generateH3Title(titleTextSb.toString());
                     commentsSectionHeader.getElement().getStyle().setProperty("borderBottom", "1px solid #D8D8D8");
                     commentsTableLayout.setWidget(rowIndex, columnIndex, commentsSectionHeader);
@@ -357,13 +379,7 @@ public class CommentTool implements HasReferenceId {
                 userNameAndTime.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
                 commentsTableLayout.setWidget(rowIndex, columnIndex, userNameAndTime);
                 columnIndex++;
-                
-                RichTextInfo commentRT = commentInfo.getCommentText();
-                String commentText = commentRT.getPlain();
-                KSLabel commentTextLabel = new KSLabel(commentText);
-                commentTextLabel.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
-                commentTextLabel.setWidth("120px");
-                commentTextLabel.getElement().getStyle().setProperty("wordWrap", "break-word");
+                KSLabel commentTextLabel=commentTextLabelProperties(commentInfo.getCommentText());
                 commentsTableLayout.setWidget(rowIndex, columnIndex, commentTextLabel);
                 columnIndex++;
                 editButton.getElement().getStyle().setPadding(5d, Style.Unit.PX);

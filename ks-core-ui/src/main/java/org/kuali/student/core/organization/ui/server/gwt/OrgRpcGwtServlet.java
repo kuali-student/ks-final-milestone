@@ -550,12 +550,10 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     
     @Override
     public Boolean isAuthorized(PermissionType type, Map<String, String> attributes) {
-        // TODO Auto-generated method stub
         return null;
     }
 
 	public List<ValidationResultInfo> validate(Data data) {
-		// TODO Auto-generated method stub
 		return null;
 	}
     

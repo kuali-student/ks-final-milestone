@@ -38,6 +38,11 @@ public class ExportDocumentDownload extends HttpServlet {
             response.addHeader("Content-Type", "application/pdf");
             response.addHeader("Content-Disposition", "inline; filename=export.pdf");
             response.setContentLength((int) bytes.length);
+        } else if (format.equals(ExportUtils.XLS)) {
+            response.setContentType("application/xls");
+            response.addHeader("Content-Type", "application/xls");
+            response.addHeader("Content-Disposition", "inline; filename=export.xls");
+            response.setContentLength((int) bytes.length);
         } else {
             response.setContentType("application/ms-word");
             response.addHeader("Content-Type", "application/ms-word");

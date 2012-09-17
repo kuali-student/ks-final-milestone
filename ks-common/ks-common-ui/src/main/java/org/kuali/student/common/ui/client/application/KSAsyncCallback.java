@@ -15,71 +15,53 @@
  */
 package org.kuali.student.common.ui.client.application;
 
-import org.kuali.student.common.ui.client.security.SessionTimeoutHandler;
-import org.kuali.student.common.ui.client.security.SpringSecurityLoginDialogHandler;
-import org.kuali.student.common.ui.client.service.exceptions.VersionMismatchClientException;
-import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
+import org.kuali.student.common.ui.client.security.AsyncCallbackFailureHandler;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * This extends the AysncCallback to handle uncaught RPC exceptions and
- * handle authentication.
+ * All GWT call backs use this class, which allows us to intercept any
+ * failure and handle them appropriately.
  * 
  * @author Kuali Student Team
  *
  */
 public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
        
-	private static final SessionTimeoutHandler sessionTimeoutHandler = GWT.create(SpringSecurityLoginDialogHandler.class);
-	
-	/**
-	 * It is recommended that this method not be overrided, as it provides session timeout handling. 
-	 * Instead the handleFailure method should be overriden to handle rpc call error.
-	 *  
-	 */
-	public void onFailure(Throwable caught) {  
-	    if (sessionTimeoutHandler.isSessionTimeout(caught)){
-        	handleTimeout(caught);
-        	sessionTimeoutHandler.handleSessionTimeout();
-        } else if (caught instanceof VersionMismatchClientException){
-            handleVersionMismatch(caught);
-        }else {        
-        	handleFailure(caught);
-        }
-    }
-
     /**
-     * Override this method to process any exceptions you wish to handle. The default implementation displays 
-     * an error dialog with the message and logs the exception.
-     * 
-     * @param caught
+     * Failure is delegated to this class which is created using GWT.create().
+     * This allows implementing institution to swap out the class
      */
-    public void handleFailure(Throwable caught){
-    	if (!sessionTimeoutHandler.isSessionTimeout(caught)){
-    		KSErrorDialog.show(caught);
-    	}
-        GWT.log("Exception:", caught);
-    }
+    private static final AsyncCallbackFailureHandler asyncCallbackFailureHandler = GWT.create(AsyncCallbackFailureHandler.class);
     
     /**
-     * By default this defers to handleFailure. Override this handle a rpc failure due to timeout differently
-     * from other exceptions.
-     * 
-     * @param caught
+     *  Allows institution to override this method by implementing its own 
+     *  AsyncCallbackFailureHandler. 
      */
-    public void handleTimeout(Throwable caught){
-    	handleFailure(caught);
+    public void onFailure(Throwable caught) {  
+        asyncCallbackFailureHandler.onFailure(caught);
     }
-        
-    public void handleVersionMismatch(Throwable caught){
-        String message = null;
-        if (caught.getMessage() != null){
-            message = "Version Error: " + caught.getMessage() + "\n\n";
-        }
-        message += "This page has been updated by another user since you loaded it. Please refresh and re-apply changes before saving.";
-        Window.alert(message);
+    /**
+     *  Allows institution to override this method by implementing its own 
+     *  AsyncCallbackFailureHandler.
+     */
+    public void handleFailure(Throwable caught) {
+         asyncCallbackFailureHandler.handleFailure(caught);
     }
+    /**
+     *  Allows institution to override this method by implementing its own 
+     *  AsyncCallbackFailureHandler.
+     */
+     public void handleTimeout(Throwable caught){
+         asyncCallbackFailureHandler.handleTimeout(caught);
+     }
+    /**
+     *  Allows institution to override this method by implementing its own 
+     *  AsyncCallbackFailureHandler.
+     */
+     public void handleVersionMismatch(Throwable caught){
+         asyncCallbackFailureHandler.handleVersionMismatch(caught); 
+     }
 }

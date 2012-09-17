@@ -33,17 +33,41 @@ public class LinkContentBlock extends ContentBlock{
 		listLayout.add(widget);
 	}
 	
+	/**
+     * Use this when you simply want to Navigate to other internal, KS screens.
+     * @param text - label
+     * @param location - relative internal path to screen
+     */
 	public void addNavLinkWidget(String text, String location){
 		Hyperlink hyperlink = new Hyperlink(text, location);
 		hyperlink.addStyleName("contentBlock-navLink");
 		listLayout.add(hyperlink);
 	}
 	
+	/**
+     * Use this when you want an anchor attached to a custom click handler
+     * @param text - label
+     * @param handler - whatever handler you need.
+     */
 	public void addNavLinkWidget(String text, ClickHandler handler){
 		Anchor anchor = new Anchor(text);
 		anchor.addClickHandler(handler);
 		anchor.addStyleName("contentBlock-navLink");
 		this.add(anchor);
 	}
+	
+	/**
+     * Use this when you want a simple External link.
+     * @param text - label of link
+     * @param externalHref - URL
+     */
+    public void addExternalLink(String text, String externalHref, boolean openInNewWin){
+        Anchor anchor = new Anchor(text, externalHref);
+        anchor.addStyleName("contentBlock-navLink");
+        if (openInNewWin){
+        anchor.setTarget("newWin");
+        }
+        this.add(anchor);
+    }
 
 }
