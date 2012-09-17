@@ -17,10 +17,10 @@ package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 import java.util.HashSet;
-import org.kuali.student.enrollment.lui.service.LuiService;
 
 /**
  * Lui Service Constants
@@ -228,13 +228,13 @@ public class LuiServiceConstants {
      * Implemented: 8/30/2012  by Mezba Mahtab
      */
     public static final String LUI_AO_SCHEDULING_STATE_PROCESS_KEY = "kuali.activity.offering.scheduling.process";
-    public static final String LUI_AO_SCHEDULING_STATE_NONSCHEDULED_KEY = "kuali.lui.activity.offering.scheduling.state.nonscheduled";
+    public static final String LUI_AO_SCHEDULING_STATE_EXEMPT_KEY = "kuali.lui.activity.offering.scheduling.state.exempt";
     public static final String LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY = "kuali.lui.activity.offering.scheduling.state.scheduled";
     public static final String LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY = "kuali.lui.activity.offering.scheduling.state.unscheduled";
     public static final String LUI_AO_SCHEDULING_STATE_ERROR_KEY = "kuali.lui.activity.offering.scheduling.state.error";
 
     public static final String[] LUI_AO_SCHEDULING_STATE_KEYS = {
-            LUI_AO_SCHEDULING_STATE_NONSCHEDULED_KEY,
+            LUI_AO_SCHEDULING_STATE_EXEMPT_KEY,
             LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY,
             LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY,
             LUI_AO_SCHEDULING_STATE_ERROR_KEY
