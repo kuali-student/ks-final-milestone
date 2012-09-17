@@ -268,12 +268,12 @@
                 <bean parent="Uif-LinkGroup" p:style="float:right">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroupsPerCluster" p:actionLabel="View Registration Groups" p:render="@{#line.hasRegGroups}"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasRegGroups}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroupsPerCluster" p:actionLabel="View Registration Groups" p:render="@{#line.hasRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="renameCluster" p:actionLabel="Rename Cluster" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="renameCluster" p:actionLabel="Rename Cluster" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="removeACluster" p:actionLabel="Remove Cluster" />
+                            <bean parent="Uif-ActionLink" p:methodToCall="removeACluster" p:actionLabel="Remove Cluster" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                         </list>
                     </property>
                 </bean>

@@ -259,7 +259,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         aoClusterWrapper.setAoCluster(emptyCluster);
         aoClusterWrapperList.add(aoClusterWrapper);
         theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
-        theForm.setHasAOCluster(true);      
+        theForm.setHasAOCluster(true);
+        theForm.setPrivateClusterName("");
+        theForm.setPublishedClusterName("");
         
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
