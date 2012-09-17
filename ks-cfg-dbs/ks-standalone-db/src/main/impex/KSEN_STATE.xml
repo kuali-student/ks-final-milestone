@@ -85,9 +85,9 @@
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="TBA or Departmentally owned and need not be sent to the scheduler"
         DESCR_PLAIN="TBA or Departmentally owned and need not be sent to the scheduler"
-        ID="kuali.lui.activity.offering.scheduling.state.nonscheduled"
+        ID="kuali.lui.activity.offering.scheduling.state.exempt"
         LIFECYCLE_KEY="kuali.activity.offering.scheduling.process"
-        NAME="NonScheduled" UPDATEID="SYSTEMLOADER"
+        NAME="Exempt" UPDATEID="SYSTEMLOADER"
         UPDATETIME="19700101000000" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="Scheduled and ready to be Offered"
