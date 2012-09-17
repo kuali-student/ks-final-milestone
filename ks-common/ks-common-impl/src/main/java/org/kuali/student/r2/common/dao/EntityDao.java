@@ -19,12 +19,21 @@ public interface EntityDao<T> {
     T find(Serializable primaryKey);
 
     /**
-     * Find objects of specified class by primary keys.
+     * Find objects of specified class by primary keys. Note: this method assumes that your primary key is "id"
      *
      * @param primaryKeys - list of Primary keys
      * @return Entity for given key
      */
     public List<T> findByIds(List<? extends Serializable> primaryKeys) throws Exception;
+
+
+    /**
+     * Find objects of specified class by primary keys.
+     *
+     * @param primaryKeys - list of Primary keys
+     * @return Entity for given key
+     */
+    public List<T> findByIds(String primaryKeyMemberName, List<? extends Serializable> primaryKeys) throws Exception;
 
     /**
      * Load all entities of this type.
@@ -52,7 +61,6 @@ public interface EntityDao<T> {
      * Merge detached object.
      *
      * @param entity Entity to save
-     * @param <T>    the Entity type
      * @return Merged entity.
      */
     T merge(T entity);

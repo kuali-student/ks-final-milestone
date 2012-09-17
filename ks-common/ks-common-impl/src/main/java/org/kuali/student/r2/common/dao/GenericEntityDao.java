@@ -2,14 +2,12 @@ package org.kuali.student.r2.common.dao;
 
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 /**
  * @author Igor
@@ -34,20 +32,13 @@ public class GenericEntityDao<T> implements EntityDao<T> {
     }
 
     @Override
+    public List<T> findByIds(String primaryKeyMemberName, List<? extends Serializable> primaryKeys) throws DoesNotExistException {
+        return em.createQuery("from " + entityClass.getSimpleName() + " where "+ primaryKeyMemberName +" in (:ids)").setParameter("ids", primaryKeys).getResultList();
+    }
+
+    @Override
     public List<T> findByIds(List<? extends Serializable> primaryKeys) throws DoesNotExistException {
-        List<T> resultList = new ArrayList<T>();
-        for (Serializable primaryKey : primaryKeys) {
-
-            T entity = find(primaryKey);
-
-            if (entity == null) {
-
-                throw new DoesNotExistException("No data was found for :" + primaryKey);
-
-            }
-            resultList.add(entity);
-        }
-        return resultList;
+        return findByIds("id", primaryKeys);
     }
 
     @Override
