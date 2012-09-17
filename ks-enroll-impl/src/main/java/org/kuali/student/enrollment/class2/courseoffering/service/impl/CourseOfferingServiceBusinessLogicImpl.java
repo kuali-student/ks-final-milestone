@@ -590,9 +590,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, DataValidationErrorException {
 
-        if (true) { // TODO: Remove this if-block when M5 is further down the line
-            return _m4GenerateRegGroups(formatOfferingId, contextInfo);
-        }
+//        if (true) { // TODO: Remove this if-block when M5 is further down the line
+//            return _m4GenerateRegGroups(formatOfferingId, contextInfo);
+//        }
         // TODO: Original code is below--see above TODO
         // check for any existing registration groups
         this._getCoService(); // Make sure coService gets set

@@ -108,6 +108,7 @@ public class TestCourseOfferingServiceImplM4 {
         contextInfo.setPrincipalId("admin");
         contextInfo.setAuthenticatedPrincipalId("admin");
         try {
+            atpTestDataLoader.loadDataOneRecord();
             dataLoader.loadData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -254,6 +255,23 @@ public class TestCourseOfferingServiceImplM4 {
         }
         return idList;
     }
+
+    private ActivityOfferingClusterInfo createAOC() {
+        ActivityOfferingClusterInfo expected;
+        try {
+            ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{
+                coServiceImpl.getActivityOffering("Lui-5", contextInfo),
+                coServiceImpl.getActivityOffering("Lui-Lab2", contextInfo),
+                coServiceImpl.getActivityOffering("Lui-8", contextInfo)};
+
+            expected = CourseOfferingServiceDataUtils.createActivityOfferingCluster("Lui-6", "Default Cluster",
+                                                                                     Arrays.asList(activities));
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        return expected;
+    }
+
     // ============================================== TESTS ======================================================
     @Test
     public void testRegCodeGenerator() {
@@ -464,12 +482,17 @@ public class TestCourseOfferingServiceImplM4 {
 
         before();
         try {
-            StatusInfo status = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
+            //create AOC
+            coServiceImpl.createActivityOfferingCluster("Lui-6", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, createAOC(), contextInfo);
 
+            //generate RG
+            StatusInfo status = coServiceImpl.generateRegistrationGroupsForFormatOffering("Lui-6", contextInfo);
             assertEquals(true, status.getIsSuccess());
 
+            //test RG generation was successful
             List<RegistrationGroupInfo> rgList = coServiceImpl.getRegistrationGroupsByFormatOffering("Lui-6", contextInfo);
-            Assert.assertEquals(1, rgList.size());
+            Assert.assertEquals(2, rgList.size());
+
         } catch (Exception e) {
             e.printStackTrace();
             assert (false);
@@ -477,25 +500,11 @@ public class TestCourseOfferingServiceImplM4 {
     }
 
     @Test
-    public void testCreateActivityOfferingClusterGet() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public void testActivityOfferingClusterCRUDsPlus() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        try {
-            atpTestDataLoader.loadDataOneRecord();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
         before();
 
-        ActivityOfferingInfo activities[] = new ActivityOfferingInfo[]{
-                coServiceImpl.getActivityOffering("Lui-5", contextInfo),
-                coServiceImpl.getActivityOffering("Lui-Lab2", contextInfo),
-                coServiceImpl.getActivityOffering("Lui-8", contextInfo)};
-
-
-        ActivityOfferingClusterInfo expected = CourseOfferingServiceDataUtils
-                .createActivityOfferingCluster("Lui-6", "Default Cluster",
-                        Arrays.asList(activities));
-
+        ActivityOfferingClusterInfo expected = createAOC();
         new AttributeTester().add2ForCreate(expected.getAttributes());
 
         //test createActivityOfferingCluster

@@ -1622,6 +1622,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         try {
             return businessLogic.generateRegistrationGroupsForFormatOffering(formatOfferingId, context);
+        } catch (DoesNotExistException ex) {
+            throw new RuntimeException(ex);
         } catch (Exception e) {
             throw new RuntimeException("Registration Groups generation has failed! ", e);
         }
