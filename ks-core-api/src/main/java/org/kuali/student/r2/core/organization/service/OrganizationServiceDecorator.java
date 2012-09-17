@@ -424,4 +424,16 @@ public class OrganizationServiceDecorator
     public SearchResult search(SearchRequest searchRequestInfo) throws MissingParameterException {
         return getNextDecorator().search(searchRequestInfo);
     }
+
+    @Override
+    public List<String> searchForOrgHierarchyIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForOrgHierarchyIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<OrgHierarchyInfo> searchForOrgHierarchies(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForOrgHierarchies(criteria, contextInfo);
+    }
+    
+    
 }

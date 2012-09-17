@@ -183,7 +183,8 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
             OperationFailedException, PermissionDeniedException;
 
     /**
-     *
+     * Search for Sets of Courses
+     * 
      * @param criteria What to search for in SocInfo table
      * @param context Context information containing the principalId and locale
      *                    information about the caller of service operation
@@ -198,7 +199,8 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     *
+     * Search for Set of Course Ids
+     * 
      * @param criteria What to search for in SocInfo table
      * @param context Context information containing the principalId and locale
      *                    information about the caller of service operation
@@ -1071,6 +1073,36 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
      * @throws PermissionDeniedException
      */
     public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)  throws InvalidParameterException, MissingParameterException,
+            OperationFailedException,PermissionDeniedException;
+    
+    
+    /**
+     * Searches for soc rollover result item ids using a free form search criteria.
+     *
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForSocRolloverResultItemIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for soc rollover result items using a free form search criteria
+     *
+     * @param criteria
+     * @param context
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<SocRolloverResultItemInfo> searchForSocRolloverResultItems(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "context") ContextInfo context)  throws InvalidParameterException, MissingParameterException,
             OperationFailedException,PermissionDeniedException;
 

@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 import java.util.HashSet;
+import org.kuali.student.enrollment.lui.service.LuiService;
 
 /**
  * Lui Service Constants
@@ -28,6 +29,7 @@ import java.util.HashSet;
  */
 public class LuiServiceConstants {
 
+    public static final String SERVICE_NAME_LOCAL_PART = LuiService.class.getSimpleName ();
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "lui";
     public static final String REF_OBJECT_URI_LUI = NAMESPACE + "/" + LuiInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_LUI_LUI_RELATION = NAMESPACE + "/" + LuiLuiRelationInfo.class.getSimpleName();

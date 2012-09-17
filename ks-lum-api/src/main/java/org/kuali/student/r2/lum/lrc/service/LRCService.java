@@ -18,6 +18,7 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -868,4 +869,97 @@ public interface LRCService extends LrcServiceBusinessLogic, SearchService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+    
+     
+    /**
+     * Searches for result scale ids using a free form search criteria.
+     *
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForResultScaleIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for result scales using a free form search criteria
+     *
+     * @param criteria
+     * @param context
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<ResultScaleInfo> searchForResultScales(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)  throws InvalidParameterException, MissingParameterException,
+            OperationFailedException,PermissionDeniedException;
+    
+    
+     
+    /**
+     * Searches for result value ids using a free form search criteria.
+     *
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForResultValueIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for result values using a free form search criteria
+     *
+     * @param criteria
+     * @param context
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<ResultValueInfo> searchForResultValues(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)  throws InvalidParameterException, MissingParameterException,
+            OperationFailedException,PermissionDeniedException;
+    
+    
+     
+    /**
+     * Searches for result value group ids using a free form search criteria.
+     *
+     * @param criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> searchForResultValuesGroupIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for result value groups using a free form search criteria
+     *
+     * @param criteria
+     * @param context
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<ResultValuesGroupInfo> searchForResultValuesGroups(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "context") ContextInfo context)  throws InvalidParameterException, MissingParameterException,
+            OperationFailedException,PermissionDeniedException;
+    
 }
