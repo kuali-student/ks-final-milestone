@@ -57,8 +57,10 @@
                 <entry key="bFilter" value="false"/>
                 <entry key="sPaginationType" value="full_numbers"/>
                 <entry key="bLengthChange" value="false"/>
+                <entry key="aaSorting" value="[[1,'asc']]"/>
                 <entry key="aoColumns"
-                       value="[ {'bSortable':true},
+                       value="[ {'bSortable':false},
+                                {'bSortable':true},
                                 {'bSortable':false},
                                 {'bSortable':false},
                                 {'bSortable':false}
@@ -67,10 +69,14 @@
         </property>
         <property name="items">
             <list>
+                <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Union.PNG">
+                    <property name="onClickScript" value="ajaxCallActivityOfferings('controllerMethod', '@{#line.coDisplayInfo.courseOfferingCode}')" />
+                </bean>
                 <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
                 <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
                 <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOptionName"/>
                 <bean parent="Uif-DataField" p:label="GRADING" p:propertyName="coDisplayInfo.gradingOptionName"/>
+                <!-- bean parent="Uif-MessageField" p:label="INFORMATION" p:messageText="@{#line.information}"/ -->
             </list>
         </property>
     </bean>
