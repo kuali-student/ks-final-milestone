@@ -2421,6 +2421,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo updateSeatPoolDefinitionState(
             @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
             @WebParam(name = "nextStateKey") String nextStateKey,
@@ -2431,6 +2432,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
             @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -2452,9 +2454,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -2471,16 +2474,57 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteActivityOfferingClusterCascaded(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        throw new UnsupportedOperationException("implement for M5");
+
+        List<RegistrationGroupInfo> rgInfos =
+                getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+        List<String> failedToDelete = new ArrayList<String>();
+        for (RegistrationGroupInfo rgInfo: rgInfos) {
+            String id = rgInfo.getId();
+            try {
+                // Delete as many as you can...
+                StatusInfo statusInfo = deleteRegistrationGroup(id, contextInfo);
+                if (!statusInfo.getIsSuccess()) {
+                    failedToDelete.add(id);
+                }
+            } catch (Exception e) {
+                failedToDelete.add(id);
+            }
+        }
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        if (failedToDelete.isEmpty()) {
+            try {
+                // Call non-cascaded version
+                deleteActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+            } catch (DependentObjectsExistException e) {
+                statusInfo.setSuccess(Boolean.FALSE);
+                statusInfo.setMessage("Dependent objects exist: " + e.getMessage());
+            }
+        } else {
+            // Some reg groups still exist, so error.
+            statusInfo.setSuccess(Boolean.FALSE);
+            StringBuffer buffer = new StringBuffer("Failed to delete:");
+            for (String str: failedToDelete) {
+                buffer.append(" " + str);
+            }
+            statusInfo.setMessage(buffer.toString());
+        }
+        if (!statusInfo.getIsSuccess()) {
+            // Only doing this because the mock impl appears to do this too.
+            throw new OperationFailedException(statusInfo.getMessage());
+        }
+        return statusInfo;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<String> getActivityOfferingClustersIdsByFormatOffering(
             @WebParam(name = "formatOfferingId") String formatOfferingId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
