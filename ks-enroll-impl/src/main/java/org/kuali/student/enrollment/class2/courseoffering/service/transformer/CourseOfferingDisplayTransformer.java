@@ -49,6 +49,7 @@ public class CourseOfferingDisplayTransformer {
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             PermissionDeniedException, OperationFailedException {
         CourseOfferingDisplayInfo displayInfo = new CourseOfferingDisplayInfo();
+        displayInfo.setId(coInfo.getId());
         // Fields use in course offering display info
         // descr, courseId,
         displayInfo.setDescr(coInfo.getDescr());
