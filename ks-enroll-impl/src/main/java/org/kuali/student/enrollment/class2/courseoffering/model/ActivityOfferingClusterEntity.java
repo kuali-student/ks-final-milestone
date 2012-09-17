@@ -82,6 +82,7 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
         this.setActivityOfferingClusterState(aoCluster.getStateKey());
         this.setActivityOfferingClusterType(aoCluster.getTypeKey());
         this.setName(aoCluster.getName());
+        this.setPrivateName(aoCluster.getPrivateName());
         this.setFormatOfferingId(aoCluster.getFormatOfferingId());
         if (aoCluster.getDescr() != null) {
             this.setDescrFormatted(aoCluster.getDescr().getFormatted());
@@ -112,6 +113,7 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
         aoClusterInfo.setTypeKey(getActivityOfferingClusterType());
         // Then, all the instance variables that are specific to SeatPoolDefinitionEntity
         aoClusterInfo.setName(getName());
+        aoClusterInfo.setPrivateName(getPrivateName());
         aoClusterInfo.setFormatOfferingId(getFormatOfferingId());
         aoClusterInfo.setPrivateName(getPrivateName());
 
