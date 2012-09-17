@@ -47,8 +47,8 @@ public class ScheduleWrapper implements Serializable{
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
-        buildingCode = "097";
-        roomCode = "1115097";
+        setBuildingCode("BUILDING-ID-CCC");
+        setRoomCode("ROOM-ID-CCC-1115");
     }
 
     public ScheduleWrapper(ScheduleRequestInfo scheduleRequest){
@@ -207,7 +207,7 @@ public class ScheduleWrapper implements Serializable{
 
     public String getRoomName() {
         if (room != null){
-            return room.getName();
+            return room.getRoomCode();
         }
         return StringUtils.EMPTY;
     }
