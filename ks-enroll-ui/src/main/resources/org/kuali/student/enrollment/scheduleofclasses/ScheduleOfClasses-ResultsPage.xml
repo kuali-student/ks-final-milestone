@@ -50,7 +50,7 @@
         <property name="propertyName" value="coDisplayWrapperList" />
         <property name="renderLineActions" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
@@ -59,24 +59,22 @@
                 <entry key="bLengthChange" value="false"/>
                 <entry key="aaSorting" value="[[1,'asc']]"/>
                 <entry key="aoColumns"
-                       value="[ {'bSortable':false},
-                                {'bSortable':true},
-                                {'bSortable':false},
-                                {'bSortable':false},
-                                {'bSortable':false},
-                                {'bSortable':false}
+                       value="[ {'bSortable':false, 'sWidth':'5%'},
+                                {'bSortable':true, 'sWidth':'15%'},
+                                {'bSortable':false, 'sWidth':'40%'},
+                                {'bSortable':false, 'sWidth':'20%'},
+                                {'bSortable':false, 'sWidth':'20%'}
                            ]"/>
             </map>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Union.PNG">
+                <bean parent="Uif-ImageField" p:source="../ks-enroll/images/details_open.png">
                     <property name="onClickScript" value="ajaxCallActivityOfferings('controllerMethod', '@{#line.coDisplayInfo.courseOfferingCode}')" />
                 </bean>
                 <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
                 <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
                 <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOptionName"/>
-                <bean parent="Uif-DataField" p:label="GRADING" p:propertyName="coDisplayInfo.gradingOptionName"/>
                 <bean parent="Uif-MessageField" p:label="INFORMATION" p:messageText="@{#line.information}"/>
             </list>
         </property>
