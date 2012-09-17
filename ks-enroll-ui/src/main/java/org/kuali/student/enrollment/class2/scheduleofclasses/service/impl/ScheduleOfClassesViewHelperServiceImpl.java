@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClas
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -34,6 +35,7 @@ import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -71,9 +73,20 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
                 CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
                 coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
-                // TO DO
-            //  coDisplayWrapper.setInformation(information);
-            //  coDisplayWrapper.setAoDisplayInfoList(aoDisplayInfoList); may or may not need it depending on AJAX
+
+                // Have to use CourseOfferingInfo
+                CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coDisplayInfo.getId(), contextInfo);
+                String information = "";
+                if (coInfo.getIsHonorsOffering() != null && coInfo.getIsHonorsOffering()) {
+                    information = "<img src=\"../ks-enroll/images/h.png\" title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
+                }
+                if (coInfo.getGradingOptionId() != null && coInfo.getGradingOptionId().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
+                    information = information + "<img src=\"../ks-enroll/images/p.png\" title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PASSFAIL + "\">";
+                } else if (coInfo.getGradingOptionId() != null && coInfo.getGradingOptionId().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
+                    information = information + "<img src=\"../ks-enroll/images/a.png\" title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_AUDIT + "\">";
+                }
+                coDisplayWrapper.setInformation(information);
+
                 coDisplayWrapperList.add(coDisplayWrapper);
             }
             form.setCoDisplayWrapperList(coDisplayWrapperList);
@@ -114,9 +127,20 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
                     CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
                     coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
-                    // TO DO
-                    //  coDisplayWrapper.setInformation(information);
-                    //  coDisplayWrapper.setAoDisplayInfoList(aoDisplayInfoList); may or may not need it depending on AJAX
+
+                    // Have to use CourseOfferingInfo
+                    CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coDisplayInfo.getId(), contextInfo);
+                    String information = "";
+                    if (coInfo.getIsHonorsOffering() != null && coInfo.getIsHonorsOffering()) {
+                        information = "<img src=\"../ks-enroll/images/h.png\" title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
+                    }
+                    if (coInfo.getGradingOptionId() != null && coInfo.getGradingOptionId().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
+                        information = information + "<img src=\"../ks-enroll/images/p.png\" title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PASSFAIL + "\">";
+                    } else if (coInfo.getGradingOptionId() != null && coInfo.getGradingOptionId().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
+                        information = information + "<img src=\"../ks-enroll/images/a.png\" title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_AUDIT + "\">";
+                    }
+                    coDisplayWrapper.setInformation(information);
+
                     coDisplayWrapperList.add(coDisplayWrapper);
                 }
                 form.setCoDisplayWrapperList(coDisplayWrapperList);
