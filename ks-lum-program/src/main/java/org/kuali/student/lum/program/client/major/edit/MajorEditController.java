@@ -735,7 +735,7 @@ public class MajorEditController extends MajorController {
                 Section currentSection = (Section) currentView;
                 List<Section> nestedSections = currentSection.getSections();
                	for (int i = 0; i < nestedSections.size(); i++) {
-               		ExportElement sectionExportItem = new ExportElement();
+               		ExportElement sectionExportItem = GWT.create(ExportElement.class);
                		ArrayList<ExportElement> subList = null;
                		Section nestedSection = nestedSections.get(i);
                    	if (nestedSection != null && nestedSection instanceof SectionView) {
@@ -750,7 +750,7 @@ public class MajorEditController extends MajorController {
                         		if (sectionList.get(j) instanceof SummaryTableSection)
                         		{	
                         			SummaryTableSection tableSection = (SummaryTableSection) sectionList.get(j);
-                            		ExportElement heading = new ExportElement();
+                            		ExportElement heading = GWT.create(ExportElement.class);
                             		heading.setFieldLabel("");
                             		heading.setFieldValue(programModel.getModelName());
                             		heading.setFieldValue2(comparisonModel.getModelName());
@@ -761,7 +761,7 @@ public class MajorEditController extends MajorController {
                         			List<Section> sectionColList = sectionList.get(j).getSections();
                                 	for (int k = 0; k < sectionColList.size(); k++) {
                                 		SummaryTableSection tableSection = (SummaryTableSection) sectionColList.get(k);
-                                		ExportElement heading = new ExportElement();
+                                		ExportElement heading = GWT.create(ExportElement.class);
                                 		heading.setFieldLabel("");
                                 		heading.setFieldValue(programModel.getModelName());
                                 		heading.setFieldValue2(comparisonModel.getModelName());

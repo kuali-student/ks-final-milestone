@@ -483,7 +483,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     @Override
     public List<ExportElement> getExportElementsFromView() {
         List<ExportElement> exportElements = new ArrayList<ExportElement>();
-        ExportElement heading = new ExportElement();
+        ExportElement heading = GWT.create(ExportElement.class);
         heading.setFieldLabel("");
         heading.setFieldValue(this.tabPanel.getSelectedTabName());
         exportElements.add(heading);

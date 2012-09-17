@@ -534,7 +534,7 @@ public abstract class ProgramController extends MenuSectionController {
         if (currentView != null) {
             
             List<ExportElement> exportElements = new ArrayList<ExportElement>();
-            ExportElement heading = new ExportElement();
+            ExportElement heading = GWT.create(ExportElement.class);
             heading.setFieldLabel("");
             heading.setFieldValue(currentView.getName());
             exportElements.add(heading);
@@ -543,7 +543,7 @@ public abstract class ProgramController extends MenuSectionController {
                 Section currentSection = (Section) currentView;
                 List<Section> nestedSections = currentSection.getSections();
                 for (int i = 0; i < nestedSections.size(); i++) {
-                    ExportElement sectionExportItem = new ExportElement();
+                    ExportElement sectionExportItem = GWT.create(ExportElement.class);
                     ArrayList<ExportElement> subList = null;
                     Section nestedSection = nestedSections.get(i);
                     if (nestedSection != null && nestedSection instanceof SectionView) {

@@ -15,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -249,7 +250,7 @@ public class DependencyResultPanel extends Composite implements ReportExportWidg
         	    for (CollapsablePanel depItem : dependencyItems) {
         	        if (depItem.isVisible()) {
 					
-        	            ExportElement linkElement = new ExportElement();
+        	            ExportElement linkElement = GWT.create(ExportElement.class);
         	            linkElement.setSectionName(parent.getSectionName());
         	            linkElement.setViewName(parent.getViewName());
         	            linkElement.setFieldValue(depItem.getExportFieldValue());

@@ -194,9 +194,9 @@ public class CourseSummaryConfigurer extends Configurer implements
 
         return fieldRow;
     }
-
-    public VerticalSectionView generateProposalSummarySection(boolean canEditSections) {
-        tableSection.setEditable(canEditSections);
+    
+    protected void addSummaryTableFieldBlocks()
+    {
         tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposal());
         tableSection.addSummaryTableFieldBlock(generateCourseInformationForProposalCrossListed());
         tableSection.addSummaryTableFieldBlock(generateGovernanceSection());
@@ -205,6 +205,12 @@ public class CourseSummaryConfigurer extends Configurer implements
         tableSection.addSummaryTableFieldBlock(generateRequirementsSection());
         tableSection.addSummaryTableFieldBlock(generateActiveDatesSection());
         tableSection.addSummaryTableFieldBlock(generateFeesSection());
+        
+    }
+
+    public VerticalSectionView generateProposalSummarySection(boolean canEditSections) {
+        tableSection.setEditable(canEditSections);
+        addSummaryTableFieldBlocks();
         tableSection.addSummaryTableFieldBlock(generateProposalDocumentsSection());
 
         if (   controller instanceof WorkflowEnhancedNavController

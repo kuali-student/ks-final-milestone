@@ -41,7 +41,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public class CourseRetireByProposalController extends CourseProposalController {
 
 	/**
-	 * Override the intitailzeController method to use CourseAdminConfigurer 
+	 * Override the intitailzeController method to use CourseRetireByProposalConfigurer 
 	 */
 	@Override
 	protected void initializeController() {
@@ -74,7 +74,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
         */
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
-   		super.addStyleName("ks-course-admin");  
+   		super.addStyleName("courseProposal");  
    		currentDocType = CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE;	 
    	    
     }
@@ -202,7 +202,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
         List<ExportElement> exportElements = new ArrayList<ExportElement>();
         if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
             SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
-            ExportElement heading = new ExportElement();
+            ExportElement heading = GWT.create(ExportElement.class);
             heading.setFieldLabel("");
             heading.setFieldValue("Retire Proposal");
             exportElements.add(heading);
