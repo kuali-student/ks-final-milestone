@@ -12,6 +12,7 @@ import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
+import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
@@ -45,6 +46,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -78,6 +80,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1853,7 +1856,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public ActivityOfferingClusterInfo updateActivityOfferingCluster(String formatOfferingId, String activityOfferingClusterId,
+    public ActivityOfferingClusterInfo updateActivityOfferingCluster(String formatOfferingId,
+                                                                     String activityOfferingClusterId,
                                                                      ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -1866,6 +1870,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
         if (null != activityOfferingClusterEntity) {
+            if (!activityOfferingClusterEntity.getActivityOfferingClusterState().equals(activityOfferingClusterInfo.getStateKey())) {
+                throw new ReadOnlyException ("state key can only be changed by calling updateActivityOfferingClusterState");
+            }
+
             activityOfferingClusterEntity.fromDto(activityOfferingClusterInfo);
             activityOfferingClusterEntity.setEntityUpdated(contextInfo);
             return activityOfferingClusterDao.merge(activityOfferingClusterEntity).toDto();
@@ -2313,11 +2321,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     public StatusInfo updateActivityOfferingState(
-            @WebParam(name = "activityOfferingId") String activityOfferingId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingId,
+            String nextStateKey,
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+
         throw new UnsupportedOperationException("To be Implemented in M5");
     }
 
@@ -2332,13 +2341,36 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo updateActivityOfferingClusterState(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+            String nextStateKey,
+            ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("To be Implemented in M5");
+
+        ActivityOfferingClusterEntity entity = activityOfferingClusterDao.find(activityOfferingClusterId);
+        if (entity == null) {
+            throw new DoesNotExistException(activityOfferingClusterId);
+        }
+        // TODO: Is it OK if the state does not change?
+        entity.setActivityOfferingClusterState(nextStateKey);
+        this._logAOCStateChange(entity, contextInfo);
+        entity.setEntityUpdated(contextInfo);
+        entity = activityOfferingClusterDao.merge(entity);
+        activityOfferingClusterDao.getEm().flush(); // need to flush to get the version ind to update
+        StatusInfo status = new StatusInfo ();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
+
+    private void _logAOCStateChange(ActivityOfferingClusterEntity entity, ContextInfo contextInfo) {
+        // add the state change to the log
+        // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        Date date = contextInfo.getCurrentDate();
+        AttributeInfo attr = new AttributeInfo(entity.getActivityOfferingClusterState(), formatter.format(date));
+        entity.getAttributes().add(new ActivityOfferingClusterAttributeEntity(attr, entity));
     }
 
     @Override
