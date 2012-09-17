@@ -63,6 +63,7 @@
                                 {'bSortable':true},
                                 {'bSortable':false},
                                 {'bSortable':false},
+                                {'bSortable':false},
                                 {'bSortable':false}
                            ]"/>
             </map>
@@ -76,9 +77,9 @@
                 <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
                 <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOptionName"/>
                 <bean parent="Uif-DataField" p:label="GRADING" p:propertyName="coDisplayInfo.gradingOptionName"/>
-                <!-- bean parent="Uif-MessageField" p:label="INFORMATION" p:messageText="@{#line.information}"/ -->
+                <bean parent="Uif-MessageField" p:label="INFORMATION" p:messageText="@{#line.information}"/>
             </list>
         </property>
-    </bean>
+        </bean>
 
-</beans>
+        </beans>
