@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.jws.WebParam;
-import javax.jws.WebService;
-
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.lum.lrc.dao.ResultScaleDao;
 import org.kuali.student.r2.lum.lrc.dao.ResultValueDao;
 import org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao;
@@ -44,7 +44,10 @@ public class LRCServiceImpl implements LRCService {
     private LrcServiceBusinessLogic lrcServiceBusinessLogic;
     private SearchManager searchManager;
     private SearchableDao searchableDao;
-
+    private CriteriaLookupService resultScaleCriteriaLookupService;
+    private CriteriaLookupService resultValueCriteriaLookupService;
+    private CriteriaLookupService resultValuesGroupCriteriaLookupService;
+    
     public SearchableDao getSearchableDao() {
         return searchableDao;
     }
@@ -93,6 +96,33 @@ public class LRCServiceImpl implements LRCService {
         this.resultValuesGroupDao = resultValuesGroupDao;
     }
 
+    public CriteriaLookupService getResultScaleCriteriaLookupService() {
+        return resultScaleCriteriaLookupService;
+    }
+
+    public void setResultScaleCriteriaLookupService(CriteriaLookupService resultScaleCriteriaLookupService) {
+        this.resultScaleCriteriaLookupService = resultScaleCriteriaLookupService;
+    }
+
+    public CriteriaLookupService getResultValueCriteriaLookupService() {
+        return resultValueCriteriaLookupService;
+    }
+
+    public void setResultValueCriteriaLookupService(CriteriaLookupService resultValueCriteriaLookupService) {
+        this.resultValueCriteriaLookupService = resultValueCriteriaLookupService;
+    }
+
+    public CriteriaLookupService getResultValuesGroupCriteriaLookupService() {
+        return resultValuesGroupCriteriaLookupService;
+    }
+
+    public void setResultValuesGroupCriteriaLookupService(CriteriaLookupService resultValuesGroupCriteriaLookupService) {
+        this.resultValuesGroupCriteriaLookupService = resultValuesGroupCriteriaLookupService;
+    }
+
+    
+    
+    
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultScaleInfo createResultScale(String typeKey,
@@ -712,4 +742,72 @@ public class LRCServiceImpl implements LRCService {
         SearchResult searchResult = searchManager.search(searchRequest, searchableDao);
         return searchResult;
     }
+    
+      @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForResultScaleIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<ResultScaleEntity> results = resultScaleCriteriaLookupService.lookup(ResultScaleEntity.class, criteria);
+        List<String> ids = new ArrayList<String>(results.getResults().size());
+        for (ResultScaleEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ResultScaleInfo> searchForResultScales(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<ResultScaleEntity> results = resultScaleCriteriaLookupService.lookup(ResultScaleEntity.class, criteria);
+        List<ResultScaleInfo> infos = new ArrayList<ResultScaleInfo>(results.getResults().size());
+        for (ResultScaleEntity entity : results.getResults()) {
+            infos.add(entity.toDto());
+        }
+        return infos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForResultValueIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<ResultValueEntity> results = resultValueCriteriaLookupService.lookup(ResultValueEntity.class, criteria);
+        List<String> ids = new ArrayList<String>(results.getResults().size());
+        for (ResultValueEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ResultValueInfo> searchForResultValues(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<ResultValueEntity> results = resultValueCriteriaLookupService.lookup(ResultValueEntity.class, criteria);
+        List<ResultValueInfo> infos = new ArrayList<ResultValueInfo>(results.getResults().size());
+        for (ResultValueEntity entity : results.getResults()) {
+            infos.add(entity.toDto());
+        }
+        return infos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForResultValuesGroupIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<ResultValuesGroupEntity> results = resultValuesGroupCriteriaLookupService.lookup(ResultValuesGroupEntity.class, criteria);
+        List<String> infos = new ArrayList<String>(results.getResults().size());
+        for (ResultValuesGroupEntity entity : results.getResults()) {
+            infos.add(entity.getId());
+        }
+        return infos;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ResultValuesGroupInfo> searchForResultValuesGroups(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<ResultValuesGroupEntity> results = resultValuesGroupCriteriaLookupService.lookup(ResultValuesGroupEntity.class, criteria);
+        List<ResultValuesGroupInfo> infos = new ArrayList<ResultValuesGroupInfo>(results.getResults().size());
+        for (ResultValuesGroupEntity entity : results.getResults()) {
+            infos.add(entity.toDto());
+        }
+        return infos;
+    }
+    
+    
 }
