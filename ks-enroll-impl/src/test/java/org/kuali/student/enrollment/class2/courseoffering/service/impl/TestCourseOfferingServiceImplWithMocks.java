@@ -136,9 +136,6 @@ public class TestCourseOfferingServiceImplWithMocks {
 //        assertEquals(course.getUnitsDeploymentOrgIds(), info.getUnitsDeploymentOrgIds());
 //        assertEquals(course.getGradingOptions(), info.getGradingOptionIds());
 //        assertEquals(course.getCreditOptionIds(), info.getCreditOptionIds());
-//        assertEquals(new R1ToR2CopyHelper().copyCourseExpenditure(course.getExpenditure()), info.getExpenditure());
-//        assertEquals(new R1ToR2CopyHelper().copyCourseFeeList(course.getFeeIds()), info.getFeeIds());
-//        assertEquals(new R1ToR2CopyHelper().copyInstructors(course.getInstructors()), info.getInstructors());
 
 
         // refetch co 

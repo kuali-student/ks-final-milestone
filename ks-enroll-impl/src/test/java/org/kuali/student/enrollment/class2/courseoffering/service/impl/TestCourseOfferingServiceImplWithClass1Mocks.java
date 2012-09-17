@@ -11,7 +11,6 @@ import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseoffering.service.R1ToR2CopyHelper;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -148,10 +147,7 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
 //        assertEquals(course.getUnitsContentOwnerOrgIds(), info.getUnitsContentOwnerOrgIds());
 //        assertEquals(course.getUnitsDeploymentOrgIds(), info.getUnitsDeploymentOrgIds());
 //        assertEquals(course.getGradingOptions(), info.getGradingOptionIds());
-//        assertEquals(course.getCreditOptionIds(), info.getCreditOptionIds());
-//        assertEquals(new R1ToR2CopyHelper().copyCourseExpenditure(course.getExpenditure()), info.getExpenditure());
-//        assertEquals(new R1ToR2CopyHelper().copyCourseFeeList(course.getFeeIds()), info.getFeeIds());
-//        assertEquals(new R1ToR2CopyHelper().copyInstructors(course.getInstructors()), info.getInstructors());
+//        assertEquals(course.getCreditOptionIds(), info.getCreditOptionIds
 
 
         // refetch co 
