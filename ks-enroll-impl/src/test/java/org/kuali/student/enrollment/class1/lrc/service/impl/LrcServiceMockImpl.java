@@ -45,6 +45,7 @@ import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl;
 
 import javax.jws.WebParam;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 public class LrcServiceMockImpl implements LRCService, MockService {
 
@@ -758,4 +759,36 @@ public class LrcServiceMockImpl implements LRCService, MockService {
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public List<String> searchForResultScaleIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultScaleInfo> searchForResultScales(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> searchForResultValueIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultValueInfo> searchForResultValues(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> searchForResultValuesGroupIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<ResultValuesGroupInfo> searchForResultValuesGroups(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
 }

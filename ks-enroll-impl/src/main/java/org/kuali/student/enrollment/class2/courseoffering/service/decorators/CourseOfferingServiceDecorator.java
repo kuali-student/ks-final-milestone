@@ -664,5 +664,25 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
     }
 
+    @Override
+    public List<FormatOfferingInfo> searchForFormatOfferings(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForFormatOfferings(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForFormatOfferingIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForFormatOfferingIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<ActivityOfferingClusterInfo> searchForActivityOfferingClusters(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForActivityOfferingClusters(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForActivityOfferingClusterIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForActivityOfferingClusterIds(criteria, contextInfo);
+    }
+
 
 }

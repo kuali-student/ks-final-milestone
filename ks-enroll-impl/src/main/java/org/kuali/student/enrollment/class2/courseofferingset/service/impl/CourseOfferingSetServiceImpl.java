@@ -712,8 +712,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException { 
+        GenericQueryResults<SocRolloverResultEntity> results = criteriaLookupService.lookup(SocRolloverResultEntity.class,
+                criteria);
+        List<String> socRolloverResultInfos = new ArrayList<String>(results.getResults().size());
+        for (SocRolloverResultEntity entity : results.getResults()) {
+            socRolloverResultInfos.add(entity.getId());
+        }
+        return socRolloverResultInfos;
     }
 
     @Override
@@ -786,4 +792,31 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             PermissionDeniedException {
         throw new UnsupportedOperationException("To be Implemented in M5");
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForSocRolloverResultItemIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<SocRolloverResultItemEntity> results = criteriaLookupService.lookup(SocRolloverResultItemEntity.class,
+                criteria);
+        List<String> ids = new ArrayList<String>(results.getResults().size());
+        for (SocRolloverResultItemEntity entity : results.getResults()) {
+            ids.add(entity.getId());
+        }
+        return ids;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SocRolloverResultItemInfo> searchForSocRolloverResultItems(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+          GenericQueryResults<SocRolloverResultItemEntity> results = criteriaLookupService.lookup(SocRolloverResultItemEntity.class,
+                criteria);
+        List<SocRolloverResultItemInfo> infos = new ArrayList<SocRolloverResultItemInfo>(results.getResults().size());
+        for (SocRolloverResultItemEntity entity : results.getResults()) {
+            SocRolloverResultItemInfo info = entity.toDto();
+            infos.add(info);
+        }
+        return infos;
+    }
+    
+    
 }

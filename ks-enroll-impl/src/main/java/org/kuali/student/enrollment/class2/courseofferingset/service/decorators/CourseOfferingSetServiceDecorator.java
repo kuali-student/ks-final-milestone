@@ -379,6 +379,16 @@ public class CourseOfferingSetServiceDecorator implements CourseOfferingSetServi
 			PermissionDeniedException {
 		return getNextDecorator().updateSocRolloverResultState(socId, nextStateKey, contextInfo);
 	}
+
+    @Override
+    public List<SocRolloverResultItemInfo> searchForSocRolloverResultItems(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForSocRolloverResultItems(criteria, context);
+    }
+
+    @Override
+    public List<String> searchForSocRolloverResultItemIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForSocRolloverResultItemIds(criteria, context);
+    }
     
     
     

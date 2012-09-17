@@ -2416,6 +2416,54 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return list;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForActivityOfferingClusterIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ActivityOfferingClusterInfo> searchForActivityOfferingClusters(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> searchForFormatOfferingIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        List<String> ids = new ArrayList<String>(results.getResults().size());
+        for (LuiEntity lui : results.getResults()) {
+            // TODO: instead change this so this apply this in the where clause as a transform to the criteria
+            if (checkTypeForFormatOfferingType(lui.getLuiType())) {
+                ids.add(lui.getId());
+            }
+        }
+        return ids;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FormatOfferingInfo> searchForFormatOfferings(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        List<FormatOfferingInfo> infos = new ArrayList<FormatOfferingInfo>(results.getResults().size());
+        for (LuiEntity lui : results.getResults()) {
+            try {
+                // TODO: instead change this so this apply this in the where clause as a transform to the criteria
+                if (checkTypeForFormatOfferingType(lui.getLuiType())) {
+                    FormatOfferingInfo co = this.getFormatOffering(lui.getId(), contextInfo);
+                    infos.add(co);
+                }
+            } catch (DoesNotExistException ex) {
+                throw new OperationFailedException(lui.getId(), ex);
+            }
+        }
+        return infos;
+    }    
+
+    private boolean checkTypeForFormatOfferingType(String typeKey) {
+        return typeKey.equals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+    }
 
     public SchedulingService getSchedulingService() {
         return schedulingService;
