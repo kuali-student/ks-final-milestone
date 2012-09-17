@@ -1750,8 +1750,27 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+                    PermissionDeniedException {
+
+        // Quick verification
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        try {
+            List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByFormatOffering(formatOfferingId, context);
+            for (RegistrationGroupInfo regGroup : regGroups) {
+                if (regGroup.getIsGenerated()) {
+                    // Only delete reg groups that are generated
+                    deleteRegistrationGroup(regGroup.getId(), context);
+                }
+            }
+        } catch (Exception e) {
+            statusInfo.setSuccess(Boolean.FALSE);
+            statusInfo.setMessage(e.getMessage());
+        }
+        return statusInfo;
     }
 
     @Override
