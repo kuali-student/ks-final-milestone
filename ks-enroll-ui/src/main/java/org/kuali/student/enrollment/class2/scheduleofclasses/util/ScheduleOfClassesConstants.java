@@ -34,4 +34,9 @@ public class ScheduleOfClassesConstants {
     // Page IDs
     public static final String SOC_RESULT_PAGE = "scheduleOfClassesResultsPage";
 
+    // Help statements
+    public static final String SOC_RESULT_PAGE_HELP_HONORS_COURSE = "Honors course";
+    public static final String SOC_RESULT_PAGE_HELP_GRADING_PASSFAIL = "May be taken as Pass/Fail grading option";
+    public static final String SOC_RESULT_PAGE_HELP_GRADING_AUDIT = "May be taken as Audit grading option";
+
 }
