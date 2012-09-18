@@ -421,10 +421,12 @@ public class LRCServiceImpl implements LRCService {
             OperationFailedException,
             PermissionDeniedException {
         List<ResultValueInfo> infos = new ArrayList<ResultValueInfo>();
+        if(keys != null && !keys.isEmpty()){
         List<ResultValueEntity> entities = resultValueDao.findByIds(keys);
-        for (ResultValueEntity entity : entities) {
-            ResultValueInfo info = entity.toDto();
-            infos.add(info);
+            for (ResultValueEntity entity : entities) {
+                ResultValueInfo info = entity.toDto();
+                infos.add(info);
+            }
         }
         return infos;
     }
