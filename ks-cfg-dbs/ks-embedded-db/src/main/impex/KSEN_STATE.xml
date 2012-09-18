@@ -339,6 +339,11 @@
         DESCR_PLAIN="The SOC has never been submitted to the scheduler"
         ID="kuali.soc.scheduling.state.notstarted"
         LIFECYCLE_KEY="kuali.soc.scheduling.process" NAME="Not Started" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120918000000"
+        DESCR_FORMATTED="Initial state upon creation."
+        DESCR_PLAIN="Initial state upon creation."
+        ID="kuali.soc.state.draft" LIFECYCLE_KEY="kuali.soc.process"
+        NAME="Draft" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120831000000"
         DESCR_FORMATTED="State denoting that the mass scheduling event has occurred and COs and AOs are now once again available for Departmental Admin staff to edit"
         DESCR_PLAIN="State denoting that the mass scheduling event has occurred and COs and AOs are now once again available for Departmental Admin staff to edit"
@@ -349,6 +354,11 @@
         DESCR_PLAIN="State denoting that all course offerings for the term are going to be scheduled"
         ID="kuali.soc.state.locked" LIFECYCLE_KEY="kuali.soc.process"
         NAME="Locked" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120918000000"
+        DESCR_FORMATTED="State applied when courses have been made available to departments."
+        DESCR_PLAIN="State applied when courses have been made available to departments."
+        ID="kuali.soc.state.open" LIFECYCLE_KEY="kuali.soc.process"
+        NAME="Open" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120831000000"
         DESCR_FORMATTED="State applied to courses when the final edits have been completed and courses are ready to be offered to students for enrollment"
         DESCR_PLAIN="State applied to courses when the final edits have been completed and courses are ready to be offered to students for enrollment"
