@@ -38,7 +38,7 @@ import java.util.List;
  * @author andrewlubbers
  *
  */
-public class ListOfOfferingForFOKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -46,7 +46,7 @@ public class ListOfOfferingForFOKeyValues extends UifKeyValuesFinderBase impleme
         CourseOfferingManagementViewHelperServiceImpl helperService = ((CourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        keyValues.add(new ConcreteKeyValue("", "Approve for Scheduling"));
+        keyValues.add(new ConcreteKeyValue("", "Select activity offering cluster..."));
         CourseOfferingInfo selectedCourseOffering = coForm.getTheCourseOffering();
 
         String formatOfferingName = coForm.getFormatOfferingName();
