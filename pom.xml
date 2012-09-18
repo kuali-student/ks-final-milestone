@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-    <version>1.7.2</version>
+    <version>1.7.6</version>
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
@@ -31,8 +31,8 @@
         </repository>
     </repositories>
     <ciManagement>
-        <system>hudson</system>
-        <url>http://ci.ks.kuali.org</url>
+        <system>jenkins</system>
+        <url>http://ci.rice.kuali.org</url>
     </ciManagement>
     <profiles>
         <profile>
