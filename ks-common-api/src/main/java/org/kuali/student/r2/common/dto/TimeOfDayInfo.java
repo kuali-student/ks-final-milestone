@@ -87,6 +87,11 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return milliSeconds != null ? milliSeconds.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "TimeOfDayInfo{" +
                 "milliSeconds=" + milliSeconds +

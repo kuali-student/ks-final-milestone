@@ -96,6 +96,19 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (buildingIds != null ? buildingIds.hashCode() : 0);
+        result = 31 * result + (campusIds != null ? campusIds.hashCode() : 0);
+        result = 31 * result + (orgIds != null ? orgIds.hashCode() : 0);
+        result = 31 * result + (resourceTypeKeys != null ? resourceTypeKeys.hashCode() : 0);
+        result = 31 * result + (roomIds != null ? roomIds.hashCode() : 0);
+        result = 31 * result + (timeSlotIds != null ? timeSlotIds.hashCode() : 0);
+        result = 31 * result + (isTBA != null ? isTBA.hashCode() : 0);
+        return result;
+    }
+
     public String getId() {
         return this.id;
     }
