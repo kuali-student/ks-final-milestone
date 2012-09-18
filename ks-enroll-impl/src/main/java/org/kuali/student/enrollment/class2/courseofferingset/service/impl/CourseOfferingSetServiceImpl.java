@@ -15,17 +15,12 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import java.text.SimpleDateFormat;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao;
-import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
-import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultAttributeEntity;
-import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultEntity;
-import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity;
-import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultOptionEntity;
+import org.kuali.student.enrollment.class2.courseofferingset.model.*;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -33,6 +28,7 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
 import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -42,13 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import org.kuali.student.enrollment.class2.courseofferingset.model.*;
-import org.kuali.student.r2.common.dto.AttributeInfo;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
@@ -765,7 +756,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     private void logStateChange(SocEntity entity, ContextInfo contextInfo) {
         // add the state change to the log
         // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        SimpleDateFormat formatter = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
         Date date = contextInfo.getCurrentDate();
         AttributeInfo attr = new AttributeInfo(entity.getSocState(), formatter.format(date));
         entity.getAttributes().add(new SocAttributeEntity(attr, entity));

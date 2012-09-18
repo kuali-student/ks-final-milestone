@@ -30,7 +30,10 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -68,10 +71,46 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
             String stateName = getStateName(socInfo.getStateKey());
             socForm.setSocStatus(stateName);
+
+            List<String> validSOCStates = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_STATE_KEYS);
+
             for (AttributeInfo info : socInfo.getAttributes()){
-                stateName = getStateName(info.getKey());
-                ManageSOCStatusHistory history = new ManageSOCStatusHistory(stateName,info.getValue());
-                socForm.getStatusHistory().add(history);
+                if (validSOCStates.contains(socInfo.getStateKey())){
+                    stateName = getStateName(info.getKey());
+
+                    Date date = null;
+                    String dateUI = info.getValue();
+                    if (StringUtils.isNotBlank(info.getValue())){
+                        DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
+                        try{
+                            date = dateFormat.parse(info.getValue());
+                            dateUI = formatScheduleDate(date);
+                        }catch(ParseException e){
+                            //shallow for now
+                        }
+                    }
+
+                    ManageSOCStatusHistory history = new ManageSOCStatusHistory(stateName,dateUI,date);
+                    socForm.getStatusHistory().add(history);
+                }
+            }
+
+            Collections.sort(socForm.getStatusHistory());
+
+            for (int i=0;i<socForm.getStatusHistory().size();i++){
+                ManageSOCStatusHistory history = socForm.getStatusHistory().get(i);
+                // If it's last element or only one element present, highlight that component
+                if (socForm.getStatusHistory().size()-1 == i){
+                    history.setHighlightUI(true);
+                }else{
+                    ManageSOCStatusHistory nextHistory = socForm.getStatusHistory().get(i+1);
+                    if (nextHistory.getDateObject() == null){
+                        history.setHighlightUI(true);
+                        break;
+                    } else {
+                        history.setGreyText(true);
+                    }
+                }
             }
 
             socForm.setScheduleInitiatedDate(formatScheduleDate(socInfo.getLastSchedulingRunStarted()));

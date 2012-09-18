@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import java.util.Date;
+
 /**
  * Created by IntelliJ IDEA.
  * User: venkat
@@ -7,24 +9,21 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
  * Time: 3:28 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ManageSOCStatusHistory {
+public class ManageSOCStatusHistory implements Comparable<ManageSOCStatusHistory>{
 
     private String state;
     private String date;
+    private Date dateObject;
     private boolean highlightUI;
+    private boolean greyText;
 
     public ManageSOCStatusHistory(){
     }
 
-    public ManageSOCStatusHistory(String state,String date){
+    public ManageSOCStatusHistory(String state,String date,Date dateObject){
         this.state = state;
         this.date = date;
-    }
-
-    public ManageSOCStatusHistory(String state,String date,boolean highlightUI){
-        this.state = state;
-        this.date = date;
-        this.highlightUI = highlightUI;
+        this.dateObject = dateObject;
     }
 
     public void setState(String state) {
@@ -43,7 +42,35 @@ public class ManageSOCStatusHistory {
         return date;
     }
 
+    public void setHighlightUI(boolean highlightUI) {
+        this.highlightUI = highlightUI;
+    }
+
     public boolean isHighlightUI() {
         return highlightUI;
     }
+
+    public Date getDateObject() {
+        return dateObject;
+    }
+
+    public boolean isGreyText() {
+        return greyText;
+    }
+
+    public void setGreyText(boolean greyText) {
+        this.greyText = greyText;
+    }
+
+    @Override
+    public int compareTo(ManageSOCStatusHistory manageSOCStatusHistory) {
+        if (this.getDateObject() != null && manageSOCStatusHistory.getDateObject() != null){
+            return getDateObject().compareTo(manageSOCStatusHistory.getDateObject());
+        }else if (manageSOCStatusHistory.getDateObject() == null){
+            return -1;
+        }else{
+            return 1;
+        }
+    }
+
 }

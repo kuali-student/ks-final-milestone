@@ -7,6 +7,8 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHis
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,22 +37,35 @@ public class ManageSOCForm extends UifFormBase {
     private TermInfo termInfo;
     private SocInfo socInfo;
 
-    public ManageSOCForm(){
+    public ManageSOCForm()  {
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();
-        ManageSOCStatusHistory history = new ManageSOCStatusHistory("Draft","11/12/2012",false);
-        statusHistory.add(history);
-        history = new ManageSOCStatusHistory("Open","12/12/2012",true);
-        statusHistory.add(history);
-        history = new ManageSOCStatusHistory("Locked","",false);
-        statusHistory.add(history);
-        history = new ManageSOCStatusHistory("Final Edits","",false);
-        statusHistory.add(history);
-        history = new ManageSOCStatusHistory("Publishing","",false);
-        statusHistory.add(history);
-        history = new ManageSOCStatusHistory("Published","",false);
-        statusHistory.add(history);
-        socStatus= "OPEN";
-        socSchedulingStatus= "Not Started";
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
+
+        String date1 = "11-01-2011 12:12 am";
+        String date2 = "11-01-2012 12:12 am";
+        String date3 = "01-01-2012 12:12 am";
+        String date4 = "12-02-2011 12:12 am";
+
+        try{
+            ManageSOCStatusHistory history = new ManageSOCStatusHistory("Draft",date1,dateFormat.parse(date1));
+            statusHistory.add(history);
+            history = new ManageSOCStatusHistory("Closed","",null);
+            statusHistory.add(history);
+            history = new ManageSOCStatusHistory("Locked",date3,dateFormat.parse(date3));
+            statusHistory.add(history);
+            history = new ManageSOCStatusHistory("Open",date4,dateFormat.parse(date4));
+            statusHistory.add(history);
+            history = new ManageSOCStatusHistory("Final Edits","",null);
+            statusHistory.add(history);
+            history = new ManageSOCStatusHistory("Publishing",date2,dateFormat.parse(date2));
+            statusHistory.add(history);
+            history = new ManageSOCStatusHistory("Published",date1,dateFormat.parse(date1));
+            statusHistory.add(history);
+            socStatus= "OPEN";
+            socSchedulingStatus= "Not Started";
+        }catch (Exception e){
+            e.printStackTrace();;
+        }
     }
 
     public String getScheduleInitiatedDate() {

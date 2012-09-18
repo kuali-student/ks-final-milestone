@@ -98,7 +98,9 @@
                  <property name="propertyReplacers">
                       <list>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                              p:condition="#line.highlightUI" p:replacement="background-color:#C8E4F7;"/>
+                              p:condition="#line.highlightUI" p:replacement="background-color:#C8E4F7;font-weight:bold;"/>
+                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                              p:condition="#line.greyText" p:replacement="color:grey;"/>
                       </list>
                  </property>
              </bean>
@@ -106,7 +108,9 @@
                  <property name="propertyReplacers">
                       <list>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                              p:condition="#line.highlightUI" p:replacement="background-color:#C8E4F7;"/>
+                              p:condition="#line.highlightUI" p:replacement="background-color:#C8E4F7;font-weight:bold;"/>
+                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                              p:condition="#line.greyText" p:replacement="color:grey;"/>
                       </list>
                  </property>
              </bean>
