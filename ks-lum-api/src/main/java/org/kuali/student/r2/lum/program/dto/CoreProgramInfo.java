@@ -26,35 +26,30 @@ import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
 import org.kuali.student.r2.lum.program.infc.CoreProgram;
 
 @XmlType(name = "CoreProgramInfo", propOrder = {"id",
-    "typeKey",
-    "stateKey",
-    "version",
-    "descr",
-    "code",
-    "shortTitle",
-    "longTitle",
-    "transcriptTitle",
-    "universityClassification",
-    "startTerm",
-    "endTerm",
-    "endProgramEntryTerm",
-    "divisionsContentOwner",
-    "divisionsStudentOversight",
-    "unitsContentOwner",
-    "unitsStudentOversight",
-    "learningObjectives",
-    "programRequirements",
-    "referenceURL",
-    "catalogDescr",
-    "catalogPublicationTargets",
-    "cip2000Code",
-    "cip2010Code",
-    "diplomaTitle",
-    "hegisCode",
-    "selectiveEnrollmentCode",
-    "meta",
-    "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
-    
+        "typeKey",
+        "stateKey",
+        "version",
+        "descr",
+        "code",
+        "shortTitle",
+        "longTitle",
+        "transcriptTitle",
+        "universityClassification",
+        "startTerm",
+        "endTerm",
+        "endProgramEntryTerm",
+        "divisionsContentOwner",
+        "divisionsStudentOversight",
+        "unitsContentOwner",
+        "unitsStudentOversight",
+        "learningObjectives",
+        "programRequirements",
+        "referenceURL",
+        "catalogDescr",
+        "catalogPublicationTargets",
+        "meta",
+        "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CoreProgramInfo extends CommonWithCoreProgramInfo
         implements CoreProgram,
@@ -87,7 +82,7 @@ public class CoreProgramInfo extends CommonWithCoreProgramInfo
     //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log
     @Override
     public void setDiplomaTitle(String diplomaTitle) {
-        
+
     }
 
     @Override
