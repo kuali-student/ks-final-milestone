@@ -16,10 +16,10 @@
 package org.kuali.student.r2.core.room.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
@@ -212,6 +212,16 @@ public class RoomServiceDecorator implements RoomService {
     @Override
     public StatusInfo deleteRoomResponsibleOrg(@WebParam(name = "roomResponsibleOrgId") String roomResponsibleOrgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteRoomResponsibleOrg(roomResponsibleOrgId, contextInfo);
+    }
+
+    @Override
+    public List<BuildingInfo> getBuildingsByBuildingCode(@WebParam(name = "buildingCode") String buildingCode, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getBuildingsByBuildingCode(buildingCode, contextInfo);
+    }
+
+    @Override
+    public List<RoomInfo> getRoomsByBuildingAndRoomCode(@WebParam(name = "buildingCode") String buildingCode, @WebParam(name = "buildingCode") String roomCode, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRoomsByBuildingAndRoomCode(buildingCode, roomCode, contextInfo);
     }
 
 }
