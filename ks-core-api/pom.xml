@@ -86,7 +86,7 @@
                         <id>atp-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.core.atp.service.AtpService</className>
+                            <className>org.kuali.student.r2.core.atp.service.AtpService</className>
                             <serviceName>AtpService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/atp</targetNameSpace>
                         </configuration>
