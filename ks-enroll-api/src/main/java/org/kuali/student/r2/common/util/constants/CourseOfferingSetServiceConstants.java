@@ -37,6 +37,8 @@ public class CourseOfferingSetServiceConstants {
     public static final String UNITS_CONTENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.content.owner";
     public static final String UNITS_DEPLOYMENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.deployment.owner";
 
+    public static final String STATE_CHANGE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+
     // SOC states (see https://wiki.kuali.org/display/STUDENT/Set+of+Course+Offerings+%28SOC%29+States)
     // SOC states (see https://wiki.kuali.org/display/STUDENT/Course+Offering+Set+Types+and+States)
     public static final String DRAFT_SOC_STATE_KEY = "kuali.soc.state.draft";
