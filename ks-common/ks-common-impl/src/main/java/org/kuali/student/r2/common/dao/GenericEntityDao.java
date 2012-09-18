@@ -40,6 +40,10 @@ public class GenericEntityDao<T> implements EntityDao<T> {
     @Override
     public List<T> findByIds(List<? extends Serializable> primaryKeys) throws DoesNotExistException {
 
+        // fix for jira KSENROLL-2949
+        if (primaryKeys.isEmpty()) {
+            return new ArrayList<T>();
+        }
         if(primaryKeys.size() >= 1000){
             return this.findByIdsMaxKeys(primaryKeys);
         } else {
