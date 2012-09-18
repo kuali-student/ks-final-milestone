@@ -104,6 +104,13 @@
         NAME="Unscheduled" UPDATEID="SYSTEMLOADER"
         UPDATETIME="19700101000000" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        DESCR_FORMATTED="Activity offering was not able to be scheduled, either due to  conflict or lack of data."
+        DESCR_PLAIN="Activity offering was not able to be scheduled, either due to  conflict or lack of data."
+        ID="kuali.lui.activity.offering.scheduling.state.error"
+        LIFECYCLE_KEY="kuali.activity.offering.scheduling.process"
+        NAME="Error" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="19700101000000" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="Approved" DESCR_PLAIN="Approved"
         ID="kuali.lui.activity.offering.state.approved"
         LIFECYCLE_KEY="kuali.activity.offering.process" NAME="Approved"
