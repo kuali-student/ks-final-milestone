@@ -542,7 +542,14 @@
     </bean>
 
     <bean id="typeSearchService" class="org.kuali.student.r2.lum.service.search.TypeSearchServiceImpl">
-            <property name="typeService" ref="typeClient"/>
+        <property name="typeSearches">
+            <list>
+                <!--  Configure type searches. -->
+                <bean class="org.kuali.student.r2.lum.service.search.ResultComponentTypeSearch"/>
+                <bean class="org.kuali.student.r2.lum.service.search.AtpSeasonTypeSearch"/>
+                <bean class="org.kuali.student.r2.lum.service.search.AtpDurationTypeSearch"/>
+            </list>
+        </property>
     </bean>
 
  	<!-- Clients to external Services -->

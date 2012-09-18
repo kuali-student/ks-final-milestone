@@ -20,29 +20,24 @@ import java.util.List;
  */
 public class TypeSearchServiceImpl implements SearchService{
 
-    private TypeService typeService;
+    private List<TypeSearch> typeSearches;
 
-    private String LRC_SEARCH_RESULTCOMPONENT = "lrc.search.resultComponentType";
-
-    private String LRC_QUERYPARAM_ID = "lrc.queryParam.resultComponent.id";
-
-    private String LRC_RESULTCOLUMN_ID = "lrc.resultColumn.resultComponent.id";
-    private String LRC_RESULTCOLUMN_NAME = "lrc.resultColumn.resultComponent.name";
-
-    public TypeService getTypeService() {
-        return typeService;
+    public List<TypeSearch> getTypeSearches() {
+        return typeSearches;
     }
 
-    public void setTypeService(TypeService typeService) {
-        this.typeService = typeService;
+    public void setTypeSearches(List<TypeSearch> typeSearches) {
+        this.typeSearches = typeSearches;
     }
 
     @Override
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
         List<SearchTypeInfo> typeInfos = new ArrayList<SearchTypeInfo>();
-        SearchTypeInfo searchTypeInfo = new SearchTypeInfo();
-        searchTypeInfo.setKey(LRC_SEARCH_RESULTCOMPONENT);
-        typeInfos.add(searchTypeInfo);
+        for(TypeSearch typeSearch : typeSearches){
+            SearchTypeInfo searchTypeInfo = new SearchTypeInfo();
+            searchTypeInfo.setKey(typeSearch.getSearchTypeKey());
+            typeInfos.add(searchTypeInfo);
+        }
         return typeInfos;
     }
 
@@ -83,47 +78,16 @@ public class TypeSearchServiceImpl implements SearchService{
 
     @Override
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        SearchResult searchResult;
-        if (searchRequest.getSearchKey().equals(LRC_SEARCH_RESULTCOMPONENT)){
-            String typeKey = this.getParamValueForKey(searchRequest, LRC_QUERYPARAM_ID);
-            if (typeKey!=null){
-                try {
-                    TypeInfo typeInfo = typeService.getType(typeKey, new ContextInfo());
-                    return createSearchResultFromTypeInfo(typeInfo, LRC_RESULTCOLUMN_ID, LRC_RESULTCOLUMN_NAME);
-                } catch (DoesNotExistException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (InvalidParameterException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (OperationFailedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (PermissionDeniedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
+        for (TypeSearch typeSearch : typeSearches){
+            if (searchRequest.getSearchKey().equals(typeSearch.getSearchTypeKey())){
+                return typeSearch.search(searchRequest);
             }
         }
         return null;
     }
 
-    private String getParamValueForKey(SearchRequest searchRequest, String key){
-        for(SearchParam param : searchRequest.getParams()){
-            if (param.getKey().equals(key)){
-                return (String) param.getValue();
-            }
-        }
-        return null;
-    }
 
-    private SearchResult createSearchResultFromTypeInfo(TypeInfo typeInfo, String idKey, String nameKey){
-        if (typeInfo==null){
-            return null;
-        }
 
-        SearchResult searchResult = new SearchResult();
-        SearchResultRow row = new SearchResultRow();
-        row.addCell(idKey, typeInfo.getKey());
-        row.addCell(nameKey, typeInfo.getName());
-        searchResult.getRows().add(row);
 
-        return searchResult;
-    }
+
 }
