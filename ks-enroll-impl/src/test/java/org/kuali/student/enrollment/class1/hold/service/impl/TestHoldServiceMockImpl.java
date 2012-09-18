@@ -123,11 +123,18 @@ public class TestHoldServiceMockImpl {
         finAidIssue.setStateKey(HoldServiceConstants.ISSUE_INACTIVE_STATE_KEY);
         finAidIssue = holdService.createHoldIssue(finAidIssue.getTypeKey(), finAidIssue, callContext);
 
-        // test bulk get
+        // test bulk get with no ids supplied
+        // test for jira KSENROLL-2949
         List<String> ids = new ArrayList<String>();
+        List<HoldIssueInfo> issues = holdService.getHoldIssuesByIds(ids, callContext);
+        assertEquals(ids.size(), issues.size());
+        assertEquals(0, ids.size());
+
+         // test bulk get
+        ids = new ArrayList<String>();
         ids.add(acadIssue.getId());
         ids.add(finAidIssue.getId());
-        List<HoldIssueInfo> issues = holdService.getHoldIssuesByIds(ids, callContext);
+        issues = holdService.getHoldIssuesByIds(ids, callContext);
         assertEquals(ids.size(), issues.size());
         for (HoldIssueInfo issue : issues) {
             if (!ids.remove(issue.getId())) {
@@ -135,7 +142,8 @@ public class TestHoldServiceMockImpl {
             }
         }
         assertEquals(0, ids.size());
-
+        
+        
         // test get by type
         ids = holdService.getHoldIssueIdsByType(HoldServiceConstants.FINANCIAL_AID_ISSUE_TYPE_KEY, callContext);
         assertEquals(1, ids.size());
