@@ -34,6 +34,8 @@ public class ScheduleWrapper implements Serializable{
     private String endTime;
     private String endTimeAMPM;
 
+    private boolean tba;
+
     private String buildingCode;
     private String roomCode;
     private int roomCapacity;
@@ -208,6 +210,21 @@ public class ScheduleWrapper implements Serializable{
     public String getRoomName() {
         if (room != null){
             return room.getRoomCode();
+        }
+        return StringUtils.EMPTY;
+    }
+
+    public boolean isTba() {
+        return tba;
+    }
+
+    public void setTba(boolean tba) {
+        this.tba = tba;
+    }
+
+    public String getTbaUI(){
+        if (isTba()){
+            return "TBA";
         }
         return StringUtils.EMPTY;
     }

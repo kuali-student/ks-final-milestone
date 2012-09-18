@@ -9,7 +9,8 @@
 
     <bean id="ManageSOCView" parent="KSFormView">
    	  <property name="id" value="ManageSOCView"/>
-      <property name="headerText" value="Set of Courses" />
+      <property name="headerText" value="Manage SOC" />
+      <property name="header.render" value="false"/>
 	  <property name="singlePageView" value="true"/>
       <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl"/>
       <property name="page">

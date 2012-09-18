@@ -110,10 +110,9 @@
                     </property>
                 </bean>
 
-                <!-- Not for M4 -->
-                <!--<ref bean="KS-ActivityOffering-ProcessedSchedules"/>-->
-                <ref bean="KS-ActivityOffering-RequestedDeliveryLogistics"/>
-                <ref bean="KS-ActivityOffering-RequestedSchedules"/>
+                <ref bean="KS-ActivityOffering-DeliveryLogistic-Actuals"/>
+                <ref bean="KS-ActivityOffering-DeliveryLogistic-New"/>
+                <ref bean="KS-ActivityOffering-DeliveryLogistic-Requested"/>
 
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="headerText" value="Personnel"/>
@@ -374,9 +373,8 @@
 
     </bean>
 
-    <!-- Not for M4 -->
-    <!--<bean id="KS-ActivityOffering-ProcessedSchedules" parent="Uif-TableCollectionSection"
-            p:headerText="Delivery Logistics"
+    <bean id="KS-ActivityOffering-DeliveryLogistic-Actuals" parent="Uif-TableCollectionSection"
+            p:headerText="Actual Delivery Logistics"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="assignedSchedules"
             p:renderAddLine="true"
@@ -385,6 +383,11 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
+                <bean parent="Uif-InputField" p:label="TBA" p:propertyName="tbaUI" p:readOnly="true" p:control.size="5">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
@@ -417,9 +420,9 @@
                 </bean>
             </list>
         </property>
-    </bean>-->
+    </bean>
 
-    <bean id="KS-ActivityOffering-RequestedSchedules" parent="Uif-TableCollectionSection"
+    <bean id="KS-ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="requestedSchedules"
             p:renderAddLine="false"
@@ -427,6 +430,11 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
+                <bean parent="Uif-InputField" p:label="TBA" p:propertyName="tbaUI" p:readOnly="true" p:control.size="5">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"/>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true" p:control.size="5">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
@@ -466,22 +474,22 @@
         </property>
     </bean>
 
-    <bean id="KS-ActivityOffering-RequestedDeliveryLogistics" parent="Uif-VerticalBoxSection">
+    <bean id="KS-ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="items">
             <list>
-                <ref bean="KS-ActivityOffering-RequestedDeliveryLogistics-Section"/>
-                <ref bean="KS-ActivityOffering-RequestedDeliveryLogistics-Features-Section"/>
+                <ref bean="KS-ActivityOffering-DeliveryLogistic-New-Section"/>
+                <ref bean="KS-ActivityOffering-DeliveryLogistic-New-Features-Section"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addLine"
                         p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;requestedSchedules&quot;);"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-ActivityOffering-RequestedDeliveryLogistics-Features-Section" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="KS-ActivityOffering-DeliveryLogistic-New-Features-Section" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="disclosure.defaultOpen" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix" p:headerText="Needed Features"/>
+            <bean parent="Uif-HeaderSix" p:headerText="Optional Facility Features"/>
         </property>
         <property name="items">
             <list>
@@ -496,11 +504,16 @@
         </property>
     </bean>
 
-    <bean id="KS-ActivityOffering-RequestedDeliveryLogistics-Section" parent="Uif-HorizontalBoxSubSection">
+    <bean id="KS-ActivityOffering-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection">
         <property name="items">
             <list>
+                <bean parent="Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:style="margin-top:15px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
                 <bean parent="KSInputField" p:label="Days" p:propertyName="newScheduleRequest.days">
-                    <property name="constraintText" value="MTWHFSU or &quot;TBA&quot;"/>
+                    <property name="constraintText" value="MTWHFSU"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10"/>
                     </property>
@@ -509,7 +522,7 @@
 					</property>
                 </bean>
                 <bean parent="KSInputField" p:label="Start Time" p:propertyName="newScheduleRequest.startTime">
-                    <property name="constraintText" value="HH:MM or &quot;TBA&quot;"/>
+                    <property name="constraintText" value="HH:MM"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
@@ -523,7 +536,7 @@
                     </property>
                 </bean>
                 <bean parent="KSInputField" p:label="End Time" p:propertyName="newScheduleRequest.endTime">
-                    <property name="constraintText" value="HH:MM or &quot;TBA&quot;"/>
+                    <property name="constraintText" value="HH:MM"/>
                      <property name="control">
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
