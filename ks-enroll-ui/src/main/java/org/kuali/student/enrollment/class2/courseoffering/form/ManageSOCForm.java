@@ -1,8 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,11 +24,21 @@ public class ManageSOCForm extends UifFormBase {
     private String publishCompleteDate;
     private String publishDuration;
 
-    private String status;
+    private String socStatus;
+    private String socSchedulingStatus;
     private String termCode;
     private List<ManageSOCStatusHistory> statusHistory;
 
+    private TermInfo termInfo;
+
     public ManageSOCForm(){
+        statusHistory = new ArrayList<ManageSOCStatusHistory> ();
+        ManageSOCStatusHistory history = new ManageSOCStatusHistory("OPEN","12/12/2012");
+        statusHistory.add(history);
+        history = new ManageSOCStatusHistory("CLOSED","12/12/2012");
+        statusHistory.add(history);
+        socStatus= "OPEN";
+        socSchedulingStatus= "Not Started";
 
     }
 
@@ -78,12 +90,12 @@ public class ManageSOCForm extends UifFormBase {
         this.publishDuration = publishDuration;
     }
 
-    public String getStatus() {
-        return status;
+    public String getSocStatus() {
+        return socStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSocStatus(String socStatus) {
+        this.socStatus = socStatus;
     }
 
     public List<ManageSOCStatusHistory> getStatusHistory() {
@@ -100,6 +112,22 @@ public class ManageSOCForm extends UifFormBase {
 
     public void setTermCode(String termCode) {
         this.termCode = termCode;
+    }
+
+    public String getSocSchedulingStatus() {
+        return socSchedulingStatus;
+    }
+
+    public void setSocSchedulingStatus(String socSchedulingStatus) {
+        this.socSchedulingStatus = socSchedulingStatus;
+    }
+
+    public TermInfo getTermInfo() {
+        return termInfo;
+    }
+
+    public void setTermInfo(TermInfo termInfo) {
+        this.termInfo = termInfo;
     }
 
 }

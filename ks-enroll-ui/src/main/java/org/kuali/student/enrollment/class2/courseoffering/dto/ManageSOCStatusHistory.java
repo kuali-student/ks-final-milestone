@@ -9,16 +9,27 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
  */
 public class ManageSOCStatusHistory {
 
-    private String status;
+    private String state;
     private String date;
 
-    public ManageSOCStatusHistory(String status,String date){
-        this.status = status;
+    public ManageSOCStatusHistory(){
+    }
+
+    public ManageSOCStatusHistory(String state,String date){
+        this.state = state;
         this.date = date;
     }
 
-    public String getStatus() {
-        return status;
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getState() {
+        return state;
     }
 
     public String getDate() {

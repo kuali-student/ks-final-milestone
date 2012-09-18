@@ -9,7 +9,7 @@
 
     <bean id="ManageSOCView" parent="KSFormView">
    	  <property name="id" value="ManageSOCView"/>
-      <property name="headerText" value="@{termCode} Set of Courses" />
+      <property name="headerText" value="Set of Courses" />
 	  <property name="singlePageView" value="true"/>
       <property name="page">
             <bean parent="Uif-Page"/>
@@ -19,28 +19,138 @@
                <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
-                            <ref bean="ManageSOCView-Section1"/>
-                            <ref bean="ManageSOCView-Section2"/>
+                            <ref bean="ManageSOCView-termSelection-Section"/>
+                            <ref bean="ManageSOCView-DetailsSection"/>
                         </list>
                     </property>
                </bean>
           </list>
       </property>
-
    </bean>
 
-   <bean id="ManageSOCView-Section1" parent="Uif-HorizontalBoxSection">
+   <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection" p:style="background-color:#E0DEDE;">
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="To be developed..."/>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:10px;margin-bottom:10px;margin-left:15px;">
+                    <property name="items">
+                      <list>
+                        <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" >
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="5" p:minLength="5" p:maxLength="5"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="loadDates" p:valign="bottom"/>
+                      </list>
+                    </property>
+                </bean>
             </list>
         </property>
    </bean>
 
-   <bean id="ManageSOCView-Section2" parent="Uif-HorizontalBoxSection">
+    <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection">
+        <property name="headerText" value="@{termCode} Set of Courses" />
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="To be developed..."/>
+                <ref bean="ManageSOCView-StatusHistory-Section"/>
+                <ref bean="ManageSOCView-SchedulingDetails-Section"/>
+            </list>
+        </property>
+   </bean>
+
+   <bean id="ManageSOCView-StatusHistory-Section" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="StatusHistory-Section1"/>
+                <ref bean="StatusHistory-Section2"/>
+            </list>
+        </property>
+   </bean>
+
+   <bean id="StatusHistory-Section1" parent="Uif-HorizontalBoxSubSection" p:style="background-color:#C8E4F7; ">
+       <property name="items">
+           <list>
+            <bean parent="Uif-MessageField" p:messageText="@{socStatus}" p:label="Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+           </list>
+       </property>
+
+   </bean>
+
+   <bean id="StatusHistory-Section2" parent="Uif-TableCollectionSubSection" p:readOnly="true">
+        <property name="propertyName" value="statusHistory" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+           <list>
+             <bean parent="Uif-DataField" p:propertyName="state" p:label="State"/>
+             <bean parent="Uif-DataField" p:propertyName="date" p:label="Effective Date"/>
+           </list>
+       </property>
+   </bean>
+
+    <bean id="ManageSOCView-SchedulingDetails-Section" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <ref bean="SchedulingDetails-Section1"/>
+                <ref bean="SchedulingDetails-Section2"/>
+                <ref bean="SchedulingDetails-Section3"/>
+            </list>
+        </property>
+   </bean>
+
+    <bean id="SchedulingDetails-Section1" parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
+       <property name="items">
+           <list>
+               <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:10px;margin-bottom:10px;margin-left:15px;">
+                    <property name="items">
+                      <list>
+                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSet" p:actionLabel="LockSet"/>
+                          <bean parent="Uif-ActionLink" p:actionLabel="Manage Course Offerings" p:style="margin-top:10px;"/>
+                      </list>
+                    </property>
+               </bean>
+           </list>
+       </property>
+   </bean>
+
+   <bean id="SchedulingDetails-Section2" parent="Uif-VerticalBoxSubSection">
+       <property name="headerText" value="Scheduling Details" />
+       <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-borderBottom1</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#C8E4F7; ">
+                   <property name="items">
+                       <list>
+                        <bean parent="Uif-MessageField" p:messageText="@{socSchedulingStatus}" p:label="SOC Scheduling Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+                       </list>
+                   </property>
+               </bean>
+               <bean parent="Uif-MessageField" p:messageText="@{scheduleInitiatedDate}" p:label="Initiated" />
+                <bean parent="Uif-MessageField" p:messageText="@{scheduleCompleteDate}" p:label="Completed" />
+                <bean parent="Uif-MessageField" p:messageText="@{scheduleDuration}" p:label="Scheduling Duration" />
+            </list>
+        </property>
+   </bean>
+
+   <bean id="SchedulingDetails-Section3" parent="Uif-VerticalBoxSubSection">
+       <property name="headerText" value="Publishing Process Details" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#C8E4F7; ">
+                   <property name="items">
+                       <list>
+                        <bean parent="Uif-MessageField" p:messageText="@{socSchedulingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+                       </list>
+                   </property>
+               </bean>
+               <bean parent="Uif-MessageField" p:messageText="@{publishInitiatedDate}" p:label="Initiated" />
+                <bean parent="Uif-MessageField" p:messageText="@{publishCompleteDate}" p:label="Completed" />
+                <bean parent="Uif-MessageField" p:messageText="@{publishDuration}" p:label="Publishing Duration" />
             </list>
         </property>
    </bean>
