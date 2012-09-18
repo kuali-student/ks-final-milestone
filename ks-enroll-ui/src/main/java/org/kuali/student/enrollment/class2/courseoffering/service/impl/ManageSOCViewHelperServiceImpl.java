@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -25,6 +26,9 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.xml.namespace.QName;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
@@ -65,6 +69,24 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                 socForm.getStatusHistory().add(history);
             }
 
+            socForm.setScheduleInitiatedDate(formatScheduleDate(socInfo.getLastSchedulingRunStarted()));
+            socForm.setScheduleCompleteDate(formatScheduleDate(socInfo.getLastSchedulingRunCompleted()));
+
+            socForm.setPublishInitiatedDate(formatScheduleDate(socInfo.getPublishingStarted()));
+            socForm.setPublishCompleteDate(formatScheduleDate(socInfo.getPublishingCompleted()));
+
+            if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
+                long schedulingDuration = socInfo.getLastSchedulingRunCompleted().getTime() - socInfo.getLastSchedulingRunStarted().getTime();
+                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                socForm.setScheduleDuration(dateFormat.format(schedulingDuration));
+            }
+
+            if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
+                long publishingDuration = socInfo.getPublishingCompleted().getTime() - socInfo.getPublishingStarted().getTime();
+                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                socForm.setPublishDuration(dateFormat.format(publishingDuration));
+            }
+
         } catch (DoesNotExistException e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,e.getMessage());
         } catch (PermissionDeniedException e) {
@@ -74,6 +96,14 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         }
 
 
+    }
+
+    protected String formatScheduleDate(Date date){
+        if (date != null){
+           DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
+           return dateFormat.format(date);
+        }
+        return StringUtils.EMPTY;
     }
 
     protected String getStateName(String stateKey)
