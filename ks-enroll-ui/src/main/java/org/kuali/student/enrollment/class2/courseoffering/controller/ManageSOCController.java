@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -8,6 +9,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,6 +40,17 @@ public class ManageSOCController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=lockSOC")
     public ModelAndView lockSOC(@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response){
+
+        if (socForm.getSocInfo() == null){
+            throw new RuntimeException("SocInfo not exists in the form. Please enter the term code and click on GO button");
+        }
+
+        if (!StringUtils.equals(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY,socForm.getSocInfo().getStateKey())){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"SOC should be in open state to lock");
+            return getUIFModelAndView(socForm);
+        }
+
+
 
         return getUIFModelAndView(socForm);
     }

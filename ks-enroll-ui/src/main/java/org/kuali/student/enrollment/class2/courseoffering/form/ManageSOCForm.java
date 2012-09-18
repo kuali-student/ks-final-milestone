@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +31,24 @@ public class ManageSOCForm extends UifFormBase {
     private List<ManageSOCStatusHistory> statusHistory;
 
     private TermInfo termInfo;
+    private SocInfo socInfo;
 
     public ManageSOCForm(){
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();
-        ManageSOCStatusHistory history = new ManageSOCStatusHistory("OPEN","12/12/2012");
+        ManageSOCStatusHistory history = new ManageSOCStatusHistory("Draft","11/12/2012",false);
         statusHistory.add(history);
-        history = new ManageSOCStatusHistory("CLOSED","12/12/2012");
+        history = new ManageSOCStatusHistory("Open","12/12/2012",true);
+        statusHistory.add(history);
+        history = new ManageSOCStatusHistory("Locked","",false);
+        statusHistory.add(history);
+        history = new ManageSOCStatusHistory("Final Edits","",false);
+        statusHistory.add(history);
+        history = new ManageSOCStatusHistory("Publishing","",false);
+        statusHistory.add(history);
+        history = new ManageSOCStatusHistory("Published","",false);
         statusHistory.add(history);
         socStatus= "OPEN";
         socSchedulingStatus= "Not Started";
-
     }
 
     public String getScheduleInitiatedDate() {
@@ -128,6 +137,14 @@ public class ManageSOCForm extends UifFormBase {
 
     public void setTermInfo(TermInfo termInfo) {
         this.termInfo = termInfo;
+    }
+
+    public SocInfo getSocInfo() {
+        return socInfo;
+    }
+
+    public void setSocInfo(SocInfo socInfo) {
+        this.socInfo = socInfo;
     }
 
 }

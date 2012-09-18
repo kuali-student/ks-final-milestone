@@ -11,6 +11,7 @@ public class ManageSOCStatusHistory {
 
     private String state;
     private String date;
+    private boolean highlightUI;
 
     public ManageSOCStatusHistory(){
     }
@@ -18,6 +19,12 @@ public class ManageSOCStatusHistory {
     public ManageSOCStatusHistory(String state,String date){
         this.state = state;
         this.date = date;
+    }
+
+    public ManageSOCStatusHistory(String state,String date,boolean highlightUI){
+        this.state = state;
+        this.date = date;
+        this.highlightUI = highlightUI;
     }
 
     public void setState(String state) {
@@ -36,4 +43,7 @@ public class ManageSOCStatusHistory {
         return date;
     }
 
+    public boolean isHighlightUI() {
+        return highlightUI;
+    }
 }

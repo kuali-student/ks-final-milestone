@@ -61,6 +61,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             }
 
             SocInfo socInfo = getCourseOfferingSetService().getSoc(socIds.get(0),ContextUtils.createDefaultContextInfo());
+            socForm.setSocInfo(socInfo);
 
             String stateName = getStateName(socInfo.getStateKey());
             socForm.setSocStatus(stateName);

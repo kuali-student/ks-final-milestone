@@ -11,6 +11,7 @@
    	  <property name="id" value="ManageSOCView"/>
       <property name="headerText" value="Set of Courses" />
 	  <property name="singlePageView" value="true"/>
+      <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl"/>
       <property name="page">
             <bean parent="Uif-Page"/>
         </property>
@@ -25,6 +26,11 @@
                     </property>
                </bean>
           </list>
+      </property>
+      <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/acal.css</value>
+            </list>
       </property>
    </bean>
 
@@ -83,8 +89,22 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
            <list>
-             <bean parent="Uif-DataField" p:propertyName="state" p:label="State"/>
-             <bean parent="Uif-DataField" p:propertyName="date" p:label="Effective Date"/>
+             <bean parent="Uif-DataField" p:propertyName="state" p:label="State">
+                 <property name="propertyReplacers">
+                      <list>
+                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                              p:condition="#line.highlightUI" p:replacement="background-color:#C8E4F7;"/>
+                      </list>
+                 </property>
+             </bean>
+             <bean parent="Uif-DataField" p:propertyName="date" p:label="Effective Date">
+                 <property name="propertyReplacers">
+                      <list>
+                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                              p:condition="#line.highlightUI" p:replacement="background-color:#C8E4F7;"/>
+                      </list>
+                 </property>
+             </bean>
            </list>
        </property>
    </bean>
@@ -102,11 +122,12 @@
     <bean id="SchedulingDetails-Section1" parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
        <property name="items">
            <list>
-               <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:10px;margin-bottom:10px;margin-left:15px;">
+               <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:5px;margin-bottom:3px;margin-left:15px;">
                     <property name="items">
                       <list>
-                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSet" p:actionLabel="LockSet"/>
-                          <bean parent="Uif-ActionLink" p:actionLabel="Manage Course Offerings" p:style="margin-top:10px;"/>
+                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSet" p:actionLabel="Lock Set"/>
+                          <bean parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:10px;"
+                                p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
                       </list>
                     </property>
                </bean>
@@ -118,12 +139,12 @@
        <property name="headerText" value="Scheduling Details" />
        <property name="header.cssClasses">
             <list merge="true">
-                <value>ks-borderBottom1</value>
+                <value>ks-borderBottom3</value>
             </list>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#C8E4F7; ">
+                <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
                    <property name="items">
                        <list>
                         <bean parent="Uif-MessageField" p:messageText="@{socSchedulingStatus}" p:label="SOC Scheduling Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
@@ -139,9 +160,14 @@
 
    <bean id="SchedulingDetails-Section3" parent="Uif-VerticalBoxSubSection">
        <property name="headerText" value="Publishing Process Details" />
+       <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-borderBottom3</value>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#C8E4F7; ">
+                <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
                    <property name="items">
                        <list>
                         <bean parent="Uif-MessageField" p:messageText="@{socSchedulingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
