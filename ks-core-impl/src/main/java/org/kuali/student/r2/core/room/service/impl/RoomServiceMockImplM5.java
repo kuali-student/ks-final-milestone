@@ -626,5 +626,28 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
     public void setBuildingMap(Map<String, BuildingInfo> buildingMap) {
         this.buildingMap = buildingMap;
     }
+
+    @Override
+    public List<BuildingInfo> getBuildingsByBuildingCode(String buildingCode, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>();
+        for (BuildingInfo buildingInfo: buildingMap.values()) {
+            if (buildingCode.equals(buildingInfo.getBuildingCode())) {
+                buildingInfos.add(buildingInfo);
+            }
+        }
+        return buildingInfos;
+    }
+
+    @Override
+    public List<RoomInfo> getRoomsByBuildingAndRoomCode(String buildingCode, String roomCode, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
+        for (RoomInfo roomInfo: roomMap.values()) {
+            BuildingInfo buildingInfo = getBuilding(roomInfo.getBuildingId(), contextInfo);
+            if (buildingCode.equals(buildingInfo.getBuildingCode()) && roomCode.equals(roomInfo.getRoomCode())) {
+                roomInfos.add(roomInfo);
+            }
+        }
+        return roomInfos;
+    }
 }
 

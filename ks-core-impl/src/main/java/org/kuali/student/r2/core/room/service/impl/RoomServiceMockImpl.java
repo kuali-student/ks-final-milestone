@@ -761,4 +761,15 @@ public class RoomServiceMockImpl implements RoomService {
         responsibleInfoList.add(responsibleInfo2);
         responsibleInfoList.add(responsibleInfo3);
     }
+
+    @Override
+    public List<BuildingInfo> getBuildingsByBuildingCode(@WebParam(name = "buildingCode") String buildingCode, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("getBuildingsByBuildingCode has not been implemented");
+    }
+
+    @Override
+    public List<RoomInfo> getRoomsByBuildingAndRoomCode(@WebParam(name = "buildingCode") String buildingCode, @WebParam(name = "buildingCode") String roomCode, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("getRoomsByBuildingAndRoomCode has not been implemented");
+    }
+
 }
