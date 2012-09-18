@@ -19,11 +19,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Course Offering Service Constants
@@ -45,11 +41,11 @@ public class CourseOfferingSetServiceConstants {
     // SOC states (see https://wiki.kuali.org/display/STUDENT/Course+Offering+Set+Types+and+States)
     public static final String DRAFT_SOC_STATE_KEY = "kuali.soc.state.draft";
     public static final String OPEN_SOC_STATE_KEY = "kuali.soc.state.open";
-    public static final String LOCKED_SOC_STATE_KEY = "kuali.soc.state.locked ";
+    public static final String LOCKED_SOC_STATE_KEY = "kuali.soc.state.locked";
     public static final String FINALEDITS_SOC_STATE_KEY = "kuali.soc.state.finaledits";
     public static final String PUBLISHING_SOC_STATE_KEY = "kuali.soc.state.publishing";
     public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
-    public static final String CLOSED_SOC_STATE_KEY = "kuali.soc.state.closed ";
+    public static final String CLOSED_SOC_STATE_KEY = "kuali.soc.state.closed";
     public static final String[] ALL_SOC_STATE_KEYS = {
             DRAFT_SOC_STATE_KEY,
             OPEN_SOC_STATE_KEY,
