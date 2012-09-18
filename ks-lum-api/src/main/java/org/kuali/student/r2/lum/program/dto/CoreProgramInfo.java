@@ -47,6 +47,11 @@ import org.kuali.student.r2.lum.program.infc.CoreProgram;
     "referenceURL",
     "catalogDescr",
     "catalogPublicationTargets",
+    "cip2000Code",
+    "cip2010Code",
+    "diplomaTitle",
+    "hegisCode",
+    "selectiveEnrollmentCode",
     "meta",
     "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
