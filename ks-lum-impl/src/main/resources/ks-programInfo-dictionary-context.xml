@@ -3651,12 +3651,16 @@
 			<list>
 				<ref bean="coreProgramInfo.catalogDescr" />
 				<ref bean="coreProgramInfo.catalogPublicationTargets" />
+                <ref bean="coreProgramInfo.cip2000Code" />
+                <ref bean="coreProgramInfo.cip2010Code" />
 				<ref bean="coreProgramInfo.code" />
 				<ref bean="coreProgramInfo.descr" />
+                <ref bean="coreProgramInfo.diplomaTitle" />
 				<ref bean="coreProgramInfo.divisionsContentOwner" />
 				<ref bean="coreProgramInfo.divisionsStudentOversight" />
 				<ref bean="coreProgramInfo.endProgramEntryTerm" />
 				<ref bean="coreProgramInfo.endTerm" />
+                <ref bean="coreProgramInfo.hegisCode" />
 				<ref bean="coreProgramInfo.id" />
 				<ref bean="coreProgramInfo.learningObjectives" />
 				<ref bean="coreProgramInfo.longTitle" />
@@ -3672,12 +3676,43 @@
 				<ref bean="coreProgramInfo.universityClassification" />
 				<ref bean="coreProgramInfo.versionInfo" />
 				<ref bean="coreProgramInfo.searchProgramVersions" />
+                <ref bean="coreProgramInfo.selectiveEnrollmentCode" />
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
 	</bean>
 	<bean id="org.kuali.student.r2.lum.program.dto.CoreProgramInfo"
 		parent="org.kuali.student.r2.lum.program.dto.CoreProgramInfo-parent" />
+
+    <bean id="coreProgramInfo.selectiveEnrollmentCode-parent"
+          abstract="true" parent="majorDisciplineInfo.selectiveEnrollmentCode-parent">
+        <property name="name" value="selectiveEnrollmentCode" />
+    </bean>
+    <bean id="coreProgramInfo.selectiveEnrollmentCode" parent="coreProgramInfo.selectiveEnrollmentCode-parent" />
+
+    <bean id="coreProgramInfo.diplomaTitle-parent" abstract="true"
+          parent="majorDisciplineInfo.diplomaTitle-parent">
+        <property name="name" value="diplomaTitle" />
+    </bean>
+    <bean id="coreProgramInfo.diplomaTitle" parent="coreProgramInfo.diplomaTitle-parent" />
+
+    <bean id="coreProgramInfo.hegisCode-parent"
+          abstract="true" parent="majorDisciplineInfo.hegisCode-parent">
+        <property name="name" value="hegisCode" />
+    </bean>
+    <bean id="coreProgramInfo.hegisCode" parent="coreProgramInfo.hegisCode-parent" />
+
+    <bean id="coreProgramInfo.cip2000Code-parent" abstract="true"
+          parent="majorDisciplineInfo.cip2000Code-parent">
+        <property name="name" value="cip2000Code" />
+    </bean>
+    <bean id="coreProgramInfo.cip2000Code" parent="coreProgramInfo.cip2000Code-parent" />
+
+    <bean id="coreProgramInfo.cip2010Code-parent" abstract="true"
+          parent="majorDisciplineInfo.cip2010Code-parent">
+        <property name="name" value="cip2010Code" />
+    </bean>
+    <bean id="coreProgramInfo.cip2010Code" parent="coreProgramInfo.cip2010Code-parent" />
 
 	<bean id="coreProgramInfo.searchProgramVersions" parent="freestanding.search.programVersions" />
 
@@ -4206,7 +4241,7 @@
 		parent="baseComplex">
 		<property name="name" value="statement" />
 		<property name="dataObjectStructure"
-			ref="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo" />
+			ref="org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo" />
 	</bean>
 	<bean id="programRequirementInfo.statement" parent="programRequirementInfo.statement-parent" />
 
