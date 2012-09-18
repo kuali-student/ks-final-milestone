@@ -47,23 +47,17 @@ public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase imple
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "Select activity offering cluster..."));
-        CourseOfferingInfo selectedCourseOffering = coForm.getTheCourseOffering();
-
-        String formatOfferingName = coForm.getFormatOfferingName();
+        String formatOfferingId = coForm.getFormatOfferingIdForViewRG();
 
         try {
-            String courseOfferingId = selectedCourseOffering.getId();
             ContextInfo contextInfo = helperService.getContextInfo();
             CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
-            List<ActivityOfferingClusterInfo> clusterInfos = courseOfferingService.getActivityOfferingClustersByFormatOffering(formatOfferingName, contextInfo);
-//            List<ActivityOfferingClusterInfo> clusterInfos = getMockedActivityOfferingClusterInfos();
-            List<FormatOfferingInfo> formatOfferingInfos =
-                courseOfferingService.getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
+            List<ActivityOfferingClusterInfo> clusterInfos = courseOfferingService.getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
             for (ActivityOfferingClusterInfo clusterInfo : clusterInfos) {
                 keyValues.add(new ConcreteKeyValue(clusterInfo.getId(), clusterInfo.getName()));
             }
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException("Error getting clusters for format offering", e);
         }
         return keyValues;
     }
