@@ -538,6 +538,7 @@
    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
        <property name="lprService" ref="lprPersistenceService" />
        <property name="lrcService" ref="lrcPersistenceService" />
+       <property name="cluService" ref="cluServiceImpl"/>
    </bean>
 
    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">

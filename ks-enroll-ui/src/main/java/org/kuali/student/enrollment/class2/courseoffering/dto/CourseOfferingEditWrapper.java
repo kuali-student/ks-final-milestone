@@ -47,6 +47,9 @@ public class CourseOfferingEditWrapper implements Serializable {
     private String selectedGradingOptionName;
     private String selectedStudentRegOpts;
 
+    private boolean passFailStudentRegOpts;//TODO RICE IS BROKEN for checklists so these are here temporarily
+    private boolean auditStudentRegOpts;
+
     private CreditOptionInfo creditOption;
     private boolean creditOptionFixed;
     private boolean isChecked;
@@ -205,5 +208,29 @@ public class CourseOfferingEditWrapper implements Serializable {
         return false;
     }
 
+    public String getCreditOptionCreditsUI(){
+        if(creditOption!=null && !creditOption.getAllowedCredits().isEmpty()){
+            return StringUtils.join(creditOption.getAllowedCredits(),",");
+        }
+        return "No Credits Selected";
+    }
+    public String getSelectedStudentRegOptsUI(){
+        return selectedStudentRegOpts;
+    }
+    public boolean getAuditStudentRegOpts() {
+        return auditStudentRegOpts;
+    }
+
+    public void setAuditStudentRegOpts(boolean auditStudentRegOpts) {
+        this.auditStudentRegOpts = auditStudentRegOpts;
+    }
+
+    public boolean getPassFailStudentRegOpts() {
+        return passFailStudentRegOpts;
+    }
+
+    public void setPassFailStudentRegOpts(boolean passFailStudentRegOpts) {
+        this.passFailStudentRegOpts = passFailStudentRegOpts;
+    }
 }
 

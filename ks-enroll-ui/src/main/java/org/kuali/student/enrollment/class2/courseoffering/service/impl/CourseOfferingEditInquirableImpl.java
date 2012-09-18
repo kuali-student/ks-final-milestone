@@ -23,7 +23,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructor
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -81,8 +80,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
             //Display credit count
             CourseInfo courseInfo = getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
-           // coInfo.setCreditCnt(courseInfo.getCreditOptions().get(0).getResultValues().get(0));
-            coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo));
+
             CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
 
             formObject.setCourse(courseInfo);

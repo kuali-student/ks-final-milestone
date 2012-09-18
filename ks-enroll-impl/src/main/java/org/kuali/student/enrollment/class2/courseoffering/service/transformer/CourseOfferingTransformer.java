@@ -12,9 +12,6 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -26,14 +23,22 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +47,7 @@ public class CourseOfferingTransformer {
     private LprService lprService;
     private PersonService personService;
     private LRCService lrcService;
+    private CluService cluService;
 
     final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
 
@@ -102,6 +108,7 @@ public class CourseOfferingTransformer {
                 co.setCreditOptionId(resultValueGroupKey);
             }
         }
+        co.setCreditCnt(getCreditCount(co.getCreditOptionId(), co.getCourseId(), context));
 
         if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
             co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
@@ -137,6 +144,74 @@ public class CourseOfferingTransformer {
         return;
     }
 
+
+
+    public static String trimTrailing0(String creditValue){
+        if (creditValue.indexOf(".0") > 0) {
+            return creditValue.substring(0, creditValue.length( )- 2);
+        } else {
+            return creditValue;
+        }
+    }
+
+
+    //get credit count from persisted COInfo or from CourseInfo
+    public String getCreditCount(String creditOptionId, String courseId, ContextInfo contextInfo) {
+
+        String creditCount="";
+        try{
+            //Lookup persisted values (if the CO has a Credit set use that, otherwise look at the RVG of Course/Clu
+            if (creditOptionId == null && courseId != null && cluService!=null ) {//TODO fix the tests and inject clu service then remove this line
+                List<CluResultInfo> cluResults = getCluService().getCluResultByClu(courseId, contextInfo);
+                for(CluResultInfo cluResultInfo : cluResults){
+                    if(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS.equals(cluResultInfo.getTypeKey())){
+                        creditOptionId = cluResultInfo.getResultOptions().get(0).getResultComponentId();
+                        break;
+                    }
+                }
+            }
+
+           if(creditOptionId != null){
+                ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
+                String typeKey = resultValuesGroupInfo.getTypeKey();
+                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    //Get the actual values with a service call
+                    List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                    creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
+                    //Use the min/max values from the RVG
+                    creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
+                            trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                    //Get the actual values with a service call
+                    List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                    if (!resultValueInfos.isEmpty()) {
+                        //Convert to floats and sort
+                        List<Float> creditValuesF = new ArrayList<Float>();
+                        for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
+                            creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
+                        }
+                        Collections.sort(creditValuesF); //Do the sort
+
+                        //Convert back to strings and concatenate to one field
+                        for (Float creditF : creditValuesF ){
+                            creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
+                        }
+                        if(creditCount.length() >=  2)  {
+                            creditCount =  creditCount.substring(2);  //trim leading ", "
+                        }
+                    }
+                } else {
+                    //no credit option
+                    LOG.info("Credit is missing for course id" + courseId);
+                    creditCount = "N/A";
+                }
+            }
+            return creditCount;
+        }catch (Exception e){
+            throw new RuntimeException("Error getting credit count for course offering", e);
+        }
+    }
 
     public LprService getLprService() {
         return lprService;
@@ -338,22 +413,6 @@ public class CourseOfferingTransformer {
         if (courseInfo.getCreditOptions() != null && !courseInfo.getCreditOptions().isEmpty()) {
             //Convert R1 to R2 LRC data
             courseOfferingInfo.setCreditOptionId(courseInfo.getCreditOptions().get(0).getKey());
-//            ResultComponentInfo resultComponent = courseInfo.getCreditOptions().get(0);
-//
-//            // Credit Options (also creates extra-line)
-//            if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED.equals(resultComponent.getType())) {
-//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_FIXED_CREDITS),
-//                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-//            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE.equals(resultComponent.getType())) {
-//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS),
-//                        resultComponent.getAttributes().get(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS), "1", LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-//            } else if (LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE.equals(resultComponent.getType())) {
-//                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(resultComponent.getResultValues(),
-//                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, context);
-//                courseOfferingInfo.setCreditOptionId(rvgInfo.getKey());
-//            }
         }else{
             courseOfferingInfo.setCreditOptionId(null);
         }
@@ -438,10 +497,20 @@ public class CourseOfferingTransformer {
         }
     }
 
+    public CluService getCluService() {
+        if(cluService == null){
+            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
+    }
 
     public LRCService getLrcService() {
         if(lrcService == null){
-            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
     }
@@ -449,4 +518,6 @@ public class CourseOfferingTransformer {
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
+
+
 }

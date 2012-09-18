@@ -534,7 +534,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 getContextInfo());
         CourseOfferingInfo courseOffering = getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), getContextInfo());
         ExistingCourseOffering newWrapper = new ExistingCourseOffering(courseOffering);
-        newWrapper.setCredits(ViewHelperUtil.getCreditCount(courseOffering, null));
+        newWrapper.setCredits(courseOffering.getCreditCnt());
         newWrapper.setGrading(getGradingOption(courseOffering.getGradingOptionId()));
         copyWrapper.getExistingOfferingsInCurrentTerm().add(newWrapper);
         // reload the COs

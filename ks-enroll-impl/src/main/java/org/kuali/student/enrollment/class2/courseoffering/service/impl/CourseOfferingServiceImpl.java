@@ -392,18 +392,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<LuiInfo> luiInfos = getLuiService().getLuisByIds(courseOfferingIds, context);
-
         List<CourseOfferingInfo> results = new ArrayList<CourseOfferingInfo>();
-        for (LuiInfo lui : luiInfos) {
-            CourseOfferingInfo co = new CourseOfferingInfo();
-            //Associate instructors to the given CO
-            courseOfferingTransformer.lui2CourseOffering(lui, co, context);
 
-            //TODO: assembleInstructors is not efficient. LPR needs a getLPRsByLuiIds
-            courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
-            results.add(co);
+        if(courseOfferingIds != null && !courseOfferingIds.isEmpty()){
+            List<LuiInfo> luiInfos = getLuiService().getLuisByIds(courseOfferingIds, context);
+
+            for (LuiInfo lui : luiInfos) {
+                CourseOfferingInfo co = new CourseOfferingInfo();
+                //Associate instructors to the given CO
+                courseOfferingTransformer.lui2CourseOffering(lui, co, context);
+
+                //TODO: assembleInstructors is not efficient. LPR needs a getLPRsByLuiIds
+                courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
+                results.add(co);
+            }
         }
+
         return results;
     }
 
@@ -457,19 +461,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        //TODO Use the real search, dont filter
-        List<String> luiIds = luiService.getLuiIdsByAtpAndType(termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
-        List<String> results = new ArrayList<String>();
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("atpId", termId),
+                PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
+                PredicateFactory.equalIgnoreCase("subjectArea", subjectArea));
 
-        for (String luiId : luiIds) {
-            CourseOfferingInfo co = getCourseOffering(luiId, context);
-            // Make the comparison more robust by ignoring spaces and case
-            if (co.getSubjectArea() != null && StringUtils.equalsIgnoreCase(co.getSubjectArea().trim(), subjectArea.trim())) {
-                results.add(luiId);
-            }
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        List<String> ids = new ArrayList<String>(results.getResults().size());
+        for (LuiEntity lui : results.getResults()) {
+            ids.add(lui.getId());
         }
-
-        return results;
+        return ids;
     }
 
     @Override

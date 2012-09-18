@@ -97,7 +97,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                 if (StringUtils.equals(courseOfferingInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)){
                     ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
-                    co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
+                    co.setCredits(courseOfferingInfo.getCreditCnt());
                     co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                     coWrapper.getExistingOfferingsInCurrentTerm().add(co);
                 }
@@ -129,7 +129,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
                 }
                 co.setTermCode(termInfo.getCode());
-                co.setCredits(ViewHelperUtil.getCreditCount(courseOfferingInfo, course));
+                co.setCredits(courseOfferingInfo.getCreditCnt());
                 co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                 coWrapper.getExistingTermOfferings().add(co);
             }

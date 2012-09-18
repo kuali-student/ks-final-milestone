@@ -94,7 +94,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             form.getCourseOfferingEditWrapperList().clear();
             for(String coId : courseOfferingIds) {
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(coId, getContextInfo());
-                coInfo.setCreditCnt(getCreditCount(coInfo, null));
                 CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
                 courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
                 StateInfo state = getStateService().getState(coInfo.getStateKey(),getContextInfo());
@@ -157,11 +156,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
                 //Do search. In ideal case, returns one element, which is the desired CO.
                 courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, new ContextInfo());
-                if (courseOfferings.size()>0){
-                    for (CourseOfferingInfo coInfo:courseOfferings){
-                        coInfo.setCreditCnt(getCreditCount(coInfo, null));
-                    }
-                }
             }
 
         } catch (Exception e) {
@@ -590,11 +584,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             roomService = CourseOfferingResourceLoader.loadRoomService();
         }
         return roomService;
-    }
-
-    // get credit count from persisted COInfo or from CourseInfo
-    private String getCreditCount(CourseOfferingInfo coInfo, CourseInfo courseInfo) throws Exception{
-        return ViewHelperUtil.getCreditCount(coInfo, courseInfo);
     }
 
     private Map<String, List<String>> constructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {

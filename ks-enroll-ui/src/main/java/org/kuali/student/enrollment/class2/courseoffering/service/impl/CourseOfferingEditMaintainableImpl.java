@@ -149,6 +149,20 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 coInfo.setWaitlistLevelTypeKey(null);
             }
 
+            //TODO REMOVE THIS AFTER KRAD CHECKLISTS ARE FIXED for student registration options
+            if(coEditWrapper.getAuditStudentRegOpts() &&
+                    !coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
+                coInfo.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+            }else{
+                coInfo.getStudentRegistrationGradingOptions().remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+            }
+            if(coEditWrapper.getPassFailStudentRegOpts() &&
+                    !coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
+                coInfo.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+            }else{
+                coInfo.getStudentRegistrationGradingOptions().remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+            }
+
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
@@ -291,7 +305,6 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 //0. get credit count from CourseInfo
                 CourseOfferingInfo coInfo = getCourseOfferingService().getCourseOffering(dataObjectKeys.get("coInfo.id"), contextInfo);
                 CourseInfo courseInfo = getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
-                coInfo.setCreditCnt(ViewHelperUtil.getCreditCount(coInfo, courseInfo)); //set for CO title
 
                 //1. set CourseOfferingInfo
                 CourseOfferingEditWrapper formObject = new CourseOfferingEditWrapper(coInfo);
@@ -323,6 +336,18 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                     }
                 }
 
+                //TODO REMOVE THIS WHEN KRAD IS FIXED
+                if(studentRegOptions.contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
+                    formObject.setAuditStudentRegOpts(true);
+                }else{
+                    formObject.setAuditStudentRegOpts(false);
+                }
+                if(studentRegOptions.contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
+                    formObject.setPassFailStudentRegOpts(true);
+                }else{
+                    formObject.setPassFailStudentRegOpts(false);
+                }
+
                 formObject.setStudentRegOptions(studentRegOptions);
                 formObject.setCrsGradingOptions(crsGradingOptions);
 
@@ -339,7 +364,7 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 if (coInfo.getCourseId() != null && !courseCreditOptions.isEmpty()) {
                     ResultValuesGroupInfo resultValuesGroupInfo = courseCreditOptions.get(0);
                     //Check for fixed
-                    if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED)) {
+                    if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                         if (!resultValuesGroupInfo.getResultValueKeys().isEmpty()) {
                             creditOption.setCourseFixedCredits(getLrcService().getResultValue(resultValuesGroupInfo.getResultValueKeys().get(0), contextInfo).getValue());
                         }
@@ -359,15 +384,15 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                         }
                         Collections.sort(creditOption.getAllowedCredits());
 
-                        if (resultValuesGroupInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE)) {
-                            creditOption.setCourseMinCredits(resultValuesGroupInfo.getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MIN_CREDITS));
-                            creditOption.setCourseMaxCredits(resultValuesGroupInfo.getAttributeValue(LrcServiceConstants.R1_DYN_ATTR_CREDIT_OPTION_MAX_CREDITS));
+                        if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
+                            creditOption.setCourseMinCredits(resultValuesGroupInfo.getResultValueRange().getMinValue());
+                            creditOption.setCourseMaxCredits(resultValuesGroupInfo.getResultValueRange().getMaxValue());
 
                             //Default the value
                             creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE);
                             creditOption.setMinCredits(creditOption.getCourseMinCredits());
                             creditOption.setMaxCredits(creditOption.getCourseMaxCredits());
-                        } else if (resultValuesGroupInfo.getType().equalsIgnoreCase(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE)) {
+                        } else if (resultValuesGroupInfo.getTypeKey().equalsIgnoreCase(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                             //Default the value
                             creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
                             creditOption.getCredits().addAll(creditOption.getAllowedCredits());

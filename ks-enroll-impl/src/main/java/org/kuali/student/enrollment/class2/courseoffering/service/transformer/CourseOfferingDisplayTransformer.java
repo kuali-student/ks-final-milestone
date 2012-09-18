@@ -16,6 +16,8 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
+import org.kuali.rice.krad.uif.service.ViewHelperService;
+import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -66,10 +68,8 @@ public class CourseOfferingDisplayTransformer {
         displayInfo.setTermCode(atpInfo.getCode());
         // gradingOptionName, creditOptionName,
         displayInfo.setGradingOptionName(coInfo.getGradingOptionName());
-        if(coInfo.getCreditOptionId() != null && !coInfo.getCreditOptionId().isEmpty()){
-            ResultValuesGroupInfo rvgInfo = lrcService.getResultValuesGroup(coInfo.getCreditOptionId(), context);
-            displayInfo.setCreditOptionName(rvgInfo.getName());
-        }
+        displayInfo.setCreditOptionName(coInfo.getCreditCnt());
+
         // typeName, stateName
         TypeInfo typeInfo = typeService.getType(coInfo.getTypeKey(), context);
         displayInfo.setTypeName(typeInfo.getName());
