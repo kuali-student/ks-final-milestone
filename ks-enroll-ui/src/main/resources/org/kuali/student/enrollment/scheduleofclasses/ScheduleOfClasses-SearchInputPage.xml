@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
     <!--
      Copyright 2007-2012 The Kuali Foundation
 
@@ -60,8 +60,58 @@
                                     <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.TypeOfSearchKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="course" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'course'}"/>
-                            <bean parent="Uif-InputField" p:propertyName="department" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}"/>
+                            <bean parent="Uif-InputField" p:propertyName="course" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'course'}">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
+                                </property>
+
+                                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                                    <property name="quickfinder.fieldConversions">
+                                        <map>
+                                            <entry key="code" value="course"/>
+
+                                        </map>
+                                    </property>
+                                <property name="quickfinder.quickfinderAction">
+                                    <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-QuickLookupImage"/>
+                                        </property>
+                                    </bean>
+                                </property>
+
+                                <property name="quickfinder.lightBoxLookup">
+                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                </property>
+
+
+
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="department" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}">
+                            <property name="control">
+                                <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
+                            </property>
+
+                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+                            <property name="quickfinder.fieldConversions">
+                                <map>
+                                    <entry key="department" value="shortName"/>
+
+                                </map>
+                            </property>
+                            <property name="quickfinder.quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchDepartment">
+                                    <property name="actionImage">
+                                        <bean parent="Uif-QuickLookupImage"/>
+                                    </property>
+                                </bean>
+                            </property>
+
+                            <property name="quickfinder.lightBoxLookup">
+                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            </property>
+                            </bean>
+
                             <bean parent="Uif-InputField" p:propertyName="instructor" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}"/>
                             <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}"/>
                             <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:17px;"/>
