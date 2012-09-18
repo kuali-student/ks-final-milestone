@@ -75,19 +75,6 @@
 			<ref bean="atp.criteria.advancedAtpSearch" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
-
-	<search:searchType id="atp.search.atpSeasonTypes" parent="atp.search.atpSeasonTypes-parent" />
-	<search:searchType id="atp.search.atpSeasonTypes-parent"
-		abstract="true">
-		<search:name>All ATP Seasonal types</search:name>
-		<search:desc>Returns the list of all ATP Seasonal types</search:desc>
-		<search:searchResultTypeInfo>
-			<ref bean="atp.result.atpSeasonTypes" />
-		</search:searchResultTypeInfo>
-		<search:searchCriteriaTypeInfo>
-			<ref bean="atp.criteria.atpSeasonTypes" />
-		</search:searchCriteriaTypeInfo>
-	</search:searchType>
 	
 	<search:searchType id="atp.search.atpByDate" parent="atp.search.atpByDate-parent" />
 	<search:searchType id="atp.search.atpByDate-parent"
@@ -99,18 +86,6 @@
 		</search:searchResultTypeInfo>
 		<search:searchCriteriaTypeInfo>
 			<ref bean="atp.criteria.atpByDate" />
-		</search:searchCriteriaTypeInfo>
-	</search:searchType>
-
-	<search:searchType id="atp.search.atpDurationTypes" parent="atp.search.atpDurationTypes-parent" />
-	<search:searchType id="atp.search.atpDurationTypes-parent" abstract="true">
-		<search:name>All ATP duration types</search:name>
-		<search:desc>Returns the list of all ATP duration types</search:desc>
-		<search:searchResultTypeInfo>
-			<ref bean="atp.result.atpDurationType" />
-		</search:searchResultTypeInfo>
-		<search:searchCriteriaTypeInfo>
-			<ref bean="atp.criteria.atpDurationType" />
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
 
@@ -333,8 +308,6 @@
 		<search:resultColumns>
 			<ref bean="atp.resultColumn.atpId" />
 			<ref bean="atp.resultColumn.atpShortName" />
-			<ref bean="atp.resultColumn.atpSeasonalType" />
-			<ref bean="atp.resultColumn.atpDurType" />
 			<ref bean="atp.resultColumn.atpStartDate" />
 			<ref bean="atp.resultColumn.atpTypeName" />
 			<ref bean="atp.resultColumn.atpDescrPlain" />			
@@ -364,30 +337,6 @@
 			<ref bean="atp.resultColumn.atpTypeName" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
-	<!--
-		<search:searchResultTypeInfo id="atp.result.atpBasicView"
-		parent="atp.result.atpBasicView-parent"/> <search:searchResultTypeInfo
-		id="atp.result.atpBasicView-parent" abstract="true"> <search:name>ATP
-		Basic View</search:name> <search:desc>Basic view of the
-		ATP</search:desc> <search:resultColumns> <ref
-		bean="atp.resultColumn.atpId" /> <ref
-		bean="atp.resultColumn.atpSeasonalType" /> <ref
-		bean="atp.resultColumn.atpDurType" /> <ref
-		bean="atp.resultColumn.atpTypeName" /> </search:resultColumns>
-		</search:searchResultTypeInfo>
-	-->
-	<search:searchResultTypeInfo id="atp.result.atpSeasonTypes"
-		parent="atp.result.atpSeasonTypes-parent" />
-	<search:searchResultTypeInfo id="atp.result.atpSeasonTypes-parent"
-		abstract="true">
-		<search:name>ATP By Date</search:name>
-		<search:desc>ATP By Date</search:desc>
-		<search:resultColumns>
-			<ref bean="atp.resultColumn.atpSeasonType" />
-			<ref bean="atp.resultColumn.atpSeasonTypeName" />
-			<ref bean="atp.resultColumn.atpSeasonTypeDesc" />
-		</search:resultColumns>
-	</search:searchResultTypeInfo>
 
 	<search:searchResultTypeInfo id="atp.result.atpByDate"
 		parent="atp.result.atpByDate-parent" />
@@ -398,19 +347,6 @@
 		<search:resultColumns>
 			<ref bean="atp.resultColumn.atpId" />
 			<ref bean="atp.resultColumn.atpByDateDisplay" />
-		</search:resultColumns>
-	</search:searchResultTypeInfo>
-
-	<search:searchResultTypeInfo id="atp.result.atpDurationType"
-		parent="atp.result.atpDurationType-parent" />
-	<search:searchResultTypeInfo id="atp.result.atpDurationType-parent"
-		abstract="true">
-		<search:name>ATP DurationTypes</search:name>
-		<search:desc>ATP Duration Types</search:desc>
-		<search:resultColumns>
-			<ref bean="atp.resultColumn.atpDurType" />
-			<ref bean="atp.resultColumn.atpDurTypeName" />
-			<ref bean="atp.resultColumn.atpDurTypeDesc" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -453,60 +389,6 @@
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 	
-	<search:resultColumn id="atp.resultColumn.atpSeasonType"
-		parent="atp.resultColumn.atpSeasonType-parent" />
-	<search:resultColumn id="atp.resultColumn.atpSeasonType-parent"
-		abstract="true">
-		<search:name>Season Type</search:name>
-		<search:desc>Will return Season Type.</search:desc>
-		<search:dataType>string</search:dataType>
-	</search:resultColumn>
-	
-	<search:resultColumn id="atp.resultColumn.atpSeasonTypeName"
-		parent="atp.resultColumn.atpSeasonTypeName-parent" />
-	<search:resultColumn id="atp.resultColumn.atpSeasonTypeName-parent"
-		abstract="true">
-		<search:name>Season Type Name</search:name>
-		<search:desc>Will return Season Type Name.</search:desc>
-		<search:dataType>string</search:dataType>
-	</search:resultColumn>	
-	
-	<search:resultColumn id="atp.resultColumn.atpSeasonTypeDesc"
-		parent="atp.resultColumn.atpSeasonTypeDesc-parent" />
-	<search:resultColumn id="atp.resultColumn.atpSeasonTypeDesc-parent"
-		abstract="true">
-		<search:name>Season Type Desc</search:name>
-		<search:desc>Will return Season Type Desc.</search:desc>
-		<search:dataType>string</search:dataType>
-	</search:resultColumn>		
-
-	<search:resultColumn id="atp.resultColumn.atpDurType"
-		parent="atp.resultColumn.atpDurType-parent" />
-	<search:resultColumn id="atp.resultColumn.atpDurType-parent"
-		abstract="true">
-		<search:name>Duration Type</search:name>
-		<search:desc>Will return Duration Type.</search:desc>
-		<search:dataType>string</search:dataType>
-	</search:resultColumn>
-	
-	<search:resultColumn id="atp.resultColumn.atpDurTypeName"
-		parent="atp.resultColumn.atpDurTypeName-parent" />
-	<search:resultColumn id="atp.resultColumn.atpDurTypeName-parent"
-		abstract="true">
-		<search:name>Duration Type Name</search:name>
-		<search:desc>Will return Duration Type Name.</search:desc>
-		<search:dataType>string</search:dataType>
-	</search:resultColumn>	
-	
-	<search:resultColumn id="atp.resultColumn.atpDurTypeDesc"
-		parent="atp.resultColumn.atpDurTypeDesc-parent" />
-	<search:resultColumn id="atp.resultColumn.atpDurTypeDesc-parent"
-		abstract="true">
-		<search:name>Duration Type Desc</search:name>
-		<search:desc>Will return Duration Type Desc.</search:desc>
-		<search:dataType>string</search:dataType>
-	</search:resultColumn>		
-
 	<search:resultColumn id="atp.resultColumn.atpTypeName"
 		parent="atp.resultColumn.atpTypeName-parent" />
 	<search:resultColumn id="atp.resultColumn.atpTypeName-parent"
@@ -644,12 +526,10 @@
 					<value>SELECT
 						atp.id,
 						atp.name,
-						atp.type.seasonalType.name,
-						atp.type.durationType.name,
 						atp.startDate,
-						atp.type.name,
-						atp.descr.plain
-                        FROM Atp atp</value>
+						atp.atpType,
+						atp.plain
+                        FROM AtpEntity atp</value>
 				</entry>
 				<entry key="atp.search.atpByDate">
 					<value>SELECT
@@ -681,21 +561,15 @@
 					<value>atp.type.name</value>
 				</entry>
 				<entry key="atp.resultColumn.atpDescrPlain">
-					<value>atp.descr.plain</value>
+					<value>atp.plain</value>
 				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpType">
-					<value>atp.type.id IN (:atp_advancedAtpSearchParam_atpType)
+					<value>atp.atpType IN (:atp_advancedAtpSearchParam_atpType)
 					</value>
-				</entry>
-				<entry key="atp.search.atpDurationTypes">
-					<value>SELECT atpdurtype.id, atpdurtype.name, atpdurtype.descr FROM AtpDurationType atpdurtype</value>
 				</entry>
 				<entry  key="atp.queryParam.atpDurationType">
 					<value> atpdurtype.id  =  :atp_queryParam_atpDurationType </value>
 				</entry>
-				<entry key="atp.search.atpSeasonTypes">
-					<value>SELECT atpseasontype.id, atpseasontype.name, atpseasontype.descr FROM AtpSeasonalType atpseasontype WHERE atpseasontype.id IN ('kuali.atp.season.Any', 'kuali.atp.season.Fall', 'kuali.atp.season.Spring', 'kuali.atp.season.Summer', 'kuali.atp.season.Winter')</value>
-				</entry>				
 				<entry  key="atp.queryParam.atpSeasonType">
 					<value> atpseasontype.id  =  :atp_queryParam_atpSeasonType </value>
 				</entry>

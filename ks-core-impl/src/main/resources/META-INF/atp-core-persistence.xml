@@ -23,28 +23,11 @@
 	<persistence-unit name="Atp" transaction-type="JTA">
 
         <!--TODO: r1 classes should be removed once atp search is sorted.-->
-		<class>org.kuali.student.r1.common.entity.Type</class>
-		<class>org.kuali.student.r1.common.entity.Attribute</class>
-		<class>org.kuali.student.r1.common.entity.Meta</class>
-		<class>org.kuali.student.r1.common.entity.MetaEntity</class>
-        <class>org.kuali.student.r1.common.entity.RichText</class>
-		<class>org.kuali.student.r1.core.atp.entity.Atp</class>
-		<class>org.kuali.student.r1.core.atp.entity.AtpAttribute</class>
-		<class>org.kuali.student.r1.core.atp.entity.AtpDurationType</class>
-		<class>org.kuali.student.r1.core.atp.entity.AtpDurationTypeAttribute</class>
-        <class>org.kuali.student.r1.core.atp.entity.AtpRichText</class>
-		<class>org.kuali.student.r1.core.atp.entity.AtpSeasonalType</class>
-		<class>org.kuali.student.r1.core.atp.entity.AtpSeasonalTypeAttribute</class>
-		<class>org.kuali.student.r1.core.atp.entity.AtpType</class>
-		<class>org.kuali.student.r1.core.atp.entity.AtpTypeAttribute</class>
-		<class>org.kuali.student.r1.core.atp.entity.DateRange</class>
-		<class>org.kuali.student.r1.core.atp.entity.DateRangeAttribute</class>
-		<class>org.kuali.student.r1.core.atp.entity.DateRangeType</class>
-		<class>org.kuali.student.r1.core.atp.entity.DateRangeTypeAttribute</class>
-		<class>org.kuali.student.r1.core.atp.entity.Milestone</class>
-		<class>org.kuali.student.r1.core.atp.entity.MilestoneAttribute</class>
-		<class>org.kuali.student.r1.core.atp.entity.MilestoneType</class>
-		<class>org.kuali.student.r1.core.atp.entity.MilestoneTypeAttribute</class>
+<!-- 		<class>org.kuali.student.r1.common.entity.Type</class> -->
+<!-- 		<class>org.kuali.student.r1.common.entity.Attribute</class> -->
+<!-- 		<class>org.kuali.student.r1.common.entity.Meta</class> -->
+<!-- 		<class>org.kuali.student.r1.common.entity.MetaEntity</class> -->
+<!--         <class>org.kuali.student.r1.common.entity.RichText</class> -->
 
         <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>

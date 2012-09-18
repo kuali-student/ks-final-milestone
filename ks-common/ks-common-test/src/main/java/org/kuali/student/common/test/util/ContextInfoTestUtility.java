@@ -32,6 +32,7 @@ public class ContextInfoTestUtility {
         ContextInfo contextInfo = ContextUtils.getContextInfo();
         LocaleInfo localeInfo = contextInfo.getLocale();
         localeInfo.setLocaleLanguage("en");
+        contextInfo.setPrincipalId("TEST");
         return contextInfo;
     }
 

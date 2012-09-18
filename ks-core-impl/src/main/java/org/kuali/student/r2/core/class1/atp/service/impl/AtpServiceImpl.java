@@ -52,7 +52,7 @@ public class AtpServiceImpl implements AtpService {
     private CriteriaLookupService milestoneCriteriaLookupService;
     private CriteriaLookupService atpAtpRelationCriteriaLookupService;
     private SearchManager searchManager;
-    private SearchableDao searchableDao;     //Remove this, just a temp fix to get CM running.
+    private SearchableDao searchableDao;
 
     public AtpDao getAtpDao() {
         return atpDao;
@@ -206,7 +206,13 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        return this.searchManager.search(searchRequest, searchableDao);
+        SearchResult searchResult = this.searchManager.search(searchRequest, searchableDao);
+        if (searchRequest.getSearchKey().equals("atp.search.advancedAtpSearch")){
+            //TODO: populate the duration en seasonal types.
+            /*"atp.resultColumn.atpSeasonalType" />
+			"atp.resultColumn.atpDurType"*/
+        }
+        return searchResult;
     }
 
 

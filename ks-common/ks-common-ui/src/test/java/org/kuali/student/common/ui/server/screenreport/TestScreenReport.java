@@ -23,12 +23,13 @@ import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
 import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 import org.kuali.student.r1.common.assembly.data.Data;
 
-@Deprecated
 public class TestScreenReport {
 
     private Data dataMap;
 
     private List<ExportElement> dataList;
+
+    private String basePath = "ks-core/ks-common/ks-common-ui/target/";
 
     @Before
     public void setup() {
@@ -165,47 +166,47 @@ public class TestScreenReport {
 
         byte[] bytes = processor.createPdf(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataMap.pdf");
+        printToFile(bytes, basePath + "dataMap.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataMap.doc");
+        printToFile(bytes, basePath + "dataMap.doc");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createXls(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataMap.xls");
+        printToFile(bytes, basePath + "dataMap.xls");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createPdf(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.pdf");
+        printToFile(bytes, basePath + "dataList.pdf");
         Assert.assertTrue(bytes.length > 0);
         
         bytes = processor.createPdf(dataList, "proposal.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList2.pdf");
+        printToFile(bytes, basePath + "dataList2.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.doc");
+        printToFile(bytes, basePath + "dataList.doc");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createXls(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.xls");
+        printToFile(bytes, basePath + "dataList.xls");
         Assert.assertTrue(bytes.length > 0);
         
         bytes = processor.createText(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.txt");
+        printToFile(bytes, basePath + "dataList.txt");
         Assert.assertTrue(bytes.length > 0);
         
         bytes = processor.createRtf(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.rtf");
+        printToFile(bytes, basePath + "dataList.rtf");
         Assert.assertTrue(bytes.length > 0);
 
     }
@@ -268,7 +269,7 @@ public class TestScreenReport {
         
         byte[] bytes = processor.createPdf(list, "analysis.template", "Dependency Analysis");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/analysis.pdf");
+        printToFile(bytes, basePath + "analysis.pdf");
         Assert.assertTrue(bytes.length > 0);
 
     }

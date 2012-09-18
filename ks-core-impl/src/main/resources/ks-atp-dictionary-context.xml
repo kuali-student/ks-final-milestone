@@ -131,70 +131,7 @@
  <bean id="AtpAtpRelationInfo.typeKey" parent="AtpAtpRelationInfo.typeKey-parent"/>
  
  
- 
- 
- <!-- DateRangeInfo-->
- <bean id="org.kuali.student.r1.core.atp.dto.DateRangeInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.r1.core.atp.dto.DateRangeInfo"/>
-  <property name="attributes">
-   <list>
-    <ref bean="dateRangeInfo.atpId"/>
-    <ref bean="dateRangeInfo.desc"/>
-    <ref bean="dateRangeInfo.endDate"/>
-    <ref bean="dateRangeInfo.id"/>
-    <ref bean="dateRangeInfo.name"/>
-    <ref bean="dateRangeInfo.startDate"/>
-    <ref bean="dateRangeInfo.state"/>
-    <ref bean="dateRangeInfo.type"/>
-   </list>
-  </property>
-  <property name="hasMetaData" value="true"/>
- </bean>
- <bean id="org.kuali.student.r1.core.atp.dto.DateRangeInfo" parent="org.kuali.student.r1.core.atp.dto.DateRangeInfo-parent"/>
-
- <bean id="dateRangeInfo.atpId-parent" abstract="true" parent="baseKualiAtpId">
-  <property name="name" value="atpId"/>
-  <property name="minOccurs" value="1" />
- </bean>
- <bean id="dateRangeInfo.atpId" parent="dateRangeInfo.atpId-parent"/>
-
- <bean id="dateRangeInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
- </bean>
- <bean id="dateRangeInfo.desc" parent="dateRangeInfo.desc-parent"/>
-
- <bean id="dateRangeInfo.endDate-parent" abstract="true" parent="baseDate">
-  <property name="name" value="endDate"/>
- </bean>
- <bean id="dateRangeInfo.endDate" parent="dateRangeInfo.endDate-parent"/>
-
- <bean id="dateRangeInfo.id-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="id"/>
- </bean>
- <bean id="dateRangeInfo.id" parent="dateRangeInfo.id-parent"/>
-
- <bean id="dateRangeInfo.name-parent" abstract="true" parent="baseKualiName">
-  <property name="name" value="name"/>
- </bean>
- <bean id="dateRangeInfo.name" parent="dateRangeInfo.name-parent"/>
-
- <bean id="dateRangeInfo.startDate-parent" abstract="true" parent="baseDate">
-  <property name="name" value="startDate"/>
- </bean>
- <bean id="dateRangeInfo.startDate" parent="dateRangeInfo.startDate-parent"/>
-
- <bean id="dateRangeInfo.state-parent" abstract="true" parent="baseKualiStateRequired">
-  <property name="name" value="state"/>
- </bean>
- <bean id="dateRangeInfo.state" parent="dateRangeInfo.state-parent"/>
-
- <bean id="dateRangeInfo.type-parent" abstract="true" parent="baseKualiTypeRequired">
-  <property name="name" value="type"/>
- </bean>
- <bean id="dateRangeInfo.type" parent="dateRangeInfo.type-parent"/>
-
- <!-- MilestoneInfo-->
+  <!-- MilestoneInfo-->
  <bean id="org.kuali.student.r2.core.atp.dto.MilestoneInfo-parent" abstract="true" parent="objectStructureDefinition">
   <property name="name" value="org.kuali.student.r2.core.atp.dto.MilestoneInfo"/>
   <property name="attributes">
