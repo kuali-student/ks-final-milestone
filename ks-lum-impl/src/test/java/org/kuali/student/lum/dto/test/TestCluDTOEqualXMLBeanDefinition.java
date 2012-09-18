@@ -15,9 +15,6 @@ import static org.junit.Assert.fail;
 
 public class TestCluDTOEqualXMLBeanDefinition {
 
-
-
-
 	private String formatAsString(List<String> errors) {
 		int i = 0;
 		StringBuilder builder = new StringBuilder();
