@@ -32,6 +32,11 @@
                 <value>ks-enroll/css/acal.css</value>
             </list>
       </property>
+      <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
    </bean>
 
    <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection" p:style="background-color:#E0DEDE;">
@@ -53,7 +58,7 @@
         </property>
    </bean>
 
-    <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection">
+    <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
         <property name="headerText" value="@{termCode} Set of Courses" />
         <property name="items">
             <list>
@@ -125,7 +130,8 @@
                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:5px;margin-bottom:3px;margin-left:15px;">
                     <property name="items">
                       <list>
-                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSet" p:actionLabel="Lock Set"/>
+                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSOC" p:actionLabel="Lock Set" p:disabled="@{!enableLockButton}" />
+                                  <!--p:preSubmitCall="confirmDialog('When Set of Courses is in Locked state, Departmental users will be unable to make changes.')"/>-->
                           <bean parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:10px;"
                                 p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
                       </list>

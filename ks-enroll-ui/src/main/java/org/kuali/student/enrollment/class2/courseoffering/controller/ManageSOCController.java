@@ -50,7 +50,8 @@ public class ManageSOCController extends UifControllerBase {
             return getUIFModelAndView(socForm);
         }
 
-
+        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
+        viewHelper.lockSOC(socForm);
 
         return getUIFModelAndView(socForm);
     }
@@ -60,6 +61,7 @@ public class ManageSOCController extends UifControllerBase {
                                               HttpServletRequest request, HttpServletResponse response){
 
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
+        socForm.clear();
 
         try {
             List<TermInfo> terms = viewHelper.getTermByCode(socForm.getTermCode());
@@ -77,7 +79,7 @@ public class ManageSOCController extends UifControllerBase {
             e.printStackTrace();
         }
 
-
+        viewHelper.loadDataUI(socForm);
 
         return getUIFModelAndView(socForm);
     }

@@ -1,9 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,6 +147,25 @@ public class ManageSOCForm extends UifFormBase {
 
     public void setSocInfo(SocInfo socInfo) {
         this.socInfo = socInfo;
+    }
+
+    public boolean isEnableLockButton(){
+        if (socInfo != null){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isRenderDetailsSection(){
+        return getTermInfo() != null;
+    }
+
+    public void clear(){
+        setTermInfo(null);
+        setSocInfo(null);
+//        statusHistory.clear();
     }
 
 }

@@ -19,8 +19,11 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -56,17 +59,18 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         try {
             List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(socForm.getTermInfo().getId(), ContextUtils.createDefaultContextInfo());
 
-            if (socIds.size() > 1){   //Handle multiple soc when it is implemented
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Should not have multiple SOCs for a term");
+            if (socIds.size() > 1){   //Handle multiple soc when it is implemented (Not for M5)
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Should not have multiple SOCs for a term (Not yet implemented departmental soc)");
             }
 
-            SocInfo socInfo = getCourseOfferingSetService().getSoc(socIds.get(0),ContextUtils.createDefaultContextInfo());
+            SocInfo socInfo = getCourseOfferingSetService().getSoc(socIds.get(0), ContextUtils.createDefaultContextInfo());
             socForm.setSocInfo(socInfo);
 
             String stateName = getStateName(socInfo.getStateKey());
             socForm.setSocStatus(stateName);
             for (AttributeInfo info : socInfo.getAttributes()){
-                ManageSOCStatusHistory history = new ManageSOCStatusHistory(info.getKey(),info.getValue());
+                stateName = getStateName(info.getKey());
+                ManageSOCStatusHistory history = new ManageSOCStatusHistory(stateName,info.getValue());
                 socForm.getStatusHistory().add(history);
             }
 
@@ -99,6 +103,24 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
     }
 
+    public void lockSOC(ManageSOCForm socForm){
+
+        try {
+            StatusInfo status = getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, ContextUtils.createDefaultContextInfo());
+
+            if (status.getIsSuccess()){
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "SOC has been locked sucessfully");
+                socForm.getSocInfo().setStateKey(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY);
+            }else{
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error locking SOC");
+            }
+        } catch (DoesNotExistException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     protected String formatScheduleDate(Date date){
         if (date != null){
            DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
@@ -107,10 +129,13 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         return StringUtils.EMPTY;
     }
 
-    protected String getStateName(String stateKey)
-    throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    protected String getStateName(String stateKey) {
 
-        return getStateService().getState(stateKey,ContextUtils.createDefaultContextInfo()).getName();
+        try{
+           return getStateService().getState(stateKey,ContextUtils.createDefaultContextInfo()).getName();
+        } catch (Exception e){
+           throw new RuntimeException(e);
+        }
 
     }
 
