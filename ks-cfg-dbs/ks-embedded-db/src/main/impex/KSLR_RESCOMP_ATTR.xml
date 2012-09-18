@@ -114,6 +114,10 @@
         ID="27366a71-e87f-4623-85b2-859253240595"
         OBJ_ID="fa0bf39d-50b4-49f8-b08d-af88741ab5c8"
         OWNER="kuali.creditType.credit.degree.6.0-9.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="6"
+        ID="2a06fc95-34cf-496b-81a7-7ed3a490acac"
+        OBJ_ID="c65f79bf-143e-437b-b77d-0111eeb87dce"
+        OWNER="kuali.creditType.credit.degree.4-6" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
         ID="2a9d6470-c76e-4460-ba21-f787b257db65"
         OBJ_ID="4cdf6cc8-5032-486f-8bb0-19377d24a30a"
@@ -138,6 +142,14 @@
         ID="2e9354aa-40bc-4df1-86c6-037b9f180260"
         OBJ_ID="67d46e38-b706-4fca-8889-be56e2696ac9"
         OWNER="kuali.creditType.credit.degree.5.0-6.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
+        ID="31cc434e-fbcb-4fdb-95ba-df0a8429f19d"
+        OBJ_ID="c66dead5-71d2-4d8d-a1d8-89ad573cc74f"
+        OWNER="kuali.creditType.credit.degree.2-3" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="minCreditValue" ATTR_VALUE="2"
+        ID="32d137be-409a-49df-ba5f-ab86d716419f"
+        OBJ_ID="fafdb952-697a-487f-9def-a3ea97ecdb73"
+        OWNER="kuali.creditType.credit.degree.2-3" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="12.0"
         ID="32d7b3e5-73e6-40cc-90b8-40186bb93299"
         OBJ_ID="a223fc9b-a158-44d0-a508-3652f0993920"
@@ -190,6 +202,10 @@
         ID="3b1029c2-75d5-44e2-b153-9bf1ac6c885b"
         OBJ_ID="e8403eac-c27f-449b-b68f-0d278a23ac41"
         OWNER="kuali.creditType.credit.degree.1.0-6.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
+        ID="3d2f6303-00a3-4e4d-ba4c-6c508c7ea6c2"
+        OBJ_ID="f6d86ee7-4c21-4c7c-b54a-e7dd38742baa"
+        OWNER="kuali.creditType.credit.degree.1-8" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="minCreditValue" ATTR_VALUE="1.0"
         ID="3e176b15-a397-467c-90c1-5c6ac4c172d0"
         OBJ_ID="b1e860d9-29f5-4b30-8333-a54e770b34a5"
@@ -314,6 +330,10 @@
         ID="5a8f4d9f-f011-4097-8567-fc1765a6d22b"
         OBJ_ID="282a6636-0381-4584-a107-7dd080390e00"
         OWNER="kuali.creditType.credit.degree.2.0-9.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
+        ID="5ad783ce-314a-48ec-8268-b4f4b6040996"
+        OBJ_ID="ca53e529-7d4a-4883-9357-e3e972a89216"
+        OWNER="kuali.creditType.credit.degree.2-4" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="8.0"
         ID="5eb75bc9-8990-4969-9eb1-389e1fc96846"
         OBJ_ID="62ce5564-d4d6-4a1b-ac02-41d583574aa2"
@@ -334,6 +354,10 @@
         ID="648f558f-1889-457c-9862-36ccbba3d856"
         OBJ_ID="5bf5653a-1efb-4ef3-aaeb-5aa0f0b62991"
         OWNER="kuali.creditType.credit.degree.2.0-6.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="5"
+        ID="6577ec5b-e86f-4045-ae52-44e7f3f5e4c9"
+        OBJ_ID="dae9e5b2-bdc3-4fd9-b424-bddfdc42dfc9"
+        OWNER="kuali.creditType.credit.degree.1-5" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="minCreditValue" ATTR_VALUE="1.0"
         ID="658b1c8d-88b0-465e-9ea1-2930ec9517e3"
         OBJ_ID="1a04842d-270a-45a4-bbf0-0431714441a2"
@@ -394,6 +418,14 @@
         ID="761e42ca-8ef1-404b-9647-0e5845128a25"
         OBJ_ID="4728dcce-e856-4b48-92d5-4288f1fda105"
         OWNER="kuali.creditType.credit.degree.3.0-4.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="8"
+        ID="77bf18d4-497e-4be1-a3f6-4e39800554e0"
+        OBJ_ID="148d03c7-6265-4c6f-9f83-75dace212789"
+        OWNER="kuali.creditType.credit.degree.1-8" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="minCreditValue" ATTR_VALUE="2"
+        ID="78b5a9ae-f082-49b2-a361-fb5a9464334c"
+        OBJ_ID="0e7119c9-c70c-4623-9610-adea2fc7201e"
+        OWNER="kuali.creditType.credit.degree.2-4" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
         ID="7af44825-2196-494d-80ca-2803f6cb245c"
         OBJ_ID="93fcde0a-20a5-41b4-8c4b-a5aa912afd15"
@@ -494,6 +526,10 @@
         ID="98f1498f-d05f-40da-9152-6e89016a5d94"
         OBJ_ID="41821ba4-49dd-4af0-8d21-267b91f7f730"
         OWNER="kuali.creditType.credit.degree.1-3" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
+        ID="993d8ed9-a880-4fb1-814a-80b0771ecff6"
+        OBJ_ID="ff9ce840-2f3a-4f8e-987e-2f18a45604c3"
+        OWNER="kuali.creditType.credit.degree.1-5" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="fixedCreditValue" ATTR_VALUE="10.0"
         ID="9bf4f52f-9567-4a29-8f6d-e1dea57210db"
         OBJ_ID="9dc4b95c-f06c-4636-97af-54116b0ee6ad"
@@ -518,6 +554,10 @@
         ID="a0298b0b-6729-4aca-bece-941328159180"
         OBJ_ID="05e0ff3a-9567-4e10-949b-20bb13f168da"
         OWNER="kuali.creditType.credit.degree.0.0-1.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="minCreditValue" ATTR_VALUE="1"
+        ID="a554878b-cb34-4706-b9f9-5f2b573978c9"
+        OBJ_ID="d157aa51-2d5e-4e1f-9ae6-a2933687931f"
+        OWNER="kuali.creditType.credit.degree.1-8" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
         ID="a576e9f3-323c-470f-baab-8fb151feef73"
         OBJ_ID="acaf078e-bfbf-405e-b644-62652509b936"
@@ -542,6 +582,10 @@
         ID="ad42dbc6-f75a-4024-be2f-e152acd079ef"
         OBJ_ID="e301831e-cd28-4908-ac69-705cb48e03f2"
         OWNER="kuali.creditType.credit.degree.6.0-9.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
+        ID="ad8fea29-ddc8-44e4-8715-6c08857bf993"
+        OBJ_ID="d7d4b539-aa4e-48b6-8eed-feba79a6573a"
+        OWNER="kuali.creditType.credit.degree.4-6" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="8.0"
         ID="adc00ac9-0520-400a-b823-951742b70047"
         OBJ_ID="a090229e-3f88-4800-9db3-a92fde3d7669"
@@ -558,6 +602,10 @@
         ID="b169608e-a9b4-4a58-8f2c-afb9b032ea79"
         OBJ_ID="c7a45f03-3fc1-481a-bd67-13a34e49d116"
         OWNER="kuali.creditType.credit.degree.4.0-16.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="4"
+        ID="b20cd8c4-8371-497c-9ead-04f4d25ab012"
+        OBJ_ID="95bff610-50fe-4f79-8983-20a0a0f220d2"
+        OWNER="kuali.creditType.credit.degree.2-4" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="10.0"
         ID="b227f205-d31a-4598-85d9-fe1294fa0818"
         OBJ_ID="2d8350c2-71f4-4944-9a79-ff8531c902ff"
@@ -658,6 +706,10 @@
         ID="c8d37a2c-780e-4735-8fdf-20765c629ab9"
         OBJ_ID="3e854ef6-c5fb-49e8-b34f-cc41a853c26f"
         OWNER="kuali.creditType.credit.degree.6.0-8.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="maxCreditValue" ATTR_VALUE="3"
+        ID="c9d295c6-a98d-41a9-bf6e-335608a53100"
+        OBJ_ID="977fe3ed-49b9-48ea-87a9-d4630d830b7f"
+        OWNER="kuali.creditType.credit.degree.2-3" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
         ID="ca9e51c4-0118-4c64-a8e4-ce3ad7c7f7b6"
         OBJ_ID="8c17a5fd-1ec7-4c44-b0ca-bb4b2d05e6ac"
@@ -666,6 +718,10 @@
         ID="cc8fff4a-dbcd-4e6e-9b01-3dc98bcbd336"
         OBJ_ID="745c7748-d97e-4c4e-8d43-879976e38d41"
         OWNER="kuali.creditType.credit.degree.3-6" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="minCreditValue" ATTR_VALUE="4"
+        ID="cd55a0f7-7fe5-442d-a467-2de4707f31a5"
+        OBJ_ID="3d97fe4a-1387-484b-88cf-087b35daefa2"
+        OWNER="kuali.creditType.credit.degree.4-6" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="creditValueIncrement"
         ID="cd58c4a0-37b6-44c1-b975-8ca76351dec0"
         OBJ_ID="59287699-cc78-461f-b7b2-849d88b2333e"
@@ -674,6 +730,10 @@
         ID="d0b39e1e-ff7c-4542-b136-0d3aa04c92d9"
         OBJ_ID="33d24e3e-14ef-4b9b-bc78-b082b8fd3d2c"
         OWNER="kuali.creditType.credit.degree.0.0-4.0" VER_NBR="0"/>
+    <KSLR_RESCOMP_ATTR ATTR_NAME="minCreditValue" ATTR_VALUE="1"
+        ID="d26441a0-3f54-47ff-a320-11f7b8da5a8a"
+        OBJ_ID="f7041802-c8cf-4ae5-9564-cf94623aa9f1"
+        OWNER="kuali.creditType.credit.degree.1-5" VER_NBR="0"/>
     <KSLR_RESCOMP_ATTR ATTR_NAME="minCreditValue" ATTR_VALUE="6.0"
         ID="d43b8c4f-2c20-4479-b53c-ae0a49da15c4"
         OBJ_ID="210c1998-f5c8-4085-9695-6c5a81d7cac7"
