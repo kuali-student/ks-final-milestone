@@ -27,6 +27,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
@@ -98,7 +99,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
-        } else if ("instructor".equals(theForm.getSearchType())){
+        } else if (theForm.getSearchType().equals("instructor")){
             String instructorId = theForm.getInstructor();
             if (instructorId != null && !instructorId.isEmpty()) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndInstructor(termCode, instructorId, theForm);
@@ -107,6 +108,23 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
+        }
+
+        return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
+    }
+
+    @RequestMapping(params = "methodToCall=populateAOs")
+    public ModelAndView populateAOs(@ModelAttribute("KualiForm") ScheduleOfClassesSearchForm theForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        String courseOfferingId = theForm.getCourseOfferingId();
+
+        if (courseOfferingId != null && courseOfferingId.length() > 0) {
+            getViewHelperService(theForm).loadActivityOfferingsByCourseOfferingId(courseOfferingId, theForm);
+        } else {
+            LOG.error("Error: search field can't be empty");
+            GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
+            return getUIFModelAndView(theForm);
         }
 
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
