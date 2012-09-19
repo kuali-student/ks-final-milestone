@@ -237,9 +237,20 @@ public class TestSchedulingServiceImpl {
         List<TimeSlotInfo> l_valid_ts = schedulingService.getTimeSlotsByIds(valid_ids, contextInfo);
         assertEquals(2, valid_ids.size());
 
-        assertEquals("2", l_valid_ts.get(0).getId());
-        TimeSlot ts = l_valid_ts.get(0);
-        List<Integer> dow = ts.getWeekdays();
+        TimeSlot ts2 = null, ts15 = null;
+        // ensure the list has only time slots with ids 2 and 15
+        for(TimeSlotInfo ts : l_valid_ts) {
+            assertTrue(valid_ids.contains(ts.getId()));
+            if(ts.getId().equals("2")) {
+                ts2 = ts;
+            }
+            else {
+                ts15 = ts;
+            }
+        }
+
+        assertEquals("2", ts2.getId());
+        List<Integer> dow = ts2.getWeekdays();
         // should contain Monday, Wednesday, Friday
         assertTrue(dow.contains(Calendar.MONDAY));
         assertTrue(dow.contains(Calendar.WEDNESDAY));
@@ -247,12 +258,11 @@ public class TestSchedulingServiceImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_9_10_AM);
+        assertEquals(ts2.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts2.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_9_10_AM);
 
-        assertEquals("15", l_valid_ts.get(1).getId());
-        ts = l_valid_ts.get(1);
-        dow = ts.getWeekdays();
+        assertEquals("15", ts15.getId());
+        dow = ts15.getWeekdays();
         // should not contain Monday, Wednesday, Friday
         assertFalse(dow.contains(Calendar.MONDAY));
         assertFalse(dow.contains(Calendar.WEDNESDAY));
@@ -260,8 +270,8 @@ public class TestSchedulingServiceImpl {
         // should contain Tuesday or Thursday
         assertTrue(dow.contains(Calendar.TUESDAY));
         assertTrue(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_3_00_PM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_3_50_PM);
+        assertEquals(ts15.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_3_00_PM);
+        assertEquals(ts15.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_3_50_PM);
 
         // test case: all invalid ids
         List<String> invalid_ids = new ArrayList<String>();
@@ -465,6 +475,9 @@ public class TestSchedulingServiceImpl {
         String newRequestName = "updatedScheduleRequest";
         returnInfo.setName(newRequestName);
 
+        // set one of the schedule components to isTBA of true
+        returnInfo.getScheduleRequestComponents().get(0).setIsTBA(true);
+
         ScheduleRequestInfo updatedReturnInfo = schedulingService.updateScheduleRequest(scheduleRequestInfoId,
                 returnInfo, contextInfo);
         assertNotNull(updatedReturnInfo);
@@ -479,6 +492,17 @@ public class TestSchedulingServiceImpl {
         ScheduleRequestComponentInfo componentInfo = componentInfoList.get(0);
         assertNotNull(componentInfo);
         assertTrue(componentInfo.getId().equals(scheduleRequestComponentInfoId));
+
+        // ensure one of the components has a tba of true
+        boolean oneTBAComponent = false;
+        for (ScheduleRequestComponentInfo updatedComp : updatedReturnInfo.getScheduleRequestComponents()) {
+            if(updatedComp.getIsTBA()) {
+                oneTBAComponent = true;
+                break;
+            }
+        }
+
+        assertTrue(oneTBAComponent);
 
     }
 
@@ -517,6 +541,11 @@ public class TestSchedulingServiceImpl {
         ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
                 scheduleRequestInfoRefObjectId, scheduleRequestComponentInfoId, scheduleRequestInfoName);
 
+        // explicitly set the isTBA field on the components
+        for (ScheduleRequestComponentInfo comp : scheduleRequestInfo.getScheduleRequestComponents()) {
+            comp.setIsTBA(false);
+        }
+
         ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(
                 SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,
                 scheduleRequestInfo, contextInfo);
@@ -539,6 +568,7 @@ public class TestSchedulingServiceImpl {
         ScheduleRequestComponentInfo componentInfo = componentInfoList.get(0);
         assertNotNull(componentInfo);
         assertTrue(componentInfo.getId().equals(scheduleRequestComponentInfoId));
+        assertFalse(componentInfo.getIsTBA());
 
     }
 

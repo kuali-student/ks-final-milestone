@@ -412,6 +412,12 @@ public class SchedulingServiceImpl implements SchedulingService {
             throw new DoesNotExistException();
         }
 
+        // if the list of entities returned is not the same size as the list of given ids,
+        // then at least one of the requested ids was not found, and an exception should be thrown
+        if(timeSlotIds.size() != entities.size()) {
+            throw new DoesNotExistException("Returned entities does not contain all requested ids");
+        }
+
         List<TimeSlotInfo> results = new ArrayList<TimeSlotInfo>(entities.size());
 
         for (TimeSlotEntity entity : entities) {

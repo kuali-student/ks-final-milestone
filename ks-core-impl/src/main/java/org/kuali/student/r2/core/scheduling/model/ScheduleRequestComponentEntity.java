@@ -55,12 +55,18 @@ public class ScheduleRequestComponentEntity extends BaseEntity {
     @JoinColumn(name = "SCHED_RQST_ID")
     private ScheduleRequestEntity scheduleRequest;
 
+    @Column(name = "TBA_IND")
+    private Boolean isTBA;
+
     public ScheduleRequestComponentEntity() {
     }
 
     public ScheduleRequestComponentEntity(ScheduleRequestComponent scheduleRequestComponent) {
         super();
-        this.setId(scheduleRequestComponent.getId());
+
+        setId(scheduleRequestComponent.getId());
+        setTBA(scheduleRequestComponent.getIsTBA());
+
         fromDto(scheduleRequestComponent);
     }
 
@@ -104,6 +110,7 @@ public class ScheduleRequestComponentEntity extends BaseEntity {
     public ScheduleRequestComponentInfo toDto() {
         ScheduleRequestComponentInfo scheduleRequestComponentInfo = new ScheduleRequestComponentInfo();
         scheduleRequestComponentInfo.setId(this.getId());
+        scheduleRequestComponentInfo.setIsTBA(getTBA());
 
         if(buildingIds != null){
             scheduleRequestComponentInfo.setBuildingIds(addIds(buildingIds));
@@ -193,5 +200,13 @@ public class ScheduleRequestComponentEntity extends BaseEntity {
 
     public void setScheduleRequest(ScheduleRequestEntity scheduleRequest) {
         this.scheduleRequest = scheduleRequest;
+    }
+
+    public Boolean getTBA() {
+        return isTBA;
+    }
+
+    public void setTBA(Boolean TBA) {
+        isTBA = TBA;
     }
 }
