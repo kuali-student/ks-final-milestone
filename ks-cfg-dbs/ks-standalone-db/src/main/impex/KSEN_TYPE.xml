@@ -2047,14 +2047,14 @@
         DESCR_FORMATTED="A result grouping that includes just a single result value "
         DESCR_PLAIN="A result grouping that includes just a single result value "
         NAME="Fixed"
-        REF_OBJECT_URI="http://student.kuali.org/wsdl/lrc/ResultValueGroupInfo"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/lrc/LrcService"
         TYPE_KEY="kuali.result.values.group.type.fixed" VER_NBR="1"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Multiple explicitly named values from which one may be choosen"
         DESCR_PLAIN="Multiple explicitly named values from which one may be choosen"
         NAME="Multiple"
-        REF_OBJECT_URI="http://student.kuali.org/wsdl/lrc/ResultValueGroupInfo"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/lrc/LrcService"
         TYPE_KEY="kuali.result.values.group.type.multiple" VER_NBR="1"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
