@@ -819,6 +819,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public FormatOfferingInfo getFormatOffering(String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         LuiInfo lui = luiService.getLui(formatOfferingId, context);
         FormatOfferingInfo fo = new FormatOfferingInfo();
         new FormatOfferingTransformer().lui2Format(lui, fo);
@@ -1119,8 +1120,31 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<ActivityOfferingInfo> getActivityOfferingsWithoutClusterByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
+    @Transactional(readOnly = true)
+    public List<ActivityOfferingInfo> getActivityOfferingsWithoutClusterByFormatOffering(String formatOfferingId,
+                                                                                         ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO: A naive implementation first so we can get some work done now.
+        List<ActivityOfferingClusterInfo> clusters =
+                getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+        Set<String> aoIdsInClusters = new HashSet<String>();
+        // For each cluster, find all AOs associated with it
+        for (ActivityOfferingClusterInfo clusterInfo: clusters) {
+            List<ActivityOfferingInfo> aoInfos = getActivityOfferingsByCluster(clusterInfo.getId(), contextInfo);
+            for (ActivityOfferingInfo aoInfo: aoInfos) {
+                // Add the ids to a set
+                aoIdsInClusters.add(aoInfo.getId());
+            }
+        }
+        List<ActivityOfferingInfo> aosNotInCluster = new ArrayList<ActivityOfferingInfo>();
+        List<ActivityOfferingInfo> allAOs = getActivityOfferingsByFormatOffering(formatOfferingId, contextInfo);
+        for (ActivityOfferingInfo aoInfo: allAOs) {
+            if (!aoIdsInClusters.contains(aoInfo.getId())) { // if ID not in set, add the AO
+                aosNotInCluster.add(aoInfo);
+            }
+        }
+        return aosNotInCluster;
     }
 
     @Override
