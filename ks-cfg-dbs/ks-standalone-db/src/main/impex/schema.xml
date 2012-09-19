@@ -2519,6 +2519,7 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="SCHED_RQST_ID" size="255" type="VARCHAR"/>
+        <column name="TBA_IND" required="true" size="22" type="DECIMAL"/>
         <foreign-key foreignTable="KSEN_SCHED_RQST" name="KSEN_SCHED_RQST_CMP_FK1">
             <reference foreign="ID" local="SCHED_RQST_ID"/>
         </foreign-key>
