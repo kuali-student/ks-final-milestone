@@ -111,45 +111,51 @@ public class StateServiceCacheDecorator extends StateServiceDecorator {
         return (List<String>)result;
     }
 
-    @Override
-    public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey("searchForLifecycleKeys", criteria.toString());
-
-        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
-        Object result = null;
-        if (cachedResult == null) {
-            result = getNextDecorator().searchForLifecycleKeys(criteria, contextInfo);
-            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
-        } else {
-            result = cachedResult.getValue();
-        }
-
-        return (List<String>)result;
-    }
-
-    @Override
-    public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> keys = this.searchForLifecycleKeys(criteria, contextInfo);
-        try {
-            return this.getLifecyclesByKeys(keys, contextInfo);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException ("unexpected", ex);
-        }
-        // NORM: 8/6/2012 replaced below which I don't understand and is returning a list of keys with the above
-//        //NOTE: This is duplicating storage of lifecycle info objects in the cache. Better solution?
-//        MultiKey cacheKey = new MultiKey("searchForLifecycles", criteria.toString());
-//
+//    Commented out all the caching for the searchForXXX methods because they don't work
+//            See JIRA https://jira.kuali.org/browse/KSENROLL-2952
+// 
+//    @Override
+//    public List<String> searchForLifecycleKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//        MultiKey cacheKey = new MultiKey("searchForLifecycleKeys", criteria.toString());
+//        System.out.println ("cachekey=" + cacheKey.toString ());
+//        System.out.println ("criteria=" + criteria.toString ());
 //        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
 //        Object result = null;
 //        if (cachedResult == null) {
 //            result = getNextDecorator().searchForLifecycleKeys(criteria, contextInfo);
 //            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
+//            System.out.println ("added data to the cache");            
 //        } else {
+//            System.out.println ("got data from the cache");
 //            result = cachedResult.getValue();
 //        }
 //
-//        return (List<LifecycleInfo>)result;
-    }
+//        return (List<String>)result;
+//    }
+//
+//    @Override
+//    public List<LifecycleInfo> searchForLifecycles(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//        List<String> keys = this.searchForLifecycleKeys(criteria, contextInfo);
+//        try {
+//            return this.getLifecyclesByKeys(keys, contextInfo);
+//        } catch (DoesNotExistException ex) {
+//            throw new OperationFailedException ("unexpected", ex);
+//        }
+//        // NORM: 8/6/2012 replaced below which I don't understand and is returning a list of keys with the above
+////        //NOTE: This is duplicating storage of lifecycle info objects in the cache. Better solution?
+////        MultiKey cacheKey = new MultiKey("searchForLifecycles", criteria.toString());
+////
+////        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
+////        Object result = null;
+////        if (cachedResult == null) {
+////            result = getNextDecorator().searchForLifecycleKeys(criteria, contextInfo);
+////            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
+////        } else {
+////            result = cachedResult.getValue();
+////        }
+////
+////        return (List<LifecycleInfo>)result;
+//    }
 
     @Override
     public StateInfo getState(String stateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -214,38 +220,56 @@ public class StateServiceCacheDecorator extends StateServiceDecorator {
 
         return (List<StateInfo>)result;
     }
-
-    @Override
-    public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey("searchForStateKeys", criteria.toString());
-
-        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
-        Object result = null;
-        if (cachedResult == null) {
-            result = getNextDecorator().searchForStateKeys(criteria, contextInfo);
-            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
-        } else {
-            result = cachedResult.getValue();
-        }
-
-        return (List<String>)result;
-    }
-
-    @Override
-    public List<StateInfo> searchForStates(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //NOTE: This is duplicating storage of state info objects in the cache. Better Solution?
-        MultiKey cacheKey = new MultiKey("searchForStates", criteria.toString());
-
-        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
-        Object result = null;
-        if (cachedResult == null) {
-            result = getNextDecorator().searchForStates(criteria, contextInfo);
-            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
-        } else {
-            result = cachedResult.getValue();
-        }
-
-        return (List<StateInfo>)result;
-
-    }
+//
+//    Commented out all the caching for the searchForXXX methods.
+//            See JIRA https://jira.kuali.org/browse/KSENROLL-2952
+// 
+//testLifecycleCache
+//1    [main] WARN  net.sf.ehcache.config.ConfigurationFactory  - No configuration found. Configuring ehcache from ehcache-failsafe.xml  found in the classpath: jar:file:/C:/Users/nwright/.m2/repository/net/sf/ehcache/ehcache-core/2.5.0/ehcache-core-2.5.0.jar!/ehcache-failsafe.xml
+//cachekey=MultiKey[searchForLifecycleKeys, org.kuali.rice.core.api.criteria.QueryByCriteria@3fb6101e[predicate=<null>,startAtIndex=<null>,maxResults=<null>,countFlag=NONE,_futureElements=<null>]]
+//criteria=org.kuali.rice.core.api.criteria.QueryByCriteria@3fb6101e[predicate=<null>,startAtIndex=<null>,maxResults=<null>,countFlag=NONE,_futureElements=<null>]
+//added data to the cache
+//cachekey=MultiKey[searchForLifecycleKeys, org.kuali.rice.core.api.criteria.QueryByCriteria@69d6065[predicate=<null>,startAtIndex=<null>,maxResults=<null>,countFlag=NONE,_futureElements=<null>]]
+//criteria=org.kuali.rice.core.api.criteria.QueryByCriteria@69d6065[predicate=<null>,startAtIndex=<null>,maxResults=<null>,countFlag=NONE,_futureElements=<null>]
+//added data to the cache
+//cachekey=MultiKey[searchForLifecycleKeys, org.kuali.rice.core.api.criteria.QueryByCriteria@69d95da8[predicate=<null>,startAtIndex=<null>,maxResults=<null>,countFlag=NONE,_futureElements=<null>]]
+//criteria=org.kuali.rice.core.api.criteria.QueryByCriteria@69d95da8[predicate=<null>,startAtIndex=<null>,maxResults=<null>,countFlag=NONE,_futureElements=<null>]
+//added data to the cache
+//cachekey=MultiKey[searchForLifecycleKeys, org.kuali.rice.core.api.criteria.QueryByCriteria@3a747fa2[predicate=<null>,startAtIndex=<null>,maxResults=<null>,countFlag=NONE,_futureElements=<null>]]
+//criteria=org.kuali.rice.core.api.criteria.QueryByCriteria@3a747fa2[predicate=<null>,startAtIndex=<null>,maxResults=<null>,countFlag=NONE,_futureElements=<null>]
+//added data to the cache
+        
+//    @Override
+//    public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//        MultiKey cacheKey = new MultiKey("searchForStateKeys", criteria.toString());
+//
+//        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
+//        Object result = null;
+//        if (cachedResult == null) {
+//            result = getNextDecorator().searchForStateKeys(criteria, contextInfo);
+//            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
+//        } else {
+//            result = cachedResult.getValue();
+//        }
+//
+//        return (List<String>)result;
+//    }
+//
+//    @Override
+//    public List<StateInfo> searchForStates(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//        //NOTE: This is duplicating storage of state info objects in the cache. Better Solution?
+//        MultiKey cacheKey = new MultiKey("searchForStates", criteria.toString());
+//
+//        Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
+//        Object result = null;
+//        if (cachedResult == null) {
+//            result = getNextDecorator().searchForStates(criteria, contextInfo);
+//            cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
+//        } else {
+//            result = cachedResult.getValue();
+//        }
+//
+//        return (List<StateInfo>)result;
+//
+//    }
 }
