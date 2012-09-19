@@ -23,9 +23,6 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.search.service.SearchService;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -41,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
@@ -765,22 +763,10 @@ public interface LearningObjectiveService extends  SearchService // ,DictionaryS
 
     @Deprecated
     /**
-     * 
+     *
      * This method ...
-     * 
-     * @param contextInfo
-     * @return
-     * @throws OperationFailedException
-     */
-    public List<LoTypeInfo> getLoTypes(@WebParam(name = "contextInfo")ContextInfo contextInfo)
-			throws OperationFailedException;
-    
-    @Deprecated
-    /**
-     * 
-     * This method ...
-     * 
-     * @param loTypeKey
+     *
+     * @param loCategoryTypeKey
      * @param contextInfo
      * @return
      * @throws DoesNotExistException
@@ -788,153 +774,19 @@ public interface LearningObjectiveService extends  SearchService // ,DictionaryS
      * @throws MissingParameterException
      * @throws OperationFailedException
      */
-	public LoTypeInfo getLoType(@WebParam(name = "loTypeKey")String loTypeKey,@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
-    
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param contextInfo
-	 * @return
-	 * @throws OperationFailedException
-	 */
-	public List<LoLoRelationTypeInfo> getLoLoRelationTypes(@WebParam(name = "contextInfo")ContextInfo contextInfo)
-			throws OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loLoRelationTypeKey
-	 * @param contextInfo
-	 * @return
-	 * @throws OperationFailedException
-	 * @throws MissingParameterException
-	 * @throws DoesNotExistException
-	 */
-	public LoLoRelationTypeInfo getLoLoRelationType(@WebParam(name = "loLoRelationTypeKey")String loLoRelationTypeKey,
-			@WebParam(name = "contextInfo")ContextInfo contextInfo) throws OperationFailedException,
-			MissingParameterException, DoesNotExistException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loTypeKey
-	 * @param relatedLoTypeKey
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public List<String> getAllowedLoLoRelationTypesForLoType(@WebParam(name = "loTypeKey")String loTypeKey,
-			@WebParam(name = "relatedLoTypeKey")String relatedLoTypeKey,@WebParam(name = "contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loIds
-	 * @param contextInfo
-	 * @return
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public List<LoInfo> getLoByIdList(List<String> loIds, ContextInfo contextInfo)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loRepositoryKey
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public List<LoCategoryInfo> getLoCategories(@WebParam(name = "loRepositoryKey")String loRepositoryKey,
-			@WebParam(name = "contextInfo")ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loId
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public List<LoCategoryInfo> getLoCategoriesForLo(@WebParam(name = "loId")String loId,
-			@WebParam(name = "contextInfo")ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loCategoryTypeKey
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public LoCategoryTypeInfo getLoCategoryType(@WebParam(name = "loCategoryTypeKey")String loCategoryTypeKey,
-			@WebParam(name = "contextInfo")ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @param loRepositoryKey
-	 * @param loTypeKey
-	 * @param loStateKey
-	 * @return
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 */
-	public List<LoInfo> getLosByRepository(@WebParam(name = "loRepositoryKey")String loRepositoryKey, @WebParam(name = "loTypeKey")String loTypeKey,
-			@WebParam(name = "loStateKey")String loStateKey) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException;
-	
-	@Deprecated
-	/**
-	 * 
-	 * This method ...
-	 * 
-	 * @return
-	 * @throws OperationFailedException
-	 */
-	public List<LoCategoryTypeInfo> getLoCategoryTypes()
-			throws OperationFailedException;
+    public TypeInfo getLoCategoryType(@WebParam(name = "loCategoryTypeKey")String loCategoryTypeKey,
+                                                @WebParam(name = "contextInfo")ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
 
+    @Deprecated
+    /**
+     *
+     * This method ...
+     *
+     * @return
+     * @throws OperationFailedException
+     */
+    public List<TypeInfo> getLoCategoryTypes()
+            throws OperationFailedException;
 }
