@@ -75,7 +75,7 @@
                 </bean>
                 <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
                 <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
-                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOptionName"/>
+                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOption.value"/>
                 <bean parent="Uif-MessageField" p:label="INFORMATION" p:messageText="@{#line.information}"/>
             </list>
         </property>

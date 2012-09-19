@@ -16,11 +16,10 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
-import org.kuali.rice.krad.uif.service.ViewHelperService;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ResultValueGroupDisplayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -32,8 +31,6 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 /**
@@ -67,8 +64,10 @@ public class CourseOfferingDisplayTransformer {
         displayInfo.setTermName(atpInfo.getName());
         displayInfo.setTermCode(atpInfo.getCode());
         // gradingOptionName, creditOptionName,
-        displayInfo.setGradingOptionName(coInfo.getGradingOptionName());
-        displayInfo.setCreditOptionName(coInfo.getCreditCnt());
+        displayInfo.setGradingOption(new ResultValueGroupDisplayInfo(coInfo.getGradingOptionId(), coInfo.getGradingOptionName()));
+        displayInfo.setCreditOption(new ResultValueGroupDisplayInfo(coInfo.getCreditOptionId(), coInfo.getCreditCnt()));
+
+        displayInfo.setHonorsOffering(coInfo.getIsHonorsOffering());
 
         // typeName, stateName
         TypeInfo typeInfo = typeService.getType(coInfo.getTypeKey(), context);
