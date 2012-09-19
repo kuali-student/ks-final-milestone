@@ -55,7 +55,7 @@
     <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler" />
     <property name="lrrService" ref="lrrPersistenceService" />
     <property name="gradeValuesGroupAssembler" ref="gradeValuesGroupAssembler" />
-    <property name="lrcService" ref="lrcPersistenceService" />
+    <property name="lrcService" ref="lrcServiceCache" />
     <property name="courseRegistrationService" ref="courseRegistrationService" />
   </bean>
 
@@ -510,13 +510,13 @@
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
         <property name="atpService" ref="atpEnrService"/>
         <property name="schedulingService" ref="schedulingServiceImpl"/>
-        <property name="lrcService" ref="lrcPersistenceService"/>
+        <property name="lrcService" ref="lrcServiceCache"/>
   </bean>
 
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
        <property name="lprService" ref="lprPersistenceService" />
-       <property name="lrcService" ref="lrcPersistenceService" />
+       <property name="lrcService" ref="lrcServiceCache" />
        <property name="cluService" ref="cluServiceImpl"/>
    </bean>
 
@@ -663,6 +663,11 @@
   </bean>
 
     <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+
+    <bean id="lrcServiceCache" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
+        <property name="nextDecorator" ref="lrcPersistenceService" />
+    </bean>
+
     <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
         <property name="resultValuesGroupDao" ref="resultValuesGroupDao" />
         <property name="resultValueDao" ref="resultValueDao" />
@@ -749,7 +754,7 @@
     <property name="serviceDefinition">
       <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
         <property name="jaxWsService" value="true" />
-        <property name="service" ref="lrcPersistenceService" />
+        <property name="service" ref="lrcServiceCache" />
         <property name="serviceInterface" value="org.kuali.student.r2.lum.lrc.service.LRCService" />
         <property name="localServiceName" value="LrcService" />
         <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lrc" />
@@ -806,7 +811,7 @@
     <property name="courseRegService" ref="courseRegistrationService" />
     <property name="atpService" ref="atpEnrService" />
     <property name="gradingService" ref="gradingService" />
-    <property name="lrcService" ref="lrcPersistenceService" />
+    <property name="lrcService" ref="lrcServiceCache" />
     <property name="courseRecordAssembler" ref="courseRecordAssembler" />
   </bean>
 
