@@ -67,6 +67,12 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         try {
             List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(socForm.getTermInfo().getId(), ContextUtils.createDefaultContextInfo());
 
+            if (socIds.isEmpty()){
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM,"SOC doesnt exists for this term");
+                socForm.setTermInfo(null);
+                return;
+            }
+
             if (socIds.size() > 1){   //Handle multiple soc when it is implemented (Not for M5)
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Should not have multiple SOCs for a term (Not yet implemented departmental soc)");
             }
