@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -40,9 +41,7 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -65,8 +64,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient PopulationService populationService;
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
 
-    private transient static final String TO_BE_ASSIGNED = "TBA";
-
     @Override
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
@@ -77,15 +74,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
 
-            createSchedulingRequests(activityOfferingWrapper.getAoInfo(),activityOfferingWrapper.getRequestedSchedules());
-
-            for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getScheduleRequestsToBeDeleted()) {
-                try {
-                    getSchedulingService().deleteScheduleRequest(scheduleWrapper.getScheduleRequest().getId(),getContextInfo());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            createOrUpdateScheduleRequests(activityOfferingWrapper);
 
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
@@ -97,27 +86,29 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
-    private void createSchedulingRequests(ActivityOfferingInfo activityOfferingInfo,List<ScheduleWrapper> scheduleWrappers){
+    private void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper){
 
-        for (ScheduleWrapper scheduleWrapper : scheduleWrappers) {
+        if (wrapper.getScheduleRequestInfo() == null){
+            ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
+            scheduleRequest.setRefObjectId(wrapper.getAoInfo().getId());
+            scheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            scheduleRequest.setName("Schedule request for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
+            scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+            scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+            wrapper.setScheduleRequestInfo(scheduleRequest);
+        }
+
+        for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
 
             if (!scheduleWrapper.isAlreadySaved()){
-                ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
-                scheduleRequest.setRefObjectId(activityOfferingInfo.getId());
-                scheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                scheduleRequest.setName("Schedule request for " + activityOfferingInfo.getCourseOfferingCode() + " - " + activityOfferingInfo.getActivityCode());
-                scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-                scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
 
                 ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
                 componentInfo.setId(UUIDHelper.genStringUUID());
+                componentInfo.setIsTBA(scheduleWrapper.isTba());
+
                 List<String> room = new ArrayList();
                 room.add(scheduleWrapper.getRoom().getId());
                 componentInfo.setRoomIds(room);
-
-//                List<String> building = new ArrayList();
-//                building.add(scheduleWrapper.getBuilding().getId());
-//                componentInfo.setBuildingIds(building);
 
                 componentInfo.setResourceTypeKeys(scheduleWrapper.getFeatures());
 
@@ -129,26 +120,22 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
                 DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
-                if (!StringUtils.equalsIgnoreCase(scheduleWrapper.getStartTime(), TO_BE_ASSIGNED)){
-                    try {
-                        long time = dateFormat.parse(scheduleWrapper.getStartTimeUI()).getTime();
-                        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-                        timeOfDayInfo.setMilliSeconds(time);
-                        timeSlot.setStartTime(timeOfDayInfo);
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                try {
+                    long time = dateFormat.parse(scheduleWrapper.getStartTimeUI()).getTime();
+                    TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+                    timeOfDayInfo.setMilliSeconds(time);
+                    timeSlot.setStartTime(timeOfDayInfo);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
                 }
 
-                if (!StringUtils.equalsIgnoreCase(scheduleWrapper.getEndTime(), TO_BE_ASSIGNED)){
-                    try {
-                        long time = dateFormat.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
-                        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-                        timeOfDayInfo.setMilliSeconds(time);
-                        timeSlot.setEndTime(timeOfDayInfo);
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
+                try {
+                    long time = dateFormat.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
+                    TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+                    timeOfDayInfo.setMilliSeconds(time);
+                    timeSlot.setEndTime(timeOfDayInfo);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
                 }
 
                 try {
@@ -158,15 +145,30 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     throw new RuntimeException(e);
                 }
 
-                scheduleRequest.getScheduleRequestComponents().add(componentInfo);
+                wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(componentInfo);
 
-                try {
-                    ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,scheduleRequest,getContextInfo());
-                    scheduleWrapper.setScheduleRequest(createdScheduleRequestInfo);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
             }
+        }
+
+
+        if (StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())){
+
+            try{
+                ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,wrapper.getScheduleRequestInfo(),getContextInfo());
+                wrapper.setScheduleRequestInfo(createdScheduleRequestInfo);
+            } catch (Exception e){
+                throw new RuntimeException(e);
+            }
+
+        } else {
+
+            try{
+               ScheduleRequestInfo updatedScheduleRequestInfo = getSchedulingService().updateScheduleRequest(wrapper.getScheduleRequestInfo().getId(),wrapper.getScheduleRequestInfo(),getContextInfo());
+               wrapper.setScheduleRequestInfo(updatedScheduleRequestInfo);
+            } catch (Exception e){
+                throw new RuntimeException(e);
+            }
+
         }
 
     }
@@ -174,10 +176,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private List<Integer> buildDaysForDTO(String days){
 
         List<Integer> weekdays  = new ArrayList();
-
-        if (StringUtils.containsIgnoreCase(days, TO_BE_ASSIGNED)){
-             return weekdays;
-        }
 
         if (StringUtils.containsIgnoreCase(days,"M")){
             weekdays.add(Calendar.MONDAY);
@@ -244,58 +242,32 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
     @Override
-    public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
-        if (StringUtils.endsWith(collectionPath, "requestedSchedules")){
-            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
-            ScheduleWrapper scheduleWrapper = wrapper.getRequestedSchedules().remove(lineIndex);
-            if (scheduleWrapper.isAlreadySaved()){
-                wrapper.getScheduleRequestsToBeDeleted().add(scheduleWrapper);
-            }
-        }else{
-            super.processCollectionDeleteLine(view,model,collectionPath,lineIndex);
-        }
-    }
-
-    @Override
     public void processCollectionAddLine(View view, Object model, String collectionPath) {
 
-        if (StringUtils.equals( collectionPath,"requestedSchedules")){
+        if (StringUtils.equals(collectionPath, "requestedScheduleComponents")){
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
-            addScheduleRequest(wrapper);
+            addScheduleRequestComponent(wrapper);
             CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(view.getDefaultBindingObjectPath() + "." + collectionPath);
-            processAfterAddLine(view, collectionGroup,model, wrapper.getRequestedSchedules().get(wrapper.getRequestedSchedules().size()-1));
+            processAfterAddLine(view, collectionGroup,model, wrapper.getRequestedScheduleComponents().get(wrapper.getRequestedScheduleComponents().size()-1));
         }else{
-            super.processCollectionAddLine(view,model,collectionPath);
+            super.processCollectionAddLine(view, model, collectionPath);
         }
 
     }
 
-    private void addScheduleRequest(ActivityOfferingWrapper wrapper){
+    protected void addScheduleRequestComponent(ActivityOfferingWrapper wrapper){
         ScheduleWrapper scheduleWrapper = wrapper.getNewScheduleRequest();
 
-        if (StringUtils.equalsIgnoreCase(TO_BE_ASSIGNED,scheduleWrapper.getDays())){
-             scheduleWrapper.setDaysUI(TO_BE_ASSIGNED);
-        } else {
-            //Add a space between selected days ("MTWHFSU") for informational purpose
-            char[] days = scheduleWrapper.getDays().toUpperCase().toCharArray();
-            StringBuffer buffer = new StringBuffer();
-            for (char day : days) {
-                buffer.append(day + " ");
-            }
-            scheduleWrapper.setDaysUI(StringUtils.stripEnd(buffer.toString()," "));
+        //Add a space between selected days ("MTWHFSU") for informational purpose
+        char[] days = scheduleWrapper.getDays().toUpperCase().toCharArray();
+        StringBuffer buffer = new StringBuffer();
+        for (char day : days) {
+            buffer.append(day + " ");
         }
 
-        if (StringUtils.equalsIgnoreCase(TO_BE_ASSIGNED,scheduleWrapper.getStartTime())){
-             scheduleWrapper.setStartTimeUI(TO_BE_ASSIGNED);
-        } else {
-             scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
-        }
-
-        if (StringUtils.equalsIgnoreCase(TO_BE_ASSIGNED,scheduleWrapper.getEndTime())){
-             scheduleWrapper.setEndTimeUI(TO_BE_ASSIGNED);
-        } else {
-             scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
-        }
+        scheduleWrapper.setDaysUI(StringUtils.stripEnd(buffer.toString()," "));
+        scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
+        scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
 
         try {
             BuildingInfo building = getRoomService().getBuilding(scheduleWrapper.getBuildingCode(),getContextInfo());
@@ -309,7 +281,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             throw new RuntimeException(e);
         }
 
-        wrapper.getRequestedSchedules().add(scheduleWrapper);
+        wrapper.getRequestedScheduleComponents().add(scheduleWrapper);
         wrapper.setNewScheduleRequest(new ScheduleWrapper());
 
     }
@@ -370,7 +342,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 wrapper.setToolTipText("Each Activity Offering has its own wait list.");
             }
 
-
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             TermInfo term = getAcademicCalendarService().getTerm(info.getTermId(), getContextInfo());
             if (term != null) {
@@ -429,7 +400,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
             wrapper.setSeatpools(seatPoolWrapperList);
 
-            buildSchedulingRequest(wrapper);
+            loadScheduleRequests(wrapper);
+            loadScheduleActuals(wrapper);
 
             return wrapper;
         } catch (Exception e) {
@@ -437,15 +409,80 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
-    protected void buildSchedulingRequest(ActivityOfferingWrapper wrapper){
+    /**
+     * This method loads the schedule requests/components.
+     * For M5, we're going to have only one schedule request.
+     *
+     * @param wrapper  ActivityOfferingWrapper
+     */
+    protected void loadScheduleRequests(ActivityOfferingWrapper wrapper){
+
         try {
             List<ScheduleRequestInfo> requestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,wrapper.getId(),getContextInfo());
 
-            for (ScheduleRequestInfo requestInfo : requestInfos) {
+            if (requestInfos.size() > 1){  // For M5, we should have only one Schedule Request
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Multiple schedule requests not supported in M5 implementation");
+                return;
+            }
 
-                ScheduleWrapper scheduleWrapper = new ScheduleWrapper(requestInfo);
-                ScheduleRequestComponentInfo requestComponentInfo = requestInfo.getScheduleRequestComponents().get(0);  // Will be only one component
-                List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(requestComponentInfo.getTimeSlotIds(),getContextInfo());
+            if (!requestInfos.isEmpty()){
+
+                ScheduleRequestInfo scheduleRequestInfo = requestInfos.get(0);
+
+                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
+                    ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
+                    scheduleWrapper.setTba(componentInfo.getIsTBA());
+
+                    List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(),getContextInfo());
+
+                    if (!timeSlotInfos.isEmpty()){
+                        scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
+
+                        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                        Date timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
+                        scheduleWrapper.setStartTimeUI(dateFormat.format(timeForDisplay));
+
+                        timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
+                        scheduleWrapper.setEndTimeUI(dateFormat.format(timeForDisplay));
+
+                        scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
+                    }
+
+                    if (!componentInfo.getRoomIds().isEmpty()){
+
+                        RoomInfo room = getRoomService().getRoom(componentInfo.getRoomIds().get(0),getContextInfo());
+
+                        scheduleWrapper.setRoom(room);
+                        scheduleWrapper.setRoomCode(room.getRoomCode());
+
+                        if (!room.getRoomUsages().isEmpty()){
+                            scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
+                        }
+
+                        BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(),getContextInfo());
+                        scheduleWrapper.setBuilding(buildingInfo);
+                        scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                    }
+
+                    wrapper.getRequestedScheduleComponents().add(scheduleWrapper);
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected void loadScheduleActuals(ActivityOfferingWrapper wrapper){
+
+        try {
+            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(wrapper.getAoInfo().getScheduleId(),getContextInfo());
+            wrapper.setScheduleInfo(scheduleInfo);
+
+            for (ScheduleComponentInfo componentInfo : scheduleInfo.getScheduleComponents()) {
+                ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
+                scheduleWrapper.setTba(componentInfo.getIsTBA());
+
+                List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(),getContextInfo());
 
                 if (!timeSlotInfos.isEmpty()){
                     scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
@@ -460,9 +497,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
                 }
 
-                if (!requestComponentInfo.getRoomIds().isEmpty()){
 
-                    RoomInfo room = getRoomService().getRoom(requestComponentInfo.getRoomIds().get(0),getContextInfo());
+                if (StringUtils.isNotBlank(componentInfo.getRoomId())){
+
+                    RoomInfo room = getRoomService().getRoom(componentInfo.getRoomId(),getContextInfo());
 
                     scheduleWrapper.setRoom(room);
                     scheduleWrapper.setRoomCode(room.getRoomCode());
@@ -476,8 +514,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
                 }
 
-                wrapper.getRequestedSchedules().add(scheduleWrapper);
+                wrapper.getActualScheduleComponents().add(scheduleWrapper);
             }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -376,9 +376,8 @@
     <bean id="KS-ActivityOffering-DeliveryLogistic-Actuals" parent="Uif-TableCollectionSection"
             p:headerText="Actual Delivery Logistics"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
-            p:propertyName="assignedSchedules"
-            p:renderAddLine="true"
-            p:renderLineActions="false"
+            p:propertyName="actualScheduleComponents"
+            p:readOnly="true"
             p:layoutManager.renderSequenceField="false">
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
@@ -418,14 +417,19 @@
                         <bean parent="Uif-TextControl" p:size="5"/>
                     </property>
                 </bean>
+                <bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
+                      </property>
+                </bean>
             </list>
         </property>
     </bean>
 
     <bean id="KS-ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
-            p:propertyName="requestedSchedules"
-            p:renderAddLine="false"
+            p:propertyName="requestedScheduleComponents"
+            p:readOnly="true"
             p:layoutManager.renderSequenceField="false">
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
@@ -481,7 +485,7 @@
                 <ref bean="KS-ActivityOffering-DeliveryLogistic-New-Section"/>
                 <ref bean="KS-ActivityOffering-DeliveryLogistic-New-Features-Section"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addLine"
-                        p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;requestedSchedules&quot;);"/>
+                        p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;requestedScheduleComponents&quot;);"/>
             </list>
         </property>
     </bean>

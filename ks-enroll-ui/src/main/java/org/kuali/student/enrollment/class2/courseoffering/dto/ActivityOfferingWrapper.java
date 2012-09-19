@@ -6,6 +6,8 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,12 +46,12 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private String courseOfferingCode = "";
 
-    private List<ScheduleWrapper> assignedSchedules;
-    private List<ScheduleWrapper> requestedSchedules;
-
-    private List<ScheduleWrapper> scheduleRequestsToBeDeleted;
-
+    private List<ScheduleWrapper> actualScheduleComponents;
+    private List<ScheduleWrapper> requestedScheduleComponents;
     private ScheduleWrapper newScheduleRequest;
+
+    private ScheduleRequestInfo scheduleRequestInfo;
+    private ScheduleInfo scheduleInfo;
 
     private String startTimeDisplay;
     private String endTimeDisplay;
@@ -69,8 +71,8 @@ public class ActivityOfferingWrapper implements Serializable{
         scheduleComponentWrappers = new ArrayList<ScheduleComponentWrapper>();
         this.setReadOnlyView(false);
         this.setIsChecked(false);
-        assignedSchedules = new ArrayList<ScheduleWrapper>();
-        requestedSchedules = new ArrayList<ScheduleWrapper>();
+        actualScheduleComponents = new ArrayList<ScheduleWrapper>();
+        requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
     }
 
@@ -336,23 +338,26 @@ public class ActivityOfferingWrapper implements Serializable{
         return false;
     }
 
-    public List<ScheduleWrapper> getAssignedSchedules() {
-        return assignedSchedules;
-    }
-
-    public void setAssignedSchedules(List<ScheduleWrapper> assignedSchedules) {
-        this.assignedSchedules = assignedSchedules;
-    }
-
-    public List<ScheduleWrapper> getRequestedSchedules() {
-        if (requestedSchedules == null){
-            requestedSchedules = new ArrayList<ScheduleWrapper>();
+    public List<ScheduleWrapper> getActualScheduleComponents() {
+        if (actualScheduleComponents == null){
+            actualScheduleComponents = new ArrayList<ScheduleWrapper>();
         }
-        return requestedSchedules;
+        return actualScheduleComponents;
     }
 
-    public void setRequestedSchedules(List<ScheduleWrapper> requestedSchedules) {
-        this.requestedSchedules = requestedSchedules;
+    public void setActualScheduleComponents(List<ScheduleWrapper> actualScheduleComponents) {
+        this.actualScheduleComponents = actualScheduleComponents;
+    }
+
+    public List<ScheduleWrapper> getRequestedScheduleComponents() {
+        if (requestedScheduleComponents == null){
+            requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
+        }
+        return requestedScheduleComponents;
+    }
+
+    public void setRequestedScheduleComponents(List<ScheduleWrapper> requestedScheduleComponents) {
+        this.requestedScheduleComponents = requestedScheduleComponents;
     }
 
     public ScheduleWrapper getNewScheduleRequest() {
@@ -403,14 +408,19 @@ public class ActivityOfferingWrapper implements Serializable{
         this.roomName = roomName;
     }
 
-    public List<ScheduleWrapper> getScheduleRequestsToBeDeleted() {
-        if (scheduleRequestsToBeDeleted == null){
-            scheduleRequestsToBeDeleted = new ArrayList();
-        }
-        return scheduleRequestsToBeDeleted;
+    public ScheduleRequestInfo getScheduleRequestInfo() {
+        return scheduleRequestInfo;
     }
 
-    public void setScheduleRequestsToBeDeleted(List<ScheduleWrapper> scheduleRequestsToBeDeleted) {
-        this.scheduleRequestsToBeDeleted = scheduleRequestsToBeDeleted;
+    public void setScheduleRequestInfo(ScheduleRequestInfo scheduleRequestInfo) {
+        this.scheduleRequestInfo = scheduleRequestInfo;
+    }
+
+    public ScheduleInfo getScheduleInfo() {
+        return scheduleInfo;
+    }
+
+    public void setScheduleInfo(ScheduleInfo scheduleInfo) {
+        this.scheduleInfo = scheduleInfo;
     }
 }
