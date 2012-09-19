@@ -135,6 +135,7 @@ public interface ActivityOfferingDisplay
     /**
      * Indicates that the Activity Offering is an Honors option
      *
+     * @name Is Honors Offering
      * @readOnly
      * @impl 'H' icon displayed if true
      */
