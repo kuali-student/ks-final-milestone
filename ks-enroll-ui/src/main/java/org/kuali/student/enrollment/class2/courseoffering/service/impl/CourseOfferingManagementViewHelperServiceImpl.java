@@ -459,11 +459,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
 
         // assign the time and days
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
-        List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY  , aoInfo.getId(), getContextInfo());
+        List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), getContextInfo());
         if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
             ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
             List<ScheduleRequestComponentInfo> componentList = scheduleRequestInfo.getScheduleRequestComponents();
             if (componentList != null && componentList.size() > 0) {
+                if(componentList.get(0).getIsTBA() != null) {
+                    aoWrapper.setTbaDisplayName(componentList.get(0).getIsTBA());
+                }
                 List<String> ids = componentList.get(0).getTimeSlotIds();
                 if (ids != null && ids.size() > 0) {
                     TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
@@ -645,7 +648,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                 dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE;
                 break;
             default:
-                dayOfWeek = StringUtils.EMPTY;;
+                dayOfWeek = StringUtils.EMPTY;
         }
         // TODO implement TBA when service stores it.
         return dayOfWeek;
