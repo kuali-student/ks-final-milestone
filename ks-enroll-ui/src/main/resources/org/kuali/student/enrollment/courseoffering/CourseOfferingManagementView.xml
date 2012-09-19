@@ -55,6 +55,7 @@
         <property name="dialogs">
           <list>
             <bean id="schedulingConfirmDialog" parent="schedulingConfirmDialog-Group"/>
+            <bean id="createNewClusterDialog"  parent="KS-ManageRegistrationGroupsPage-CreateNewClusterDialog"/>
           </list>
         </property>
     </bean>

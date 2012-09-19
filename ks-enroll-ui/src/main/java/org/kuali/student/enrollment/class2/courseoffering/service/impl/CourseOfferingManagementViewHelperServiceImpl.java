@@ -277,72 +277,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         try {
             activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
             activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
-            Calendar calendar = new  GregorianCalendar();
 
             for (ActivityOfferingInfo info : activityOfferingInfoList) {
-                ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
-                StateInfo state = getStateService().getState(info.getStateKey(), getContextInfo());
-                wrapper.setStateName(state.getName());
-                TypeInfo typeInfo = getTypeService().getType(info.getTypeKey(), getContextInfo());
-                wrapper.setTypeName(typeInfo.getName());
-                FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), getContextInfo());
-                wrapper.setFormatOffering(fo);
-                OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(info.getInstructors());
-                if(displayInstructor != null) {
-                    wrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
-                }
-
-                // assign the time and days
-                SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
-                List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, info.getId(), getContextInfo());
-                if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
-                    ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
-                    List<ScheduleRequestComponentInfo> componentList = scheduleRequestInfo.getScheduleRequestComponents();
-                    if (componentList != null && componentList.size() > 0) {
-                        if(componentList.get(0).getIsTBA() != null) {
-                            wrapper.setTbaDisplayName(componentList.get(0).getIsTBA());
-                        }
-                        List<String> ids = componentList.get(0).getTimeSlotIds();
-                        if (ids != null && ids.size() > 0) {
-                            TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
-                            if (timeSlot != null) {
-                                TimeOfDayInfo startTime = timeSlot.getStartTime();
-                                TimeOfDayInfo endTime = timeSlot.getEndTime();
-                                List<Integer> days = timeSlot.getWeekdays();
-
-                                if (startTime != null) {
-                                    calendar.setTimeInMillis(startTime.getMilliSeconds());
-                                    wrapper.setStartTimeDisplay(format.format(calendar.getTime()));
-                                }
-                                if (endTime != null) {
-                                    calendar.setTimeInMillis(endTime.getMilliSeconds());
-                                    wrapper.setEndTimeDisplay(format.format(calendar.getTime()));
-                                }
-                                if (days != null && days.size() > 0) {
-                                    wrapper.setDaysDisplayName(getDays(days));
-                                }
-                            }
-                        }
-
-                        // assign building and room info
-                        List<String> roomIds = componentList.get(0).getRoomIds();
-                        if (roomIds != null && roomIds.size() > 0) {
-                            if (roomIds.get(0) != null) {
-                                RoomInfo roomInfo = getRoomService().getRoom(roomIds.get(0), getContextInfo());
-                                if (roomInfo != null) {
-                                    if (roomInfo.getBuildingId() != null && !roomInfo.getBuildingId().isEmpty()) {
-                                        BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
-                                        if (buildingInfo != null)
-                                            wrapper.setBuildingName(buildingInfo.getName());
-                                    }
-                                    wrapper.setRoomName(roomInfo.getName());
-                                }
-                            }
-                        }
-
-                    }
-                }
-                activityOfferingWrapperList.add(wrapper);
+                ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper(info);
+                activityOfferingWrapperList.add(aoWrapper);
             }
         } catch (Exception e) {
             throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
@@ -503,6 +441,70 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         if (!rgInfos.isEmpty()){
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);
         }
+    }
+    
+    public ActivityOfferingWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception{
+        Calendar calendar = new  GregorianCalendar();
+        ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
+        StateInfo state = getStateService().getState(aoInfo.getStateKey(), getContextInfo());
+        aoWrapper.setStateName(state.getName());
+        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), getContextInfo());
+        aoWrapper.setTypeName(typeInfo.getName());
+        FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), getContextInfo());
+        aoWrapper.setFormatOffering(fo);
+        OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
+        if(displayInstructor != null) {
+            aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
+        }
+
+        // assign the time and days
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+        List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY  , aoInfo.getId(), getContextInfo());
+        if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
+            ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
+            List<ScheduleRequestComponentInfo> componentList = scheduleRequestInfo.getScheduleRequestComponents();
+            if (componentList != null && componentList.size() > 0) {
+                List<String> ids = componentList.get(0).getTimeSlotIds();
+                if (ids != null && ids.size() > 0) {
+                    TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
+                    if (timeSlot != null) {
+                        TimeOfDayInfo startTime = timeSlot.getStartTime();
+                        TimeOfDayInfo endTime = timeSlot.getEndTime();
+                        List<Integer> days = timeSlot.getWeekdays();
+
+                        if (startTime != null) {
+                            calendar.setTimeInMillis(startTime.getMilliSeconds());
+                            aoWrapper.setStartTimeDisplay(format.format(calendar.getTime()));
+                        }
+                        if (endTime != null) {
+                            calendar.setTimeInMillis(endTime.getMilliSeconds());
+                            aoWrapper.setEndTimeDisplay(format.format(calendar.getTime()));
+                        }
+                        if (days != null && days.size() > 0) {
+                            aoWrapper.setDaysDisplayName(getDays(days));
+                        }
+                    }
+                }
+
+                // assign building and room info
+                List<String> roomIds = componentList.get(0).getRoomIds();
+                if (roomIds != null && roomIds.size() > 0) {
+                    if (roomIds.get(0) != null) {
+                        RoomInfo roomInfo = getRoomService().getRoom(roomIds.get(0), getContextInfo());
+                        if (roomInfo != null) {
+                            if (roomInfo.getBuildingId() != null && !roomInfo.getBuildingId().isEmpty()) {
+                                BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
+                                if (buildingInfo != null)
+                                    aoWrapper.setBuildingName(buildingInfo.getName());
+                            }
+                            aoWrapper.setRoomName(roomInfo.getName());
+                        }
+                    }
+                }
+
+            }
+        }
+        return aoWrapper;
     }
     
     private CourseOfferingService _getCourseOfferingService() {

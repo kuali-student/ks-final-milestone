@@ -41,6 +41,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private boolean hasAOCluster;
     private String privateClusterName;
     private String publishedClusterName;
+    private String privateClusterNameForLightBox;
+    private String publishedClusterNameForLightBox;
             
 
     //For Adding Activity
@@ -354,4 +356,19 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.hasAOCluster = hasAOCluster;
     }
 
+    public String getPrivateClusterNameForLightBox() {
+        return privateClusterNameForLightBox;
+    }
+
+    public void setPrivateClusterNameForLightBox(String privateClusterNameForLightBox) {
+        this.privateClusterNameForLightBox = privateClusterNameForLightBox;
+    }
+
+    public String getPublishedClusterNameForLightBox() {
+        return publishedClusterNameForLightBox;
+    }
+
+    public void setPublishedClusterNameForLightBox(String publishedClusterNameForLightBox) {
+        this.publishedClusterNameForLightBox = publishedClusterNameForLightBox;
+    }
 }
