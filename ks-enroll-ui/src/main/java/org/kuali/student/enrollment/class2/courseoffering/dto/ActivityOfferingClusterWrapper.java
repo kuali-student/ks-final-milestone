@@ -64,6 +64,14 @@ public class ActivityOfferingClusterWrapper implements Serializable {
 
     public void setRgWrapperList(List<RegistrationGroupWrapper> rgWrapperList) {
         this.rgWrapperList = rgWrapperList;
+        if (!rgWrapperList.isEmpty()) {
+            hasRegGroups = true;
+            rgStatus = "All Registration Groups Generated";
+        }
+        else {
+           hasRegGroups = false;
+           rgStatus = "No Registration Groups Generated";
+        }
     }
 
     public List<ActivityOfferingWrapper> getAoWrapperList() {
