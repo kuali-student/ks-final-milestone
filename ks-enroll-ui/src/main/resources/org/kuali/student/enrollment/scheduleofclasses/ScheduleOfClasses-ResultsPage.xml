@@ -70,7 +70,8 @@
         <property name="items">
             <list>
                 <bean parent="Uif-ImageField" p:source="../ks-enroll/images/details_open.png">
-                    <property name="onClickScript" value="ajaxCallActivityOfferings('controllerMethod', '@{#line.coDisplayInfo.courseOfferingCode}')" />
+                    <property name="onClickScript" value="ajaxCallActivityOfferings('populateAOs', '@{#line.coDisplayInfo.id}')" />
+                    <property name="id" value="@{#line.coDisplayInfo.id}" />
                 </bean>
                 <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
                 <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
@@ -78,6 +79,36 @@
                 <bean parent="Uif-MessageField" p:label="INFORMATION" p:messageText="@{#line.information}"/>
             </list>
         </property>
-        </bean>
+        <property name="subCollections">
+            <list>
+                <!--bean parent="Uif-TableSubCollection-WithinSection" p:renderAddLine="false" p:renderLineActions="false" p:render="@{!#empty(#aoDisplayWrapperList)}"-->
+                <bean parent="Uif-TableSubCollection-WithinSection" p:renderAddLine="false" p:renderLineActions="false" p:render="@{courseOfferingId != ''}">
+                    <property name="id" value="@{#line.coDisplayInfo.id}-sub" />
+                    <!-- property name="headerText" value="Activities" /-->
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper" />
+                    <property name="propertyName" value="aoDisplayWrapperList" />
+                    <property name="layoutManager.renderSequenceField" value="false" />
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                    <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField"
+                                  p:label="TYPE"
+                                  p:propertyName="aoDisplayInfo.typeName">
+                            </bean>
+                            <bean parent="Uif-DataField"
+                                  p:label="CODE"
+                                  p:propertyName="aoDisplayInfo.activityOfferingCode">
+                            </bean>
+                            <bean parent="Uif-DataField"
+                                  p:label="INSTRUCTOR"
+                                  p:propertyName="aoDisplayInfo.instructorName" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
-        </beans>
+</beans>
