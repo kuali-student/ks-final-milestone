@@ -436,27 +436,6 @@
     </property>
   </bean>
 
-  <!-- Exception mapping. This is needed because many operations are proxied and do not throw exceptions until a later time -->
-  <bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
-    <property name="defaultException" value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
-    <property name="exceptionMapping">
-      <map>
-        <entry key="javax.persistence.EntityExistsException" value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
-        <entry key="org.hibernate.exception.ConstraintViolationException" value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
-      </map>
-    </property>
-  </bean>
-  <aop:config>
-    <aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
-      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl.*(..))"
-        method="afterThrowing" throwing="ex" />
-      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl.*(..))"
-        method="afterThrowing" throwing="ex" />
-      <aop:after-throwing pointcut="execution(* org.kuali.student.r2.lum.lo.service.impl.LearningObjectiveServiceImpl.*(..))"
-        method="afterThrowing" throwing="ex" />
-    </aop:aspect>
-  </aop:config>
-
    <!-- courseofferingset beans -->
     <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
         <property name="socDao" ref="socDao" />
