@@ -72,7 +72,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             String stateName = getStateName(socInfo.getStateKey());
             socForm.setSocStatus(stateName);
 
-            List<String> validSOCStates = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_STATE_KEYS);
+            List<String> validSOCStates = Arrays.asList(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS);
 
             for (AttributeInfo info : socInfo.getAttributes()){
                 if (validSOCStates.contains(socInfo.getStateKey())){
