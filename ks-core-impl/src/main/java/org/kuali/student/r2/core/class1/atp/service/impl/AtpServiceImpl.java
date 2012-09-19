@@ -39,7 +39,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AtpServiceImpl implements AtpService {
@@ -326,6 +328,12 @@ public class AtpServiceImpl implements AtpService {
             throw new DoesNotExistException();
         }
 
+        if (atps.size() != atpIds.size()) {
+            Set<String> distinctIds = new HashSet<String>(atpIds);
+            if (atps.size() != distinctIds.size()) {                
+                throw new DoesNotExistException();
+            }
+        }
         List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
         for (AtpEntity entity : atps) {
             if (entity == null) {
@@ -376,7 +384,12 @@ public class AtpServiceImpl implements AtpService {
         if (milestones == null) {
             throw new DoesNotExistException();
         }
-
+        if (milestones.size() != milestoneIds.size()) {
+            Set<String> distinctIds = new HashSet<String>(milestoneIds);
+            if (milestones.size() != distinctIds.size()) {                
+                throw new DoesNotExistException();
+            }
+        }
         List<MilestoneInfo> result = new ArrayList<MilestoneInfo>(milestones.size());
         for (MilestoneEntity entity : milestones) {
             if (entity == null) {
@@ -742,7 +755,29 @@ public class AtpServiceImpl implements AtpService {
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(List<String> atpAtpRelationIds,
                                                             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<AtpAtpRelationInfo>();
+        List<AtpAtpRelationEntity> entities = this.atpRelDao.findByIds(atpAtpRelationIds);
+
+        if (entities == null) {
+            throw new DoesNotExistException();
+        }
+
+        if (entities.size() != atpAtpRelationIds.size()) {
+            Set<String> distinctIds = new HashSet<String>(atpAtpRelationIds);
+            if (entities.size() != distinctIds.size()) {                
+                throw new DoesNotExistException();
+            }
+        }
+        List<AtpAtpRelationInfo> result = new ArrayList<AtpAtpRelationInfo>(entities.size());
+        for (AtpAtpRelationEntity entity : entities) {
+            if (entity == null) {
+                // if one of the entities from "findByIds" is returned as null,
+                // then one of the keys in the list was not found
+                throw new DoesNotExistException();
+            }
+            result.add(entity.toDto());
+        }
+
+        return result;
     }
 
     @Override
