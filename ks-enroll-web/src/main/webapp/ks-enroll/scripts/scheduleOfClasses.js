@@ -1,7 +1,8 @@
 function ajaxCallActivityOfferings(controllerMethod, courseOfferingId) {
 
-    alert("testing the method code = " + courseOfferingId);
-//    ajaxSubmitForm(controllerMethod, updateCollectionCallback,
-//        {updateComponentId: collectionGroupId, skipViewInit: 'true', selectedItemInputName: selectedItemId},
-//        elementToBlock, null,"update-component");
+//    alert("testing the method code = " + courseOfferingId);
+
+    ajaxSubmitForm(controllerMethod, null,
+        {courseOfferingId: courseOfferingId},
+        null, null, null);
 }
