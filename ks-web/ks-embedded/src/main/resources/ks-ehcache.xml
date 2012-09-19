@@ -6,4 +6,5 @@
 	<cache name="orgCache" maxElementsInMemory="100" eternal="false" overflowToDisk="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
 	<cache name="lrcCache" maxElementsInMemory="100" eternal="false" overflowToDisk="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
 	<cache name="statementCache" maxElementsInMemory="100" eternal="false" overflowToDisk="true" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="LRCServiceCache" maxElementsInMemory="1000" eternal="false" overflowToDisk="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
 </ehcache>
