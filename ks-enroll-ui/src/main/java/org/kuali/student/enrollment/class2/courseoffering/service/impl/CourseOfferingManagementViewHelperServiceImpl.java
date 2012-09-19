@@ -31,6 +31,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -621,25 +622,25 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         String dayOfWeek;
         switch (day) {
             case 1:
-                dayOfWeek = "U";
+                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE;
                 break;
             case 2:
-                dayOfWeek = "M";
+                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE;
                 break;
             case 3:
-                dayOfWeek = "T";
+                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE;
                 break;
             case 4:
-                dayOfWeek = "W";
+                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE;
                 break;
             case 5:
-                dayOfWeek = "H";
+                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE;
                 break;
             case 6:
-                dayOfWeek = "F";
+                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE;
                 break;
             case 7:
-                dayOfWeek = "S";
+                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE;
                 break;
             default:
                 dayOfWeek = StringUtils.EMPTY;;
