@@ -24,7 +24,7 @@ WHERE TYPE_KEY like 'kuali.result.value.type%'
 /
 
 UPDATE KSEN_TYPE
-SET REF_OBJECT_URI='http://student.kuali.org/wsdl/lrc/ResultValueGroupInfo'
+SET REF_OBJECT_URI='http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo'
 WHERE TYPE_KEY like 'kuali.result.values.group%' AND TYPE_KEY not like  'kuali.result.values.group.type.range%'
 /
 
