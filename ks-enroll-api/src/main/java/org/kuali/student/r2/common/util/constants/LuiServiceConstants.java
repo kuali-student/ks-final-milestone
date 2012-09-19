@@ -134,13 +134,13 @@ public class LuiServiceConstants {
      * https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering
      * Implemented: 6/14/2012  by cclin
      */
-    public static final String COURSE_OFFERING_PROCESS_KEY = "kuali.course.offering.process";
+    public static final String COURSE_OFFERING_LIFECYCLE_KEY = "kuali.course.offering.lifecycle";
     public static final String LUI_CO_STATE_DRAFT_KEY = "kuali.lui.course.offering.state.draft";
     public static final String LUI_CO_STATE_PLANNED_KEY = "kuali.lui.course.offering.state.planned";
     public static final String LUI_CO_STATE_OFFERED_KEY = "kuali.lui.course.offering.state.offered";
     public static final String LUI_CO_STATE_CANCELED_KEY = "kuali.lui.course.offering.state.canceled";
 
-    public static final String[] COURSE_OFFERING_PROCESS_STATE_KEYS = {
+    public static final String[] COURSE_OFFERING_LIFECYCLE_STATE_KEYS = {
         LUI_CO_STATE_DRAFT_KEY,
         LUI_CO_STATE_PLANNED_KEY,
         LUI_CO_STATE_OFFERED_KEY,
@@ -151,7 +151,7 @@ public class LuiServiceConstants {
         if (possibleState == null) {
             return false;
         }
-        for (String state: COURSE_OFFERING_PROCESS_STATE_KEYS) {
+        for (String state: COURSE_OFFERING_LIFECYCLE_STATE_KEYS) {
             if (state.equals(possibleState)) {
                 return true;
             }
@@ -164,13 +164,13 @@ public class LuiServiceConstants {
      * Implemented: 6/14/2012  by cclin
      * The process is identical to the course offering.
      */
-    public static final String FORMAT_OFFERING_PROCESS_KEY = "kuali.format.offering.process";
+    public static final String FORMAT_OFFERING_LIFECYCLE_KEY = "kuali.format.offering.lifecycle";
     public static final String LUI_FO_STATE_DRAFT_KEY = "kuali.lui.format.offering.state.draft";
     public static final String LUI_FO_STATE_PLANNED_KEY = "kuali.lui.format.offering.state.planned";
     public static final String LUI_FO_STATE_OFFERED_KEY = "kuali.lui.format.offering.state.offered";
     public static final String LUI_FO_STATE_CANCELED_KEY = "kuali.lui.format.offering.state.canceled";
 
-    public static final String[] FORMAT_OFFERING_PROCESS_STATE_KEYS = {
+    public static final String[] FORMAT_OFFERING_LIFECYCLE_STATE_KEYS = {
             LUI_FO_STATE_DRAFT_KEY,
             LUI_FO_STATE_PLANNED_KEY,
             LUI_FO_STATE_OFFERED_KEY,
@@ -181,7 +181,7 @@ public class LuiServiceConstants {
         if (possibleState == null) {
             return false;
         }
-        for (String state: FORMAT_OFFERING_PROCESS_STATE_KEYS) {
+        for (String state: FORMAT_OFFERING_LIFECYCLE_STATE_KEYS) {
             if (state.equals(possibleState)) {
                 return true;
             }
@@ -193,7 +193,7 @@ public class LuiServiceConstants {
      * https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-Activity%2CCourseandRegGroupOffering
      * Implemented: 6/14/2012  by cclin
      */
-    public static final String ACTIVITY_OFFERING_PROCESS_KEY = "kuali.activity.offering.process";
+    public static final String ACTIVITY_OFFERING_LIFECYCLE_KEY = "kuali.activity.offering.lifecycle";
     public static final String LUI_AO_STATE_DRAFT_KEY = "kuali.lui.activity.offering.state.draft";
     public static final String LUI_AO_STATE_SUBMITTED_KEY = "kuali.lui.activity.offering.state.submitted";
     public static final String LUI_AO_STATE_APPROVED_KEY = "kuali.lui.activity.offering.state.approved";
@@ -201,7 +201,7 @@ public class LuiServiceConstants {
     public static final String LUI_AO_STATE_SUSPENDED_KEY = "kuali.lui.activity.offering.state.suspended";
     public static final String LUI_AO_STATE_CANCELED_KEY = "kuali.lui.activity.offering.state.canceled";
 
-    public static final String[] ACTIVITY_OFFERING_PROCESS_STATE_KEYS = {
+    public static final String[] ACTIVITY_OFFERING_LIFECYCLE_STATE_KEYS = {
         LUI_AO_STATE_DRAFT_KEY,
         LUI_AO_STATE_SUBMITTED_KEY,
         LUI_AO_STATE_APPROVED_KEY,
@@ -214,7 +214,7 @@ public class LuiServiceConstants {
         if (possibleState == null) {
             return false;
         }
-        for (String state: ACTIVITY_OFFERING_PROCESS_STATE_KEYS) {
+        for (String state: ACTIVITY_OFFERING_LIFECYCLE_STATE_KEYS) {
             if (state.equals(possibleState)) {
                 return true;
             }
@@ -227,7 +227,7 @@ public class LuiServiceConstants {
      * https://wiki.kuali.org/display/STUDENT/Activity+Offering+Scheduling+Lifecycle
      * Implemented: 8/30/2012  by Mezba Mahtab
      */
-    public static final String LUI_AO_SCHEDULING_STATE_PROCESS_KEY = "kuali.activity.offering.scheduling.process";
+    public static final String LUI_AO_SCHEDULING_STATE_LIFECYCLE_KEY = "kuali.activity.offering.scheduling.lifecycle";
     public static final String LUI_AO_SCHEDULING_STATE_EXEMPT_KEY = "kuali.lui.activity.offering.scheduling.state.exempt";
     public static final String LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY = "kuali.lui.activity.offering.scheduling.state.scheduled";
     public static final String LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY = "kuali.lui.activity.offering.scheduling.state.unscheduled";
@@ -283,10 +283,10 @@ public class LuiServiceConstants {
     /**
      * LUI LUI Relation States
      */
-    public static final String LUI_LUI_RELATION_PROCESS_KEY = "kuali.lui.lui.relationship.process";
+    public static final String LUI_LUI_RELATION_LIFECYCLE_KEY = "kuali.lui.lui.relationship.lifecycle";
     public static final String LUI_LUI_RELATION_ACTIVE_STATE_KEY = "kuali.lui.lui.relation.state.active";
     public static final String LUI_LUI_RELATION_INACTIVE_STATE_KEY = "kuali.lui.lui.relation.state.inactive";
-    public static final String[] LUI_LUI_RELATION_PROCESS_KEYS = {LUI_LUI_RELATION_ACTIVE_STATE_KEY,
+    public static final String[] LUI_LUI_RELATION_LIFECYCLE_KEYS = {LUI_LUI_RELATION_ACTIVE_STATE_KEY,
         LUI_LUI_RELATION_INACTIVE_STATE_KEY};
     
     /**
@@ -297,10 +297,10 @@ public class LuiServiceConstants {
     /**
      * LUI Capacity States
      */
-    public static final String LUI_CAPACITY_PROCESS_KEY = "kuali.lui.capacity.process";
+    public static final String LUI_CAPACITY_LIFECYCLE_KEY = "kuali.lui.capacity.lifecycle";
     public static final String LUI_CAPACITY_ACTIVE_STATE_KEY = "kuali.lui.capacity.state.active";
     public static final String LUI_CAPACITY_INACTIVE_STATE_KEY = "kuali.lui.capacity.state.inactive";
-    public static final String[] LUI_CAPACITY_PROCESS_KEYS = {LUI_CAPACITY_ACTIVE_STATE_KEY,
+    public static final String[] LUI_CAPACITY_LIFECYCLE_KEYS = {LUI_CAPACITY_ACTIVE_STATE_KEY,
         LUI_CAPACITY_INACTIVE_STATE_KEY};
 
     /**
@@ -312,10 +312,10 @@ public class LuiServiceConstants {
     /**
      * LUI Identifier States
      */
-    public static final String LUI_IDENTIFIER_PROCESS_KEY = "kuali.lui.identifier.process";
+    public static final String LUI_IDENTIFIER_LIFECYCLE_KEY = "kuali.lui.identifier.lifecycle";
     public static final String LUI_IDENTIFIER_ACTIVE_STATE_KEY = "kuali.lui.identifier.state.active";
     public static final String LUI_IDENTIFIER_INACTIVE_STATE_KEY = "kuali.lui.identifier.state.inactive";
-    public static final String[] LUI_IDENTIFIER_PROCESS_KEYS = {LUI_IDENTIFIER_ACTIVE_STATE_KEY,
+    public static final String[] LUI_IDENTIFIER_LIFECYCLE_KEYS = {LUI_IDENTIFIER_ACTIVE_STATE_KEY,
         LUI_IDENTIFIER_INACTIVE_STATE_KEY
     };
     
