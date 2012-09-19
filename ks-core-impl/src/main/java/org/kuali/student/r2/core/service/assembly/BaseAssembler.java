@@ -37,28 +37,29 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.springframework.beans.BeanUtils;
 
 public class BaseAssembler {
 
     final static Logger logger = Logger.getLogger(BaseAssembler.class);
 
-    public static List<AttributeInfo> toAttributeMap(
-            List<? extends Attribute<?>> attributes) {
-        List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>(attributes.size());
+    public static List<AttributeInfo> toAttributeList(List<? extends Attribute<?>> attributes) {
+
+        List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>();
+
         for (Attribute<?> attribute : attributes) {
-            AttributeInfo info = new AttributeInfo();
-            info.setId(attribute.getId());
-            info.setKey(attribute.getName());
-            info.setValue(attribute.getValue());
-            attributeInfos.add(info);
+            AttributeInfo attributeInfo = new AttributeInfo();
+            attributeInfo.setKey(attribute.getName());
+            attributeInfo.setValue(attribute.getValue());
+            attributeInfos.add(attributeInfo);
         }
+
         return attributeInfos;
     }
 
-    public static <A extends Attribute<O>, O extends AttributeOwner<A>> List<A> toGenericAttributes(
-            Class<A> attributeClass, List<? extends org.kuali.student.r2.common.infc.Attribute> attributeMap, O owner,
-            CrudDao dao) throws InvalidParameterException {
+    public static <A extends Attribute<O>, O extends AttributeOwner<A>> List<A> toGenericAttributes(Class<A> attributeClass, List<AttributeInfo> attributeList, O owner, CrudDao dao) throws InvalidParameterException {
+
         List<A> updatedAttributes = new ArrayList<A>();
 
         if (owner.getAttributes() == null) {
@@ -73,10 +74,14 @@ public class BaseAssembler {
         }
 
         //Clear out the attributes
-//        owner.getAttributes().clear();
+        owner.getAttributes().clear();
+
+        if (attributeList==null) {
+            return updatedAttributes;
+        }
 
         //Update anything that exists, or create a new attribute if it doesn't
-        for (org.kuali.student.r2.common.infc.Attribute attr : attributeMap) {
+        for (AttributeInfo attr : attributeList) {
             A attribute = null;
             if (attr.getId() != null) {
                 if (!currentAttributes.containsKey(attr.getId())) {
@@ -104,38 +109,43 @@ public class BaseAssembler {
     }
 
     /**
-     * @param clazz Class of the object to which this type defines
      * @param <S> Type Class
      * @param typeEntity the typeEntity to copy from
      * @return a new TypeInfo
      */
-    public static <S extends Type<?>> TypeInfo toGenericTypeInfo(Class clazz,
-            S typeEntity) {
+    public static <S extends Type<?>> TypeInfo toGenericTypeInfo(S typeEntity) {
         if (typeEntity == null) {
             return null;
         }
 
-        TypeInfo info = new TypeInfo();
+        TypeInfo info;
+        try {
+            // Create a new TypeInfo based on the <T> class and copy the
+            // properties
+            info = new TypeInfo();
+            BeanUtils.copyProperties(typeEntity, info,
+                    new String[] { "attributes", "descr" });
+
         info.setKey(typeEntity.getId());
-        info.setDescr(new RichTextHelper().fromPlain(typeEntity.getDescr()));
-        info.setEffectiveDate(typeEntity.getEffectiveDate());
-        info.setExpirationDate(typeEntity.getExpirationDate());
-        info.setName(typeEntity.getName());
-        // TODO: fix this to conform to the real ref object uri but this is good enough for now to identify the type
-        info.setRefObjectUri(typeEntity.getClass().getName());
+
         // Copy the attributes
-        info.setAttributes(toAttributeMap(typeEntity.getAttributes()));
+        info.setAttributes(toAttributeList(typeEntity.getAttributes()));
         //Copy the description
         info.setDescr(new RichTextHelper().fromPlain(typeEntity.getDescr()));
         return info;
+
+        } catch (Exception e) {
+            logger.error("Exception occured: ", e);
+        }
+
+        return null;
     }
 
-    public static <S extends Type<?>> List<TypeInfo> toGenericTypeInfoList(
-            Class clazz, List<S> typeEntities) {
+    public static <S extends Type<?>> List<TypeInfo> toGenericTypeInfoList(List<S> typeEntities) {
         List<TypeInfo> infos = new ArrayList<TypeInfo>();
         if (typeEntities != null) {
             for (S typeEntity : typeEntities) {
-                infos.add(toGenericTypeInfo(clazz, typeEntity));
+                infos.add(toGenericTypeInfo(typeEntity));
             }
         }
         return infos;
