@@ -21,10 +21,12 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -152,6 +154,34 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
             GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
             form.getCoDisplayWrapperList().clear();
+        }
+    }
+
+    public void loadActivityOfferingsByCourseOfferingId(String courseOfferingId, ScheduleOfClassesSearchForm form) throws Exception {
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
+        List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(courseOfferingId, contextInfo);
+
+        for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
+            ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
+            aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
+            // ToDo: aoDisplayWrapper.setInformation(information);
+            aoDisplayWrapperList.add(aoDisplayWrapper);
+        }
+
+        if(!aoDisplayWrapperList.isEmpty()) {
+            List<CourseOfferingDisplayWrapper> coDisplayWrapperList = form.getCoDisplayWrapperList();
+            for (int i=0; i<coDisplayWrapperList.size(); i++) {
+                CourseOfferingDisplayWrapper coDisplayWrapper = coDisplayWrapperList.get(i);
+                if(coDisplayWrapper.getCoDisplayInfo().getId().equals(courseOfferingId)) {
+                    coDisplayWrapper.setAoDisplayWrapperList(aoDisplayWrapperList);
+                    coDisplayWrapperList.set(i, coDisplayWrapper);
+                    break;
+                }
+            }
+            form.setCoDisplayWrapperList(coDisplayWrapperList);
         }
     }
 
