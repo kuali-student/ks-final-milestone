@@ -29,7 +29,7 @@ public class FormatOfferingTransformer {
         format.setActivityOfferingTypeKeys(lui.getRelatedLuiTypes());
         format.setMeta(lui.getMeta());
 
-        //Dynamic attributes - Some fields in Format Offering need to be mapped to LUI dynamic attributes
+        // Dynamic attributes - Some fields in Format Offering need to be mapped to LUI dynamic attributes
         List<AttributeInfo> attributes = format.getAttributes();
         for (Attribute attr : lui.getAttributes()) {
             if (CourseOfferingServiceConstants.GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){

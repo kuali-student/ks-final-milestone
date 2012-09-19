@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -952,7 +953,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo lui = new LuiInfo();
         new FormatOfferingTransformer().format2Lui(foInfo, lui);
 
-
         try {
             lui = luiService.createLui(lui.getCluId(), lui.getAtpId(), lui.getTypeKey(), lui, context);
         } catch (Exception aee) {
@@ -1809,10 +1809,40 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    private void _verifyAOSetsMatchAOTypes(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo)
+        throws InvalidParameterException {
+        List<String> aoTypes = foInfo.getActivityOfferingTypeKeys();
+        int numAoTypes = aoTypes.size();
+        int numAoSets = clusterInfo.getActivityOfferingSets().size();
+        if (numAoTypes != numAoSets) {
+            // Make sure the two match
+            throw new InvalidParameterException("Number of AO sets, " + numAoSets + ", does not match number of AO types, " + numAoTypes);
+        }
+        Map<String, ActivityOfferingSetInfo> aoTypeToAoSet = new HashMap<String, ActivityOfferingSetInfo>();
+        for (String aoType: aoTypes) {
+            aoTypeToAoSet.put(aoType, null);
+        }
+        List<ActivityOfferingSetInfo> aoSets = clusterInfo.getActivityOfferingSets();
+        for (ActivityOfferingSetInfo setInfo: clusterInfo.getActivityOfferingSets()) {
+            if (!aoTypeToAoSet.containsKey(setInfo.getActivityOfferingType())) {
+                // Is this a valid AO type?  No.
+                throw new InvalidParameterException("Unknown AO type for this FO: " + setInfo.getActivityOfferingType());
+            }
+            ActivityOfferingSetInfo set = aoTypeToAoSet.get(setInfo.getActivityOfferingType());
+            if (set != null) {
+                // Somehow there are more than one aoSet for this ao type key
+                throw new InvalidParameterException("AO type appears multiple times: " + setInfo.getActivityOfferingType());
+            } else {
+                // Map it
+                aoTypeToAoSet.put(setInfo.getActivityOfferingType(), setInfo);
+            }
+        }
+    }
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId,
-                                                                     String activityOfferingClusterTypeKey, ActivityOfferingClusterInfo activityOfferingClusterInfo,
+                                                                     String activityOfferingClusterTypeKey,
+                                                                     ActivityOfferingClusterInfo activityOfferingClusterInfo,
                                                                      ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -1829,9 +1859,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (!activityOfferingClusterTypeKey.equals(activityOfferingClusterInfo.getTypeKey())) {
             throw new InvalidParameterException(activityOfferingClusterTypeKey + " does not match the corresponding value in the object " + activityOfferingClusterInfo.getTypeKey());
         }
-
+        // Make sure that there are as many AOSets as AO types in the FO
+        FormatOfferingInfo foInfo = getFormatOffering(formatOfferingId, contextInfo);
+        if (activityOfferingClusterInfo.getActivityOfferingSets() == null ||
+                activityOfferingClusterInfo.getActivityOfferingSets().isEmpty()) {
+            // If it's empty
+            _createAOSets(foInfo, activityOfferingClusterInfo);
+        } else {
+            _verifyAOSetsMatchAOTypes(foInfo, activityOfferingClusterInfo);  // Throws exception if it fails to verify
+        }
         // persist
-        ActivityOfferingClusterEntity activityOfferingClusterEntity = new ActivityOfferingClusterEntity(activityOfferingClusterInfo);
+        ActivityOfferingClusterEntity activityOfferingClusterEntity =
+                new ActivityOfferingClusterEntity(activityOfferingClusterInfo);
         try {
 
             activityOfferingClusterEntity.setEntityCreated(contextInfo);
@@ -1842,6 +1881,24 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         return activityOfferingClusterEntity.toDto();
+    }
+
+    private void _createAOSets(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo) {
+        if (clusterInfo.getActivityOfferingSets() == null) {
+            clusterInfo.setActivityOfferingSets(new ArrayList<ActivityOfferingSetInfo>());
+        }
+        List<ActivityOfferingSetInfo> setInfos = clusterInfo.getActivityOfferingSets();
+        List<String> aoTypeKeys = foInfo.getActivityOfferingTypeKeys();
+        if (aoTypeKeys != null) {
+            for (String aoTypeKey: aoTypeKeys) {
+                // Create an AOSetInfo
+                ActivityOfferingSetInfo setInfo = new ActivityOfferingSetInfo();
+                setInfo.setActivityOfferingType(aoTypeKey);
+                setInfo.setActivityOfferingIds(new ArrayList<String>()); // leave it empty for now
+                // Add it to the list
+                setInfos.add(setInfo);
+            }
+        }
     }
 
     @Override
