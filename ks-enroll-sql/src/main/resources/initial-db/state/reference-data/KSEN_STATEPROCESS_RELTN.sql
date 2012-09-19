@@ -26,19 +26,19 @@ Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDAT
 Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-9',null,0,null,null,null,null,'kuali.hold.state.canceled','kuali.hold.state.released','kuali.hold.process.student')
 /
 
-Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-10',null,0,null,null,null,null,'kuali.lui.state.draft',null,'kuali.course.offering.process')
+Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-10',null,0,null,null,null,null,'kuali.lui.state.draft',null,'kuali.course.offering.lifecycle')
 /
 
-Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-11',null,0,null,null,null,null,'kuali.lui.state.submitted','kuali.lui.state.draft','kuali.course.offering.process')
+Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-11',null,0,null,null,null,null,'kuali.lui.state.submitted','kuali.lui.state.draft','kuali.course.offering.lifecycle')
 /
 
-Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-12',null,0,null,null,null,null,'kuali.lui.state.approved','kuali.lui.state.submitted','kuali.course.offering.process')
+Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-12',null,0,null,null,null,null,'kuali.lui.state.approved','kuali.lui.state.submitted','kuali.course.offering.lifecycle')
 /
 
-Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-13',null,0,null,null,null,null,'kuali.lui.lui.relation.state.active',null,'kuali.lui.lui.relationship.process')
+Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-13',null,0,null,null,null,null,'kuali.lui.lui.relation.state.active',null,'kuali.lui.lui.relationship.lifecycle')
 /
 
-Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-14',null,0,null,null,null,null,'kuali.lui.lui.relation.state.inactive','kuali.lui.lui.relation.state.active','kuali.lui.lui.relationship.process')
+Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-14',null,0,null,null,null,null,'kuali.lui.lui.relation.state.inactive','kuali.lui.lui.relation.state.active','kuali.lui.lui.relationship.lifecycle')
 /
 
 Insert into KSEN_STATEPROCESS_RELTN (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NEXT_STATEKEY,PRIOR_STATEKEY,PROCESS_KEY) values ('PROCESS-15',null,0,null,null,null,null,'kuali.lpr.state.planned',null,'kuali.lpr.process.student.course.registration')

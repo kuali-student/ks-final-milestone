@@ -227,7 +227,7 @@ public final class CourseOfferingServiceDataUtils {
         orig.setTermId(termId);
 
         orig.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0]);
+        orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0]);
 
         orig.setName(formatName);
 
@@ -361,7 +361,7 @@ public final class CourseOfferingServiceDataUtils {
         orig.setTermId(termId);
 
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0]);
+        orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0]);
 
         // FIXME: assign to a constant
         orig.setWaitlistLevelTypeKey("waitlist key");

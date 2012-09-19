@@ -383,7 +383,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
             CourseOfferingInfo co = coService.getCourseOffering("CO-1",
                     callContext);
             assertNotNull(co);
-            assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
+            assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                     co.getStateKey());
             assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                     co.getTypeKey());
@@ -433,7 +433,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
             assertNotNull(co);
             for (CourseOfferingInfo coItem : co) {
-                assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
+                assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                         coItem.getStateKey());
                 assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                         coItem.getTypeKey());
@@ -461,7 +461,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
             assertTrue(co.size() > 0);
 
             for (CourseOfferingInfo coItem : co) {
-                assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
+                assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                         coItem.getStateKey());
                 assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                         coItem.getTypeKey());
@@ -505,7 +505,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         assertNotNull(created);
         assertEquals("CLU-1", created.getCourseId());
         assertEquals("2012FA", created.getTermId());
-        assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
+        assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                 created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                 created.getTypeKey());
@@ -517,7 +517,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         assertNotNull(retrieved);
         assertEquals("CLU-1", retrieved.getCourseId());
         assertEquals("2012FA", retrieved.getTermId());
-        assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
+        assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                 retrieved.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                 retrieved.getTypeKey());
@@ -762,7 +762,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         assertNotNull(created);
         assertEquals("CLU-1", created.getCourseId());
         assertEquals("2012SP", created.getTermId());
-        assertEquals(LuiServiceConstants.COURSE_OFFERING_PROCESS_STATE_KEYS[0],
+        assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                 created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                 created.getTypeKey());

@@ -20,13 +20,13 @@ Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,U
 Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.hold.process.student',null,0,null,null,null,null,'kuali hold process student',null,null,'kuali.hold.process.student')
 /
 
-Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.course.offering.process',null,0,null,null,null,null,'kuali course offering process',null,null,'kuali.course.offering.process')
+Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.course.offering.lifecycle',null,0,null,null,null,null,'kuali course offering process',null,null,'kuali.course.offering.lifecycle')
 /
 
 Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.lui.capacity.process',null,0,null,null,null,null,'kuali lui capacity process',null,null,'kuali.lui.capacity.process')
 /
 
-Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.lui.lui.relationship.process',null,0,null,null,null,null,'kuali lui-lui relationship process',null,null,'kuali.lui.lui.relationship.process')
+Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.lui.lui.relationship.lifecycle',null,0,null,null,null,null,'kuali lui-lui relationship process',null,null,'kuali.lui.lui.relationship.lifecycle')
 /
 
 Insert into KSEN_STATE_PROCESS (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME) values ('kuali.lpr.process.student.course.registration',null,0,null,null,null,null,'kuali.lpr.process.student.course.registration',null,null,'kuali.lpr.process.student.course.registration')

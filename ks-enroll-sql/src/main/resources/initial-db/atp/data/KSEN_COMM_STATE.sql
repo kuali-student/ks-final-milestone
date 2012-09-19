@@ -44,30 +44,30 @@ Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDA
 Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.hold.state.canceled',null,0,null,null,null,null,'The hold was canceled or removed because it was originally put on in error',null,null,'Canceled','kuali.hold.process.student')
 /
 
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.draft',null,0,null,null,null,null,'Proposed for Departmental Planning purposed',null,null,'Draft','kuali.course.offering.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.draft',null,0,null,null,null,null,'Proposed for Departmental Planning purposed',null,null,'Draft','kuali.course.offering.lifecycle')
 /
 
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.submitted',null,0,null,null,null,null,'Submitted to central admin for approval (or scheduling)',null,null,'Submitted','kuali.course.offering.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.submitted',null,0,null,null,null,null,'Submitted to central admin for approval (or scheduling)',null,null,'Submitted','kuali.course.offering.lifecycle')
 /
 
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.approved',null,0,null,null,null,null,'Approved and ready to be scheduled',null,null,'Approved','kuali.course.offering.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.approved',null,0,null,null,null,null,'Approved and ready to be scheduled',null,null,'Approved','kuali.course.offering.lifecycle')
 /
 
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.lui.relation.state.active',null,0,null,null,null,null,'The relationship between the two LUIs is active ',null,null,'Active','kuali.lui.lui.relationship.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.lui.relation.state.active',null,0,null,null,null,null,'The relationship between the two LUIs is active ',null,null,'Active','kuali.lui.lui.relationship.lifecycle')
 /
 
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.lui.relation.state.inactive',null,0,null,null,null,null,'The relationship between the two LUIs is in-active ',null,null,'Inactive','kuali.lui.lui.relationship.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.lui.relation.state.inactive',null,0,null,null,null,null,'The relationship between the two LUIs is in-active ',null,null,'Inactive','kuali.lui.lui.relationship.lifecycle')
 /
 
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.scheduled',null,0,null,null,null,null,'Approved and ready to be scheduled',null,null,'Scheduled','kuali.course.offering.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.scheduled',null,0,null,null,null,null,'Approved and ready to be scheduled',null,null,'Scheduled','kuali.course.offering.lifecycle')
 /
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.deleted',null,0,null,null,null,null,'Logically deleted before ever having been offered',null,null,'Deleted','kuali.course.offering.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.deleted',null,0,null,null,null,null,'Logically deleted before ever having been offered',null,null,'Deleted','kuali.course.offering.lifecycle')
 /
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.offered',null,0,null,null,null,null,'Offered so it shows up in list of classes so student may register for the course ',null,null,'Offered','kuali.course.offering.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.offered',null,0,null,null,null,null,'Offered so it shows up in list of classes so student may register for the course ',null,null,'Offered','kuali.course.offering.lifecycle')
 /
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.suspended',null,0,null,null,null,null,'Suspends registration in the course but allows students who had already registered to stay in the course',null,null,'Suspended','kuali.course.offering.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.suspended',null,0,null,null,null,null,'Suspends registration in the course but allows students who had already registered to stay in the course',null,null,'Suspended','kuali.course.offering.lifecycle')
 /
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.canceled',null,0,null,null,null,null,'Once offered but now canceled',null,null,'Canceled','kuali.course.offering.process')
+Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lui.state.canceled',null,0,null,null,null,null,'Once offered but now canceled',null,null,'Canceled','kuali.course.offering.lifecycle')
 /
 Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.lpr.state.planned',null,0,null,null,null,null,'The student plans on taking this course or program',null,null,'Planned','kuali.lpr.process.student.course.registration')
 /
