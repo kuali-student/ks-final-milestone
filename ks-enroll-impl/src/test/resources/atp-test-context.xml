@@ -108,7 +108,60 @@
 	  	<property name="atpRelDao" ref="atpAtpRelationDao"/>
 	  	<property name="milestoneDao" ref="milestoneDao"/>
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
-    	<property name="atpCriteriaLookupService" ref="atpCriteriaLookupService"/>
+        <property name="atpCriteriaLookupService" >
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="code" value="atpCode"/>
+                                    <entry key="typeKey" value="atpType"/>
+                                    <entry key="stateKey" value="atpState"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="atpAtpRelationCriteriaLookupService" >
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="atpId" value="atp.id"/>
+                                    <entry key="relatedAtpId" value="relatedAtp.id"/>
+                                    <entry key="typeKey" value="atpType"/>
+                                    <entry key="stateKey" value="atpState"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="milestoneCriteriaLookupService" >
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="true">
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                            <property name="renameAttributes">
+                                <map>
+                                    <entry key="typeKey" value="atpType"/>
+                                    <entry key="stateKey" value="atpState"/>
+                                    <entry key="isAllDay" value="allDay"/>
+                                    <entry key="isRelative" value="relative"/>
+                                    <entry key="isDateRange" value="dateRange"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="atpServiceAuthDecorator"

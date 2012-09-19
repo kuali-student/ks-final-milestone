@@ -29,7 +29,70 @@
   	</bean>
   	
   	<bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
-  	
+  	   
+    <bean id="key2IdTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="key" value="id"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="descrTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="descr.plain" value="descrPlain"/>
+                <entry key="descr.formatted" value="descrFormatted"/>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="metaTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+        <property name="renameAttributes">
+            <map>
+                <entry key="meta.createId" value="createId"/>
+                <entry key="meta.createTime" value="createTime"/>
+                <entry key="meta.updateId" value="createId"/>
+                <entry key="meta.updateTime" value="updateTime"/>
+                <entry key="meta.versionInd" value="versionInd"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="keyword2LikeTransform" class="org.kuali.student.r2.common.criteria.transform.Keyword2LikeTransform">
+        <property name="keywordAttribute" value="keywordSearch" />    
+        <property name="likeAttributes">
+            <list>
+                <value>name</value>
+                <value>descr.plain</value>
+                <value>descr.formatted</value>                   
+            </list>
+        </property>
+    </bean>
+      
+<!--    THIS SHOULD BE USED FOR ALL Info objects that extend ID or KeyEntity becuase they have name, descr, meta and attributes-->
+    <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="keyword2LikeTransform"/>
+                <ref bean="descrTransform"/>
+                <ref bean="metaTransform"/> 
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+       
+<!--     THIS SHOULD BE USED FOR ALL RELATIONSHIP OBJECTS-->
+    <bean id="defaultRelationCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="metaTransform"/> 
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+    
+        
   	<bean id="atpTypeTransform" class="org.kuali.student.r2.common.criteria.transform.TypeTransform">
     	<constructor-arg value="atpType"/>
   	</bean>

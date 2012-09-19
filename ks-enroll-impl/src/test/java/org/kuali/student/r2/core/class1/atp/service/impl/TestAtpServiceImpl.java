@@ -543,7 +543,7 @@ public class TestAtpServiceImpl {
             OperationFailedException, PermissionDeniedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"),
-                PredicateFactory.equal("type", "kuali.atp.milestone.RegistrationPeriod"));
+                PredicateFactory.equal("typeKey", "kuali.atp.milestone.RegistrationPeriod"));
         QueryByCriteria qbc = qbcBuilder.build();
         try {
             List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
