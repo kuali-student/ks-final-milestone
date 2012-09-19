@@ -4,16 +4,16 @@
 <dataset>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
-        DESCR_FORMATTED="kuali.activity.offering.process state lifecycle"
-        DESCR_PLAIN="kuali.activity.offering.process state lifecycle"
-        ID="kuali.activity.offering.process"
-        NAME="kuali.activity.offering.process" VER_NBR="1"/>
+        DESCR_FORMATTED="kuali.activity.offering.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.activity.offering.lifecycle state lifecycle"
+        ID="kuali.activity.offering.lifecycle"
+        NAME="kuali.activity.offering.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
-        DESCR_FORMATTED="kuali.activity.offering.scheduling.process state lifecycle"
-        DESCR_PLAIN="kuali.activity.offering.scheduling.process state lifecycle"
-        ID="kuali.activity.offering.scheduling.process"
-        NAME="kuali.activity.offering.scheduling.process" VER_NBR="0"/>
+        DESCR_FORMATTED="kuali.activity.offering.scheduling.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.activity.offering.scheduling.lifecycle state lifecycle"
+        ID="kuali.activity.offering.scheduling.lifecycle"
+        NAME="kuali.activity.offering.scheduling.lifecycle" VER_NBR="0"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
         DESCR_FORMATTED="kuali.appointment.lifecycle state lifecycle"
@@ -48,10 +48,10 @@
         NAME="kuali.atp.process" VER_NBR="0"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
-        DESCR_FORMATTED="kuali.course.offering.process state lifecycle"
-        DESCR_PLAIN="kuali.course.offering.process state lifecycle"
-        ID="kuali.course.offering.process"
-        NAME="kuali.course.offering.process" VER_NBR="1"/>
+        DESCR_FORMATTED="kuali.course.offering.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.course.offering.lifecycle state lifecycle"
+        ID="kuali.course.offering.lifecycle"
+        NAME="kuali.course.offering.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120814000000"
         DESCR_FORMATTED="Registration Group State Lifecycle"
@@ -60,10 +60,10 @@
         NAME="kuali.course.registration.group.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
-        DESCR_FORMATTED="kuali.format.offering.process state lifecycle"
-        DESCR_PLAIN="kuali.format.offering.process state lifecycle"
-        ID="kuali.format.offering.process"
-        NAME="kuali.format.offering.process" VER_NBR="1"/>
+        DESCR_FORMATTED="kuali.format.offering.lifecycle state lifecycle"
+        DESCR_PLAIN="kuali.format.offering.lifecycle state lifecycle"
+        ID="kuali.format.offering.lifecycle"
+        NAME="kuali.format.offering.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120717000000"
         DESCR_FORMATTED="kuali.hold.issue.process state lifecycle"
@@ -120,7 +120,7 @@
         CREATETIME="20120831000000"
         DESCR_FORMATTED="Set of Courses State Lifecycle"
         DESCR_PLAIN="Set of Courses State Lifecycle"
-        ID="kuali.soc.process" NAME="kuali.soc.process" VER_NBR="1"/>
+        ID="kuali.soc.lifecycle" NAME="kuali.soc.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
         DESCR_FORMATTED="kuali.soc.rollover.result.process state lifecycle"

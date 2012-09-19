@@ -103,39 +103,39 @@
     <KSEN_COMM_STATE
         DESCR="The relationship between the two LUIs is active "
         ID="kuali.lui.lui.relation.state.active" NAME="Active"
-        PROCESS_KEY="kuali.lui.lui.relationship.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.lui.lui.relationship.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE
         DESCR="The relationship between the two LUIs is in-active "
         ID="kuali.lui.lui.relation.state.inactive" NAME="Inactive"
-        PROCESS_KEY="kuali.lui.lui.relationship.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.lui.lui.relationship.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE DESCR="Approved and ready to be scheduled"
         ID="kuali.lui.state.approved" NAME="Approved"
-        PROCESS_KEY="kuali.course.offering.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE DESCR="Once offered but now canceled"
         ID="kuali.lui.state.canceled" NAME="Canceled"
-        PROCESS_KEY="kuali.course.offering.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE
         DESCR="Logically deleted before ever having been offered"
         ID="kuali.lui.state.deleted" NAME="Deleted"
-        PROCESS_KEY="kuali.course.offering.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE DESCR="Proposed for Departmental Planning purposed"
         ID="kuali.lui.state.draft" NAME="Draft"
-        PROCESS_KEY="kuali.course.offering.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE
         DESCR="Offered so it shows up in list of classes so student may register for the course "
         ID="kuali.lui.state.offered" NAME="Offered"
-        PROCESS_KEY="kuali.course.offering.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE DESCR="Approved and ready to be scheduled"
         ID="kuali.lui.state.scheduled" NAME="Scheduled"
-        PROCESS_KEY="kuali.course.offering.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE
         DESCR="Submitted to central admin for approval (or scheduling)"
         ID="kuali.lui.state.submitted" NAME="Submitted"
-        PROCESS_KEY="kuali.course.offering.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE
         DESCR="Suspends registration in the course but allows students who had already registered to stay in the course"
         ID="kuali.lui.state.suspended" NAME="Suspended"
-        PROCESS_KEY="kuali.course.offering.process" VER_NBR="0"/>
+        PROCESS_KEY="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_COMM_STATE DESCR="Approved"
         ID="kuali.result.scale.state.approved"
         NAME="The result scale has been approved to be used and awarded" PROCESS_KEY="kuali.result.scale.process"/>
