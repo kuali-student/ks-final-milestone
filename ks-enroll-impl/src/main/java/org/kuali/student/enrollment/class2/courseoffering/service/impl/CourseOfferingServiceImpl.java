@@ -1923,6 +1923,50 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
+    //validate each AO type has at least one AO in an FO. Right now, this validation may not be necessary because each AOC in an FO contains all the possible AO types that the FO has
+    public  List<ValidationResultInfo> validateActivityOfferingForFormatOffering (String formatOfferingId, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
+        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+        FormatOfferingInfo fo = getFormatOffering(formatOfferingId, contextInfo);
+        for (String aoTypeKey : fo.getActivityOfferingTypeKeys()) {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("aoTypeKey", aoTypeKey);
+            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+            List<ActivityOfferingInfo> activityOfferingInfos = searchForActivityOfferings(qbc, contextInfo);
+
+            if (activityOfferingInfos == null || activityOfferingInfos.isEmpty()) {
+                validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                validationResultInfos.add(validationResultInfo);
+                return validationResultInfos;
+            }
+        }
+
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfos.add(validationResultInfo);
+        return validationResultInfos;
+
+    }
+
+    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
+        String aoTypeKey = fieldValues.get("aoTypeKey");
+
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (StringUtils.isNotBlank(aoTypeKey)) {
+            predicates.add(PredicateFactory.equal("typeKey", aoTypeKey));
+
+        }
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria qbc = qbcBuilder.build();
+
+        return qbc;
+    }
+
     @Override
     public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String formatOfferingId,
                                                                       ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
@@ -1931,7 +1975,47 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             MissingParameterException,
             OperationFailedException {
 
-        throw new UnsupportedOperationException();
+        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+
+        try {
+            ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterInfo.getId(), contextInfo);
+            List<ActivityOfferingSetInfo> aoSetInfos = aoCInfo.getActivityOfferingSets();
+
+            Integer aoSetMaxEnrollNumber = 0;
+            Map<String, Integer> aoSetMaxEnrollNumberMap = new HashMap<String, Integer>(aoSetInfos.size());
+
+            for (ActivityOfferingSetInfo aoSetInfo : aoSetInfos ){
+                for (String aoId : aoSetInfo.getActivityOfferingIds()) {
+                    ActivityOfferingInfo aoInfo = getActivityOffering(aoId, contextInfo);
+                    aoSetMaxEnrollNumber += aoInfo.getMaximumEnrollment();
+                }
+
+                if (!aoSetMaxEnrollNumberMap.isEmpty()) {
+                    for (Integer tempAoSetMaxEnrollNumber : aoSetMaxEnrollNumberMap.values()) {
+                        if (aoSetMaxEnrollNumber.compareTo(tempAoSetMaxEnrollNumber) != 0) {
+                            //validationResultInfo.setError("");
+                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                            validationResultInfos.add(validationResultInfo);
+
+                            return validationResultInfos;
+
+                        }
+                    }
+                }
+
+                aoSetMaxEnrollNumberMap.put(aoSetInfo.getId(), aoSetMaxEnrollNumber);
+                aoSetMaxEnrollNumber = 0;
+            }
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfos.add(validationResultInfo);
+        return validationResultInfos;
+
+
     }
 
     @Override
