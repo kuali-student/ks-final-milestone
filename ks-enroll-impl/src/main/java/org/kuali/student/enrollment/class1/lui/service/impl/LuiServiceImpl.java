@@ -16,41 +16,23 @@
 
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.*;
-
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
-import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.enrollment.lui.service.LuiService;
-
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class LuiServiceImpl 
@@ -149,15 +131,7 @@ public class LuiServiceImpl
                                               ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-
-        List<LuiEntity> luis = luiDao.getLuisByAtpAndType(atpId, typeKey);
-        List<String> luiIds = new ArrayList<String>();
-
-        for (LuiEntity lui : luis) {
-            luiIds.add(lui.getId());
-        }
-
-        return luiIds;
+        return luiDao.getLuisIdsByAtpAndType(atpId,typeKey);
     }
 
     @Override

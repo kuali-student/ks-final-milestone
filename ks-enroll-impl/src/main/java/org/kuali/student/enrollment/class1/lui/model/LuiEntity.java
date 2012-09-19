@@ -38,6 +38,7 @@ import java.util.Set;
     @NamedQuery(name="Lui.getLuisByType", query="Select lui from LuiEntity lui where lui.luiType =:typeId"),
     @NamedQuery(name="Lui.getLuisByClu", query="Select lui from LuiEntity lui where lui.cluId=:cluId"),
     @NamedQuery(name="Lui.getLuisByAtpAndType", query="Select lui from LuiEntity lui where lui.atpId=:atpId and lui.luiType = :typeKey"),
+    @NamedQuery(name="Lui.getLuiIdsByAtpAndType", query="Select id from LuiEntity lui where lui.atpId=:atpId and lui.luiType = :typeKey"),
     @NamedQuery(name="Lui.getLuisByAtpAndClu", query="Select lui from LuiEntity lui where lui.atpId=:atpId and lui.cluId = :cluId")
 })
 public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttributeEntity> {
