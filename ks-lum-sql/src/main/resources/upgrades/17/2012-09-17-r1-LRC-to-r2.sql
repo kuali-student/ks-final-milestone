@@ -11,7 +11,16 @@ WHERE type_key NOT IN (SELECT TYPE_KEY FROM KSEN_TYPE)
 
 -- KSLR_RESCOMP to KSEN_LRC_RVG
 INSERT INTO KSEN_LRC_RVG
-SELECT RC.ID, RC.OBJ_ID, NVL(RC.TYPE,'type.null'), NVL(RC.STATE, 'state.null'), RC.NAME, NVL(RT.PLAIN,''), NVL(RT.FORMATTED,''), 
+SELECT RC.ID, RC.OBJ_ID,
+(CASE
+WHEN RC.TYPE LIKE 'kuali.resultComponentType.degree' THEN 'kuali.result.values.group.type.fixed'
+WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.range' THEN 'kuali.resultComponentType.credit.degree.range'
+WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.fixed' THEN 'kuali.resultComponentType.credit.degree.fixed'
+WHEN RC.TYPE LIKE 'kuali.resultComponentType.grade.finalGrade' THEN 'kuali.resultComponentType.grade.finalGrade'
+WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.multiple' THEN 'kuali.resultComponentType.credit.degree.multiple'
+END),
+NVL(RC.STATE, 'state.null'),
+RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''),
        (CASE
           -- WARNING: Case statement should be modified if source data makes use of additional scales
 		      -- WARNING: Do we keep our old type names (eg. type name called resultComponent when concept no longer exists)
@@ -28,11 +37,11 @@ SELECT RC.ID, RC.OBJ_ID, NVL(RC.TYPE,'type.null'), NVL(RC.STATE, 'state.null'), 
           WHEN RC.ID LIKE 'kuali.resultComponent.grade.satisfactory' THEN 'kuali.result.scale.grade.pnp'
 
         END),
-       MIN_CREDIT_VALUE, MAX_CREDIT_VALUE, CREDIT_INCREMENT, NVL(RC.EFF_DT,to_date('0001/01/01','YYYY/MM/DD')), RC.EXPIR_DT, RC.VER_NBR, NVL(RC.CREATETIME,to_date('2012/09/17','YYYY/MM/DD')) 
+       MIN_CREDIT_VALUE, MAX_CREDIT_VALUE, CREDIT_INCREMENT, NVL(RC.EFF_DT,to_date('0001/01/01','YYYY/MM/DD')), RC.EXPIR_DT, RC.VER_NBR, NVL(RC.CREATETIME,to_date('2012/09/17','YYYY/MM/DD'))
        , NVL(RC.CREATEID, 'CMLRCUPGRADE'), to_date('2012/09/17','YYYY/MM/DD'), 'CMLRCUPGRADE'
-FROM 
+FROM
         KSLR_RESCOMP RC
-        
+
         -- Get result component min/max credits and credit increment
 		    -- WARNING: Are these all the result components that need to be converted
         LEFT JOIN (SELECT
@@ -51,10 +60,10 @@ FROM
         GROUP BY owner
         ) RC_CREDITS
         ON RC.ID=RC_CREDITS.RESCOMP_ID
-        
+
         -- Get result component's description
         LEFT JOIN KSLR_RICH_TEXT_T RT
-        ON RC.ID = RT.ID
+        ON RC.RT_DESCR_ID = RT.ID
         where RC.ID not in (SELECT ID FROM KSEN_LRC_RVG)
 /
 
