@@ -1494,7 +1494,7 @@ public class CluServiceImpl implements CluService {
             }
             // Do Copy
             BeanUtils.copyProperties(accreditationInfo, cluAccreditation,
-                    new String[]{"attributes"});
+                    new String[]{"attributes", "meta"});
             cluAccreditation.setAttributes(CluServiceAssembler.toGenericAttributes(CluAccreditationAttribute.class,
                     accreditationInfo.getAttributes(),
                     cluAccreditation, luDao));
