@@ -20,8 +20,8 @@ import java.util.List;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -34,9 +34,9 @@ public interface LoCategoryRpcServiceAsync extends BaseDataOrchestrationRpcServi
 
     public void deleteLoCategory(String loCategoryId, AsyncCallback<StatusInfo> callback);
 
-    public void getLoCategoryTypes(AsyncCallback<List<LoCategoryTypeInfo>> callback);
+    public void getLoCategoryTypes(AsyncCallback<List<TypeInfo>> callback);
 
-    public void getLoCategoryType(String loCategoryTypeKey, AsyncCallback<LoCategoryTypeInfo> callback);
+    public void getLoCategoryType(String loCategoryTypeKey, AsyncCallback<TypeInfo> callback);
 
     public void getLoCategories(String loRepositoryKey, AsyncCallback<List<LoCategoryInfo>> callback);
 

@@ -92,16 +92,6 @@ import org.springframework.beans.BeanUtils;
 
 public class CluServiceAssembler extends BaseAssembler {
 
-    public static List<TypeInfo> toCluLoRelationTypeInfos(
-            List<CluLoRelationType> entities) {
-        return toGenericTypeInfoList(CluLoRelationInfo.class, entities);
-    }
-
-    public static TypeInfo toCluLoRelationTypeInfo(
-            CluLoRelationType entity) {
-        return toGenericTypeInfo(CluLoRelationInfo.class, entity);
-    }
-
     public static List<CluCluRelationInfo> toCluCluRelationInfos(
             List<CluCluRelation> entities) {
         List<CluCluRelationInfo> dtos = new ArrayList<CluCluRelationInfo>(
@@ -128,7 +118,7 @@ public class CluServiceAssembler extends BaseAssembler {
         dto.setCluId(entity.getClu().getId());
         dto.setRelatedCluId(entity.getRelatedClu().getId());
         dto.setTypeKey(entity.getLuLuRelationType().getId());
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
@@ -157,7 +147,7 @@ public class CluServiceAssembler extends BaseAssembler {
                 "attributes", "meta", "type"});
 
         dto.setCluId(entity.getClu().getId());
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setTypeKey(entity.getType().getId());
 
@@ -219,7 +209,7 @@ public class CluServiceAssembler extends BaseAssembler {
         dto.setFeeInfo(toCluFeeInfo(entity.getFee()));
         dto.setAccountingInfo(toCluAccountingInfo(entity.getAccounting()));
 
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         dto.setTypeKey(entity.getLuType().getId());
@@ -308,7 +298,7 @@ public class CluServiceAssembler extends BaseAssembler {
         }
         dto.setCluIds(cluIds);
 
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         MembershipQueryInfo mqInfo = toMembershipQueryInfo(entity.getMembershipQuery());
@@ -379,64 +369,6 @@ public class CluServiceAssembler extends BaseAssembler {
         return entity;
     }
 
-    public static List<TypeInfo> toResultUsageTypeInfos(
-            List<ResultUsageType> entities) {
-        return toGenericTypeInfoList(TypeInfo.class, entities);
-    }
-
-    public static TypeInfo toResultUsageTypeInfo(
-            ResultUsageType entity) {
-        return toGenericTypeInfo(TypeInfo.class, entity);
-    }
-
-    public static List<TypeInfo> toDeliveryMethodTypeInfos(
-            List<DeliveryMethodType> entities) {
-        return toGenericTypeInfoList(TypeInfo.class, entities);
-    }
-
-    public static TypeInfo toDeliveryMethodTypeInfo(
-            DeliveryMethodType entity) {
-        return toGenericTypeInfo(TypeInfo.class, entity);
-    }
-
-    public static List<TypeInfo> toInstructionalFormatTypeInfos(
-            List<InstructionalFormatType> entities) {
-        return toGenericTypeInfoList(TypeInfo.class,
-                entities);
-    }
-
-    public static TypeInfo toInstructionalFormatTypeInfo(
-            InstructionalFormatType entity) {
-        return toGenericTypeInfo(TypeInfo.class, entity);
-    }
-
-    public static List<TypeInfo> toLuCodeTypeInfos(
-            List<LuCodeType> entities) {
-        return toGenericTypeInfoList(TypeInfo.class, entities);
-    }
-
-    public static TypeInfo toLuCodeTypeInfo(LuCodeType entity) {
-        return toGenericTypeInfo(TypeInfo.class, entity);
-    }
-
-    public static List<TypeInfo> toCluResultTypeInfos(
-            List<CluResultType> entities) {
-        return toGenericTypeInfoList(TypeInfo.class, entities);
-    }
-
-    public static TypeInfo toCluResultTypeInfo(CluResultType entity) {
-        return toGenericTypeInfo(TypeInfo.class, entity);
-    }
-
-    public static TypeInfo toCluSetTypeInfo(CluSetType entity) {
-        return toGenericTypeInfo(TypeInfo.class, entity);
-    }
-
-    public static List<TypeInfo> toCluSetTypeInfos(
-            List<CluSetType> entities) {
-        return toGenericTypeInfoList(TypeInfo.class, entities);
-    }
-
     public static CluResultInfo toCluResultInfo(CluResult entity) {
         if (entity == null) {
             return null;
@@ -450,7 +382,7 @@ public class CluServiceAssembler extends BaseAssembler {
         dto.setResultOptions(resultOptions);
         dto.setDescr(toRichTextInfo(entity.getDesc()));
         dto.setCluId(entity.getClu().getId());
-        TypeInfo type = toCluResultTypeInfo(entity.getCluResultType());
+        TypeInfo type = toGenericTypeInfo(entity.getCluResultType());
         if (type != null) {
             dto.setTypeKey(type.getKey());
         }
@@ -518,127 +450,10 @@ public class CluServiceAssembler extends BaseAssembler {
         TypeInfo dto = new TypeInfo();
 
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
 
         return dto;
     }
-
-    public static List<TypeInfo> toLuTypeInfos(List<LuType> entities) {
-        return toGenericTypeInfoList(TypeInfo.class, entities);
-    }
-
-    public static TypeInfo toLuTypeInfo(LuType entity) {
-        TypeInfo typeInfo = toGenericTypeInfo(TypeInfo.class, entity);
-//		typeInfo.setDeliveryMethod(entity.getDeliveryMethod());
-//		typeInfo.setInstructionalFormat(entity.getInstructionalFormat());
-
-        return typeInfo;
-    }
-
-// TODO: CM2.0 MERGE :: removed lui methods (this is LU)
-//    public static List<LuiInfo> toLuiInfos(List<Lui> entities) {
-//        List<LuiInfo> dtos = new ArrayList<LuiInfo>(entities.size());
-//        if (entities != null) {
-//            for (Lui entity : entities) {
-//                dtos.add(toLuiInfo(entity));
-//            }
-//        }
-//        return dtos;
-//
-//    }
-//
-//    public static LuiInfo toLuiInfo(Lui entity) {
-//        if (entity == null) {
-//            return null;
-//        }
-//        LuiInfo luiInfo = new LuiInfo();
-//
-//        BeanUtils.copyProperties(entity, luiInfo, new String[]{"clu",
-//                    "meta", "attributes"});
-//
-//        luiInfo.setCluId(entity.getClu().getId());
-//
-//        luiInfo.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-//
-//        luiInfo.setAttributes(toAttributeMap(entity.getAttributes()));
-//
-//        return luiInfo;
-//    }
-//
-//    public static Lui toLui(boolean isUpdate, LuiInfo luiInfo, LuDao dao)
-//            throws DoesNotExistException, VersionMismatchException,
-//            InvalidParameterException {
-//        if (luiInfo == null) {
-//            return null;
-//        }
-//        Lui lui;
-//
-//        if (isUpdate) {
-//            try {
-//                lui = dao.fetch(Lui.class, luiInfo.getId());
-//            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
-//                throw new DoesNotExistException (luiInfo.getId());
-//            }
-//            if (null == lui) {
-//                throw new DoesNotExistException((new StringBuilder()).append(
-//                        "Lui does not exist for id: ").append(luiInfo.getId()).toString());
-//            }
-//            if (!String.valueOf(lui.getVersionNumber()).equals(
-//                    luiInfo.getMeta().getVersionInd())) {
-//                throw new VersionMismatchException(
-//                        "Lui to be updated is not the current version");
-//            }
-//        } else {
-//            lui = new Lui();
-//        }
-//
-//        BeanUtils.copyProperties(luiInfo, lui, new String[]{"cluId",
-//                    "attributes", "meta"});
-//
-//        lui.setAttributes(toGenericAttributes(LuiAttribute.class, luiInfo.getAttributes(), lui, dao));
-//
-//        Clu clu;
-//        try {
-//            clu = dao.fetch(Clu.class, luiInfo.getCluId());
-//        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
-//            throw new DoesNotExistException (luiInfo.getCluId());
-//        }
-//        if (null == clu) {
-//            throw new InvalidParameterException((new StringBuilder()).append(
-//                    "Clu does not exist for id: ").append(luiInfo.getCluId()).toString());
-//        }
-//        lui.setClu(clu);
-//        return lui;
-//    }
-//
-//    public static List<LuiLuiRelationInfo> toLuiLuiRelationInfos(
-//            List<LuiLuiRelation> entities) {
-//        List<LuiLuiRelationInfo> dtos = new ArrayList<LuiLuiRelationInfo>(
-//                entities.size());
-//        if (entities != null) {
-//            for (LuiLuiRelation entity : entities) {
-//                dtos.add(toLuiLuiRelationInfo(entity));
-//            }
-//        }
-//        return dtos;
-//    }
-//
-//    public static LuiLuiRelationInfo toLuiLuiRelationInfo(LuiLuiRelation entity) {
-//        if (entity == null) {
-//            return null;
-//        }
-//        LuiLuiRelationInfo dto = new LuiLuiRelationInfo();
-//
-//        BeanUtils.copyProperties(entity, dto, new String[]{"lui",
-//                    "relatedLui", "attributes"});
-//
-//        dto.setLuiId(entity.getLui().getId());
-//        dto.setRelatedLuiId(entity.getRelatedLui().getId());
-//        dto.setTypeKey(entity.getLuLuRelationType().getId());
-//        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-//        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-//        return dto;
-//    }
 
     public static List<CluIdentifierInfo> toCluIdentifierInfos(
             List<CluIdentifier> entities) {
@@ -661,7 +476,7 @@ public class CluServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[]{"attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         return dto;
     }
 
@@ -685,7 +500,7 @@ public class CluServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[]{"id", "attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
 
         return dto;
     }
@@ -734,7 +549,7 @@ public class CluServiceAssembler extends BaseAssembler {
         RichTextInfo desc = new RichTextInfo();
         desc.setPlain(entity.getDescr());
         dto.setDescr(desc);
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
@@ -779,7 +594,7 @@ public class CluServiceAssembler extends BaseAssembler {
 
         dto.setCluFeeRecords(toCluFeeRecordInfos(entity.getCluFeeRecords()));
         dto.setId(entity.getId());
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         dto.setDescr(toRichTextInfo(entity.getDescr()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
@@ -810,7 +625,7 @@ public class CluServiceAssembler extends BaseAssembler {
         dto.setAffiliatedOrgs(toAffiliatedOrgInfos(entity.getAffiliatedOrgs()));
         dto.setFeeAmounts(toFeeAmounts(entity.getFeeAmounts()));
         dto.setDescr(toRichTextInfo(entity.getDescr()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
@@ -863,7 +678,7 @@ public class CluServiceAssembler extends BaseAssembler {
         CluAccountingInfo dto = new CluAccountingInfo();
         dto.setId(entity.getId());
         dto.setAffiliatedOrgs(toAffiliatedOrgInfos(entity.getAffiliatedOrgs()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         return dto;
     }
 
@@ -962,7 +777,7 @@ public class CluServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes", "meta"});
 
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
         return dto;
@@ -986,19 +801,9 @@ public class CluServiceAssembler extends BaseAssembler {
         }
         AdminOrgInfo dto = new AdminOrgInfo();
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
 
         return dto;
-    }
-
-    public static List<TypeInfo> toLuPublicationTypeInfos(
-            List<LuPublicationType> entities) {
-        return toGenericTypeInfoList(TypeInfo.class, entities);
-    }
-
-    public static TypeInfo toLuPublicationTypeInfo(
-            LuPublicationType entity) {
-        return toGenericTypeInfo(TypeInfo.class, entity);
     }
 
     public static CluFee toCluFee(Clu clu, boolean isUpdate, CluFeeInfo feeInfo,
@@ -1278,7 +1083,7 @@ public class CluServiceAssembler extends BaseAssembler {
         cluPubInfo.setStateKey(cluPub.getState());
         cluPubInfo.setTypeKey(cluPub.getType().getId());
         cluPubInfo.setMeta(toMetaInfo(cluPub.getMeta(), cluPub.getVersionNumber()));
-        cluPubInfo.setAttributes(CluServiceAssembler.toAttributeMap(cluPub.getAttributes()));
+        cluPubInfo.setAttributes(CluServiceAssembler.toAttributeList(cluPub.getAttributes()));
         cluPubInfo.setVariants(CluServiceAssembler.toCluPublicationVariantInfos(cluPub.getVariants()));
 
         return cluPubInfo;

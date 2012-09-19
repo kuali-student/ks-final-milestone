@@ -273,8 +273,8 @@
     </bean>
 
     <!--  Organization Service Config -->
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
-        <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
+        <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
     </bean>
 
     <bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
@@ -305,14 +305,14 @@
     </bean>
 
     <!-- Learning Result service config -->
-    <bean id="lrcEntityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no" >
+    <bean id="lrcEntityManagerFactory" parent="defaultEntityManagerFactory">
         <property name="persistenceUnitName" value="Lrc"/>
         <property name="persistenceXmlLocation"
             value="classpath:META-INF/lrc-persistence.xml" />
         <property name="dataSource" ref="lumDataSource" />
     </bean>
 
-    <bean id="lrcEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
+    <bean id="lrcEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
         <property name="entityManagerFactory" ref="lrcEntityManagerFactory" />
     </bean>
 
@@ -345,6 +345,29 @@
         <property name="resultValueDao" ref="resultValueDao" />
         <property name="resultScaleDao" ref="resultScaleDao" />
         <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
+    </bean>
+
+    <!-- Type Service Impl config -->
+    <bean id="typeEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Type"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/type-persistence.xml"/>
+        <property name="dataSource" ref="lumDataSource"/>
+    </bean>
+
+    <bean id="typeEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="typeEntityManagerFactory"/>
+    </bean>
+
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao">
+        <property name="em" ref="typeEntityManager"/>
+    </bean>
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
+        <property name="em" ref="typeEntityManager"/>
+    </bean>
+
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>
 
 </beans>

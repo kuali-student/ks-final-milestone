@@ -36,7 +36,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			String loId = lo.getId();
 			try {
 				List<LoCategoryInfo> loCategories = null;
-                loService.getLoCategoriesForLo(loId, contextInfo);
+                loService.getLoCategoriesByLo(loId, contextInfo);
 				loDisplay.setLoCategoryInfoList(loCategories);
 			} catch (DoesNotExistException e) {
 			} catch (Exception e) {
@@ -124,7 +124,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		//Get current relations
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<LoCategoryInfo> categories = loService.getLoCategoriesForLo(loDisplay.getLoInfo().getId(), contextInfo);
+				List<LoCategoryInfo> categories = loService.getLoCategoriesByLo(loDisplay.getLoInfo().getId(), contextInfo);
 				for (LoCategoryInfo category : categories) {
 					currentCategoryIds.add(category.getId());
 				}

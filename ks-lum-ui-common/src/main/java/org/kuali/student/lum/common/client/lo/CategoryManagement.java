@@ -44,6 +44,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 
@@ -78,7 +79,7 @@ public class CategoryManagement extends Composite {
     FlowPanel tablePanel = new FlowPanel();
     HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
     
-    List<LoCategoryTypeInfo> categoryTypeList;
+    List<TypeInfo> categoryTypeList;
     private void initCategoryManagement() {
         super.initWidget(layout);
         layout.add(mainPanel);
@@ -184,14 +185,14 @@ public class CategoryManagement extends Composite {
         
         tablePanel.add(categoryManagementTable);
          
-        loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
+        loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<TypeInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 GWT.log("getLoCategoryTypes failed", caught);
                 Window.alert("Get LoCategory Types failed");
             }
             @Override
-            public void onSuccess(List<LoCategoryTypeInfo> results) {
+            public void onSuccess(List<TypeInfo> results) {
                 categoryTypeList = results;
                 categoryManagementTable.loadTable(new Callback<Boolean>(){
 					@Override
@@ -437,8 +438,8 @@ public class CategoryManagement extends Composite {
             categoryInfo = cate;
             categoryNameLabel.setText(categoryInfo.getName());
             if (categoryTypeList != null) {
-                for (LoCategoryTypeInfo catTypeInfo : categoryTypeList) {
-                    if (catTypeInfo.getId() != null && catTypeInfo.getId().equals(categoryInfo.getTypeKey())) {
+                for (TypeInfo catTypeInfo : categoryTypeList) {
+                    if (catTypeInfo.getKey() != null && catTypeInfo.getKey().equals(categoryInfo.getTypeKey())) {
                         categoryTypeLabel.setText(catTypeInfo.getName());
                         break;
                     }
@@ -531,11 +532,11 @@ public class CategoryManagement extends Composite {
             super.setWidget(mainPanel);
         }
 
-        public void setCategoryType(List<LoCategoryTypeInfo> categoryTypeList) {
+        public void setCategoryType(List<TypeInfo> categoryTypeList) {
             typeListBox.clear();
             SimpleListItems categoryTypes = new SimpleListItems();
-            for (LoCategoryTypeInfo type : categoryTypeList) {
-                categoryTypes.addItem(type.getId(), type.getDesc());
+            for (TypeInfo type : categoryTypeList) {
+                categoryTypes.addItem(type.getKey(), type.getDescr().getPlain());
             }
             typeListBox.setListItems(categoryTypes);
         }
@@ -634,11 +635,11 @@ public class CategoryManagement extends Composite {
             });
         }
 
-        public void setCategoryType(List<LoCategoryTypeInfo> categoryTypeList) {
+        public void setCategoryType(List<TypeInfo> categoryTypeList) {
             typeListBox.clear();
             SimpleListItems categoryTypes = new SimpleListItems();
-            for (LoCategoryTypeInfo type : categoryTypeList) {
-                categoryTypes.addItem(type.getId(), type.getDesc());
+            for (TypeInfo type : categoryTypeList) {
+                categoryTypes.addItem(type.getKey(), type.getDescr().getPlain());
             }
             typeListBox.setListItems(categoryTypes);
         }

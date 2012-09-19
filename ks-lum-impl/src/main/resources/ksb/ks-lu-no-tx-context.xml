@@ -545,9 +545,15 @@
         <property name="typeSearches">
             <list>
                 <!--  Configure type searches. -->
-                <bean class="org.kuali.student.r2.lum.service.search.ResultComponentTypeSearch"/>
-                <bean class="org.kuali.student.r2.lum.service.search.AtpSeasonTypeSearch"/>
-                <bean class="org.kuali.student.r2.lum.service.search.AtpDurationTypeSearch"/>
+                <bean class="org.kuali.student.r2.lum.service.search.ResultComponentTypeSearch">
+                    <property name="typeService" ref="typeClient"/>
+                </bean>
+                <bean class="org.kuali.student.r2.lum.service.search.AtpSeasonTypeSearch">
+                    <property name="typeService" ref="typeClient"/>
+                </bean>
+                <bean class="org.kuali.student.r2.lum.service.search.AtpDurationTypeSearch">
+                    <property name="typeService" ref="typeClient"/>
+                </bean>
             </list>
         </property>
     </bean>

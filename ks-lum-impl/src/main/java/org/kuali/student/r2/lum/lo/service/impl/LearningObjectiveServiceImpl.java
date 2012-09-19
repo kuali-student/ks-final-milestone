@@ -25,6 +25,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dao.LoDao;
 import org.kuali.student.r2.lum.lo.entity.Lo;
 import org.kuali.student.r2.lum.lo.entity.LoCategory;
@@ -171,66 +172,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
     /*
-      * (non-Javadoc)
-      * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoTypes()
-      */
-	@Override
-    @Transactional(readOnly=true)
-	public List<LoTypeInfo> getLoTypes(ContextInfo contextInfo) throws OperationFailedException {
-		List<LoType> find = loDao.find(LoType.class);
-		return LearningObjectiveServiceAssembler.toLoTypeInfos(find);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoType(java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public LoTypeInfo getLoType(String loTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    checkForMissingParameter(loTypeKey, "loTypeKey");
-	    LoType fetch = loDao.fetch(LoType.class, loTypeKey);
-		return LearningObjectiveServiceAssembler.toLoTypeInfo(fetch);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoLoRelationTypes()
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public List<LoLoRelationTypeInfo> getLoLoRelationTypes(ContextInfo contextInfo)
-			throws OperationFailedException {
-	    List<LoLoRelationType> fetch = loDao.find(LoLoRelationType.class);
-		return LearningObjectiveServiceAssembler.toLoLoRelationTypeInfos(fetch);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoLoRelationType(java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public LoLoRelationTypeInfo getLoLoRelationType(String loLoRelationTypeKey,ContextInfo contextInfo)
-			throws OperationFailedException, MissingParameterException, DoesNotExistException {
-	    checkForMissingParameter(loLoRelationTypeKey, "loLoRelationTypeKey");
-		return LearningObjectiveServiceAssembler.toLoLoRelationTypeInfo(loDao.fetch(LoLoRelationType.class, loLoRelationTypeKey));
-	}
-
-	@Override
-    @Transactional(readOnly=true)
-	public List<String> getAllowedLoLoRelationTypesForLoType(String loTypeKey, String relatedLoTypeKey,ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-					MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(loTypeKey, "loTypeKey");
-	    checkForMissingParameter(relatedLoTypeKey, "relatedLoTypeKey");
-	    
-	    return loDao.getAllowedLoLoRelationTypesForLoType(loTypeKey, relatedLoTypeKey);
-	}
-
-    /*
 	 * (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#addLoCategoryToLo(java.lang.String, java.lang.String)
 	 */
@@ -365,10 +306,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		
 	}
 
-	// TODO replaced implementation to old method
-    @Override
+	@Override
     public List<LoInfo> getLosByIds(@WebParam(name = "loIds") List<String> loIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getLoByIdList(loIds, contextInfo);
+        checkForMissingParameter(loIds, "loId");
+        checkForEmptyList(loIds, "loId");
+        List<Lo> los = loDao.getLoByIdList(loIds);
+        return LearningObjectiveServiceAssembler.toLoInfos(los);
     }
 
     @Override
@@ -376,51 +319,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    // TODO replaced implementation to old method
     @Override
     public List<LoInfo> getLosByLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "loStateKey") String loStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getLosByRepository(loRepositoryKey, loTypeKey, loStateKey);
+        checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
+        List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
+        return LearningObjectiveServiceAssembler.toLoInfos(los);
     }
-
-    /* (non-Javadoc)
-      * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoByIdList(java.util.List)
-      */
-	@Override
-    @Transactional(readOnly=true)
-	public List<LoInfo> getLoByIdList(List<String> loIds,ContextInfo contextInfo)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    checkForMissingParameter(loIds, "loId");
-	    checkForEmptyList(loIds, "loId");
-	    List<Lo> los = loDao.getLoByIdList(loIds);
-	    return LearningObjectiveServiceAssembler.toLoInfos(los);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoCategories(java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public List<LoCategoryInfo> getLoCategories(String loRepositoryKey,ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
-	    List<LoCategory> categories = loDao.getLoCategories(loRepositoryKey);
-	    return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoCategoriesForLo(java.lang.String)
-	 */
-	@Override
-    @Transactional(readOnly=true)
-	public List<LoCategoryInfo> getLoCategoriesForLo(String loId,ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(loId, "loId");
-	    List<LoCategory> categories = loDao.getLoCategoriesForLo(loId);
-		return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
-	}
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoCategory(java.lang.String)
@@ -446,10 +350,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    // TODO replaced implementation to old method
     @Override
     public List<LoCategoryInfo> getLoCategoriesByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return this.getLoCategoriesForLo(loId, contextInfo);
+        checkForMissingParameter(loId, "loId");
+        List<LoCategory> categories = loDao.getLoCategoriesForLo(loId);
+        return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
     }
 
     @Override
@@ -1107,34 +1012,23 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		return LearningObjectiveServiceAssembler.toLoCategoryInfo(category);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey,ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    checkForMissingParameter(loCategoryTypeKey, "loCategoryTypeKey");
-	    LoCategoryType loCatType = loDao.fetch(LoCategoryType.class, loCategoryTypeKey);
-	    return LearningObjectiveServiceAssembler.toLoCategoryTypeInfo(loCatType);
-	}
+    public TypeInfo getLoCategoryType(String loCategoryTypeKey,ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        checkForMissingParameter(loCategoryTypeKey, "loCategoryTypeKey");
+        LoCategoryType loCatType = loDao.fetch(LoCategoryType.class, loCategoryTypeKey);
+        return LearningObjectiveServiceAssembler.toGenericTypeInfo(loCatType);
+    }
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<LoCategoryTypeInfo> getLoCategoryTypes()
-			throws OperationFailedException {
-		List<LoCategoryType> categoryTypes = loDao.find(LoCategoryType.class);
-		return LearningObjectiveServiceAssembler.toLoCategoryTypeInfos(categoryTypes);
-	}
-
-	@Override
-    @Transactional(readOnly=true)
-	public List<LoInfo> getLosByRepository(String loRepositoryKey,
-			String loTypeKey, String loStateKey)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
-	    List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
-	    return LearningObjectiveServiceAssembler.toLoInfos(los);
-	}
+    public List<TypeInfo> getLoCategoryTypes()
+            throws OperationFailedException {
+        List<LoCategoryType> categoryTypes = loDao.find(LoCategoryType.class);
+        return LearningObjectiveServiceAssembler.toGenericTypeInfoList(categoryTypes);
+    }
 
 	@Override
 	public List<LoCategoryInfo> getLoCategoriesByLoRepository(

@@ -60,6 +60,7 @@ import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 
@@ -103,7 +104,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private AbbrButton help = new AbbrButton(AbbrButtonType.HELP);
 
     LOCategoryListNew categoryList;
-    Map<String, LoCategoryTypeInfo> categoryTypeMap;
+    Map<String, TypeInfo> categoryTypeMap;
 
     VerticalPanel root = new VerticalPanel();
 
@@ -286,7 +287,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         createCategoryWindow.setNonCaptionHeader(sectionTitle);
         main.add(layoutTable);
 
-        loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
+        loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<TypeInfo>>() {
 
             @Override
             public void handleFailure(Throwable caught) {
@@ -294,7 +295,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             }
 
             @Override
-            public void onSuccess(List<LoCategoryTypeInfo> result) {
+            public void onSuccess(List<TypeInfo> result) {
                 final LOCategoryTypeInfoList list = new LOCategoryTypeInfoList(result);
                 typesDropDown.setListItems(list);
                 if (categoryTypeMap == null) {
@@ -359,13 +360,13 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         });
     }
 
-    private void loadCategoryTypes(List<LoCategoryTypeInfo> categoryTypes) {
+    private void loadCategoryTypes(List<TypeInfo> categoryTypes) {
         if (categoryTypeMap == null) {
-            categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
+            categoryTypeMap = new HashMap<String, TypeInfo>();
         }
         if (categoryTypes != null) {
-            for (LoCategoryTypeInfo i : categoryTypes) {
-                categoryTypeMap.put(i.getId(), i);
+            for (TypeInfo i : categoryTypes) {
+                categoryTypeMap.put(i.getKey(), i);
             }
         }
     }
@@ -394,7 +395,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     }
     private void addCategory(final LoCategoryInfo category) {
         if (categoryTypeMap == null) {
-            categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
+            categoryTypeMap = new HashMap<String, TypeInfo>();
         }
 
         if (categoryTypeMap.containsKey(category.getTypeKey())) {
@@ -404,7 +405,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             }
             picker.reset();
         } else {
-            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), new KSAsyncCallback<LoCategoryTypeInfo>() {
+            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), new KSAsyncCallback<TypeInfo>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -412,8 +413,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 }
 
                 @Override
-                public void onSuccess(LoCategoryTypeInfo result) {
-                    categoryTypeMap.put(result.getId(), result);
+                public void onSuccess(TypeInfo result) {
+                    categoryTypeMap.put(result.getKey(), result);
                     // check if category is already added to picker.  only add it once.
                     if (!isCategoryAlreadyAddedToPicker(category)){
                          categoryList.addItem(category);
@@ -555,11 +556,11 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     }
 
     private class LOCategoryTypeInfoList implements ListItems {
-        Map<String, LoCategoryTypeInfo> loTypeMap = new HashMap<String, LoCategoryTypeInfo>();
+        Map<String, TypeInfo> loTypeMap = new HashMap<String, TypeInfo>();
 
-        public LOCategoryTypeInfoList(List<LoCategoryTypeInfo> loTypes) {
-            for (LoCategoryTypeInfo type : loTypes) {
-                loTypeMap.put(type.getId(), type);
+        public LOCategoryTypeInfoList(List<TypeInfo> loTypes) {
+            for (TypeInfo type : loTypes) {
+                loTypeMap.put(type.getKey(), type);
             }
         }
 
@@ -568,7 +569,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         }
 
         public String getItemAttribute(String id, String attrkey) {
-            LoCategoryTypeInfo lo = loTypeMap.get(id);
+            TypeInfo lo = loTypeMap.get(id);
 
             if (attrkey.equals("Name")) {
                 return lo.getName();
@@ -592,7 +593,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         }
 
         public String getItemText(String id) {
-            return ((LoCategoryTypeInfo) loTypeMap.get(id)).getName();
+            return ((TypeInfo) loTypeMap.get(id)).getName();
         }
     }
 
@@ -630,7 +631,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
             if (null == categoryTypeMap || categoryTypeMap.isEmpty()) {
 
-                loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
+                loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<TypeInfo>>() {
 
                     @Override
                     public void handleFailure(Throwable caught) {
@@ -638,7 +639,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                     }
 
                     @Override
-                    public void onSuccess(List<LoCategoryTypeInfo> result) {
+                    public void onSuccess(List<TypeInfo> result) {
                         if (categoryTypeMap == null) {
                             loadCategoryTypes(result);
                         }

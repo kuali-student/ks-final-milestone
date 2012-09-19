@@ -17,17 +17,14 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 
 import org.apache.log4j.Logger;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -48,7 +45,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
      * @see org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService#getLoCategoryTypes()
      */
     @Override
-    public List<LoCategoryTypeInfo> getLoCategoryTypes() {
+    public List<TypeInfo> getLoCategoryTypes() {
         try {
             return loService.getLoCategoryTypes();
         } catch (Exception e) {
@@ -63,7 +60,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
      * @see org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService#getLoCategoryType(java.lang.String)
      */
     @Override
-    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey) {
+    public TypeInfo getLoCategoryType(String loCategoryTypeKey) {
         try {
             return loService.getLoCategoryType(loCategoryTypeKey, ContextUtils.getContextInfo());
 
@@ -76,7 +73,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
     @Override
     public List<LoCategoryInfo> getLoCategories(String loRepositoryKey) {
         try {
-            return loService.getLoCategories(loRepositoryKey, ContextUtils.getContextInfo());
+            return loService.getLoCategoriesByLoRepository(loRepositoryKey, ContextUtils.getContextInfo());
 
         } catch (Exception e) {
             LOG.error(e);

@@ -238,7 +238,7 @@ public class CluServiceImpl implements CluService {
     @Override
     public List<TypeInfo> getDeliveryMethodTypes(ContextInfo context)
             throws OperationFailedException {
-        return CluServiceAssembler.toDeliveryMethodTypeInfos(luDao.find(DeliveryMethodType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(DeliveryMethodType.class));
     }
 
     @Override
@@ -249,7 +249,7 @@ public class CluServiceImpl implements CluService {
 
         checkForMissingParameter(deliveryMethodTypeKey, "deliveryMethodTypeKey");
         try {
-            return CluServiceAssembler.toDeliveryMethodTypeInfo(luDao.fetch(
+            return CluServiceAssembler.toGenericTypeInfo(luDao.fetch(
                     DeliveryMethodType.class, deliveryMethodTypeKey));
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(deliveryMethodTypeKey, ex);
@@ -259,7 +259,7 @@ public class CluServiceImpl implements CluService {
     @Override
     public List<TypeInfo> getInstructionalFormatTypes(ContextInfo context)
             throws OperationFailedException {
-        return CluServiceAssembler.toInstructionalFormatTypeInfos(luDao.find(InstructionalFormatType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(InstructionalFormatType.class));
     }
 
     @Override
@@ -270,7 +270,7 @@ public class CluServiceImpl implements CluService {
         checkForMissingParameter(instructionalFormatTypeKey,
                 "instructionalFormatTypeKey");
         try {
-            return CluServiceAssembler.toInstructionalFormatTypeInfo(luDao.fetch(
+            return CluServiceAssembler.toGenericTypeInfo(luDao.fetch(
                     InstructionalFormatType.class, instructionalFormatTypeKey));
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(instructionalFormatTypeKey, ex);
@@ -279,7 +279,7 @@ public class CluServiceImpl implements CluService {
 
     @Override
     public List<TypeInfo> getLuTypes(ContextInfo context) throws OperationFailedException {
-        return CluServiceAssembler.toLuTypeInfos(luDao.find(LuType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(LuType.class));
     }
 
     @Override
@@ -288,7 +288,7 @@ public class CluServiceImpl implements CluService {
             OperationFailedException {
         checkForMissingParameter(luTypeKey, "luTypeKey");
         try {
-            return CluServiceAssembler.toLuTypeInfo(luDao.fetch(LuType.class,
+            return CluServiceAssembler.toGenericTypeInfo(luDao.fetch(LuType.class,
                     luTypeKey));
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(luTypeKey,ex);
@@ -301,7 +301,7 @@ public class CluServiceImpl implements CluService {
             MissingParameterException, OperationFailedException {
         try {
             checkForMissingParameter(luCodeTypeKey, "luCodeTypeKey");
-            return CluServiceAssembler.toLuCodeTypeInfo(luDao.fetch(
+            return CluServiceAssembler.toGenericTypeInfo(luDao.fetch(
                     LuCodeType.class, luCodeTypeKey));
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(luCodeTypeKey, ex);
@@ -311,7 +311,7 @@ public class CluServiceImpl implements CluService {
     @Override
     public List<TypeInfo> getLuCodeTypes(ContextInfo context)
             throws OperationFailedException {
-        return CluServiceAssembler.toLuCodeTypeInfos(luDao.find(LuCodeType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(LuCodeType.class));
     }
 
     @Override
@@ -351,7 +351,7 @@ public class CluServiceImpl implements CluService {
     @Override
     public List<TypeInfo> getLuPublicationTypes(ContextInfo context)
             throws OperationFailedException {
-        return CluServiceAssembler.toLuPublicationTypeInfos(luDao.find(LuPublicationType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(LuPublicationType.class));
     }
 
     @Override
@@ -361,7 +361,7 @@ public class CluServiceImpl implements CluService {
             OperationFailedException {
         checkForMissingParameter(luPublicationTypeKey, "luPublicationTypeKey");
         try {
-            return CluServiceAssembler.toLuPublicationTypeInfo(luDao.fetch(
+            return CluServiceAssembler.toGenericTypeInfo(luDao.fetch(
                     LuPublicationType.class, luPublicationTypeKey));
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(luPublicationTypeKey, ex);
@@ -378,7 +378,7 @@ public class CluServiceImpl implements CluService {
     @Override
     public List<TypeInfo> getCluResultTypes(ContextInfo context)
             throws OperationFailedException {
-        return CluServiceAssembler.toCluResultTypeInfos(luDao.find(CluResultType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(CluResultType.class));
     }
 
     @Override
@@ -386,7 +386,7 @@ public class CluServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         try {
-            return CluServiceAssembler.toCluResultTypeInfo(luDao.fetch(
+            return CluServiceAssembler.toGenericTypeInfo(luDao.fetch(
                     CluResultType.class, cluResultTypeKey));
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(cluResultTypeKey, ex);
@@ -398,13 +398,13 @@ public class CluServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         checkForMissingParameter(luTypeKey, "luTypeKey");
-        return CluServiceAssembler.toCluResultTypeInfos((luDao.getAllowedCluResultTypesForLuType(luTypeKey)));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.getAllowedCluResultTypesForLuType(luTypeKey));
     }
 
     @Override
     public List<TypeInfo> getResultUsageTypes(ContextInfo context)
             throws OperationFailedException {
-        return CluServiceAssembler.toResultUsageTypeInfos(luDao.find(ResultUsageType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(ResultUsageType.class));
     }
 
     @Override
@@ -413,7 +413,7 @@ public class CluServiceImpl implements CluService {
             MissingParameterException, OperationFailedException {
         checkForMissingParameter(resultUsageTypeKey, "resultUsageTypeKey");
         try {
-            return CluServiceAssembler.toResultUsageTypeInfo(luDao.fetch(
+            return CluServiceAssembler.toGenericTypeInfo(luDao.fetch(
                     ResultUsageType.class, resultUsageTypeKey));
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(resultUsageTypeKey, ex);
@@ -454,13 +454,13 @@ public class CluServiceImpl implements CluService {
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(cluLoRelationTypeKey, ex);
         }
-        return CluServiceAssembler.toCluLoRelationTypeInfo(cluLoRelationType);
+        return CluServiceAssembler.toGenericTypeInfo(cluLoRelationType);
     }
 
     @Override
     public List<TypeInfo> getCluLoRelationTypes(ContextInfo context)
             throws OperationFailedException {
-        return CluServiceAssembler.toCluLoRelationTypeInfos(luDao.find(CluLoRelationType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(CluLoRelationType.class));
     }
 
     @Override
@@ -476,7 +476,7 @@ public class CluServiceImpl implements CluService {
     @Override
     public List<TypeInfo> getCluSetTypes(ContextInfo context)
             throws OperationFailedException {
-        return CluServiceAssembler.toCluSetTypeInfos(luDao.find(CluSetType.class));
+        return CluServiceAssembler.toGenericTypeInfoList(luDao.find(CluSetType.class));
     }
 
     @Override
@@ -485,7 +485,7 @@ public class CluServiceImpl implements CluService {
             MissingParameterException, OperationFailedException {
         checkForMissingParameter(cluSetTypeKey, "cluSetTypeKey");
         try {
-            return CluServiceAssembler.toCluSetTypeInfo(luDao.fetch(
+            return CluServiceAssembler.toGenericTypeInfo(luDao.fetch(
                     CluSetType.class, cluSetTypeKey));
         } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(cluSetTypeKey, ex);
