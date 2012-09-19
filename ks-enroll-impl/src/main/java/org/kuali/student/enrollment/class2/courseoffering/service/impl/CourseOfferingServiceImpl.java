@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -41,11 +42,15 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -1768,10 +1773,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new UnsupportedOperationException();
     }
 
+
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType,
                                                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
+
         throw new UnsupportedOperationException();
     }
 
@@ -1799,15 +1806,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return list;
     }
 
-    @Override
-    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String formatOfferingId,
-                                                                      ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     private void _verifyAOSetsMatchAOTypes(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo)
         throws InvalidParameterException {
@@ -1902,8 +1900,47 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    public List<ValidationResultInfo> validateActivityOfferingCluster(String validationTypeKey, String formatOfferingId,
+                                                                      ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public AOClusterVerifyResultsInfo verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Implement in M5");
+        AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = new AOClusterVerifyResultsInfo();
+        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+
+        try {
+            ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+            List<ActivityOfferingSetInfo> aoSetInfos = aoCInfo.getActivityOfferingSets();
+
+            for (ActivityOfferingSetInfo aoSetInfo : aoSetInfos ){
+                List<String> aoIdList = aoSetInfo.getActivityOfferingIds();
+                if (aoIdList == null || aoIdList.isEmpty()) {
+                    //invalidValidationInfo.setError("");
+                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                    validationResultInfos.add(validationResultInfo);
+                    aoClusterVerifyResultsInfo.setValidationResults(validationResultInfos);
+
+                    return aoClusterVerifyResultsInfo;
+                }
+            }
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfos.add(validationResultInfo);
+        aoClusterVerifyResultsInfo.setValidationResults(validationResultInfos);
+
+        return aoClusterVerifyResultsInfo;
+
     }
 
     @Override
