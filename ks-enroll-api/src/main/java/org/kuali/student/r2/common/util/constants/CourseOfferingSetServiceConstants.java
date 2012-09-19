@@ -48,7 +48,9 @@ public class CourseOfferingSetServiceConstants {
     public static final String PUBLISHING_SOC_STATE_KEY = "kuali.soc.state.publishing";
     public static final String PUBLISHED_SOC_STATE_KEY = "kuali.soc.state.published";
     public static final String CLOSED_SOC_STATE_KEY = "kuali.soc.state.closed";
-    public static final String[] ALL_SOC_STATE_KEYS = {
+
+    public static final String SOC_LIFECYCLE_KEY = "kuali.soc.lifecycle";  // Not a state
+    public static final String[] SOC_LIFECYCLE_STATE_KEYS = {
             DRAFT_SOC_STATE_KEY,
             OPEN_SOC_STATE_KEY,
             LOCKED_SOC_STATE_KEY,
