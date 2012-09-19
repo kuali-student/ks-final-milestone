@@ -10,7 +10,7 @@ public interface ManageSOCViewHelperService extends ViewHelperService{
 
     public List<TermInfo> getTermByCode(String termCode) throws Exception;
 
-    public void loadDataUI(ManageSOCForm socForm);
+    public void buildModel(ManageSOCForm socForm);
 
     public void lockSOC(ManageSOCForm socForm);
 }

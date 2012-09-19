@@ -51,7 +51,7 @@
                                 <bean parent="Uif-TextControl" p:size="5" p:minLength="5" p:maxLength="5"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="loadDates" p:valign="bottom"/>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="buildModel" p:valign="bottom"/>
                       </list>
                     </property>
                 </bean>

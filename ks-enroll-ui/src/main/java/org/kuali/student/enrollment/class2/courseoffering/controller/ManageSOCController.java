@@ -56,8 +56,8 @@ public class ManageSOCController extends UifControllerBase {
         return getUIFModelAndView(socForm);
     }
 
-    @RequestMapping(params = "methodToCall=loadDates")
-    public ModelAndView loadDates(@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=buildModel")
+    public ModelAndView buildModel(@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
 
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
@@ -79,7 +79,7 @@ public class ManageSOCController extends UifControllerBase {
             e.printStackTrace();
         }
 
-        viewHelper.loadDataUI(socForm);
+        viewHelper.buildModel(socForm);
 
         return getUIFModelAndView(socForm);
     }
