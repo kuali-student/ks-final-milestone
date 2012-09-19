@@ -843,6 +843,7 @@ public class CluServiceImpl implements CluService {
             if (cluId != null) {
                 //Optimized version of clu translation. It seems like for now we only need the following information.
                 //If more information is needed, then appropriate method in assembler has to be used.
+                logger.info("CluID: " + cluId);
                 Clu clu = luDao.getCurrentCluVersion(cluId);
                 CluInfo cluInfo = new CluInfo();
                 cluInfo.setId(clu.getId());
