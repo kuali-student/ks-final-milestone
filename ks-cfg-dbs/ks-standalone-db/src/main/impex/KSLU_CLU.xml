@@ -24653,7 +24653,7 @@
         OFFIC_CLU_ID="f001056d-0206-4c63-9055-c661c01b7097"
         RT_DESCR_ID="a6fe6dc1-6b39-4491-b992-7a289da5c6ed" SEQ_NUM="1"
         ST="Active" TM_QUANTITY="1" UPDATETIME="20101210172126"
-        VER_IND_ID="REFERENCECOURSEGEOG100" VER_NBR="0"/>
+        VER_IND_ID="cfff5b07-4dd4-4ad8-8295-1bed0bd6648e" VER_NBR="0"/>
     <KSLU_CLU ACCT_ID="fbec6dca-78ba-4449-8cbd-ee23f914ecf4"
         ATP_DUR_TYP_KEY="kuali.atp.duration.Semester" CAN_CREATE_LUI="0"
         CLU_INTSTY_QTY="1" CLU_INTSTY_TYPE="kuali.atp.duration.week"
