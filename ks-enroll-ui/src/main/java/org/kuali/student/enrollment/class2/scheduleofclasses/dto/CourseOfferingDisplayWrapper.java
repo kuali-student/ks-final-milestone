@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.dto;
 
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 
 import java.util.ArrayList;
@@ -31,10 +30,10 @@ public class CourseOfferingDisplayWrapper {
 
     private CourseOfferingDisplayInfo coDisplayInfo;
     private String information;
-    private List<ActivityOfferingDisplayInfo> aoDisplayInfoList;
+    private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList;
 
     public CourseOfferingDisplayWrapper(){
-        aoDisplayInfoList = new ArrayList<ActivityOfferingDisplayInfo>();
+        aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
         coDisplayInfo = new CourseOfferingDisplayInfo();
     }
 
@@ -54,11 +53,11 @@ public class CourseOfferingDisplayWrapper {
         this.information = information;
     }
 
-    public List<ActivityOfferingDisplayInfo> getAoDisplayInfoList() {
-        return aoDisplayInfoList;
+    public List<ActivityOfferingDisplayWrapper> getAoDisplayWrapperList() {
+        return aoDisplayWrapperList;
     }
 
-    public void setAoDisplayInfoList(List<ActivityOfferingDisplayInfo> information) {
-        this.aoDisplayInfoList = aoDisplayInfoList;
+    public void setAoDisplayWrapperList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList) {
+        this.aoDisplayWrapperList = aoDisplayWrapperList;
     }
 }
