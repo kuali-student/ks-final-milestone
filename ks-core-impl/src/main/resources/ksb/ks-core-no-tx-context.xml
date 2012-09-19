@@ -181,8 +181,9 @@
           class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
-
-    <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    
+<!--THIS IS CONFIGURED in ks-enorll-context.xml-->
+<!--    <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
@@ -193,7 +194,7 @@
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
-    </bean>
+    </bean>-->
 
     <!-- Type Service config -->
     <bean id="typeEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
