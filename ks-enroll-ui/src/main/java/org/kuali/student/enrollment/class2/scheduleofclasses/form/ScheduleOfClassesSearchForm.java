@@ -42,8 +42,12 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
     private List<CourseOfferingDisplayWrapper> coDisplayWrapperList; //The core info (name+description+meta)
     private String termName;
 
+    // For AJAX purpose
+    private String courseOfferingId;
+
     public ScheduleOfClassesSearchForm (){
         coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
+        courseOfferingId = "";
     }
 
     public List<CourseOfferingDisplayWrapper> getCoDisplayWrapperList() {
@@ -117,4 +121,13 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
     public void setTermName(String termName){
         this.termName = termName;
     }
+
+    public String getCourseOfferingId(){
+        return courseOfferingId;
+    }
+
+    public void setCourseOfferingId(String courseOfferingId){
+        this.courseOfferingId = courseOfferingId;
+    }
+
 }
