@@ -171,6 +171,9 @@
                       p:label="FORMAT"
                       p:propertyName="aoInfo.formatOfferingName"/>
                 <bean parent="Uif-DataField"
+                      p:label="TBA"
+                      p:propertyName="tbaDisplayName"/>
+                <bean parent="Uif-DataField"
                       p:label="DAYS"
                       p:propertyName="daysDisplayName"/>
                 <bean parent="Uif-DataField"

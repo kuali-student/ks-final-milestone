@@ -56,6 +56,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private String daysDisplayName;
     private String buildingName;
     private String roomName;
+    private String tbaDisplayName;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -156,6 +157,17 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public boolean getHasWaitList() {
         return hasWaitList;
+    }
+
+    public String getTbaDisplayName() {
+        return tbaDisplayName;
+    }
+
+    public void setTbaDisplayName(boolean tba) {
+        tbaDisplayName = StringUtils.EMPTY;
+        if (tba){
+            tbaDisplayName =  "TBA";
+        }
     }
 
     public void setHasWaitList(boolean hasWaitList) {
