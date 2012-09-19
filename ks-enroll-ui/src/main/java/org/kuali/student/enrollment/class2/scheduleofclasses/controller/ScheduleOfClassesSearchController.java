@@ -108,6 +108,16 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
             }
+        } else if (theForm.getSearchType().equals("department")){
+           String departmentId = theForm.getDepartment();
+           if (departmentId !=null && !departmentId.isEmpty()){
+               getViewHelperService(theForm).loadCourseOfferingsByOrganizationId(termCode, departmentId, theForm);
+           } else {
+                LOG.error("Error: search field can't be empty");
+                GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
+                return getUIFModelAndView(theForm);
+           }
+
         }
 
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
@@ -147,6 +157,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         }
         return this.acalService;
     }
+
 
     public ContextInfo getContextInfo() {
         ContextInfo contextInfo = new ContextInfo();

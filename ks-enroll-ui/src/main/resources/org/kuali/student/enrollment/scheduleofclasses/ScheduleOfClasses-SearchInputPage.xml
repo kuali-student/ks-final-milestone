@@ -64,14 +64,13 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
                                 </property>
-
-                                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-                                    <property name="quickfinder.fieldConversions">
-                                        <map>
-                                            <entry key="code" value="course"/>
-
-                                        </map>
-                                    </property>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                                <property name="quickfinder.fieldConversions">
+                                     <map>
+                                         <entry key="code" value="course"/>
+                                     </map>
+                                </property>
+                                <property name="quickfinder.readOnlySearchFields" value="courseInfo.courseTitle" />
                                 <property name="quickfinder.quickfinderAction">
                                     <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode">
                                         <property name="actionImage">
@@ -79,37 +78,31 @@
                                         </property>
                                     </bean>
                                 </property>
-
                                 <property name="quickfinder.lightBoxLookup">
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
-
-
-
                             </bean>
+
                             <bean parent="Uif-InputField" p:propertyName="department" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}">
-                            <property name="control">
-                                <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
-                            </property>
-
-                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-                            <property name="quickfinder.fieldConversions">
-                                <map>
-                                    <entry key="department" value="shortName"/>
-
-                                </map>
-                            </property>
-                            <property name="quickfinder.quickfinderAction">
-                                <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchDepartment">
-                                    <property name="actionImage">
-                                        <bean parent="Uif-QuickLookupImage"/>
-                                    </property>
-                                </bean>
-                            </property>
-
-                            <property name="quickfinder.lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
-                            </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
+                                </property>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="id" value="department"/>
+                                    </map>
+                                </property>
+                                <property name="quickfinder.quickfinderAction">
+                                    <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchDepartment">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-QuickLookupImage"/>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="quickfinder.lightBoxLookup">
+                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                </property>
                             </bean>
 
                             <bean parent="Uif-InputField" p:propertyName="instructor" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}"/>

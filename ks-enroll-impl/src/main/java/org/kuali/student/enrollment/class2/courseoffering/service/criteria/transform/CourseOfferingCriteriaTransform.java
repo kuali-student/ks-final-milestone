@@ -42,6 +42,7 @@ public class CourseOfferingCriteriaTransform extends BaseTransform{
     private static final String IDENT_ALIAS = "ident";
     private static final String AO_REL_ALIAS = "aoRel";
     private static final String FO_REL_ALIAS = "foRel";
+    private static final String LUI_ORG_ALIAS= "luiOrg";
 
     private static final String PROPERTY_LLR_LUI_ID = "lui.id";
     private static final String PROPERTY_LLR_RELATED_LUI_ID = "relatedLui.id";
@@ -52,6 +53,7 @@ public class CourseOfferingCriteriaTransform extends BaseTransform{
     private static final String PROPERTY_CO_SUBJECT_AREA = "subjectArea";
     private static final String PROPERTY_LUI_IDENT_DIVISION = "division";
     private static final String PROPERTY_AO_ID = "aoid";
+    private static final String PROPERTY_LUI_CONTENT_OWNER = "luiContentOwner";
 
     @Override
     public Predicate apply(final Predicate input, Criteria criteria) {
@@ -85,6 +87,9 @@ public class CourseOfferingCriteriaTransform extends BaseTransform{
                         " AND " + getPropertyDesc(criteria.getAlias(),PROPERTY_LUI_ID) + " = " + getPropertyDesc(FO_REL_ALIAS, PROPERTY_LLR_LUI_ID));
 
                 return aoidPredicate;
+            }else if (PROPERTY_LUI_CONTENT_OWNER.equals(pp)){
+                criteria.join(PROPERTY_LUI_CONTENT_OWNER, LUI_ORG_ALIAS, false, true);
+                return this.createPredicate(input, Criteria.JPA_ALIAS_PREFIX +"'"+LUI_ORG_ALIAS+"'"+Criteria.JPA_ALIAS_SUFFIX);
             }
         }
 

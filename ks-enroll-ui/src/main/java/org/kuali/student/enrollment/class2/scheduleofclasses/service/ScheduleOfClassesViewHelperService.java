@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.service;
 
-import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
+
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 
-import java.util.List;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,5 +19,7 @@ public interface ScheduleOfClassesViewHelperService {
     public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, ScheduleOfClassesSearchForm form) throws Exception;
 
     public void loadActivityOfferingsByCourseOfferingId(String courseOfferingId, ScheduleOfClassesSearchForm form) throws Exception;
+
+    public void loadCourseOfferingsByOrganizationId(String termId, String organizationId, ScheduleOfClassesSearchForm form) throws Exception;
 
 }
