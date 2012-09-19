@@ -104,12 +104,12 @@ public class SchedulingServiceConstants {
     public static final String TIME_SLOT_STATE_NON_STANDARD_KEY = "kuali.scheduling.time.slot.state.non.standard";
 
     public static final String MONDAY_TIMESLOT_DAY_CODE = "M";
-    public static final String TUESDAY_TIMESLOT_DAY_CODE = "Tu";
+    public static final String TUESDAY_TIMESLOT_DAY_CODE = "T";
     public static final String WEDNESDAY_TIMESLOT_DAY_CODE = "W";
-    public static final String THURSDAY_TIMESLOT_DAY_CODE = "Th";
+    public static final String THURSDAY_TIMESLOT_DAY_CODE = "H";
     public static final String FRIDAY_TIMESLOT_DAY_CODE = "F";
-    public static final String SATURDAY_TIMESLOT_DAY_CODE = "Sa";
-    public static final String SUNDAY_TIMESLOT_DAY_CODE = "Su";
+    public static final String SATURDAY_TIMESLOT_DAY_CODE = "S";
+    public static final String SUNDAY_TIMESLOT_DAY_CODE = "U";
 
     public static List<Integer> TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE;
 
