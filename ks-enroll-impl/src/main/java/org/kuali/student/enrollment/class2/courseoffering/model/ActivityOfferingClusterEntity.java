@@ -100,7 +100,7 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
 
         this.setAoSets(new HashSet<ActivityOfferingSetEntity>());
         for (ActivityOfferingSet aoSet : aoCluster.getActivityOfferingSets()) {
-            ActivityOfferingSetEntity aoSetEntity = new ActivityOfferingSetEntity(aoSet);
+            ActivityOfferingSetEntity aoSetEntity = new ActivityOfferingSetEntity(aoSet, this);
             this.getAoSets().add(aoSetEntity);
         }
     }

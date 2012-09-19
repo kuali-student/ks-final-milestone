@@ -1866,7 +1866,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             // If it's empty
             _createAOSets(foInfo, activityOfferingClusterInfo);
         } else {
-            _verifyAOSetsMatchAOTypes(foInfo, activityOfferingClusterInfo);  // Throws exception if it fails to verify
+//            _verifyAOSetsMatchAOTypes(foInfo, activityOfferingClusterInfo);  // Throws exception if it fails to verify
         }
         // persist
         ActivityOfferingClusterEntity activityOfferingClusterEntity =

@@ -55,7 +55,8 @@ public class ActivityOfferingSetEntity extends BaseEntity {
     public ActivityOfferingSetEntity() { // no-arg constructor expected in entity
     }
 
-    public ActivityOfferingSetEntity(ActivityOfferingSet aoSet) {
+    public ActivityOfferingSetEntity(ActivityOfferingSet aoSet, ActivityOfferingClusterEntity aoCluster ) {
+        this.aoCluster = aoCluster;
         this.setId(aoSet.getId()); // read-only field
         this.fromDto(aoSet);
     }
