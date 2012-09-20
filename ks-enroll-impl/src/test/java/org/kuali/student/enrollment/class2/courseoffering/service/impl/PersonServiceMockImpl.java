@@ -23,6 +23,7 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.student.r1.core.personsearch.service.impl.KsPerson;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -265,7 +266,8 @@ public class PersonServiceMockImpl implements PersonService {
 
     @Override
     public List<Person> findPeople(Map<String, String> stringStringMap) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // added a return of an empty list to avoid breaking services that may call this during testing
+        return new ArrayList<Person>(0);
     }
 
     @Override

@@ -44,6 +44,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -1022,7 +1023,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, context);
 
         populateActivityOfferingRelationships(ao, context);
         return ao;
@@ -1099,7 +1100,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
             if (_isActivityType(lui.getTypeKey(), contextInfo)) {
                 ActivityOfferingInfo activityOffering = new ActivityOfferingInfo();
-                ActivityOfferingTransformer.lui2Activity(activityOffering, lui, lprService, contextInfo);
+                ActivityOfferingTransformer.lui2Activity(activityOffering, lui, lprService, schedulingService, contextInfo);
                 populateActivityOfferingRelationships(activityOffering, contextInfo);
                 activityOfferings.add(activityOffering);
             }
@@ -1245,7 +1246,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         // Everything saved to the DB, now return AO sent back by createLui and transformed by transformer back to caller
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, context);
         ao.setFormatOfferingId(luiRel.getLuiId());
         ao.setCourseOfferingId(co.getId());
         ao.setFormatOfferingName(fo.getShortName());
@@ -1389,7 +1390,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // rebuild activity to return it
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, context);
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, context);
         FormatOfferingInfo foInfo = this.getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
         CourseOfferingInfo coInfo = this.getCourseOffering(foInfo.getCourseOfferingId(), context);
         ao.setFormatOfferingId(foInfo.getId());
@@ -1455,12 +1456,80 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
 
+    /**
+     * This implementation is the work-around for M5 that lacks an actual scheduler.
+     * The schedule request that is bound to the Activity Offering is direclty translated into an actual schedule,
+     * which is persisted throught the scheduling service.
+     *
+     * @param activityOfferingId Id of the Activity Offering to be scheduled.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Override
+    @Transactional
     public StatusInfo scheduleActivityOffering(String activityOfferingId,
                                                ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Implement for M5");
+
+        ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, contextInfo);
+
+        // if the activity offering has an existing schedule, delete that schedule
+        if(StringUtils.isNotEmpty(aoInfo.getScheduleId())) {
+            schedulingService.deleteSchedule(aoInfo.getScheduleId(), contextInfo);
+        }
+        // set the schedule id to null, will be persisted after creating new schedule
+        aoInfo.setScheduleId(null);
+
+        StatusInfo result = new StatusInfo();
+
+        // find the schedule for this AO
+        List<ScheduleRequestInfo> requests = schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
+
+        if(requests.isEmpty()) {
+            result.setSuccess(true);
+            result.setMessage("No scheduling requests were found");
+        } else {
+            // Should not be more than one request, grab the first one only
+            ScheduleRequestInfo request = requests.get(0);
+            // short cut the submission to the scheduler, and just translate requested delivery logistics to actual delivery logistics
+            ScheduleInfo schedule = SchedulingServiceUtil.requestToSchedule(request);
+
+            // set the term of the new schedule to the same term of the AO
+            schedule.setAtpId(aoInfo.getTermId());
+
+            // persist the new schedule
+            ScheduleInfo persistedSchedule = null;
+            try {
+                persistedSchedule = schedulingService.createSchedule(schedule.getTypeKey(), schedule, contextInfo);
+            } catch (Exception e) {
+                throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
+            }
+
+            // set the id of the new schedule to the AO and update the entity
+            aoInfo.setScheduleId(persistedSchedule.getId());
+
+            System.out.println("NEW SCHEDULE ID FROM PERSISTED SCHEDULE: " + persistedSchedule.getId());
+
+            ActivityOfferingInfo updatedAo = null;
+            try {
+                updatedAo = updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
+            } catch (Exception e) {
+                throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
+            }
+
+            result.setSuccess(true);
+            result.setMessage("New Schedule Successfully created");
+        }
+
+        return result;
     }
 
     @Override

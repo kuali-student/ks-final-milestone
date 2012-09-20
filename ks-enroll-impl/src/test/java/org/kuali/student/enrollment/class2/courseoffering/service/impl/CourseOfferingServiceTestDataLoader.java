@@ -96,29 +96,29 @@ import org.springframework.context.ApplicationContextAware;
 public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader, ApplicationContextAware {
 
 	@Resource
-	private AcademicCalendarService acalService;
+	protected AcademicCalendarService acalService;
 	
 	@Resource
-	private CourseOfferingService coService;
+    protected CourseOfferingService coService;
 	
 	@Resource
-	private CourseService courseService;
+    protected CourseService courseService;
 
 	@Resource
-	private AtpService atpService;
+    protected AtpService atpService;
 	
 	@Resource
-	private CourseOfferingCodeGenerator courseCodeGenerator;
+    protected CourseOfferingCodeGenerator courseCodeGenerator;
 	
 	@Resource
-	private RegistrationGroupCodeGeneratorFactory registrationGroupCodeGeneratorFactory;
-	
-	private AtpTestDataLoader atpDataLoader;
-	private AcalTestDataLoader acalDataLoader;
+    protected RegistrationGroupCodeGeneratorFactory registrationGroupCodeGeneratorFactory;
 
-	private ApplicationContext applicationContext;
+    protected AtpTestDataLoader atpDataLoader;
+    protected AcalTestDataLoader acalDataLoader;
 
-	private boolean initialized;
+    protected ApplicationContext applicationContext;
+
+    protected boolean initialized;
 	
 
 	/**
@@ -212,7 +212,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 
 
 
-	    private TermInfo createTerm(String id, String name, String atpTypeKey, Date startDate, Date endDate, ContextInfo context) throws OperationFailedException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, ReadOnlyException {
+	    protected TermInfo createTerm(String id, String name, String atpTypeKey, Date startDate, Date endDate, ContextInfo context) throws OperationFailedException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, ReadOnlyException {
 	    	
 	    	AtpInfo atpInfo = new AtpInfo();
 	        atpInfo.setId(id);
@@ -253,7 +253,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		
 
 
-		private void createCourseCHEM123(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+		protected void createCourseCHEM123(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 	    	
 	    	CourseInfo canonicalCourse = buildCanonicalCourse("CLU-1", term.getId(), "CHEM", "CHEM123", "Chemistry 123", "description 1");
 			
@@ -296,14 +296,14 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			
 			// Format 1 Lecture offering A
-			ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), "SCHED-1", canonicalLectureOnlyLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), null, canonicalLectureOnlyLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureOnlyFormatLectureA.setId("CO-1:LEC-ONLY:LEC-A");
 			
 			coService.createActivityOffering(lectureOnlyFormatOffering.getId(), canonicalLectureOnlyLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureA, context);
 			
 			// Format 1 Lecture Offering B
-			ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), "SCHED-2", canonicalLectureOnlyLectureActivity.getId(), "Lecture B", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), null, canonicalLectureOnlyLectureActivity.getId(), "Lecture B", "B", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureOnlyFormatLectureB.setId("CO-1:LEC-ONLY:LEC-B");
 			
@@ -312,14 +312,14 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			// Format 2:
 			
 			// Lecture A
-			ActivityOfferingInfo lectureAndLabFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "SCHED-3", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture A", "C", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLectureA.setId("CO-1:LEC-AND-LAB:LEC-A");
 			
 			coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLectureA, context);
 			
 			// Lecture B
-			ActivityOfferingInfo lectureAndLabFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "SCHED-4", canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture B", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture B", "D", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLectureB.setId("CO-1:LEC-AND-LAB:LEC-B");
 			
@@ -329,7 +329,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			
 			// Lab A
-			ActivityOfferingInfo lectureAndLabFormatLabA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "LAB-A", canonicalLectureAndLabFormatLabActivity.getId(), "Lab A", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLabActivity.getId(), "Lab A", "E", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabA.setId("CO-1:LEC-AND-LAB:LAB-A");
 			
@@ -337,7 +337,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			
 			
 			// Lab B
-			ActivityOfferingInfo lectureAndLabFormatLabB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "LAB-B", canonicalLectureAndLabFormatLabActivity.getId(), "Lab B", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLabActivity.getId(), "Lab B", "F", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabB.setId("CO-1:LEC-AND-LAB:LAB-B");
 			
@@ -346,7 +346,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			// Lab C
 			
 			
-			ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), "LAB-C", canonicalLectureAndLabFormatLabActivity.getId(), "Lab C", "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLabActivity.getId(), "Lab C", "G", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureAndLabFormatLabC.setId("CO-1:LEC-AND-LAB:LAB-C");
 			
@@ -393,7 +393,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		}
 
 		
-		private void createCourseENG101(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+		protected void createCourseENG101(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 			
 			CourseInfo canonicalCourse = buildCanonicalCourse("CLU-2",term.getId() , "ENG", "ENG101", "Intro English", "Description of Intoroductory English");
 			
@@ -424,14 +424,14 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 			instructors.add(CourseOfferingServiceDataUtils.createInstructor("p2", "Instructor", 100.00F));
 			
 			// Lecture A
-			ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co, fo1.getId(), "SCHED-1", canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co, fo1.getId(), null, canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureOnlyFormatLectureA.setId("CO-2:LEC-ONLY:LEC-A");
 			
 			coService.createActivityOffering(fo1.getId(), canonicalLectureOnlyFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureA, context);
 			
 			// Lecture B
-			ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co, fo1.getId(), "SCHED-1", canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+			ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), co, fo1.getId(), null, canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "B", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 			
 			lectureOnlyFormatLectureB.setId("CO-2:LEC-ONLY:LEC-B");
 			

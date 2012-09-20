@@ -15,6 +15,11 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.HashMap;
@@ -23,7 +28,7 @@ import java.util.Map;
 
 public class ActivityOfferingTransformer {
 
-    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui, LprService lprService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public static void lui2Activity(ActivityOfferingInfo ao, LuiInfo lui, LprService lprService, SchedulingService schedulingService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ao.setId(lui.getId());
         ao.setMeta(lui.getMeta());
         ao.setStateKey(lui.getStateKey());
@@ -67,6 +72,59 @@ public class ActivityOfferingTransformer {
 
         ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
 
+        // derive the scheduling state
+
+        // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
+        if(ao.getScheduleId() != null) {
+
+            ScheduleInfo schedule = schedulingService.getSchedule(ao.getScheduleId(), context);
+
+            boolean atLeastOneNonTBA = false;
+            for (ScheduleComponentInfo componentInfo : schedule.getScheduleComponents()) {
+                if (!componentInfo.getIsTBA()) {
+                    atLeastOneNonTBA = true;
+                    break;
+                }
+            }
+
+            // if all the schedule components are set as TBA, the AO scheduling state is Scheduled
+            // otherwise, it's Unscheduled
+            if (atLeastOneNonTBA) {
+                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY);
+            } else {
+                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY);
+            }
+        }
+        else {
+            // get the schedule request for this AO
+            List<ScheduleRequestInfo> requests = schedulingService.getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, ao.getId(), context);
+
+            if(requests.isEmpty()) {
+                // if there are no requests, the AO scheduling state is Unscheduled
+                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
+            }
+            else {
+                // Should not be more than one request, grab the first one only
+                ScheduleRequestInfo request = requests.get(0);
+
+                // if all the schedule request components are set as TBA, the AO scheduling state is Exempt
+                // otherwise, it's Unscheduled
+                boolean atLeastOneNonTBA = false;
+                for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
+                    if(!reqComp.getIsTBA()) {
+                        atLeastOneNonTBA = true;
+                        break;
+                    }
+                }
+
+                if(atLeastOneNonTBA) {
+                    ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
+                }
+                else {
+                    ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY);
+                }
+            }
+        }
     }
 
     public static void activity2Lui (ActivityOfferingInfo ao, LuiInfo lui) {

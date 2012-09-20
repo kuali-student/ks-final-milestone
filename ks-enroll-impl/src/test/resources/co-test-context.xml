@@ -171,7 +171,21 @@
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer"/>
     <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao"/>
     <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
+    <property name="schedulingService" ref="schedulingService"/>
   </bean>
+
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
+        <property name="atpService" ref="atpService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="organizationService" ref="organizationService"/>
+        <property name="roomService" ref="roomService"/>
+    </bean>
+
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
+    </bean>
+
+    <bean id="organizationService" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl">
+    </bean>
 
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
