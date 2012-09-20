@@ -135,7 +135,8 @@
                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:5px;margin-bottom:3px;margin-left:15px;">
                     <property name="items">
                       <list>
-                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSOC" p:actionLabel="Lock Set" p:disabled="@{!enableLockButton}" />
+                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSOC" p:actionLabel="Lock Set" p:disabled="@{!enableLockButton}" p:render="@{!showFinalEditButton}"/>
+                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="allowFinalEdits" p:actionLabel="Allow Final Edits" p:render="@{showFinalEditButton}"/>
                                   <!--p:preSubmitCall="confirmDialog('When Set of Courses is in Locked state, Departmental users will be unable to make changes.')"/>-->
                           <bean parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:10px;"
                                 p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>

@@ -83,4 +83,24 @@ public class ManageSOCController extends UifControllerBase {
 
         return getUIFModelAndView(socForm);
     }
+
+    @RequestMapping(params = "methodToCall=allowFinalEdits")
+    public ModelAndView allowFinalEdits(@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response){
+
+        if (socForm.getSocInfo() == null){
+            throw new RuntimeException("SocInfo not exists in the form. Please enter the term code and click on GO button");
+        }
+
+        if (!StringUtils.equals(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED,socForm.getSocInfo().getSchedulingStateKey())){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"SOC scheduling should be completed for final edits");
+            return getUIFModelAndView(socForm);
+        }
+
+        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
+        viewHelper.allowSOCFinalEdit(socForm);
+
+        return getUIFModelAndView(socForm);
+    }
+
 }

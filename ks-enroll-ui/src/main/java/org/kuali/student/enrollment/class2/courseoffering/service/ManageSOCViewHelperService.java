@@ -13,4 +13,6 @@ public interface ManageSOCViewHelperService extends ViewHelperService{
     public void buildModel(ManageSOCForm socForm);
 
     public void lockSOC(ManageSOCForm socForm);
+
+    public void allowSOCFinalEdit(ManageSOCForm socForm);
 }

@@ -163,14 +163,28 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @param socForm SOC form
      */
     public void lockSOC(ManageSOCForm socForm){
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY);
+    }
 
-        try {
-            StatusInfo status = getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, ContextUtils.createDefaultContextInfo());
+
+    public void allowSOCFinalEdit(ManageSOCForm socForm){
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY);
+    }
+
+    /**
+     *
+     * @param socInfo
+     * @param stateKey
+     */
+    public void changeSOCState(SocInfo socInfo,String stateKey){
+
+        try{
+            StatusInfo status = getCourseOfferingSetService().updateSocState(socInfo.getId(), stateKey, ContextUtils.createDefaultContextInfo());
 
             if (status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "SOC has been locked sucessfully");
                 //Once state changed, disable the Lock button.
-                socForm.getSocInfo().setStateKey(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY);
+                socInfo.setStateKey(stateKey);
             }else{
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error locking SOC");
             }

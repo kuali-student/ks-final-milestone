@@ -173,6 +173,15 @@ public class ManageSOCForm extends UifFormBase {
         return false;
     }
 
+    public boolean isShowFinalEditButton(){
+        if (socInfo != null){
+            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isRenderDetailsSection(){
         return getTermInfo() != null;
     }
