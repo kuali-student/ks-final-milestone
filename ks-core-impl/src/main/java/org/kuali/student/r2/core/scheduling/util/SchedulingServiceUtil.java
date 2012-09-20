@@ -15,7 +15,19 @@
 
 package org.kuali.student.r2.core.scheduling.util;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
@@ -142,5 +154,68 @@ public class SchedulingServiceUtil {
             }
         }
         return false;
+    }
+
+    /**
+     * Convenience method for the short-cut process of translating a ScheduleRequest directly into a Schedule
+     * Assumes that the room to be used for the actual schedule is the first room in the list from the request
+     *
+     * @param request
+     * @return
+     */
+    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request) {
+        ScheduleInfo result = new ScheduleInfo();
+        result.setStateKey(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
+        result.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
+        result.setScheduleComponents(new ArrayList<ScheduleComponentInfo>(request.getScheduleRequestComponents().size()));
+
+        for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
+            ScheduleComponentInfo compInfo = new ScheduleComponentInfo();
+            compInfo.setIsTBA(reqComp.getIsTBA());
+
+            // grabbing the first room in the list
+            compInfo.setRoomId(reqComp.getRoomIds().get(0));
+            compInfo.setTimeSlotIds(reqComp.getTimeSlotIds());
+
+            result.getScheduleComponents().add(compInfo);
+        }
+
+        return result;
+    }
+
+    /**
+     * Convenience method to translate an actual Schedule into a ScheduleReqeust
+     * Used during rollover and CO/AO copy to make requests in the target that are copies from the actual schedule of the source
+     * Uses the RoomService to get the building information from the room id
+     *
+     * @param scheduleInfo
+     * @param roomService
+     * @param callContext
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    public static ScheduleRequestInfo scheduleToRequest(ScheduleInfo scheduleInfo, RoomService roomService, ContextInfo callContext) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        ScheduleRequestInfo result = new ScheduleRequestInfo();
+        result.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+        result.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+
+        for (ScheduleComponentInfo schedComp : scheduleInfo.getScheduleComponents()) {
+            ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
+            requestComponentInfo.setIsTBA(schedComp.getIsTBA());
+            requestComponentInfo.setTimeSlotIds(schedComp.getTimeSlotIds());
+            requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
+
+            // retrieve the room to find the building id
+            RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
+            requestComponentInfo.getBuildingIds().add(room.getBuildingId());
+
+            result.getScheduleRequestComponents().add(requestComponentInfo);
+        }
+
+        return result;
     }
 }

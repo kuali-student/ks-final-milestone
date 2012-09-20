@@ -46,6 +46,10 @@ public class BaseAssembler {
 
     public static List<AttributeInfo> toAttributeList(List<? extends Attribute<?>> attributes) {
 
+        if(attributes == null) {
+            return new ArrayList<AttributeInfo>(0);
+        }
+
         List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>();
 
         for (Attribute<?> attribute : attributes) {
