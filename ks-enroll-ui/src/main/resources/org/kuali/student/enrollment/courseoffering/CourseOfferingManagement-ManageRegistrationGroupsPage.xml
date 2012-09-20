@@ -51,9 +51,8 @@
                                         <ref bean="KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection-WithDisclosure"/>
                                         <ref bean="KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection"/>
                                         <ref bean="KS-ManageRegistrationGroupPage-ClusterForFormat"/>
-                                        <ref bean="KS-ManageRegistrationGroupsPage-CreateNewClusterSection" />
-                                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewClusterFromLightBox"
-                                              p:id="create_new_cluster_button"/>
+                                        <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewClusterFromLightBox"-->
+                                              <!--p:id="create_new_cluster_button"/>-->
                                         <ref bean="KS-ManageRegistrationGroupPage-NoClusterCondition"/>
                                         <ref bean="KS-ManageRegistrationGroupPage-HasClusterCondition"/>
 
@@ -206,7 +205,6 @@
         </property>
     </bean>
 
-
     <bean id="KS-ManageRegistrationGroupPage-NoClusterCondition" parent="Uif-VerticalBoxSection" p:render="@{!hasAOCluster}">
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -227,8 +225,9 @@
                     <property name="headerText" value="or create an activity offering cluster to manage constrained registration groups"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewCluster"
-                                  p:id="create_new_cluster_button"/>
+                            <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewCluster"-->
+                                  <!--p:id="create_new_cluster_button"/>-->
+                            <ref bean="KS-ManageRegistrationGroupsPage-CreateNewClusterSection"/>
                         </list>
                     </property>
                 </bean>
@@ -236,13 +235,29 @@
         </property>
     </bean>
 
-
-    <bean id="KS-ManageRegistrationGroupPage-HasClusterCondition" parent="KS-HorizontalCollectionSection" p:render="@{hasAOCluster}"
+    <bean id="KS-ManageRegistrationGroupPage-HasClusterCondition" parent="Uif-VerticalBoxSection" p:render="@{hasAOCluster}">
+        <property name="headerText" value="Activity Offering Clusters" />
+        <property name="disclosure.render" value="false"/>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-borderBottom</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-ManageRegistrationGroupsPage-CreateNewClusterSection"/>
+                <ref bean="KS-ManageRegistrationGroupPage-ClusterCollection"/>
+            </list>
+        </property>
+    </bean>
+            
+            
+    <bean id="KS-ManageRegistrationGroupPage-ClusterCollection" parent="KS-HorizontalCollectionSection"
           p:renderAddLine="false"  p:renderLineActions="false">
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
         <property name="propertyName" value="filteredAOClusterWrapperList" />
-        <property name="headerText" value="Activity Offering Clusters"/>
+        <property name="headerText" value=""/>
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.aoCluster.name}(@{#line.aoCluster.privateName})"/>
@@ -261,24 +276,24 @@
         </property>
     </bean>
     
-    <bean id="KS-ManageRegistrationGroupsPage-CreateNewClusterSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-ManageRegistrationGroupsPage-CreateNewClusterSection" parent="Uif-HorizontalBoxSection">
         <property name="id" value="createNewClusterSection" />
         <property name="disclosure.render" value="false"/>
-        <property name="headerText" value="Create New Cluster"/>
+        <property name="headerText" value=""/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:propertyName="privateClusterName" p:label="Private Name" p:labelPlacement="LEFT" p:required="true" p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="privateClusterName" p:label="Private Name" p:labelPlacement="TOP" p:required="true" p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:propertyName="publishedClusterName" p:label="Published Name" p:labelPlacement="LEFT" p:required="true" p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="publishedClusterName" p:label="Published Name" p:labelPlacement="TOP" p:required="true" p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:minLength="5" p:maxLength="20"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="createNewCluster" />
+                <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createNewCluster" />
 
             </list>
         </property>
@@ -292,12 +307,12 @@
         <property name="promptText" value=""/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="LEFT" p:required="true" p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="LEFT"  p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForLightBox" p:label="Published Name" p:labelPlacement="LEFT" p:required="true" p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForLightBox" p:label="Published Name" p:labelPlacement="LEFT"  p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:minLength="5" p:maxLength="20"/>
                     </property>
@@ -398,7 +413,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ManageRegistrationGroupPage-RegistrationGroupsPerClusterSubSection" parent="Uif-TableCollectionSubSection"
+    <bean id="KS-ManageRegistrationGroupPage-RegistrationGroupsPerClusterSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
           p:renderAddLine="false"  p:renderLineActions="false">
         <property name="id" value="registrationGroupsPerCluster" />
         <!--<property name="hidden" value="true"/>-->

@@ -310,7 +310,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActivityOfferingClusterWrapper selectedCluster = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Remove Cluster");
-        
+
+        theForm.setFilteredUnassignedAOsForSelectedFO(selectedCluster.getAoWrapperList());
         getCourseOfferingService().deleteActivityOfferingCluster(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
         List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
         aoClusterWrapperList.remove(selectedCluster);
