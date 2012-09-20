@@ -520,7 +520,7 @@
   </bean>
 
   <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
-        <property name="luiService" ref="luiService" />
+        <property name="luiService" ref="luiServiceValidationDecorator" />
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
@@ -589,12 +589,12 @@
 
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
-    <property name="luiService" ref="luiService" />
+    <property name="luiService" ref="luiServiceValidationDecorator" />
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
   </bean>
 
   <bean id="registrationGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer">
-    <property name="luiService" ref="luiService" />
+    <property name="luiService" ref="luiServiceValidationDecorator" />
   </bean>
 
   <!--<bean id="ks.exp.courseOfferingValidationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">-->
@@ -610,6 +610,11 @@
     <!--</property>-->
   <!--</bean>-->
 
+    <bean id="luiServiceValidationDecorator" class=" org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
+        <property name="nextDecorator" ref="luiService" />
+        <property name="typeService" ref="typeServiceCacheDecorator" />
+    </bean>
+
   <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
     <property name="luiDao" ref="luiDao" />
     <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
@@ -619,7 +624,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="luiService" />
+                <property name="service" ref="luiServiceValidationDecorator" />
                 <property name="serviceInterface" value="org.kuali.student.enrollment.lui.service.LuiService" />
                 <property name="localServiceName" value="LuiService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lui" />
@@ -805,7 +810,7 @@
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
     <property name="lprService" ref="lprServiceValidation" />
     <property name="lrrService" ref="lrrPersistenceService" />
-    <property name="luiService" ref="luiService" />
+    <property name="luiService" ref="luiServiceValidationDecorator" />
   </bean>
 
   <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
