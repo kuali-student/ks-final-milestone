@@ -131,13 +131,35 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
         }
 
         Date schedulingStarted = parseStateChangeDateString(soc, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS);
-        if (schedulingStarted != null) {
-            soc.setLastSchedulingRunStarted(schedulingStarted);
-        }
         Date schedulingCompleted = parseStateChangeDateString(soc, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED);
-        if (schedulingCompleted != null) {
-            soc.setLastSchedulingRunCompleted(schedulingCompleted);
+        Date publishingStarted = parseStateChangeDateString(soc, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY);
+        Date publishingCompleted = parseStateChangeDateString(soc, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
+        String schedulingState;
+
+        //
+        if(schedulingStarted == null) {
+            schedulingState = CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED;
         }
+        else {
+            soc.setLastSchedulingRunStarted(schedulingStarted);
+            if(schedulingCompleted == null) {
+                schedulingState = CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS;
+            }
+            else {
+                schedulingState = CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED;
+                soc.setLastSchedulingRunCompleted(schedulingCompleted);
+            }
+        }
+        soc.setSchedulingStateKey(schedulingState);
+
+        if (publishingStarted != null) {
+            soc.setPublishingStarted(publishingStarted);
+        }
+
+        if (publishingCompleted != null) {
+            soc.setPublishingCompleted(publishingCompleted);
+        }
+
         return soc;
     }
 

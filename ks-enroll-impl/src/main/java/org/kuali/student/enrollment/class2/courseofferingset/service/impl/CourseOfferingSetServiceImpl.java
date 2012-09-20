@@ -20,7 +20,12 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao;
-import org.kuali.student.enrollment.class2.courseofferingset.model.*;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocAttributeEntity;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultAttributeEntity;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultEntity;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultOptionEntity;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -32,14 +37,28 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
@@ -99,7 +118,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new InvalidParameterException("typeKey does not match the value in the info object");
         }
         SocEntity entity = new SocEntity(info);
-        this.logStateChange(entity, context);
+        this.logStateChange(entity, entity.getSocState(), context);
         entity.setEntityCreated(context);
         socDao.persist(entity);
         return entity.toDto();
@@ -743,22 +762,33 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         if (entity == null) {
             throw new DoesNotExistException(socId);
         }
-        entity.setSocState(nextStateKey);
-        this.logStateChange(entity, contextInfo);
+
+        // determine if the state key given is a SOC lifecycle state or a scheduling state
+        boolean isSchedulingState = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_SCHEDULING_STATES).contains(nextStateKey);
+
+        if(!isSchedulingState) {
+            entity.setSocState(nextStateKey);
+        }
+
+        // Log the state change
+        logStateChange(entity, nextStateKey, contextInfo);
+
         entity.setEntityUpdated(contextInfo);
-        entity = socDao.merge(entity);
+        socDao.merge(entity);
         socDao.getEm().flush(); // need to flush to get the version ind to update
         StatusInfo status = new StatusInfo ();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
-    
-    private void logStateChange(SocEntity entity, ContextInfo contextInfo) {
+
+    private void logStateChange(SocEntity entity, String stateKey, ContextInfo contextInfo) {
         // add the state change to the log
         // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
         SimpleDateFormat formatter = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
         Date date = contextInfo.getCurrentDate();
-        AttributeInfo attr = new AttributeInfo(entity.getSocState(), formatter.format(date));
+
+        // Add an attribute with a key of the state en
+        AttributeInfo attr = new AttributeInfo(stateKey, formatter.format(date));
         entity.getAttributes().add(new SocAttributeEntity(attr, entity));
     }
 
