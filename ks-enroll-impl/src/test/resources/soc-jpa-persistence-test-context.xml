@@ -90,8 +90,6 @@
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
     </bean>
 
-
-
     <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">
         <property name="em" ref="entityManager" />
     </bean>
@@ -101,6 +99,8 @@
     <bean id="socRolloverResultItemDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao">
         <property name="em" ref="entityManager" />
     </bean>
+
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl" />
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

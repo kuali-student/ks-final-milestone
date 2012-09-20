@@ -10,11 +10,11 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 @Entity
 @Table(name = "KSEN_SOC")
@@ -68,7 +68,7 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
             this.setDescrPlain(null);
         }
         this.setSubjectArea(soc.getSubjectArea());
-        this.setUnitsContentOwnerId(soc.getUnitsContentOwnerId());// dynamic attributes
+        this.setUnitsContentOwnerId(soc.getUnitsContentOwnerId()); // dynamic attributes
         this.attributes.clear();
         for (Attribute att : soc.getAttributes()) {
             SocAttributeEntity attEntity = new SocAttributeEntity(att, this);
@@ -130,7 +130,36 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
             }
         }
 
+        Date schedulingStarted = parseStateChangeDateString(soc, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS);
+        if (schedulingStarted != null) {
+            soc.setLastSchedulingRunStarted(schedulingStarted);
+        }
+        Date schedulingCompleted = parseStateChangeDateString(soc, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED);
+        if (schedulingCompleted != null) {
+            soc.setLastSchedulingRunCompleted(schedulingCompleted);
+        }
         return soc;
+    }
+
+    /**
+     *  Reads a date string from the given state key from a dynamic attribute and attempts to create a java.util.Date object
+     *  from it.
+     *  @return A java.util.Date if the date string is parsable. If the state key doesn't exist returns null.
+     *  Throws a RuntimeException if the key exists but the value is not parsable.
+     */
+    private Date parseStateChangeDateString(SocInfo soc, String stateKey) {
+        Date dateOut = null;
+        String value = soc.getAttributeValue(stateKey);
+        if (value != null) {
+            SimpleDateFormat formatter = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
+            try {
+                dateOut = formatter.parse(value);
+            } catch (ParseException e) {
+                throw new RuntimeException(String.format("Could not parse date string [%s] stored in SOC %s attribute %s.",
+                        value, soc.getId(), stateKey));
+            }
+        }
+        return dateOut;
     }
 
     public String getDescrFormatted() {
@@ -172,6 +201,4 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
     public void setUnitsContentOwnerId(String unitsContentOwnerId) {
         this.unitsContentOwnerId = unitsContentOwnerId;
     }
-
-    
 }
