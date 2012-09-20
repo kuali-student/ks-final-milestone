@@ -12,7 +12,10 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Version 2.0
@@ -92,7 +95,11 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
             }
         }
 
-        TransformUtility.mergeToEntityAttributes(ScheduleRequestAttributeEntity.class, scheduleRequest, this);
+        this.setAttributes(new HashSet<ScheduleRequestAttributeEntity>());
+        for (Attribute att : scheduleRequest.getAttributes()) {
+            this.getAttributes().add(new ScheduleRequestAttributeEntity(att, this));
+        }
+
     }
 
     public ScheduleRequestInfo toDto() {
