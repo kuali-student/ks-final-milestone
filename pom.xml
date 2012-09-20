@@ -1137,7 +1137,6 @@
                 <groupId>net.sf.jasperreports</groupId>
                 <artifactId>jasperreports-fonts</artifactId>
                 <version>${net.sf.jasperreports.fonts.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.lowagie</groupId>
