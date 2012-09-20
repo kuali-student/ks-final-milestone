@@ -15,8 +15,8 @@ public class SampleStatementServiceTests {
 
 	@Autowired
     public StatementService statementService;
-	
-	@Test
+
+    @Test
     public void testGetNaturalLanguageForReqComponent1() throws Exception {
         //req. type: 'kuali.reqComponent.type.test'
         String nl = statementService.getNaturalLanguageForReqComponent("TEST-REQCOMP-1", "KUALI.RULE", null);

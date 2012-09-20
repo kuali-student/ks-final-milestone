@@ -12,7 +12,6 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 import java.util.List;
 
-@Ignore
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
 public class TestStatementServiceConfiguration extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement.sql")

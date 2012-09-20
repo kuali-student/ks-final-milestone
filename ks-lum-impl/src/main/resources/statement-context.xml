@@ -57,6 +57,7 @@
     </bean>
     <bean id="atpContext" class="org.kuali.student.r2.lum.statement.config.context.AtpContextImpl">
         <property name="atpService" ref="atpServiceImpl" />
+        <property name="typeService" ref="typeServiceImpl"/>
     </bean>
 
     <bean id="contextRegistryReqComponent"
