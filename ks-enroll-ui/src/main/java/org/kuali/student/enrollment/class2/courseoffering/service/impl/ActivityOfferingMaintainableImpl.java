@@ -429,6 +429,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             if (!requestInfos.isEmpty()){
 
                 ScheduleRequestInfo scheduleRequestInfo = requestInfos.get(0);
+                wrapper.setScheduleRequestInfo(scheduleRequestInfo);
 
                 for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
                     ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
