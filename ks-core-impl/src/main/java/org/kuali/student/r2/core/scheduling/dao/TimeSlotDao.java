@@ -22,11 +22,7 @@ import javax.persistence.Query;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: andy
- * Date: 6/5/12
- * Time: 4:03 PM
- * To change this template use File | Settings | File Templates.
+ * @author Kuali Student Team
  */
 public class TimeSlotDao extends GenericEntityDao<TimeSlotEntity> {
 

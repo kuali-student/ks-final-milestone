@@ -10,7 +10,7 @@ import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass
-public class BaseEntity {
+public class BaseEntity implements PersistableEntity<String> {
 
 	@Id
 	@Column(name = "ID")

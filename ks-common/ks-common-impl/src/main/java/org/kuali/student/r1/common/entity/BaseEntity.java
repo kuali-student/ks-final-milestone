@@ -8,9 +8,10 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Version;
 
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.r2.common.entity.PersistableEntity;
 
 @MappedSuperclass
-public abstract class BaseEntity {
+public abstract class BaseEntity  implements PersistableEntity<String> {
 	
 	@Id
 	@Column(name = "ID")

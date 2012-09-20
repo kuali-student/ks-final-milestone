@@ -424,6 +424,11 @@ public class AtpServiceImpl implements AtpService {
             throw new InvalidParameterException(atpId);
         }
         List<String> ids = milestoneDao.getIdsByAtp(atpId);
+        
+        if (ids.size() == 0) // if there are no associated ids there are no milestones for this atp
+        	return new ArrayList<MilestoneInfo>();
+        
+        
         try {
             return this.getMilestonesByIds(ids, contextInfo);
         } catch (DoesNotExistException ex) {

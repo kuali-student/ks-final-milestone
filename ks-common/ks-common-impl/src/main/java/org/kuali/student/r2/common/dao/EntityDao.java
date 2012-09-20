@@ -3,12 +3,14 @@ package org.kuali.student.r2.common.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.kuali.student.r2.common.entity.PersistableEntity;
+
 /**
  * Interface, that describes default methods of Dao objects for entity.
  *
- * @author ihar
+ * @author Kuali Student Team
  */
-public interface EntityDao<T> {
+public interface EntityDao<K extends Serializable, T extends PersistableEntity<K>> {
 
     /**
      * Find object by primary key.
@@ -16,7 +18,7 @@ public interface EntityDao<T> {
      * @param primaryKey Primary key
      * @return Entity for given key
      */
-    T find(Serializable primaryKey);
+    T find(K primaryKey);
 
     /**
      * Find objects of specified class by primary keys. Note: this method assumes that your primary key is "id"
@@ -24,7 +26,7 @@ public interface EntityDao<T> {
      * @param primaryKeys - list of Primary keys
      * @return Entity for given key
      */
-    public List<T> findByIds(List<? extends Serializable> primaryKeys) throws Exception;
+    public List<T> findByIds(List<K> primaryKeys) throws Exception;
 
 
     /**
@@ -33,7 +35,7 @@ public interface EntityDao<T> {
      * @param primaryKeys - list of Primary keys
      * @return Entity for given key
      */
-    public List<T> findByIds(String primaryKeyMemberName, List<? extends Serializable> primaryKeys) throws Exception;
+    public List<T> findByIds(String primaryKeyMemberName, List<K> primaryKeys) throws Exception;
 
     /**
      * Load all entities of this type.
