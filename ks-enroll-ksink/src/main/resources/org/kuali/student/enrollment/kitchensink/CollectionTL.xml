@@ -64,17 +64,17 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-Collections-View" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-CollectionsTL-View" parent="KS-KitchenSink-FormView">
         <property name="headerText" value="Collections"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-Collections-Page">
+                <bean parent="KS-KitchenSink-CollectionsTL-Page">
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-Collections-Page" parent="KS-KitchenSink-Page">
+    <bean id="KS-KitchenSink-CollectionsTL-Page" parent="KS-KitchenSink-Page">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">

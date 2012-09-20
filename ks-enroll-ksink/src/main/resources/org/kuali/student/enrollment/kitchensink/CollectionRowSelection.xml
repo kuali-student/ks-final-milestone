@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright 2006-2011 The Kuali Foundation
+  ~ Copyright 2005-2012 The Kuali Foundation
   ~
   ~ Licensed under the Educational Community License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -22,7 +22,9 @@
 
     <!-- The Interesting Bits -->
 
-    <!-- NOTE: parent view/theme must include script file "ks-krad/scripts/ks-krad.js" for toggling -->
+    <!-- !!! IMPORTANT !!!
+        Parent view/theme must include script file "ks-krad/scripts/ks-krad.js" for toggling to work!
+    -->
 
     <bean id="KS-KitchenSink-CollectionRowSelection" parent="KS-KitchenSink-Collection-Base">
         <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->

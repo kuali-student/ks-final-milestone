@@ -83,6 +83,26 @@
         </property>
     </bean>
 
+    <bean id="KS-KitchenSink-Collection-Base-ReadOnly" parent="KS-KitchenSink-Collection-Base" abstract="true">
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="id" p:label="ID"/>
+                <bean parent="Uif-DataField" p:propertyName="name" p:label="Name"/>
+                <bean parent="Uif-DataField" p:propertyName="description" p:label="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="date" p:label="Date"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionLabel="view" p:actionScript="alert('View!');"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="edit" p:actionScript="alert('Edit!');"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="delete" p:actionScript="alert('Exterminate!');"/>
+            </list>
+        </property>
+    </bean>
+
 
     <!-- Miscellaneous definitions -->
 
@@ -92,10 +112,10 @@
     <bean id="KS-KitchenSink-Page-Links" parent="Uif-VerticalBoxSection" abstract="true"
           p:style="margin-top:2em;margin-bottom:0;"/>
 
-    <bean id="KS-KitchenSink-VerticalBoxSection" parent="Uif-VerticalBoxSection"
+    <bean id="KS-KitchenSink-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true"
           p:style="margin-bottom:0;"/>
 
-    <bean id="KS-KitchenSink-Group-UimLinks" parent="Uif-HorizontalFieldGroup"
+    <bean id="KS-KitchenSink-Group-UimLinks" parent="Uif-HorizontalFieldGroup" abstract="true"
           p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:0.5em;"/>
 
     <bean id="KS-KitchenSink-Link-To-Guide" parent="KS-KitchenSink-LinkField-Base" abstract="true"
