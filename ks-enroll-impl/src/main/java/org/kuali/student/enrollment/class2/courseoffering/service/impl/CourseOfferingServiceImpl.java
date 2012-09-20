@@ -1866,6 +1866,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
 
+
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType,
                                                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
@@ -2784,13 +2785,24 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForActivityOfferingClusterIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        GenericQueryResults<ActivityOfferingClusterEntity> results = criteriaLookupService.lookup(ActivityOfferingClusterEntity.class, criteria);
+        List<String> ids = new ArrayList<String>(results.getResults().size());
+        for (ActivityOfferingClusterEntity activityOfferingClusterEntity : results.getResults()) {
+            ids.add(activityOfferingClusterEntity.getId());
+        }
+        return ids;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<ActivityOfferingClusterInfo> searchForActivityOfferingClusters(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        GenericQueryResults<ActivityOfferingClusterEntity> results = criteriaLookupService.lookup(ActivityOfferingClusterEntity.class, criteria);
+        List<ActivityOfferingClusterInfo> activityOfferingClusterInfos = new ArrayList<ActivityOfferingClusterInfo>(results.getResults().size());
+        for (ActivityOfferingClusterEntity activityOfferingClusterEntity : results.getResults()) {
+            ActivityOfferingClusterInfo aocInfo = activityOfferingClusterEntity.toDto();
+            activityOfferingClusterInfos.add(aocInfo);
+        }
+        return activityOfferingClusterInfos;
     }
 
     @Override
