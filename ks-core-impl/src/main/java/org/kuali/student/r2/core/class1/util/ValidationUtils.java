@@ -18,15 +18,14 @@ package org.kuali.student.r2.core.class1.util;
 
 
 
-import java.util.List;
-
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides static utility methods for services.
@@ -34,6 +33,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
  * @author Kuali Student Team
  */
 public class ValidationUtils {
+
+    public static String TYPE_VALIDATION_TYPE_KEY = "typeValidation";
 
     public static List<ValidationResultInfo> validateInfo(  DataDictionaryValidator validator,
                                                             String validationType,
@@ -69,5 +70,84 @@ public class ValidationUtils {
         }
         return sb.toString();
     }
+
+    /**
+     * Valdiate that the type key is in the db. Should be used on all create/update statements that have types.
+     * @param typeKeys
+     * @param typeService
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public static  List<ValidationResultInfo> validateTypeKeys(List<String> typeKeys, TypeService typeService, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
+
+        for(String typeKey : typeKeys){
+            try{
+                typeService.getType(typeKey, contextInfo);
+            }catch (DoesNotExistException ex){
+                ValidationResultInfo validationResult = new ValidationResultInfo();
+                validationResult.setError("Error trying to use Type that is not configured. [" +typeKey+ "] must be configured.");
+                validationResult.setElement(typeKey);
+                errors.add(validationResult);
+            }
+        }
+
+        return errors;
+    }
+
+    /**
+     * Validate that the type keys are in the database. Should be used on all create/update statements that have types.
+     * @param typeKey
+     * @param typeService
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public static List<ValidationResultInfo> validateTypeKey(String typeKey, TypeService typeService, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
+
+        try{
+            typeService.getType(typeKey, contextInfo);
+        }catch (DoesNotExistException ex){
+            ValidationResultInfo validationResult = new ValidationResultInfo();
+            validationResult.setError("Error trying to use Type that is not configured. [" +typeKey+ "] must be configured.");
+            validationResult.setElement(typeKey);
+            errors.add(validationResult);
+        }
+
+
+        return errors;
+    }
+
+    /**
+     * For all update calls we need to ensure that the types are equal. if not, add an error.
+     * @param typeKey1
+     * @param typeKey2
+     * @return
+     */
+    public static List<ValidationResultInfo> validateTypesAreEqual(String typeKey1, String typeKey2){
+        List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
+
+        if(!typeKey1.equals(typeKey2))  {
+            ValidationResultInfo validationResult = new ValidationResultInfo();
+            validationResult.setError("Error type keys cannot be altered during an update. [" + typeKey1 + "] != [" + typeKey2 +"]" );
+            validationResult.setElement(typeKey1);
+            errors.add(validationResult);
+        }
+
+
+
+        return errors;
+    }
+
 
 }
