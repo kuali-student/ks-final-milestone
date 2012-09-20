@@ -96,7 +96,6 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-fonts</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
         <groupId>com.lowagie</groupId>
