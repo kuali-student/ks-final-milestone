@@ -500,7 +500,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                                 if (buildingInfo != null)
                                     aoWrapper.setBuildingName(buildingInfo.getName());
                             }
-                            aoWrapper.setRoomName(roomInfo.getName());
+                            aoWrapper.setRoomName(roomInfo.getRoomCode());
                         }
                     }
                 }
