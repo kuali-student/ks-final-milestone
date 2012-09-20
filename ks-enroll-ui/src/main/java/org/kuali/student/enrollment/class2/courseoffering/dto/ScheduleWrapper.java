@@ -50,8 +50,8 @@ public class ScheduleWrapper implements Serializable{
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
-        setBuildingCode("BUILDING-ID-CCC");
-        setRoomCode("ROOM-ID-CCC-1115");
+        setBuildingCode("CCC");
+        setRoomCode("1115");
     }
 
     public ScheduleWrapper(ScheduleRequestComponentInfo scheduleRequestComponentInfo){

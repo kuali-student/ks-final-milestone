@@ -270,9 +270,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
 
         try {
-            BuildingInfo building = getRoomService().getBuilding(scheduleWrapper.getBuildingCode(),getContextInfo());
-            scheduleWrapper.setBuilding(building);
-            RoomInfo room = getRoomService().getRoom(scheduleWrapper.getRoomCode(),getContextInfo());
+            List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(),getContextInfo());
+            scheduleWrapper.setBuilding(buildings.get(0));
+            List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(),scheduleWrapper.getRoomCode(),getContextInfo());
+            RoomInfo room = rooms.get(0);
             if(room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()){
                 scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
             }
