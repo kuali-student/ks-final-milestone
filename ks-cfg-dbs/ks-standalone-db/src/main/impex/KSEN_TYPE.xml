@@ -1871,6 +1871,13 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/lui/LuiService"
         TYPE_KEY="kuali.lui.type.grouping.activity" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120917000000"
+        DESCR_FORMATTED="The collection of activity offerings of a single course that are grouped together for registration purposes"
+        DESCR_PLAIN="The collection of activity offerings of a single course that are grouped together for registration purposes"
+        NAME="Registration Group"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lui/LuiInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/lui/LuiService"
+        TYPE_KEY="kuali.lui.type.registration.group" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
         DESCR_PLAIN="The list of milestone types that are used for Registration Key Dates in Registration Appointments"
