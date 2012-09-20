@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.infc.HasType;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import java.util.ArrayList;
@@ -130,17 +131,17 @@ public class ValidationUtils {
 
     /**
      * For all update calls we need to ensure that the types are equal. if not, add an error.
-     * @param typeKey1
-     * @param typeKey2
+     * @param typeInfo1
+     * @param typeInfo2
      * @return
      */
-    public static List<ValidationResultInfo> validateTypesAreEqual(String typeKey1, String typeKey2){
+    public static List<ValidationResultInfo> validateTypesAreEqual(HasType typeInfo1, HasType typeInfo2){
         List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
 
-        if(!typeKey1.equals(typeKey2))  {
+        if(!typeInfo1.getTypeKey().equals(typeInfo2.getTypeKey()))  {
             ValidationResultInfo validationResult = new ValidationResultInfo();
-            validationResult.setError("Error type keys cannot be altered during an update. [" + typeKey1 + "] != [" + typeKey2 +"]" );
-            validationResult.setElement(typeKey1);
+            validationResult.setError("Error type keys cannot be altered during an update. [" + typeInfo1.getTypeKey() + "] != [" + typeInfo2.getTypeKey() +"]" );
+            validationResult.setElement(typeInfo1.getTypeKey());
             errors.add(validationResult);
         }
 
