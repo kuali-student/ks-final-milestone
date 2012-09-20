@@ -33,13 +33,15 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection action image buttons"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionImages-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection action links on hover"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionLinksOnHover-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection column sorting"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionColumnSorting-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection row selection and toggle"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
-        <li><portal:portalLink displayTitle="true" title="Collection Group Table Layout" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection Group Table Layout" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionsTL-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection Group Stacked Layout" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionSL-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Nested Table" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-NestedTable-View&methodToCall=start" /></li>
     </ul>
