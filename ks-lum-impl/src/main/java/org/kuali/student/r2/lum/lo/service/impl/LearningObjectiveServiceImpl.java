@@ -307,6 +307,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
     public List<LoInfo> getLosByIds(@WebParam(name = "loIds") List<String> loIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loIds, "loId");
         checkForEmptyList(loIds, "loId");
@@ -320,6 +321,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<LoInfo> getLosByLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "loStateKey") String loStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
         List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
@@ -351,6 +353,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<LoCategoryInfo> getLoCategoriesByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(loId, "loId");
         List<LoCategory> categories = loDao.getLoCategoriesForLo(loId);
@@ -1031,13 +1034,15 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     }
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<LoCategoryInfo> getLoCategoriesByLoRepository(
 			String loRepositoryKey, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
+        checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
+        List<LoCategory> categories = loDao.getLoCategories(loRepositoryKey);
+        return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
 	@Override
