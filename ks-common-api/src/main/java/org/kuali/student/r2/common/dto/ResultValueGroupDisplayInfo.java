@@ -16,15 +16,16 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultValueGroupDisplayInfo", propOrder = {
-        "key", "value", "_futureElements" })
+        "key", "value" })
+// "key", "value", "_futureElements" })
 public class ResultValueGroupDisplayInfo implements ResultValueGroupDisplay {
 
     @XmlElement
     private String key;
     @XmlElement
     private String value;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    // @XmlAnyElement		KSENROLL-2747
+    // private List<Element> _futureElements;
 
     public ResultValueGroupDisplayInfo() {
     }
