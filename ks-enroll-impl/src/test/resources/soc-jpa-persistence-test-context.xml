@@ -100,8 +100,6 @@
         <property name="em" ref="entityManager" />
     </bean>
 
-    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl" />
-
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
 </beans>
