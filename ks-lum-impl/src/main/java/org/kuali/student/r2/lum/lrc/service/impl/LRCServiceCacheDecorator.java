@@ -105,6 +105,22 @@ public class LRCServiceCacheDecorator extends LRCServiceDecorator {
     }
 
     @Override
+    public List<ResultValueInfo> getResultValuesByKeys(List<String> resultValueIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey("getResultValuesByKeys", resultValueIds.toString());
+
+        Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
+        Object result = null;
+        if (cachedResult == null) {
+            result = getNextDecorator().getResultValuesByKeys(resultValueIds, context);
+            cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
+        } else {
+            result = cachedResult.getValue();
+        }
+
+        return (List<ResultValueInfo>)result;
+    }
+
+    @Override
     public ResultValuesGroupInfo getResultValuesGroup(String resultValuesGroupId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
