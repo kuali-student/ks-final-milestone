@@ -22,9 +22,8 @@ import org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 /**
- * This is a description of what this class does - andy don't forget to fill this in.
  *
- * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+ * @author Kuali Student Team 
  */
 public class HoldIssueDao
         extends GenericEntityDao<HoldIssueEntity> {

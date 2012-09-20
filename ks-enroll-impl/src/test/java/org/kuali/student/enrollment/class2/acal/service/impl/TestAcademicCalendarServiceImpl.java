@@ -52,6 +52,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -65,6 +67,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TestAcademicCalendarServiceImpl {
 
+	private static final Logger log = LoggerFactory.getLogger(TestAcademicCalendarServiceImpl.class);
+	
     @Autowired
     @Qualifier("acalServiceAuthDecorator")
     private AcademicCalendarService acalService;
@@ -917,7 +921,13 @@ public class TestAcademicCalendarServiceImpl {
         Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2008-09-01");
         Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2009-08-31");
 
-        AcademicCalendar copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
+        AcademicCalendar copiedCalendar = null;
+		try {
+			copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
+		} catch (OperationFailedException e) {
+			log.error("copy Academic Calendar failed ", e);
+			throw e;
+		}
 
         assertNotNull(originalCalendar.getId());
         assertNotNull(copiedCalendar.getId());
@@ -1014,6 +1024,7 @@ public class TestAcademicCalendarServiceImpl {
             assertEquals("testId2", acalEventInfo.getId());
             assertEquals("testId2", acalEventInfo.getName());
         } catch (Exception e) {
+        	log.error("testSearchForAcalEvents failed", e);
             fail(e.getMessage());
         }
 
@@ -1050,6 +1061,7 @@ public class TestAcademicCalendarServiceImpl {
             assertEquals("testId2", holidayInfo.getName());
 
         } catch (Exception e) {
+        	log.error("testSearchForHolidays failed", e);
             fail(e.getMessage());
         }
 
