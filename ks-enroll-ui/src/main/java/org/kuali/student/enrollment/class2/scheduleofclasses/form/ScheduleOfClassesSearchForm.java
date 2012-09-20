@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 
@@ -44,9 +45,11 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
 
     // For AJAX purpose
     private String courseOfferingId;
+    private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList;
 
     public ScheduleOfClassesSearchForm (){
         coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
+        aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
         courseOfferingId = "";
     }
 
@@ -130,4 +133,11 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
         this.courseOfferingId = courseOfferingId;
     }
 
+    public List<ActivityOfferingDisplayWrapper> getAoDisplayWrapperList() {
+        return aoDisplayWrapperList;
+    }
+
+    public void setAoDisplayWrapperList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList) {
+        this.aoDisplayWrapperList = aoDisplayWrapperList;
+    }
 }
