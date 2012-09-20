@@ -845,7 +845,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new OperationFailedException("format offering is not associated with a course offering " + formatOfferingId + " among " + rels.size());
     }
 
-    private LuiInfo findFormatOfferingLui(String activityOfferingId, ContextInfo context)
+    private LuiInfo _findFormatOfferingLui(String activityOfferingId, ContextInfo context)
             throws OperationFailedException {
         List<LuiInfo> rels;
         try {
@@ -1029,7 +1029,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     private void _populateActivityOfferingRelationships(ActivityOfferingInfo ao, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
-        LuiInfo foLui = this.findFormatOfferingLui(ao.getId(), context);
+        LuiInfo foLui = this._findFormatOfferingLui(ao.getId(), context);
         LuiInfo coLui = this._findCourseOfferingLui(foLui.getId(), context);
         ao.setFormatOfferingId(foLui.getId());
         ao.setCourseOfferingId(coLui.getId());
