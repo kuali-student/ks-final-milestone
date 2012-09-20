@@ -85,6 +85,8 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
             List<String> validSOCStates = Arrays.asList(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS);
 
+            DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
+
             for (AttributeInfo info : socInfo.getAttributes()){
                 if (validSOCStates.contains(socInfo.getStateKey())){
                     stateName = getStateName(info.getKey());
@@ -92,7 +94,6 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                     Date date = null;
                     String dateUI = info.getValue();
                     if (StringUtils.isNotBlank(info.getValue())){
-                        DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
                         try{
                             date = dateFormat.parse(info.getValue());
                             dateUI = formatScheduleDate(date);
@@ -132,15 +133,15 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             socForm.setPublishInitiatedDate(formatScheduleDate(socInfo.getPublishingStarted()));
             socForm.setPublishCompleteDate(formatScheduleDate(socInfo.getPublishingCompleted()));
 
+            dateFormat = new SimpleDateFormat("hh:mm a");
+
             if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
                 long schedulingDuration = socInfo.getLastSchedulingRunCompleted().getTime() - socInfo.getLastSchedulingRunStarted().getTime();
-                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
                 socForm.setScheduleDuration(dateFormat.format(schedulingDuration));
             }
 
             if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
                 long publishingDuration = socInfo.getPublishingCompleted().getTime() - socInfo.getPublishingStarted().getTime();
-                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
                 socForm.setPublishDuration(dateFormat.format(publishingDuration));
             }
 
