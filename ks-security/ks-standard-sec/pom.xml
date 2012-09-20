@@ -70,7 +70,7 @@
     <dependency>
       <groupId>org.kuali.student.api</groupId>
       <artifactId>ks-common-api</artifactId>
-      <version>${ks.core.version}</version>
+      <version>${ks.api.version}</version>
     </dependency>
   </dependencies>
   <build>
