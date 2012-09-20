@@ -103,4 +103,42 @@ public class ManageSOCController extends UifControllerBase {
         return getUIFModelAndView(socForm);
     }
 
+    @RequestMapping(params = "methodToCall=publishSOC")
+    public ModelAndView publishSOC(@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response){
+
+        if (socForm.getSocInfo() == null){
+            throw new RuntimeException("SocInfo not exists in the form. Please enter the term code and click on GO button");
+        }
+
+        if (!StringUtils.equals(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY,socForm.getSocInfo().getStateKey())){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"SOC should be at Final Edit for publish");
+            return getUIFModelAndView(socForm);
+        }
+
+        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
+        viewHelper.publishSOC(socForm);
+
+        return getUIFModelAndView(socForm);
+    }
+
+    @RequestMapping(params = "methodToCall=closeSOC")
+    public ModelAndView closeSOC(@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response){
+
+        if (socForm.getSocInfo() == null){
+            throw new RuntimeException("SocInfo not exists in the form. Please enter the term code and click on GO button");
+        }
+
+        if (!StringUtils.equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY,socForm.getSocInfo().getStateKey())){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"SOC should be at Publish state to close");
+            return getUIFModelAndView(socForm);
+        }
+
+        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
+        viewHelper.closeSOC(socForm);
+
+        return getUIFModelAndView(socForm);
+    }
+
 }

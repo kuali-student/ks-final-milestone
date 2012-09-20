@@ -182,6 +182,30 @@ public class ManageSOCForm extends UifFormBase {
         return false;
     }
 
+    public boolean isShowPublishSetButton(){
+        if (socInfo != null){
+            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isShowCloseSetButton(){
+        if (socInfo != null){
+            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This will decide whether to display the section below the termcode section. If we have a valid term and SOC exists, the detailed section
+     * will be displayed
+     *
+     * @return
+     */
     public boolean isRenderDetailsSection(){
         return getTermInfo() != null;
     }

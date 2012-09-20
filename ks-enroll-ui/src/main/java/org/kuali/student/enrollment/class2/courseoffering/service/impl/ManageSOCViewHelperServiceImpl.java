@@ -60,7 +60,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * 3. Iterate all the history entries and mark each one for UI highlight and grey text (UX requirement)
      * 4. Calculates the process duration for both scheduling and publishing
      *
-     * @param socForm
+     * @param socForm SOC form
      */
     public void buildModel(ManageSOCForm socForm){
 
@@ -163,30 +163,53 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @param socForm SOC form
      */
     public void lockSOC(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY);
-    }
-
-
-    public void allowSOCFinalEdit(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY);
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY,"Set of Courses has been Locked");
     }
 
     /**
+     * This method changes the SOC state to FINALEDIT so that the departments can make final edits to their COs
      *
-     * @param socInfo
+     * @param socForm SOC form
+     */
+    public void allowSOCFinalEdit(ManageSOCForm socForm){
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY,"Set of Courses has been opened for Final Edits.");
+    }
+
+    /**
+     * This method changes the SOC state to PUBLISHING. This will be processed by mass publishing process and it changes the state to PUBLISHED
+     *
+     * @param socForm SOC form
+     */
+    public void publishSOC(ManageSOCForm socForm){
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY,"Set of Courses has been Published.");
+    }
+
+    /**
+     * This method allows the PUBLISHED SOCs to be closed.
+     *
+     * @param socForm SOC form
+     */
+    public void closeSOC(ManageSOCForm socForm){
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY,"Set of Courses has been closed.");
+    }
+
+    /**
+     * This method changes the state of SOC. This is called to change the SOC state to locked,finaledits,publishing and closed.
+     *
+     * @param socInfo SOCInfo
      * @param stateKey
      */
-    public void changeSOCState(SocInfo socInfo,String stateKey){
+    public void changeSOCState(SocInfo socInfo,String stateKey,String message){
 
         try{
             StatusInfo status = getCourseOfferingSetService().updateSocState(socInfo.getId(), stateKey, ContextUtils.createDefaultContextInfo());
 
             if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "SOC has been locked sucessfully");
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, message);
                 //Once state changed, disable the Lock button.
                 socInfo.setStateKey(stateKey);
             }else{
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error locking SOC");
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "SOC status change fails - " + status.getMessage());
             }
         } catch (DoesNotExistException e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
