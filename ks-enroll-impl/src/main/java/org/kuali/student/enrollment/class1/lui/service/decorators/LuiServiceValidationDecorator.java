@@ -6,7 +6,15 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -62,12 +70,11 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     @Override
     public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiInfo.getTypeKey(), getTypeService(), contextInfo);
 
         LuiInfo oldLui = getNextDecorator().getLui(luiId,contextInfo);
 
         // types can never change on update.
-        errors.addAll(ValidationUtils.validateTypesAreEqual(luiInfo.getTypeKey(), oldLui.getTypeKey()));
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypesAreEqual(luiInfo, oldLui);
 
         if(errors != null && !errors.isEmpty()){
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);
@@ -78,12 +85,11 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     @Override
     public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiCapacityInfo.getTypeKey(), getTypeService(), contextInfo);
 
         LuiCapacityInfo oldLui = getNextDecorator().getLuiCapacity(luiCapacityId,contextInfo);
 
         // types can never change on update.
-        errors.addAll(ValidationUtils.validateTypesAreEqual(luiCapacityInfo.getTypeKey(), oldLui.getTypeKey()));
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypesAreEqual(luiCapacityInfo, oldLui);
 
         if(errors != null && !errors.isEmpty()){
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);
@@ -94,12 +100,10 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
 
     @Override
     public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        List<ValidationResultInfo> errors = ValidationUtils.validateTypeKey(luiLuiRelationInfo.getTypeKey(), getTypeService(), contextInfo);
-
         LuiLuiRelationInfo oldLui = getNextDecorator().getLuiLuiRelation(luiLuiRelationId,contextInfo);
 
         // types can never change on update.
-        errors.addAll(ValidationUtils.validateTypesAreEqual(luiLuiRelationInfo.getTypeKey(), oldLui.getTypeKey()));
+        List<ValidationResultInfo> errors = ValidationUtils.validateTypesAreEqual(luiLuiRelationInfo, oldLui);
 
         if(errors != null && !errors.isEmpty()){
             throw new DataValidationErrorException("Could not create lui because the type errors", errors);

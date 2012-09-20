@@ -1029,15 +1029,34 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     private void _populateActivityOfferingRelationships(ActivityOfferingInfo ao, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
-        LuiInfo foLui = this._findFormatOfferingLui(ao.getId(), context);
-        LuiInfo coLui = this._findCourseOfferingLui(foLui.getId(), context);
-        ao.setFormatOfferingId(foLui.getId());
-        ao.setCourseOfferingId(coLui.getId());
-        ao.setFormatOfferingName(foLui.getOfficialIdentifier() == null ? null : foLui.getOfficialIdentifier().getShortName());
-        if (coLui.getOfficialIdentifier() != null) {
-            ao.setCourseOfferingCode(coLui.getOfficialIdentifier().getCode());
-            ao.setCourseOfferingTitle(coLui.getOfficialIdentifier().getLongName());
+        String foId = context.getAttributeValue("FOId");
+        String foShortName;
+        String coId;
+        String coCode;
+        String coLongName;
+
+        //Pull values from the context so we don't have to look them up if they are known ahead of time
+        if(foId == null){
+            LuiInfo foLui = this._findFormatOfferingLui(ao.getId(), context);
+            LuiInfo coLui = this._findCourseOfferingLui(foLui.getId(), context);
+            foId = foLui.getId();
+            foShortName = foLui.getOfficialIdentifier() == null ? null : foLui.getOfficialIdentifier().getShortName();
+            coId = coLui.getId();
+            coCode = coLui.getOfficialIdentifier().getCode();
+            coLongName = coLui.getOfficialIdentifier().getLongName();
+        }else{
+            foShortName = context.getAttributeValue("FOShortName");
+            coId = context.getAttributeValue("COId");
+            coCode = context.getAttributeValue("COCode");
+            coLongName = context.getAttributeValue("COLongName");
         }
+
+        ao.setFormatOfferingId(foId);
+        ao.setCourseOfferingId(coId);
+        ao.setFormatOfferingName(foShortName);
+        ao.setCourseOfferingCode(coCode);
+        ao.setCourseOfferingTitle(coLongName);
+
         AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(), context);
         ao.setTermCode(termAtp.getCode());
     }

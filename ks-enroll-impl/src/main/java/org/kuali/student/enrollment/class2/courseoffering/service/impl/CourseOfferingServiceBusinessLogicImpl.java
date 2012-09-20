@@ -24,6 +24,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -206,7 +207,23 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
             targetFo = locoService.createFormatOffering(targetFo.getCourseOfferingId(), targetFo.getFormatId(),
                     targetFo.getTypeKey(), targetFo, context);
+
+            //Pass in some context attributes so these values don't need to be looked up again
+            List<AttributeInfo> originalContextAttributes = context.getAttributes();
+            List<AttributeInfo> newContextAttributes = new ArrayList<AttributeInfo>(originalContextAttributes);
+            newContextAttributes.add(new AttributeInfo("FOId",sourceFo.getId()));
+            newContextAttributes.add(new AttributeInfo("FOShortName",sourceFo.getShortName()));
+            newContextAttributes.add(new AttributeInfo("COId",sourceCo.getId()));
+            newContextAttributes.add(new AttributeInfo("COCode",sourceCo.getCourseCode()));
+            newContextAttributes.add(new AttributeInfo("COLongName",sourceCo.getCourseOfferingTitle()));
+            context.setAttributes(newContextAttributes);
+
+            //Make the call with the additional contextAttributes
             List<ActivityOfferingInfo> aoInfoList = locoService.getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
+
+            //Reset the attributes to avoid side affects
+            context.setAttributes(originalContextAttributes);
+
             Map<String, String> sourceAoIdToTargetAoId = new HashMap<String, String>();
             for (ActivityOfferingInfo sourceAo : aoInfoList) {
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY) &&
