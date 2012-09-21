@@ -147,7 +147,7 @@ public class TestCourseServiceImpl{
             assertEquals("level-36", retrievedCourse.getLevel());
 
             assertEquals("courseTitle-12", retrievedCourse.getCourseTitle());
-            assertEquals("transcriptTitle-52", retrievedCourse.getTranscriptTitle());
+            assertEquals("transcriptTitle-53", retrievedCourse.getTranscriptTitle());
 
             assertEquals("plain-18", retrievedCourse.getDescr().getPlain());
             assertEquals("formatted-17", retrievedCourse.getDescr().getFormatted());
@@ -165,7 +165,7 @@ public class TestCourseServiceImpl{
 
             assertEquals(2, retrievedCourse.getUnitsContentOwner().size());
             String orgId = retrievedCourse.getUnitsContentOwner().get(0);
-            assertTrue("unitsContentOwner-56".equals(orgId) || "unitsContentOwner-57".equals(orgId));
+            assertTrue("unitsContentOwner-57".equals(orgId) || "unitsContentOwner-58".equals(orgId));
             
            
             assertEquals(4, retrievedCourse.getAttributes().size());
@@ -193,7 +193,7 @@ public class TestCourseServiceImpl{
              * retrievedCourse.getCrossListings().get(0); // TODO - check its contents
              */
 
-            assertEquals("unitsDeployment-59", retrievedCourse.getUnitsDeployment().get(0));
+            assertEquals("unitsDeployment-61", retrievedCourse.getUnitsDeployment().get(0));
 
             TimeAmountInfo timeInfo = retrievedCourse.getDuration();
             assertEquals("kuali.atp.duration.Semester", timeInfo.getAtpDurationTypeKey());
