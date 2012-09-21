@@ -15,37 +15,48 @@
 
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
  * Test the CourseOfferingSetService rollover business logic with an asynchronous call
  *
- * @autohr andrewlubbers
+ * @author andrewlubbers
  *
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:soc-businesslogic-with-fewer-mocks-test-context.xml"})
-@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
-@Transactional
 public class TestCourseOfferingSetServiceBusinessLogicAsync extends TestCourseOfferingSetServiceBusinessLogicWithMocks {
+
+    private static final long SCHEDULING_TEST_TIMEOUT = 1000l * 60l * 1l;
 
     private static final Long FIVE_MINUTES = 1000l * 60l * 5l;
 
@@ -88,5 +99,59 @@ public class TestCourseOfferingSetServiceBusinessLogicAsync extends TestCourseOf
         List<String> result = new ArrayList<String>();
         result.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
         return result;
+    }
+
+    @Test
+    public void testStartScheduleSoc() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+        SocInfo orig = new SocInfo();
+        orig.setName("SCHEDULING SOC");
+        orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
+        orig.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
+        orig.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
+        orig.setTermId("myTermId");
+        orig.setSubjectArea("ENG");
+        orig.setUnitsContentOwnerId("myUnitId");
+
+        // also create the matching term so the scheduler calls don't break
+        TermInfo term = new TermInfo();
+        term.setId("myTermId");
+        term.setCode("MYTERM");
+        term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        term.setStateKey(AcademicCalendarServiceConstants.TERM_DRAFT_STATE_KEY);
+        term.setStartDate(new Date());
+        term.setEndDate(new Date());
+
+        SocInfo info = socService.createSoc(orig.getTermId(), orig.getTypeKey(), orig, callContext);
+        info = socService.getSoc(info.getId(), callContext);
+
+        acalService.createTerm(term.getTypeKey(), term, callContext);
+
+
+        StatusInfo status = socService.startScheduleSoc(info.getId(), new ArrayList<String>(), callContext);
+        assertTrue(status.getIsSuccess());
+
+        long startPoll = System.currentTimeMillis();
+
+        // poll for completion
+        SocInfo updated = socService.getSoc(info.getId(), callContext);
+        while (!updated.getSchedulingStateKey().equals(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED)) {
+            long timeNow = System.currentTimeMillis();
+            if (timeNow - startPoll > SCHEDULING_TEST_TIMEOUT) {
+                fail("Scheduling a blank SOC exeeded timeout");
+            }
+
+            try {
+                Thread.sleep(2000l);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            callContext.setCurrentDate(new Date());
+            updated = socService.getSoc(info.getId(), callContext);
+        }
+
+        assertEquals(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED, updated.getSchedulingStateKey());
+        assertNotNull(updated.getLastSchedulingRunStarted());
+        assertNotNull(updated.getLastSchedulingRunCompleted());
     }
 }

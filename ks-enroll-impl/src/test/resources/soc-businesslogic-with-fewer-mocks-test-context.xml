@@ -100,6 +100,9 @@
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
         <property name="businessLogic" ref="socBusinessLogic" />
+        <property name="coService" ref="coService" />
+        <property name="schedulingService" ref="schedulingService"/>
+        <property name="socService" ref="socService"/>
     </bean>
 
     <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">

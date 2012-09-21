@@ -18,22 +18,15 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -99,6 +92,9 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
         try {
             SocInfo soc = socService.getSoc(socId, contextInfo);
 
+            // update the Soc to mark that the scheduling is in progress
+            socService.updateSocState(socId, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
+
             List<String> coIds = socService.getCourseOfferingIdsBySoc(soc.getId(), contextInfo);
 
             log("Submitting ", coIds.size(), " course offerings for scheduling");
@@ -138,7 +134,6 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
             logBuffer.append(o);
         }
         logger.info(logBuffer.toString());
-        System.out.println(logBuffer.toString());
         logBuffer.setLength(0);
     }
 

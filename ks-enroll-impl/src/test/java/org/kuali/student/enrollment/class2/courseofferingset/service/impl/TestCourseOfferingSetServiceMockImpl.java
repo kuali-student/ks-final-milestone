@@ -45,7 +45,6 @@ public class TestCourseOfferingSetServiceMockImpl {
 
     @Before
     public void setUp() {
-        principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
 //        try {
