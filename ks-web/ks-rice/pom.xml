@@ -70,7 +70,6 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-web</artifactId>
-            <version>${kuali.rice.version}</version>
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
@@ -88,17 +87,14 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-ksb-web</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-it-internal-tools</artifactId>
-            <version>${kuali.rice.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -115,7 +111,6 @@
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
-            <version>2.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -131,8 +126,6 @@
         <dependency>
             <artifactId>servlet-api</artifactId>
             <groupId>javax.servlet</groupId>
-            <version>2.5</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.transaction</groupId>
