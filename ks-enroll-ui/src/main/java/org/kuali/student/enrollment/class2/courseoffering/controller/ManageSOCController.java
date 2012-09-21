@@ -31,7 +31,6 @@ import java.util.List;
 @RequestMapping(value = "/manageSOC")
 public class ManageSOCController extends UifControllerBase {
 
-
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new ManageSOCForm();
@@ -157,5 +156,4 @@ public class ManageSOCController extends UifControllerBase {
 
         return getUIFModelAndView(socForm);
     }
-
 }

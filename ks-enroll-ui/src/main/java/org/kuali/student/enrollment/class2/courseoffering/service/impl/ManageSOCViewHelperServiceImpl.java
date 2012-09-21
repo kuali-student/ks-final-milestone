@@ -15,13 +15,13 @@ import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.SocMassPublishingEventHelper;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.StateService;
@@ -202,8 +202,14 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      *
      * @param socForm SOC form
      */
-    public void publishSOC(ManageSOCForm socForm){
+    public void publishSOC(ManageSOCForm socForm) {
         changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY,"Set of Courses has been Published.");
+        SocMassPublishingEventHelper mpeHelper = new SocMassPublishingEventHelper();
+        try {
+            mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        }
     }
 
     /**
@@ -314,7 +320,5 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
-
 }
