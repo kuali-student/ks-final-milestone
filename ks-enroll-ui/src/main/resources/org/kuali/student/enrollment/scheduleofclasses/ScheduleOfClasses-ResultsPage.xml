@@ -71,11 +71,10 @@
             <list>
                 <bean parent="Uif-ImageField" p:source="../ks-enroll/images/details_open.png">
                     <property name="onClickScript" value="ajaxCallActivityOfferings('populateAOs', '@{#line.coDisplayInfo.id}', '@{#line.coDisplayInfo.descr.formatted}')" />
-                </bean>
-                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
-                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle">
                     <property name="id" value="@{#line.coDisplayInfo.id}" />
                 </bean>
+                <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
+                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="coDisplayInfo.courseOfferingTitle"/>
                 <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="coDisplayInfo.creditOption.name"/>
                 <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}"/>
             </list>

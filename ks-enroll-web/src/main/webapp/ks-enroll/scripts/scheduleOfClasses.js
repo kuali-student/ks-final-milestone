@@ -1,25 +1,50 @@
-function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, courseOfferingDesc) {
+var originalRowHeight;
+var openImage = "../ks-enroll/images/details_open.png";
+var closeImage = "../ks-enroll/images/details_close.png";
 
-    var container;
-    var rowContent;
+function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, description) {
+    var divTempId = 'findThisId_' + courseOfferingId;
+    var image = jQuery('#' + courseOfferingId).children('img');
 
-//    ajaxSubmitForm(controllerMethod, updateTable,
-//        {courseOfferingId:courseOfferingId, coDisplayInfoId:courseOfferingId },
-//        jQuery('#' + courseOfferingId), null, "update-component");
-
-    ajaxSubmitForm(controllerMethod, updateTable, {courseOfferingId: courseOfferingId}, null, null, null);
+    var isDivVisible = jQuery('#' + divTempId).is(':visible');
+    if (isDivVisible) {
+        var tr = jQuery(jQuery('#' + courseOfferingId)).parents('tr');
+        var height = window.originalRowHeight;
+        jQuery('#' + divTempId).slideUp(1000).remove();
+        jQuery(tr).css("height", height);
+        image.attr("src", openImage);
+    }
+    else {
+        ajaxSubmitForm(controllerMethod, updateTable, {courseOfferingId:courseOfferingId}, jQuery('#' + courseOfferingId), null, "update-page");
+    }
 
     function updateTable() {
-
-        container = jQuery('#' + courseOfferingId);
-//        row = jQuery(container).parents('tr');
-
         if (jQuery('#scheduleOfClassesSearchResults').length > 0) {
-            rowContent = jQuery('#scheduleOfClassesSearchResults').html();
-//            row.after('<tr><td colspan="5" width="100%">' + rowContent + '</td></tr>');
-            container.append('<p>' + courseOfferingDesc + '</p>' + '<p>' + rowContent + '</p>')
-        }
+            var rowContent = jQuery('#scheduleOfClassesSearchResults').html();
+            var div = jQuery('<div/>');
+            div.attr('id', divTempId);
+            div.html(rowContent);
+            var descPara = jQuery('</p>');
+            jQuery(descPara).css('margin', '15px 0px');
+            descPara.html(description);
+            div.prepend(descPara);
 
-//        return false;
+            // Calculate the height of the row containing the new div           
+            var tr = jQuery(jQuery('#' + courseOfferingId)).parents('tr');
+            var td = jQuery(jQuery('#' + courseOfferingId)).parents('td');
+            td = jQuery(td).next();
+            var trHeight = jQuery(tr).height();
+            window.originalRowHeight = trHeight;
+            jQuery(div).css("position", "absolute");
+            jQuery(div).css("background", "inherit");
+            jQuery(div).css("min-width", "600px");
+            jQuery(div).css("max-width", "960px");
+            td.slideDown(1000).append(div);
+            var divHeight = jQuery(div).height();
+            console.log(trHeight + ", " + divHeight);
+            jQuery(tr).css("height", "+=" + divHeight);
+            var image = jQuery('#' + courseOfferingId).children('img');
+            image.attr("src", closeImage);
+        }
     }
 }
