@@ -455,7 +455,61 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
-    
+
+    @RequestMapping(params = "methodToCall=moveAO")
+    public ModelAndView moveAO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //get selected AOC info
+        ActivityOfferingClusterInfo selectedAOCInfo = getCourseOfferingService().getActivityOfferingCluster(theForm.getClusterIdIdForNewFO(),getContextInfo());
+
+        //get FOs and add them to the selected AOC
+        List<ActivityOfferingWrapper> aoWrapperList = theForm.getFilteredUnassignedAOsForSelectedFO();
+        for (ActivityOfferingWrapper aoWrapper : aoWrapperList) {
+            if (aoWrapper.getIsChecked()) {
+                //check if TypeKey exists in aosList and add to appropriate aosIds
+                boolean typeKeyExists = false;
+                for ( int i=0; i < selectedAOCInfo.getActivityOfferingSets().size(); i++) {
+                    if ( selectedAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingType().equals(aoWrapper.getAoInfo().getTypeKey()) ) {  //add aoId
+                        typeKeyExists = true;
+                        selectedAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingIds().add(aoWrapper.getAoInfo().getActivityId());
+                        break;
+                    } 
+                }    
+                if (!typeKeyExists){  //create new aos and add to aoc
+                        ActivityOfferingSetInfo aosInfo =   new ActivityOfferingSetInfo();
+                        aosInfo.setActivityOfferingType(aoWrapper.getAoInfo().getTypeKey());
+                        List<String> aoIdList = new ArrayList<String>();
+                        aoIdList.add(aoWrapper.getAoInfo().getActivityId());
+                        aosInfo.setActivityOfferingIds(aoIdList);
+                        selectedAOCInfo.getActivityOfferingSets().add(aosInfo);
+                }
+            }
+        }
+        //persist selected AOC
+        ActivityOfferingClusterInfo updatedSelectedAOCInfo = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
+                                                                                                                      theForm.getClusterIdIdForNewFO(),
+                                                                                                                      selectedAOCInfo, getContextInfo());
+
+        //update AOs
+        List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(updatedSelectedAOCInfo.getFormatOfferingId(), theForm);
+
+        theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
+        if(!filteredAOs.isEmpty()){
+            theForm.setFormatOfferingName(filteredAOs.get(0).getFormatOffering().getName());
+        }
+
+        //then update RGs
+        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
+        List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
+
+        if(rgInfos != null && rgInfos.size()>0) {
+            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
+        }
+
+        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+
+    }
+
     private ActivityOfferingClusterInfo buildDefaultAOCluster (String formatOfferingId, CourseOfferingManagementForm theForm){
         ActivityOfferingClusterInfo defaultCluster = new ActivityOfferingClusterInfo();
         defaultCluster.setTypeKey(CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY);
