@@ -170,6 +170,7 @@
                <bean parent="Uif-MessageField" p:messageText="@{scheduleInitiatedDate}" p:label="Initiated" />
                 <bean parent="Uif-MessageField" p:messageText="@{scheduleCompleteDate}" p:label="Completed" />
                 <bean parent="Uif-MessageField" p:messageText="@{scheduleDuration}" p:label="Scheduling Duration" />
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}" />
             </list>
         </property>
    </bean>

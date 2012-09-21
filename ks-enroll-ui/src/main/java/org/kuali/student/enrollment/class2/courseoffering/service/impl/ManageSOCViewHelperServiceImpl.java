@@ -28,10 +28,7 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
 
@@ -79,13 +76,11 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
             SocInfo socInfo = getCourseOfferingSetService().getSoc(socIds.get(0), ContextUtils.createDefaultContextInfo());
             socForm.setSocInfo(socInfo);
-
+            socForm.setSocSchedulingStatus(getSocSchedulingStatus(socInfo));
             String stateName = getStateName(socInfo.getStateKey());
             socForm.setSocStatus(stateName);
 
             List<String> validSOCStates = Arrays.asList(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS);
-
-            DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
 
             for (AttributeInfo info : socInfo.getAttributes()){
                 if (validSOCStates.contains(socInfo.getStateKey())){
@@ -94,6 +89,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                     Date date = null;
                     String dateUI = info.getValue();
                     if (StringUtils.isNotBlank(info.getValue())){
+                        DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
                         try{
                             date = dateFormat.parse(info.getValue());
                             dateUI = formatScheduleDate(date);
@@ -133,15 +129,15 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             socForm.setPublishInitiatedDate(formatScheduleDate(socInfo.getPublishingStarted()));
             socForm.setPublishCompleteDate(formatScheduleDate(socInfo.getPublishingCompleted()));
 
-            dateFormat = new SimpleDateFormat("hh:mm a");
-
             if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
                 long schedulingDuration = socInfo.getLastSchedulingRunCompleted().getTime() - socInfo.getLastSchedulingRunStarted().getTime();
+                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
                 socForm.setScheduleDuration(dateFormat.format(schedulingDuration));
             }
 
             if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
                 long publishingDuration = socInfo.getPublishingCompleted().getTime() - socInfo.getPublishingStarted().getTime();
+                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
                 socForm.setPublishDuration(dateFormat.format(publishingDuration));
             }
 
@@ -236,6 +232,18 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
     }
 
+    protected String getSocSchedulingStatus(SocInfo info) {
+        if(info.getSchedulingStateKey() != null) {
+                 try{
+                    return  getStateService().getState(info.getSchedulingStateKey(), ContextUtils.createDefaultContextInfo()).getName();
+                } catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+        }
+
+        return "Not Started";
+    }
+
     protected AcademicCalendarService getAcalService() {
         if (acalService == null){
             acalService = CourseOfferingResourceLoader.loadAcademicCalendarService();
@@ -255,6 +263,32 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             stateService = CourseOfferingResourceLoader.loadStateService();
         }
         return stateService;
+    }
+
+    public void startMassScheduling(ManageSOCForm socForm) {
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        try {
+            List<String> optionKeys = new ArrayList<String>();
+
+            StatusInfo status = getCourseOfferingSetService().startScheduleSoc(socForm.getSocInfo().getId(), optionKeys, contextInfo);
+
+            if (status.getIsSuccess()){
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM,  "Approved activities were successfully sent to Scheduler.");
+                SocInfo socInfo = getCourseOfferingSetService().getSoc(socForm.getSocInfo().getId(), contextInfo);
+                socForm.setSocInfo(socInfo);
+                socForm.setSocSchedulingStatus(getSocSchedulingStatus(socInfo));
+                String stateName = getStateName(socInfo.getStateKey());
+                socForm.setSocStatus(stateName);
+            } else {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error locking SOC");
+            }
+        } catch (DoesNotExistException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

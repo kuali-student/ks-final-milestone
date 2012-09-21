@@ -216,4 +216,15 @@ public class ManageSOCForm extends UifFormBase {
 //        statusHistory.clear();
     }
 
+    public boolean isEnableMSEButton(){
+        if (socInfo != null){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)){
+                if(socInfo.getSchedulingStateKey() == null || socInfo.getSchedulingStateKey().isEmpty() || StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED) ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

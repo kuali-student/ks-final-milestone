@@ -19,4 +19,6 @@ public interface ManageSOCViewHelperService extends ViewHelperService{
     public void publishSOC(ManageSOCForm socForm);
 
     public void closeSOC(ManageSOCForm socForm);
+
+    public void startMassScheduling(ManageSOCForm socForm);
 }

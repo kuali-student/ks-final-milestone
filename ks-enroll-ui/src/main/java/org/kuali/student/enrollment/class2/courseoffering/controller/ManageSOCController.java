@@ -56,6 +56,21 @@ public class ManageSOCController extends UifControllerBase {
         return getUIFModelAndView(socForm);
     }
 
+    @RequestMapping(params = "methodToCall=sendApprovedActivitiesToScheduler")
+    public ModelAndView  sendApprovedActivitiesToScheduler (@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
+                                                            HttpServletRequest request, HttpServletResponse response){
+        if (!StringUtils.equals(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY,socForm.getSocInfo().getStateKey())){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"SOC should be in LOCKED state!");
+            return getUIFModelAndView(socForm);
+        }
+
+        // start send approved activities to scheduler
+        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
+        viewHelper.startMassScheduling(socForm);
+
+        return getUIFModelAndView(socForm);
+    }
+
     @RequestMapping(params = "methodToCall=buildModel")
     public ModelAndView buildModel(@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
