@@ -50,10 +50,11 @@ public class BaseAssembler {
             return new ArrayList<AttributeInfo>(0);
         }
 
-        List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>();
+        List<AttributeInfo> attributeInfos = new ArrayList<AttributeInfo>(attributes.size());
 
         for (Attribute<?> attribute : attributes) {
             AttributeInfo attributeInfo = new AttributeInfo();
+            attributeInfo.setId(attribute.getId());
             attributeInfo.setKey(attribute.getName());
             attributeInfo.setValue(attribute.getValue());
             attributeInfos.add(attributeInfo);
