@@ -144,9 +144,20 @@ public class ManageSOCForm extends UifFormBase {
         return false;
     }
 
+    public boolean isShowLockButton(){
+        if (socInfo != null){
+            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED) &&
+                StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isShowFinalEditButton(){
         if (socInfo != null){
-            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED)){
+            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED) &&
+                StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)){
                 return true;
             }
         }
@@ -155,7 +166,7 @@ public class ManageSOCForm extends UifFormBase {
 
     public boolean isShowPublishSetButton(){
         if (socInfo != null){
-            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
                 return true;
             }
         }
@@ -164,7 +175,7 @@ public class ManageSOCForm extends UifFormBase {
 
     public boolean isShowCloseSetButton(){
         if (socInfo != null){
-            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)){
                 return true;
             }
         }

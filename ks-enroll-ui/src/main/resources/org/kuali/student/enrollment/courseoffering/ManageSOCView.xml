@@ -133,7 +133,7 @@
                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:5px;margin-bottom:3px;margin-left:15px;">
                     <property name="items">
                       <list>
-                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSOC" p:actionLabel="Lock Set" p:disabled="@{!enableLockButton}" p:render="@{!showFinalEditButton}"
+                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="lockSOC" p:actionLabel="Lock Set" p:disabled="@{!enableLockButton}" p:render="@{showLockButton}"
                                 p:preSubmitCall="confirm('When Set of Courses is in Locked state, Departmental users will be unable to make changes.')"/>
                           <bean parent="Uif-PrimaryActionButton" p:methodToCall="allowFinalEdits" p:actionLabel="Allow Final Edits" p:render="@{showFinalEditButton}"
                                 p:preSubmitCall="confirm('Departmental Users will be able to view and edit Courses and Activities, and schedule activities independently.')"/>

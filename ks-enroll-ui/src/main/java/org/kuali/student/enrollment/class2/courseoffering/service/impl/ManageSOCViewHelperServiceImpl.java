@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DurationFormatUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -29,7 +30,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
 
@@ -157,11 +157,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @return formatted date String (hh:mm)
      */
     public String getTimeDiff(Date dateOne, Date dateTwo) {
-        String diff = "";
-        long timeDiff = Math.abs(dateOne.getTime() - dateTwo.getTime());
-        diff = String.format("%d:%d", TimeUnit.MILLISECONDS.toHours(timeDiff),
-        TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
-        return diff;
+        return DurationFormatUtils.formatDuration(dateOne.getTime() - dateTwo.getTime(),"HH:mm",true);
     }
 
     /**
