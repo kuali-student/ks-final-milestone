@@ -30,10 +30,8 @@ public class CourseOfferingDisplayWrapper {
 
     private CourseOfferingDisplayInfo coDisplayInfo;
     private String information;
-    private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList;
 
     public CourseOfferingDisplayWrapper(){
-        aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
         coDisplayInfo = new CourseOfferingDisplayInfo();
     }
 
@@ -53,11 +51,4 @@ public class CourseOfferingDisplayWrapper {
         this.information = information;
     }
 
-    public List<ActivityOfferingDisplayWrapper> getAoDisplayWrapperList() {
-        return aoDisplayWrapperList;
-    }
-
-    public void setAoDisplayWrapperList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList) {
-        this.aoDisplayWrapperList = aoDisplayWrapperList;
-    }
 }
