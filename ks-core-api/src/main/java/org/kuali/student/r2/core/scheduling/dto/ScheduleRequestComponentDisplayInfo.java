@@ -17,10 +17,15 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.infc.Type;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.infc.Org;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.infc.Building;
+import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponentDisplay;
+import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -81,24 +86,24 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
     public ScheduleRequestComponentDisplayInfo(ScheduleRequestComponentDisplay scheduleRequestComponentDisplay) {
         if (null != scheduleRequestComponentDisplay) {
             this.rooms = new ArrayList<RoomInfo>();
-            for (RoomInfo roomInfo: scheduleRequestComponentDisplay.getRooms()) {
-                this.rooms.add(new RoomInfo(roomInfo));
+            for (Room room: scheduleRequestComponentDisplay.getRooms()) {
+                this.rooms.add(new RoomInfo(room));
             }
             this.buildings = new ArrayList<BuildingInfo>();
-            for (BuildingInfo buildingInfo: scheduleRequestComponentDisplay.getBuildings()) {
-                this.buildings.add(new BuildingInfo(buildingInfo));
+            for (Building building: scheduleRequestComponentDisplay.getBuildings()) {
+                this.buildings.add(new BuildingInfo(building));
             }
             this.timeSlots = new ArrayList<TimeSlotInfo>();
-            for (TimeSlotInfo timeSlotInfo: scheduleRequestComponentDisplay.getTimeSlots()) {
-                this.timeSlots.add(new TimeSlotInfo(timeSlotInfo));
+            for (TimeSlot timeSlot: scheduleRequestComponentDisplay.getTimeSlots()) {
+                this.timeSlots.add(new TimeSlotInfo(timeSlot));
             }
             this.orgs = new ArrayList<OrgInfo>();
-            for (OrgInfo orgInfo: scheduleRequestComponentDisplay.getOrgs()) {
-                this.orgs.add(new OrgInfo(orgInfo));
+            for (Org org: scheduleRequestComponentDisplay.getOrgs()) {
+                this.orgs.add(new OrgInfo(org));
             }
             this.resourceTypes= new ArrayList<TypeInfo>();
-            for (TypeInfo typeInfo: scheduleRequestComponentDisplay.getResourceTypes()) {
-                this.resourceTypes.add(new TypeInfo(typeInfo));
+            for (Type type: scheduleRequestComponentDisplay.getResourceTypes()) {
+                this.resourceTypes.add(new TypeInfo(type));
             }
         }
     }
@@ -117,8 +122,12 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
     }
 
     @Override
-    public List<RoomInfo> getRooms() {
-        return rooms;
+    public List<? extends Room> getRooms() {
+        if (this.rooms==null) {
+            return new ArrayList<RoomInfo>();
+        } else {
+            return rooms;
+        }
     }
 
     public void setRooms(List<RoomInfo> rooms) {
@@ -126,8 +135,12 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
     }
 
     @Override
-    public List<BuildingInfo> getBuildings() {
-        return buildings;
+    public List<? extends Building> getBuildings() {
+        if (this.buildings==null) {
+            return new ArrayList<BuildingInfo>();
+        } else {
+            return buildings;
+        }
     }
 
     public void setBuildings(List<BuildingInfo> buildings) {
@@ -135,8 +148,12 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
     }
 
     @Override
-    public List<TimeSlotInfo> getTimeSlots() {
-        return timeSlots;
+    public List<? extends TimeSlot> getTimeSlots() {
+        if (this.timeSlots==null) {
+            return new ArrayList<TimeSlotInfo>();
+        } else {
+            return timeSlots;
+        }
     }
 
     public void setTimeSlots(List<TimeSlotInfo> timeSlots) {
@@ -144,8 +161,12 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
     }
 
     @Override
-    public List<OrgInfo> getOrgs() {
-        return orgs;
+    public List<? extends Org> getOrgs() {
+        if (this.orgs==null) {
+            return new ArrayList<OrgInfo>();
+        } else {
+            return orgs;
+        }
     }
 
     public void setOrgs(List<OrgInfo> orgs) {
@@ -153,8 +174,12 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
     }
 
     @Override
-    public List<TypeInfo> getResourceTypes() {
-        return resourceTypes;
+    public List<? extends Type> getResourceTypes() {
+        if (this.resourceTypes==null) {
+            return new ArrayList<TypeInfo>();
+        } else {
+            return resourceTypes;
+        }
     }
 
     public void setResourceTypes(List<TypeInfo> resourceTypes) {

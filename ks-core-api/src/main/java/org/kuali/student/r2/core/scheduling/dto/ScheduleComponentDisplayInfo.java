@@ -18,7 +18,10 @@ package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.infc.Building;
+import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
+import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -69,11 +72,11 @@ public class ScheduleComponentDisplayInfo implements ScheduleComponentDisplay, S
 
     public ScheduleComponentDisplayInfo(ScheduleComponentDisplay scheduleComponentDisplay) {
         if (null != scheduleComponentDisplay) {
-            this.room= scheduleComponentDisplay.getRoom();
-            this.building = scheduleComponentDisplay.getBuilding();
+            this.room= new RoomInfo(scheduleComponentDisplay.getRoom());
+            this.building = new BuildingInfo(scheduleComponentDisplay.getBuilding());
             this.timeSlots = new ArrayList<TimeSlotInfo>();
-            for (TimeSlotInfo timeSlotInfo: scheduleComponentDisplay.getTimeSlots()) {
-                this.timeSlots.add(new TimeSlotInfo(timeSlotInfo));
+            for (TimeSlot timeSlot: scheduleComponentDisplay.getTimeSlots()) {
+                this.timeSlots.add(new TimeSlotInfo(timeSlot));
             }
         }
     }
@@ -92,7 +95,7 @@ public class ScheduleComponentDisplayInfo implements ScheduleComponentDisplay, S
     }
 
     @Override
-    public RoomInfo getRoom() {
+    public Room getRoom() {
         return room;
     }
 
@@ -101,7 +104,7 @@ public class ScheduleComponentDisplayInfo implements ScheduleComponentDisplay, S
     }
 
     @Override
-    public BuildingInfo getBuilding() {
+    public Building getBuilding() {
         return building;
     }
 
@@ -110,8 +113,12 @@ public class ScheduleComponentDisplayInfo implements ScheduleComponentDisplay, S
     }
 
     @Override
-    public List<TimeSlotInfo> getTimeSlots() {
-        return timeSlots;
+    public List<? extends TimeSlot> getTimeSlots() {
+        if (this.timeSlots==null) {
+            return new ArrayList<TimeSlotInfo>();
+        } else {
+            return timeSlots;
+        }
     }
 
     public void setTimeSlots(List<TimeSlotInfo> timeSlots) {
