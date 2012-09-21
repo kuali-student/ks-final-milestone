@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 
 /**
@@ -27,6 +28,12 @@ public class ActivityOfferingDisplayWrapper {
 
     private ActivityOfferingDisplayInfo aoDisplayInfo;
     private String information;
+    private String startTimeDisplay;
+    private String endTimeDisplay;
+    private String daysDisplayName;
+    private String buildingName;
+    private String roomName;
+    private String tbaDisplayName;
 
     public ActivityOfferingDisplayWrapper(){
         aoDisplayInfo = new ActivityOfferingDisplayInfo();
@@ -48,4 +55,54 @@ public class ActivityOfferingDisplayWrapper {
         this.information = information;
     }
 
+    public String getStartTimeDisplay() {
+        return startTimeDisplay;
+    }
+
+    public void setStartTimeDisplay(String startTimeDisplay) {
+        this.startTimeDisplay = startTimeDisplay;
+    }
+
+    public String getEndTimeDisplay() {
+        return endTimeDisplay;
+    }
+
+    public void setEndTimeDisplay(String endTimeDisplay) {
+        this.endTimeDisplay = endTimeDisplay;
+    }
+
+    public String getDaysDisplayName() {
+        return daysDisplayName;
+    }
+
+    public void setDaysDisplayName(String daysDisplayName) {
+        this.daysDisplayName = daysDisplayName;
+    }
+
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public String getTbaDisplayName() {
+        return tbaDisplayName;
+    }
+
+    public void setTbaDisplayName(boolean tba) {
+        tbaDisplayName = StringUtils.EMPTY;
+        if (tba){
+            tbaDisplayName =  "TBA";
+        }
+    }
 }
