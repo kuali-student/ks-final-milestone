@@ -15,7 +15,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.scheduleofclasses.util.SocMassPublishingEventHelper;
+import org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -204,7 +204,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      */
     public void publishSOC(ManageSOCForm socForm) {
         changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY,"Set of Courses has been Published.");
-        SocMassPublishingEventHelper mpeHelper = new SocMassPublishingEventHelper();
+        CourseOfferingSetPublishingHelper mpeHelper = new CourseOfferingSetPublishingHelper();
         try {
             mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {

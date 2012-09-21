@@ -1,11 +1,10 @@
-package org.kuali.student.enrollment.class2.scheduleofclasses.util;
+package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.log4j.Logger;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.class2.courseofferingset.service.impl.KSThreadRunnerAfterTransactionSynchronization;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -26,8 +25,8 @@ import java.util.List;
  *  This code needs to move to services layer ... probably to CourseOfferingSetServiceBuisnessLogic.
  *  Concurrency not addressed since it is just a stop-gap.
  */
-public class SocMassPublishingEventHelper {
-    final static Logger LOG = Logger.getLogger(SocMassPublishingEventHelper.class);
+public class CourseOfferingSetPublishingHelper {
+    final static Logger LOG = Logger.getLogger(CourseOfferingSetPublishingHelper.class);
 
     private CourseOfferingService coService;
     private CourseOfferingSetService socService;
