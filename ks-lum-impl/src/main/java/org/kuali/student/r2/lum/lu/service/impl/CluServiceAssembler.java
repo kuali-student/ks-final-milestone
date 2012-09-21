@@ -499,7 +499,7 @@ public class CluServiceAssembler extends BaseAssembler {
         CluInstructorInfo dto = new CluInstructorInfo();
 
         BeanUtils.copyProperties(entity, dto,
-                new String[]{"id", "attributes"});
+                new String[]{"attributes"});
         dto.setAttributes(toAttributeList(entity.getAttributes()));
 
         return dto;

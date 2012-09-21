@@ -457,10 +457,15 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
         //Disassemble the CluResults (grading and credit options)
         //Special code to take audit from attributes and put into options
-        String courseResultCompAttrAudit = course.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT);
-		if(courseResultCompAttrAudit!=null&&"true".equals(courseResultCompAttrAudit)){
-            if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
-                course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
+        for (AttributeInfo attr : course.getAttributes()){
+            if (attr.getKey() != null){
+                if (attr.getKey().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)
+                    && "true".equals(attr.getValue()) ){
+                    if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
+                        course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
+                    }
+                	break;
+                }
             }
         }
 

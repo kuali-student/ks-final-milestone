@@ -2093,6 +2093,8 @@ public class CluServiceImpl implements CluService {
                 // Copy properties
                 BeanUtils.copyProperties(resOptInfo, opt, new String[]{
                         "resultUsageType", "desc"});
+                opt.setCreateId(context.getPrincipalId());
+                opt.setCreateTime(context.getCurrentDate());
             } else {
                 try {
                     // Get existing result option
