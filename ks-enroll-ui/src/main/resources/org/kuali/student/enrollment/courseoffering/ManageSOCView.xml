@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd
-                           http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="ManageSOCView" parent="KSFormView">
    	  <property name="id" value="ManageSOCView"/>
@@ -170,7 +168,8 @@
                <bean parent="Uif-MessageField" p:messageText="@{scheduleInitiatedDate}" p:label="Initiated" />
                 <bean parent="Uif-MessageField" p:messageText="@{scheduleCompleteDate}" p:label="Completed" />
                 <bean parent="Uif-MessageField" p:messageText="@{scheduleDuration}" p:label="Scheduling Duration" />
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}" />
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}"
+                      p:preSubmitCall="confirm('Send all approved activities for scheduling to the external scheduler.')"/>
             </list>
         </property>
    </bean>
