@@ -471,7 +471,6 @@
         <property name="businessLogic" ref="socBusinessLogic" />
         <property name="coService" ref="coService"/>
         <property name="schedulingService" ref="schedulingServiceValidationDecorator"/>
-        <property name="socService" ref="socService"/>
     </bean>
 
     <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
