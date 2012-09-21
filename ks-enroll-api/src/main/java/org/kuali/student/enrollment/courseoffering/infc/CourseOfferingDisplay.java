@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.courseoffering.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
-import org.kuali.student.r2.common.infc.ResultValueGroupDisplay;
+import org.kuali.student.r2.common.infc.KeyName;
 import org.kuali.student.r2.common.infc.RichText;
 
 import java.util.List;
@@ -121,7 +121,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * @impl copy from CO.creditOptionId and CO.creditOptionName
      * @readOnly
      */
-    public ResultValueGroupDisplay getCreditOption();
+    public KeyName getCreditOption();
 
     /**
      * The options/scales that indicate the allowable grades within a
@@ -135,7 +135,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * @impl copy from Co.gradingOptionId and Co.gradingOptionName
      * @readOnly
      */
-    public ResultValueGroupDisplay getGradingOption();
+    public KeyName getGradingOption();
 
     /**
      * Code for the term the course offering is in
@@ -162,7 +162,7 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      *
      * @name Student Registration Grading Options
      */
-    public List<? extends ResultValueGroupDisplay> getStudentRegistrationGradingOptions();
+    public List<? extends KeyName> getStudentRegistrationGradingOptions();
 
     /**
      * Indicates that the Course Offering is an Honors option

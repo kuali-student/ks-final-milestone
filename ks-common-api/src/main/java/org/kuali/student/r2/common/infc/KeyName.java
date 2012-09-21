@@ -7,7 +7,7 @@ package org.kuali.student.r2.common.infc;
  * @Version 2.0
  * @Author Kuali Student
  */
-public interface ResultValueGroupDisplay {
+public interface KeyName {
 
     /**
      * @name Key
@@ -19,5 +19,5 @@ public interface ResultValueGroupDisplay {
      * @name Value
      * @required
      */
-    public String getValue();
+    public String getName();
 }

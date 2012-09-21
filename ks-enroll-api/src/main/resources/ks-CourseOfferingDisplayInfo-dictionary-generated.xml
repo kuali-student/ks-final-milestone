@@ -355,7 +355,7 @@ additional grading schemes, such as P/F or Audit.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.ResultValueGroupDisplayInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.KeyNameInfo"/>
 	</bean>
 
 	<bean id="CourseOfferingDisplayInfo.gradingOption-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -382,7 +382,7 @@ Pass/Fail or Letter Graded option.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="gradingOption"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.common.infc.ResultValueGroupDisplay"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.infc.KeyName"/>
 				<property name="objectLabel" value="Grading Option"/>
 				<property name="objectDescription">
 					<value>
@@ -398,7 +398,7 @@ Pass/Fail or Letter Graded option.
 				<property name="attributes">
 					<list>
 						<ref bean="CourseOfferingDisplayInfo.gradingOption.key"/>
-						<ref bean="CourseOfferingDisplayInfo.gradingOption.value"/>
+						<ref bean="CourseOfferingDisplayInfo.gradingOption.name"/>
 					</list>
 				</property>
 
@@ -419,21 +419,8 @@ Pass/Fail or Letter Graded option.
 		<property name="name" value="key"/>
 	</bean>
 
-	<bean id="CourseOfferingDisplayInfo.gradingOption.value-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="value"/>
-		<property name="shortLabel" value="Value"/>
-		<property name="summary">
-			<value>
-???
-			</value>
-		</property>
-		<property name="label" value="Value"/>
-		<property name="description">
-			<value>
-???
-			</value>
-		</property>
-		<property name="required" value="true"/>
+	<bean id="CourseOfferingDisplayInfo.gradingOption.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
 	</bean>
 
 	<bean id="CourseOfferingDisplayInfo.creditOption-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -456,7 +443,7 @@ to the course offering and concatenating the values of the options.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="creditOption"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.ResultValueGroupDisplayInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.KeyNameInfo"/>
 				<property name="objectLabel" value="Credit Option"/>
 				<property name="objectDescription">
 					<value>
@@ -468,7 +455,7 @@ to the course offering and concatenating the values of the options.
 				<property name="attributes">
 					<list>
 						<ref bean="CourseOfferingDisplayInfo.creditOption.key"/>
-						<ref bean="CourseOfferingDisplayInfo.creditOption.value"/>
+						<ref bean="CourseOfferingDisplayInfo.creditOption.name"/>
 					</list>
 				</property>
 
@@ -489,21 +476,8 @@ to the course offering and concatenating the values of the options.
 		<property name="name" value="key"/>
 	</bean>
 
-	<bean id="CourseOfferingDisplayInfo.creditOption.value-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="value"/>
-		<property name="shortLabel" value="Value"/>
-		<property name="summary">
-			<value>
-???
-			</value>
-		</property>
-		<property name="label" value="Value"/>
-		<property name="description">
-			<value>
-???
-			</value>
-		</property>
-		<property name="required" value="true"/>
+	<bean id="CourseOfferingDisplayInfo.creditOption.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
 	</bean>
 
 	<bean id="CourseOfferingDisplayInfo.typeName-generated" abstract="true" parent="BaseKuali.string">

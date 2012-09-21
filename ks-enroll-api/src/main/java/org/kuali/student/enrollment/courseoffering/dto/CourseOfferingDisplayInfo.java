@@ -2,9 +2,9 @@ package org.kuali.student.enrollment.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingDisplay;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.ResultValueGroupDisplayInfo;
+import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.infc.ResultValueGroupDisplay;
+import org.kuali.student.r2.common.infc.KeyName;
 import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
@@ -52,13 +52,13 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     private String termCode;
 
     @XmlElement
-    private List<ResultValueGroupDisplayInfo> studentRegistrationGradingOptions;
+    private List<KeyNameInfo> studentRegistrationGradingOptions;
 
     @XmlElement
-    private ResultValueGroupDisplayInfo gradingOption;
+    private KeyNameInfo gradingOption;
 
     @XmlElement
-    private ResultValueGroupDisplayInfo creditOption;
+    private KeyNameInfo creditOption;
 
 
     @XmlElement
@@ -86,11 +86,11 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
             this.termCode = courseOfferingDisplay.getTermCode();
             this.termName = courseOfferingDisplay.getTermName();
             this.termId = courseOfferingDisplay.getTermId();
-            this.creditOption = new ResultValueGroupDisplayInfo(courseOfferingDisplay.getCreditOption());
-            this.gradingOption = new ResultValueGroupDisplayInfo(courseOfferingDisplay.getGradingOption());
-            this.studentRegistrationGradingOptions = new ArrayList<ResultValueGroupDisplayInfo>();
-            for(ResultValueGroupDisplay studentRegGradingOption: courseOfferingDisplay.getStudentRegistrationGradingOptions()) {
-                this.studentRegistrationGradingOptions.add(new ResultValueGroupDisplayInfo(studentRegGradingOption));
+            this.creditOption = new KeyNameInfo(courseOfferingDisplay.getCreditOption());
+            this.gradingOption = new KeyNameInfo(courseOfferingDisplay.getGradingOption());
+            this.studentRegistrationGradingOptions = new ArrayList<KeyNameInfo>();
+            for(KeyName studentRegGradingOption: courseOfferingDisplay.getStudentRegistrationGradingOptions()) {
+                this.studentRegistrationGradingOptions.add(new KeyNameInfo(studentRegGradingOption));
             }
             this.typeName = courseOfferingDisplay.getTypeName();
             this.stateName = courseOfferingDisplay.getStateName();
@@ -181,25 +181,25 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     }
 
     @Override
-    public List<ResultValueGroupDisplayInfo> getStudentRegistrationGradingOptions() {
+    public List<KeyNameInfo> getStudentRegistrationGradingOptions() {
         if (this.studentRegistrationGradingOptions == null) {
-            return new ArrayList<ResultValueGroupDisplayInfo>();
+            return new ArrayList<KeyNameInfo>();
         } else {
             return studentRegistrationGradingOptions;
         }
     }
 
-    public void setStudentRegistrationGradingOptions(List<ResultValueGroupDisplayInfo> studentRegistrationGradingOptions) {
+    public void setStudentRegistrationGradingOptions(List<KeyNameInfo> studentRegistrationGradingOptions) {
         this.studentRegistrationGradingOptions = studentRegistrationGradingOptions;
     }
 
 
     @Override
-    public ResultValueGroupDisplayInfo getCreditOption() {
+    public KeyNameInfo getCreditOption() {
         return this.creditOption;
     }
 
-    public void setCreditOption(ResultValueGroupDisplayInfo creditOption) {
+    public void setCreditOption(KeyNameInfo creditOption) {
         this.creditOption = creditOption;
     }
 
@@ -227,11 +227,11 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     }
 
     @Override
-    public ResultValueGroupDisplay getGradingOption() {
+    public KeyName getGradingOption() {
         return this.gradingOption;
     }
 
-    public void setGradingOption(ResultValueGroupDisplayInfo gradingOption) {
+    public void setGradingOption(KeyNameInfo gradingOption) {
         this.gradingOption = gradingOption;
     }
 }

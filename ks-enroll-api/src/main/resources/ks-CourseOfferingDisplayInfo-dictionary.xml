@@ -36,7 +36,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- The following file gets generated during the build and gets put into the target/classes directory -->
 	<import resource="classpath:ks-CourseOfferingDisplayInfo-dictionary-generated.xml"/>
 	<!-- TODO: remove these once the jira about lists of complex objects gets fixed -->
-	<import resource="classpath:ks-ResultValueGroupDisplayInfo-dictionary.xml"/>
+	<import resource="classpath:ks-KeyNameInfo-dictionary.xml"/>
 
 	<!-- CourseOfferingDisplayInfo-->
 	<bean id="CourseOfferingDisplayInfo" parent="CourseOfferingDisplayInfo-parent"/>
@@ -124,8 +124,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingDisplayInfo.gradingOption.value" parent="CourseOfferingDisplayInfo.gradingOption.value-parent"/>
-	<bean id="CourseOfferingDisplayInfo.gradingOption.value-parent" abstract="true" parent="CourseOfferingDisplayInfo.gradingOption.value-generated">
+	<bean id="CourseOfferingDisplayInfo.gradingOption.name" parent="CourseOfferingDisplayInfo.gradingOption.name-parent"/>
+	<bean id="CourseOfferingDisplayInfo.gradingOption.name-parent" abstract="true" parent="CourseOfferingDisplayInfo.gradingOption.name-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -139,8 +139,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingDisplayInfo.creditOption.value" parent="CourseOfferingDisplayInfo.creditOption.value-parent"/>
-	<bean id="CourseOfferingDisplayInfo.creditOption.value-parent" abstract="true" parent="CourseOfferingDisplayInfo.creditOption.value-generated">
+	<bean id="CourseOfferingDisplayInfo.creditOption.name" parent="CourseOfferingDisplayInfo.creditOption.name-parent"/>
+	<bean id="CourseOfferingDisplayInfo.creditOption.name-parent" abstract="true" parent="CourseOfferingDisplayInfo.creditOption.name-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
