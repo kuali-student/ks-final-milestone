@@ -90,7 +90,7 @@
                                     </value>
                                 </property>
                             </bean>
-                            <bean parent="Uif-TabSection" p:width="500px">
+                            <bean parent="KS-KitchenSink-TabSection">
                                 <property name="items">
                                     <list>
                                         <ref bean="KS-KitchenSink-Checkbox-Overview-Section"/>

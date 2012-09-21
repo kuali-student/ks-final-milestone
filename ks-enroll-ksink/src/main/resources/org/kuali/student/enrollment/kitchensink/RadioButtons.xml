@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright 2006-2011 The Kuali Foundation
+  ~ Copyright 2005-2012 The Kuali Foundation
   ~
   ~ Licensed under the Educational Community License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -214,10 +214,10 @@
                             <bean parent="Uif-LinkField"
                                   p:label="Widget-Only Links (UIM)"
                                   p:linkText="Example #1" p:target="_blank"
-                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-Example1-View-Bare&amp;methodToCall=start"/>
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-RadioButtons-Example1-View-Bare&amp;methodToCall=start"/>
                             <bean parent="Uif-LinkField"
                                   p:linkText="Example #2" p:target="_blank"
-                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-Example2-View-Bare&amp;methodToCall=start"/>
+                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-RadioButtons-Example2-View-Bare&amp;methodToCall=start"/>
                         </list>
                     </property>
                 </bean>

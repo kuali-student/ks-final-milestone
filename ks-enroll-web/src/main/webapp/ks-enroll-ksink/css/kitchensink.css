@@ -55,3 +55,12 @@ ul#ul_id_temp li:hover
     color: #ffff00;
     background-color: #003366;
 }
+
+/* styles for ksKitchensinkFooterLinks.ftl and KitchenSinkFooterLinkSection.java */
+.uif-ks-kitchensink-footerLinkSection { margin-top:1.5em; }
+.uif-ks-kitchensink-footerLinkGroup { margin-top:0.75em; }
+.uif-ks-kitchensink-footerLinkGroup-label { font-weight:bold; }
+/* .uif-ks-kitchensink-footerLinkGroup-link { } */
+.uif-ks-kitchensink-footerLinkGroup-linkDelimiterStart { margin-right:0.25em; }
+.uif-ks-kitchensink-footerLinkGroup-linkDelimiterMiddle { margin-left:0.5em; margin-right:0.5em; }
+.uif-ks-kitchensink-footerLinkGroup-linkDelimiterEnd { margin-left:0.25em; }

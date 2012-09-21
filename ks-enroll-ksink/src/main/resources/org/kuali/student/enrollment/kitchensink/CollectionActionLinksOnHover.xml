@@ -25,7 +25,6 @@
     <!-- The Interesting Bits -->
 
     <bean id="KS-KitchenSink-CollectionActionLinksOnHover-View-Base" parent="KS-KitchenSink-FormView">
-        <!--<property name="onDocumentReadyScript" value="ksCollectionActionLinksOnHover();"/>-->
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>ks-krad/css/ks-krad-collection-actionLinksOnHover.css</value>
@@ -94,6 +93,7 @@
 
     <bean id="KS-KitchenSink-CollectionActionLinksOnHover-View-Bare"
           parent="KS-KitchenSink-CollectionActionLinksOnHover-View-Base">
+        <property name="breadcrumbs.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
@@ -121,59 +121,57 @@
     <bean id="KS-KitchenSink-CollectionActionLinksOnHover-Links" parent="KS-KitchenSink-Page-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-LinkField"
-                      p:label="Page Configuration"
-                      p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionActionLinksOnHover.xml" p:target="_blank"
-                      p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionActionLinksOnHover.xml"/>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
                         <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD XML Configuration"
-                                  p:linkText="UifGroupDefinitions.xml" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
-                            <bean parent="Uif-MessageField"
-                                  p:messageText="(Uif-TableCollectionSection)"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Java Source"
-                                  p:linkText="CollectionGroup.java" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Java API"
-                                  p:linkText="CollectionGroup.html" p:target="_blank"
-                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Guide"
-                                  p:linkText="Collection Groups" p:target="_blank"
-                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-KitchenSink-Group-UimLinks">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="Widget-Only Links (UIM)"
-                                  p:linkText="Collection Action Links On Hover" p:target="_blank"
-                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionLinksOnHover-View-Bare&amp;methodToCall=collection"/>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionActionLinksOnHover.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionActionLinksOnHover.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifGroupDefinitions.xml (Uif-TableCollectionSection)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Groups"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Action Links On Hover"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionLinksOnHover-View-Bare&amp;methodToCall=collection"/>
+                                    </map>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

@@ -112,29 +112,35 @@
     <bean id="KS-KitchenSink-Page-Links" parent="Uif-VerticalBoxSection" abstract="true"
           p:style="margin-top:2em;margin-bottom:0;"/>
 
+    <bean id="KS-KitchenSink-VerticalBoxSection-Contents" parent="Uif-VerticalBoxSection" abstract="true"
+          p:width="45em" p:style="border:solid 1px black;margin-bottom:0;padding-left:1em;padding-right:1em"/>
     <bean id="KS-KitchenSink-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true"
           p:style="margin-bottom:0;"/>
+
+    <bean id="KS-KitchenSink-TabSection" parent="Uif-TabSection" p:style="margin-bottom:0;" p:width="45em"/>
 
     <bean id="KS-KitchenSink-Group-UimLinks" parent="Uif-HorizontalFieldGroup" abstract="true"
           p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:0.5em;"/>
 
+    <bean id="KS-KitchenSink-MessageField" parent="Uif-MessageField" p:style="margin-bottom:0"/>
+
     <bean id="KS-KitchenSink-Link-To-Guide" parent="KS-KitchenSink-LinkField-Base" abstract="true"
           p:label="KRAD Guide"/>
     <bean id="KS-KitchenSink-Link-To-Source" parent="KS-KitchenSink-LinkField-Base" abstract="true"
-          p:label="XML Configuration"/>
+          p:label="Page Configuration"/>
     <bean id="KS-KitchenSink-Link-To-KRAD-XML-Source" parent="KS-KitchenSink-LinkField-Base" abstract="true"
           p:label="KRAD XML Configuration"/>
     <bean id="KS-KitchenSink-Link-To-KRAD-Java-Source" parent="KS-KitchenSink-LinkField-Base" abstract="true"
-          p:label="KRAD Java Class"/>
+          p:label="KRAD Java Source"/>
     <bean id="KS-KitchenSink-Link-To-KRAD-API" parent="KS-KitchenSink-LinkField-Base" abstract="true"
-          p:label="KRAD API"/>
+          p:label="KRAD Java API"/>
     <bean id="KS-KitchenSink-LinkField-Base" parent="Uif-LinkField" abstract="true">
         <property name="target" value="_blank"/>
         <property name="finalizeMethodToCall" value="setSourceLinkText"/>
     </bean>
 
     <bean id="KS-KitchenSink-Link-To-Bare" parent="Uif-LinkField" abstract="true">
-        <property name="label" value="Widget-Only Link"/>
+        <property name="label" value="Widget-Only Link (UIM)"/>
         <property name="target" value="_blank"/>
         <property name="style" value="border-top:solid 1px #333333;padding-top:0.5em;"/>
         <property name="finalizeMethodToCall" value="setDirectLinkUrl"/>
@@ -146,5 +152,28 @@
         </property>
         -->
     </bean>
+
+    <!-- for KitchenSinkFooterLinkSection -->
+    <bean id="KS-KitchenSink-FooterLinkSection" parent="KS-KitchenSink-FooterLinkSection-parentBean"/>
+    <bean id="KS-KitchenSink-FooterLinkSection-parentBean" parent="Uif-WidgetBase" abstract="true"
+          class="org.kuali.student.enrollment.kitchensink.uif.KitchenSinkFooterLinkSection" scope="prototype">
+        <property name="template" value="/ks-enroll-ksink/ftl/ksKitchensinkFooterLinks.ftl"/>
+        <property name="templateName" value="uif_ksKitchensinkFooterLinks"/>
+    </bean>
+    <bean id="KS-KitchenSink-FooterLinkGroup" parent="KS-KitchenSink-FooterLinkGroup-parentBean"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-parentBean" abstract="true"
+          class="org.kuali.student.enrollment.kitchensink.uif.KitchenSinkFooterLinkGroup"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-PageXml" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="Page Configuration"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-KradXml" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="KRAD XML Configuration"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-KradJava" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="KRAD Java Source"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-KradJavaApi" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="KRAD Java API"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-KradGuide" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="KRAD Guide"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-UIM" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="UIM Widget-Only Links" p:style="border-top:solid 1px #333333;padding-top:0.5em;"/>
 
 </beans>
