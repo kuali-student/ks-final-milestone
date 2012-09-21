@@ -29,6 +29,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
 
@@ -81,6 +82,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             socForm.setSocStatus(stateName);
 
             List<String> validSOCStates = Arrays.asList(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS);
+            DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
 
             for (AttributeInfo info : socInfo.getAttributes()){
                 if (validSOCStates.contains(socInfo.getStateKey())){
@@ -89,7 +91,6 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                     Date date = null;
                     String dateUI = info.getValue();
                     if (StringUtils.isNotBlank(info.getValue())){
-                        DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
                         try{
                             date = dateFormat.parse(info.getValue());
                             dateUI = formatScheduleDate(date);
@@ -130,15 +131,11 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             socForm.setPublishCompleteDate(formatScheduleDate(socInfo.getPublishingCompleted()));
 
             if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
-                long schedulingDuration = socInfo.getLastSchedulingRunCompleted().getTime() - socInfo.getLastSchedulingRunStarted().getTime();
-                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-                socForm.setScheduleDuration(dateFormat.format(schedulingDuration));
+                socForm.setScheduleDuration(getTimeDiff(socInfo.getLastSchedulingRunCompleted(),socInfo.getLastSchedulingRunStarted()));
             }
 
             if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
-                long publishingDuration = socInfo.getPublishingCompleted().getTime() - socInfo.getPublishingStarted().getTime();
-                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-                socForm.setPublishDuration(dateFormat.format(publishingDuration));
+                socForm.setPublishDuration(getTimeDiff(socInfo.getPublishingCompleted(),socInfo.getPublishingStarted()));
             }
 
         } catch (DoesNotExistException e) {
@@ -150,6 +147,21 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         }
 
 
+    }
+
+    /**
+     * This calculates the time difference for display. Generates a time difference string in the format hh:mm
+     *
+     *  @param dateOne
+     * @param dateTwo
+     * @return formatted date String (hh:mm)
+     */
+    public String getTimeDiff(Date dateOne, Date dateTwo) {
+        String diff = "";
+        long timeDiff = Math.abs(dateOne.getTime() - dateTwo.getTime());
+        diff = String.format("%d:%d", TimeUnit.MILLISECONDS.toHours(timeDiff),
+        TimeUnit.MILLISECONDS.toMinutes(timeDiff) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeDiff)));
+        return diff;
     }
 
     /**
