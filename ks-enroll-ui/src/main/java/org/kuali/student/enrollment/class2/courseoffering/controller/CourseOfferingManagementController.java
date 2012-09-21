@@ -251,32 +251,39 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=createNewClusterFromLightBox")
     public ModelAndView createNewClusterFromLightBox(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
-        if (!hasDialogBeenAnswered("createNewClusterDialog", theForm)){
+        if (!hasDialogBeenDisplayed("createNewClusterDialog", theForm)){
             // redirect back to client to display lightbox
             return showDialog("createNewClusterDialog", theForm, request, response);
         }
-        boolean createNewCluster = getBooleanDialogResponse("createNewClusterDialog", theForm, request, response);
-        if(createNewCluster){
-            String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
-            //build a new empty cluster
-            ActivityOfferingClusterInfo emptyCluster = buildEmptyAOCluster(formatOfferingId,
-                theForm.getPrivateClusterNameForLightBox(), theForm.getPublishedClusterNameForLightBox());
+        if(hasDialogBeenAnswered("createNewClusterDialog", theForm)) {
+            boolean createNewCluster = getBooleanDialogResponse("createNewClusterDialog", theForm, request, response);
+            if(createNewCluster){
+                String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+                //build a new empty cluster
+                ActivityOfferingClusterInfo emptyCluster = buildEmptyAOCluster(formatOfferingId,
+                    theForm.getPrivateClusterNameForLightBox(), theForm.getPublishedClusterNameForLightBox());
 
-            //persist it in DB , comment out for now since it does not work for now
-            emptyCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
-                emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
+                //persist it in DB , comment out for now since it does not work for now
+                emptyCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
+                    emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
 
-            List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
-            ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
-            aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
-            aoClusterWrapper.setAoCluster(emptyCluster);
-            aoClusterWrapperList.add(aoClusterWrapper);
-            theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
-            theForm.setHasAOCluster(true);
+                List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
+                ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
+                aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
+                aoClusterWrapper.setAoCluster(emptyCluster);
+                aoClusterWrapperList.add(aoClusterWrapper);
+                theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
+                theForm.setHasAOCluster(true);
+            }else {
+                //closeLightbox??
+            }
+            //form.getDialogManager
         }
 
         theForm.setPrivateClusterNameForLightBox("");
         theForm.setPublishedClusterNameForLightBox("");
+        // clear dialog history so they can press the button again
+        theForm.getDialogManager().removeDialog("createNewClusterDialog");
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
     
@@ -305,23 +312,58 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
 
+    @RequestMapping(params = "methodToCall=removeAClusterThroughDialog")
+    public ModelAndView removeAClusterThroughDialog(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if(!hasDialogBeenDisplayed("confirmToDeleteClusterDialog", theForm)){
+            // redirect back to client to display lightbox
+            return showDialog("confirmToDeleteClusterDialog", theForm, request, response); 
+        }
+        if(hasDialogBeenAnswered("confirmToDeleteClusterDialog", theForm)) {
+            boolean wantToDelete = getBooleanDialogResponse("confirmToDeleteClusterDialog", theForm, request, response);
+            if(wantToDelete){
+                ActivityOfferingClusterWrapper selectedCluster = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Remove Cluster");
+                //first need to move all AOs under the selected Cluster back to filteredUnassignedAOsForSelectedFO
+                List<ActivityOfferingWrapper> unassignedAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
+                List<ActivityOfferingWrapper> toBeRemovedAOs = selectedCluster.getAoWrapperList();
+                for(ActivityOfferingWrapper aoWrapper:toBeRemovedAOs){
+                    unassignedAOs.add(aoWrapper);
+                }
+                theForm.setFilteredUnassignedAOsForSelectedFO(unassignedAOs);
+                //then delete the selected cluster
+                getCourseOfferingService().deleteActivityOfferingCluster(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
+                List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
+                aoClusterWrapperList.remove(selectedCluster);
+                if(aoClusterWrapperList.size() ==0){
+                    theForm.setHasAOCluster(false);
+                }
+            }
+        }
+        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE); 
+    }
+
     @RequestMapping(params = "methodToCall=removeACluster")
     public ModelAndView removeACluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         ActivityOfferingClusterWrapper selectedCluster = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Remove Cluster");
-
-        theForm.setFilteredUnassignedAOsForSelectedFO(selectedCluster.getAoWrapperList());
+        //first need to move all AOs under the selected Cluster back to filteredUnassignedAOsForSelectedFO
+        List<ActivityOfferingWrapper> unassignedAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
+        List<ActivityOfferingWrapper> toBeRemovedAOs = selectedCluster.getAoWrapperList();
+        for(ActivityOfferingWrapper aoWrapper:toBeRemovedAOs){
+            unassignedAOs.add(aoWrapper);
+        }
+        theForm.setFilteredUnassignedAOsForSelectedFO(unassignedAOs);
+        //then delete the selected cluster
         getCourseOfferingService().deleteActivityOfferingCluster(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
         List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
         aoClusterWrapperList.remove(selectedCluster);
         if(aoClusterWrapperList.size() ==0){
             theForm.setHasAOCluster(false);
         }
-        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE); 
+
+        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
-
-
 
 
     @RequestMapping(params = "methodToCall=filterAOsAndRGsPerFO")
@@ -692,19 +734,19 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         filterdAOList.clear();
 
         //Turn the following code on once the COServiceImpl supports it
-//        List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsWithoutClusterByFormatOffering(theFOId,getContextInfo());
-//        for (ActivityOfferingInfo ao: aoList){
-//            filterdAOList.add(new ActivityOfferingWrapper(ao));
-//        }
+        List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsWithoutClusterByFormatOffering(theFOId,getContextInfo());
+        for (ActivityOfferingInfo ao: aoList){
+            filterdAOList.add(new ActivityOfferingWrapper(ao));
+        }
 
         //This is a temp walk around solution
-        List<ActivityOfferingWrapper> fullAOs = theForm.getActivityWrapperList();
-        for (ActivityOfferingWrapper ao: fullAOs)  {
-            String formatOfferingId =ao.getAoInfo().getFormatOfferingId();
-            if (formatOfferingId.equals(theFOId) ){
-                filterdAOList.add(ao);
-            }
-        }
+//        List<ActivityOfferingWrapper> fullAOs = theForm.getActivityWrapperList();
+//        for (ActivityOfferingWrapper ao: fullAOs)  {
+//            String formatOfferingId =ao.getAoInfo().getFormatOfferingId();
+//            if (formatOfferingId.equals(theFOId) ){
+//                filterdAOList.add(ao);
+//            }
+//        }
         return filterdAOList;
     }
 
