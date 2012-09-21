@@ -24,9 +24,9 @@
           p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm">
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Display Schedule of Classes" p:render="false"/>
-        </property>
+        <!-- property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes" p:render="false"/>
+        </property-->
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
