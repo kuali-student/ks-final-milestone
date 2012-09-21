@@ -12,6 +12,7 @@ import java.util.Date;
 public class ManageSOCStatusHistory implements Comparable<ManageSOCStatusHistory>{
 
     private String state;
+    private String stateKey;
     private String date;
     private Date dateObject;
     private boolean highlightUI;
@@ -20,8 +21,9 @@ public class ManageSOCStatusHistory implements Comparable<ManageSOCStatusHistory
     public ManageSOCStatusHistory(){
     }
 
-    public ManageSOCStatusHistory(String state,String date,Date dateObject){
-        this.state = state;
+    public ManageSOCStatusHistory(String stateName,String stateKey,String date,Date dateObject){
+        this.state = stateName;
+        this.stateKey = stateKey;
         this.date = date;
         this.dateObject = dateObject;
     }
@@ -60,6 +62,10 @@ public class ManageSOCStatusHistory implements Comparable<ManageSOCStatusHistory
 
     public void setGreyText(boolean greyText) {
         this.greyText = greyText;
+    }
+
+    public String getStateKey() {
+        return stateKey;
     }
 
     @Override

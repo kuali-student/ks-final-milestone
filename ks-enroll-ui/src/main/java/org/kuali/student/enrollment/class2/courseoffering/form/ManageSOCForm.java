@@ -195,7 +195,7 @@ public class ManageSOCForm extends UifFormBase {
     public void clear(){
         setTermInfo(null);
         setSocInfo(null);
-//        statusHistory.clear();
+        statusHistory.clear();
     }
 
     public boolean isEnableMSEButton(){

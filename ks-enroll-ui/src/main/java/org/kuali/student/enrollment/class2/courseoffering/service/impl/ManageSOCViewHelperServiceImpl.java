@@ -95,17 +95,35 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                             date = dateFormat.parse(info.getValue());
                             dateUI = formatScheduleDate(date);
                         }catch(ParseException e){
-                            //shallow for now
+                            throw new RuntimeException(e);
                         }
                     }
 
-                    ManageSOCStatusHistory history = new ManageSOCStatusHistory(stateName,dateUI,date);
+                    ManageSOCStatusHistory history = new ManageSOCStatusHistory(stateName,info.getKey(),dateUI,date);
                     socForm.getStatusHistory().add(history);
                 }
             }
 
             //Sort histories based on the date
             Collections.sort(socForm.getStatusHistory());
+
+            //Add all the future states to the history for display purpose
+            if (!socForm.getStatusHistory().isEmpty()){
+                ManageSOCStatusHistory lastHistory = socForm.getStatusHistory().get(socForm.getStatusHistory().size()-1);
+                int index = validSOCStates.indexOf(lastHistory.getStateKey());
+                //Start from the next state to the end and add it to the history.
+                if (index < validSOCStates.size()-1){
+                    for(int i = index+1;i<validSOCStates.size();i++){
+                        if (StringUtils.equals(CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY,validSOCStates.get(i))){
+                            stateName = "Closed"; //As we don't have this state in DB, hard code for now.
+                        } else {
+                            stateName = getStateName(validSOCStates.get(i));
+                        }
+                        ManageSOCStatusHistory nextState = new ManageSOCStatusHistory(stateName,null,null,null);
+                        socForm.getStatusHistory().add(nextState);
+                    }
+                }
+            }
 
             //Highlight or grey text histories.
             for (int i=0;i<socForm.getStatusHistory().size();i++){
