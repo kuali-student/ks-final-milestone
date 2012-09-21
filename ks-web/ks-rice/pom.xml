@@ -87,6 +87,11 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-ksb-web</artifactId>
+            <version>${kuali.rice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
             <artifactId>rice-it-internal-tools</artifactId>
             <version>${kuali.rice.version}</version>
             <scope>test</scope>
@@ -102,31 +107,6 @@
             <version>${ks.lum.version}</version>
         </dependency>
 
-        <!-- these are needed for rice jsp's to work properly -->
-        <dependency>
-            <groupId>tomcat</groupId>
-            <artifactId>jasper-compiler</artifactId>
-            <version>5.5.15</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>tomcat</groupId>
-            <artifactId>jasper-compiler-jdt</artifactId>
-            <version>5.5.15</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>tomcat</groupId>
-            <artifactId>jasper-runtime</artifactId>
-            <version>5.5.15</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.jdt</groupId>
-            <artifactId>core</artifactId>
-            <version>3.1.1</version>
-            <scope>runtime</scope>
-        </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>

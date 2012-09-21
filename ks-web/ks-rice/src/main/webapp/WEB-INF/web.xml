@@ -152,12 +152,11 @@
 	<listener>
 		<listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
-	
-	<!-- added by bonnie,  Krad needs this -->
-	<listener>
-       <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
-    </listener>	
-    
+
+    <listener>
+        <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+    </listener>
+
     <servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>
