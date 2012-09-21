@@ -39,8 +39,8 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.ResultValueGroupDisplayInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -1475,8 +1475,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         TermInfo term = this.acalService.getTerm(co.getTermId(), context);
         info.setTermName(term.getName());
         info.setTermCode(term.getCode());
-        info.setGradingOption(new ResultValueGroupDisplayInfo(co.getGradingOptionId(), co.getGradingOptionName()));
-        info.setCreditOption(new ResultValueGroupDisplayInfo(co.getCreditOptionId(), co.getCreditOptionName()));
+        info.setGradingOption(new KeyNameInfo(co.getGradingOptionId(), co.getGradingOptionName()));
+        info.setCreditOption(new KeyNameInfo(co.getCreditOptionId(), co.getCreditOptionName()));
         TypeInfo type = typeService.getType(co.getTypeKey(), context);
         info.setTypeName(type.getName());
         StateInfo state = stateService.getState(co.getStateKey(), context);

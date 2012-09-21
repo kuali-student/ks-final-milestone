@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ResultValueGroupDisplayInfo;
+import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -64,8 +64,8 @@ public class CourseOfferingDisplayTransformer {
         displayInfo.setTermName(atpInfo.getName());
         displayInfo.setTermCode(atpInfo.getCode());
         // gradingOptionName, creditOptionName,
-        displayInfo.setGradingOption(new ResultValueGroupDisplayInfo(coInfo.getGradingOptionId(), coInfo.getGradingOptionName()));
-        displayInfo.setCreditOption(new ResultValueGroupDisplayInfo(coInfo.getCreditOptionId(), coInfo.getCreditCnt()));
+        displayInfo.setGradingOption(new KeyNameInfo(coInfo.getGradingOptionId(), coInfo.getGradingOptionName()));
+        displayInfo.setCreditOption(new KeyNameInfo(coInfo.getCreditOptionId(), coInfo.getCreditCnt()));
 
         displayInfo.setHonorsOffering(coInfo.getIsHonorsOffering());
 
