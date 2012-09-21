@@ -107,6 +107,7 @@
         <cxf.javadoc.version>latest-2.3.x</cxf.javadoc.version>
         <derby.version>10.9.1.0</derby.version>
         <dozer.version>5.3.2</dozer.version>
+        <easymock.version>2.4</easymock.version>
         <eclipselink.version>1.0</eclipselink.version>
         <ehcache.version>2.5.0</ehcache.version>
         <google.gwtx.version>1.5.3</google.gwtx.version>
@@ -637,6 +638,12 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-development-tools</artifactId>
                 <version>${kuali.rice.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.kuali.rice</groupId>
+                <artifactId>rice-it-internal-tools</artifactId>
+                <version>${kuali.rice.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
@@ -1211,6 +1218,12 @@
                         <artifactId>commons-beanutils</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.easymock</groupId>
+                <artifactId>easymock</artifactId>
+                <version>${easymock.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>net.sourceforge.htmlunit</groupId>
