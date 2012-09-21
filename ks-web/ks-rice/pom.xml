@@ -74,6 +74,11 @@
             <type>war</type>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-web</artifactId>
+            <type>pom</type>
+        </dependency>
         <!-- TODO: fix ks-admin -->
         <!--dependency>
             <groupId>org.kuali.student.admin</groupId>
