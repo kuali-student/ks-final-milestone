@@ -187,75 +187,69 @@
     <bean id="KS-KitchenSink-Checkbox-Links" parent="KS-KitchenSink-Page-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-LinkField"
-                      p:label="Page Configuration"
-                      p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkbox.xml" p:target="_blank"
-                      p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkboxes.xml"/>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
                         <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD XML Configuration"
-                                  p:linkText="UifFieldDefinitions.xml" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
-                            <bean parent="Uif-LinkField"
-                                  p:linkText="UifControlDefinitions.xml" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Java Source"
-                                  p:linkText="InputField.java" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
-                            <bean parent="Uif-LinkField"
-                                  p:linkText="CheckboxControl.java" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/CheckboxControl.java"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Java API"
-                                  p:linkText="InputField.html" p:target="_blank"
-                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
-                            <bean parent="Uif-LinkField"
-                                  p:linkText="CheckboxControl.html" p:target="_blank"
-                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/control/CheckboxControl.html"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Guide"
-                                  p:linkText="Checkbox control" p:target="_blank"
-                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e4898"/>
-                            <bean parent="Uif-LinkField"
-                                  p:linkText="Checkbox group control" p:target="_blank"
-                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5254"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-KitchenSink-Group-UimLinks">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="Widget-Only Links (UIM)"
-                                  p:linkText="Overview" p:target="_blank"
-                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-Overview-View-Bare&amp;methodToCall=start"/>
-                            <bean parent="Uif-LinkField"
-                                  p:linkText="Checkbox Group" p:target="_blank"
-                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-Group-View-Bare&amp;methodToCall=start"/>
-                            <bean parent="Uif-LinkField"
-                                  p:linkText="Opt-in Checkbox" p:target="_blank"
-                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-OptIn-View-Bare&amp;methodToCall=start"/>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkboxes.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Checkboxes.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifFieldDefinitions.xml (Uif-InputField)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                        <entry key="UifControlDefinitions.xml (Uif-TextControl)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                        <entry key="CheckboxControl.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/CheckboxControl.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                        <entry key="CheckboxControl.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/control/CheckboxControl.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Checkbox control"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e4898"/>
+                                        <entry key="Checkbox group control"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5254"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Overview"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-Overview-View-Bare&amp;methodToCall=start"/>
+                                        <entry key="Checkbox Group"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-Group-View-Bare&amp;methodToCall=start"/>
+                                        <entry key="Opt-in Checkbox"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Checkbox-OptIn-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

@@ -78,13 +78,13 @@
                                     </value>
                                 </property>
                             </bean>
-                            <bean parent="Uif-TabSection" p:width="500px">
+                            <bean parent="KS-KitchenSink-TabSection">
                                 <property name="items">
                                     <list>
                                         <bean parent="KS-KitchenSink-RadioButtons-Example1-Section">
                                             <property name="items">
                                                 <list merge="true">
-                                                    <bean parent="Uif-MessageField"
+                                                    <bean parent="KS-KitchenSink-MessageField"
                                                           p:messageText="Uif-VerticalRadioControl using the &quot;optionsFinder&quot; property."/>
                                                 </list>
                                             </property>
@@ -92,7 +92,7 @@
                                         <bean parent="KS-KitchenSink-RadioButtons-Example2-Section">
                                             <property name="items">
                                                 <list merge="true">
-                                                    <bean parent="Uif-MessageField"
+                                                    <bean parent="KS-KitchenSink-MessageField"
                                                           p:messageText="Uif-VerticalRadioControl using explicitly defined key-value pairs from the XML configuration."/>
                                                 </list>
                                             </property>
@@ -161,6 +161,75 @@
     <!-- Links -->
 
     <bean id="KS-KitchenSink-RadioButtons-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/RadioButtons.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/RadioButtons.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifFieldDefinitions.xml (Uif-InputField)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                        <entry key="UifControlDefinitions.xml (Uif-Vertical-RadioGroupControl)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                        <entry key="RadioGroupControl.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/RadioGroupControl.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                        <entry key="RadioGroupControl.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/control/RadioGroupControl.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField - RadioGroup Control"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5281"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Example #1"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-RadioButtons-Example1-View-Bare&amp;methodToCall=start"/>
+                                        <entry key="Example #2"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-RadioButtons-Example2-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-RadioButtons-Links-DELETE" parent="KS-KitchenSink-Page-Links">
         <property name="items">
             <list>
                 <bean parent="Uif-LinkField"

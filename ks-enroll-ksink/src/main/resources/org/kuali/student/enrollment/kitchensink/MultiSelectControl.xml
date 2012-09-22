@@ -93,13 +93,13 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-MultiSelect-Content" parent="Uif-TabSection" p:width="500px">
+    <bean id="KS-KitchenSink-MultiSelect-Content" parent="KS-KitchenSink-TabSection">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-MultiSelect-Example1-Section">
                     <property name="items">
                         <list merge="true">
-                            <bean parent="Uif-MessageField"
+                            <bean parent="KS-KitchenSink-MessageField"
                                   p:messageText="Uif-DropdownControl with multiple=&quot;true&quot;, size=&quot;3&quot;, using explicitly defined key-value pairs from the XML configuration."/>
                         </list>
                     </property>
@@ -107,7 +107,7 @@
                 <bean parent="KS-KitchenSink-MultiSelect-Example2-Section">
                     <property name="items">
                         <list merge="true">
-                            <bean parent="Uif-MessageField"
+                            <bean parent="KS-KitchenSink-MessageField"
                                   p:messageText="Uif-DropdownControl with multiple=&quot;true&quot;, size=&quot;4&quot;, using the &quot;optionsFinder&quot; property."/>
                         </list>
                     </property>
@@ -171,61 +171,65 @@
     <bean id="KS-KitchenSink-MultiSelect-Links" parent="KS-KitchenSink-Page-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-LinkField"
-                      p:label="Page Configuration"
-                      p:linkText="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml" p:target="_blank"
-                      p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml"/>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
                         <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD XML Configuration"
-                                  p:linkText="UifElementDefinitions.xml" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
-                            <bean parent="Uif-MessageField" p:messageText="(Uif-InputField)"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Java Source"
-                                  p:linkText="InputField.java" p:target="_blank"
-                                  p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Java API"
-                                  p:linkText="InputField.html" p:target="_blank"
-                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin-bottom:0;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="KRAD Guide"
-                                  p:linkText="InputField - Select Control" p:target="_blank"
-                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5292"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-KitchenSink-Group-UimLinks">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-LinkField"
-                                  p:label="Widget-Only Links (UIM)"
-                                  p:linkText="Example #1" p:target="_blank"
-                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-Example1-View-Bare&amp;methodToCall=start"/>
-                            <bean parent="Uif-LinkField"
-                                  p:linkText="Example #2" p:target="_blank"
-                                  p:href="../kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-Example2-View-Bare&amp;methodToCall=start"/>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifFieldDefinitions.xml (Uif-InputField)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                        <entry key="UifControlDefinitions.xml (Uif-DropdownControl)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                        <entry key="SelectControl.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/SelectControl.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                        <entry key="SelectControl.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/control/SelectControl.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField - Select Control"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5292"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Example #1"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-Example1-View-Bare&amp;methodToCall=start"/>
+                                        <entry key="Example #2"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-Example2-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
