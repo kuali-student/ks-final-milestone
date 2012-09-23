@@ -36,7 +36,16 @@ public class ScheduleOfClassesConstants {
 
     // Help statements
     public static final String SOC_RESULT_PAGE_HELP_HONORS_COURSE = "Honors course";
-    public static final String SOC_RESULT_PAGE_HELP_GRADING_PASSFAIL = "May be taken as Pass/Fail grading option";
-    public static final String SOC_RESULT_PAGE_HELP_GRADING_AUDIT = "May be taken as Audit grading option";
+    public static final String SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL = "May be taken as Pass/Fail grading option";
+    public static final String SOC_RESULT_PAGE_HELP_STUREG_AUDIT = "May be taken as Audit grading option";
+    public static final String SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY = "Grading option: Administrative grade of satisfactory";
+    public static final String SOC_RESULT_PAGE_HELP_GRADING_PERCENT = "Grading option: Percentage grading 0-100%";
+
+    // Images locations
+    public static final String SOC_RESULT_PAGE_HONORS_COURSE_IMG = "../ks-enroll/images/h.png";
+    public static final String SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG = "../ks-enroll/images/p.png";
+    public static final String SOC_RESULT_PAGE_STUREG_AUDIT_IMG = "../ks-enroll/images/a.png";
+    public static final String SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG = "../ks-enroll/images/s.png";
+    public static final String SOC_RESULT_PAGE_GRADING_PERCENT_IMG = "../ks-enroll/images/percent.png";
 
 }
