@@ -30,33 +30,27 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfC
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.KeyNameInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -286,54 +280,23 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             }
             aoDisplayWrapper.setInformation(information);
 
-            // assign the time and days
-            SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
-            List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoDisplayInfo.getId(), contextInfo);
-            if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
-                ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
-                List<ScheduleRequestComponentInfo> componentList = scheduleRequestInfo.getScheduleRequestComponents();
-                if (componentList != null && componentList.size() > 0) {
-                    if(componentList.get(0).getIsTBA() != null) {
-                        aoDisplayWrapper.setTbaDisplayName(componentList.get(0).getIsTBA());
+            if(!aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
+                //TODO handle TBA state
+                ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
+                if(scheduleComponentDisplay.getBuilding() != null){
+                    aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode());
+                }
+                if(scheduleComponentDisplay.getRoom() != null){
+                    aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode());
+                }
+                if(!scheduleComponentDisplay.getTimeSlots().isEmpty()){
+                    if(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null){
+                        aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()));
                     }
-                    List<String> ids = componentList.get(0).getTimeSlotIds();
-                    if (ids != null && ids.size() > 0) {
-                        TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), contextInfo);
-                        if (timeSlot != null) {
-                            TimeOfDayInfo startTime = timeSlot.getStartTime();
-                            TimeOfDayInfo endTime = timeSlot.getEndTime();
-                            List<Integer> days = timeSlot.getWeekdays();
-
-                            if (startTime != null) {
-                                calendar.setTimeInMillis(startTime.getMilliSeconds());
-                                aoDisplayWrapper.setStartTimeDisplay(format.format(calendar.getTime()));
-                            }
-                            if (endTime != null) {
-                                calendar.setTimeInMillis(endTime.getMilliSeconds());
-                                aoDisplayWrapper.setEndTimeDisplay(format.format(calendar.getTime()));
-                            }
-                            if (days != null && days.size() > 0) {
-                                aoDisplayWrapper.setDaysDisplayName(getDays(days));
-                            }
-                        }
+                    if(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null){
+                        aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()));
                     }
-
-                    // assign building and room info
-                    List<String> roomIds = componentList.get(0).getRoomIds();
-                    if (roomIds != null && roomIds.size() > 0) {
-                        if (roomIds.get(0) != null) {
-                            RoomInfo roomInfo = getRoomService().getRoom(roomIds.get(0), contextInfo);
-                            if (roomInfo != null) {
-                                if (roomInfo.getBuildingId() != null && !roomInfo.getBuildingId().isEmpty()) {
-                                    BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), contextInfo);
-                                    if (buildingInfo != null) {
-                                        aoDisplayWrapper.setBuildingName(buildingInfo.getName());
-                                    }
-                                }
-                                aoDisplayWrapper.setRoomName(roomInfo.getRoomCode());
-                            }
-                        }
-                    }
+                    aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()));
                 }
             }
 
@@ -342,6 +305,15 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
         form.setAoDisplayWrapperList(aoDisplayWrapperList);
     }
+
+    private String millisToTime(long milliseconds){
+        int seconds = (int) (milliseconds / 1000) % 60 ;
+        int minutes = (int) ((milliseconds / (1000*60)) % 60);
+        int hours   = (int) ((milliseconds / (1000*60*60)) % 24);
+
+        return ""+hours+":"+minutes+" "+seconds;
+    }
+
 
     private CourseOfferingService getCourseOfferingService() {
         if (coService == null) {
