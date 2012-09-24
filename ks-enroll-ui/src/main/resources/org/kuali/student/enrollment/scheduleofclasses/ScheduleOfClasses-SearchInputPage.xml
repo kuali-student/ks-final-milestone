@@ -62,7 +62,7 @@
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="course" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'course'}">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                                 </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
                                 <property name="quickfinder.fieldConversions">
@@ -83,14 +83,15 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-InputField" p:propertyName="department" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}">
+                            <bean parent="Uif-InputField" p:propertyName="departmentName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Type exact dept name or use search"/>
                                 </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="id" value="department"/>
+                                        <entry key="longName" value="departmentName"/>
                                     </map>
                                 </property>
                                 <property name="quickfinder.quickfinderAction">
