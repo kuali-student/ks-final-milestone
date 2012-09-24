@@ -16,30 +16,19 @@
 package org.kuali.student.enrollment.courseofferingset.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 /**
  * Course Offering Set Service allows the user to create Sets of 
@@ -543,6 +532,7 @@ public interface CourseOfferingSetService extends CourseOfferingSetServiceBusine
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
+    @Override
     public StatusInfo startScheduleSoc(@WebParam(name = "socId") String socId, @WebParam (name="optionKeys")
             List<String> optionKeys, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
