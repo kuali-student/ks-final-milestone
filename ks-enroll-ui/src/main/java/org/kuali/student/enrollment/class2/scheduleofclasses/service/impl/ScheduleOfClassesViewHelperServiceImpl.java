@@ -187,7 +187,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         }
     }
 
-    public void loadCourseOfferingsByOrganizationId(String termId, String organizationId, ScheduleOfClassesSearchForm form) throws Exception{
+    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, ScheduleOfClassesSearchForm form) throws Exception{
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
