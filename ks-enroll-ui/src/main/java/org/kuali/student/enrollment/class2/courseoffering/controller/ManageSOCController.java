@@ -66,8 +66,6 @@ public class ManageSOCController extends UifControllerBase {
         // start send approved activities to scheduler
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
         viewHelper.startMassScheduling(socForm);
-        socForm.clear();
-        viewHelper.buildModel(socForm);
 
         return getUIFModelAndView(socForm);
     }

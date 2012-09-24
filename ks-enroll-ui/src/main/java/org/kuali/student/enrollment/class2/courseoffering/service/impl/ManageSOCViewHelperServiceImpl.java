@@ -78,6 +78,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             SocInfo socInfo = getCourseOfferingSetService().getSoc(socIds.get(0), ContextUtils.createDefaultContextInfo());
             socForm.setSocInfo(socInfo);
             socForm.setSocSchedulingStatus(getSocSchedulingStatus(socInfo));
+            socForm.setSocPublishingStatus(getSocPublishingStatus(socInfo));
             String stateName = getStateName(socInfo.getStateKey());
             socForm.setSocStatus(stateName);
 
@@ -307,11 +308,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
             if (status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM,  "Approved activities were successfully sent to Scheduler.");
-                SocInfo socInfo = getCourseOfferingSetService().getSoc(socForm.getSocInfo().getId(), contextInfo);
-                socForm.setSocInfo(socInfo);
-                socForm.setSocSchedulingStatus(getSocSchedulingStatus(socInfo));
-                String stateName = getStateName(socInfo.getStateKey());
-                socForm.setSocStatus(stateName);
+                reload(socForm, contextInfo);
             } else {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error locking SOC");
             }
@@ -321,4 +318,42 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             throw new RuntimeException(e);
         }
     }
+
+    protected String getSocPublishingStatus(SocInfo info) {
+        if(info.getStateKey() != null) {
+            if(StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)) {
+
+                return  "In Progress";
+            } else if (StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
+                    StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY)) {
+                return "Completed";
+            }
+        }
+
+        return "Not Started";
+    }
+
+    private void reload(ManageSOCForm socForm, ContextInfo contextInfo)  {
+
+        SocInfo socInfo = null;
+        try {
+            socInfo = getCourseOfferingSetService().getSoc(socForm.getSocInfo().getId(), contextInfo);
+            socForm.setSocInfo(socInfo);
+            socForm.setSocSchedulingStatus(getSocSchedulingStatus(socInfo));
+            socForm.setSocPublishingStatus(getSocPublishingStatus(socInfo));
+            String stateName = getStateName(socInfo.getStateKey());
+            socForm.setSocStatus(stateName);
+        } catch (DoesNotExistException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "No SOC exists!");
+        } catch (InvalidParameterException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error reloading SOC");
+        } catch (MissingParameterException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error reloading SOC");
+        } catch (OperationFailedException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error reloading SOC");
+        } catch (PermissionDeniedException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error reloading SOC");
+        }
+    }
+
 }

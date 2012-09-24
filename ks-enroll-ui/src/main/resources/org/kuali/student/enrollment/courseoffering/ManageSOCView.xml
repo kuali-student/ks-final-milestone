@@ -137,9 +137,9 @@
                                 p:preSubmitCall="confirm('When Set of Courses is in Locked state, Departmental users will be unable to make changes.')"/>
                           <bean parent="Uif-PrimaryActionButton" p:methodToCall="allowFinalEdits" p:actionLabel="Allow Final Edits" p:render="@{showFinalEditButton}"
                                 p:preSubmitCall="confirm('Departmental Users will be able to view and edit Courses and Activities, and schedule activities independently.')"/>
-                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="publishSOC" p:actionLabel="Publish Set" p:render="@{showPublishSetButton}"
+                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="publishSOC" p:actionLabel="Publish Set" p:disabled="@{!enablePublishButton}" p:render="@{showPublishSetButton}"
                                 p:preSubmitCall="confirm('When Set of Courses is in Published state, Scheduled courses and activity offerings will set to offered and will be consumable by the wider community.')"/>
-                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="closeSOC" p:actionLabel="Close Set" p:render="@{showCloseSetButton}" p:preSubmitCall="confirm('Close Set')"/>
+                          <bean parent="Uif-PrimaryActionButton" p:methodToCall="closeSOC" p:actionLabel="Close Set" p:disabled="true" p:render="@{showCloseSetButton}" p:preSubmitCall="confirm('Close Set')"/>
                           <bean parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:10px;"
                                 p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
                       </list>
@@ -186,7 +186,7 @@
                 <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
                    <property name="items">
                        <list>
-                        <bean parent="Uif-MessageField" p:messageText="@{socSchedulingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+                        <bean parent="Uif-MessageField" p:messageText="@{socPublishingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
                        </list>
                    </property>
                </bean>

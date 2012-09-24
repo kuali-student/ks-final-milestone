@@ -29,6 +29,7 @@ public class ManageSOCForm extends UifFormBase {
 
     private String socStatus;
     private String socSchedulingStatus;
+    private String socPublishingStatus;
     private String termCode;
     private List<ManageSOCStatusHistory> statusHistory;
 
@@ -119,6 +120,14 @@ public class ManageSOCForm extends UifFormBase {
         this.socSchedulingStatus = socSchedulingStatus;
     }
 
+    public String getSocPublishingStatus() {
+        return socPublishingStatus;
+    }
+
+    public void setSocPublishingStatus(String socPublishingStatus) {
+        this.socPublishingStatus = socPublishingStatus;
+    }
+
     public TermInfo getTermInfo() {
         return termInfo;
     }
@@ -144,14 +153,22 @@ public class ManageSOCForm extends UifFormBase {
         return false;
     }
 
-    public boolean isShowLockButton(){
+    public boolean isEnablePublishButton() {
         if (socInfo != null){
-            if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED) &&
-                StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
+            if (!StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)){
                 return true;
             }
         }
         return false;
+    }
+    public boolean isShowLockButton(){
+        if (socInfo != null){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
+                    !(isShowFinalEditButton() || isShowPublishSetButton() || isShowCloseSetButton())){
+                return true;
+            }
+        }
+            return false;
     }
 
     public boolean isShowFinalEditButton(){
