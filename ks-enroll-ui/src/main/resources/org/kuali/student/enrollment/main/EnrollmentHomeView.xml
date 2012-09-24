@@ -72,6 +72,8 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Manage SOC"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/manageSOC?viewId=ManageSOCView&amp;methodToCall=start"/>
+                <bean parent="Uif-Link" p:linkText="Schedule of Classes"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/scheduleOfClassesSearch?viewId=scheduleOfClassesSearchView&amp;pageId=scheduleOfClassesSearchInputPage&amp;methodToCall=start"/>
             </list>
         </property>
     </bean>
