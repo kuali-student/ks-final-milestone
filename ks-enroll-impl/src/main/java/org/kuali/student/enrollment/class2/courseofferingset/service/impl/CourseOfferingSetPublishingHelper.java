@@ -31,6 +31,16 @@ public class CourseOfferingSetPublishingHelper {
     private CourseOfferingService coService;
     private CourseOfferingSetService socService;
 
+    /**
+     * Kicks off SOC lifecycle mass publishing event.
+     *
+     * Runs asynchronously by default. If any items are are provided in the options List runs runs in the existing thread.
+     *
+     * @param socId The ID of the SOC to publish.
+     * @param optionKeys List of options. Runs synchronously unless the list is empty.
+     * @param context
+     * @return A StatusInfo on success. Otherwise, throws and exception.
+     */
     public StatusInfo startMassPublishingEvent(String socId, List<String> optionKeys, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
@@ -40,21 +50,35 @@ public class CourseOfferingSetPublishingHelper {
             throw new OperationFailedException(String.format("SOC state [%s] was invalid for mass publishing.", soc.getStateKey()));
         }
 
-        //  Initialize the async runner
+        //  Initialize the runner
         final SocMassPublishingRunner runner = new SocMassPublishingRunner();
         runner.setCoService(getCourseOfferingService());
         runner.setSocService(getSocService());
         runner.setSocId(socId);
         runner.setContext(context);
 
-        //  Try to run this after the transaction completes
-        KSThreadRunnerAfterTransactionSynchronization.runAfterTransactionCompletes(runner);
+        if (optionKeys.size() > 0) {
+            //  Run in the existing thread.
+            runner.run();
+        } else {
+            //  Run asynchronously
+            KSThreadRunnerAfterTransactionSynchronization.runAfterTransactionCompletes(runner);
+        }
 
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(true);
         statusInfo.setMessage("Success");
 
         return statusInfo;
+    }
+
+    //  For unit testing
+    public void setCoService(CourseOfferingService coService) {
+        this.coService = coService;
+    }
+
+    public void setSocService(CourseOfferingSetService socService) {
+        this.socService = socService;
     }
 
     private CourseOfferingSetService getSocService() {
@@ -93,7 +117,7 @@ public class CourseOfferingSetPublishingHelper {
             LOG.warn(String.format("Beginning Mass Publishing Event for SOC [%s].", socId));
             try {
                 /*
-                 * Get all of the COs within the SOC. Query inspect the AOs for each CO and do state changes.
+                 * Get all of the COs within the SOC. Query the AOs for each CO and do state changes.
                  */
                 List<String> coIds = socService.getCourseOfferingIdsBySoc(socId, context);
                 for (String coId : coIds) {
@@ -121,7 +145,7 @@ public class CourseOfferingSetPublishingHelper {
                                     LOG.debug(String.format("Updating AO [%s] state to [%s].", ao.getId(), aoState));
                                 }
                             }
-                            // /  State change the FO state to offered.
+                            //  Change the FO state to offered.
                             statusInfo = coService.updateFormatOfferingState(ao.getFormatOfferingId(), foOfferedKey, context);
                             if ( ! statusInfo.getIsSuccess()) {
                                 LOG.error(String.format("State change failed for FO [%s]: %s", ao.getFormatOfferingId(), statusInfo.getMessage()));
@@ -137,8 +161,8 @@ public class CourseOfferingSetPublishingHelper {
                         }
                     }
 
+                    // If an AO changed state then state change the CO.
                     if (hasAOStateChange) {
-                        //  If an AO changed state to "offered" then do CO state change
                         coService.updateCourseOfferingState(coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY, context);
                         if (LOG.isDebugEnabled()) {
                             LOG.debug(String.format("Updating CO [%s] state to [%s].", coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
@@ -174,6 +198,7 @@ public class CourseOfferingSetPublishingHelper {
         public void setCoService(CourseOfferingService coService) {
             this.coService = coService;
         }
+
         public void setSocService(CourseOfferingSetService socService) {
             this.socService = socService;
         }

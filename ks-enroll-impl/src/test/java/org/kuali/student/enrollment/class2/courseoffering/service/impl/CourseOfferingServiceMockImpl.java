@@ -426,7 +426,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
+    protected Map<String, CourseOfferingInfo> courseOfferingMap = new LinkedHashMap<String, CourseOfferingInfo>();
 
     @Override
     public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
@@ -688,6 +688,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
                 list.add(info);
             }
         }
+
         return list;
     }
 
