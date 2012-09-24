@@ -21,13 +21,22 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingCluster;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingSet;
 import org.kuali.student.r1.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -61,12 +70,14 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
     @Column(name = "AO_CLUSTER_STATE")
     private String activityOfferingClusterState;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    //@org.hibernate.annotations.ForeignKey(name="FK_AOCATTR")
     private Set<ActivityOfferingClusterAttributeEntity> attributes = new HashSet<ActivityOfferingClusterAttributeEntity>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "aoCluster", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="AO_CLUSTER_ID", nullable=false)
+    //@org.hibernate.annotations.ForeignKey(name="FK_AOCSET")
     private Set<ActivityOfferingSetEntity> aoSets = new HashSet<ActivityOfferingSetEntity>();
-
 
     public ActivityOfferingClusterEntity() { // no-arg constructor expected in entity
     }
@@ -78,7 +89,7 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
         this.fromDto(aoCluster);
     }
 
-    public void fromDto(ActivityOfferingCluster aoCluster) {
+    public List<Object> fromDto(ActivityOfferingCluster aoCluster) {
         this.setActivityOfferingClusterState(aoCluster.getStateKey());
         this.setActivityOfferingClusterType(aoCluster.getTypeKey());
         this.setName(aoCluster.getName());
@@ -92,17 +103,35 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
             this.setDescrPlain(null);
         }
 
-        this.setAttributes(new HashSet<ActivityOfferingClusterAttributeEntity>());
-        for (Attribute att : aoCluster.getAttributes()) {
-            ActivityOfferingClusterAttributeEntity attEntity = new ActivityOfferingClusterAttributeEntity(att, this);
-            this.getAttributes().add(attEntity);
+        List<Object> orphans = new ArrayList<Object>();
+
+        //Merge in attributes
+        orphans.addAll(TransformUtility.mergeToEntityAttributes(ActivityOfferingClusterAttributeEntity.class, aoCluster, this));
+
+        //Merge in AOSets
+        Map<String,ActivityOfferingSetEntity> existingAOSets = new HashMap<String,ActivityOfferingSetEntity>();
+        if (aoSets != null) {
+            for (ActivityOfferingSetEntity aoSetEntity : aoSets) {
+                existingAOSets.put(aoSetEntity.getId(), aoSetEntity);
+            }
         }
 
-        this.setAoSets(new HashSet<ActivityOfferingSetEntity>());
-        for (ActivityOfferingSet aoSet : aoCluster.getActivityOfferingSets()) {
-            ActivityOfferingSetEntity aoSetEntity = new ActivityOfferingSetEntity(aoSet, this);
-            this.getAoSets().add(aoSetEntity);
+        // Clear out the current list
+        aoSets = new HashSet<ActivityOfferingSetEntity>();
+
+        for (ActivityOfferingSet aoSet : aoCluster.getActivityOfferingSets()){
+            ActivityOfferingSetEntity aoSetEntity;
+            if (existingAOSets.containsKey(aoSet.getId())){
+                aoSetEntity = existingAOSets.remove(aoSet.getId());
+            } else {
+                aoSetEntity = new ActivityOfferingSetEntity(aoSet);
+            }
+            aoSets.add(aoSetEntity);
         }
+
+        orphans.addAll(existingAOSets.values());
+
+        return orphans;
     }
 
     public ActivityOfferingClusterInfo toDto() {
@@ -202,5 +231,43 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
 
     public void setAoSets(Set<ActivityOfferingSetEntity> aoSets) {
         this.aoSets = aoSets;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ActivityOfferingClusterEntity)) return false;
+
+        ActivityOfferingClusterEntity that = (ActivityOfferingClusterEntity) o;
+
+        if (activityOfferingClusterState != null ? !activityOfferingClusterState.equals(that.activityOfferingClusterState) : that.activityOfferingClusterState != null)
+            return false;
+        if (activityOfferingClusterType != null ? !activityOfferingClusterType.equals(that.activityOfferingClusterType) : that.activityOfferingClusterType != null)
+            return false;
+        if (aoSets != null ? !aoSets.equals(that.aoSets) : that.aoSets != null) return false;
+        if (attributes != null ? !attributes.equals(that.attributes) : that.attributes != null) return false;
+        if (descrFormatted != null ? !descrFormatted.equals(that.descrFormatted) : that.descrFormatted != null)
+            return false;
+        if (descrPlain != null ? !descrPlain.equals(that.descrPlain) : that.descrPlain != null) return false;
+        if (formatOfferingId != null ? !formatOfferingId.equals(that.formatOfferingId) : that.formatOfferingId != null)
+            return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (privateName != null ? !privateName.equals(that.privateName) : that.privateName != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (privateName != null ? privateName.hashCode() : 0);
+        result = 31 * result + (descrPlain != null ? descrPlain.hashCode() : 0);
+        result = 31 * result + (descrFormatted != null ? descrFormatted.hashCode() : 0);
+        result = 31 * result + (formatOfferingId != null ? formatOfferingId.hashCode() : 0);
+        result = 31 * result + (activityOfferingClusterType != null ? activityOfferingClusterType.hashCode() : 0);
+        result = 31 * result + (activityOfferingClusterState != null ? activityOfferingClusterState.hashCode() : 0);
+        result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
+        result = 31 * result + (aoSets != null ? aoSets.hashCode() : 0);
+        return result;
     }
 }

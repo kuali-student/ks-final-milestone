@@ -16,18 +16,18 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.model;
 
-import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultEntity;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingCluster;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOfferingSet;
 import org.kuali.student.r2.common.entity.BaseEntity;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
 
-import javax.persistence.*;
-import java.util.ArrayList;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,10 +43,6 @@ public class ActivityOfferingSetEntity extends BaseEntity {
     @Column(name = "ACTIVITY_OFFERING_TYPE")
     private String aoType;
 
-    @ManyToOne
-    @JoinColumn(name = "AO_CLUSTER_ID")
-    private ActivityOfferingClusterEntity aoCluster;
-
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "KSEN_CO_AO_CLUSTER_SET_AO", joinColumns = @JoinColumn(name = "AOC_SET_ID"))
     @Column(name = "ACTIVITY_OFFERING_ID")
@@ -55,8 +51,7 @@ public class ActivityOfferingSetEntity extends BaseEntity {
     public ActivityOfferingSetEntity() { // no-arg constructor expected in entity
     }
 
-    public ActivityOfferingSetEntity(ActivityOfferingSet aoSet, ActivityOfferingClusterEntity aoCluster ) {
-        this.aoCluster = aoCluster;
+    public ActivityOfferingSetEntity(ActivityOfferingSet aoSet) {
         this.setId(aoSet.getId()); // read-only field
         this.fromDto(aoSet);
     }
@@ -70,14 +65,9 @@ public class ActivityOfferingSetEntity extends BaseEntity {
     public ActivityOfferingSetInfo toDto() {
         ActivityOfferingSetInfo aoSetInfo = new ActivityOfferingSetInfo();
         // Set the instance variables that are common to most entities
-        aoSetInfo.setActivityOfferingType(getAoType());
-
-        List<String> aoIds = new ArrayList<String>();
-        for (String aoId : getAoIds()) {
-                aoIds.add(aoId);
-        }
-
-        aoSetInfo.setActivityOfferingIds(aoIds);
+        aoSetInfo.setActivityOfferingType(aoType);
+        aoSetInfo.getActivityOfferingIds().clear();
+        aoSetInfo.getActivityOfferingIds().addAll(aoIds);
         return aoSetInfo;
     }
 
@@ -89,14 +79,6 @@ public class ActivityOfferingSetEntity extends BaseEntity {
         this.aoType = aoType;
     }
 
-    public ActivityOfferingClusterEntity getAoCluster() {
-        return aoCluster;
-    }
-
-    public void setAoCluster(ActivityOfferingClusterEntity aoCluster) {
-        this.aoCluster = aoCluster;
-    }
-
     public Set<String> getAoIds() {
         return aoIds;
     }
@@ -106,5 +88,25 @@ public class ActivityOfferingSetEntity extends BaseEntity {
 
         if (aoIds != null)
             this.aoIds.addAll(aoIds);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ActivityOfferingSetEntity)) return false;
+
+        ActivityOfferingSetEntity that = (ActivityOfferingSetEntity) o;
+
+        if (aoIds != null ? !aoIds.equals(that.aoIds) : that.aoIds != null) return false;
+        if (aoType != null ? !aoType.equals(that.aoType) : that.aoType != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = aoType != null ? aoType.hashCode() : 0;
+        result = 31 * result + (aoIds != null ? aoIds.hashCode() : 0);
+        return result;
     }
 }
