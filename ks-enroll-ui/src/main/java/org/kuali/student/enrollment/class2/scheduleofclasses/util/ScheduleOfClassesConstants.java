@@ -38,8 +38,9 @@ public class ScheduleOfClassesConstants {
     public static final String SOC_RESULT_PAGE_HELP_HONORS_COURSE = "Honors course";
     public static final String SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL = "May be taken as Pass/Fail grading option";
     public static final String SOC_RESULT_PAGE_HELP_STUREG_AUDIT = "May be taken as Audit grading option";
-    public static final String SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY = "Grading option: Administrative grade of satisfactory";
-    public static final String SOC_RESULT_PAGE_HELP_GRADING_PERCENT = "Grading option: Percentage grading 0-100%";
+    public static final String SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY = "Assessment by Satisfactory/Fail";
+    public static final String SOC_RESULT_PAGE_HELP_GRADING_PERCENT = "Assessment by Percentage";
+    public static final String SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY = "Honors activity";
 
     // Images locations
     public static final String SOC_RESULT_PAGE_HONORS_COURSE_IMG = "../ks-enroll/images/h.png";
