@@ -57,7 +57,7 @@
             <bean id="schedulingConfirmDialog" parent="schedulingConfirmDialog-Group"/>
             <bean id="createNewClusterDialog"  parent="KS-ManageRegistrationGroupsPage-CreateNewClusterDialog"/>
             <bean id="confirmToDeleteClusterDialog" parent="KS-ManageRegistrationGroupsPage-ConfirmToDeleteClusterDialog" />
-              <bean id="renameClusterDialog" parent="KS-ManageRegistrationGroupsPage-RenameClusterDialog" />
+            <bean id="renameClusterDialog" parent="KS-ManageRegistrationGroupsPage-RenameClusterDialog" />
           </list>
         </property>
     </bean>

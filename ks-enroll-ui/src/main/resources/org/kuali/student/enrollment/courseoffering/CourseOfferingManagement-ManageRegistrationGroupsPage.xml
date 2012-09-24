@@ -310,7 +310,7 @@
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightboxComponent('registrationGroupsPerCluster');"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="renameCluster" p:actionLabel="Rename Cluster" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename Cluster" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
                             <bean parent="Uif-ActionLink" p:methodToCall="removeACluster" p:actionLabel="Remove Cluster"
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
@@ -471,12 +471,12 @@
         <property name="promptText" value=""/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="LEFT"  p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForRename" p:label="Private Name" p:labelPlacement="LEFT"  p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForLightBox" p:label="Published Name" p:labelPlacement="LEFT"  p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForRename" p:label="Published Name" p:labelPlacement="LEFT"  p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:minLength="5" p:maxLength="20"/>
                     </property>

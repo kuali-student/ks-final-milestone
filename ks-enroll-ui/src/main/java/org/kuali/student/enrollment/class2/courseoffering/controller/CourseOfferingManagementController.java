@@ -312,6 +312,38 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
 
+    @RequestMapping(params = "methodToCall=renameAClusterThroughDialog")
+    public ModelAndView renameAClusterThroughDialog(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
+                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActivityOfferingClusterWrapper selectedClusterWrapper;
+        if(!hasDialogBeenDisplayed("renameClusterDialog", theForm)){
+            selectedClusterWrapper = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Rename Cluster");
+            theForm.setSelectedCluster(selectedClusterWrapper);
+            theForm.setPrivateClusterNameForRename(selectedClusterWrapper.getAoCluster().getPrivateName());
+            theForm.setPublishedClusterNameForRename(selectedClusterWrapper.getAoCluster().getName());
+            // redirect back to client to display lightbox
+            return showDialog("renameClusterDialog", theForm, request, response);
+        }
+        if(hasDialogBeenAnswered("renameClusterDialog", theForm)) {
+            boolean wantToRename = getBooleanDialogResponse("renameClusterDialog", theForm, request, response);
+            if(wantToRename){
+                selectedClusterWrapper = theForm.getSelectedCluster();
+                ActivityOfferingClusterInfo  aoCluster = selectedClusterWrapper.getAoCluster();
+                aoCluster.setName(theForm.getPublishedClusterNameForRename());
+                aoCluster.setPrivateName(theForm.getPrivateClusterNameForRename());
+                aoCluster = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
+                        aoCluster.getId(), aoCluster, getContextInfo());
+                selectedClusterWrapper.setAoCluster(aoCluster);
+            }
+            theForm.setSelectedCluster(null);
+        }
+        theForm.setPrivateClusterNameForRename("");
+        theForm.setPublishedClusterNameForRename("");
+        // clear dialog history so they can press the button again
+        theForm.getDialogManager().resetDialogStatus("renameClusterDialog");
+        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+    }
+
     @RequestMapping(params = "methodToCall=removeAClusterThroughDialog")
     public ModelAndView removeAClusterThroughDialog(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -366,20 +398,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         aoClusterWrapperList.remove(selectedCluster);
         if(aoClusterWrapperList.size() ==0){
             theForm.setHasAOCluster(false);
-        }
-
-        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
-    }
-
-    @RequestMapping(params = "methodToCall=renameAClusterThroughDialog")
-    public ModelAndView renameAClusterThroughDialog(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
-                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActivityOfferingClusterWrapper selectedCluster;
-        if(!hasDialogBeenDisplayed("confirmToDeleteClusterDialog", theForm)){
-            selectedCluster = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Remove Cluster through Dialog");
-            theForm.setSelectedCluster(selectedCluster);
-            // redirect back to client to display lightbox
-            return showDialog("confirmToDeleteClusterDialog", theForm, request, response);
         }
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);

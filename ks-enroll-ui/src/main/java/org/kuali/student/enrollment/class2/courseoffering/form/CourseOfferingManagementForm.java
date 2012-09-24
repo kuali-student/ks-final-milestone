@@ -43,6 +43,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String publishedClusterName;
     private String privateClusterNameForLightBox;
     private String publishedClusterNameForLightBox;
+    private String privateClusterNameForRename;
+    private String publishedClusterNameForRename;
     //This is used to handle DialogGroup/Lightbox action within collection.
     //It only works within the lifecycle of each Dialog.
     private ActivityOfferingClusterWrapper selectedCluster;
@@ -381,5 +383,21 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setSelectedCluster(ActivityOfferingClusterWrapper selectedCluster) {
         this.selectedCluster = selectedCluster;
+    }
+
+    public String getPrivateClusterNameForRename() {
+        return privateClusterNameForRename;
+    }
+
+    public void setPrivateClusterNameForRename(String privateClusterNameForRename) {
+        this.privateClusterNameForRename = privateClusterNameForRename;
+    }
+
+    public String getPublishedClusterNameForRename() {
+        return publishedClusterNameForRename;
+    }
+
+    public void setPublishedClusterNameForRename(String publishedClusterNameForRename) {
+        this.publishedClusterNameForRename = publishedClusterNameForRename;
     }
 }
