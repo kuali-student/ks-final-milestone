@@ -110,8 +110,9 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             }
         } else if (theForm.getSearchType().equals("department")){
            String departmentId = theForm.getDepartment();
-           if (departmentId !=null && !departmentId.isEmpty()){
-               getViewHelperService(theForm).loadCourseOfferingsByTermAndDepartment(termCode, departmentId, theForm);
+           String departmentName = theForm.getDepartmentName();
+           if ((departmentId != null && !departmentId.isEmpty()) || (departmentName != null && !departmentName.isEmpty())){
+               getViewHelperService(theForm).loadCourseOfferingsByTermAndDepartment(termCode, departmentId, departmentName, theForm);
            } else {
                 LOG.error("Error: search field can't be empty");
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
