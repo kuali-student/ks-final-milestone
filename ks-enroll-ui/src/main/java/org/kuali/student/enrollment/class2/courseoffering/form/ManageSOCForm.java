@@ -195,7 +195,7 @@ public class ManageSOCForm extends UifFormBase {
 
         if (socInfo != null){
             if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED) &&
-                StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)){
+                    StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)){
                 return true;
             }
         }
@@ -238,14 +238,19 @@ public class ManageSOCForm extends UifFormBase {
     }
 
     public boolean isEnableMSEButton(){
+        boolean retVal = false;
         if (socInfo != null){
             if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)){
                 if(socInfo.getSchedulingStateKey() == null || socInfo.getSchedulingStateKey().isEmpty() || StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED) ) {
-                    return true;
+                    retVal =  true;
                 }
             }
         }
-        return false;
+        if(StringUtils.equals(getSocSchedulingStatus(), "In Progress") ||
+                StringUtils.equals(getSocSchedulingStatus(), "Completed"))   {
+            retVal  = false;
+        }
+        return retVal;
     }
 
     public Map<String, String> getSocStateKeys2Names() {

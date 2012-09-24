@@ -214,9 +214,12 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      */
     public void publishSOC(ManageSOCForm socForm) {
         changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY,"Set of Courses has been Published.");
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         CourseOfferingSetPublishingHelper mpeHelper = new CourseOfferingSetPublishingHelper();
         try {
-            mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
+            mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), contextInfo);
+            reload(socForm, contextInfo);
+            socForm.setSocPublishingStatus("In Progress");
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
         }
@@ -308,6 +311,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             if (status.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM,  "Approved activities were successfully sent to Scheduler.");
                 reload(socForm, contextInfo);
+                socForm.setSocSchedulingStatus("In Progress");
             } else {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error locking SOC");
             }

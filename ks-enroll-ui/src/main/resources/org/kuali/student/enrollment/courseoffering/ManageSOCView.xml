@@ -186,11 +186,13 @@
                 <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
                    <property name="items">
                        <list>
-                        <bean parent="Uif-MessageField" p:messageText="@{socPublishingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+                           <bean parent="Uif-MessageField" p:messageText="@{socPublishingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+                           <bean parent="Uif-ActionLink" p:actionLabel="Publish Now" p:methodToCall="publishSOC" p:disabled="@{!enablePublishButton}" p:render="@{showPublishSetButton}"  p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"
+                                 p:preSubmitCall="confirm('When Set of Courses is in Published state, Scheduled courses and activity offerings will set to offered and will be consumable by the wider community.')" />
                        </list>
                    </property>
                </bean>
-               <bean parent="Uif-MessageField" p:messageText="@{publishInitiatedDate}" p:label="Initiated" />
+                <bean parent="Uif-MessageField" p:messageText="@{publishInitiatedDate}" p:label="Initiated" />
                 <bean parent="Uif-MessageField" p:messageText="@{publishCompleteDate}" p:label="Completed" />
                 <bean parent="Uif-MessageField" p:messageText="@{publishDuration}" p:label="Publishing Duration" />
             </list>
