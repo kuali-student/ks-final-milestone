@@ -79,7 +79,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             socForm.setSocInfo(socInfo);
             socForm.setSocSchedulingStatus(getSocSchedulingStatus(socInfo));
             socForm.setSocPublishingStatus(getSocPublishingStatus(socInfo));
-            String stateName = getStateName(socInfo.getStateKey());
+            String stateName = socForm.getSocStateKeys2Names().get(socInfo.getStateKey());
             socForm.setSocStatus(stateName);
 
             List<String> validSOCStates = Arrays.asList(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS);
@@ -87,7 +87,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
             for (AttributeInfo info : socInfo.getAttributes()){
                 if (validSOCStates.contains(socInfo.getStateKey())){
-                    stateName = getStateName(info.getKey());
+                    stateName = socForm.getSocStateKeys2Names().get(info.getKey());
 
                     Date date = null;
                     String dateUI = info.getValue();
@@ -108,7 +108,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             //Sort histories based on the date
             Collections.sort(socForm.getStatusHistory());
 
-            //Add all the future states to the history for display purpose
+            //Add all the future(Not yet processed) states to the history for display purpose
             if (!socForm.getStatusHistory().isEmpty()){
                 ManageSOCStatusHistory lastHistory = socForm.getStatusHistory().get(socForm.getStatusHistory().size()-1);
                 int index = validSOCStates.indexOf(lastHistory.getStateKey());
@@ -118,7 +118,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                         if (StringUtils.equals(CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY,validSOCStates.get(i))){
                             stateName = "Closed"; //As we don't have this state in DB, hard code for now.
                         } else {
-                            stateName = getStateName(validSOCStates.get(i));
+                            stateName = socForm.getSocStateKeys2Names().get(validSOCStates.get(i));
                         }
                         ManageSOCStatusHistory nextState = new ManageSOCStatusHistory(stateName,null,null,null);
                         socForm.getStatusHistory().add(nextState);
@@ -126,7 +126,40 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                 }
             }
 
-            //Highlight or grey text histories.
+            highlightAndGreyTextHistories(socForm);
+
+            socForm.setScheduleInitiatedDate(formatScheduleDate(socInfo.getLastSchedulingRunStarted()));
+            socForm.setScheduleCompleteDate(formatScheduleDate(socInfo.getLastSchedulingRunCompleted()));
+
+            socForm.setPublishInitiatedDate(formatScheduleDate(socInfo.getPublishingStarted()));
+            socForm.setPublishCompleteDate(formatScheduleDate(socInfo.getPublishingCompleted()));
+
+            if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
+                socForm.setScheduleDuration(getTimeDiffUI(socInfo.getLastSchedulingRunCompleted(), socInfo.getLastSchedulingRunStarted()));
+            }
+
+            if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
+                socForm.setPublishDuration(getTimeDiffUI(socInfo.getPublishingCompleted(), socInfo.getPublishingStarted()));
+            }
+
+        } catch (DoesNotExistException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,e.getMessage());
+        } catch (PermissionDeniedException e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    /**
+     * Highlight and grey color History entries.
+     *
+     * @param socForm
+     */
+    protected void highlightAndGreyTextHistories(ManageSOCForm socForm){
+        //Highlight or grey text histories.
             for (int i=0;i<socForm.getStatusHistory().size();i++){
                 ManageSOCStatusHistory history = socForm.getStatusHistory().get(i);
                 // If it's last element or only one element present, highlight that component
@@ -142,30 +175,6 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                     }
                 }
             }
-
-            socForm.setScheduleInitiatedDate(formatScheduleDate(socInfo.getLastSchedulingRunStarted()));
-            socForm.setScheduleCompleteDate(formatScheduleDate(socInfo.getLastSchedulingRunCompleted()));
-
-            socForm.setPublishInitiatedDate(formatScheduleDate(socInfo.getPublishingStarted()));
-            socForm.setPublishCompleteDate(formatScheduleDate(socInfo.getPublishingCompleted()));
-
-            if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
-                socForm.setScheduleDuration(getTimeDiff(socInfo.getLastSchedulingRunCompleted(),socInfo.getLastSchedulingRunStarted()));
-            }
-
-            if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
-                socForm.setPublishDuration(getTimeDiff(socInfo.getPublishingCompleted(),socInfo.getPublishingStarted()));
-            }
-
-        } catch (DoesNotExistException e) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,e.getMessage());
-        } catch (PermissionDeniedException e) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-
     }
 
     /**
@@ -175,7 +184,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @param dateTwo
      * @return formatted date String (hh:mm)
      */
-    public String getTimeDiff(Date dateOne, Date dateTwo) {
+    protected String getTimeDiffUI(Date dateOne, Date dateTwo) {
         return DurationFormatUtils.formatDuration(dateOne.getTime() - dateTwo.getTime(),"HH:mm",true);
     }
 
@@ -255,16 +264,6 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         return StringUtils.EMPTY;
     }
 
-    protected String getStateName(String stateKey) {
-
-        try{
-           return getStateService().getState(stateKey,ContextUtils.createDefaultContextInfo()).getName();
-        } catch (Exception e){
-           throw new RuntimeException(e);
-        }
-
-    }
-
     protected String getSocSchedulingStatus(SocInfo info) {
         if(info.getSchedulingStateKey() != null) {
                  try{
@@ -341,7 +340,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             socForm.setSocInfo(socInfo);
             socForm.setSocSchedulingStatus(getSocSchedulingStatus(socInfo));
             socForm.setSocPublishingStatus(getSocPublishingStatus(socInfo));
-            String stateName = getStateName(socInfo.getStateKey());
+            String stateName = socForm.getSocStateKeys2Names().get(socInfo.getStateKey());
             socForm.setSocStatus(stateName);
         } catch (DoesNotExistException e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "No SOC exists!");

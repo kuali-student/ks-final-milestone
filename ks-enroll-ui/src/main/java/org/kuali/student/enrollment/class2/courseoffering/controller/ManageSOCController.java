@@ -9,7 +9,10 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,7 +36,18 @@ public class ManageSOCController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new ManageSOCForm();
+        ManageSOCForm form = new ManageSOCForm();
+
+        try {
+            List<StateInfo>  allSOCStates = CourseOfferingResourceLoader.loadStateService().getStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, ContextUtils.createDefaultContextInfo());
+            for (StateInfo stateInfo : allSOCStates) {
+                form.getSocStateKeys2Names().put(stateInfo.getKey(), stateInfo.getName());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return form;
     }
 
     @RequestMapping(params = "methodToCall=lockSOC")

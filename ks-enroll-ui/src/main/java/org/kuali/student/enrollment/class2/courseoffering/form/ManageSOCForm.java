@@ -8,7 +8,9 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,8 +38,11 @@ public class ManageSOCForm extends UifFormBase {
     private TermInfo termInfo;
     private SocInfo socInfo;
 
+    private Map<String,String> socStateKeys2Names;
+
     public ManageSOCForm()  {
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();
+        socStateKeys2Names = new HashMap<String, String>();
     }
 
     public String getScheduleInitiatedDate() {
@@ -154,30 +159,47 @@ public class ManageSOCForm extends UifFormBase {
     }
 
     public boolean isEnablePublishButton() {
+
         if (socInfo != null){
             if (!StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)){
                 return true;
             }
         }
+
         return false;
     }
+
     public boolean isShowLockButton(){
+
         if (socInfo != null){
-            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                    !(isShowFinalEditButton() || isShowPublishSetButton() || isShowCloseSetButton())){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
                 return true;
             }
         }
-            return false;
+
+        return false;
     }
 
     public boolean isShowFinalEditButton(){
+
+        if (socInfo != null){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isEnableFinalEditButton(){
+
         if (socInfo != null){
             if (StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED) &&
                 StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)){
                 return true;
             }
         }
+
         return false;
     }
 
@@ -224,6 +246,14 @@ public class ManageSOCForm extends UifFormBase {
             }
         }
         return false;
+    }
+
+    public Map<String, String> getSocStateKeys2Names() {
+        return socStateKeys2Names;
+    }
+
+    public void setSocStateKeys2Names(Map<String, String> socStateKeys2Names) {
+        this.socStateKeys2Names = socStateKeys2Names;
     }
 
 }
