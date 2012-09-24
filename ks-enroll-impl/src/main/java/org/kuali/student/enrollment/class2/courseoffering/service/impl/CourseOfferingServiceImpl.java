@@ -1514,8 +1514,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     /**
      * This implementation is the work-around for M5 that lacks an actual scheduler.
-     * The schedule request that is bound to the Activity Offering is direclty translated into an actual schedule,
-     * which is persisted throught the scheduling service.
+     * The schedule request that is bound to the Activity Offering is directly translated into an actual schedule,
+     * which is persisted through the scheduling service.
      *
      * @param activityOfferingId Id of the Activity Offering to be scheduled.
      * @param contextInfo        Context information containing the principalId
