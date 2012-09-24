@@ -20,6 +20,6 @@ public interface ScheduleOfClassesViewHelperService {
 
     public void loadActivityOfferingsByCourseOfferingId(String courseOfferingId, ScheduleOfClassesSearchForm form) throws Exception;
 
-    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, ScheduleOfClassesSearchForm form) throws Exception;
+    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception;
 
 }
