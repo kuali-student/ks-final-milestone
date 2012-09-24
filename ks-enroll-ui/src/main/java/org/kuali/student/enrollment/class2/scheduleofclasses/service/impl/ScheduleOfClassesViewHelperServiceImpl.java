@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -42,6 +43,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -69,6 +71,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     private LprService lprService;
     private SchedulingService schedulingService;
     private RoomService roomService;
+    private OrganizationService organizationService;
 
     public void loadCourseOfferingsByTermAndCourseCode (String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception{
 
@@ -187,57 +190,80 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         }
     }
 
-    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, ScheduleOfClassesSearchForm form) throws Exception{
+    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception{
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
 
-        qbcBuilder.setPredicates(PredicateFactory.and(
+        // Search ID based on organizationName
+        if (organizationId == null || organizationId.isEmpty()) {
+            QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+            qBuilder.setPredicates(PredicateFactory.equal("longName", organizationName));
+            QueryByCriteria query = qBuilder.build();
+            OrganizationService organizationService = getOrganizationService();
+            List<String> orgIDs = organizationService.searchForOrgIds(query, ContextUtils.createDefaultContextInfo());
+            if (orgIDs.isEmpty()) {
+                LOG.error("Error: Can't find any Department for selected Department in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
+                form.getCoDisplayWrapperList().clear();
+            } else if (orgIDs.size() > 1) {
+                LOG.error("Error: There is more than one departments with the same long name in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_DEPARTMENT_IS_FOUND, organizationName);
+                organizationId = null;
+                form.getCoDisplayWrapperList().clear();
+            } else {
+                organizationId = orgIDs.get(0);
+            }
+        }
+
+        if (organizationId != null) {
+            qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.equal("luiContentOwner", organizationId),
                 PredicateFactory.equal("atpId", termId),
                 PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)));
-        QueryByCriteria criteria = qbcBuilder.build();
-        List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
+            QueryByCriteria criteria = qbcBuilder.build();
+            List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
-        if(courseOfferingIds.size() > 0){
-            form.getCoDisplayWrapperList().clear();
-            List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-            List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
-            for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
-                CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
-                coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
+            if(courseOfferingIds.size() > 0){
+                form.getCoDisplayWrapperList().clear();
+                List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
+                List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
+                for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
+                    CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
+                    coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
 
-                // Adding Information (icons)
-                String information = "";
-                if (coDisplayInfo.getIsHonorsOffering() != null && coDisplayInfo.getIsHonorsOffering()) {
-                    information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
-                }
-                if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
-                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ";
-                } else if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
-                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ";
-                }
-                if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
-                    for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
-                        if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
-                        } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
+                    // Adding Information (icons)
+                    String information = "";
+                    if (coDisplayInfo.getIsHonorsOffering() != null && coDisplayInfo.getIsHonorsOffering()) {
+                        information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
+                    }
+                    if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
+                        information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ";
+                    } else if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
+                        information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ";
+                    }
+                    if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
+                        for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
+                            if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
+                                information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
+                            } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
+                                information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
+                            }
                         }
                     }
+                    coDisplayWrapper.setInformation(information);
+
+                    coDisplayWrapperList.add(coDisplayWrapper);
                 }
-                coDisplayWrapper.setInformation(information);
-
-                coDisplayWrapperList.add(coDisplayWrapper);
+                form.setCoDisplayWrapperList(coDisplayWrapperList);
             }
-            form.setCoDisplayWrapperList(coDisplayWrapperList);
-        }
 
-        //If nothing was found then error
-        if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
-            LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
-            GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationId, termId);
-            form.getCoDisplayWrapperList().clear();
+            //If nothing was found then error
+            if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
+                LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
+                form.getCoDisplayWrapperList().clear();
+            }
         }
     }
 
@@ -347,6 +373,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         return roomService;
     }
 
+    private OrganizationService getOrganizationService(){
+        if(organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
+        }
+        return organizationService;
+    }
 
     private String convertIntoDays(int day) {
         String dayOfWeek;
