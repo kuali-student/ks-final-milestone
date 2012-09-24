@@ -36,6 +36,7 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
     private String searchType;
     private String course;
     private String department;
+    private String departmentName;
     private String instructor;
     private String titleDesc;
     private String information;
@@ -91,6 +92,14 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     public String getInstructor() {
