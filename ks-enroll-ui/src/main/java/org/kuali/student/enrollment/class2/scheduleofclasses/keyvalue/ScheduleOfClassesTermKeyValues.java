@@ -42,7 +42,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
  *
  * @author Kuali Student Team
  */
-public class TermKeyValues extends UifKeyValuesFinderBase implements Serializable {
+public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private transient CourseOfferingSetService courseOfferingSetService;
     private transient AtpService atpService;
@@ -54,16 +54,20 @@ public class TermKeyValues extends UifKeyValuesFinderBase implements Serializabl
         List<String> termIds = new ArrayList<String>();
         List<AtpInfo> atps;
 
+        //Build a predicate to search for published Socs
         ContextInfo context = TestHelper.getContext1();
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         qBuilder.setPredicates();
         Predicate pred = equal("socState", "kuali.soc.state.published");
         qBuilder.setPredicates(pred);
         try {
+            //Try the search
             socs = getCourseOfferingSetService().searchForSocs(qBuilder.build(), context);
             for(SocInfo soc: socs){
+                //Add all published Soc termIds to termIds List
                 termIds.add(soc.getTermId());
             }
+            //Use AtpService to get Term name by Id
             atps = getAtpService().getAtpsByIds(termIds, context);
             for(AtpInfo atp: atps){
                  keyValues.add(new ConcreteKeyValue(atp.getId(), atp.getName()));
@@ -72,9 +76,11 @@ public class TermKeyValues extends UifKeyValuesFinderBase implements Serializabl
             throw new RuntimeException("Error Performing Search", e);
         }
 
+        //Return published term names
         return keyValues;
     }
 
+    //Methods to get necessary services
     protected CourseOfferingSetService getCourseOfferingSetService() {
         if(courseOfferingSetService == null) {
             courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOfferingSet", "CourseOfferingSetService"));
