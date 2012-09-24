@@ -127,6 +127,10 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingWrapperLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ManageSOCView.xml</value>
 
+                <!-- East Coast Sandbox (rollover) -->
+                <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRollover-SelectTermPage.xml</value>
+
                 <!-- Population -->
                 <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperLookupAndInquiryView.xml</value>
