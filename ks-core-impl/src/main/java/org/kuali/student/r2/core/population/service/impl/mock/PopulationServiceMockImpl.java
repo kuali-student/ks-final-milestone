@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.population.service.impl.mock;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -28,9 +29,14 @@ import java.util.Set;
  * ids are generated, but in a way that the id will be the same Every time you start the app.    Eventually this
  * class will go away.
  */
-public class PopulationServiceMockImpl extends PopulationServiceImpl {
+public class PopulationServiceMockImpl extends PopulationServiceImpl implements MockService {
 
     private static Map<String, Set<String>> caches = new HashMap<String, Set<String>>();
+
+    @Override
+    public void clear() {
+        this.caches.clear();
+    }
 
     @Override
     public Boolean isMemberAsOfDate(@WebParam(name = "personId") String personId, @WebParam(name = "populationId") String populationId, @WebParam(name = "date") Date date, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

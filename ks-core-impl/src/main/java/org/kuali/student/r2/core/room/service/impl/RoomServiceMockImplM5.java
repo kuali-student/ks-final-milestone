@@ -238,7 +238,6 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
         if (!roomTypeKey.equals (roomInfo.getTypeKey())) {
             throw new InvalidParameterException ("The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         RoomInfo copy = new RoomInfo(roomInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
@@ -547,7 +546,6 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
         if (!roomResponsibleOrgTypeKey.equals (roomResponsibleOrgInfo.getTypeKey())) {
             throw new InvalidParameterException ("The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         RoomResponsibleOrgInfo copy = new RoomResponsibleOrgInfo(roomResponsibleOrgInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
@@ -618,14 +616,6 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
         meta.setUpdateTime(new Date());
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
-    }
-
-    public void setRoomMap(Map<String, RoomInfo> roomMap) {
-        this.roomMap = roomMap;
-    }
-
-    public void setBuildingMap(Map<String, BuildingInfo> buildingMap) {
-        this.buildingMap = buildingMap;
     }
 
     @Override

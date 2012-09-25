@@ -16,7 +16,6 @@
  */
 package org.kuali.student.r2.core.room.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -60,8 +59,6 @@ public class RoomServiceMockImpl implements RoomService {
 
 
     public RoomServiceMockImpl() {
-        roomList = new ArrayList();
-        buildingList = new ArrayList();
         createRooms();
         createBuildings();
         createRespOrgs();
@@ -261,11 +258,7 @@ public class RoomServiceMockImpl implements RoomService {
     public RoomInfo createRoom(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String typeKey = "kuali.room.type.classroom.general";
         String stateKey = "kuali.room.room.state.active";
-        String roomId = roomInfo.getId();
-        if (StringUtils.isBlank(roomId)){
-            roomId = "createRoomId1";
-        }
-        RoomInfo info = createRoomInfo(roomId, buildingId, "testFloor1", "createRoomCd","createRoomTest", typeKey, stateKey);
+        RoomInfo info = createRoomInfo("createRoomId1", buildingId, "testFloor1", "createRoomCd","createRoomTest", typeKey, stateKey);
         info.setTypeKey(roomTypeKey);
         return info;
     }
@@ -362,12 +355,15 @@ public class RoomServiceMockImpl implements RoomService {
 
     @Override
     public List<BuildingInfo> searchForBuildings(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<BuildingInfo> infoList =  new ArrayList<BuildingInfo>();
         BuildingInfo info;
 
         info = createBuildingInfo("searchForBuildings1","testCode1", "testCampus", "testName1", "This is building 1 for method searchForBuildings ");
+        infoList.add(info);
         info = createBuildingInfo("searchForBuildings2","testCode2", "testCampus", "testName2", "This is building 2 for method searchForBuildings ");
+        infoList.add(info);
 
-        return buildingList;
+        return infoList;
     }
 
     @Override
@@ -398,13 +394,8 @@ public class RoomServiceMockImpl implements RoomService {
 
     @Override
     public BuildingInfo createBuilding(@WebParam(name = "buildingTypeKey") String buildingTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        String buildingId = buildingInfo.getId();
-        if (StringUtils.isBlank(buildingId)){
-            buildingId = "createBuildingID1";
-        }
-        BuildingInfo  info = createBuildingInfo(buildingId, "testCode", "testCampus","testBuilding", "createBuilding with buildingTypeKey");
+        BuildingInfo  info = createBuildingInfo("createBuildingID1", "testCode", "testCampus","testBuilding", "createBuilding with buildingTypeKey");
         info.setTypeKey(buildingTypeKey);
-        buildingList.add(info);
         return info;
     }
 
@@ -649,7 +640,6 @@ public class RoomServiceMockImpl implements RoomService {
         usageInfoList.add(usageInfo);
         info.setRoomUsages(usageInfoList);
 
-        roomList.add(info);
         return info;
     }
 
@@ -703,6 +693,10 @@ public class RoomServiceMockImpl implements RoomService {
         roomCode = "1505";
         roomName = "VMH 1505";
         room3 = createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
+        roomList = new ArrayList<RoomInfo>();
+        roomList.add(room1);
+        roomList.add(room2);
+        roomList.add(room3);
     }
 
     private void createBuildings() {
@@ -771,5 +765,4 @@ public class RoomServiceMockImpl implements RoomService {
     public List<RoomInfo> getRoomsByBuildingAndRoomCode(@WebParam(name = "buildingCode") String buildingCode, @WebParam(name = "roomCode") String roomCode, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("getRoomsByBuildingAndRoomCode has not been implemented");
     }
-
 }
