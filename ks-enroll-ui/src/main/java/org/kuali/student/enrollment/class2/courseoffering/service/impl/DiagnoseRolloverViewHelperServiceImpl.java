@@ -28,16 +28,23 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -51,6 +58,11 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
     private CourseService courseService = null;
 
     private static final Logger LOG = Logger.getLogger(DiagnoseRolloverViewHelperServiceImpl.class);
+
+    public static final String COURSE_OFFERING_KEY = "courseOffering";
+    public static final String START_ROLLOVER_DATE = "startRolloverDate";
+    public static final String FINISH_ROLLOVER_DATE = "finishRolloverDate";
+    public static final String DURATION_IN_SECONDS = "durationInSeconds";
 
     @Override
     public TermInfo searchTermByTermCode(String termCode) throws Exception {
@@ -94,7 +106,7 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
 
     @Override
     public CourseOfferingInfo getCourseOfferingInfo(String termId, String courseOfferingCode) throws Exception {
-        List<CourseOfferingInfo> coList = searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, termId);
+        List<CourseOfferingInfo> coList = _searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, termId);
         if (coList == null ||  coList.isEmpty()) {
             return null;
         } else {
@@ -103,7 +115,61 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         }
     }
 
-    private List<CourseOfferingInfo> searchCourseOfferingByCOCodeAndTerm(String courseOfferingCode, String termId) throws Exception {
+    @Override
+    public boolean termHasACourseOffering(String termId, String courseOfferingCode) throws Exception {
+        List<CourseOfferingInfo> coList = _searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, termId);
+        boolean hasOffering = coList != null && !coList.isEmpty();
+        return hasOffering;
+    }
+
+    @Override
+    public boolean deleteCourseOfferingInTerm(String courseOfferingCode, String termId) throws Exception {
+        _initServices();
+        List<CourseOfferingInfo> coList = _searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, termId);
+        if (coList == null || coList.isEmpty()) {
+            return false;
+        }
+        CourseOfferingInfo coInfo = coList.get(0);
+        StatusInfo statusInfo = null;
+        try {
+            statusInfo = coService.deleteCourseOfferingCascaded(coInfo.getId(), new ContextInfo());
+        } catch (Exception e) {
+            return false;
+        }
+        return statusInfo != null && statusInfo.getIsSuccess();
+    }
+
+    private double _computeDiffInSeconds(Date start, Date end) {
+        long diff = end.getTime() - start.getTime();
+        double diffInSeconds = diff / 1000.0;
+        return diffInSeconds;
+    }
+
+    @Override
+    public Map<String, Object> rolloverCourseOfferingFromSourceTermToTargetTerm(String courseOfferingCode, String sourceTermId, String targetTermId) throws Exception {
+        _initServices();
+        List<CourseOfferingInfo> coInfos = _searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, sourceTermId);
+        if (coInfos == null || coInfos.isEmpty()) {
+            return null;
+        }
+        ContextInfo contextInfo = new ContextInfo();
+        CourseOfferingInfo coInfo = coInfos.get(0); // Just get the first one
+        Date start = new Date();
+        SocRolloverResultItemInfo rolloverResultInfo =
+                coService.rolloverCourseOffering(coInfo.getId(), targetTermId, new ArrayList<String>(), contextInfo);
+        Date end = new Date();
+        String targetId = rolloverResultInfo.getTargetCourseOfferingId();
+        CourseOfferingInfo targetCo = coService.getCourseOffering(targetId, contextInfo);
+        Map<String, Object> keyValues = new HashMap<String, Object>();
+        keyValues.put(COURSE_OFFERING_KEY, targetCo);
+        keyValues.put(START_ROLLOVER_DATE, start);
+        keyValues.put(FINISH_ROLLOVER_DATE, end);
+        double diff = _computeDiffInSeconds(start, end);
+        keyValues.put(DURATION_IN_SECONDS, new Double(diff));
+        return keyValues;
+    }
+
+    private List<CourseOfferingInfo> _searchCourseOfferingByCOCodeAndTerm(String courseOfferingCode, String termId) throws Exception {
         _initServices();
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();

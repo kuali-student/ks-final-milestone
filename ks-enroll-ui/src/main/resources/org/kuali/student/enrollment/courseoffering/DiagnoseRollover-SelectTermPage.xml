@@ -28,8 +28,10 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Rollover Course Offerings"
-                              p:methodToCall="performRollover" p:disabled="@{isRolloverButtonDisabled}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Rollover Course Offering"
+                              p:methodToCall="performCoRollover" p:disabled="@{isRolloverButtonDisabled}"/>
+                        <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Delete CO in Target"
+                              p:methodToCall="deleteCoTarget" p:disabled="@{isRolloverButtonDisabled}"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                     </list>
                 </property>
@@ -41,7 +43,7 @@
                     <property name="items">
                         <list>
                             <!-- Select Source Term -->
-                            <bean parent="Uif-VerticalBoxSubSection" p:headerText="Select Source Term">
+                            <bean parent="Uif-VerticalBoxSubSection" p:headerText="Select Source Term and Course Offering Code">
                                 <property name="validationMessages">
                                     <bean parent="Uif-GroupValidationMessages">
                                         <property name="displayFieldLabelWithMessages" value="false"/>
@@ -49,11 +51,11 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Specify source term"/>
+                                        <bean parent="Uif-Message" p:messageText="Specify source term and course offering code"/>
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Source Term" p:labelPlacement="TOP">
+                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="Source Term and CO Code" p:labelPlacement="TOP">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:required="true">
@@ -61,59 +63,23 @@
                                                                         <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20122" p:minLength="5" p:maxLength="5"/>
                                                                     </property>
                                                                 </bean>
-
-                                                                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm" p:valign="middle"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedSourceTermCode!=''}">
-                                                        <property name="items">
-                                                            <list>
-                                                                <!-- More stuff on right side here -->
-                                                                <bean parent="Uif-DataField" p:propertyName="displayedSourceTermCode" p:label="Term Code"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-
-                                    </list>
-                                </property>
-                            </bean>
-
-                            <!-- Select Course Offering in Target Term -->
-                            <bean parent="Uif-VerticalBoxSubSection" p:headerText="Enter Course Offering Code">
-                                <property name="validationMessages">
-                                    <bean parent="Uif-GroupValidationMessages">
-                                        <property name="displayFieldLabelWithMessages" value="false"/>
-                                    </bean>
-                                </property>
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-Message" p:messageText="Enter course offering code from target term."/>
-                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-HorizontalFieldGroup" p:required="true" p:label="CO Code" p:labelPlacement="TOP">
-                                                        <property name="items">
-                                                            <list>
                                                                 <bean parent="Uif-InputField" p:propertyName="courseOfferingCode"
                                                                       p:required="true">
                                                                     <property name="control">
                                                                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="CHEM152" p:minLength="7" p:maxLength="10"/>
                                                                     </property>
                                                                 </bean>
-                                                                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goCourseOfferingCode" p:valign="bottom" p:disabled="@{isGoCocDisabled}"/>
+                                                                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceCO" p:valign="middle"/>
                                                             </list>
                                                         </property>
                                                     </bean>
                                                     <bean parent="Uif-VerticalBoxSubSection" p:render="@{isCourseOfferingInfoRendered}">
                                                         <property name="items">
                                                             <list>
-                                                                <!-- More stuff on left side here -->
+                                                                <!-- More stuff on right side here -->
+                                                                <bean parent="Uif-DataField" p:propertyName="displayedSourceTermCode" p:label="Term Code"/>
+                                                                <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
+                                                                <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
                                                                 <bean parent="Uif-DataField" p:propertyName="displayedCourseOfferingCode" p:label="CO Code"/>
                                                                 <bean parent="Uif-DataField" p:propertyName="coCodeId" p:label="COC ID"/>
                                                                 <bean parent="Uif-DataField" p:propertyName="courseOfferingTitle" p:label="COC Title"/>
@@ -137,7 +103,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Select source term."/>
+                                        <bean parent="Uif-Message" p:messageText="Select term to roll course offering into"/>
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                             <property name="items">
                                                 <list>
@@ -154,13 +120,12 @@
                                                             </list>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedTargetTermCode!=''}">
+                                                    <bean parent="Uif-VerticalBoxSubSection" p:render="@{isTargetTermInfoRendered}">
                                                         <property name="items">
                                                             <list>
                                                                 <!-- More stuff on left side here -->
                                                                 <bean parent="Uif-DataField" p:propertyName="displayedTargetTermCode" p:label="Term Code"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
+                                                                <bean parent="Uif-DataField" p:propertyName="rolloverDuration" p:label="Rollover Duration"/>
                                                             </list>
                                                         </property>
                                                     </bean>
@@ -173,7 +138,7 @@
                             </bean>
 
 
-
+                            <!-- Display Rollover Info -->
 
                         </list>
                     </property>

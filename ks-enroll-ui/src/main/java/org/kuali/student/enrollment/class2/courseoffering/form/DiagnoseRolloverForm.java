@@ -44,16 +44,25 @@ public class DiagnoseRolloverForm extends UifFormBase {
     private String displayedCourseOfferingCode;
     private String coCodeId;
     private String courseOfferingTitle;
+    private String rolloverDuration;
     private TermInfo sourceTerm;
     private TermInfo targetTerm;
     private boolean isRolloverButtonDisabled;
     private boolean isGoTargetButtonDisabled;
-    private boolean isGoCocDisabled; // Coc = Course Offering Code
     private boolean isCourseOfferingInfoRendered;
+    private boolean isTargetTermInfoRendered;
 
     public DiagnoseRolloverForm(){
         sourceTermCode = "";
         resetForm();
+    }
+
+    public String getRolloverDuration() {
+        return rolloverDuration;
+    }
+
+    public void setRolloverDuration(String rolloverDuration) {
+        this.rolloverDuration = rolloverDuration;
     }
 
     public String getCourseOfferingTitle() {
@@ -80,20 +89,20 @@ public class DiagnoseRolloverForm extends UifFormBase {
         this.coCodeId = coCodeId;
     }
 
+    public void setIsTargetTermInfoRendered(boolean value) {
+        isTargetTermInfoRendered = value;
+    }
+
+    public boolean getIsTargetTermInfoRendered() {
+        return isTargetTermInfoRendered;
+    }
+
     public void setIsCourseOfferingInfoRendered(boolean value) {
         isCourseOfferingInfoRendered = value;
     }
 
     public boolean getIsCourseOfferingInfoRendered() {
         return isCourseOfferingInfoRendered;
-    }
-
-    public boolean getIsGoCocDisabled() {
-        return isGoCocDisabled;
-    }
-
-    public void setIsGoCocDisabled(boolean value) {
-        isGoCocDisabled = value;
     }
 
     public boolean getIsRolloverButtonDisabled() {
@@ -232,38 +241,30 @@ public class DiagnoseRolloverForm extends UifFormBase {
 
         isRolloverButtonDisabled = true;
         isGoTargetButtonDisabled = true;
-        isGoCocDisabled = true;
         isCourseOfferingInfoRendered = false;
+        isTargetTermInfoRendered = false;
     }
 
-    public void alertSourceTermValid(boolean value) {
+    public void alertSourceCoValid(boolean value) {
         // if target term is valid, we can set isGoCocDisabled to false
         if (value) {
-            isGoCocDisabled = false; // activate CoC button
-        } else {
-            isGoCocDisabled = true;
-            isGoTargetButtonDisabled = true;
-            isRolloverButtonDisabled = true;
-        }
-    }
-
-    public void alertCourseOfferingInfoValid(boolean value) {
-        if (value) {
+            isGoTargetButtonDisabled = false; // activate Target Term
             isCourseOfferingInfoRendered = true;
         } else {
             isGoTargetButtonDisabled = true;
             isRolloverButtonDisabled = true;
+            isCourseOfferingInfoRendered = false;
         }
     }
 
     public void alertTargetTermValid(boolean value) {
         // if target term is valid, we can set isGoCocDisabled to false
         if (value) {
-            isGoCocDisabled = false; // activate CoC button
+            isRolloverButtonDisabled = false; // activate CoC button
+            isTargetTermInfoRendered = true;
         } else {
-            isGoCocDisabled = true;
-            isGoTargetButtonDisabled = true;
             isRolloverButtonDisabled = true;
+            isTargetTermInfoRendered = false;
         }
     }
 }

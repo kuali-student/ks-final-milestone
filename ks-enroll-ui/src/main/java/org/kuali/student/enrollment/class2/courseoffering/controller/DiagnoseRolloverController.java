@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRol
 import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DiagnoseRolloverViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -96,43 +97,30 @@ public class DiagnoseRolloverController extends UifControllerBase {
     public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
-        TermInfo termInfo = helper.searchTermByTermCode(form.getTargetTermCode());
-        if (termInfo != null) {
-            //validation to check if already rollover target term exists..
-            if (helper.termHasCourseOfferings(termInfo)) {
-                // Print error message if there are course offerings in the target term
-                GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
-                form.resetForm();
-                return getUIFModelAndView(form);
-            }
-            // Get first term
-            String targetTermCode = termInfo.getCode();
-            form.setDisplayedTargetTermCode(targetTermCode);
-            // Set the start date
-            Date startDate = termInfo.getStartDate();
-            SimpleDateFormat format = new SimpleDateFormat("EEE, MMMMM d, yyyy");
-            String startDateStr = format.format(startDate);
-            form.setTargetTermStartDate(startDateStr);
-            // Set the end date
-            Date endDate = termInfo.getEndDate();
-            String endDateStr = format.format(endDate);
-            form.setTargetTermEndDate(endDateStr);
-            // TODO: Put in last rollover date (Kirk says this may be unnecessary in new wireframes 5/18/2012)
-            form.setTargetTerm(termInfo);
-            form.alertTargetTermValid(true); // Make go button for source enabled
-        } else {
-            form.setTargetTerm(null);
-            form.resetForm();
-            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
+        TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
+        if (targetTerm == null) {
+            form.alertTargetTermValid(false);
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
+            return getUIFModelAndView(form);
         }
+        form.setTargetTerm(targetTerm);
+        if (helper.termHasACourseOffering(targetTerm.getId(), form.getCourseOfferingCode())) {
+            // TODO: fix error message
+            form.alertTargetTermValid(false);
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
+            return getUIFModelAndView(form);
+        }
+        form.setDisplayedTargetTermCode(targetTerm.getCode());
+        form.alertTargetTermValid(true);
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=goSourceTerm")
-    public ModelAndView goSourceTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
+    @RequestMapping(params = "methodToCall=goSourceCO")
+    public ModelAndView goSourceCO(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
-        TermInfo termInfo = helper.searchTermByTermCode(form.getSourceTermCode());
+        String sourceTermCode = form.getSourceTermCode();
+        TermInfo termInfo = helper.searchTermByTermCode(sourceTermCode);
         if (termInfo != null) {
             //validation to check if source term has a soc
             if (!helper.termHasSoc(termInfo)) {
@@ -143,7 +131,6 @@ public class DiagnoseRolloverController extends UifControllerBase {
                 return getUIFModelAndView(form);
             }
             // Get first term
-            String sourceTermCode = termInfo.getCode();
             form.setDisplayedSourceTermCode(sourceTermCode);
             // Set the start date
             Date startDate = termInfo.getStartDate();
@@ -156,7 +143,18 @@ public class DiagnoseRolloverController extends UifControllerBase {
             form.setSourceTermEndDate(endDateStr);
             // TODO: Put in last rollover date (Kirk says this may be unnecessary in new wireframes 5/18/2012)
             form.setSourceTerm(termInfo);
-            form.alertSourceTermValid(true); // Make go button for source enabled
+            // Now handle course
+            CourseOfferingInfo coInfo = helper.getCourseOfferingInfo(form.getSourceTerm().getId(), form.getCourseOfferingCode());
+            if (coInfo == null) {
+                // TODO: Fix error message
+                form.alertSourceCoValid(false);
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
+                return getUIFModelAndView(form);
+            }
+            form.setCoCodeId(coInfo.getId());
+            form.setDisplayedCourseOfferingCode(coInfo.getCourseOfferingCode());
+            form.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
+            form.alertSourceCoValid(true);
         } else {
             form.setTargetTerm(null);
             form.resetForm();
@@ -165,21 +163,23 @@ public class DiagnoseRolloverController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=goCourseOfferingCode")
-    public ModelAndView goCourseOfferingCode(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(params = "methodToCall=deleteCoTarget")
+    public ModelAndView deleteCoTarget(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
         DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
-        CourseOfferingInfo coInfo = helper.getCourseOfferingInfo(form.getSourceTerm().getId(), form.getCourseOfferingCode());
-        if (coInfo != null) {
-            form.setCoCodeId(coInfo.getId());
-            form.setDisplayedCourseOfferingCode(coInfo.getCourseOfferingCode());
-            form.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
-            form.alertCourseOfferingInfoValid(true);
-        } else {
-            // TODO: Fix error message
-            form.alertCourseOfferingInfoValid(false);
-            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
-        }
+        TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
+        helper.deleteCourseOfferingInTerm(form.getCourseOfferingCode(), targetTerm.getId());
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=performCoRollover")
+    public ModelAndView performCoRollover(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+        DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
+        TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
+        Map<String, Object> keyValues = helper.rolloverCourseOfferingFromSourceTermToTargetTerm(form.getCourseOfferingCode(), form.getSourceTerm().getId(), form.getTargetTerm().getId());
+        double diffInSeconds = (Double) keyValues.get(DiagnoseRolloverViewHelperServiceImpl.DURATION_IN_SECONDS);
+        form.setRolloverDuration(diffInSeconds  + "s");
         return getUIFModelAndView(form);
     }
 
