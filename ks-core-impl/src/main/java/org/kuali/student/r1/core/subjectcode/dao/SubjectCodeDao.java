@@ -19,6 +19,7 @@ import org.kuali.student.r1.core.subjectcode.model.SubjectCode;
 import org.kuali.student.r1.core.subjectcode.model.SubjectCodeJoinOrg;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -30,7 +31,14 @@ public class SubjectCodeDao extends GenericEntityDao<SubjectCode> {
 
     @SuppressWarnings("unchecked")
     public List<SubjectCode> getBySubjectCode(String subjectCode) {
-        return em.createQuery("from SubjectCode e where e.code like :subjectCode ")
-                .setParameter("subjectCode", subjectCode).getResultList();
+        String queryString = "from SubjectCode e ";
+        if (subjectCode != null) {
+            queryString += "where e.code like :subjectCode ";
+        }
+        Query query = em.createQuery(queryString);
+        if (subjectCode != null) {
+            query.setParameter("subjectCode", subjectCode);
+        }
+        return query.getResultList();
     }
 }
