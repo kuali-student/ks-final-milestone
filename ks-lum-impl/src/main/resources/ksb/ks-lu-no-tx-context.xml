@@ -270,7 +270,7 @@
         <property name="resultScaleDao" ref="resultScaleDao" />
         <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
         <property name="resultValueCriteriaLookupService">
-            <bean parent="defaultCriteriaLookupService">
+            <bean parent="lrcDefaultCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="true">
                         <ref bean="key2IdTransform"/>
@@ -663,12 +663,12 @@
         </property>
     </bean>
 
-    <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+    <bean id="lrcCriterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
         <property name="entityManager" ref="lrcEntityManager"/>
     </bean>
 
-    <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+    <bean id="lrcDefaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="lrcCriterialookupDaoJpa"/>
         <property name="predicateTransforms">
             <list>
                 <ref bean="keyword2LikeTransform"/>
