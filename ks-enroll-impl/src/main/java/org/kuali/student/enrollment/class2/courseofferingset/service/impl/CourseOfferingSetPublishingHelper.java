@@ -1,9 +1,8 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import org.apache.log4j.Logger;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -17,6 +16,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -116,6 +116,10 @@ public class CourseOfferingSetPublishingHelper {
         public void run() {
             LOG.warn(String.format("Beginning Mass Publishing Event for SOC [%s].", socId));
             try {
+
+                context.setCurrentDate(new Date());
+                socService.updateSocState(socId, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, context);
+
                 /*
                  * Get all of the COs within the SOC. Query the AOs for each CO and do state changes.
                  */
@@ -172,6 +176,7 @@ public class CourseOfferingSetPublishingHelper {
 
                 //  Set SOC scheduling state to "published"
                 LOG.warn(String.format("Updating SOC [%s] state to [%s].", socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY));
+                context.setCurrentDate(new Date());
                 StatusInfo statusInfo = socService.updateSocState(socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY, context);
                 if ( ! statusInfo.getIsSuccess()) {
                     LOG.error(String.format("State changed failed for SOC [%s]: %s", socId, statusInfo.getMessage()));

@@ -86,7 +86,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
 
             for (AttributeInfo info : socInfo.getAttributes()){
-                if (validSOCStates.contains(socInfo.getStateKey())){
+                if (validSOCStates.contains(info.getKey())){
                     stateName = socForm.getSocStateKeys2Names().get(info.getKey());
 
                     Date date = null;
@@ -149,8 +149,6 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
     /**
@@ -160,21 +158,21 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      */
     protected void highlightAndGreyTextHistories(ManageSOCForm socForm){
         //Highlight or grey text histories.
-            for (int i=0;i<socForm.getStatusHistory().size();i++){
-                ManageSOCStatusHistory history = socForm.getStatusHistory().get(i);
-                // If it's last element or only one element present, highlight that component
-                if (socForm.getStatusHistory().size()-1 == i){
+        for (int i=0;i<socForm.getStatusHistory().size();i++){
+            ManageSOCStatusHistory history = socForm.getStatusHistory().get(i);
+            // If it's last element or only one element present, highlight that component
+            if (socForm.getStatusHistory().size()-1 == i){
+                history.setHighlightUI(true);
+            }else{
+                ManageSOCStatusHistory nextHistory = socForm.getStatusHistory().get(i+1);
+                if (nextHistory.getDateObject() == null){
                     history.setHighlightUI(true);
-                }else{
-                    ManageSOCStatusHistory nextHistory = socForm.getStatusHistory().get(i+1);
-                    if (nextHistory.getDateObject() == null){
-                        history.setHighlightUI(true);
-                        break;
-                    } else {
-                        history.setGreyText(true);
-                    }
+                    break;
+                } else {
+                    history.setGreyText(true);
                 }
             }
+        }
     }
 
     /**
@@ -213,7 +211,6 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @param socForm SOC form
      */
     public void publishSOC(ManageSOCForm socForm) {
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY,"Set of Courses has been Published.");
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         CourseOfferingSetPublishingHelper mpeHelper = new CourseOfferingSetPublishingHelper();
         try {

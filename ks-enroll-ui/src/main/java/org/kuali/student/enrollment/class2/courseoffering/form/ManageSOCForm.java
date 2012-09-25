@@ -172,7 +172,8 @@ public class ManageSOCForm extends UifFormBase {
     public boolean isShowLockButton(){
 
         if (socInfo != null){
-            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
+                StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY)){
                 return true;
             }
         }
@@ -214,7 +215,8 @@ public class ManageSOCForm extends UifFormBase {
 
     public boolean isShowCloseSetButton(){
         if (socInfo != null){
-            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)){
+            if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
+                StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)){
                 return true;
             }
         }

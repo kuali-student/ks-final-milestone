@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,6 +94,7 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
             SocInfo soc = socService.getSoc(socId, contextInfo);
 
             // update the Soc to mark that the scheduling is in progress
+            contextInfo.setCurrentDate(new Date());
             socService.updateSocState(socId, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
 
             List<String> coIds = socService.getCourseOfferingIdsBySoc(soc.getId(), contextInfo);
@@ -119,6 +121,7 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
             }
 
             // set the scheduling status of the SoC to completed
+            contextInfo.setCurrentDate(new Date());
             socService.updateSocState(socId, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED, contextInfo);
 
         } catch (Exception e) {
