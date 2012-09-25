@@ -22,7 +22,7 @@
 
     <!-- The Interesting Bits -->
 
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextFields-Example1">
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextField-Example1">
         <property name="propertyName" value="stringField1"/>
         <property name="label" value="Field Label"/>
         <!-- the following two properties are the default for Uif-InputField-LabelTop:
@@ -47,11 +47,11 @@
 
     <!-- just the various containers for the interesting bits -->
 
-    <bean id="KS-KitchenSink-TextFields-View" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-TextField-View" parent="KS-KitchenSink-FormView">
         <property name="headerText" value="Input Fields"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-Page" p:headerText="Text Fields">
+                <bean parent="KS-KitchenSink-Page" p:headerText="Text Field">
                     <property name="items">
                         <list>
                             <bean parent="KS-KitchenSink-Page-Summary">
@@ -61,8 +61,8 @@
                                     </value>
                                 </property>
                             </bean>
-                            <ref bean="KS-KitchenSink-TextFields-Content"/>
-                            <ref bean="KS-KitchenSink-TextFields-Links"/>
+                            <ref bean="KS-KitchenSink-TextField-Content"/>
+                            <ref bean="KS-KitchenSink-TextField-Links"/>
                         </list>
                     </property>
                 </bean>
@@ -70,11 +70,11 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-TextFields-Content" parent="Uif-TabSection" p:width="500px">-->
-    <bean id="KS-KitchenSink-TextFields-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
+    <!--<bean id="KS-KitchenSink-TextField-Content" parent="Uif-TabSection" p:width="500px">-->
+    <bean id="KS-KitchenSink-TextField-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-TextFields-Example1-Section">
+                <bean parent="KS-KitchenSink-TextField-Example1-Section">
                     <property name="items">
                         <list merge="true">
                             <bean parent="KS-KitchenSink-MessageField"
@@ -88,13 +88,13 @@
 
     <!-- Example #1 containers -->
 
-    <bean id="KS-KitchenSink-TextFields-Example1-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+    <bean id="KS-KitchenSink-TextField-Example1-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
                     <property name="items">
                         <list>
-                            <ref bean="KS-KitchenSink-TextFields-Example1-Section"/>
+                            <ref bean="KS-KitchenSink-TextField-Example1-Section"/>
                         </list>
                     </property>
                 </bean>
@@ -102,18 +102,18 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-TextFields-Example1-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="Text Fields" p:header.render="false">
+    <bean id="KS-KitchenSink-TextField-Example1-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Text Field" p:header.render="false">
         <property name="items">
             <list>
-                <ref bean="KS-KitchenSink-TextFields-Example1"/>
+                <ref bean="KS-KitchenSink-TextField-Example1"/>
             </list>
         </property>
     </bean>
 
     <!-- Links -->
 
-    <bean id="KS-KitchenSink-TextFields-Links" parent="KS-KitchenSink-Page-Links">
+    <bean id="KS-KitchenSink-TextField-Links" parent="KS-KitchenSink-Page-Links">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-FooterLinkSection">
@@ -122,8 +122,8 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/TextFields.xml"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/TextFields.xml"/>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/TextField.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/TextField.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -168,8 +168,8 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="Text Fields"
-                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-TextFields-Example1-View-Bare&amp;methodToCall=start"/>
+                                        <entry key="Input Field Text Control"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-TextField-Example1-View-Bare&amp;methodToCall=start"/>
                                     </map>
                                 </property>
                             </bean>
