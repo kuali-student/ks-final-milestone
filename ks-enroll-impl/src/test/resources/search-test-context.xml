@@ -117,12 +117,45 @@
     		</list>
     	</property>
   	</bean>
-        <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-           <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-            <property name="predicateTransforms">
-                <list>
-                    <ref bean="coCodeTransform"/>
-                </list>
-            </property>
-        </bean>
+    <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+       <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="coCodeTransform"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="atpAtpRelationCriteriaLookupService" parent="defaultCriteriaLookupService">
+        <property name="predicateTransforms">
+            <list merge="true">
+                <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                    <property name="renameAttributes">
+                        <map>
+                            <entry key="atpId" value="atp.id"/>
+                            <entry key="relatedAtpId" value="relatedAtp.id"/>
+                            <entry key="typeKey" value="atpType"/>
+                            <entry key="stateKey" value="atpState"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean name="milestoneCriteriaLookupService" parent="defaultCriteriaLookupService">
+        <property name="predicateTransforms">
+            <list merge="true">
+                <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                    <property name="renameAttributes">
+                        <map>
+                            <entry key="typeKey" value="atpType"/>
+                            <entry key="stateKey" value="atpState"/>
+                            <entry key="isAllDay" value="allDay"/>
+                            <entry key="isRelative" value="relative"/>
+                            <entry key="isDateRange" value="dateRange"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 </beans>

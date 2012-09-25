@@ -96,6 +96,8 @@
         <property name="milestoneDao" ref="milestoneDao" />
         <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
         <property name="atpCriteriaLookupService" ref="atpCriteriaLookupService"/>
+        <property name="milestoneCriteriaLookupService" ref="milestoneCriteriaLookupService"/>
+        <property name="atpAtpRelationCriteriaLookupService" ref="atpAtpRelationCriteriaLookupService"/>
     </bean>
 
     <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">

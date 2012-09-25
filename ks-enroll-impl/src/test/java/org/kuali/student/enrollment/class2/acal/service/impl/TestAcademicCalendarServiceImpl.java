@@ -846,7 +846,7 @@ public class TestAcademicCalendarServiceImpl {
         calendarKeys.add("testTermId2");
         List<AcademicCalendarInfo> calendars = acalService.getAcademicCalendarsByIds(calendarKeys, callContext);
         assertNotNull(calendars);
-        assertEquals("Number of calendars returned not as expected.", 4, calendars.size());
+        assertEquals("Number of calendars returned not as expected.", 3, calendars.size());
 
         // DoesNotExistException
         calendarKeys.clear();
@@ -1049,7 +1049,7 @@ public class TestAcademicCalendarServiceImpl {
     public void testSearchForHolidays() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         //qbcBuilder.setPredicates(PredicateFactory.equal("isAllDay", "0"));
-        qbcBuilder.setPredicates(PredicateFactory.equal("holidayName", "testId2"));
+        qbcBuilder.setPredicates(PredicateFactory.equal("name", "testId2"));
         QueryByCriteria qbc = qbcBuilder.build();
 
         try {
