@@ -46,7 +46,7 @@ public class CourseOfferingSetPublishingHelper {
 
         //  Validate the SOC. Should exist and state should be "publishing".
         SocInfo soc = getSocService().getSoc(socId, context);
-        if ( ! StringUtils.equals(soc.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)) {
+        if ( ! StringUtils.equals(soc.getStateKey(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)) {
             throw new OperationFailedException(String.format("SOC state [%s] was invalid for mass publishing.", soc.getStateKey()));
         }
 
