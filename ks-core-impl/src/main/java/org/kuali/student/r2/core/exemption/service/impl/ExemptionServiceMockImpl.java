@@ -15,9 +15,8 @@
  */
 package org.kuali.student.r2.core.exemption.service.impl;
 
-import java.util.*;
-
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -26,6 +25,12 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.dto.ExemptionRequestInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ExemptionServiceMockImpl implements ExemptionService, MockService {
 
@@ -58,7 +63,7 @@ public class ExemptionServiceMockImpl implements ExemptionService, MockService {
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
         if (copy.getId() == null) {
-            copy.setId(exemptionRequestMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         exemptionRequestMap.put(copy.getId(), copy);
@@ -164,7 +169,7 @@ public class ExemptionServiceMockImpl implements ExemptionService, MockService {
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
         if (copy.getId() == null) {
-            copy.setId(exemptionMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         exemptionMap.put(copy.getId(), copy);

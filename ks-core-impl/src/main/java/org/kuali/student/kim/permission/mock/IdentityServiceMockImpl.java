@@ -33,6 +33,7 @@ import org.kuali.rice.kim.api.identity.residency.EntityResidency;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.UUIDHelper;
 
 import javax.jws.WebParam;
 import java.util.HashMap;
@@ -133,7 +134,7 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
     public Entity createEntity(Entity entity) throws RiceIllegalArgumentException, RiceIllegalStateException {
         Entity.Builder builder = Entity.Builder.create(entity);
         if (builder.getId() == null) {
-            builder.setId(this.entities.size() + "");
+            builder.setId(UUIDHelper.genStringUUID());
         }
         Entity copy = builder.build();
         this.entities.put(entity.getId(), copy);
