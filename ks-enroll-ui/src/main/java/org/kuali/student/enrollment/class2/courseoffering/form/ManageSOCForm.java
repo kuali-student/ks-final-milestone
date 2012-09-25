@@ -205,12 +205,17 @@ public class ManageSOCForm extends UifFormBase {
     }
 
     public boolean isShowPublishSetButton(){
+        boolean retVal = false;
         if (socInfo != null){
             if (StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)){
-                return true;
+                retVal = true;
             }
         }
-        return false;
+        if(StringUtils.equals(getSocPublishingStatus(), "In Progress") ||
+                StringUtils.equals(getSocPublishingStatus(), "Completed"))   {
+            retVal  = false;
+        }
+        return retVal;
     }
 
     public boolean isShowCloseSetButton(){
@@ -219,6 +224,11 @@ public class ManageSOCForm extends UifFormBase {
                 StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)){
                 return true;
             }
+            if(StringUtils.equals(getSocPublishingStatus(), "In Progress") ||
+                    StringUtils.equals(getSocPublishingStatus(), "Completed"))   {
+                return true;
+            }
+
         }
         return false;
     }
