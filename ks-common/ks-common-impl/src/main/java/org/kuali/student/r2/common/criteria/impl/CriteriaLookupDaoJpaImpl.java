@@ -135,7 +135,7 @@ public class CriteriaLookupDaoJpaImpl {
         if (criteria.getMaxResults() != null && rows.size() > criteria.getMaxResults()) {
             results.setMoreResultsAvailable(true);
             //remove the extra row that was returned
-            rows.remove(criteria.getMaxResults().intValue() + 1);
+            rows.remove(criteria.getMaxResults().intValue());
         }
 
         results.setResults(transformResults(rows, transform));
