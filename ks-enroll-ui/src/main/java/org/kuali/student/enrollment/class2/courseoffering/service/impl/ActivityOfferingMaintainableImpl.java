@@ -476,6 +476,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     protected void loadScheduleActuals(ActivityOfferingWrapper wrapper){
 
+        if(wrapper.getAoInfo().getScheduleId() == null) return;
         try {
             ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(wrapper.getAoInfo().getScheduleId(),getContextInfo());
             wrapper.setScheduleInfo(scheduleInfo);
