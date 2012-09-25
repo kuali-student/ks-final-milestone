@@ -100,14 +100,14 @@ public class DiagnoseRolloverController extends UifControllerBase {
         TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
         if (targetTerm == null) {
             form.alertTargetTermValid(false);
-            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.diagnose.rolloverco.targetTermInvalid", form.getTargetTermCode());
             return getUIFModelAndView(form);
         }
         form.setTargetTerm(targetTerm);
         if (helper.termHasACourseOffering(targetTerm.getId(), form.getCourseOfferingCode())) {
             // TODO: fix error message
-            form.alertTargetTermValid(false);
-            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
+            form.alertTargetTermHasCO();
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.diagnose.rolloverco.coInTargetTerm", form.getCourseOfferingCode(), form.getTargetTermCode());
             return getUIFModelAndView(form);
         }
         form.setDisplayedTargetTermCode(targetTerm.getCode());
@@ -124,9 +124,8 @@ public class DiagnoseRolloverController extends UifControllerBase {
         if (termInfo != null) {
             //validation to check if source term has a soc
             if (!helper.termHasSoc(termInfo)) {
-                // Print error message if there are course offerings in the target term
-                // TODO: Change error message
-                GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
+                // Print error message if there are isn't a SOC in the source term (not critical--could change)
+                GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
                 form.resetForm();
                 return getUIFModelAndView(form);
             }
@@ -148,7 +147,7 @@ public class DiagnoseRolloverController extends UifControllerBase {
             if (coInfo == null) {
                 // TODO: Fix error message
                 form.alertSourceCoValid(false);
-                GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
+                GlobalVariables.getMessageMap().putError("courseOfferingCode", "error.diagnose.rolloverco.coNotInSourceTerm", form.getCourseOfferingCode(), form.getSourceTerm().getId());
                 return getUIFModelAndView(form);
             }
             form.setCoCodeId(coInfo.getId());
@@ -158,17 +157,20 @@ public class DiagnoseRolloverController extends UifControllerBase {
         } else {
             form.setTargetTerm(null);
             form.resetForm();
-            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
+            GlobalVariables.getMessageMap().putError("sourceTermCode", "error.diagnose.rolloverco.sourceTermInvalid", form.getSourceTermCode());
         }
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=deleteCoTarget")
-    public ModelAndView deleteCoTarget(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(params = "methodToCall=deleteCoInTargetTerm")
+    public ModelAndView deleteCoInTargetTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
         TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
-        helper.deleteCourseOfferingInTerm(form.getCourseOfferingCode(), targetTerm.getId());
+        boolean success = helper.deleteCourseOfferingInTerm(form.getCourseOfferingCode(), targetTerm.getId());
+        if (success) {
+            form.alertTargetTermValid(true);
+        }
         return getUIFModelAndView(form);
     }
 

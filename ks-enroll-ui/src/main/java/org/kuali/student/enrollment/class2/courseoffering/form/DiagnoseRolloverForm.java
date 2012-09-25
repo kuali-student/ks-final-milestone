@@ -48,6 +48,7 @@ public class DiagnoseRolloverForm extends UifFormBase {
     private TermInfo sourceTerm;
     private TermInfo targetTerm;
     private boolean isRolloverButtonDisabled;
+    private boolean isDeleteCoButtonDisabled;
     private boolean isGoTargetButtonDisabled;
     private boolean isCourseOfferingInfoRendered;
     private boolean isTargetTermInfoRendered;
@@ -87,6 +88,14 @@ public class DiagnoseRolloverForm extends UifFormBase {
 
     public void setCoCodeId(String coCodeId) {
         this.coCodeId = coCodeId;
+    }
+
+    public void setIsDeleteCoButtonDisabled(boolean value) {
+        isDeleteCoButtonDisabled = value;
+    }
+
+    public boolean getIsDeleteCoButtonDisabled() {
+        return isDeleteCoButtonDisabled;
     }
 
     public void setIsTargetTermInfoRendered(boolean value) {
@@ -240,6 +249,7 @@ public class DiagnoseRolloverForm extends UifFormBase {
         coCodeId = "";
 
         isRolloverButtonDisabled = true;
+        isDeleteCoButtonDisabled = true;
         isGoTargetButtonDisabled = true;
         isCourseOfferingInfoRendered = false;
         isTargetTermInfoRendered = false;
@@ -262,9 +272,15 @@ public class DiagnoseRolloverForm extends UifFormBase {
         if (value) {
             isRolloverButtonDisabled = false; // activate CoC button
             isTargetTermInfoRendered = true;
+            isDeleteCoButtonDisabled = false;
         } else {
             isRolloverButtonDisabled = true;
             isTargetTermInfoRendered = false;
         }
+    }
+
+    public void alertTargetTermHasCO() {
+        isRolloverButtonDisabled = true;
+        isDeleteCoButtonDisabled = false;
     }
 }
