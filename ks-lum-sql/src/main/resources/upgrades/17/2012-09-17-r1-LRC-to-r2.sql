@@ -1,5 +1,4 @@
 -- KSLR_RESCOMP_TYPE to KSEN_TYPE table
--- WARNING: Do we keep our old type names (eg. type name called resultComponent when concept no longer exists)
 INSERT INTO KSEN_TYPE 
 SELECT type_key, obj_id, nvl(name,' '), type_desc, type_desc, eff_dt, expir_dt, 'http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo', 
     'http://student.kuali.org/wsdl/lrc/LrcService', nvl(ver_nbr,0), to_date('2012/09/17','YYYY/MM/DD'), 'CMLRCUPGRADE', null, null 
@@ -18,9 +17,9 @@ WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.range' THEN 'kuali.re
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.fixed' THEN 'kuali.resultComponentType.credit.degree.fixed'
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.grade.finalGrade' THEN 'kuali.resultComponentType.grade.finalGrade'
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.multiple' THEN 'kuali.resultComponentType.credit.degree.multiple'
-END),
-NVL(RC.STATE, 'state.null'),
-RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''),
+END), 
+NVL(RC.STATE, 'state.null'), 
+RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''), 
        (CASE
           -- WARNING: Case statement should be modified if source data makes use of additional scales
 		      -- WARNING: Do we keep our old type names (eg. type name called resultComponent when concept no longer exists)
@@ -37,11 +36,11 @@ RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''),
           WHEN RC.ID LIKE 'kuali.resultComponent.grade.satisfactory' THEN 'kuali.result.scale.grade.pnp'
 
         END),
-       MIN_CREDIT_VALUE, MAX_CREDIT_VALUE, CREDIT_INCREMENT, NVL(RC.EFF_DT,to_date('0001/01/01','YYYY/MM/DD')), RC.EXPIR_DT, RC.VER_NBR, NVL(RC.CREATETIME,to_date('2012/09/17','YYYY/MM/DD'))
+       MIN_CREDIT_VALUE, MAX_CREDIT_VALUE, CREDIT_INCREMENT, NVL(RC.EFF_DT,to_date('0001/01/01','YYYY/MM/DD')), RC.EXPIR_DT, RC.VER_NBR, NVL(RC.CREATETIME,to_date('2012/09/17','YYYY/MM/DD')) 
        , NVL(RC.CREATEID, 'CMLRCUPGRADE'), to_date('2012/09/17','YYYY/MM/DD'), 'CMLRCUPGRADE'
-FROM
+FROM 
         KSLR_RESCOMP RC
-
+        
         -- Get result component min/max credits and credit increment
 		    -- WARNING: Are these all the result components that need to be converted
         LEFT JOIN (SELECT
@@ -60,7 +59,7 @@ FROM
         GROUP BY owner
         ) RC_CREDITS
         ON RC.ID=RC_CREDITS.RESCOMP_ID
-
+        
         -- Get result component's description
         LEFT JOIN KSLR_RICH_TEXT_T RT
         ON RC.RT_DESCR_ID = RT.ID
@@ -86,7 +85,7 @@ SELECT ID, OBJ_ID, 'kuali.result.value.type.value', 'kuali.result.value.state.ap
           WHEN RSLT_COMP_ID LIKE 'kuali.resultComponent.grade.recitalReview' THEN 'kuali.result.scale.grade.review'
           WHEN RSLT_COMP_ID LIKE 'kuali.resultComponent.grade.satisfactory' THEN 'kuali.result.scale.grade.pnp'
 
-        END), 
+        END) as RESULT_SCALE_ID, 
        (CASE 
           WHEN RSLT_COMP_ID LIKE 'kuali.creditType.credit.degree%' THEN TO_NUMBER(RV.VALUE)
           ELSE null
@@ -94,9 +93,11 @@ SELECT ID, OBJ_ID, 'kuali.result.value.type.value', 'kuali.result.value.state.ap
         RV.VALUE, NULL, NULL, 0, to_date('2012/09/17','YYYY/MM/DD') , 'CMLRCUPGRADE', NULL, NULL
 FROM KSLR_RESULT_VALUE RV
 WHERE RV.ID NOT IN (SELECT ID FROM KSEN_LRC_RESULT_VALUE)
+AND RV.VALUE NOT IN (SELECT NAME FROM KSEN_LRC_RESULT_VALUE)
 /
 
 -- KSEN_LRC_RVG_RESULT_VALUE (Join table data)
 INSERT INTO KSEN_LRC_RVG_RESULT_VALUE
 SELECT RSLT_COMP_ID, ID FROM KSLR_RESULT_VALUE
+WHERE ID in (SELECT ID FROM KSEN_LRC_RESULT_VALUE)
 /
