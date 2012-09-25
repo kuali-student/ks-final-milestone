@@ -31,8 +31,10 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Radio Buttons"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-RadioButtons-View&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Text Fields"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-TextFields-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Text Area Field"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-TextAreaField-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Text Field"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-TextField-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Other Fields</strong>

@@ -184,7 +184,8 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LinkFields.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/RadioButtons.xml</value>
-                <value>classpath:org/kuali/student/enrollment/kitchensink/TextFields.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/TextAreaField.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/TextField.xml</value>
                 <!-- -->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/ComboBoxes.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionNestedTable.xml</value>
