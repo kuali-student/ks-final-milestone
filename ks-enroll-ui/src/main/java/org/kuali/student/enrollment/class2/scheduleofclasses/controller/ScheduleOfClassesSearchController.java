@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfC
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -65,7 +66,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         ScheduleOfClassesSearchForm scheduleOfClassesSearchForm = (ScheduleOfClassesSearchForm)form;
-        ((ScheduleOfClassesSearchForm) form).setSearchType("course");
+        scheduleOfClassesSearchForm.setSearchType("course");
 
         return super.start(form, result, request, response);
     }
@@ -81,7 +82,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         //First, find termName based on termCode
         String termCode = theForm.getTermCode();
         if (termCode != null && termCode.length() > 0) {
-            String termName = getAcademicCalendarService().getTerm(termCode, getContextInfo()).getName();
+            String termName = getAcademicCalendarService().getTerm(termCode, ContextUtils.createDefaultContextInfo()).getName();
             theForm.setTermName(termName);
         } else{
             LOG.error("Error: term can't be empty");
@@ -159,15 +160,4 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         return this.acalService;
     }
 
-
-    public ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-        return contextInfo;
-    }
 }

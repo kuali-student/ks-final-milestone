@@ -109,18 +109,14 @@ public class ActivityOfferingDisplayTransformer {
             displayInfo.setInstructorId(mainInstructor.getId());
             displayInfo.setInstructorName(mainInstructor.getPersonName());
         }
+
         // isHonorsOffering, maximumEnrollment
         displayInfo.setIsHonorsOffering(aoInfo.getIsHonorsOffering());
         displayInfo.setMaximumEnrollment(aoInfo.getMaximumEnrollment());
+
         // scheduleDisplay
-        ScheduleInfo scheduleInfo = schedulingService.getSchedule(aoInfo.getScheduleId(), contextInfo);
-        ScheduleDisplayInfo scheduleDisplayInfo = null;
-        if (scheduleInfo == null) {
-            scheduleDisplayInfo = _createTempDisplayInfo();  // stopgap TODO: eventually remove
-        } else {
-            scheduleDisplayInfo = schedulingService.getScheduleDisplay(scheduleInfo.getId(), contextInfo);
-        }
-        displayInfo.setScheduleDisplay(scheduleDisplayInfo);
+        displayInfo.setScheduleDisplay(schedulingService.getScheduleDisplay(aoInfo.getScheduleId(), contextInfo));
+
         return displayInfo;
     }
 }

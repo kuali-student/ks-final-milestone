@@ -47,6 +47,7 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -307,11 +308,10 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     }
 
     private String millisToTime(long milliseconds){
-        int seconds = (int) (milliseconds / 1000) % 60 ;
-        int minutes = (int) ((milliseconds / (1000*60)) % 60);
-        int hours   = (int) ((milliseconds / (1000*60*60)) % 24);
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(milliseconds);
+        return new SimpleDateFormat("hh:mm a").format(cal.getTime());
 
-        return ""+hours+":"+minutes+" "+seconds;
     }
 
 
@@ -352,29 +352,29 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         return organizationService;
     }
 
-    private String convertIntoDays(int day) {
+    private String convertIntoDaysDisplay(int day) {
         String dayOfWeek;
         switch (day) {
             case 1:
-                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE;
+                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE;
                 break;
             case 2:
-                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE;
+                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE;
                 break;
             case 3:
-                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE;
+                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE;
                 break;
             case 4:
-                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE;
+                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE;
                 break;
             case 5:
-                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE;
+                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE;
                 break;
             case 6:
-                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE;
+                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE;
                 break;
             case 7:
-                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE;
+                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE;
                 break;
             default:
                 dayOfWeek = StringUtils.EMPTY;
@@ -386,11 +386,14 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     private String getDays(List<Integer> intList) {
 
         StringBuilder sb = new StringBuilder();
-        if(intList == null) return sb.toString();
+        if(intList == null){
+            return sb.toString();
+        }
 
         for(Integer d : intList) {
-            sb.append(convertIntoDays(d));
+            sb.append(convertIntoDaysDisplay(d));
         }
+
         return sb.toString();
     }
 

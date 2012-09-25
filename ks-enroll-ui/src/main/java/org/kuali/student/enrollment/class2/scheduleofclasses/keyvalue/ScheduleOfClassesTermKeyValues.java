@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue;
 
 import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -57,9 +58,7 @@ public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase imple
         //Build a predicate to search for published Socs
         ContextInfo context = TestHelper.getContext1();
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        qBuilder.setPredicates();
-        Predicate pred = equal("socState", "kuali.soc.state.published");
-        qBuilder.setPredicates(pred);
+        qBuilder.setPredicates(PredicateFactory.equal("socState", "kuali.soc.state.published"));
         try {
             //Try the search
             socs = getCourseOfferingSetService().searchForSocs(qBuilder.build(), context);
