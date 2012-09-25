@@ -33,6 +33,9 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This class //TODO ...
  *
@@ -63,9 +66,20 @@ public class CourseOfferingDisplayTransformer {
         AtpInfo atpInfo = atpService.getAtp(coInfo.getTermId(), context);
         displayInfo.setTermName(atpInfo.getName());
         displayInfo.setTermCode(atpInfo.getCode());
+
         // gradingOptionName, creditOptionName,
         displayInfo.setGradingOption(new KeyNameInfo(coInfo.getGradingOptionId(), coInfo.getGradingOptionName()));
         displayInfo.setCreditOption(new KeyNameInfo(coInfo.getCreditOptionId(), coInfo.getCreditCnt()));
+
+        // studentRegistrationGradingOptions: I use key for name as well, because we don't use name really otherwise
+        // we have to call rvg = getLrcService().getResultValuesGroup(studentGradingOption, contextInfo); to get rvg.getName() as a name
+        if (!coInfo.getStudentRegistrationGradingOptions().isEmpty()) {
+            List<KeyNameInfo> studentGradingOptionList = new ArrayList<KeyNameInfo>();
+            for (String studentGradingOption : coInfo.getStudentRegistrationGradingOptions()) {
+                studentGradingOptionList.add(new KeyNameInfo(studentGradingOption, studentGradingOption));
+            }
+            displayInfo.setStudentRegistrationGradingOptions(studentGradingOptionList);
+        }
 
         displayInfo.setHonorsOffering(coInfo.getIsHonorsOffering());
 
@@ -74,8 +88,6 @@ public class CourseOfferingDisplayTransformer {
         displayInfo.setTypeName(typeInfo.getName());
         StateInfo stateInfo = stateService.getState(coInfo.getStateKey(), context);
         displayInfo.setStateName(stateInfo.getName());
-
-
 
         return displayInfo;
     }
