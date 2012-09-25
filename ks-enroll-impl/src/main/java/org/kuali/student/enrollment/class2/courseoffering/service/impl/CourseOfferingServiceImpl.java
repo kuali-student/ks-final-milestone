@@ -73,8 +73,7 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -1876,7 +1875,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteGeneratedRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
-                    PermissionDeniedException {
+            PermissionDeniedException {
 
         // Quick verification
         StatusInfo statusInfo = new StatusInfo();
@@ -1921,13 +1920,136 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
 
+    private List<String> getTimeSlotIdsbyActivityOffering(String activityOfferingId, String deliveryLogisticsType, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, context);
+        List<TimeSlotInfo> timeSlotInfos = new ArrayList<TimeSlotInfo>();
+        List<String> timeSlotIds = new ArrayList<String>();
+
+        if (deliveryLogisticsType.equals("actual")) {
+            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(), context);
+            if (scheduleInfo != null) {
+                List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
+                if (scheduleComponentInfos != null && !scheduleComponentInfos.isEmpty()) {
+                    for (ScheduleComponentInfo scheduleComponentInfo : scheduleComponentInfos) {
+                        timeSlotIds.addAll(scheduleComponentInfo.getTimeSlotIds());
+                    }
+                }
+            }
+        } else if (deliveryLogisticsType.equals("requested")) {
+            List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,activityOfferingId,context);
+            if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
+                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                    List<ScheduleRequestComponentInfo> scheduleRequestComponentInfos = scheduleRequestInfo.getScheduleRequestComponents();
+                    if (scheduleRequestComponentInfos != null && !scheduleRequestComponentInfos.isEmpty()) {
+                        for (ScheduleRequestComponentInfo scheduleRequestComponentInfo : scheduleRequestComponentInfos) {
+                            timeSlotIds.addAll(scheduleRequestComponentInfo.getTimeSlotIds());
+                        }
+                    }
+                }
+            }
+        }
+
+        /*
+        if (timeSlotIds != null && !timeSlotIds.isEmpty()) {
+            timeSlotInfos = getSchedulingService().getTimeSlotsByIds(timeSlotIds,context);
+        }
+        */
+        return timeSlotIds;
+    }
+
+    // return: true - overlap; false - no overlap
+    private boolean checkTimeSlotsOverlap (List<String> timeSlotInfoList1, List<String> timeSlotInfoList2, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        for (int i=0; i<timeSlotInfoList1.size(); i++) {
+            for (int j=0; j<timeSlotInfoList2.size(); j++) {
+                if (getSchedulingService().areTimeSlotsInConflict (timeSlotInfoList1.get(i), timeSlotInfoList2.get(j), contextInfo)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType,
                                                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        throw new UnsupportedOperationException();
+        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+
+        try {
+            List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
+            if (aoIds != null && !aoIds.isEmpty() && aoIds.size() > 1) {
+                for (int i=0; i<aoIds.size(); i++) {
+                    boolean hasTimeSlotRequested = false, hasTimeSlotAcutal = false;
+
+                    // retrieve the actual time slots for given AO
+                    List<String> timeSlotIdsActual = getTimeSlotIdsbyActivityOffering(aoIds.get(i), "actual", context);
+                    if (timeSlotIdsActual != null && !timeSlotIdsActual.isEmpty()) {
+                        hasTimeSlotAcutal = true;
+                    }
+                    // retrieve the requested time slots for given AO
+                    List<String> timeSlotIdsRequested = getTimeSlotIdsbyActivityOffering(aoIds.get(i), "requested", context);
+                    if (timeSlotIdsRequested != null && !timeSlotIdsRequested.isEmpty()) {
+                        hasTimeSlotRequested = true;
+                    }
+
+                    // Do the time conflict check only when either actual or requested Delivery Logistics time slots exist
+                    if (hasTimeSlotAcutal != false || hasTimeSlotRequested != false) {
+                        for (int j=0; j<aoIds.size(); j++) {
+                            boolean hasTimeSlotRequestedCompared = false, hasTimeSlotAcutalCompared = false;
+                            if (i != j) {
+                                // retrieve the actual time slots for the compared AO
+                                List<String> timeSlotIdsComparedActual = getTimeSlotIdsbyActivityOffering(aoIds.get(j), "actual", context);
+                                if (timeSlotIdsComparedActual != null && !timeSlotIdsComparedActual.isEmpty()) {
+                                    hasTimeSlotAcutalCompared = true;
+                                }
+                                // retrieve the requested time slots for the compared AO
+                                List<String> timeSlotIdsComparedRequested = getTimeSlotIdsbyActivityOffering(aoIds.get(j), "requested", context);
+                                if (timeSlotIdsComparedRequested != null && !timeSlotIdsComparedRequested.isEmpty()) {
+                                    hasTimeSlotRequestedCompared = true;
+                                }
+
+                                if (hasTimeSlotAcutalCompared != false || hasTimeSlotRequestedCompared != false) {
+                                    if (hasTimeSlotAcutal != false  && hasTimeSlotAcutalCompared != false) {
+                                        if (checkTimeSlotsOverlap(timeSlotIdsActual, timeSlotIdsComparedActual, context)) {
+                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                                            validationResultInfos.add(validationResultInfo);
+                                            return validationResultInfos;
+                                        }
+                                    } else if (hasTimeSlotAcutal != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
+                                        if (checkTimeSlotsOverlap(timeSlotIdsActual, timeSlotIdsComparedRequested, context)) {
+                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                                            validationResultInfos.add(validationResultInfo);
+                                            return validationResultInfos;
+                                        }
+                                    } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared != false) {
+                                        if (checkTimeSlotsOverlap(timeSlotIdsRequested, timeSlotIdsComparedActual, context)) {
+                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                                            validationResultInfos.add(validationResultInfo);
+                                            return validationResultInfos;
+                                        }
+                                    } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
+                                        if (checkTimeSlotsOverlap(timeSlotIdsRequested, timeSlotIdsComparedRequested, context)) {
+                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                                            validationResultInfos.add(validationResultInfo);
+                                            return validationResultInfos;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new OperationFailedException("unexpected", e);
+        }
+
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfos.add(validationResultInfo);
+        return validationResultInfos;
     }
 
     @Override
@@ -1956,7 +2078,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 
     private void _verifyAOSetsMatchAOTypes(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo)
-        throws InvalidParameterException {
+            throws InvalidParameterException {
         List<String> aoTypes = foInfo.getActivityOfferingTypeKeys();
         int numAoTypes = aoTypes.size();
         int numAoSets = clusterInfo.getActivityOfferingSets().size();
@@ -2907,7 +3029,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
         return infos;
-    }    
+    }
 
     private boolean _checkTypeForFormatOfferingType(String typeKey) {
         return typeKey.equals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
