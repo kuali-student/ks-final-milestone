@@ -22,18 +22,24 @@
 
     <!-- The Interesting Bits -->
 
-    <!-- !!! IMPORTANT !!!
-        Parent view/theme must include script file "ks-krad/scripts/ks-krad.js" for toggling to work!
-    -->
+    <bean id="KS-KitchenSink-CollectionRowSelection-View-Base" parent="KS-KitchenSink-FormView">
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-krad/scripts/ks-krad-collection-rowSelection.js</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KS-KitchenSink-CollectionRowSelection" parent="KS-KitchenSink-Collection-Base">
         <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
         <property name="includeLineSelectionField" value="true"/>
         <property name="lineSelectPropertyName" value="selected"/>
-        <!-- class "uif-kskrad-collection-selection" triggers javascript toggling -->
         <property name="cssClasses">
             <list merge="true">
-                <value>uif-kskrad-collection-selection</value>
+                <!--
+                    class "uif-kskrad-collection-rowSelection" triggers javascript toggling
+                -->
+                <value>uif-kskrad-collection-rowSelection</value>
             </list>
         </property>
     </bean>
@@ -41,68 +47,133 @@
 
     <!-- just the various containers for the interesting bits -->
 
-    <bean id="KS-KitchenSink-CollectionRowSelection-View" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-CollectionRowSelection-View"
+          parent="KS-KitchenSink-CollectionRowSelection-View-Base">
         <property name="headerText" value="Collections"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-CollectionRowSelection-Page">
-                    <property name="headerText" value="Collection Row Selection and Toggle"/>
-                    <property name="footer">
-                        <bean parent="Uif-VerticalBoxSection">
-                            <property name="header.render" value="false"/>
-                            <property name="style" value="margin-top:10px"/>
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-Message">
-                                        <property name="style" value="margin-bottom:15px;font-size:125%"/>
-                                        <property name="messageText">
-                                            <value>
-                                                This example shows how to add the selection checkbox to each row, and
-                                                also how to add a checkbox to the selection header which toggles the
-                                                row checkboxes on and off.
-                                            </value>
-                                        </property>
-                                    </bean>
-                                    <bean parent="KS-KitchenSink-Link-To-Source"
-                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-API"
-                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
-                                    <bean parent="KS-KitchenSink-Link-To-Guide"
-                                          p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html"/>
-                                    <bean parent="KS-KitchenSink-Link-To-Bare">
-                                        <property name="finalizeMethodAdditionalArguments">
-                                            <list>
-                                                <value>collection</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Collection Row Selection and Toggle">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary"
+                                  p:messageText="Lists of data objects."/>
+                            <ref bean="KS-KitchenSink-CollectionRowSelection-Content"/>
+                            <ref bean="KS-KitchenSink-CollectionRowSelection-Links"/>
+                        </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionRowSelection-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+    <!--<bean id="KS-KitchenSink-CollectionRowSelection-Content" parent="KS-KitchenSink-TabSection" p:width="100%">-->
+    <bean id="KS-KitchenSink-CollectionRowSelection-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
+          p:header.render="false" p:width="99%">
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-CollectionRowSelection-Page">
-                    <property name="header.render" value="false"/>
+                <bean parent="KS-KitchenSink-CollectionRowSelection-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText">
+                                    <value>
+                                        This example shows how to add the selection checkbox to each row, and also how
+                                        to add a checkbox to the selection header which toggles the row checkboxes on
+                                        and off.
+                                    </value>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionRowSelection-Page" parent="KS-KitchenSink-Page">
+    <bean id="KS-KitchenSink-CollectionRowSelection-View-Bare"
+          parent="KS-KitchenSink-CollectionRowSelection-View-Base">
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-CollectionRowSelection-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionRowSelection-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Collection Row Selection and Toggle" p:header.render="false" p:width="99%">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionRowSelection"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-CollectionRowSelection-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifGroupDefinitions.xml (Uif-TableCollectionSection)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Groups"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Row Selection and Toggle"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View-Bare&amp;methodToCall=collection"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

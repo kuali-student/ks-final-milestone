@@ -1,17 +1,7 @@
-/* used by ... */
-
 jQuery(function(){
     // put selection checkbox into first header column if special class is set:
-    jQuery('.uif-kskrad-collection-selection').find('label:first').prepend( _ksGetNewSelectionCheckbox() );
+    jQuery('.uif-kskrad-collection-rowSelection').find('label:first').prepend( _ksGetNewSelectionCheckbox() );
 })
-
-function ksButtonImageChanger(source, imageName) {
-    var button = jQuery(source);
-    if ( !button.prop('disabled') ) { // necessary because Opera 12 ignores disabled state on mouseover
-        button.find('img').prop('src',imageName);
-    }
-}
-
 
 function _ksGetNewSelectionCheckbox() {
     var checkbox = jQuery(document.createElement('input')).attr({type:'checkbox'});

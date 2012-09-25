@@ -153,23 +153,11 @@
         <property name="headerText" value="Collections"/>
         <property name="items">
             <list>
-                <!--
-                <bean parent="KS-KitchenSink-Collections-Page">
-                    <property name="headerText" value="Collections"/>
-                    <property name="footer">
-                    </property>
-                </bean>
-                -->
                 <bean parent="KS-KitchenSink-Page" p:headerText="Collections">
                     <property name="items">
                         <list>
-                            <bean parent="KS-KitchenSink-Page-Summary">
-                                <property name="messageText">
-                                    <value>
-                                        An expandable group of components that share the same data object in a form.
-                                    </value>
-                                </property>
-                            </bean>
+                            <bean parent="KS-KitchenSink-Page-Summary"
+                                  p:messageText="Lists of data objects."/>
                             <ref bean="KS-KitchenSink-Collections-Content"/>
                             <ref bean="KS-KitchenSink-Collections-Links"/>
                         </list>

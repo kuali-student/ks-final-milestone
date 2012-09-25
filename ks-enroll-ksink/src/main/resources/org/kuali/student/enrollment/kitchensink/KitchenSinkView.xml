@@ -14,13 +14,11 @@
         <property name="footer.render" value="false"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-krad/css/ks-krad.css</value>
                 <value>ks-enroll-ksink/css/kitchensink.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>ks-krad/scripts/ks-krad.js</value>
                 <value>ks-enroll-ksink/scripts/kitchensink.js</value>
             </list>
         </property>

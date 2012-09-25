@@ -169,7 +169,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Text Fields"
-                                               value="http://localhost:8081/ks-embedded-dev/kr-krad/kitchensink?viewId=KS-KitchenSink-TextFields-Example1-View-Bare&amp;methodToCall=start"/>
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-TextFields-Example1-View-Bare&amp;methodToCall=start"/>
                                     </map>
                                 </property>
                             </bean>

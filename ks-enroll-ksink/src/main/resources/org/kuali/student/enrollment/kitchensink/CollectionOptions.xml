@@ -102,47 +102,38 @@
         <property name="headerText" value="Collections"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-CollectionOptions-Page">
-                    <property name="headerText" value="Collection Table Options"/>
-                    <property name="footer">
-                        <bean parent="Uif-VerticalBoxSection">
-                            <property name="header.render" value="false"/>
-                            <property name="style" value="margin-top:10px"/>
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-Message">
-                                        <property name="style" value="margin-bottom:15px;font-size:125%"/>
-                                        <property name="messageText">
-                                            <value>
-                                                This example shows how to change the default options for the "rich table"
-                                                javascript framework. Here, the column widths are varied, the column
-                                                sorting is different, and the "Action" column has a different header.
-                                            </value>
-                                        </property>
-                                    </bean>
-                                    <bean parent="KS-KitchenSink-Link-To-Source"
-                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionOptions.xml"/>
-                                    <bean parent="KS-KitchenSink-Link-To-Source"
-                                          p:label="DataTables Reference"
-                                          p:href="http://datatables.net/ref"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-API"
-                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
-                                    <bean parent="KS-KitchenSink-Link-To-Guide"
-                                          p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
-                                    <bean parent="KS-KitchenSink-Link-To-Bare">
-                                        <property name="finalizeMethodAdditionalArguments">
-                                            <list>
-                                                <value>collection</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Collection Table Options">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary"
+                                  p:messageText="Lists of data objects."/>
+                            <ref bean="KS-KitchenSink-CollectionOptions-Content"/>
+                            <ref bean="KS-KitchenSink-CollectionOptions-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-KitchenSink-CollectionOptions-Content" parent="KS-KitchenSink-TabSection" p:width="100%">-->
+    <bean id="KS-KitchenSink-CollectionOptions-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
+          p:header.render="false" p:width="99%">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionOptions-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField">
+                                <property name="messageText">
+                                    <value>
+                                        This example shows how to change the default options for the "rich table"
+                                        javascript framework. Here, the column widths are varied, the column sorting
+                                        is different, and the "Action" column has a different header.
+                                    </value>
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
             </list>
@@ -152,17 +143,93 @@
     <bean id="KS-KitchenSink-CollectionOptions-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-CollectionOptions-Page">
-                    <property name="header.render" value="false"/>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-CollectionOptions-Section"/>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionOptions-Page" parent="KS-KitchenSink-Page">
+    <bean id="KS-KitchenSink-CollectionOptions-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Collection Table Options" p:header.render="false" p:width="99%">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionOptions"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-CollectionOptions-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionOptions.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionOptions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup" p:label="DataTables Reference">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="http://datatables.net/ref"
+                                               value="http://datatables.net/ref"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifGroupDefinitions.xml (Uif-TableCollectionSection)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Groups"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Table Options"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View-Bare&amp;methodToCall=collection"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

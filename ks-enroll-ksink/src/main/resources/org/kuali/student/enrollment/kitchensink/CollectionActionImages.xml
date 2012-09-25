@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright 2006-2011 The Kuali Foundation
+  ~ Copyright 2005-2012 The Kuali Foundation
   ~
   ~ Licensed under the Educational Community License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -21,6 +21,21 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!-- The Interesting Bits -->
+
+    <bean id="KS-KitchenSink-CollectionActionImages-View-Base" parent="KS-KitchenSink-FormView">
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <!-- bean "Uif-KsKrad-Button-ImageOnly" requires this: -->
+                <value>ks-krad/css/ks-krad-collection-actionImages.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <!-- bean "Uif-KsKrad-Button-ImageOnly" requires this: -->
+                <value>ks-krad/scripts/ks-krad-collection-actionImages.js</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KS-KitchenSink-CollectionActionImages" parent="KS-KitchenSink-Collection-Base">
         <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
@@ -49,67 +64,128 @@
 
     <!-- just the various containers for the interesting bits -->
 
-    <bean id="KS-KitchenSink-CollectionActionImages-View" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-CollectionActionImages-View"
+          parent="KS-KitchenSink-CollectionActionImages-View-Base">
         <property name="headerText" value="Collections"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-CollectionActionImages-Page">
-                    <property name="headerText" value="Collection Action Image Buttons"/>
-                    <property name="footer">
-                        <bean parent="Uif-VerticalBoxSection">
-                            <property name="header.render" value="false"/>
-                            <property name="style" value="margin-top:10px"/>
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-Message">
-                                        <property name="style" value="margin-bottom:15px;font-size:125%"/>
-                                        <property name="messageText">
-                                            <value>
-                                                This example shows how to replace the action links in the "Actions"
-                                                column with image buttons.
-                                            </value>
-                                        </property>
-                                    </bean>
-                                    <bean parent="KS-KitchenSink-Link-To-Source"
-                                          p:href="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionActionImages.xml"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-XML-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-Java-Source"
-                                          p:href="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
-                                    <bean parent="KS-KitchenSink-Link-To-KRAD-API"
-                                          p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
-                                    <bean parent="KS-KitchenSink-Link-To-Guide"
-                                          p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html"/>
-                                    <bean parent="KS-KitchenSink-Link-To-Bare">
-                                        <property name="finalizeMethodAdditionalArguments">
-                                            <list>
-                                                <value>collection</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Collection Action Image Buttons">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary"
+                                  p:messageText="Lists of data objects."/>
+                            <ref bean="KS-KitchenSink-CollectionActionImages-Content"/>
+                            <ref bean="KS-KitchenSink-CollectionActionImages-Links"/>
+                        </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionActionImages-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+    <!--<bean id="KS-KitchenSink-CollectionsActionImages-Content" parent="KS-KitchenSink-TabSection" p:width="100%">-->
+    <bean id="KS-KitchenSink-CollectionActionImages-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
+          p:header.render="false" p:width="99%">
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-CollectionActionImages-Page">
-                    <property name="header.render" value="false"/>
+                <bean parent="KS-KitchenSink-CollectionActionImages-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-MessageField"
+                                  p:messageText="This example shows how to replace the action links in the &quot;Actions&quot; column with image buttons."/>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionActionImages-Page" parent="KS-KitchenSink-Page">
+    <!-- Collection containers -->
+
+    <bean id="KS-KitchenSink-CollectionActionImages-View-Bare"
+          parent="KS-KitchenSink-CollectionActionImages-View-Base">
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-CollectionActionImages-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionActionImages-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Collection Action Image Buttons" p:header.render="false" p:width="99%">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionActionImages"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-CollectionActionImages-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionActionImages.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionActionImages.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifGroupDefinitions.xml (Uif-TableCollectionSection)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/CollectionGroup.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="CollectionGroup.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Groups"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Collection Action Image Buttons"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionImages-View-Bare&amp;methodToCall=collection"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

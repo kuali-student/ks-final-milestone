@@ -22,6 +22,21 @@
 
     <!-- The Interesting Bits -->
 
+    <bean id="KS-KitchenSink-Buttons-View-Base" parent="KS-KitchenSink-FormView">
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <!-- bean "Uif-KsKrad-Button-ImageOnly" requires this: -->
+                <value>ks-krad/css/ks-krad-collection-actionImages.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <!-- bean "Uif-KsKrad-Button-ImageOnly" requires this: -->
+                <value>ks-krad/scripts/ks-krad-collection-actionImages.js</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-KitchenSink-Buttons-PrimaryMain" parent="Uif-PrimaryActionButton">
         <property name="actionLabel" value="Primary"/>
         <property name="actionScript" value="alert('click');"/>
@@ -66,11 +81,9 @@
         <property name="actionImagePlacement" value="RIGHT"/>
         <property name="actionImage">
             <bean parent="Uif-Image">
-<!--
                 <property name="source" value="@{#ConfigProperties['krad.externalizable.images.url']}h2_expand-back-ks.png"/>
--->
                 <!-- using ConfigProperties sometimes throws a freemarker exception; if so use -->
-                <property name="source" value="../krad/images/h2_expand-back-ks.png"/>
+                <!--<property name="source" value="../krad/images/h2_expand-back-ks.png"/>-->
             </bean>
         </property>
     </bean>
@@ -105,7 +118,7 @@
     
     <!-- just the various containers for the interesting bits -->
 
-    <bean id="KS-KitchenSink-Buttons-View" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-Buttons-View" parent="KS-KitchenSink-Buttons-View-Base">
         <property name="headerText" value="Button / Header Levels"/>
         <property name="items">
             <list>
@@ -161,7 +174,8 @@
 
     <!-- Overview containers -->
 
-    <bean id="KS-KitchenSink-Buttons-Overview-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+    <bean id="KS-KitchenSink-Buttons-Overview-View-Bare" parent="KS-KitchenSink-Buttons-View-Base">
+        <property name="breadcrumbs.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
