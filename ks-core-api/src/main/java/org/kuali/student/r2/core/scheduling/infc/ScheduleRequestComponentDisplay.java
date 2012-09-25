@@ -2,11 +2,10 @@ package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.DisplayObject;
 import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.class1.type.infc.Type;
+import org.kuali.student.r2.core.organization.infc.Org;
+import org.kuali.student.r2.core.room.infc.Building;
+import org.kuali.student.r2.core.room.infc.Room;
 
 import java.util.List;
 
@@ -23,28 +22,28 @@ public interface ScheduleRequestComponentDisplay extends HasId, DisplayObject {
     /**
      * The Building.
      */
-    public List<BuildingInfo> getBuildings();
+    public List<? extends Building> getBuildings();
 
     /**
      * The Rooms.
      */
-    public List<RoomInfo> getRooms();
+    public List<? extends Room> getRooms();
 
     /**
      * The Orgs to specify a Room or Building "owned" by an
      * Organization.
      */
-    public List<OrgInfo> getOrgs();
+    public List<? extends Org> getOrgs();
 
     /**
      * The resource types.
      */
-    public List<TypeInfo> getResourceTypes();
+    public List<? extends Type> getResourceTypes();
 
     /**
      * The Time Slots
      */
-    public List<TimeSlotInfo> getTimeSlots();
+    public List<? extends TimeSlot> getTimeSlots();
 
     /**
      * The flag that holds whether this is a TBA schedule request.

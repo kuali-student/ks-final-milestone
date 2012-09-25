@@ -18,6 +18,7 @@ package org.kuali.student.r2.lum.util.constants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 
 /**
@@ -29,7 +30,7 @@ public class LrcServiceConstants {
     public static final String SERVICE_NAME_LOCAL_PART = "LrcService";
     public static final String REF_OBJECT_URI_RESULT_VALUE = NAMESPACE + "/" + ResultValueInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_RESULT_SCALE = NAMESPACE + "/" + ResultScaleInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_RESULT_VALUES_GROUP = NAMESPACE + "/" + ResultValuesGroup.class.getSimpleName();
+    public static final String REF_OBJECT_URI_RESULT_VALUES_GROUP = NAMESPACE + "/" + ResultValuesGroupInfo.class.getSimpleName();
     public static final String RESULT_VALUES_GROUP_PROCESS_KEY = "kuali.result.values.group.process";
     // result values group types
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_FIXED = "kuali.result.values.group.type.fixed";

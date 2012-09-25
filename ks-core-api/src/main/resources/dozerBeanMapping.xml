@@ -2,62 +2,6 @@
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
-	<!-- ks-core-api: org.kuali.student.r*.core.atp.dto mappings -->
-	<mapping>
-		<class-a>org.kuali.student.r1.core.atp.dto.AtpInfo</class-a>
-		<class-b>org.kuali.student.r2.core.atp.dto.AtpInfo</class-b>
-		<field>
-			<a>desc</a>
-			<b get-method="getDescr" set-method="setDescr">descr</b>
-		</field>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">metaInfo</b>
-		</field>
-		<field>
-			<a>state</a>
-			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
-		</field>
-		<field>
-			<a>type</a>
-			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
-		</field>
-	</mapping>
-	<mapping>
-		<class-a>org.kuali.student.r1.core.atp.dto.MilestoneInfo</class-a>
-		<class-b>org.kuali.student.r2.core.atp.dto.MilestoneInfo</class-b>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
-			<a>attributes</a><!-- This is a Map<String, String> -->
-			<b>attributes</b><!-- This is a List<AttributeInfo> -->
-			<a-hint>java.util.HashMap</a-hint>
-			<b-hint>java.util.ArrayList</b-hint>
-		</field>
-		<field>
-			<a>desc</a>
-			<b get-method="getDescr" set-method="setDescr">descr</b>
-		</field>
-		<field>
-			<a>metaInfo</a>
-			<b get-method="getMeta" set-method="setMeta">meta</b>
-		</field>
-		<field>
-			<a>state</a>
-			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
-		</field>
-		<field>
-			<a>type</a>
-			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
-		</field>
-	</mapping>
-
 	<!-- ks-core-api: org.kuali.student.r*.core.comment.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.core.comment.dto.CommentInfo</class-a>

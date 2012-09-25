@@ -17,18 +17,18 @@ package org.kuali.student.r2.core.room.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.room.infc.Room;
-import org.kuali.student.r2.core.room.infc.RoomUsage;
 import org.kuali.student.r2.core.room.infc.RoomFixedResource;
-//import org.w3c.dom.Element;
+import org.kuali.student.r2.core.room.infc.RoomUsage;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+//import org.w3c.dom.Element;
 
 /**
  *
@@ -121,6 +121,9 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
 
     @Override
     public List<RoomFixedResourceInfo> getRoomFixedResources() {
+        if(roomFixedResources == null){
+            roomFixedResources = new ArrayList<RoomFixedResourceInfo>();
+        }
         return this.roomFixedResources;
     }
 
@@ -130,6 +133,9 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
 
     @Override
     public List<RoomUsageInfo> getRoomUsages() {
+        if(roomUsages == null){
+            roomUsages = new ArrayList<RoomUsageInfo>();
+        }
         return this.roomUsages;
     }
 
@@ -139,6 +145,9 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
 
     @Override
     public List<String> getAccessibilityTypeKeys() {
+        if(accessibilityTypeKeys == null){
+            accessibilityTypeKeys = new ArrayList<String>();
+        }
         return this.accessibilityTypeKeys;
     }
 

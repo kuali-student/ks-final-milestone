@@ -21,6 +21,7 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -37,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
@@ -475,4 +477,71 @@ public interface TypeService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteTypeTypeRelation(@WebParam(name = "typeTypeRelationId") String typeTypeRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+      /**
+     * Searches for Type keys that meet the given search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of type identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForTypeKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Types that meet the given search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of types matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeInfo> searchForTypes(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    
+    /**
+     * Searches for Type type relation ids that meet the given search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of type type relation identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForTypeTypeRelationIds (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Type Type Relations that meet the given search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of type type relations matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeTypeRelationInfo> searchForTypeTypeRelations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }

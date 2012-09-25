@@ -179,6 +179,7 @@ public class ActivityOfferingInfo
         this.activityId = offering.getActivityId();
         this.termId = offering.getTermId();
         this.scheduleId = offering.getScheduleId();
+        this.schedulingStateKey = offering.getSchedulingStateKey();
         this.activityCode = offering.getActivityCode();
 
         this.isHonorsOffering = offering.getIsHonorsOffering();

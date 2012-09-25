@@ -2,7 +2,9 @@ package org.kuali.student.enrollment.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingDisplay;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.infc.KeyName;
 import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
@@ -12,6 +14,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,8 +23,8 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea", "termName", "termCode", "gradingOptionName",
-        "creditOptionName", "typeName", "stateName", "meta", "attributes", "_futureElements"})
+        "termId", "courseOfferingCode", "courseOfferingTitle", "subjectArea", "termName", "termCode", "studentRegistrationGradingOptions",
+        "gradingOption", "creditOption", "typeName", "stateName", "isHonorsOffering", "meta", "attributes", "_futureElements"})
 public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements CourseOfferingDisplay, Serializable {
 
     @XmlElement
@@ -49,10 +52,13 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     private String termCode;
 
     @XmlElement
-    private String gradingOptionName;
+    private List<KeyNameInfo> studentRegistrationGradingOptions;
 
     @XmlElement
-    private String creditOptionName;
+    private KeyNameInfo gradingOption;
+
+    @XmlElement
+    private KeyNameInfo creditOption;
 
 
     @XmlElement
@@ -61,6 +67,9 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
 
     @XmlElement
     private String stateName;
+
+    @XmlElement
+    private Boolean isHonorsOffering;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -77,8 +86,12 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
             this.termCode = courseOfferingDisplay.getTermCode();
             this.termName = courseOfferingDisplay.getTermName();
             this.termId = courseOfferingDisplay.getTermId();
-            this.creditOptionName = courseOfferingDisplay.getCreditOptionName();
-            this.gradingOptionName = courseOfferingDisplay.getGradingOptionName();
+            this.creditOption = new KeyNameInfo(courseOfferingDisplay.getCreditOption());
+            this.gradingOption = new KeyNameInfo(courseOfferingDisplay.getGradingOption());
+            this.studentRegistrationGradingOptions = new ArrayList<KeyNameInfo>();
+            for(KeyName studentRegGradingOption: courseOfferingDisplay.getStudentRegistrationGradingOptions()) {
+                this.studentRegistrationGradingOptions.add(new KeyNameInfo(studentRegGradingOption));
+            }
             this.typeName = courseOfferingDisplay.getTypeName();
             this.stateName = courseOfferingDisplay.getStateName();
             this.courseId = courseOfferingDisplay.getCourseId();
@@ -167,14 +180,27 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
         this.termCode = termCode;
     }
 
-
     @Override
-    public String getCreditOptionName() {
-        return creditOptionName;
+    public List<KeyNameInfo> getStudentRegistrationGradingOptions() {
+        if (this.studentRegistrationGradingOptions == null) {
+            return new ArrayList<KeyNameInfo>();
+        } else {
+            return studentRegistrationGradingOptions;
+        }
     }
 
-    public void setCreditOptionName(String creditOptionName) {
-        this.creditOptionName = creditOptionName;
+    public void setStudentRegistrationGradingOptions(List<KeyNameInfo> studentRegistrationGradingOptions) {
+        this.studentRegistrationGradingOptions = studentRegistrationGradingOptions;
+    }
+
+
+    @Override
+    public KeyNameInfo getCreditOption() {
+        return this.creditOption;
+    }
+
+    public void setCreditOption(KeyNameInfo creditOption) {
+        this.creditOption = creditOption;
     }
 
     @Override
@@ -187,17 +213,25 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     }
 
     @Override
+    public Boolean getIsHonorsOffering() {
+        return this.isHonorsOffering;
+    }
+
+    public void setHonorsOffering(Boolean honorsOffering) {
+        this.isHonorsOffering = honorsOffering;
+    }
+
+    @Override
     public String getTypeName() {
         return typeName;
     }
 
-
     @Override
-    public String getGradingOptionName() {
-        return gradingOptionName;
+    public KeyName getGradingOption() {
+        return this.gradingOption;
     }
 
-    public void setGradingOptionName(String gradingOptionName) {
-        this.gradingOptionName = gradingOptionName;
+    public void setGradingOption(KeyNameInfo gradingOption) {
+        this.gradingOption = gradingOption;
     }
 }

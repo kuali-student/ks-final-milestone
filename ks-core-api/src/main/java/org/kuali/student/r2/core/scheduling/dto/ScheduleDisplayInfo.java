@@ -71,10 +71,10 @@ public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay
     public ScheduleDisplayInfo(ScheduleDisplay scheduleDisplay) {
         super (scheduleDisplay);
         if (null != scheduleDisplay) {
-            this.atp= scheduleDisplay.getAtp();
+            this.atp= new AtpInfo(scheduleDisplay.getAtp());
             this.scheduleComponentDisplays = new ArrayList<ScheduleComponentDisplayInfo>();
-            for (ScheduleComponentDisplayInfo scheduleComponentDisplayInfo : scheduleDisplay.getScheduleComponentDisplays()) {
-                this.scheduleComponentDisplays.add(new ScheduleComponentDisplayInfo(scheduleComponentDisplayInfo));
+            for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleDisplay.getScheduleComponentDisplays()) {
+                this.scheduleComponentDisplays.add(new ScheduleComponentDisplayInfo(scheduleComponentDisplay));
             }
         }
     }
@@ -93,8 +93,12 @@ public class ScheduleDisplayInfo extends IdEntityInfo implements ScheduleDisplay
     }
 
     @Override
-    public List<ScheduleComponentDisplayInfo> getScheduleComponentDisplays() {
-        return scheduleComponentDisplays;
+    public List<? extends ScheduleComponentDisplay> getScheduleComponentDisplays() {
+        if (this.scheduleComponentDisplays == null) {
+            return new ArrayList<ScheduleComponentDisplayInfo>();
+        } else {
+            return scheduleComponentDisplays;
+        }
     }
 
     public void setScheduleComponentDisplays(List<ScheduleComponentDisplayInfo> scheduleComponentDisplays) {

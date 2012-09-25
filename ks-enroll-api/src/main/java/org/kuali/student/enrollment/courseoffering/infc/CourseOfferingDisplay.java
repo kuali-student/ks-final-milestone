@@ -1,7 +1,10 @@
 package org.kuali.student.enrollment.courseoffering.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.r2.common.infc.KeyName;
 import org.kuali.student.r2.common.infc.RichText;
+
+import java.util.List;
 
 
 public interface CourseOfferingDisplay extends IdNamelessEntity {
@@ -114,21 +117,25 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * The display value of the credit, this is derived by fetching the result value groups for the credit option tied
      * to the course offering and concatenating the values of the options.
      *
-     * @name Credit Option Name
-     * @impl copy from CO.creditOptionName
+     * @name Credit Option
+     * @impl copy from CO.creditOptionId and CO.creditOptionName
      * @readOnly
      */
-    public String getCreditOptionName ();
+    public KeyName getCreditOption();
 
     /**
-     * The display value of the grading options, this is derived by fetching the result value groups for the grading option tied
-     * to the course offering and concatenating the values of the options.
+     * The options/scales that indicate the allowable grades within a
+     * grading scheme that can be awarded. Typically, the values here
+     * are constrained by the values on the canonical course. If the
+     * value is set here then the Clu must have a grading option set
+     * on the canonical activity. For example: an id might point to
+     * Pass/Fail or Letter Graded option.
      *
-     * @name Grading Option Name
-     * @impl copy from Co.gradingOptionName
+     * @name Grading Option
+     * @impl copy from Co.gradingOptionId and Co.gradingOptionName
      * @readOnly
      */
-    public String getGradingOptionName();
+    public KeyName getGradingOption();
 
     /**
      * Code for the term the course offering is in
@@ -139,7 +146,6 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
     public String getTermCode();
 
 
-
     /**
      * Name of the Term the Course Offering is in
      *
@@ -147,5 +153,24 @@ public interface CourseOfferingDisplay extends IdNamelessEntity {
      * @readOnly
      */
     public String getTermName();
+
+    /**
+     * The options/scales that indicate the allowable grades within a grading
+     * scheme in which an eligible student can register. This list of options
+     * includes the Grading Option Id (such as kuali.rvg.passfail) plus any
+     * additional grading schemes, such as P/F or Audit.
+     *
+     * @name Student Registration Grading Options
+     */
+    public List<? extends KeyName> getStudentRegistrationGradingOptions();
+
+    /**
+     * Indicates that the Course Offering is an Honors option
+     *
+     * @name Is Honors Offering
+     * @readOnly
+     * @impl 'H' icon displayed if true
+     */
+    public Boolean getIsHonorsOffering();
 
 }

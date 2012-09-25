@@ -2,9 +2,8 @@ package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.DisplayObject;
 import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.room.infc.Building;
+import org.kuali.student.r2.core.room.infc.Room;
 
 import java.util.List;
 
@@ -23,16 +22,16 @@ public interface ScheduleComponentDisplay extends HasId, DisplayObject {
      * The Time Slots.
      * @required
      */
-    public List<TimeSlotInfo> getTimeSlots();
+    public List<? extends TimeSlot> getTimeSlots();
 
     /**
      * The Room.
      */
-    public RoomInfo getRoom();
+    public Room getRoom();
 
     /**
      * The Building.
      */
-    public BuildingInfo getBuilding();
+    public Building getBuilding();
 
 }

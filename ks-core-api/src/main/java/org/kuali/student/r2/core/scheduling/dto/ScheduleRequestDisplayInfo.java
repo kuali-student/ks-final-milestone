@@ -17,8 +17,7 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleDisplay;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestDisplay;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -71,8 +70,8 @@ public class ScheduleRequestDisplayInfo extends IdEntityInfo implements Schedule
             this.refObjectId= scheduleRequestDisplay.getRefObjectId();
             this.refObjectTypeKey= scheduleRequestDisplay.getRefObjectTypeKey();
             this.scheduleRequestComponentDisplays= new ArrayList<ScheduleRequestComponentDisplayInfo>();
-            for (ScheduleRequestComponentDisplayInfo scheduleRequestComponentDisplayInfo: scheduleRequestDisplay.getScheduleRequestComponentDisplays()) {
-                this.scheduleRequestComponentDisplays.add(new ScheduleRequestComponentDisplayInfo(scheduleRequestComponentDisplayInfo));
+            for (ScheduleRequestComponentDisplay scheduleRequestComponentDisplay: scheduleRequestDisplay.getScheduleRequestComponentDisplays()) {
+                this.scheduleRequestComponentDisplays.add(new ScheduleRequestComponentDisplayInfo(scheduleRequestComponentDisplay));
             }
         }
     }
@@ -100,8 +99,12 @@ public class ScheduleRequestDisplayInfo extends IdEntityInfo implements Schedule
     }
 
     @Override
-    public List<ScheduleRequestComponentDisplayInfo> getScheduleRequestComponentDisplays() {
-        return scheduleRequestComponentDisplays;
+    public List<? extends ScheduleRequestComponentDisplay> getScheduleRequestComponentDisplays() {
+        if (this.scheduleRequestComponentDisplays==null) {
+            return new ArrayList<ScheduleRequestComponentDisplayInfo>();
+        } else {
+            return scheduleRequestComponentDisplays;
+        }
     }
 
     public void setScheduleRequestComponentDisplays(List<ScheduleRequestComponentDisplayInfo> scheduleRequestComponentDisplays) {

@@ -18,7 +18,6 @@ package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.DisplayObject;
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentDisplayInfo;
 
 import java.util.List;
 
@@ -52,5 +51,5 @@ public interface ScheduleRequestDisplay extends IdEntity, DisplayObject {
      *
      * @name Schedule Request Component Ids
      */
-    public List<ScheduleRequestComponentDisplayInfo> getScheduleRequestComponentDisplays();
+    public List<? extends ScheduleRequestComponentDisplay> getScheduleRequestComponentDisplays();
 }
