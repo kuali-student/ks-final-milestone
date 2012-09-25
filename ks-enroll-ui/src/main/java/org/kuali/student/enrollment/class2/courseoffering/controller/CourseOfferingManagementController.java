@@ -527,30 +527,26 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                                                                                                       theForm.getClusterIdIdForNewFO(),
                                                                                                                       selectedAOCInfo, getContextInfo());
 
-        //update AOs without cluster
+        //update AO list without cluster
         List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(updatedSelectedAOCInfo.getFormatOfferingId(), theForm);
-
         theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
         if(!filteredAOs.isEmpty()){
             theForm.setFormatOfferingName(filteredAOs.get(0).getAoInfo().getFormatOfferingName());
         }
 
-        //update AOs with cluster
-/*        List<ActivityOfferingWrapper> filteredClusteredAOs = new ArrayList <ActivityOfferingWrapper>();
-
-        for (ActivityOfferingWrapper aoWrapper : aoWrapperList ) {
-            boolean found = false;
-            for (ActivityOfferingWrapper filteredAOWrapper : filteredAOs){
-                if (aoWrapper.getAoInfo().getId().equals(filteredAOWrapper.getAoInfo().getId())) {
-                    found = true;
-                }
-            }
-            if (!found) {
-                filteredClusteredAOs.add(aoWrapper);
+        //update AO list in selected cluster
+        List<ActivityOfferingWrapper> filteredClusteredAOs = new ArrayList <ActivityOfferingWrapper>();
+        List<ActivityOfferingInfo> aosInCluster = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfo.getId(), getContextInfo());
+        for ( ActivityOfferingInfo aoInfo : aosInCluster) {
+            filteredClusteredAOs.add(getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo));
+        }
+        for ( int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++ ) {
+            if (theForm.getFilteredAOClusterWrapperList().get(i).getActivityOfferingClusterId().equals(updatedSelectedAOCInfo.getId())) {
+                theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOs);
+                break;
             }
         }
-        theForm.setActivityWrapperList(filteredClusteredAOs);
-*/
+
         //then update RGs
         List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
@@ -558,9 +554,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(rgInfos != null && rgInfos.size()>0) {
             getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
         }
-
+        //return updated form
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
-
     }
 
     private ActivityOfferingClusterInfo buildDefaultAOCluster (String formatOfferingId, CourseOfferingManagementForm theForm){
