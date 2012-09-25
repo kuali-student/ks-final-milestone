@@ -105,8 +105,10 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
-
                             <bean parent="Uif-InputField" p:propertyName="instructor" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Bush,Edward"/>
+                                </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
@@ -115,9 +117,12 @@
                                     </map>
                                 </property>
                                 <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
-
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}"/>
+                            <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Plants, Diaspora, Sartre"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:17px;"/>
                         </list>
                     </property>
