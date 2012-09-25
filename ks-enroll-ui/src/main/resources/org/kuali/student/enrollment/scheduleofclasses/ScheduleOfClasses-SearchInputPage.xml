@@ -110,13 +110,24 @@
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Bush,Edward"/>
                                 </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
                                 <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="principalId" value="instructor"/>
                                         <entry key="name" value="personName" />
                                     </map>
                                 </property>
-                                <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
+                                <property name="quickfinder.quickfinderAction">
+                                    <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="KS-Personnel-LookupView">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-QuickLookupImage"/>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="quickfinder.lightBoxLookup">
+                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                </property>
+
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}">
                                 <property name="control">
