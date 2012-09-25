@@ -63,61 +63,38 @@ public class LrcContextImpl extends BasicContextImpl {
             return null;
         }
         try {
-
-
             return lrcService.getResultValuesGroup(resultComponentId, contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
     }
 
-    private String getResultValue(ResultValuesGroupInfo resultValuesGroup, String resultValue, ContextInfo contextInfo) throws OperationFailedException {
-        if (resultValuesGroup == null || resultValue == null) {
-            return null;
-        }
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("value", resultValue), PredicateFactory.in("id", resultValuesGroup.getResultValueKeys().toArray()));
-        QueryByCriteria qbc = qbcBuilder.build();
+    private String getResultValue(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
         try {
-            List<ResultValueInfo> values = lrcService.searchForResultValues(qbc, contextInfo);
-            for (ResultValueInfo rv : values) {
-                if (rv.getValue().equals(resultValue)) {
-                    return rv.getValue();
-                }
-            }
+            return lrcService.getResultValue(resultValueId,contextInfo).getValue();
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
 
-        throw new OperationFailedException("Result value not found: " + resultValue);
     }
 
-    private ResultValuesGroupInfo getResultComponentByResultValueId(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
+    private ResultValuesGroupInfo getResultValueGroupByResultValueId(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
         if (resultValueId == null) {
             return null;
         }
 
         try {
-            List<TypeInfo> typeList = typeService.getTypesByRefObjectUri(LrcServiceConstants.REF_OBJECT_URI_RESULT_VALUES_GROUP, contextInfo);
-            for (TypeInfo type : typeList) {
-                List<String> resultValuesGroupKeys = lrcService.getResultValuesGroupKeysByType(type.getKey(), contextInfo);
-                for (String resultValuesGroupKey : resultValuesGroupKeys) {
-                    ResultValuesGroupInfo resultValuesGroup = lrcService.getResultValuesGroup(resultValuesGroupKey, contextInfo);
-                    if (resultValuesGroup.getResultValueKeys().size() > 0) {
-                        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                        qbcBuilder.setPredicates(PredicateFactory.equal("value", resultValueId), PredicateFactory.in("id", resultValuesGroup.getResultValueKeys().toArray()));
-                        QueryByCriteria qbc = qbcBuilder.build();
-                        List<ResultValueInfo> values = lrcService.searchForResultValues(qbc, contextInfo);
-                        if (values.size() > 0) {
-                            return resultValuesGroup;
-                        }
-                    }
-                }
+            List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByResultValue(resultValueId,contextInfo);
+            if (resultValuesGroupInfos.size() == 1) {
+                return resultValuesGroupInfos.get(0);
+            } else if (resultValuesGroupInfos.size() == 0){
+                throw new OperationFailedException("ResultValueGroup not found for ResultValue: " + resultValueId);
+            } else {
+                throw new OperationFailedException("More than one ResultValueGroup found for ResultValue: " + resultValueId);
             }
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
-        throw new OperationFailedException("Result value id not found: " + resultValueId);
     }
 
     /**
@@ -151,13 +128,13 @@ public class LrcContextImpl extends BasicContextImpl {
                 contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
             }
         } else {
-            gradeTypeResultComponent = getResultComponentByResultValueId(gradeId, contextInfo);
+            gradeTypeResultComponent = getResultValueGroupByResultValueId(gradeId, contextInfo);
         }
         if (gradeTypeResultComponent != null) {
             contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
         }
 
-        String grade = getResultValue(gradeTypeResultComponent, gradeId, contextInfo);
+        String grade = getResultValue(gradeId, contextInfo);
         if (grade != null) {
             contextMap.put(GRADE_TOKEN, grade);
         }
