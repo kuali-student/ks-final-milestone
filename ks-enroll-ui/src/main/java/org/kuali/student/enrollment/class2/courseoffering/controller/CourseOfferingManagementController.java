@@ -33,11 +33,14 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -66,6 +69,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private LRCService lrcService;
     private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
+    private TypeService typeService;
 
     private CourseOfferingManagementViewHelperService viewHelperService;
     private OrganizationService organizationService;
@@ -583,9 +587,16 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return emptyCluster;
     }
 
-    private  List<ActivityOfferingSetInfo> buildAOSets(List<ActivityOfferingWrapper> aoWrapperList){
+    private  List<ActivityOfferingSetInfo> buildAOSets(List<ActivityOfferingWrapper> aoWrapperList) {
         Map<String, ActivityOfferingSetInfo> aoSetMap = new HashMap<String, ActivityOfferingSetInfo>();
         for (ActivityOfferingWrapper aoWrapper:aoWrapperList){
+            try {
+                TypeInfo typeInfo = getTypeService().getType(aoWrapper.getAoInfo().getTypeKey(), getContextInfo());
+                aoWrapper.setTypeName(typeInfo.getName());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             String aoTypeName = aoWrapper.getTypeName();
             if (aoSetMap.containsKey(aoTypeName)){
                 ActivityOfferingSetInfo aoSetInfo = aoSetMap.get(aoTypeName);
@@ -839,6 +850,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsWithoutClusterByFormatOffering(theFOId,getContextInfo());
         for (ActivityOfferingInfo ao: aoList){
             filterdAOList.add(new ActivityOfferingWrapper(ao));
+
         }
 
         //This is a temp walk around solution
@@ -1572,6 +1584,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         return viewHelperService;
+    }
+
+    public TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return this.typeService;
     }
 
     public CourseOfferingService getCourseOfferingService() {
