@@ -9,13 +9,22 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  *  Test mass publishing event state change logic.
@@ -34,7 +43,7 @@ public class TestCourseOfferingSetPublishingHelper {
         //  Create a SOC in state "publishing".
         SocInfo socInfo = new SocInfo();
         socInfo.setId(socId);
-        socInfo.setStateKey(CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY);
+        socInfo.setStateKey(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY);
         socInfo.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
         socServiceMock.createSoc(termId, CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY, socInfo, context);
 

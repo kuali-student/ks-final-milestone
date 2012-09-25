@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultDao;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocRolloverResultItemDao;
@@ -27,7 +26,6 @@ import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverRe
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultOptionEntity;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -49,12 +47,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
-import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,15 +69,6 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     private SocRolloverResultItemDao socRorItemDao;
     private CourseOfferingSetServiceBusinessLogic businessLogic;
     private CriteriaLookupService criteriaLookupService;
-    private SchedulingService schedulingService;
-    private CourseOfferingService coService;
-
-    /**
-     * This instance should be the spring proxy, rather than the impl instance itself.
-     * If not wired in through spring, it will be retrieved with the GlobalResourceLoader
-     *
-     */
-    private CourseOfferingSetService socService;
 
     public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -113,39 +100,6 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     public void setSocRorItemDao(SocRolloverResultItemDao socRorItemDao) {
         this.socRorItemDao = socRorItemDao;
-    }
-
-    public CourseOfferingSetService getSocService() {
-        return socService;
-    }
-
-    public void setSocService(CourseOfferingSetService socService) {
-        this.socService = socService;
-    }
-
-    private CourseOfferingSetService _getSocService() {
-        // If it hasn't been set by Spring, then look it up by GlobalResourceLoader
-        if (socService == null) {
-            socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
-                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return socService;
-    }
-
-    public SchedulingService getSchedulingService() {
-        return schedulingService;
-    }
-
-    public void setSchedulingService(SchedulingService schedulingService) {
-        this.schedulingService = schedulingService;
-    }
-
-    public CourseOfferingService getCoService() {
-        return coService;
-    }
-
-    public void setCoService(CourseOfferingService coService) {
-        this.coService = coService;
     }
 
     ////
@@ -642,26 +596,10 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     }
 
     @Override
-    // Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo startScheduleSoc(String socId, List<String> optionKeys, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        // ensure there is a valid Soc for the given id
-        SocInfo socInfo = this._getSocService().getSoc(socId, context);
-
-        final CourseOfferingSetSchedulingRunner schedulingRunner = new CourseOfferingSetSchedulingRunner(socInfo.getId());
-        schedulingRunner.setContextInfo(context);
-        schedulingRunner.setCoService(coService);
-        schedulingRunner.setSchedulingService(schedulingService);
-        schedulingRunner.setSocService(this._getSocService());
-
-        //Try to run this after the transaction completes
-        KSThreadRunnerAfterTransactionSynchronization.runAfterTransactionCompletes(schedulingRunner);
-
-        StatusInfo status = new StatusInfo();
-        status.setMessage("Scheduling runner started successfully");
-
-        return status;
+        return this.businessLogic.startScheduleSoc(socId, optionKeys, context);
     }
 
     @Override

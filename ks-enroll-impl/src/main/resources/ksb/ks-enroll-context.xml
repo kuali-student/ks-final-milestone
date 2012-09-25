@@ -469,8 +469,6 @@
         <property name="socRorItemDao" ref="socRolloverResultItemDao"/>
         <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
         <property name="businessLogic" ref="socBusinessLogic" />
-        <property name="coService" ref="coService"/>
-        <property name="schedulingService" ref="schedulingServiceValidationDecorator"/>
     </bean>
 
     <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
@@ -478,6 +476,7 @@
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
+        <property name="schedulingService" ref="schedulingServiceValidationDecorator"/>
     </bean>
 
     <bean id="ks.exp.socService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

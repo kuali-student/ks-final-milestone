@@ -1521,7 +1521,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
      * @param contextInfo        Context information containing the principalId
      *                           and locale information about the caller of
      *                           service operation
-     * @return
+     * @return a StatusInfo indicating the operation was successful
      * @throws DoesNotExistException
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -1571,8 +1571,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
             // set the id of the new schedule to the AO and update the entity
             aoInfo.setScheduleId(persistedSchedule.getId());
-
-            System.out.println("NEW SCHEDULE ID FROM PERSISTED SCHEDULE: " + persistedSchedule.getId());
 
             ActivityOfferingInfo updatedAo = null;
             try {
