@@ -92,11 +92,18 @@
         <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
         <property name="atpCriteriaLookupService" >
-            <bean class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-                <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+            <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list>
-                        <ref bean="keyword2LikeTransform"/>
+                    <list merge="false">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+                                <list merge="true">
+                                    <value>code</value> 
+                                    <value>typeKey</value> 
+                                    <value>stateKey</value>                        
+                                </list>
+                            </property>
+                        </bean> 
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
@@ -117,10 +124,10 @@
         <property name="atpAtpRelationCriteriaLookupService" >
             <bean parent="defaultRelationCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
-                                <list>
+                                <list merge="false">
                                     <value>typeKey</value> 
                                     <value>stateKey</value>                        
                                 </list>
@@ -136,6 +143,8 @@
                                 </map>
                             </property>
                         </bean>
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
@@ -143,7 +152,15 @@
         <property name="milestoneCriteriaLookupService" >
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
+                        <bean parent="keyword2LikeTransform">                               
+                            <property name="likeAttributes">
+                                <list merge="true">
+                                    <value>typeKey</value> 
+                                    <value>stateKey</value>                        
+                                </list>
+                            </property>
+                        </bean> 
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
@@ -155,6 +172,9 @@
                                 </map>
                             </property>
                         </bean>
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
@@ -312,7 +332,7 @@
         <property name="stateCriteriaLookupService">
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
 <!--                            Also scan the key and the lifecyle key when doing a keyword search-->
@@ -321,8 +341,11 @@
                                     <value>lifecycleKey</value>                        
                                 </list>
                             </property>
-                        </bean> 
+                        </bean>
                         <ref bean="key2IdTransform"/>
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
@@ -330,7 +353,7 @@
         <property name="lifecycleCriteriaLookupService">
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
 <!--                            Also scan the key and the refObjectUri when doing a keyword search-->
@@ -341,6 +364,9 @@
                             </property>
                         </bean> 
                         <ref bean="key2IdTransform"/>
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
@@ -357,7 +383,7 @@
         <property name="typeCriteriaLookupService">
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
 <!--                            Also scan the key when doing a keyword search-->
@@ -367,16 +393,18 @@
                                     <value>serviceUri</value>                       
                                 </list>
                             </property>
-                        </bean> 
-                        <ref bean="key2IdTransform"/>
-<!--                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+                        </bean>
+                        <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
-                                    <entry key="typeKey" value="type"/>
-                                    <entry key="stateKey" value="state"/>
+                                    <entry key="refObjectUri" value="refObjectURI"/>
                                 </map>
                             </property>
-                        </bean>-->
+                        </bean>
+                        <ref bean="key2IdTransform"/>
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
@@ -384,7 +412,7 @@
         <property name="typeTypeRelationCriteriaLookupService">
             <bean parent="defaultRelationCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
 <!--                            scan the keys when doing a keyword search-->
@@ -406,6 +434,8 @@
                                 </map>
                             </property>
                         </bean>
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
@@ -708,24 +738,32 @@
         <property name="resultScaleCriteriaLookupService">
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
 <!--                            Also scan the key when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value>                       
+                                    <value>key</value> 
+                                    <value>typeKey</value>    
+                                    <value>stateKey</value>                       
                                 </list>
                             </property>
                         </bean> 
-                        <ref bean="key2IdTransform"/>
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
                                     <entry key="typeKey" value="type"/>
                                     <entry key="stateKey" value="state"/>
+                                    <entry key="resultValueRange.minValue" value="minValue"/>
+                                    <entry key="resultValueRange.maxValue" value="maxValue"/>
+                                    <entry key="resultValueRange.increment" value="increment"/>
                                 </map>
                             </property>
                         </bean>
+                        <ref bean="key2IdTransform"/>
+                        <ref bean="descrTransform"/>                   
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
@@ -733,24 +771,29 @@
         <property name="resultValueCriteriaLookupService">
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
 <!--                            Also scan the key when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value>                       
+                                    <value>key</value>
+                                    <value>resultScaleKey</value>                    
                                 </list>
                             </property>
                         </bean> 
-                        <ref bean="key2IdTransform"/>
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
                                     <entry key="typeKey" value="type"/>
                                     <entry key="stateKey" value="state"/>
+                                    <entry key="resultScaleKey" value="resultScaleId"/>
                                 </map>
                             </property>
-                        </bean>
+                        </bean> 
+                        <ref bean="key2IdTransform"/>
+                        <ref bean="descrTransform"/>              
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
@@ -758,24 +801,32 @@
         <property name="resultValuesGroupCriteriaLookupService">
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
-                    <list merge="true">
+                    <list merge="false">
                         <bean parent="keyword2LikeTransform">                               
                             <property name="likeAttributes">
 <!--                                Also scan the key when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value>                       
+                                    <value>key</value>
+                                    <value>resultScaleKey</value>               
                                 </list>
                             </property>
                         </bean> 
-                        <ref bean="key2IdTransform"/>
                         <bean class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
                             <property name="renameAttributes">
                                 <map>
                                     <entry key="typeKey" value="type"/>
                                     <entry key="stateKey" value="state"/>
+                                    <entry key="resultScaleKey" value="resultScaleId"/>
+                                    <entry key="resultValueRange.minValue" value="minValue"/>
+                                    <entry key="resultValueRange.maxValue" value="maxValue"/>
+                                    <entry key="resultValueRange.increment" value="increment"/>
                                 </map>
                             </property>
                         </bean>
+                        <ref bean="key2IdTransform"/>
+                        <ref bean="descrTransform"/>              
+                        <ref bean="metaTransform"/> 
+                        <ref bean="attributeTransform"/>
                     </list>
                 </property>
             </bean>
