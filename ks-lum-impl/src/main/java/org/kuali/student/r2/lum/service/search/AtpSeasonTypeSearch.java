@@ -2,6 +2,7 @@ package org.kuali.student.r2.lum.service.search;
 
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import java.util.ArrayList;
@@ -28,13 +29,13 @@ public class AtpSeasonTypeSearch extends AbstractTypeSearch{
     }
 
     @Override
-    public SearchResult search(SearchRequest searchRequest) {
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException, InvalidParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
         List<String> typeKeys = new ArrayList();
         typeKeys.add("kuali.atp.season.Any");
         typeKeys.add("kuali.atp.season.Fall");
         typeKeys.add("kuali.atp.season.Spring");
         typeKeys.add("kuali.atp.season.Summer");
-        List<TypeInfo> typeInfos = this.getTypesByKey(typeKeys);
+        List<TypeInfo> typeInfos = this.getTypeService().getTypesByKeys(typeKeys, this.getContextInfo());
         return createSearchResultFromTypeInfo(typeInfos, ATP_RESULTCOLUMN_ID, ATP_RESULTCOLUMN_NAME, ATP_RESULTCOLUM_DESC);
     }
 }

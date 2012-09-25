@@ -80,7 +80,17 @@ public class TypeSearchServiceImpl implements SearchService{
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         for (TypeSearch typeSearch : typeSearches){
             if (searchRequest.getSearchKey().equals(typeSearch.getSearchTypeKey())){
-                return typeSearch.search(searchRequest);
+                try {
+                    return typeSearch.search(searchRequest);
+                } catch (InvalidParameterException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (DoesNotExistException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (OperationFailedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                } catch (PermissionDeniedException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
         }
         return null;

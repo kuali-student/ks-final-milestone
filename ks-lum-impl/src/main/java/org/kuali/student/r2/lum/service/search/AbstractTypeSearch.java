@@ -31,38 +31,8 @@ public abstract class AbstractTypeSearch implements TypeSearch{
         this.typeService = typeService;
     }
 
-    protected List<TypeInfo> getTypesByKey(List<String> keys){
-        try {
-            return typeService.getTypesByKeys(keys, new ContextInfo());
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        return null;
-    }
-
-    protected TypeInfo getTypeForKey(String typeKey){
-        try {
-            return typeService.getType(typeKey, new ContextInfo());
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (InvalidParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (OperationFailedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (MissingParameterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        return null;
+    protected ContextInfo getContextInfo(){
+        return new ContextInfo();
     }
 
     protected String getParamValueForKey(SearchRequest searchRequest, String key){
