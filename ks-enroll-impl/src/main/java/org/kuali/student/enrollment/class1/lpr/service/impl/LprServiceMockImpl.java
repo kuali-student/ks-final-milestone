@@ -15,13 +15,9 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
@@ -33,17 +29,15 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LprServiceMockImpl implements LprService, MockService {
 
@@ -276,7 +270,7 @@ public class LprServiceMockImpl implements LprService, MockService {
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         LprInfo copy = new LprInfo(lprInfo);
         if (copy.getId() == null) {
-            copy.setId(lprMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         lprMap.put(copy.getId(), copy);
@@ -375,7 +369,7 @@ public class LprServiceMockImpl implements LprService, MockService {
         }
         LprTransactionInfo copy = new LprTransactionInfo(lprTransactionInfo);
         if (copy.getId() == null) {
-            copy.setId(lprTransactionMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
         

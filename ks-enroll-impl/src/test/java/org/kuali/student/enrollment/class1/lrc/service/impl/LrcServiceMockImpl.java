@@ -15,28 +15,19 @@
  */
 package org.kuali.student.enrollment.class1.lrc.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
-import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -45,7 +36,7 @@ import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl;
 
 import javax.jws.WebParam;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import java.util.*;
 
 public class LrcServiceMockImpl implements LRCService, MockService {
 
@@ -223,7 +214,7 @@ public class LrcServiceMockImpl implements LRCService, MockService {
         copy.setResultScaleKey(resultScaleKey);
         copy.setTypeKey(resultValuesGroupTypeKey);
         if (copy.getKey() == null) {
-            copy.setKey(resultValuesGroupMap.size() + "");
+            copy.setKey(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(context));
         resultValuesGroupMap.put(copy.getKey(), copy);
@@ -403,7 +394,7 @@ public class LrcServiceMockImpl implements LRCService, MockService {
         copy.setResultScaleKey(resultScaleKey);
         copy.setTypeKey(resultValueTypeKey);
         if (copy.getKey() == null) {
-            copy.setKey(resultValueMap.size() + "");
+            copy.setKey(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(context));
         resultValueMap.put(copy.getKey(), copy);
@@ -559,7 +550,7 @@ public class LrcServiceMockImpl implements LRCService, MockService {
         ResultScaleInfo copy = new ResultScaleInfo(resultScaleInfo);
         copy.setTypeKey(resultScaleTypeKey);
         if (copy.getKey() == null) {
-            copy.setKey(resultScaleMap.size() + "");
+            copy.setKey(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(context));
         resultScaleMap.put(copy.getKey(), copy);

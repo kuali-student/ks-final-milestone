@@ -237,7 +237,7 @@ public class OrganizationServiceMockImpl implements OrganizationService {
             logger.error("Exception occured: ", e1);
         }
         if (orgInfo.getId() == null) {
-            orgInfo.setId(String.valueOf(orgInfoMap.size() + 1));//warning here be dragons!
+            orgInfo.setId(UUIDHelper.genStringUUID());
         }
         if (orgInfoMap.containsKey(orgInfo.getId())) {
             throw new PermissionDeniedException("duplicate org key already exists. Try update?");

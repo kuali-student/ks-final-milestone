@@ -16,14 +16,8 @@
 
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -31,17 +25,14 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
 
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author nwright
@@ -146,7 +137,7 @@ public class LuiServiceMockImpl
     public LuiInfo createLui(String cluId, String atpId, String luiTypeKey, LuiInfo luiInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         LuiInfo copy = new LuiInfo(luiInfo);
         if (copy.getId() == null) {
-            copy.setId(luis.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         luis.put(copy.getId(), copy);
         return new LuiInfo(copy);
@@ -297,7 +288,7 @@ public class LuiServiceMockImpl
     public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         LuiLuiRelationInfo copy = new LuiLuiRelationInfo(luiLuiRelationInfo);
         if (copy.getId() == null) {
-            copy.setId(luiLuiRelations.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         luiLuiRelations.put(copy.getId(), copy);
         return new LuiLuiRelationInfo(copy);

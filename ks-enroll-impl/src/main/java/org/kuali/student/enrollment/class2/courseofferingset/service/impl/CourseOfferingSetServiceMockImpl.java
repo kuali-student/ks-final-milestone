@@ -4,16 +4,17 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import java.text.SimpleDateFormat;
 import org.apache.commons.lang.UnhandledException;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetServiceBusinessLogic;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -22,8 +23,12 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import javax.jws.WebParam;
-import java.util.*;
-import org.kuali.student.r2.common.dto.AttributeInfo;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetService, MockService {
 
@@ -151,7 +156,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         SocInfo copy = new SocInfo(socInfo);
         if (copy.getId() == null) {
-            copy.setId(socMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         this.logStateChange(copy, context);
         copy.setMeta(newMeta(context));
@@ -445,7 +450,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         }
         SocRolloverResultInfo copy = new SocRolloverResultInfo(socRolloverResultInfo);
         if (copy.getId() == null) {
-            copy.setId(socRolloverResultMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(context));
         socRolloverResultMap.put(copy.getId(), copy);
@@ -526,7 +531,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         SocRolloverResultItemInfo copy = new SocRolloverResultItemInfo(socRolloverResultItemInfo);
         if (copy.getId() == null) {
-            copy.setId(socRolloverResultItemMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(context));
         socRolloverResultItemMap.put(copy.getId(), copy);

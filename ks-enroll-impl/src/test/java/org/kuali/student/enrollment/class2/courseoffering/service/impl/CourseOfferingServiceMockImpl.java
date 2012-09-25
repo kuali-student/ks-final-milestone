@@ -352,7 +352,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
         CourseOfferingInfo copy = new CourseOfferingInfo(courseOfferingInfo);
         if (copy.getId() == null) {
-            copy.setId(courseOfferingMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
         // copy from cannonical
@@ -552,7 +552,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         // create to make sure they match the info object
         FormatOfferingInfo copy = new FormatOfferingInfo(formatOfferingInfo);
         if (copy.getId() == null) {
-            copy.setId(formatOfferingMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setTermId(co.getTermId());
         copy.setMeta(newMeta(context));
@@ -751,7 +751,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         ActivityOfferingInfo copy = new ActivityOfferingInfo(
                 activityOfferingInfo);
         if (copy.getId() == null) {
-            copy.setId(activityOfferingMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setTermId(fo.getTermId());
         copy.setMeta(newMeta(context));
@@ -1327,7 +1327,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         SeatPoolDefinitionInfo copy = new SeatPoolDefinitionInfo(
                 seatPoolDefinitionInfo);
         if (copy.getId() == null) {
-            copy.setId(seatPoolDefinitionMap.size() + "");
+            copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(context));
         seatPoolDefinitionMap.put(copy.getId(), copy);
