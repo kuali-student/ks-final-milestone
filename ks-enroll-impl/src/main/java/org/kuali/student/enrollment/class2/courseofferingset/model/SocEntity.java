@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 @NamedQueries({
         @NamedQuery(name="Soc.getSocsBySocTypeId", query="Select a from SocEntity a where a.socType =:socType"),
         @NamedQuery(name="Soc.getSocsByTerm", query="Select a from SocEntity a where a.termId =:termId"),
-        @NamedQuery(name="Soc.getSocsIdsByTerm", query="SELECT soc.id FROM SocEntity soc WHERE soc.termId = :termId"),
+        @NamedQuery(name="Soc.getSocIdsByTerm", query="SELECT soc.id FROM SocEntity soc WHERE soc.termId = :termId"),
         @NamedQuery(name="Soc.getSocsByTermAndSubjectArea", query="Select a from SocEntity a where a.termId=:termId and a.subjectArea = :subjectArea"),
         @NamedQuery(name="Soc.getSocsByTermAndUnitsContentOwner", query="Select a from SocEntity a where a.termId=:termId and a.unitsContentOwnerId = :unitsContentOwnerId")
 
