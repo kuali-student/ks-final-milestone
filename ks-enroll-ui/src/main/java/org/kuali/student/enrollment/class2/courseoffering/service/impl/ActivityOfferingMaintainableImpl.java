@@ -122,7 +122,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
                 if (!scheduleWrapper.getStartTime().isEmpty()) {
                     try {
-                        long time = dateFormat.parse(scheduleWrapper.getStartTime()).getTime();
+                        long time = dateFormat.parse(scheduleWrapper.getStartTimeUI()).getTime();
                         TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
                         timeOfDayInfo.setMilliSeconds(time);
                         timeSlot.setStartTime(timeOfDayInfo);
