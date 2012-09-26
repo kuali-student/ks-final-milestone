@@ -27,14 +27,18 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
 import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesUtil;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -46,7 +50,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 @RequestMapping(value = "/scheduleOfClassesSearch")
@@ -55,6 +58,8 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScheduleOfClassesSearchController.class);
     private ScheduleOfClassesViewHelperService viewHelperService;
     private AcademicCalendarService acalService;
+    private CourseOfferingSetService courseOfferingSetService;
+    private AtpService atpService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -67,6 +72,15 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) {
         ScheduleOfClassesSearchForm scheduleOfClassesSearchForm = (ScheduleOfClassesSearchForm)form;
         scheduleOfClassesSearchForm.setSearchType("course");
+
+        if(scheduleOfClassesSearchForm.getTermCode() == null){
+            ContextInfo context = ContextUtils.getContextInfo();
+            List<AtpInfo> atps = ScheduleOfClassesUtil.getValidSocTerms(getCourseOfferingSetService(), getAtpService(), context);
+
+            if(!atps.isEmpty()){
+                scheduleOfClassesSearchForm.setTermCode(ScheduleOfClassesUtil.getCurrentAtp(atps).getCode());
+            }
+        }
 
         return super.start(form, result, request, response);
     }
@@ -158,6 +172,21 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.acalService;
+    }
+    //Methods to get necessary services
+    protected CourseOfferingSetService getCourseOfferingSetService() {
+        if(courseOfferingSetService == null) {
+
+            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.courseOfferingSetService;
+    }
+
+    protected AtpService getAtpService() {
+        if(atpService == null) {
+            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.atpService;
     }
 
 }
