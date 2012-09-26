@@ -1,30 +1,19 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.Arrays;
-
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
-import javax.annotation.Resource;
-import org.springframework.test.context.ContextConfiguration;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -32,15 +21,29 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-businesslogic-test-with-mocks-context.xml"})
@@ -54,7 +57,10 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
     private CourseService courseService;
     @Resource(name = "acalService")
     private AcademicCalendarService acalService;
-
+    @Resource(name = "schedulingService")
+    private SchedulingService schedulingService;
+    @Resource(name = "atpService")
+    private AtpService atpService;
     @Before
     public void setUp() {
         callContext = new ContextInfo();
@@ -90,6 +96,16 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
                 LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY);
         courseLoader.loadCourse("COURSE2", "2012SP", "ENG", "ENG101", "Intro English", "description 2", "COURSE2-FORMAT1",
                 LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
+
+        AtpInfo atp = new AtpInfo();
+        atp.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        atp.setId("2011FA");
+        atpService.createAtp(atp.getTypeKey(),atp,callContext);
+        atp = new AtpInfo();
+        atp.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        atp.setId("2012FA");
+        atpService.createAtp(atp.getTypeKey(),atp,callContext);
+
         // get course
         CourseInfo course;
         try {
@@ -132,9 +148,14 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
         sourceAo.setMaximumEnrollment(100);
         sourceAo.setMinimumEnrollment(90);
         sourceAo.setName("my activity offering");
+        ScheduleInfo scheduleInfo = new ScheduleInfo();
+        scheduleInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
+        scheduleInfo.setAtpId(sourceCo.getTermId());
+        scheduleInfo=schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, callContext);
+        sourceAo.setScheduleId(scheduleInfo.getId());
         sourceAo = coService.createActivityOffering(sourceAo.getFormatOfferingId(), sourceAo.getActivityId(),
                 sourceAo.getTypeKey(), sourceAo, callContext);
-        
+
         // now try to rollover to new term
         TermInfo targetTerm = acalService.getTerm("2013SP", callContext);
         SocRolloverResultItemInfo item = coService.rolloverCourseOffering(sourceCo.getId(), 

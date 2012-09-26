@@ -44,6 +44,17 @@ import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
+import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -76,6 +87,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     @Resource
     private RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory;
+
+    @Resource
+    private SchedulingService schedulingService;
 
     public CourseOfferingService getCoService() {
         return coService;
@@ -115,6 +129,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return coService;
+    }
+
+    private SchedulingService _getSchedulingService() {
+        if (schedulingService == null) {
+            schedulingService = (SchedulingService) GlobalResourceLoader.getService(new QName(SchedulingServiceConstants.NAMESPACE,
+                    SchedulingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return schedulingService;
     }
 
     @Override
@@ -249,7 +271,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
                     targetAo.setScheduleId(null);
                     // TODO: set the schedule request to null as well
+                }else{
+                    targetAo.setScheduleId(null); //We need to copy the schedule since it is not reusable, but for now we are just copying the schedule to a request
                 }
+
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
                     targetAo.getInstructors().clear();
                 }
@@ -258,6 +283,41 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 targetAo = this._getCoService().createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                         targetAo.getTypeKey(), targetAo, context);
                 sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
+
+                if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
+                    //Copy the schedule to a schedule request
+                    ScheduleDisplayInfo sourceSchedule = this._getSchedulingService().getScheduleDisplay(sourceAo.getScheduleId(),context);
+                    ScheduleRequestInfo targetScheduleRequest = new ScheduleRequestInfo();
+                    targetScheduleRequest.setRefObjectId(targetAo.getId());
+                    targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                    targetScheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+                    targetScheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+                    targetScheduleRequest.setName(sourceSchedule.getName());
+                    //TODO Map additional fields (there are lots of things that might need to be copied/translated for the new term.
+                    for(AttributeInfo sourceAttribute : sourceSchedule.getAttributes()){
+                        targetScheduleRequest.getAttributes().add(new AttributeInfo(sourceAttribute));
+                    }
+                    for(ScheduleComponentDisplay sourceComponent:sourceSchedule.getScheduleComponentDisplays()){
+                        ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
+                        if(sourceComponent.getBuilding()!=null){
+                            requestComponentInfo.getBuildingIds().add(sourceComponent.getBuilding().getId());
+                            requestComponentInfo.getCampusIds().add(sourceComponent.getBuilding().getCampusKey());
+                        }
+                        if(sourceComponent.getRoom()!=null){
+                            requestComponentInfo.getRoomIds().add(sourceComponent.getRoom().getId());
+                        }
+                        requestComponentInfo.setIsTBA(Boolean.FALSE);//TODO map this in M6
+                        for(TimeSlot timeSlot : sourceComponent.getTimeSlots()){
+                            TimeSlotInfo targetTimeSlot = new TimeSlotInfo(timeSlot);
+                            targetTimeSlot.setId(null);
+                            targetTimeSlot = this._getSchedulingService().createTimeSlot(targetTimeSlot.getTypeKey(), targetTimeSlot, context);
+                            requestComponentInfo.getTimeSlotIds().add(targetTimeSlot.getId());
+                        }
+                        targetScheduleRequest.getScheduleRequestComponents().add(requestComponentInfo);
+                    }
+                    this._getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
+                }
+
                 //attach SPs to the AO created
                 try {
                     List<SeatPoolDefinitionInfo> sourceSPList = this._getCoService().getSeatPoolDefinitionsForActivityOffering(sourceAo.getId(), context);

@@ -76,7 +76,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.like("courseOfferingCode", courseCode + "%"),
-                PredicateFactory.equalIgnoreCase("atpId", termId)));
+                PredicateFactory.equalIgnoreCase("atpId", termId)),
+                PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
         QueryByCriteria criteria = qbcBuilder.build();
         List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
@@ -140,7 +141,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.and(
                     PredicateFactory.in("aoid", luiIds.toArray()),
-                    PredicateFactory.equalIgnoreCase("atpId", termId)));
+                    PredicateFactory.equalIgnoreCase("atpId", termId)),
+                    PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
             QueryByCriteria criteria = qbcBuilder.build();
             courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
@@ -219,7 +221,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.equal("luiContentOwner", organizationId),
                 PredicateFactory.equal("atpId", termId),
-                PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)));
+                PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
+                PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)));
             QueryByCriteria criteria = qbcBuilder.build();
             List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
@@ -277,37 +280,40 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(courseOfferingId, contextInfo);
 
         for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
-            ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
-            aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
+            //Only returned offered AOS
+            if(!LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(aoDisplayInfo.getStateName())){
+                ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
+                aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
 
-            // Adding Information (icons)
-            String information = "";
-            if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {
-                information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY + "\"> ";
-            }
-            aoDisplayWrapper.setInformation(information);
+                // Adding Information (icons)
+                String information = "";
+                if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {
+                    information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY + "\"> ";
+                }
+                aoDisplayWrapper.setInformation(information);
 
-            if(!aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
-                //TODO handle TBA state
-                ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
-                if(scheduleComponentDisplay.getBuilding() != null){
-                    aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode());
-                }
-                if(scheduleComponentDisplay.getRoom() != null){
-                    aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode());
-                }
-                if(!scheduleComponentDisplay.getTimeSlots().isEmpty()){
-                    if(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null){
-                        aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()));
+                if(!aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
+                    //TODO handle TBA state
+                    ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
+                    if(scheduleComponentDisplay.getBuilding() != null){
+                        aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode());
                     }
-                    if(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null){
-                        aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()));
+                    if(scheduleComponentDisplay.getRoom() != null){
+                        aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode());
                     }
-                    aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()));
+                    if(!scheduleComponentDisplay.getTimeSlots().isEmpty()){
+                        if(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null){
+                            aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()));
+                        }
+                        if(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null){
+                            aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()));
+                        }
+                        aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()));
+                    }
                 }
-            }
 
-            aoDisplayWrapperList.add(aoDisplayWrapper);
+                aoDisplayWrapperList.add(aoDisplayWrapper);
+            }
         }
 
         form.setAoDisplayWrapperList(aoDisplayWrapperList);

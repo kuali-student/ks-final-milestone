@@ -1571,15 +1571,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             // set the id of the new schedule to the AO and update the entity
             aoInfo.setScheduleId(persistedSchedule.getId());
 
-            ActivityOfferingInfo updatedAo = null;
-            try {
-                updatedAo = updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
-            } catch (Exception e) {
-                throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
-            }
-
             result.setSuccess(true);
             result.setMessage("New Schedule Successfully created");
+        }
+
+        try {
+            updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
+        } catch (Exception e) {
+            throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
         }
 
         return result;
@@ -2766,8 +2765,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-
-        throw new UnsupportedOperationException("To be Implemented in M5");
+        //TODO validation and state lifecylce checks
+        LuiInfo lui = luiService.getLui(courseOfferingId, contextInfo);
+        lui.setStateKey(nextStateKey);
+        try{
+            luiService.updateLui(lui.getId(), lui, contextInfo);
+        }catch(Exception e){
+            throw new OperationFailedException("Failed to update State", e);
+        }
+        return new StatusInfo();
     }
 
     @Override
@@ -2777,7 +2783,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("To be Implemented in M5");
+        //TODO validation and state lifecylce checks
+        LuiInfo lui = luiService.getLui(formatOfferingId, contextInfo);
+        lui.setStateKey(nextStateKey);
+        try{
+            luiService.updateLui(lui.getId(), lui, contextInfo);
+        }catch(Exception e){
+            throw new OperationFailedException("Failed to update State", e);
+        }
+        return new StatusInfo();
     }
 
     @Override
@@ -2788,7 +2802,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        throw new UnsupportedOperationException("To be Implemented in M5");
+        //TODO validation and state lifecylce checks
+        LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
+        lui.setStateKey(nextStateKey);
+        try{
+            luiService.updateLui(lui.getId(), lui, contextInfo);
+        }catch(Exception e){
+            throw new OperationFailedException("Failed to update State", e);
+        }
+        return new StatusInfo();
     }
 
     @Override
