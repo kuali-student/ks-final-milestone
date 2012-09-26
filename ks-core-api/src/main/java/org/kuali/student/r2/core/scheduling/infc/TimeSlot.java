@@ -34,7 +34,7 @@ public interface TimeSlot extends IdEntity {
      * The weekday codes. 
      *
      * @name Weekdays
-     * @required
+     * @required only if TimeSlot type is NOT SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA
      */
     public List<Integer> getWeekdays();
 
@@ -42,7 +42,7 @@ public interface TimeSlot extends IdEntity {
      *  Start time
      *
      *  @name Start Time
-     *  @required
+     *  @required only if TimeSlot type is NOT SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA
      */
     public TimeOfDayInfo getStartTime();
 
@@ -50,7 +50,7 @@ public interface TimeSlot extends IdEntity {
      * End time of the time slot
      *
      * @name End Time
-     * @required
+     * @required only if TimeSlot type is NOT SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA
      */
     public TimeOfDayInfo getEndTime();
 }
