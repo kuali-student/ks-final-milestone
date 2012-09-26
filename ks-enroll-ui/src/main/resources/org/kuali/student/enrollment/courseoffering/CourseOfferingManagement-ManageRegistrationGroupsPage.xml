@@ -307,7 +307,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroupsPerCluster" p:actionLabel="View Registration Groups" p:render="@{#line.hasRegGroups}"
-                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightboxComponent('registrationGroupsPerCluster');"/>
+                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightboxComponent('registrationGroupsPerCluster_line@{#index}');"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
                             <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename Cluster" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
@@ -391,7 +391,7 @@
     </bean>
 
     <bean id="KS-ManageRegistrationGroupPage-RegistrationGroupsPerClusterSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
-          p:renderAddLine="false"  p:renderLineActions="false">
+          p:renderAddLine="false"  p:renderLineActions="false" p:style="display: none">
         <property name="id" value="registrationGroupsPerCluster" />
         <!--<property name="hidden" value="true"/>-->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
