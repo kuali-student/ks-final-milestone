@@ -88,8 +88,12 @@ public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlo
         setTimeSlotState(timeSlot.getStateKey());
         setName(timeSlot.getName());
         setWeekdays(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()));
-        setStartTimeMillis(timeSlot.getStartTime().getMilliSeconds());
-        setEndTimeMillis(timeSlot.getEndTime().getMilliSeconds());
+        if(timeSlot.getStartTime() != null) {
+         setStartTimeMillis(timeSlot.getStartTime().getMilliSeconds());
+        }
+        if(timeSlot.getEndTime() != null) {
+            setEndTimeMillis(timeSlot.getEndTime().getMilliSeconds());
+        }
     }
 
     public TimeSlotInfo toDto() {
