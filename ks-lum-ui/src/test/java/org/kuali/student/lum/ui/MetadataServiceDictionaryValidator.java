@@ -40,6 +40,8 @@ public class MetadataServiceDictionaryValidator {
 	}
 
 	private Map<String, SearchTypeInfo> searchInfoTypeMap = null;
+	
+	String[] excludingSearchTypeIDs = { "atp.search.atpSeasonTypes", "atp.search.atpDurationTypes" };
 
 	@SuppressWarnings("unchecked")
 	private Map<String, SearchTypeInfo> getSearchInfoTypeMap() {
@@ -108,6 +110,11 @@ public class MetadataServiceDictionaryValidator {
 		System.out.println("Validating lookup " + name + "(" + type + ") "
 				+ lookupType);
 		List<String> errors = new ArrayList();
+		// Check excluded searchTypeIDs - these id's are not errors, but they don't line up with the DTO's
+		if (ignoreExcludedSearchIDs(lookup.getSearchTypeId())) {
+			return errors;			
+		}
+		//
 		SearchTypeInfo st = getSearchTypeInfo(lookup.getSearchTypeId());
 		if (st == null) {
 			errors.add(buildErrorPrefix3(lookup, name, type, lookupType)
@@ -331,5 +338,16 @@ public class MetadataServiceDictionaryValidator {
 		// System.out.println ("buildErrorPrefix called for " + msg);
 		// new RuntimeException ().printStackTrace ();
 		return msg;
+	}
+
+	private boolean ignoreExcludedSearchIDs(String searchID) {
+		for (int i = 0; i < excludingSearchTypeIDs.length; i++) {
+			String item = excludingSearchTypeIDs[i];
+			if (item.equals(searchID)) {
+				return true;
+			}
+		}
+		return false;
+		
 	}
 }
