@@ -30,12 +30,12 @@ public class SubjectCodeJoinOrgDao extends GenericEntityDao<SubjectCodeJoinOrg> 
     @SuppressWarnings("unchecked")
     public List<SubjectCodeJoinOrg> getBySubjectCodeAndOrgId(String subjectCode, String orgId) {
         if (orgId == null){
-            return em.createQuery("from SubjectCodeJoinOrg e where e.subjectCode.id = :subjectCode ")
+            return em.createQuery("from SubjectCodeJoinOrg e where e.subjectCode.code = :subjectCode ")
                     .setParameter("subjectCode", subjectCode).getResultList();
         } else if (subjectCode == null){
             return em.createQuery("from SubjectCodeJoinOrg e where e.orgId = :orgId").setParameter("orgId", orgId).getResultList();
         }
-        return em.createQuery("from SubjectCodeJoinOrg e where e.subjectCode.id = :subjectCode " +
+        return em.createQuery("from SubjectCodeJoinOrg e where e.subjectCode.code = :subjectCode " +
                 " and e.orgId = :orgId")
                 .setParameter("subjectCode", subjectCode).setParameter("orgId", orgId).getResultList();
     }
