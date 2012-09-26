@@ -60,7 +60,7 @@ public class DiagnoseRolloverController extends UifControllerBase {
     private TypeService typeService;
     private StateService stateService;
 
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
+    private static final Logger LOGGER = Logger.getLogger(DiagnoseRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
     public static final String ROLLOVER_CONFIRM_RELEASE = "releaseToDepts";
 

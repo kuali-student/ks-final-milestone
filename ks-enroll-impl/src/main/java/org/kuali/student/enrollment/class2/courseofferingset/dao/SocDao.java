@@ -14,6 +14,12 @@ public class SocDao extends GenericEntityDao<SocEntity> {
 
     }
 
+    public List<String> getSocIdsByTerm(String termId) {
+        String query = "SELECT soc.id FROM SocEntity soc WHERE soc.termId = :termId";
+        List<String> result = (List<String>) em.createQuery(query).setParameter("termId", termId).getResultList();
+        return result;
+    }
+
     public List<SocEntity> getByTerm(String termId) {
         return (List<SocEntity>) em.createNamedQuery("Soc.getSocsByTerm").setParameter("termId", termId).getResultList();
 

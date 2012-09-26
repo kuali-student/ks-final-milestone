@@ -286,12 +286,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Transactional(readOnly = true)
     public List<String> getSocIdsByTerm(String termId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocEntity> entities = socDao.getByTerm(termId);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        List<String> ids = socDao.getSocIdsByTerm(termId);
+        return ids;
     }
 
     @Override
@@ -338,17 +334,12 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
                                        ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<String> socIds = searchForSocIds(criteria, context);
-        List<SocInfo> socInfoList = new ArrayList<SocInfo>();
-        for (String socId: socIds) {
-            try {
-                SocInfo socInfo = getSoc(socId, context);
-                socInfoList.add(socInfo);
-            } catch (DoesNotExistException ex) {
-                throw new OperationFailedException(socId, ex);
-            }
+        GenericQueryResults<SocEntity> results = criteriaLookupService.lookup(SocEntity.class, criteria);
+        List<SocInfo> socInfos = new ArrayList<SocInfo>(results.getResults().size());
+        for (SocEntity socEntity : results.getResults()) {
+            socInfos.add(socEntity.toDto());
         }
-        return socInfoList;
+        return socInfos;
     }
 
     @Override
