@@ -87,29 +87,22 @@ public class BaseAssembler {
 
         //Update anything that exists, or create a new attribute if it doesn't
         for (AttributeInfo attr : attributeList) {
-            A attribute = null;
-            if (attr.getId() != null) {
-                if (!currentAttributes.containsKey(attr.getId())) {
-                    throw new InvalidParameterException(attr.getId());
-
-                }
+            A attribute;
+            if (currentAttributes.containsKey(attr.getId())) {
                 attribute = currentAttributes.remove(attr.getId());
+            } else {
+                try {
+                    attribute = attributeClass.newInstance();
+                } catch(Exception e) {
+                    throw new RuntimeException("Error copying attributes.",e);
+                }
                 attribute.setName(attr.getKey());
-                attribute.setValue(attr.getValue());
-                updatedAttributes.add(attribute);
-                continue;
+                attribute.setOwner(owner);
             }
-            try {
-                attribute = attributeClass.newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException("Error copying attributes.", e);
-            }
-            attribute.setName(attr.getKey());
             attribute.setValue(attr.getValue());
-            attribute.setOwner(owner);
             updatedAttributes.add(attribute);
         }
-        //TODO: Delete leftovers here if behavior is desired        
+        //Delete leftovers here if behavior is desired
         return updatedAttributes;
     }
 
