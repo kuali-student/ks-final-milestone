@@ -31,6 +31,7 @@ public class ScheduleOfClassesConstants {
     public static final String SOC_MSG_ERROR_TITLEDESC_IS_EMPTY = "error.enroll.scheduleofclasses.titleDescIsEmpty";
     public static final String SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND = "error.enroll.scheduleofclasses.noCourseOfferingIsFound";
     public static final String SOC_MSG_ERROR_MULTIPLE_DEPARTMENT_IS_FOUND = "error.enroll.scheduleofclasses.multipleDepartmentIsFound";
+    public static final String SOC_MSG_ERROR_MULTIPLE_INSTRUCTOR_IS_FOUND = "error.enroll.scheduleofclasses.multipleInstructorIsFound";
 
     // Page IDs
     public static final String SOC_RESULT_PAGE = "scheduleOfClassesResultsPage";
