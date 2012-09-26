@@ -16,6 +16,7 @@
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" p:label="ID" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lastName" p:label="Last Name" />
             </list>
         </property>
         <property name="resultFields">
