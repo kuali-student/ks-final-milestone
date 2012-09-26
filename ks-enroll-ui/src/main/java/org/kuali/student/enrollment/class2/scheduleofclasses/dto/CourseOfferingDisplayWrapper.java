@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.dto;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 
 import java.util.ArrayList;
@@ -49,6 +50,17 @@ public class CourseOfferingDisplayWrapper {
 
     public void setInformation(String information) {
         this.information = information;
+    }
+
+    public String getXmlEscapedFormatted() {
+        String formatted = null;
+        if(coDisplayInfo != null && coDisplayInfo.getDescr() != null){
+            formatted = coDisplayInfo.getDescr().getFormatted();
+        }
+        if(formatted != null){
+            return StringEscapeUtils.escapeXml(formatted);
+        }
+        return formatted;
     }
 
 }

@@ -36,7 +36,8 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
             var trHeight = jQuery(tr).height();
             window.originalRowHeight = trHeight;
             jQuery(div).css("position", "absolute");
-            jQuery(div).css("background", "inherit");
+            var bgc = jQuery(tr).css('background-color');
+            jQuery(div).css("background-color", bgc);
             jQuery(div).css("min-width", "600px");
             jQuery(div).css("max-width", "960px");
             td.slideDown(1000).append(div);

@@ -70,7 +70,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-ImageField" p:source="../ks-enroll/images/details_open.png">
-                    <property name="onClickScript" value="ajaxCallActivityOfferings('populateAOs', '@{#line.coDisplayInfo.id}', '@{#line.coDisplayInfo.descr != null ? #line.coDisplayInfo.descr.formatted : ''}')" />
+                    <property name="onClickScript" value="ajaxCallActivityOfferings('populateAOs', '@{#line.coDisplayInfo.id}', '@{#line.coDisplayInfo.descr != null ? #line.xmlEscapedFormatted : ''}')" />
                     <property name="id" value="@{#line.coDisplayInfo.id}" />
                 </bean>
                 <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />
