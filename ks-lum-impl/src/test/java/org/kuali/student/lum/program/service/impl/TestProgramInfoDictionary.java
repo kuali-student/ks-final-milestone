@@ -146,6 +146,6 @@ public class TestProgramInfoDictionary {
         for (ValidationResultInfo vr : validationResults) {
             System.out.println(vr.getElement() + " " + vr.getMessage());
         }
-        assertEquals(4, validationResults.size());
+        assertEquals(18, validationResults.size());
     }
 }
