@@ -16,30 +16,28 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue;
 
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesUtil;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 /**
- * This class //TODO ...
+ * This class is used to populate the term dropdown list on the Schedule of Classes page.
+ * The list should contain only Valid Soc Terms.
  *
  * @author Kuali Student Team
  */
@@ -50,24 +48,15 @@ public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase imple
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        List<SocInfo> socs;
+
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        List<String> termIds = new ArrayList<String>();
         List<AtpInfo> atps;
 
         //Build a predicate to search for published Socs
         ContextInfo context = TestHelper.getContext1();
-        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        qBuilder.setPredicates(PredicateFactory.equal("socState", "kuali.soc.state.published"));
         try {
-            //Try the search
-            socs = getCourseOfferingSetService().searchForSocs(qBuilder.build(), context);
-            for(SocInfo soc: socs){
-                //Add all published Soc termIds to termIds List
-                termIds.add(soc.getTermId());
-            }
             //Use AtpService to get Term name by Id
-            atps = getAtpService().getAtpsByIds(termIds, context);
+            atps = ScheduleOfClassesUtil.getValidSocTerms(getCourseOfferingSetService(),getAtpService(),context);
             for(AtpInfo atp: atps){
                  keyValues.add(new ConcreteKeyValue(atp.getId(), atp.getName()));
             }
@@ -82,14 +71,14 @@ public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase imple
     //Methods to get necessary services
     protected CourseOfferingSetService getCourseOfferingSetService() {
         if(courseOfferingSetService == null) {
-            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/courseOfferingSet", "CourseOfferingSetService"));
+            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.courseOfferingSetService;
     }
 
     protected AtpService getAtpService() {
         if(atpService == null) {
-            atpService = (AtpService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/atp", "AtpService"));
+            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.atpService;
     }
