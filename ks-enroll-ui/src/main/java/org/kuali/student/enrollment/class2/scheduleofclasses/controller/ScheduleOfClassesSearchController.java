@@ -109,6 +109,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             String course = theForm.getCourse();
             if (course != null && course.length() > 0) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(termCode, course, theForm);
+                theForm.setSearchParameter("Course or Prefix: " + course);
             } else {
                 LOG.error("Error: search field can't be empty");
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
@@ -116,8 +117,10 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             }
         } else if (theForm.getSearchType().equals("instructor")){
             String instructorId = theForm.getInstructor();
-            if (instructorId != null && !instructorId.isEmpty()) {
-                getViewHelperService(theForm).loadCourseOfferingsByTermAndInstructor(termCode, instructorId, theForm);
+            String instructorName = theForm.getInstructorName();
+            if ((instructorId != null && !instructorId.isEmpty()) || (instructorName != null && !instructorName.isEmpty())) {
+                getViewHelperService(theForm).loadCourseOfferingsByTermAndInstructor(termCode, instructorId, instructorName, theForm);
+                theForm.setSearchParameter("Instructor: " + instructorName);
             } else {
                 LOG.error("Error: search field can't be empty");
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
@@ -128,6 +131,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
            String departmentName = theForm.getDepartmentName();
            if ((departmentId != null && !departmentId.isEmpty()) || (departmentName != null && !departmentName.isEmpty())){
                getViewHelperService(theForm).loadCourseOfferingsByTermAndDepartment(termCode, departmentId, departmentName, theForm);
+               theForm.setSearchParameter("Department: " + departmentName);
            } else {
                 LOG.error("Error: search field can't be empty");
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
