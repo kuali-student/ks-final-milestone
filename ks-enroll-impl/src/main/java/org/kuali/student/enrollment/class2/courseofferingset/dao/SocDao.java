@@ -11,13 +11,10 @@ public class SocDao extends GenericEntityDao<SocEntity> {
     @SuppressWarnings("unchecked")
     public List<SocEntity> getBySocTypeId(String socType) {
         return (List<SocEntity>) em.createNamedQuery("Soc.getSocsBySocTypeId").setParameter("socType", socType).getResultList();
-
     }
 
     public List<String> getSocIdsByTerm(String termId) {
-        String query = "SELECT soc.id FROM SocEntity soc WHERE soc.termId = :termId";
-        List<String> result = (List<String>) em.createQuery(query).setParameter("termId", termId).getResultList();
-        return result;
+        return (List<String>) em.createNamedQuery("Soc.getSocIdsByTerm").setParameter("termId", termId).getResultList();
     }
 
     public List<SocEntity> getByTerm(String termId) {
