@@ -105,16 +105,16 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="instructor" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}">
+                            <bean parent="Uif-InputField" p:propertyName="instructorName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Bush,Edward"/>
+                                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Type principal name or use search"/>
                                 </property>
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
                                 <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="principalId" value="instructor"/>
-                                        <entry key="name" value="personName" />
+                                        <entry key="principalName" value="instructorName" />
                                     </map>
                                 </property>
                                 <property name="quickfinder.quickfinderAction">
@@ -127,7 +127,6 @@
                                 <property name="quickfinder.lightBoxLookup">
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
-
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}">
                                 <property name="control">
