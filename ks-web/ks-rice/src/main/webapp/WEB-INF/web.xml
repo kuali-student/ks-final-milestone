@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
-	<display-name>Standalone</display-name>
+	<display-name>Kuali Rice Standalone</display-name>
 
     <context-param>
       <param-name>environment</param-name>
@@ -152,12 +152,11 @@
 	<listener>
 		<listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
 	</listener>
-	
-	<!-- added by bonnie,  Krad needs this -->
-	<listener>
-       <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
-    </listener>	
-    
+
+    <listener>
+        <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+    </listener>
+
     <servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.kuali.rice.kns.web.struts.action.KualiActionServlet</servlet-class>

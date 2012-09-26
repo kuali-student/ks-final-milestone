@@ -5,8 +5,8 @@
     <KSEN_STATE_PROCESS CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000"
         DESCR="kuali course offering process"
-        ID="kuali.course.offering.process"
-        NAME="kuali.course.offering.process" VER_NBR="0"/>
+        ID="kuali.course.offering.lifecycle"
+        NAME="kuali.course.offering.lifecycle" VER_NBR="0"/>
     <KSEN_STATE_PROCESS CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000" DESCR="kuali hold issue process"
         ID="kuali.hold.issue.process" NAME="kuali.hold.issue.process" VER_NBR="0"/>
@@ -31,6 +31,6 @@
     <KSEN_STATE_PROCESS CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000"
         DESCR="kuali lui-lui relationship process"
-        ID="kuali.lui.lui.relationship.process"
-        NAME="kuali.lui.lui.relationship.process" VER_NBR="0"/>
+        ID="kuali.lui.lui.relationship.lifecycle"
+        NAME="kuali.lui.lui.relationship.lifecycle" VER_NBR="0"/>
 </dataset>

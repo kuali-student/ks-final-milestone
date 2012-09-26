@@ -62,6 +62,7 @@
 		<property name="configLocations">
 			<list>
 				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
+                <value>classpath:org/kuali/rice/standalone/config/build-details.xml</value>
 			</list>
 		</property>
 	</bean>

@@ -17,9 +17,21 @@
 
 <channel:portalChannelTop channelTitle="KRAD Components" />
 <div class="body">
+    <strong>Data Fields</strong>
+    <ul class="chan">
+        <li></li>
+    </ul>
     <strong>Input Fields</strong>
     <ul class="chan">
         <li></li>
+        <li><portal:portalLink displayTitle="true" title="Link Fields"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Links-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Multi-Select Control"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-MultiSelect-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Radio Buttons"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-RadioButtons-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Text Fields"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-TextFields-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Other Fields</strong>

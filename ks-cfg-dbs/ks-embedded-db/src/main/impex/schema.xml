@@ -4653,6 +4653,7 @@
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
         <column name="FORMAT_OFFERING_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="PRIVATE_NAME" size="255" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
@@ -4677,6 +4678,7 @@
     </table>
     <table name="KSEN_CO_AO_CLUSTER_SET">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="AO_CLUSTER_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ACTIVITY_OFFERING_TYPE" required="true" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_CO_AO_CLUSTER" name="KSEN_CO_AO_CLUSTER_SET_FK1">
@@ -5544,6 +5546,16 @@
             <index-column name="OWNER_ID"/>
         </index>
     </table>
+    <table name="KSEN_LUI_RELATED_LUI_TYPES">
+        <column name="RELATED_LUI_TYPE" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="LUI_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_LUI" name="KSEN_LUI_RELATED_LUI_TYPE_FK1">
+            <reference foreign="ID" local="LUI_ID"/>
+        </foreign-key>
+        <index name="KSEN_LUI_RELATED_LUI_TYPES_IF1">
+            <index-column name="LUI_ID"/>
+        </index>
+    </table>
     <table name="KSEN_LUI_RESULT_VAL_GRP">
         <column name="LUI_ID" required="true" size="255" type="VARCHAR"/>
         <column name="RESULT_VAL_GRP_ID" required="true" size="255" type="VARCHAR"/>
@@ -6007,6 +6019,66 @@
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
     </table>
+    <table name="KSEN_SCHED">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="SCHED_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="SCHED_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="ATP_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_SCHED_I1">
+            <index-column name="SCHED_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_SCHED_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_SCHED" name="KSEN_SCHED_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_SCHED_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_SCHED_CMP">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ROOM_ID" size="255" type="VARCHAR"/>
+        <column name="SCHED_ID" size="255" type="VARCHAR"/>
+        <column name="TBA_IND" required="true" size="22" type="DECIMAL"/>
+        <foreign-key foreignTable="KSEN_SCHED" name="KSEN_SCHED_CMP_FK1">
+            <reference foreign="ID" local="SCHED_ID"/>
+        </foreign-key>
+        <index name="KSEN_SCHED_CMP_IF1">
+            <index-column name="SCHED_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_SCHED_CMP_TMSLOT">
+        <column name="SCHED_CMP_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TM_SLOT_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_SCHED_TMSLOT" name="KSEN_SCHED_CMP_TMSLOT_FK2">
+            <reference foreign="ID" local="TM_SLOT_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_SCHED_CMP" name="KSEN_SCHED_CMP_TMSLOT_KF1">
+            <reference foreign="ID" local="SCHED_CMP_ID"/>
+        </foreign-key>
+        <index name="KSEN_SCHED_CMP_TMSLOT_IF1">
+            <index-column name="SCHED_CMP_ID"/>
+        </index>
+        <index name="KSEN_SCHED_CMP_TMSLOT_IF2">
+            <index-column name="TM_SLOT_ID"/>
+        </index>
+    </table>
     <table name="KSEN_SCHED_RQST">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="255" type="VARCHAR"/>
@@ -6044,11 +6116,7 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="SCHED_RQST_ID" size="255" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="TBA_IND" required="true" size="22" type="DECIMAL"/>
         <foreign-key foreignTable="KSEN_SCHED_RQST" name="KSEN_SCHED_RQST_CMP_FK1">
             <reference foreign="ID" local="SCHED_RQST_ID"/>
         </foreign-key>
@@ -8760,6 +8828,46 @@
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+    </table>
+    <table name="KSSC_SUBJ_CD">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="STATE" size="255" type="VARCHAR"/>
+        <column name="CD" size="255" type="VARCHAR"/>
+        <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KSSC_SUBJ_CD_TYPE" name="KSSC_SUBJ_CD_FK1">
+            <reference foreign="TYPE_KEY" local="TYPE"/>
+        </foreign-key>
+        <unique name="KSSC_SUBJ_CD_IX1">
+            <unique-column name="CD"/>
+        </unique>
+    </table>
+    <table name="KSSC_SUBJ_CD_JN_ORG">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ORG_ID" size="255" type="VARCHAR"/>
+        <column name="SUBJ_CD_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KSSC_SUBJ_CD" name="KSSC_SUBJ_CD_JN_ORG_FK1">
+            <reference foreign="ID" local="SUBJ_CD_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSSC_SUBJ_CD_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="VER_NBR" size="19" type="DECIMAL"/>
     </table>
