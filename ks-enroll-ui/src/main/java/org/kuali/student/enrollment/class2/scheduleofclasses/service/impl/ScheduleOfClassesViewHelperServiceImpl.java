@@ -20,6 +20,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -48,10 +52,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -123,71 +124,91 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     }
 
     @Override
-    public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, ScheduleOfClassesSearchForm form) throws Exception {
+    public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, String instructorName, ScheduleOfClassesSearchForm form) throws Exception {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        //this is a cross service search between LPR and LUI, so it is inefficient (no join)
-        //First get all the luiIds that the instructor is teaching
-        //TODO TENTATIVE_STATE_KEY should be active in the code below, but it is hardcoded as such
-        List<String> luiIds = getLprService().getLuiIdsByPersonAndTypeAndState(instructorId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LprServiceConstants.TENTATIVE_STATE_KEY, contextInfo);
-
-        List<String> courseOfferingIds = null;
-
-        if(luiIds != null && !luiIds.isEmpty()){
-            //Now find all the COs with Aos that are attached to that instructor.
-
-            // Build a query
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.in("aoid", luiIds.toArray()),
-                    PredicateFactory.equalIgnoreCase("atpId", termId)),
-                    PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
-            QueryByCriteria criteria = qbcBuilder.build();
-            courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
-
-            if(courseOfferingIds.size() > 0){
+        // Search ID based on organizationName
+        if (instructorId == null || instructorId.isEmpty()) {
+            Map<String, String> searchCriteria = new HashMap<String, String>();
+            searchCriteria.put(KIMPropertyConstants.Person.PRINCIPAL_NAME, instructorName);
+            List<Person> instructors = getPersonService().findPeople(searchCriteria);
+            if (instructors.isEmpty()) {
+                LOG.error("Error: Can't find any instructor for selected instructor in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorName, termId);
                 form.getCoDisplayWrapperList().clear();
-                List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-                List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
-                for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
-                    CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
-                    coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
-
-                    // Adding Information (icons)
-                    String information = "";
-                    if (coDisplayInfo.getIsHonorsOffering() != null && coDisplayInfo.getIsHonorsOffering()) {
-                        information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
-                    }
-                    if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                            && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
-                        information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ";
-                    } else if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                            && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
-                        information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ";
-                    }
-                    if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
-                        for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
-                            if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                                information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
-                            } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                                information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
-                            }
-                        }
-                    }
-                    coDisplayWrapper.setInformation(information);
-
-                    coDisplayWrapperList.add(coDisplayWrapper);
-                }
-                form.setCoDisplayWrapperList(coDisplayWrapperList);
+            } else if (instructors.size() > 1) {
+                LOG.error("Error: There is more than one instructor with the same name in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_MULTIPLE_INSTRUCTOR_IS_FOUND, instructorName);
+                instructorId = null;
+                form.getCoDisplayWrapperList().clear();
+            } else {
+                instructorId = instructors.get(0).getPrincipalId();
             }
         }
 
-        //If nothing was found then error
-        if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
-            LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
-            GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
-            form.getCoDisplayWrapperList().clear();
+        if (instructorId != null) {
+            //this is a cross service search between LPR and LUI, so it is inefficient (no join)
+            //First get all the luiIds that the instructor is teaching
+            //TODO TENTATIVE_STATE_KEY should be active in the code below, but it is hardcoded as such
+            List<String> luiIds = getLprService().getLuiIdsByPersonAndTypeAndState(instructorId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LprServiceConstants.TENTATIVE_STATE_KEY, contextInfo);
+
+            List<String> courseOfferingIds = null;
+
+            if(luiIds != null && !luiIds.isEmpty()){
+                //Now find all the COs with Aos that are attached to that instructor.
+                // Build a query
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.in("aoid", luiIds.toArray()),
+                    PredicateFactory.equalIgnoreCase("atpId", termId)),
+                    PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
+                QueryByCriteria criteria = qbcBuilder.build();
+                courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
+
+                if(courseOfferingIds.size() > 0){
+                    form.getCoDisplayWrapperList().clear();
+                    List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
+                    List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
+                    for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
+                        CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
+                        coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
+
+                        // Adding Information (icons)
+                        String information = "";
+                        if (coDisplayInfo.getIsHonorsOffering() != null && coDisplayInfo.getIsHonorsOffering()) {
+                            information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
+                        }
+                        if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
+                                && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
+                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ";
+                        } else if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
+                                && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
+                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ";
+                        }
+                        if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
+                            for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
+                                if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
+                                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
+                                } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
+                                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
+                                }
+                            }
+                        }
+                        coDisplayWrapper.setInformation(information);
+
+                        coDisplayWrapperList.add(coDisplayWrapper);
+                    }
+                    form.setCoDisplayWrapperList(coDisplayWrapperList);
+                }
+            }
+
+            //If nothing was found then error
+            if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
+                LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
+                GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
+                form.getCoDisplayWrapperList().clear();
+            }
         }
     }
 
@@ -362,6 +383,10 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
         }
         return organizationService;
+    }
+
+    public PersonService getPersonService() {
+        return KimApiServiceLocator.getPersonService();
     }
 
     private String convertIntoDaysDisplay(int day) {
