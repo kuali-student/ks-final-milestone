@@ -156,7 +156,7 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         updateAOFOCOState(EXEMPT_AO_ID, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY);
     }
 
-    private void updateAOFOCOState(String aoId, String aoState, String coState, String foState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+    public void updateAOFOCOState(String aoId, String aoState, String foState, String coState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
         ActivityOfferingInfo ao = coService.getActivityOffering(aoId, context);
         ao.setStateKey(aoState);
 
@@ -284,6 +284,7 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         // create a schedule request for the AO intended to be scheduled
         ScheduleRequestInfo request1 = setupScheduleRequestInfo("request1", CourseOfferingSetSchedulingRunnerDataLoader.SCHEDULED_AO_ID, "requestComponent1-1", "request1", TIME_SLOT_1_ID);
 
+        // create a second schedule request component and add it to the first schedule request
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo(request1.getScheduleRequestComponents().get(0));
         componentInfo.setId("requestComponent1-2");
         componentInfo.getTimeSlotIds().clear();
