@@ -120,22 +120,26 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
                 DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
-                try {
-                    long time = dateFormat.parse(scheduleWrapper.getStartTimeUI()).getTime();
-                    TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-                    timeOfDayInfo.setMilliSeconds(time);
-                    timeSlot.setStartTime(timeOfDayInfo);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                if (!scheduleWrapper.getStartTime().isEmpty()) {
+                    try {
+                        long time = dateFormat.parse(scheduleWrapper.getStartTime()).getTime();
+                        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+                        timeOfDayInfo.setMilliSeconds(time);
+                        timeSlot.setStartTime(timeOfDayInfo);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
-                try {
-                    long time = dateFormat.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
-                    TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-                    timeOfDayInfo.setMilliSeconds(time);
-                    timeSlot.setEndTime(timeOfDayInfo);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                if (!scheduleWrapper.getEndTime().isEmpty()) {
+                    try {
+                        long time = dateFormat.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
+                        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+                        timeOfDayInfo.setMilliSeconds(time);
+                        timeSlot.setEndTime(timeOfDayInfo);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
                 try {
