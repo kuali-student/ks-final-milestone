@@ -40,6 +40,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
+                <bean parent="Uif-Message" p:messageText="@{searchParameter}" p:style="font-size:125%;font-weight:bold;"/>
                 <ref bean="KS-ScheduleOfClasses-CourseOfferingListSection"/>
                 <ref bean="scheduleOfClassesSearchResults"/>
             </list>
