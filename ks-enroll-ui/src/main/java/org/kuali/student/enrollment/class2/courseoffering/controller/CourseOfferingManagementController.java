@@ -33,7 +33,6 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -1248,7 +1247,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
 
-        return super.performRedirect(theForm, KRADConstants.Maintenance.REQUEST_MAPPING_MAINTENANCE, urlParameters);
+        return super.performRedirect(theForm, "activityOffering", urlParameters);
 
     }
 
@@ -1329,10 +1328,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 return showDialog("schedulingConfirmDialog", theForm, request, response);
             }
 
-            String res = getStringDialogResponse("schedulingConfirmDialog", theForm, request, response);
+            String dialogAnswer = getStringDialogResponse("schedulingConfirmDialog", theForm, request, response);
 
-            getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
-            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+            if (StringUtils.equalsIgnoreCase(dialogAnswer,"y")){
+                getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
+                getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+                theForm.getDialogManager().resetDialogStatus("schedulingConfirmDialog");
+            }
         }
 
         return getUIFModelAndView(theForm);
@@ -1472,10 +1474,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
-        props.put("targetTermCode",termCode);
+        props.put("targetTermCode", termCode);
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, "org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper");
 
-         return super.performRedirect(theForm,"courseOffering", props);
+         return super.performRedirect(theForm, "courseOffering", props);
     }
 
     @RequestMapping(params = "methodToCall=markSubjectCodeReadyForScheduling")

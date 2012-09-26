@@ -377,7 +377,7 @@
             p:headerText="Actual Delivery Logistics"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="actualScheduleComponents"
-            p:readOnly="true"
+            p:renderAddLine="false"
             p:layoutManager.renderSequenceField="false">
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
@@ -422,6 +422,11 @@
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
                       </property>
                 </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="reviseSchedule" p:actionLabel="Revise" />
             </list>
         </property>
     </bean>

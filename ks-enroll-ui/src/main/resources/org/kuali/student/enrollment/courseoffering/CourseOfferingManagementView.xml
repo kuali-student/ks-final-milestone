@@ -41,6 +41,7 @@
                 <value>ks-enroll/css/acal.css</value>
             </list>
         </property>
+        <property name="preloadPoolSize" value="3"/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>
