@@ -23,6 +23,7 @@
                     <property name="items">
                         <list>
                             <ref bean="KS-EnrollmentHome-Setup"/>
+                            <ref bean="KS-EnrollmentHome-PeopleAndPermissions"/>
                             <ref bean="KS-EnrollmentHome-CourseOfferings"/>
                             <ref bean="KS-EnrollmentHome-Registration"/>
                             <ref bean="KS-EnrollmentHome-Holds"/>
@@ -49,6 +50,21 @@
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&amp;pageId=academicCalendarCopyPage&amp;methodToCall=startNew&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
                 <bean parent="Uif-Link" p:linkText="Create Holiday Calendar"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&amp;pageId=holidayCalendarCopyPage&amp;methodToCall=startNew&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-EnrollmentHome-PeopleAndPermissions" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="People And Permissions"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-enrollment-home-group</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:linkText="Manage Populations"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Population-LookupView&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true&amp;showMaintenanceLinks=true&amp;viewName=Manage Populations"/>
             </list>
         </property>
     </bean>
