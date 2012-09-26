@@ -1097,7 +1097,7 @@ public class CluServiceImpl implements CluService {
         if (cluInfo.getPrimaryInstructor() != null) {
             CluInstructor primaryInstructor = new CluInstructor();
             BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),
-                    primaryInstructor, new String[]{"attributes"});
+                    primaryInstructor, new String[]{"id", "attributes"});
             primaryInstructor.setAttributes(CluServiceAssembler.toGenericAttributes(CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(),
                     primaryInstructor, luDao));
             clu.setPrimaryInstructor(primaryInstructor);
@@ -1110,7 +1110,7 @@ public class CluServiceImpl implements CluService {
         for (CluInstructorInfo instructorInfo : cluInfo.getInstructors()) {
             CluInstructor instructor = new CluInstructor();
             BeanUtils.copyProperties(instructorInfo, instructor,
-                    new String[]{"attributes"});
+                    new String[]{"id", "attributes"});
             instructor.setAttributes(CluServiceAssembler.toGenericAttributes(
                     CluInstructorAttribute.class, instructorInfo.getAttributes(), instructor, luDao));
             instructors.add(instructor);
