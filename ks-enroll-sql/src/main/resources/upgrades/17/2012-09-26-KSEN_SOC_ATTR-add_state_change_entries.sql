@@ -11,5 +11,5 @@ INSERT INTO KSEN_SOC_ATTR (ATTR_KEY, ATTR_VALUE, ID, OBJ_ID, OWNER_ID) VALUES ('
 /
 INSERT INTO KSEN_SOC_ATTR (ATTR_KEY, ATTR_VALUE, ID, OBJ_ID, OWNER_ID) VALUES ('kuali.soc.state.publishing','2011-09-29T10:00:00-0700','soc_state_log_5','soc_state_log_0','SPRING2012')
 /
-INSERT INTO KSEN_SOC_ATTR (ATTR_KEY, ATTR_VALUE, ID, OBJ_ID, OWNER_ID) VALUES ('kuali.soc.state.published','2011-09-29T10:29:30-0700','soc_state_log_6','soc_state_log_0','SPRING2012'
+INSERT INTO KSEN_SOC_ATTR (ATTR_KEY, ATTR_VALUE, ID, OBJ_ID, OWNER_ID) VALUES ('kuali.soc.state.published','2011-09-29T10:29:30-0700','soc_state_log_6','soc_state_log_0','SPRING2012')
 /
