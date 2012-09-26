@@ -174,7 +174,9 @@ public class SchedulingServiceUtil {
             compInfo.setIsTBA(reqComp.getIsTBA());
 
             // grabbing the first room in the list
-            compInfo.setRoomId(reqComp.getRoomIds().get(0));
+            if(!reqComp.getRoomIds().isEmpty()){
+                compInfo.setRoomId(reqComp.getRoomIds().get(0));
+            }
             compInfo.setTimeSlotIds(reqComp.getTimeSlotIds());
 
             result.getScheduleComponents().add(compInfo);
