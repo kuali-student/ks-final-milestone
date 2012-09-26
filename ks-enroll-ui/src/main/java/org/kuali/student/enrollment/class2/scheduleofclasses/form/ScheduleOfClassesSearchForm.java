@@ -38,11 +38,13 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
     private String department;
     private String departmentName;
     private String instructor;
+    private String instructorName;
     private String titleDesc;
     private String information;
 
     private List<CourseOfferingDisplayWrapper> coDisplayWrapperList; //The core info (name+description+meta)
     private String termName;
+    private String searchParameter;
 
     // For AJAX purpose
     private String courseOfferingId;
@@ -110,6 +112,14 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
         this.instructor = instructor;
     }
 
+    public String getInstructorName() {
+        return instructorName;
+    }
+
+    public void setInstructorName(String instructorName) {
+        this.instructorName = instructorName;
+    }
+
     public String getTitleDesc() {
         return titleDesc;
     }
@@ -132,6 +142,14 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
 
     public void setTermName(String termName){
         this.termName = termName;
+    }
+
+    public String getSearchParameter(){
+        return searchParameter;
+    }
+
+    public void setSearchParameter(String searchParameter){
+        this.searchParameter = searchParameter;
     }
 
     public String getCourseOfferingId(){
