@@ -2471,6 +2471,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
 
+    /**
+     * This method allows you to search for Course Offering Ids by Criteria. In order to make this search more usable it has been backed
+     * by the "CriteriaLookupService". This service allows us to join accross entities. For example, you are able to pass in
+     * "courseOfferingCode" with a value of "CHEM199" even though the code does no live on the LuiEntity (which backs Course Offerings).
+     *
+     * The CourseOfferingCriteriaTransformer is coded to wire in the additional database joins needed to complete the search.
+     *
+     * Please look in CourseOfferingCriteriaTransformer for a complete list of available mappings.
+     *
+     * @param criteria    the search criteria
+     * @param context
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
