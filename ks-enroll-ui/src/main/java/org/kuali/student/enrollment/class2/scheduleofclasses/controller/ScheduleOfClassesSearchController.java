@@ -137,7 +137,16 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
                 return getUIFModelAndView(theForm);
            }
-
+        } else if (theForm.getSearchType().equals("titleDesc")){
+            String titleDesc = theForm.getTitleDesc();
+            if (titleDesc != null && titleDesc.length() > 0) {
+                getViewHelperService(theForm).loadCourseOfferingsByTitleAndDescription(termCode, titleDesc, theForm);
+                theForm.setSearchParameter("Title & Description: " + titleDesc);
+            } else {
+                LOG.error("Error: search field can't be empty");
+                GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
+                return getUIFModelAndView(theForm);
+            }
         }
 
         return getUIFModelAndView(theForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
