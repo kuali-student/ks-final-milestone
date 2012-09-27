@@ -1437,7 +1437,8 @@ public class CluServiceImpl implements CluService {
             if (clu.getIntensity() == null) {
                 clu.setIntensity(new Amount());
             }
-            BeanUtils.copyProperties(cluInfo.getIntensity(), clu.getIntensity());
+            clu.getIntensity().setUnitQuantity(cluInfo.getIntensity().getUnitQuantity());
+            clu.getIntensity().setUnitType(cluInfo.getIntensity().getUnitTypeKey());
         } else if (clu.getIntensity() != null) {
             luDao.delete(clu.getIntensity());
         }
