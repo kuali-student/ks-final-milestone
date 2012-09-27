@@ -29,11 +29,7 @@ import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * A mock implementation of RoomService for M5.
@@ -208,7 +204,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForRooms has not been implemented");
+        return new ArrayList<RoomInfo>(roomMap.values());
     }
 
     @Override
@@ -350,7 +346,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForBuildings has not been implemented");
+        return new ArrayList<BuildingInfo>(buildingMap.values());
     }
 
     @Override
