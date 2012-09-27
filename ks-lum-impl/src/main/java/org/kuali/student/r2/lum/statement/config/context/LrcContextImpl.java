@@ -4,7 +4,7 @@
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
  *
- * http://www.osedu.org/licenses/ECL-2.0
+ * http://www.osedu.org/lic enses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
@@ -20,8 +20,10 @@ import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.infc.ResultScale;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.util.HashMap;
@@ -53,12 +55,12 @@ public class LrcContextImpl extends BasicContextImpl {
         this.typeService = typeService;
     }
 
-    private ResultValuesGroupInfo getResultComponentByResultComponentId(String resultComponentId, ContextInfo contextInfo) throws OperationFailedException {
-        if (resultComponentId == null) {
+    private ResultScaleInfo getResultScale(String resultScaleId, ContextInfo contextInfo) throws OperationFailedException {
+        if (resultScaleId == null) {
             return null;
         }
         try {
-            return lrcService.getResultValuesGroup(resultComponentId, contextInfo);
+            return lrcService.getResultScale(resultScaleId, contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
@@ -85,7 +87,7 @@ public class LrcContextImpl extends BasicContextImpl {
         ResultValueInfo grade = getResultValue(gradeId, contextInfo);
         if (grade != null) {
             contextMap.put(GRADE_TOKEN, grade.getValue());
-            contextMap.put(GRADE_TYPE_TOKEN, grade.getResultScaleKey());
+            contextMap.put(GRADE_TYPE_TOKEN, getResultScale(grade.getResultScaleKey(),contextInfo));
         }
         return contextMap;
     }
