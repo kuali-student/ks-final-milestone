@@ -382,6 +382,25 @@
                       p:propertyName="firstInstructorDisplayName"/>
             </list>
         </property>
+
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="KS-ManageRegistrationGroupPage-MoveAOBetweenClusters" parent="Uif-InputField" p:propertyName="clusterIdIdForNewFO" p:label="Move selected offerings to" p:labelPlacement="TOP">
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl" />
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false"/>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Move" p:methodToCall="moveAOBetweenClusters" p:id="move_ao_button" p:valign="BOTTOM" p:align="right"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>
