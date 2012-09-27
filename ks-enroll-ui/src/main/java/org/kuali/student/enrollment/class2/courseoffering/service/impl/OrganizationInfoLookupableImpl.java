@@ -53,14 +53,14 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         if (StringUtils.isNotBlank(longName) && !longName.isEmpty()) {
             if (StringUtils.isNotBlank(shortName) && !shortName.isEmpty()){
                 qBuilder.setPredicates(PredicateFactory.or(
-                        PredicateFactory.equal("longName",longName),
-                        PredicateFactory.equal("shortName",shortName)));
+                        PredicateFactory.like("longName","*"+ fieldValues.get("longName")+ "*"),
+                        PredicateFactory.like("shortName","*" + fieldValues.get("shortName") + "*")));
             }
             else {
-                qBuilder.setPredicates(PredicateFactory.equal("longName",longName));
+                qBuilder.setPredicates(PredicateFactory.like("longName","*"+ fieldValues.get("longName")+ "*"));
             }
         }else if (StringUtils.isNotBlank(shortName) && !shortName.isEmpty()){
-            qBuilder.setPredicates(PredicateFactory.equal("shortName",shortName));
+            qBuilder.setPredicates(PredicateFactory.like("shortName","*" + fieldValues.get("shortName") + "*"));
         }
         try {
             QueryByCriteria query = qBuilder.build();
