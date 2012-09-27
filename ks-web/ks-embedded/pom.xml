@@ -123,7 +123,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-                    <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,**/sampleTravelApplication.tag </dependentWarExcludes>
+                    <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,WEB-INF/krad-servlet.xml,**/sampleTravelApplication.tag</dependentWarExcludes>
                 </configuration>
             </plugin>
         </plugins>

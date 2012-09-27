@@ -105,7 +105,7 @@
 <!-- added by bonnie   -->
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>ks</servlet-name>
+        <servlet-name>ks-krad</servlet-name>
     </filter-mapping>
     
     <!-- for KCB Spring Web MVC pages -->
@@ -273,9 +273,8 @@
 		<servlet-class>org.kuali.rice.edl.impl.EDLServlet</servlet-class>
 	</servlet>
 	
-	<!-- added by bonnie -->
     <servlet>
-       <servlet-name>ks</servlet-name>
+       <servlet-name>ks-krad</servlet-name>
        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
        <load-on-startup>3</load-on-startup>
     </servlet>
@@ -332,7 +331,7 @@
 
 	<!--  added by bonnie -->	
 	<servlet-mapping>
-      <servlet-name>ks</servlet-name>
+      <servlet-name>ks-krad</servlet-name>
       <url-pattern>/kr-krad/*</url-pattern>
     </servlet-mapping> 	
     
