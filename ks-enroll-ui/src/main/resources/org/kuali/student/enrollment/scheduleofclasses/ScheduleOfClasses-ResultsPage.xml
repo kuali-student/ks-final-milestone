@@ -94,7 +94,7 @@
             <list>
                 <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoDisplayInfo.activityOfferingCode" />
                 <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="aoDisplayInfo.typeName" />
-                <bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName"/>
+                <bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />
                 <bean parent="Uif-DataField" p:label="DAYS" p:propertyName="daysDisplayName"/>
                 <bean parent="Uif-DataField" p:label="START TIME" p:propertyName="startTimeDisplay"/>
                 <bean parent="Uif-DataField" p:label="END TIME" p:propertyName="endTimeDisplay"/>
