@@ -2276,15 +2276,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     }
 
-    private void _uAOC_deleteAssociatedRegGroups(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
+    private void _uAOC_deleteRegGroupsWithAosNotInCluster(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException,
                    OperationFailedException {
 
         // Find all AO IDs in this cluster
         List<ActivityOfferingSetInfo> aoSetInfos = clusterInfo.getActivityOfferingSets();
-        Set<String> aoIds = new HashSet<String>();
+        Set<String> aoIdsInCluster = new HashSet<String>();
         for (ActivityOfferingSetInfo setInfo: aoSetInfos) {
-            aoIds.addAll(setInfo.getActivityOfferingIds());
+            //  Loop through and add all AO IDs from each of the sets
+            aoIdsInCluster.addAll(setInfo.getActivityOfferingIds());
         }
         // For each reg group, look at its list of AO Ids.  If all of them are in the cluster, good.
         // If not, add into regGroupIdsToDelete
@@ -2293,7 +2294,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<String> regGroupIdsToDelete = new ArrayList<String>();
         for (RegistrationGroupInfo regGroup: regGroups) {
             List<String> regGroupAoIds = regGroup.getActivityOfferingIds();
-            if (!aoIds.containsAll(regGroupAoIds)) {
+            if (!aoIdsInCluster.containsAll(regGroupAoIds)) {
                 // Didn't find all AOs from the reg group AO IDs
                 regGroupIdsToDelete.add(regGroup.getId());
             }
@@ -2308,15 +2309,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ActivityOfferingClusterInfo updateActivityOfferingCluster(String formatOfferingId,
                                                                      String activityOfferingClusterId,
-                                                                     ActivityOfferingClusterInfo activityOfferingClusterInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException {
+                                                                     ActivityOfferingClusterInfo activityOfferingClusterInfo,
+                                                                     ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+                   MissingParameterException, OperationFailedException, PermissionDeniedException,
+                   ReadOnlyException, VersionMismatchException {
 
         ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
         if (null != activityOfferingClusterEntity) {
@@ -2325,12 +2322,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
 
             List<Object> orphans = activityOfferingClusterEntity.fromDto(activityOfferingClusterInfo);
-            //Delete any orphaned children
-            for(Object orphan : orphans){
+            // Delete any orphaned children
+            for (Object orphan : orphans){
                 activityOfferingClusterDao.getEm().remove(orphan);
             }
             activityOfferingClusterEntity.setEntityUpdated(contextInfo);
-            return activityOfferingClusterDao.merge(activityOfferingClusterEntity).toDto();
+            ActivityOfferingClusterInfo merged = activityOfferingClusterDao.merge(activityOfferingClusterEntity).toDto();
+            // Delete reg groups with AOs no longer in AO cluster (put here, in case merge fails--then, this code won't
+            // run.
+            _uAOC_deleteRegGroupsWithAosNotInCluster(merged, contextInfo);
+            return merged;
         } else {
             throw new DoesNotExistException("No activityOfferingCluster has been found for activityOfferingClusterId=" + activityOfferingClusterId);
         }
@@ -2339,21 +2340,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteActivityOfferingCluster(String activityOfferingClusterId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
         ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
         if (null != activityOfferingClusterEntity) {
-            //Delete attributes
-            if(activityOfferingClusterEntity.getAttributes()!=null){
-                for(ActivityOfferingClusterAttributeEntity attr:activityOfferingClusterEntity.getAttributes()){
+            // Delete attributes
+            if (activityOfferingClusterEntity.getAttributes() != null) {
+                for(ActivityOfferingClusterAttributeEntity attr:activityOfferingClusterEntity.getAttributes()) {
                     activityOfferingClusterDao.getEm().remove(attr);
                 }
             }
-            //Delete AOSets
-            if(activityOfferingClusterEntity.getAoSets()!=null){
-                for(ActivityOfferingSetEntity aoSet:activityOfferingClusterEntity.getAoSets()){
+            // Delete AOSets
+            if (activityOfferingClusterEntity.getAoSets()!=null) {
+                for (ActivityOfferingSetEntity aoSet:activityOfferingClusterEntity.getAoSets()) {
                     activityOfferingClusterDao.getEm().remove(aoSet);
                 }
                 activityOfferingClusterEntity.getAoSets().clear();
@@ -2368,7 +2371,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public SeatPoolDefinitionInfo getSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
+
         SeatPoolDefinitionEntity poolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId); // throws DoesNotExistException
         if (null == poolEntity) {
             throw new DoesNotExistException(seatPoolDefinitionId);
