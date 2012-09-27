@@ -55,11 +55,17 @@
 				<!-- TODO: deal with dynamic attributes -->
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="maxResultsToReturn"
 				      p:label="Max. Results"
-				      p:defaultValue="30"
+				      p:defaultValue="50"
 				      p:helpSummary="The maximum number of results to return from the query, leave null to not limit the results" />
 			</list>
-		</property>
-		<property name="resultFields">
+               </property>
+               <property name="resultsGroup.layoutManager.richTable.templateOptions">
+                   <map merge="true">
+                    <entry key="bLengthChange" value="true"/>
+                    <entry key="iDisplayLength" value="50"/>
+                   </map>
+               </property>
+                <property name="resultFields">
 		    <list>
 		        <bean parent="Uif-DataField" p:propertyName="key">
 		            <property name="inquiry">
