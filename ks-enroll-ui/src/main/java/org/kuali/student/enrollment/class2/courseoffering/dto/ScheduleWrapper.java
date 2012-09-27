@@ -38,6 +38,7 @@ public class ScheduleWrapper implements Serializable{
     private boolean tba;
 
     private String buildingCode;
+    private String buildingId;
     private String roomCode;
     private int roomCapacity;
 
@@ -247,5 +248,13 @@ public class ScheduleWrapper implements Serializable{
 
     public void setNewlyAdded(boolean newlyAdded) {
         this.newlyAdded = newlyAdded;
+    }
+
+    public String getBuildingId() {
+        return buildingId;
+    }
+
+    public void setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
     }
 }

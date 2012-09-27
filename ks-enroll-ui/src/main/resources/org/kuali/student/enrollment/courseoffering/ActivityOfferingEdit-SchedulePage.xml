@@ -246,8 +246,31 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
+                        <property name="quickfinder.fieldConversions">
+                            <map>
+                                <entry key="buildingCode" value="newScheduleRequest.buildingCode"/>
+                                <entry key="buildingId" value="newScheduleRequest.buildingId"/>
+                            </map>
+                    </property>
                 </bean>
-                <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomCode"/>
+                <bean parent="KSInputField" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20"/>
+                    </property>
+                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
+                    <property name="quickfinder.autoSearch" value="true"/>
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="roomCode" value="newScheduleRequest.roomCode"/>
+                        </map>
+                    </property>
+                    <property name="quickfinder.lookupParameters">
+                        <map>
+                            <entry key="newScheduleRequest.buildingId" value="buildingId"/>
+                        </map>
+                    </property>
+                </bean>
                 <!--<bean parent="KSInputField" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>-->
             </list>
         </property>
