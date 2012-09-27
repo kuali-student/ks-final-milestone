@@ -66,11 +66,11 @@ public class ManageSOCController extends UifControllerBase {
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
         viewHelper.lockSOC(socForm);
 
-        return getUIFModelAndView(socForm);
+        return buildModel(socForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=sendApprovedActivitiesToScheduler")
-    public ModelAndView  sendApprovedActivitiesToScheduler (@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
+    public ModelAndView sendApprovedActivitiesToScheduler (@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
                                                             HttpServletRequest request, HttpServletResponse response){
         if (!StringUtils.equals(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY,socForm.getSocInfo().getStateKey())){
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"SOC should be in LOCKED state!");
@@ -81,7 +81,7 @@ public class ManageSOCController extends UifControllerBase {
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
         viewHelper.startMassScheduling(socForm);
 
-        return getUIFModelAndView(socForm);
+        return buildModel(socForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=buildModel")
@@ -128,7 +128,7 @@ public class ManageSOCController extends UifControllerBase {
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
         viewHelper.allowSOCFinalEdit(socForm);
 
-        return getUIFModelAndView(socForm);
+        return buildModel(socForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=publishSOC")
@@ -147,13 +147,12 @@ public class ManageSOCController extends UifControllerBase {
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
         viewHelper.publishSOC(socForm);
 
-        return getUIFModelAndView(socForm);
+        return buildModel(socForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=closeSOC")
     public ModelAndView closeSOC(@ModelAttribute("KualiForm") ManageSOCForm socForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
-
         if (socForm.getSocInfo() == null){
             throw new RuntimeException("SocInfo not exists in the form. Please enter the term code and click on GO button");
         }
@@ -166,6 +165,6 @@ public class ManageSOCController extends UifControllerBase {
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService)socForm.getView().getViewHelperService();
         viewHelper.closeSOC(socForm);
 
-        return getUIFModelAndView(socForm);
+        return buildModel(socForm, result, request, response);
     }
 }

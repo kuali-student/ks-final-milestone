@@ -321,7 +321,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
     protected String getSocPublishingStatus(SocInfo info) {
         if(info.getStateKey() != null) {
-            if(StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)) {
+            if (StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)) {
 
                 return  "In Progress";
             } else if (StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
@@ -335,7 +335,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
     private void reload(ManageSOCForm socForm, ContextInfo contextInfo)  {
 
-        SocInfo socInfo = null;
+        SocInfo socInfo;
         try {
             socInfo = getCourseOfferingSetService().getSoc(socForm.getSocInfo().getId(), contextInfo);
             socForm.setSocInfo(socInfo);
@@ -345,13 +345,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             socForm.setSocStatus(stateName);
         } catch (DoesNotExistException e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "No SOC exists!");
-        } catch (InvalidParameterException e) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error reloading SOC");
-        } catch (MissingParameterException e) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error reloading SOC");
-        } catch (OperationFailedException e) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error reloading SOC");
-        } catch (PermissionDeniedException e) {
+        } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error reloading SOC");
         }
     }
