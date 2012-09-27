@@ -346,6 +346,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
 
+        // Note: the longName is not in the luiEntity so we need to use the criteriaLookupService is used.
+        // it is linked back to CourseOfferingCriteriaTransform and wired in the ks-enroll-context.xml
         qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.equal("atpId", termId),
                 PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
