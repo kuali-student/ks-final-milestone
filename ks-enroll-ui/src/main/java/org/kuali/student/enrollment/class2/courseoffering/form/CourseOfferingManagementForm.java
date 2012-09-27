@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseOfferingManagementForm extends UifFormBase {
+
     private String termCode;
     private TermInfo termInfo;
     private String courseOfferingCode;
@@ -35,8 +36,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO;
-//    private List<ActivityOfferingClusterInfo> filteredAOClusters;
-//    private List<RegistrationGroupWrapper> filteredRGsForSelectedFO;
     private List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList;
     private boolean hasAOCluster;
     private String privateClusterName;
@@ -45,16 +44,14 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String publishedClusterNameForLightBox;
     private String privateClusterNameForRename;
     private String publishedClusterNameForRename;
+
     //This is used to handle DialogGroup/Lightbox action within collection.
     //It only works within the lifecycle of each Dialog.
     private ActivityOfferingClusterWrapper selectedCluster;
-            
 
     //For Adding Activity
     private String formatIdForNewAO;
-
     private String clusterIdIdForNewFO;
-
     private String activityIdForNewAO;
     private String noOfActivityOfferings;
 
@@ -71,7 +68,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         filteredUnassignedAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
-//        filteredRGsForSelectedFO = new ArrayList<RegistrationGroupWrapper>();
         filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
         setCourseOfferingCopyWrapper(null);
@@ -189,23 +185,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public void setFilteredUnassignedAOsForSelectedFO(List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO) {
         this.filteredUnassignedAOsForSelectedFO = filteredUnassignedAOsForSelectedFO;
     }
-
-//    public List<ActivityOfferingClusterInfo> getFilteredAOClusters() {
-//        return filteredAOClusters;
-//    }
-//
-//    public void setFilteredAOClusters(List<ActivityOfferingClusterInfo> filteredAOClusters) {
-//        this.filteredAOClusters = filteredAOClusters;
-//    }
-//
-//    public List<RegistrationGroupWrapper> getFilteredRGsForSelectedFO() {
-//        return filteredRGsForSelectedFO;
-//    }
-//
-//    public void setFilteredRGsForSelectedFO(List<RegistrationGroupWrapper> filteredRGsForSelectedFO) {
-//        this.filteredRGsForSelectedFO = filteredRGsForSelectedFO;
-//    }
-
 
     public List<ActivityOfferingClusterWrapper> getFilteredAOClusterWrapperList() {
         return filteredAOClusterWrapperList;
