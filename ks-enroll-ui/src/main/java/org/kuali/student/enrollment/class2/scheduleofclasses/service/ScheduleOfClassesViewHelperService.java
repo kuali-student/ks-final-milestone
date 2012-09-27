@@ -22,6 +22,18 @@ public interface ScheduleOfClassesViewHelperService {
 
     public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception;
 
+    /**
+     * This method will populate the form object with CourseOfferingDisplay Objects. It will do a search on the Course Offering Titile OR Description.
+     *
+     * In addition to the ORing the title has an automatically applied like such that: like "title%"
+     * which is ORed with like %description%
+     *
+     *
+     * @param termId
+     * @param titleOrDescription
+     * @param form
+     * @throws Exception
+     */
     public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception;
 
 }
