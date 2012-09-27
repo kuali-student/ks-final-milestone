@@ -2276,20 +2276,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     }
 
-    private void _uAOC_deleteAssociatedRegGroups(ActivityOfferingClusterEntity entity, ContextInfo contextInfo)
+    private void _uAOC_deleteAssociatedRegGroups(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException,
                    OperationFailedException {
 
         // Find all AO IDs in this cluster
-        Set<ActivityOfferingSetEntity> setEntities = entity.getAoSets();
+        List<ActivityOfferingSetInfo> aoSetInfos = clusterInfo.getActivityOfferingSets();
         Set<String> aoIds = new HashSet<String>();
-        for (ActivityOfferingSetEntity setEntity: setEntities) {
-            aoIds.addAll(setEntity.getAoIds());
+        for (ActivityOfferingSetInfo setInfo: aoSetInfos) {
+            aoIds.addAll(setInfo.getActivityOfferingIds());
         }
         // For each reg group, look at its list of AO Ids.  If all of them are in the cluster, good.
         // If not, add into regGroupIdsToDelete
         List<RegistrationGroupInfo> regGroups =
-                getRegistrationGroupsByActivityOfferingCluster(entity.getId(), contextInfo);
+                getRegistrationGroupsByActivityOfferingCluster(clusterInfo.getId(), contextInfo);
         List<String> regGroupIdsToDelete = new ArrayList<String>();
         for (RegistrationGroupInfo regGroup: regGroups) {
             List<String> regGroupAoIds = regGroup.getActivityOfferingIds();
