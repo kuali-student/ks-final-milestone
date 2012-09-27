@@ -526,7 +526,8 @@ public class TestProgramServiceImpl {
 
             assertNotNull(createdMD.getStdDuration());
             assertEquals("atpDurationTypeKey-test", createdMD.getStdDuration().getAtpDurationTypeKey());
-            assertEquals(new Integer(63), createdMD.getStdDuration().getTimeQuantity());
+// this value is based on the property index (so it may change if properties are added, removed, or re-ordered)
+            assertEquals(new Integer(64), createdMD.getStdDuration().getTimeQuantity());
 
             assertNotNull(createdMD.getStartTerm());
             assertEquals("startTerm-test", createdMD.getStartTerm());

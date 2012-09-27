@@ -1197,7 +1197,7 @@ public class CluServiceImpl implements CluService {
         for (AccreditationInfo accreditationInfo : cluInfo.getAccreditations()) {
             CluAccreditation accreditation = new CluAccreditation();
             BeanUtils.copyProperties(accreditationInfo, accreditation,
-                    new String[]{"attributes"});
+                    new String[]{"attributes", "meta"});
             accreditation.setAttributes(CluServiceAssembler.toGenericAttributes(
                     CluAccreditationAttribute.class, accreditationInfo.getAttributes(), accreditation, luDao));
             accreditations.add(accreditation);

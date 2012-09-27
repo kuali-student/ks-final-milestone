@@ -687,7 +687,8 @@ public class CluServiceAssembler extends BaseAssembler {
             return null;
         }
         Amount amount = new Amount();
-        BeanUtils.copyProperties(amountInfo, amount);
+        amount.setUnitQuantity(amountInfo.getUnitQuantity());
+        amount.setUnitType(amountInfo.getUnitTypeKey());
         return amount;
     }
 
