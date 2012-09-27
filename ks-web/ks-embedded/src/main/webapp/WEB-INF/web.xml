@@ -369,20 +369,20 @@
 	<servlet>
 		<servlet-name>GWT-CORE</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:core-gwt-context.xml</param-value>
 		</init-param>		
+        <load-on-startup>2</load-on-startup>
 	</servlet>
 	<servlet>
 		<servlet-name>GWT-LUM</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:lum-gwt-context.xml</param-value>
 		</init-param>		
+        <load-on-startup>2</load-on-startup>
 	</servlet>
 	
 	<servlet-mapping>
