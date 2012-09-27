@@ -257,7 +257,7 @@
     <KSST_REQ_COM_FIELD ID="1a33ea74-b8b9-4304-ac8e-43b6e1aa7040"
         OBJ_ID="32e22cc6-257f-446c-95a9-cc78dc3c1690"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="1a478e52-7e40-47be-8d35-1e3ee25e78c3"
         OBJ_ID="0582f2b4-19ba-488a-b6e4-be2059d20008"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -437,7 +437,7 @@
     <KSST_REQ_COM_FIELD ID="3360840a-b86c-4603-b30a-ca9a0c894bf4"
         OBJ_ID="0e9ecfbb-5600-4d27-8f18-fa8a00dd8a1c"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="33854cc2-bc4b-473c-a373-2a02df5472e4"
         OBJ_ID="96a45a1c-6803-4ba0-98de-3bf6ead916b3"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -445,7 +445,7 @@
     <KSST_REQ_COM_FIELD ID="3463ad79-7f51-4d21-96fc-77134942aa86"
         OBJ_ID="8fcecb6f-a9f8-4503-bdf6-61f6de12adca"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="36937c63-dec2-4f75-91a6-5c562d0465c1"
         OBJ_ID="fd58a5a5-d928-425b-9dd2-256d82458399"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -497,7 +497,7 @@
     <KSST_REQ_COM_FIELD ID="3b914622-37e9-4635-800e-2d91f1cf13cb"
         OBJ_ID="f98948df-0c53-4ba0-a852-6a258f35a647"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="B" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.b" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="3c7d30ed-c117-4e1c-9be6-5a19ab8fccb6"
         OBJ_ID="42452447-bea7-4229-aa10-7b35104ea3ac"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -553,7 +553,7 @@
     <KSST_REQ_COM_FIELD ID="405afb30-ed59-4ce0-a001-d45fca640edf"
         OBJ_ID="64ae6989-0fe3-42ae-9fb0-2b68c7c7cb99"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="4188e034-32f4-4e34-bc68-f90f5bc7c2c9"
         OBJ_ID="d9205372-0a26-4afd-bfe6-66ddbacd3a0a"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.freeform.text"
@@ -625,7 +625,7 @@
     <KSST_REQ_COM_FIELD ID="49b8da54-afae-4cd9-b0b2-3fc4932331ba"
         OBJ_ID="a9cb8c76-bfab-4c8d-a822-2b275e8cddbe"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="4a3d4bf7-6bc7-4c78-a9aa-f0e3f0c48f63"
         OBJ_ID="88a28433-5ebc-4297-85b4-f6f1890e7537"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -657,7 +657,7 @@
     <KSST_REQ_COM_FIELD ID="4e8f8264-90a4-49ee-bd21-c9fe22d3a3f5"
         OBJ_ID="6ae69c28-3470-4dd6-937c-54c9535642d8"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="50651c51-2182-4692-ab0f-a65cef81429f"
         OBJ_ID="035eda2e-28b1-4919-806d-720b61afcce2"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.program.cluSet.id"
@@ -697,7 +697,7 @@
     <KSST_REQ_COM_FIELD ID="5565ad53-89fe-4092-82e8-1e6deb77cf95"
         OBJ_ID="d3c4f4dc-4148-4f89-8b01-17f3e1ef866d"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="5636574b-160e-4805-bc6f-baceb25930d8"
         OBJ_ID="64f60b6f-fe94-46e2-b608-3a6d1ea42a91"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -717,11 +717,11 @@
     <KSST_REQ_COM_FIELD ID="58a5177f-ef67-4300-8a4b-2d732e35c5c6"
         OBJ_ID="19a9c060-1d03-4e36-ac0a-0e07309c7692"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="58ce77f0-d67d-422a-bef0-129bb5376481"
         OBJ_ID="8ff55b65-1369-45dc-9500-77e7cf229d37"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="59008892-7804-474c-bf0f-7f814bc637d2"
         OBJ_ID="e0972b79-d13a-4a57-9035-cb894a3506e6"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.freeform.text"
@@ -781,7 +781,7 @@
     <KSST_REQ_COM_FIELD ID="5fc9c64f-9e86-4288-b9b7-13d8c4918600"
         OBJ_ID="46e3f1c6-c56e-40ce-b236-a23fe6ae9bbf"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="5fcc6193-4266-4def-ab18-c3b55bad148b"
         OBJ_ID="1b321f29-76e4-4073-873f-6c1527a5133c"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -805,7 +805,7 @@
     <KSST_REQ_COM_FIELD ID="621c95d9-2674-4ff3-b655-0f070c8dfca8"
         OBJ_ID="f98fed28-ebea-4560-b51d-4ad4110c1aa5"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="63a90d89-b424-4089-adb7-02d4251e8783"
         OBJ_ID="806c2799-53db-4218-a826-0cd670c10196"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -913,7 +913,7 @@
     <KSST_REQ_COM_FIELD ID="6def447d-fac3-4695-a3f8-c2bcbeea4f72"
         OBJ_ID="3f652b78-7208-4022-8b63-8a409ae361f3"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="6e074541-2cac-4651-9a37-73aa338bcca8"
         OBJ_ID="ad2d8ea0-2753-45d0-8e6a-d29906f5a767"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -945,7 +945,7 @@
     <KSST_REQ_COM_FIELD ID="7166b0e2-bcd6-427b-a422-5ebedc6ac898"
         OBJ_ID="d2cf17f7-c6df-41ea-a140-40bbb302abd6"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="72780388-bc27-41d1-8df1-9256d5facda6"
         OBJ_ID="df521056-4256-416b-9a89-6eba560a0d91"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -1009,7 +1009,7 @@
     <KSST_REQ_COM_FIELD ID="78c3cf05-1629-4a42-8c32-88a059a38d26"
         OBJ_ID="662ed2be-f1da-4382-bb43-15a9176ddce9"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="78cfe60b-1f55-4208-868f-1e58c4ad8683"
         OBJ_ID="5f3569dd-da2f-4951-b2d0-66393c1b6a49"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1025,7 +1025,7 @@
     <KSST_REQ_COM_FIELD ID="791a7834-c931-415a-ac16-89ef8294d5fc"
         OBJ_ID="a5a0ff78-c1e1-4e20-bcc0-612c3ed5acd0"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="792eafad-66d1-4fbe-b5e7-b1c92ebd8a9b"
         OBJ_ID="64d8f597-df19-43f3-808e-37108917b2e4"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.org.id"
@@ -1041,7 +1041,7 @@
     <KSST_REQ_COM_FIELD ID="7a41e70b-ca1c-4cf6-b8de-236cbc3ed777"
         OBJ_ID="7d0659ab-fd09-4478-8aeb-204ce4ace2da"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="7bbd20cb-3fb8-4670-9531-a6ecb24951f6"
         OBJ_ID="972ff7a8-5039-4599-9a0a-2826d49a24e6"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1057,7 +1057,7 @@
     <KSST_REQ_COM_FIELD ID="7cd0ace3-154c-4355-90b1-9840a9350341"
         OBJ_ID="6d7554b0-210c-46c9-87cd-8f14647414da"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="7ce2b3bf-f3f8-41eb-8ee7-89304b213599"
         OBJ_ID="6d1669c7-59bf-4699-b51c-59d36a6ee1c1"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -1073,7 +1073,7 @@
     <KSST_REQ_COM_FIELD ID="7f33cb99-5a4a-494d-b793-58ebee06c7b1"
         OBJ_ID="ee2eaf17-fb16-4b85-bbf1-f579359dc955"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="7f4597ea-83a6-4d4c-8a1d-f00b4c79eeb5"
         OBJ_ID="abd9127b-5cbe-41b8-abbe-a8a43caab725"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1081,7 +1081,7 @@
     <KSST_REQ_COM_FIELD ID="7f5f73d7-a508-4ac0-8420-c1151a13ec6e"
         OBJ_ID="ad1075cd-802b-4de8-9c59-ff5b675bd006"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="7f6145bc-c3dd-4bb4-9cbd-a27cc15a6894"
         OBJ_ID="aed6acda-9cc6-4ad7-8d41-9a40b67b308b"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -1165,7 +1165,7 @@
     <KSST_REQ_COM_FIELD ID="86c1c647-3fe1-42d3-ab18-b87f02669c47"
         OBJ_ID="476e09ab-21fb-4ce8-a5da-95c484ceecdb"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="86de6fbd-de26-4101-8900-485549e2ae50"
         OBJ_ID="aeddc279-0205-4ba1-af13-b901f3dc49eb"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -1193,7 +1193,7 @@
     <KSST_REQ_COM_FIELD ID="8a1d3dac-7f34-4275-9948-782fe12451b1"
         OBJ_ID="f260811f-4456-4a52-8d2f-a7b3043e52c2"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="8aa78a1b-4918-4554-b111-4cf6e9e2add5"
         OBJ_ID="8bbb6f60-f8be-498d-8dec-560285c6579a"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1233,7 +1233,7 @@
     <KSST_REQ_COM_FIELD ID="8e9467e9-97c5-47c9-b851-20c2a4afad59"
         OBJ_ID="fb624ddd-51ec-477d-906a-2df12f76de13"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="8ed77d3e-0244-4879-b171-7f8303e05ab0"
         OBJ_ID="ef170087-d38b-45f4-ab13-e965e48850e5"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1261,7 +1261,7 @@
     <KSST_REQ_COM_FIELD ID="920fd265-dfa1-4568-95bf-1803481ae9e9"
         OBJ_ID="59297938-7f3f-43d9-9083-9d9b20627a6d"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="926da039-f8d5-4dbf-9046-e84ad9f627d0"
         OBJ_ID="a9c7b309-efdc-4f8f-a1a6-7deadc248354"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1273,7 +1273,7 @@
     <KSST_REQ_COM_FIELD ID="9438ec76-ab4a-4a58-9bce-291d14158731"
         OBJ_ID="f8be0f7c-c9a4-4036-bdba-20bc8389fff0"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="9476f013-1921-488c-81de-5eaf731efd62"
         OBJ_ID="3ee0a55c-c3ba-4c98-84af-d005ee20a227"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1321,7 +1321,7 @@
     <KSST_REQ_COM_FIELD ID="991fb25f-6986-4b16-aeee-81e6051a5412"
         OBJ_ID="5e819736-8bcc-42a7-840d-c927062f8c4a"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="99c298c6-0dfb-4085-9ad1-e68c909dcc10"
         OBJ_ID="552d1743-97fe-496a-8438-b0ea2a3edc4c"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -1341,7 +1341,7 @@
     <KSST_REQ_COM_FIELD ID="9b09c8b9-07f7-46a9-9fcf-1f7b7757d499"
         OBJ_ID="fcb191be-5b60-41f7-9485-8fce7a6acb41"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="9b304fcf-38e4-4f9b-aa8c-7e85c92e3502"
         OBJ_ID="3f39a1b5-6703-4b9b-ad98-93411ec0ebdb"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -1373,7 +1373,7 @@
     <KSST_REQ_COM_FIELD ID="9edc20bc-6344-4997-96c4-ca20b64b1930"
         OBJ_ID="08de143a-311e-4f39-aa30-b9b2256b3f6e"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="9f4ad2f3-8dd7-4d58-9464-cb3f0b616725"
         OBJ_ID="fccc12b6-ee58-4753-a40a-503f8cfd6333"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -1385,7 +1385,7 @@
     <KSST_REQ_COM_FIELD ID="a032309d-9367-4603-ac0c-b5d69e802ac4"
         OBJ_ID="37907d69-5258-44d6-afa7-06dcea849c5b"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="a076516c-3f33-4e93-8a9c-9522eedf7a34"
         OBJ_ID="ffe0739a-fff0-43a9-a25e-486dca03d601"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1417,7 +1417,7 @@
     <KSST_REQ_COM_FIELD ID="a43c3437-fd70-48b0-8f20-1fdaaf7e7b6b"
         OBJ_ID="3d4db3e9-6f8a-4591-a8fe-28b263348ada"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="a44003b6-37da-4a25-bcd8-e894a2b024f4"
         OBJ_ID="c6c44fc2-f5ad-4e0b-83d7-96d17d95dab2"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.freeform.text"
@@ -1517,7 +1517,7 @@
     <KSST_REQ_COM_FIELD ID="af92e426-33ff-461e-8bc2-c27bf69cb0d1"
         OBJ_ID="7f7d2969-915b-4418-b364-857aea457ba6"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="D" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.d" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="af9a3262-ec04-4f21-a8ff-108e119c5a9a"
         OBJ_ID="c1d519c1-8b42-4645-9d39-60a7dbac8fb0"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -1545,7 +1545,7 @@
     <KSST_REQ_COM_FIELD ID="b27cff84-6f51-48f3-b07f-d8cdbab3b7c5"
         OBJ_ID="0d90e1a2-4a62-4fe6-9471-70a4c3dcc1dd"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="b369a793-340b-43b1-a9d9-615714cc1e56"
         OBJ_ID="c08aba98-8d99-4ab1-84f7-8235f9880a7b"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1557,7 +1557,7 @@
     <KSST_REQ_COM_FIELD ID="b4713302-7d5a-4259-b863-49ef576e845e"
         OBJ_ID="db0fdcdd-b074-4e57-a1ab-0e9e3d4310aa"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="b5677535-8175-4ffb-bd87-ed208c6583f6"
         OBJ_ID="09e80743-81d8-4bce-85b1-6cdcb11ed4b8"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1565,7 +1565,7 @@
     <KSST_REQ_COM_FIELD ID="b5b335b0-43a8-4a9a-a93e-c2cb51e007b3"
         OBJ_ID="4634d94a-1301-4157-a28c-c1b214de30bd"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="b5bd3212-fa6f-4e8a-89fc-5713033d4c81"
         OBJ_ID="a62d48a7-6773-4faa-b336-401a175ebcd6"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1577,7 +1577,7 @@
     <KSST_REQ_COM_FIELD ID="b8fea43a-f941-4cd0-86e9-ee028a5e057a"
         OBJ_ID="4827f455-4638-4913-9b01-a07417f3682a"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="b928c00b-ddc1-4d28-aa0b-b14b40f2f291"
         OBJ_ID="0acf1de1-f80a-4df0-a26f-5848183243c1"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.org.id"
@@ -1633,7 +1633,7 @@
     <KSST_REQ_COM_FIELD ID="bf1e21e2-7199-4f45-bf9d-f35ef8fa23fd"
         OBJ_ID="42e4a780-7b81-4453-a448-62e446d8e215"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="bfc9c2e0-41b2-42b0-8255-6225780c5abe"
         OBJ_ID="5d22b8cc-4ee4-481a-9fd3-3f8acb6f6318"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1705,7 +1705,7 @@
     <KSST_REQ_COM_FIELD ID="c7c1e2a1-aa27-40b0-b627-80e6ab42a886"
         OBJ_ID="4b1128f9-ba0a-425f-9692-7ecd6fa9349a"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="c7ee4407-d915-485c-82d6-131e39116159"
         OBJ_ID="6b26f2a4-689b-43f2-b7b0-eb16928527e1"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1729,7 +1729,7 @@
     <KSST_REQ_COM_FIELD ID="ca9f071d-adcf-4de4-9719-20c7c56ff3f5"
         OBJ_ID="1d464c17-86f0-4321-bf07-3c1eb1c45741"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="B" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.b" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="cadd0a5e-5f24-4430-a7e1-92aaf00c9a9f"
         OBJ_ID="41df654d-e77d-4bf1-9a7f-1cf67820ad4f"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.org.id"
@@ -1745,7 +1745,7 @@
     <KSST_REQ_COM_FIELD ID="cce2b979-9088-421c-9557-a2b766f44b11"
         OBJ_ID="cdc99bed-bcad-48c2-a9e3-552e07efac2c"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="cdb07f1c-100c-42f7-a43f-50d7a9505749"
         OBJ_ID="2ac013c2-990f-45ca-958a-1c489abaab64"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -1789,7 +1789,7 @@
     <KSST_REQ_COM_FIELD ID="d06051fb-e638-4937-aacc-d5b54e8f1207"
         OBJ_ID="19448fad-8faf-4d36-b4e8-1c0954a958af"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="d0df3572-3526-4f8d-bf36-892f7cdf7365"
         OBJ_ID="79968239-d3bd-44f4-93de-fa587b9d2321"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.org.id"
@@ -1821,7 +1821,7 @@
     <KSST_REQ_COM_FIELD ID="d5f2f6b8-b26d-4324-afb6-80df295036cc"
         OBJ_ID="aceae082-af7b-4c42-9c0f-7e01489d3a9f"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="d68bbcd9-d46a-49ae-a949-0801d2206eee"
         OBJ_ID="00ee32b8-bbad-43a9-b939-5a6dd62cbb94"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1901,7 +1901,7 @@
     <KSST_REQ_COM_FIELD ID="df3546b4-ff98-4e50-87b3-61fbb1141e1c"
         OBJ_ID="95653cf3-efec-4786-9a1c-1fc6834c706b"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="B" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.b" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="df647258-d965-40cd-8d2b-6d82b8d8139b"
         OBJ_ID="6bfe1133-59cc-491e-96c7-954c49441ea3"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.org.id"
@@ -1921,7 +1921,7 @@
     <KSST_REQ_COM_FIELD ID="e00edf63-5c92-4a7a-8e1e-dc785b917be5"
         OBJ_ID="80f8f053-c8dd-4b88-afe4-e7472ee380a6"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="e03d7fda-5cde-4a65-a618-9f487a4b3505"
         OBJ_ID="6bc3b45b-aced-4f93-ab15-ab0046883035"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -1941,7 +1941,7 @@
     <KSST_REQ_COM_FIELD ID="e3cfb566-ec2e-4bd3-8341-ef3e375b8195"
         OBJ_ID="a3c103d0-84fa-4150-b9e4-78a5173dbd28"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="e3d5cb99-81f6-4007-85a5-b3f36ca4b288"
         OBJ_ID="3314308f-23e8-4d14-9222-0c9b307bb6ee"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -1989,7 +1989,7 @@
     <KSST_REQ_COM_FIELD ID="e91d690b-b72a-4ff9-afd8-b335e27c8a68"
         OBJ_ID="c599356b-ca0c-4c91-bac8-4230d539a8b8"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="ea1c8028-a87c-41c2-b79f-97e8bb719c26"
         OBJ_ID="f6b338e0-daad-4095-946f-46fcd88a488e"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.clu.id"
@@ -2013,7 +2013,7 @@
     <KSST_REQ_COM_FIELD ID="ebe9202f-9b16-42b2-a86e-6b8f7965442f"
         OBJ_ID="0b537fc3-bf88-42f4-9af1-0a231d0cc4a1"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="ec2e4b15-bc69-4a15-8794-98748ed82308"
         OBJ_ID="2eff8999-b7d7-42e8-83cf-aa375b9df416"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.freeform.text"
@@ -2029,7 +2029,7 @@
     <KSST_REQ_COM_FIELD ID="ecb8e424-d61a-435f-a188-3865bb9d7782"
         OBJ_ID="ef0d2719-d5fd-410b-af0b-9b8547f8fd6d"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="B" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.b" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="ecd3ca07-4ceb-434c-adeb-e240dc3afb2b"
         OBJ_ID="466a6be8-775b-4721-97c6-a7c49fab2357"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.value.positive.integer"
@@ -2037,11 +2037,11 @@
     <KSST_REQ_COM_FIELD ID="ecdf8055-5e4c-4d0d-a8b3-f6315349c9f0"
         OBJ_ID="f65ac674-bb71-44d7-a71c-a45acb976bb8"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="ed039c91-e340-43f3-a73a-7d1aee8ef680"
         OBJ_ID="8a413259-87f7-44f7-9fa1-baa781572b30"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="edb98e9d-aded-4e31-8b43-d8ae6d905f6d"
         OBJ_ID="1772c992-2afb-42d6-a25d-a91c4ad6af0e"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -2057,7 +2057,7 @@
     <KSST_REQ_COM_FIELD ID="ee8ace56-2d87-4a9f-8d1b-24acb0f1fab9"
         OBJ_ID="248fff6d-8ca4-4006-9b64-d741fdf40502"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="eeb7794f-4d90-42fa-89e2-2c05ca63ed4a"
         OBJ_ID="c702e78c-bca9-44a9-8e1a-b4ffcadb23f5"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -2065,7 +2065,7 @@
     <KSST_REQ_COM_FIELD ID="eed68869-3b30-4da6-9943-f648a404607c"
         OBJ_ID="132e650f-11d2-4b6f-ae6d-57e71561b89b"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="ef307ede-ea4d-41a5-8081-7c7edf6b3d53"
         OBJ_ID="f2d290b5-e61d-48a1-9e50-ff12c3cd1357"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -2153,7 +2153,7 @@
     <KSST_REQ_COM_FIELD ID="f81b094a-166a-4f13-85f4-57164fbe2b13"
         OBJ_ID="11a9bc51-710e-4953-9db4-211b1652a60a"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="f8be3f1b-7a6a-4b03-aed1-c0c2da3c459e"
         OBJ_ID="5564c331-4445-44f2-847e-b088b4bbfdb0"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -2173,15 +2173,15 @@
     <KSST_REQ_COM_FIELD ID="fae7821b-0cd3-4583-b1f7-c6a7b5c78627"
         OBJ_ID="7d429987-98c8-4bc4-879e-c0b31424e6c1"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="fc0d6763-64db-43bb-889e-8821418d734d"
         OBJ_ID="ac69637a-8bfc-4813-8661-d4b3b8f49934"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="fcb1abfc-610c-4cc5-81da-bf6cd8f4798a"
         OBJ_ID="db78a13f-c1e8-4048-bbfa-2d04a0f8acda"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="fcb93f49-2b32-4a63-acbc-64b5fa50b1dc"
         OBJ_ID="54286d6d-2e82-49bd-98a7-f90232a01af6"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
@@ -2197,7 +2197,7 @@
     <KSST_REQ_COM_FIELD ID="fd88d4c7-24cc-4325-9f8a-e0fe2dffba34"
         OBJ_ID="2fc3a508-8835-46e4-bcc0-6548edf7d3f8"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.grade.id"
-        VALUE="C" VER_NBR="0"/>
+        VALUE="kuali.result.value.grade.letter.c" VER_NBR="0"/>
     <KSST_REQ_COM_FIELD ID="fdc0d34b-5d06-4208-8eb6-05a873ac76b9"
         OBJ_ID="e3969bf5-66bc-4d5e-a600-0782eb5efb28"
         REQ_COM_FIELD_TYPE="kuali.reqComponent.field.type.course.cluSet.id"
