@@ -609,9 +609,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
         entity.setEntityUpdated(context);
 
-        entity = socDao.merge(entity);
-        socDao.getEm().flush(); // need to flush to get the version ind to update
-        return entity.toDto();
+        return socDao.merge(entity).toDto();
     }
 
     @Override
@@ -635,8 +633,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
                 attr.setValue(TransformUtility.dateTimeToDynamicAttributeString(new Date()));
             }
         }
-        socRorDao.merge(entity);
-        return entity.toDto();
+        return socRorDao.merge(entity).toDto();
     }
 
     @Override
@@ -666,8 +663,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
         entity.setEntityUpdated(context);
 
-        socRorDao.merge(entity);
-        return entity.toDto();
+        return socRorDao.merge(entity).toDto();
     }
 
     @Override
@@ -684,8 +680,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
         entity.setEntityUpdated(context);
 
-        socRorItemDao.merge(entity);
-        return entity.toDto();
+        return socRorItemDao.merge(entity).toDto();
     }
 
     @Override

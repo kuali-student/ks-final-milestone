@@ -288,6 +288,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
             if (mesg != null) {
                 error += ": (" + mesg + ")";
             }
+            logger.warn("Unexpected error rolling over course", ex);
         }
         // got an error so process it
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
