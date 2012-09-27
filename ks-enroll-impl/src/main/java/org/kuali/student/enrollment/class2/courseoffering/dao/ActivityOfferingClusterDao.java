@@ -33,4 +33,9 @@ public class ActivityOfferingClusterDao extends GenericEntityDao<ActivityOfferin
         return em.createQuery("from ActivityOfferingClusterEntity a where a.formatOfferingId=:formatOfferingId").setParameter("formatOfferingId", formatOfferingId)
                 .getResultList();
     }
+
+    public List<String> getActivityOfferingIdsByClusterId(String activityOfferingClusterId) {
+        return em.createQuery("SELECT ids from ActivityOfferingClusterEntity a, IN(a.aoSets) aosets, IN(aosets.aoIds) ids where a.id=:activityOfferingClusterId").setParameter("activityOfferingClusterId", activityOfferingClusterId)
+                .getResultList();
+    }
 }
