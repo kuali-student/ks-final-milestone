@@ -84,38 +84,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
         if(courseOfferingIds.size() > 0){
             form.getCoDisplayWrapperList().clear();
-            List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-            List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
-            for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
-                CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
-                coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
-
-                // Adding Information (icons)
-                String information = "";
-                if (coDisplayInfo.getIsHonorsOffering() != null && coDisplayInfo.getIsHonorsOffering()) {
-                    information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
-                }
-                if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                        && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
-                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ";
-                } else if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                        && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
-                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ";
-                }
-                if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
-                    for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
-                        if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
-                        } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
-                        }
-                    }
-                }
-                coDisplayWrapper.setInformation(information);
-
-                coDisplayWrapperList.add(coDisplayWrapper);
-            }
-            form.setCoDisplayWrapperList(coDisplayWrapperList);
+            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
         } else {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError("Term & courseCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "courseCode", courseCode, termId);
@@ -168,38 +137,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
                 if(courseOfferingIds.size() > 0){
                     form.getCoDisplayWrapperList().clear();
-                    List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-                    List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
-                    for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
-                        CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
-                        coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
-
-                        // Adding Information (icons)
-                        String information = "";
-                        if (coDisplayInfo.getIsHonorsOffering() != null && coDisplayInfo.getIsHonorsOffering()) {
-                            information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
-                        }
-                        if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                                && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ";
-                        } else if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                                && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
-                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ";
-                        }
-                        if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
-                            for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
-                                if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
-                                } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                                    information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
-                                }
-                            }
-                        }
-                        coDisplayWrapper.setInformation(information);
-
-                        coDisplayWrapperList.add(coDisplayWrapper);
-                    }
-                    form.setCoDisplayWrapperList(coDisplayWrapperList);
+                    form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
                 }
             }
 
@@ -249,38 +187,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
             if(courseOfferingIds.size() > 0){
                 form.getCoDisplayWrapperList().clear();
-                List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-                List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
-                for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
-                    CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
-                    coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
-
-                    // Adding Information (icons)
-                    String information = "";
-                    if (coDisplayInfo.getIsHonorsOffering() != null && coDisplayInfo.getIsHonorsOffering()) {
-                        information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_COURSE + "\"> ";
-                    }
-                    if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                            && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY)) {
-                        information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_SATISFACTORY + "\"> ";
-                    } else if (coDisplayInfo.getGradingOption() != null && coDisplayInfo.getGradingOption().getKey() != null
-                            && coDisplayInfo.getGradingOption().getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE)) {
-                        information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_GRADING_PERCENT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_GRADING_PERCENT + "\"> ";
-                    }
-                    if (!coDisplayInfo.getStudentRegistrationGradingOptions().isEmpty()) {
-                        for (KeyNameInfo stuRegOption : coDisplayInfo.getStudentRegistrationGradingOptions()) {
-                            if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-                                information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL + "\">";
-                            } else if (stuRegOption.getKey().equals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-                                information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_STUREG_AUDIT_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_AUDIT + "\">";
-                            }
-                        }
-                    }
-                    coDisplayWrapper.setInformation(information);
-
-                    coDisplayWrapperList.add(coDisplayWrapper);
-                }
-                form.setCoDisplayWrapperList(coDisplayWrapperList);
+                form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
             }
 
             //If nothing was found then error
@@ -365,8 +272,25 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
         if(courseOfferingIds.size() > 0){
             form.getCoDisplayWrapperList().clear();
-            List<CourseOfferingDisplayInfo> coDisplayInfoList = getCourseOfferingService().getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
-            List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
+            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
+        }
+
+        //If nothing was found then error
+        if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
+            LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
+            GlobalVariables.getMessageMap().putError("Title & Description", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "title or description", titleOrDescription, termId);
+            form.getCoDisplayWrapperList().clear();
+        }
+
+    }
+
+    protected static List<CourseOfferingDisplayWrapper> getCourseOfferingDisplayWrappersByIds(List<String> courseOfferingIds, CourseOfferingService courseOfferingService, ContextInfo contextInfo) throws Exception{
+        List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
+
+        if(courseOfferingIds.size() > 0){
+
+            List<CourseOfferingDisplayInfo> coDisplayInfoList = courseOfferingService.getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
+
             for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
                 CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
                 coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
@@ -396,17 +320,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
                 coDisplayWrapperList.add(coDisplayWrapper);
             }
-            form.setCoDisplayWrapperList(coDisplayWrapperList);
+
         }
 
-        //If nothing was found then error
-        if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
-            LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
-            GlobalVariables.getMessageMap().putError("Title & Description", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "title or description", titleOrDescription, termId);
-            form.getCoDisplayWrapperList().clear();
-        }
-
+        return coDisplayWrapperList;
     }
+
 
     private String millisToTime(long milliseconds){
         final Calendar cal = Calendar.getInstance();
