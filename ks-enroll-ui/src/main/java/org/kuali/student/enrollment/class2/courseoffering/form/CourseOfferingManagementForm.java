@@ -52,6 +52,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
     //For Adding Activity
     private String formatIdForNewAO;
     private String clusterIdIdForNewFO;
+    private String clusterIdForAOMove;
     private String activityIdForNewAO;
     private String noOfActivityOfferings;
 
@@ -378,5 +379,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setPublishedClusterNameForRename(String publishedClusterNameForRename) {
         this.publishedClusterNameForRename = publishedClusterNameForRename;
+    }
+
+    public String getClusterIdForAOMove() {
+        return clusterIdForAOMove;
+    }
+
+    public void setClusterIdForAOMove(String clusterIdForAOMove) {
+        this.clusterIdForAOMove = clusterIdForAOMove;
     }
 }

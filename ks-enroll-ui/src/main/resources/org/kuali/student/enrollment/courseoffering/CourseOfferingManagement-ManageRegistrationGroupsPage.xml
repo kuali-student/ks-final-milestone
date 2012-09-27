@@ -387,7 +387,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean id="KS-ManageRegistrationGroupPage-MoveAOBetweenClusters" parent="Uif-InputField" p:propertyName="clusterIdIdForNewFO" p:label="Move selected offerings to" p:labelPlacement="TOP">
+                        <bean id="KS-ManageRegistrationGroupPage-MoveAOBetweenClusters" parent="Uif-InputField" p:propertyName="clusterIdForAOMove" p:label="Move selected offerings to" p:labelPlacement="TOP">
                             <property name="control">
                                 <bean parent="Uif-DropdownControl" />
                             </property>
