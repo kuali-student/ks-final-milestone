@@ -60,7 +60,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.TypeOfSearchKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="course" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'course'}">
+                            <bean parent="Uif-InputField" p:propertyName="course" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'course'}" p:id="course_search_text">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                                 </property>
@@ -82,8 +82,7 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
-
-                            <bean parent="Uif-InputField" p:propertyName="departmentName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}">
+                            <bean parent="Uif-InputField" p:propertyName="departmentName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}" p:id="department_search_text">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Type exact dept name or use search"/>
                                 </property>
@@ -105,7 +104,7 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="instructorName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}">
+                            <bean parent="Uif-InputField" p:propertyName="instructorName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}" p:id="instructor_search_text">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Type principal name or use search"/>
                                 </property>
@@ -128,12 +127,12 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}">
+                            <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}" p:id="title_description_search_text">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Plants, Diaspora, Sartre"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:17px;"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:17px;" p:id="show_button"/>
                         </list>
                     </property>
                 </bean>
