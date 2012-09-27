@@ -245,21 +245,21 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return StringUtils.removeEnd(returnValue," ");
     }
 
-    @Override
-    public void processCollectionAddLine(View view, Object model, String collectionPath) {
+//    @Override
+//    public void processCollectionAddLine(View view, Object model, String collectionPath) {
+//
+//        if (StringUtils.equals(collectionPath, "requestedScheduleComponents")){
+//            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
+//            addOrUpdateScheduleRequestComponent(wrapper);
+//            CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(view.getDefaultBindingObjectPath() + "." + collectionPath);
+//            processAfterAddLine(view, collectionGroup,model, wrapper.getRequestedScheduleComponents().get(wrapper.getRequestedScheduleComponents().size()-1));
+//        }else{
+//            super.processCollectionAddLine(view, model, collectionPath);
+//        }
+//
+//    }
 
-        if (StringUtils.equals(collectionPath, "requestedScheduleComponents")){
-            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
-            addScheduleRequestComponent(wrapper);
-            CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(view.getDefaultBindingObjectPath() + "." + collectionPath);
-            processAfterAddLine(view, collectionGroup,model, wrapper.getRequestedScheduleComponents().get(wrapper.getRequestedScheduleComponents().size()-1));
-        }else{
-            super.processCollectionAddLine(view, model, collectionPath);
-        }
-
-    }
-
-    protected void addScheduleRequestComponent(ActivityOfferingWrapper wrapper){
+    public void addOrUpdateScheduleRequestComponent(ActivityOfferingWrapper wrapper){
         ScheduleWrapper scheduleWrapper = wrapper.getNewScheduleRequest();
 
         //Add a space between selected days ("MTWHFSU") for informational purpose

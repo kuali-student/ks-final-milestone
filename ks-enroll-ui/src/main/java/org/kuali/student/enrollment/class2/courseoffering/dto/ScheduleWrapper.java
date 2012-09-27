@@ -48,6 +48,9 @@ public class ScheduleWrapper implements Serializable{
     private String startTimeUI;
     private String endTimeUI;
 
+    private boolean edited;
+    private boolean newlyAdded;
+
     public ScheduleWrapper(){
         features = new ArrayList<String>();
         setBuildingCode("CCC");
@@ -228,5 +231,21 @@ public class ScheduleWrapper implements Serializable{
 
     public ScheduleComponentInfo getScheduleComponentInfo() {
         return scheduleComponentInfo;
+    }
+
+    public boolean isEdited() {
+        return edited;
+    }
+
+    public void setEdited(boolean edited) {
+        this.edited = edited;
+    }
+
+    public boolean isNewlyAdded() {
+        return newlyAdded;
+    }
+
+    public void setNewlyAdded(boolean newlyAdded) {
+        this.newlyAdded = newlyAdded;
     }
 }
