@@ -18,6 +18,7 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -27,6 +28,7 @@ import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -99,61 +101,11 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
-
             if (!scheduleWrapper.isAlreadySaved()){
-
-                ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
-                componentInfo.setId(UUIDHelper.genStringUUID());
-                componentInfo.setIsTBA(scheduleWrapper.isTba());
-
-                List<String> room = new ArrayList();
-                room.add(scheduleWrapper.getRoom().getId());
-                componentInfo.setRoomIds(room);
-
-                componentInfo.setResourceTypeKeys(scheduleWrapper.getFeatures());
-
-                TimeSlotInfo timeSlot = new TimeSlotInfo();
-                timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING);
-                timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
-                List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
-                timeSlot.setWeekdays(days);
-
-                DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-
-                if (!scheduleWrapper.getStartTime().isEmpty()) {
-                    try {
-                        long time = dateFormat.parse(scheduleWrapper.getStartTimeUI()).getTime();
-                        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-                        timeOfDayInfo.setMilliSeconds(time);
-                        timeSlot.setStartTime(timeOfDayInfo);
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-
-                if (!scheduleWrapper.getEndTime().isEmpty()) {
-                    try {
-                        long time = dateFormat.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
-                        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-                        timeOfDayInfo.setMilliSeconds(time);
-                        timeSlot.setEndTime(timeOfDayInfo);
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-
-                try {
-                    TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot,getContextInfo());
-                    componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-
+                ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
                 wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(componentInfo);
-
             }
         }
-
 
         if (StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())){
 
@@ -176,6 +128,59 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
     }
+
+    private ScheduleRequestComponentInfo buildScheduleComponentRequest(ScheduleWrapper scheduleWrapper){
+
+        ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+        componentInfo.setId(UUIDHelper.genStringUUID());
+        componentInfo.setIsTBA(scheduleWrapper.isTba());
+
+        List<String> room = new ArrayList();
+        room.add(scheduleWrapper.getRoom().getId());
+        componentInfo.setRoomIds(room);
+
+        componentInfo.setResourceTypeKeys(scheduleWrapper.getFeatures());
+
+        TimeSlotInfo timeSlot = new TimeSlotInfo();
+        timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING);
+        timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
+        timeSlot.setWeekdays(days);
+
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+
+        if (!scheduleWrapper.getStartTime().isEmpty()) {
+            try {
+                long time = dateFormat.parse(scheduleWrapper.getStartTimeUI()).getTime();
+                TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+                timeOfDayInfo.setMilliSeconds(time);
+                timeSlot.setStartTime(timeOfDayInfo);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (!scheduleWrapper.getEndTime().isEmpty()) {
+            try {
+                long time = dateFormat.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
+                TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+                timeOfDayInfo.setMilliSeconds(time);
+                timeSlot.setEndTime(timeOfDayInfo);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        try {
+            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot,getContextInfo());
+            componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return componentInfo;
+    }
+
 
     private List<Integer> buildDaysForDTO(String days){
 
@@ -245,20 +250,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return StringUtils.removeEnd(returnValue," ");
     }
 
-//    @Override
-//    public void processCollectionAddLine(View view, Object model, String collectionPath) {
-//
-//        if (StringUtils.equals(collectionPath, "requestedScheduleComponents")){
-//            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)((MaintenanceForm)model).getDocument().getNewMaintainableObject().getDataObject();
-//            addOrUpdateScheduleRequestComponent(wrapper);
-//            CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(view.getDefaultBindingObjectPath() + "." + collectionPath);
-//            processAfterAddLine(view, collectionGroup,model, wrapper.getRequestedScheduleComponents().get(wrapper.getRequestedScheduleComponents().size()-1));
-//        }else{
-//            super.processCollectionAddLine(view, model, collectionPath);
-//        }
-//
-//    }
-
     public void addOrUpdateScheduleRequestComponent(ActivityOfferingWrapper wrapper){
         ScheduleWrapper scheduleWrapper = wrapper.getNewScheduleRequest();
 
@@ -288,6 +279,73 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         wrapper.getRequestedScheduleComponents().add(scheduleWrapper);
         wrapper.setNewScheduleRequest(new ScheduleWrapper());
+
+    }
+
+    public ScheduleWrapper getMatchingActualForRequestedSchedule(ActivityOfferingWrapper activityOfferingWrapper,ScheduleWrapper request){
+        for (ScheduleWrapper actual : activityOfferingWrapper.getActualScheduleComponents()){
+            if (request.isTba() && actual.isTba() &&
+                StringUtils.equals(request.getDaysUI(),actual.getDaysUI()) &&
+                StringUtils.equals(request.getStartTimeUI(),actual.getStartTimeUI()) &&
+                StringUtils.equals(request.getEndTimeUI(),actual.getEndTimeUI()) &&
+                StringUtils.equals(request.getBuildingCode(),actual.getBuildingCode()) &&
+                StringUtils.equals(request.getRoomCode(),actual.getRoomCode())){
+                return actual;
+            }
+        }
+        return null;
+    }
+
+    public void saveAndProcessScheduleRequest(ActivityOfferingWrapper activityOfferingWrapper,ActivityOfferingForm form){
+
+        ScheduleInfo scheduleInfo = activityOfferingWrapper.getScheduleInfo();
+
+        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getBackUpActualComponents()){
+             scheduleInfo.getScheduleComponents().remove(scheduleWrapper.getScheduleComponentInfo());
+        }
+
+        try {
+            if (!activityOfferingWrapper.getBackUpActualComponents().isEmpty()){
+                scheduleInfo = getSchedulingService().updateSchedule(scheduleInfo.getId(),scheduleInfo,getContextInfo());
+                activityOfferingWrapper.setScheduleInfo(scheduleInfo);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        ScheduleRequestInfo requestInfo = activityOfferingWrapper.getScheduleRequestInfo();
+
+        boolean isUpdateRequest = false;
+        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getBackUpRequestedComponents()){
+            requestInfo.getScheduleRequestComponents().remove(scheduleWrapper.getScheduleComponentInfo());
+            isUpdateRequest = true;
+        }
+
+        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getRequestedScheduleComponents()){
+            ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
+            requestInfo.getScheduleRequestComponents().add(componentInfo);
+            isUpdateRequest = true;
+        }
+
+        if (isUpdateRequest){
+            try{
+                requestInfo = getSchedulingService().updateScheduleRequest(requestInfo.getId(),requestInfo,getContextInfo());
+                activityOfferingWrapper.setScheduleRequestInfo(requestInfo);
+            }catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
+
+        try{
+            StatusInfo statusInfo = getCourseOfferingService().scheduleActivityOffering(activityOfferingWrapper.getId(),getContextInfo());
+            if (statusInfo.getIsSuccess()){
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Activity Offering has been successfully scheduled");
+            } else {
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,statusInfo.getMessage());
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
 
     }
 

@@ -49,6 +49,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private List<ScheduleWrapper> actualScheduleComponents;
     private List<ScheduleWrapper> requestedScheduleComponents;
     private List<ScheduleWrapper> backUpRequestedComponents;
+    private List<ScheduleWrapper> backUpActualComponents;
     private ScheduleWrapper newScheduleRequest;
 
     private ScheduleRequestInfo scheduleRequestInfo;
@@ -436,4 +437,16 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setBackUpRequestedComponents(List<ScheduleWrapper> backUpRequestedComponents) {
         this.backUpRequestedComponents = backUpRequestedComponents;
     }
+
+    public List<ScheduleWrapper> getBackUpActualComponents() {
+        if (backUpActualComponents == null){
+            backUpActualComponents = new ArrayList<ScheduleWrapper>();
+        }
+        return backUpActualComponents;
+    }
+
+    public void setBackUpActualComponents(List<ScheduleWrapper> backUpActualComponents) {
+        this.backUpActualComponents = backUpActualComponents;
+    }
+
 }
