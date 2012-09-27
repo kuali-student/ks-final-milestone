@@ -15,21 +15,16 @@
 
 package org.kuali.student.r2.lum.statement.config.context;
 
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,32 +64,13 @@ public class LrcContextImpl extends BasicContextImpl {
         }
     }
 
-    private String getResultValue(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
+    private ResultValueInfo getResultValue(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
         try {
-            return lrcService.getResultValue(resultValueId,contextInfo).getValue();
+            return lrcService.getResultValue(resultValueId,contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
 
-    }
-
-    private ResultValuesGroupInfo getResultValueGroupByResultValueId(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
-        if (resultValueId == null) {
-            return null;
-        }
-
-        try {
-            List<ResultValuesGroupInfo> resultValuesGroupInfos = lrcService.getResultValuesGroupsByResultValue(resultValueId,contextInfo);
-            if (resultValuesGroupInfos.size() == 1) {
-                return resultValuesGroupInfos.get(0);
-            } else if (resultValuesGroupInfos.size() == 0){
-                throw new OperationFailedException("ResultValueGroup not found for ResultValue: " + resultValueId);
-            } else {
-                throw new OperationFailedException("More than one ResultValueGroup found for ResultValue: " + resultValueId);
-            }
-        } catch (Exception e) {
-            throw new OperationFailedException(e.getMessage(), e);
-        }
     }
 
     /**
@@ -104,41 +80,13 @@ public class LrcContextImpl extends BasicContextImpl {
      * @throws OperationFailedException Creating context map fails
      */
     public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = new HashMap<String, Object>();
-
-//        String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
-//        ResultComponentInfo gradeTypeResultComponent = getResultComponentByResultComponentId(gradeTypeId);
-//        if(gradeTypeResultComponent != null) {
-//	        contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
-//        }
-//	
-//        String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
-//        String grade = getResultValue(gradeTypeResultComponent, gradeId);
-//        if(grade != null) {
-//        	contextMap.put(GRADE_TOKEN, grade);
-//        }
-
-
-        ResultValuesGroupInfo gradeTypeResultComponent = null;
         String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
-        if (gradeId == null) {
-            String gradeTypeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
-            gradeTypeResultComponent = getResultComponentByResultComponentId(gradeTypeId, contextInfo);
-            if (gradeTypeResultComponent != null) {
-                contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
-            }
-        } else {
-            gradeTypeResultComponent = getResultValueGroupByResultValueId(gradeId, contextInfo);
-        }
-        if (gradeTypeResultComponent != null) {
-            contextMap.put(GRADE_TYPE_TOKEN, gradeTypeResultComponent);
-        }
-
-        String grade = getResultValue(gradeId, contextInfo);
+        Map<String, Object> contextMap = new HashMap<String, Object>();
+        ResultValueInfo grade = getResultValue(gradeId, contextInfo);
         if (grade != null) {
-            contextMap.put(GRADE_TOKEN, grade);
+            contextMap.put(GRADE_TOKEN, grade.getValue());
+            contextMap.put(GRADE_TYPE_TOKEN, grade.getResultScaleKey());
         }
-
         return contextMap;
     }
 }
