@@ -18,15 +18,11 @@ package org.kuali.student.enrollment.class2.courseoffering.service.criteria.tran
 
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PropertyPathPredicate;
-import org.kuali.rice.core.api.criteria.SingleValuedPredicate;
 import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
 import org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
 import org.kuali.student.r2.common.criteria.transform.BaseTransform;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
@@ -54,6 +50,7 @@ public class CourseOfferingCriteriaTransform extends BaseTransform{
     private static final String PROPERTY_LUI_IDENT_DIVISION = "division";
     private static final String PROPERTY_AO_ID = "aoid";
     private static final String PROPERTY_LUI_CONTENT_OWNER = "luiContentOwner";
+    private static final String PROPERTY_LUI_IDENT_LNG_NAME = "longName";
 
     @Override
     public Predicate apply(final Predicate input, Criteria criteria) {
@@ -67,7 +64,15 @@ public class CourseOfferingCriteriaTransform extends BaseTransform{
                 Predicate codePredicate = this.createPredicate(input, getPropertyDesc(IDENT_ALIAS, PROPERTY_LUI_IDENT_CODE));
                 //Make sure only official identifiers are matched
                 return and(equal(getPropertyDesc(IDENT_ALIAS, PROPERTY_LUI_IDENT_TYPE), LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY), codePredicate);
-            }else if(PROPERTY_CO_SUBJECT_AREA.equals(pp)){
+            } else if (PROPERTY_LUI_IDENT_LNG_NAME.equals(pp)) {
+                //Add a join to the ident table
+                criteria.join(IDENT_PROPERTY, IDENT_ALIAS, false, true);
+                //Rename the property using the alias
+                Predicate codePredicate = this.createPredicate(input, getPropertyDesc(IDENT_ALIAS, PROPERTY_LUI_IDENT_LNG_NAME));
+                //Make sure only official identifiers are matched
+                return and(equal(getPropertyDesc(IDENT_ALIAS, PROPERTY_LUI_IDENT_TYPE), LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY), codePredicate);
+            }
+            else if(PROPERTY_CO_SUBJECT_AREA.equals(pp)){
                 //Add a join to the ident table
                 criteria.join(IDENT_PROPERTY, IDENT_ALIAS, false, true);
                 //Rename the property using the alias
