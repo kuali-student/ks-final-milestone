@@ -300,26 +300,26 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         ScheduleInfo scheduleInfo = activityOfferingWrapper.getScheduleInfo();
 
-        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getBackUpActualComponents()){
-             scheduleInfo.getScheduleComponents().remove(scheduleWrapper.getScheduleComponentInfo());
-        }
-
-        try {
-            if (!activityOfferingWrapper.getBackUpActualComponents().isEmpty()){
-                scheduleInfo = getSchedulingService().updateSchedule(scheduleInfo.getId(),scheduleInfo,getContextInfo());
-                activityOfferingWrapper.setScheduleInfo(scheduleInfo);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getBackUpActualComponents()){
+//             scheduleInfo.getScheduleComponents().remove(scheduleWrapper.getScheduleComponentInfo());
+//        }
+//
+//        try {
+//            if (!activityOfferingWrapper.getBackUpActualComponents().isEmpty()){
+//                scheduleInfo = getSchedulingService().updateSchedule(scheduleInfo.getId(),scheduleInfo,getContextInfo());
+//                activityOfferingWrapper.setScheduleInfo(scheduleInfo);
+//            }
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
 
         ScheduleRequestInfo requestInfo = activityOfferingWrapper.getScheduleRequestInfo();
 
         boolean isUpdateRequest = false;
-        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getBackUpRequestedComponents()){
-            requestInfo.getScheduleRequestComponents().remove(scheduleWrapper.getScheduleComponentInfo());
-            isUpdateRequest = true;
-        }
+//        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getBackUpRequestedComponents()){
+//            requestInfo.getScheduleRequestComponents().remove(scheduleWrapper.getScheduleComponentInfo());
+//            isUpdateRequest = true;
+//        }
 
         for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getRequestedScheduleComponents()){
             ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);

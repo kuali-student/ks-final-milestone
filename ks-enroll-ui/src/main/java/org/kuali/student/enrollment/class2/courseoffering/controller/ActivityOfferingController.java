@@ -31,8 +31,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=reviseSchedule")
     public ModelAndView reviseSchedule(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
 
-        form.setShowReviseLink(false);
-
         return getUIFModelAndView(form,ActivityOfferingForm.SCHEDULE_PAGE);
     }
 
@@ -44,11 +42,11 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         activityOfferingWrapper.setNewScheduleRequest(scheduleWrapper);
 
-        activityOfferingWrapper.getBackUpRequestedComponents().add(scheduleWrapper);
+//        activityOfferingWrapper.getBackUpRequestedComponents().add(scheduleWrapper);
         activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
 
         ScheduleWrapper actual = getViewHelperService(form).getMatchingActualForRequestedSchedule(activityOfferingWrapper,scheduleWrapper);
-        activityOfferingWrapper.getBackUpActualComponents().add(actual);
+//        activityOfferingWrapper.getBackUpActualComponents().add(actual);
         activityOfferingWrapper.getActualScheduleComponents().remove(actual);
 
         return getUIFModelAndView(form);
@@ -74,7 +72,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
 
-        form.setShowReviseLink(true);
         return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
     }
 
@@ -84,7 +81,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
-        form.setShowReviseLink(true);
 
         getViewHelperService(form).saveAndProcessScheduleRequest(activityOfferingWrapper,form);
 
@@ -106,15 +102,14 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         activityOfferingWrapper.getRequestedScheduleComponents().removeAll(cancelScheduleRequestComponents);
 
-        if (!activityOfferingWrapper.getBackUpRequestedComponents().isEmpty()){
-            activityOfferingWrapper.getRequestedScheduleComponents().addAll(activityOfferingWrapper.getBackUpRequestedComponents());
-        }
+//        if (!activityOfferingWrapper.getBackUpRequestedComponents().isEmpty()){
+//            activityOfferingWrapper.getRequestedScheduleComponents().addAll(activityOfferingWrapper.getBackUpRequestedComponents());
+//        }
+//
+//        if (!activityOfferingWrapper.getBackUpActualComponents().isEmpty()){
+//            activityOfferingWrapper.getActualScheduleComponents().addAll(activityOfferingWrapper.getBackUpActualComponents());
+//        }
 
-        if (!activityOfferingWrapper.getBackUpActualComponents().isEmpty()){
-            activityOfferingWrapper.getActualScheduleComponents().addAll(activityOfferingWrapper.getBackUpActualComponents());
-        }
-
-        form.setShowReviseLink(true);
         return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
     }
 

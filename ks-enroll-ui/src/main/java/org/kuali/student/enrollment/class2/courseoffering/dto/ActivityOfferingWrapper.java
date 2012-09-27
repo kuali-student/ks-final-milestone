@@ -49,8 +49,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private List<ScheduleWrapper> actualScheduleComponents;
     private List<ScheduleWrapper> requestedScheduleComponents;
-    private List<ScheduleWrapper> backUpRequestedComponents;
-    private List<ScheduleWrapper> backUpActualComponents;
     private ScheduleWrapper newScheduleRequest;
 
     private ScheduleRequestInfo scheduleRequestInfo;
@@ -76,7 +74,6 @@ public class ActivityOfferingWrapper implements Serializable{
         this.setIsChecked(false);
         actualScheduleComponents = new ArrayList<ScheduleWrapper>();
         requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
-        backUpRequestedComponents = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
     }
 
@@ -426,28 +423,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setScheduleInfo(ScheduleInfo scheduleInfo) {
         this.scheduleInfo = scheduleInfo;
-    }
-
-    public List<ScheduleWrapper> getBackUpRequestedComponents() {
-        if (backUpRequestedComponents == null){
-            backUpRequestedComponents = new ArrayList<ScheduleWrapper>();
-        }
-        return backUpRequestedComponents;
-    }
-
-    public void setBackUpRequestedComponents(List<ScheduleWrapper> backUpRequestedComponents) {
-        this.backUpRequestedComponents = backUpRequestedComponents;
-    }
-
-    public List<ScheduleWrapper> getBackUpActualComponents() {
-        if (backUpActualComponents == null){
-            backUpActualComponents = new ArrayList<ScheduleWrapper>();
-        }
-        return backUpActualComponents;
-    }
-
-    public void setBackUpActualComponents(List<ScheduleWrapper> backUpActualComponents) {
-        this.backUpActualComponents = backUpActualComponents;
     }
 
     public String getTypeKey() {

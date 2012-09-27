@@ -23,9 +23,9 @@
     <bean id="ActivityOfferingEdit-SchedulePage" parent="Uif-Page" p:id="ActivityOfferingEdit-SchedulePage">
         <property name="items">
             <list>
-                <ref bean="ActivityOffering-DeliveryLogistic-Actuals"/>
-                <ref bean="ActivityOffering-DeliveryLogistic-New"/>
-                <ref bean="ActivityOffering-DeliveryLogistic-Requested"/>
+                <ref bean="ActivityOffering-DeliveryLogistic-SchedulePage-Actuals"/>
+                <ref bean="ActivityOffering-DeliveryLogistic-SchedulePage-New"/>
+                <ref bean="ActivityOffering-DeliveryLogistic-SchedulePage-Requested"/>
             </list>
         </property>
         <property name="footer">
@@ -33,9 +33,27 @@
         </property>
         <property name="footer.items">
             <list>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="saveScheduleRequest" p:actionLabel="Save Request"/>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="saveAndProcessScheduleRequest" p:actionLabel="Save and Process Request"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveScheduleRequest" p:actionLabel="Save Request"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveAndProcessScheduleRequest" p:actionLabel="Save and Process Request"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="cancelEditingSchedule" p:actionLabel="Cancel" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-Actuals" parent="ActivityOffering-DeliveryLogistic-Actuals">
+         <property name="header.lowerGroup.render" value="false"/>
+    </bean>
+
+    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-New" parent="ActivityOffering-DeliveryLogistic-New">
+         <property name="render" value="true"/>
+    </bean>
+
+    <bean id="ActivityOffering-DeliveryLogistic-SchedulePage-Requested" parent="ActivityOffering-DeliveryLogistic-Requested">
+        <property name="render" value="true"/>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" />
+                <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
     </bean>
@@ -48,8 +66,7 @@
             p:layoutManager.renderSequenceField="false">
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup">
-                <!--<property name="render" value="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId != null}"/>-->
-                <property name="render" value="@{!showReviseLink}"/>
+                <property name="render" value="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId != null}"/>
                  <property name="items">
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="reviseSchedule" p:actionLabel="Revise" />
@@ -113,7 +130,8 @@
     <bean id="ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="requestedScheduleComponents"
-            p:readOnly="true"
+            p:render="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId == null}"
+            p:renderAddLine="false"
             p:layoutManager.renderSequenceField="false">
         <property name="headerText" value="Requested Delivery Logistics"/>
         <property name="layoutManager.richTable.render" value="false" />
@@ -161,14 +179,9 @@
                 </bean>
             </list>
         </property>
-        <property name="lineActions">
-            <list merge="true">
-                <bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit" p:render="@{#view.currentPageId eq 'ActivityOfferingEdit-SchedulePage'}" p:order="1"/>
-            </list>
-        </property>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId == null}">
         <property name="headerText" value="Submit New Request"/>
         <property name="items">
             <list>
