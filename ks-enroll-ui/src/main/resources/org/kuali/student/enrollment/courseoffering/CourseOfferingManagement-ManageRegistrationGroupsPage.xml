@@ -198,7 +198,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Assign" p:methodToCall="moveAO"  p:id="move_ao_button"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Assign" p:methodToCall="moveAOToACluster"  p:id="move_ao_button"/>
             </list>
         </property>
     </bean>
@@ -310,13 +310,13 @@
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightboxComponent('registrationGroupsPerCluster_line@{#index}');"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename Cluster" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="removeACluster" p:actionLabel="Remove Cluster"
-                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                                   />
-                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="removeAClusterThroughDialog" p:actionLabel="Remove Cluster through Dialog"
+                            <!--<bean parent="Uif-ActionLink" p:methodToCall="deleteACluster" p:actionLabel="Remove Cluster"-->
+                                  <!--p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"-->
+                                   <!--/>-->
+                            <!--<bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />-->
+                            <bean parent="Uif-ActionLink" p:methodToCall="deleteAClusterThroughDialog" p:actionLabel="Delete"
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" />
                                   <!--p:actionScript="showLightboxComponent('confirmToDeleteClusterDialog');"  />-->
                         </list>
@@ -385,7 +385,7 @@
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeACluster" p:actionLabel="Remove"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="removeAOFromCluster" p:actionLabel="Remove"/>
             </list>
         </property>
     </bean>
@@ -502,6 +502,23 @@
             <!--</list>-->
         <!--</property>-->
          <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Remove"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ManageRegistrationGroupsPage-ConfirmToRemoveAOFromAClusterDialog" parent="Uif-DialogGroup">
+        <property name="headerText" value="Remove Activity Offering Cluster"/>
+        <property name="promptText" value="This action is not reversible. Are you sure you want to continue?"/>
+        <!--<property name="items">-->
+        <!--<list>-->
+        <!--<bean id="imageWarning" parent="Uif-ImageField" p:width="75px" p:height="75px"-->
+        <!--p:source="@{#ConfigProperties['krad.externalizable.images.url']}warning.png"/>-->
+        <!--</list>-->
+        <!--</property>-->
+        <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Remove"/>
                 <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
