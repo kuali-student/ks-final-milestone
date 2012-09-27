@@ -2276,6 +2276,34 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     }
 
+    private void _uAOC_deleteAssociatedRegGroups(ActivityOfferingClusterEntity entity, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException,
+                   OperationFailedException {
+
+        // Find all AO IDs in this cluster
+        Set<ActivityOfferingSetEntity> setEntities = entity.getAoSets();
+        Set<String> aoIds = new HashSet<String>();
+        for (ActivityOfferingSetEntity setEntity: setEntities) {
+            aoIds.addAll(setEntity.getAoIds());
+        }
+        // For each reg group, look at its list of AO Ids.  If all of them are in the cluster, good.
+        // If not, add into regGroupIdsToDelete
+        List<RegistrationGroupInfo> regGroups =
+                getRegistrationGroupsByActivityOfferingCluster(entity.getId(), contextInfo);
+        List<String> regGroupIdsToDelete = new ArrayList<String>();
+        for (RegistrationGroupInfo regGroup: regGroups) {
+            List<String> regGroupAoIds = regGroup.getActivityOfferingIds();
+            if (!aoIds.containsAll(regGroupAoIds)) {
+                // Didn't find all AOs from the reg group AO IDs
+                regGroupIdsToDelete.add(regGroup.getId());
+            }
+        }
+        // Delete the reg groups in the list
+        for (String regGroupIdToDelete: regGroupIdsToDelete) {
+            deleteRegistrationGroup(regGroupIdToDelete, contextInfo);
+        }
+    }
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ActivityOfferingClusterInfo updateActivityOfferingCluster(String formatOfferingId,
@@ -2889,20 +2917,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+            String activityOfferingClusterId, ContextInfo contextInfo)
+              throws DoesNotExistException, InvalidParameterException,
+                     MissingParameterException, OperationFailedException,
+                     PermissionDeniedException {
 
         ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
         List<RegistrationGroupInfo> regGroupsForAOC = new ArrayList<RegistrationGroupInfo>();
         List<RegistrationGroupInfo> regGroups = getRegistrationGroupsByFormatOffering(aoCInfo.getFormatOfferingId(),contextInfo);
 
-        for (RegistrationGroupInfo regGroup : regGroups ) {
-
-            if (regGroup.getActivityOfferingClusterId().equals(activityOfferingClusterId))
+        for (RegistrationGroupInfo regGroup : regGroups) {
+            if (regGroup.getActivityOfferingClusterId().equals(activityOfferingClusterId)) {
                 regGroupsForAOC.add(regGroup);
+            }
         }
 
         return regGroupsForAOC;
