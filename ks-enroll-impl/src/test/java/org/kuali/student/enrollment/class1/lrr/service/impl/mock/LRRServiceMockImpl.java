@@ -1,31 +1,31 @@
 package org.kuali.student.enrollment.class1.lrr.service.impl.mock;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.dto.ResultSourceInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 
-public class LRRServiceMockImpl implements LearningResultRecordService {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class LRRServiceMockImpl implements LearningResultRecordService, MockService {
 
 	private static Map<String, LearningResultRecordInfo> learningResultCache = new HashMap<String, LearningResultRecordInfo>();
 	private static Map<String, ResultSourceInfo> resultSourcesCache = new HashMap<String, ResultSourceInfo>();
 
-	@Override
+    @Override
+    public void clear() {
+        learningResultCache.clear();
+        resultSourcesCache.clear();
+    }
+
+    @Override
 	public LearningResultRecordInfo getLearningResultRecord(
 			String learningResultRecordId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,

@@ -15,35 +15,33 @@
  */
 package org.kuali.student.r2.core.class1.hold.mock;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
+import org.kuali.student.enrollment.class1.hold.util.EffectiveDateUtils;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.constants.HoldServiceConstants;
+import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
+import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
+import org.kuali.student.r2.core.hold.service.HoldService;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.class1.hold.util.EffectiveDateUtils;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
-import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
-import org.kuali.student.r2.core.hold.service.HoldService;
-
 public class HoldServiceMockImpl
-        implements HoldService {
+        implements HoldService, MockService {
+
+    @Override
+    public void clear() {
+        this.holdMap.clear();
+        this.issueMap.clear();
+    }
 
     // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order

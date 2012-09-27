@@ -10,6 +10,7 @@ package org.kuali.student.r2.core.class1.organization.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.util.UUIDHelper;
@@ -44,7 +45,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OrganizationServiceMockImpl implements OrganizationService {
+public class OrganizationServiceMockImpl implements OrganizationService, MockService {
 
     final Logger logger = Logger.getLogger(OrganizationServiceMockImpl.class);
 
@@ -60,6 +61,15 @@ public class OrganizationServiceMockImpl implements OrganizationService {
     private Map<String, OrgOrgRelationInfo> orgOrgRelationInfoMap = new LinkedHashMap<String, OrgOrgRelationInfo>();
     private Map<String, OrgPersonRelationInfo> orgPersonRelationInfoMap = new LinkedHashMap<String, OrgPersonRelationInfo>();
     private Map<String, OrgPositionRestrictionInfo> orgPositionRestrictionInfoMap = new LinkedHashMap<String, OrgPositionRestrictionInfo>();
+
+    @Override
+    public void clear() {
+        this.orgHierarchyInfoMap.clear();
+        this.orgInfoMap.clear();
+        this.orgOrgRelationInfoMap.clear();
+        this.orgPersonRelationInfoMap.clear();
+        this.orgPositionRestrictionInfoMap.clear();
+    }
 
     /**
      * Check for missing parameter and throw localized exception if missing

@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -39,11 +40,17 @@ import java.util.Set;
  */
 
 public class LuiServiceMockImpl 
-    implements LuiService {
+    implements LuiService, MockService {
 
     private Map<String, LuiInfo> luis = new LinkedHashMap<String, LuiInfo>();
     private Map<String, LuiLuiRelationInfo> luiLuiRelations = new LinkedHashMap<String, LuiLuiRelationInfo>();
-    
+
+    @Override
+    public void clear() {
+        this.luis.clear();
+        this.luiLuiRelations.clear();
+    }
+
     @Override
     public LuiInfo getLui(String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (!luis.containsKey(luiId)) {

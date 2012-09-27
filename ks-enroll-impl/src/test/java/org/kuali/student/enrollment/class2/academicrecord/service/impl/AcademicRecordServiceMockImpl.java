@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -8,12 +9,9 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.grading.service.GradingService;
-import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -21,18 +19,15 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AcademicRecordServiceMockImpl implements AcademicRecordService{
+public class AcademicRecordServiceMockImpl implements AcademicRecordService, MockService {
 
     private CourseRegistrationService courseRegService;
     private GradingService gradingService;
@@ -48,6 +43,17 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService{
     private Map<String, StudentProgramRecordInfo> studentProgramRecordsMap = new LinkedHashMap<String, StudentProgramRecordInfo>();
     private Map<String, StudentCredentialRecordInfo> studentCredentialRecordsMap = new LinkedHashMap<String, StudentCredentialRecordInfo>();
     private Map<String, StudentTestScoreRecordInfo> studentTestScoreRecordsMap = new LinkedHashMap<String, StudentTestScoreRecordInfo>();
+
+    @Override
+    public void clear() {
+        gpasMap.clear();
+        creditsMap.clear();
+        courseRecordInfoList.clear();
+        loadsMap.clear();
+        studentProgramRecordsMap.clear();
+        studentCredentialRecordsMap.clear();
+        studentTestScoreRecordsMap.clear();
+    }
 
     public AcademicRecordServiceMockImpl() {
         //StudentProgramRecordInfo
