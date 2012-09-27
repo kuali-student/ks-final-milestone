@@ -67,11 +67,17 @@
     <!-- Drop the user, ignoring the Oracle error code for "user does not exist" -->
     <ks.impex.oracle.sql.drop>
       BEGIN
-      EXECUTE IMMEDIATE 'DROP USER ${ks.impex.username} CASCADE';
-      EXCEPTION WHEN OTHERS THEN
-      IF SQLCODE != ${ks.impex.oracle.error.sqlcode.userDoesNotExist} THEN
-      RAISE;
-      END IF;
+        FOR SESSIONS IN ( SELECT SID, SERIAL#
+          FROM   V$SESSION
+          WHERE  USERNAME = '${ks.impex.username}')
+        LOOP
+          EXECUTE IMMEDIATE 'ALTER SYSTEM KILL SESSION '''||SESSIONS.SID||','||SESSIONS.SERIAL#||'''';
+        END LOOP;
+        EXECUTE IMMEDIATE 'DROP USER ${ks.impex.username} CASCADE';
+        EXCEPTION WHEN OTHERS THEN
+        IF SQLCODE != ${ks.impex.oracle.error.sqlcode.userDoesNotExist} THEN
+          RAISE;
+        END IF;
       END;
       /
     </ks.impex.oracle.sql.drop>
