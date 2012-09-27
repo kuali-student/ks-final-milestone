@@ -54,6 +54,8 @@
                 <value>classpath:ks-PopulationInfo-dictionary.xml</value>
                 <value>classpath:ks-PopulationRuleInfo-dictionary.xml</value>
                 <value>classpath:ks-CourseOfferingDisplayInfo-dictionary.xml</value>
+                <value>classpath:ks-BuildingInfo-dictionary.xml</value>
+                <value>classpath:ks-RoomInfo-dictionary.xml</value>
 
                 <!--
 				<value>classpath:AcademicCalendarInfoUI.xml</value>
@@ -128,6 +130,8 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ManageSOCView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingEdit-MainPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingEdit-SchedulePage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/BuildingLookupAndInquiry.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/RoomLookupAndInquiry.xml</value>
 
                 <!-- East Coast Sandbox (rollover) -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
