@@ -27,6 +27,7 @@ public class ActivityOfferingWrapper implements Serializable{
     // Tanveer 06/13/2012
     private String stateName;
     private String typeName;
+    private String typeKey;
 
     private String termName;
 
@@ -447,6 +448,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setBackUpActualComponents(List<ScheduleWrapper> backUpActualComponents) {
         this.backUpActualComponents = backUpActualComponents;
+    }
+
+    public String getTypeKey() {
+        return typeKey;
+    }
+
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
     }
 
 }

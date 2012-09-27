@@ -358,16 +358,15 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         String selectedClusterIndex = StringUtils.substringBetween(selectedCollectionPath,"filteredAOClusterWrapperList[","]");
         ActivityOfferingClusterWrapper theClusterWrapper = theForm.getFilteredAOClusterWrapperList().get(Integer.parseInt(selectedClusterIndex));
-        //first move selected AO from AO table under selected Cluster to the unassigned table
-        theClusterWrapper.getAoWrapperList().remove(selectedAOWrapper);
-        theForm.getFilteredUnassignedAOsForSelectedFO().add(selectedAOWrapper);
-        //update the DB for cluster and RGs if any
-        String aoTypeName = selectedAOWrapper.getTypeName();
-        if (aoTypeName== null || aoTypeName.isEmpty()){
+
+        //First, update the DB for cluster and RGs if any
+        String aoTypeKey = selectedAOWrapper.getTypeKey();
+        if (aoTypeKey== null || aoTypeKey.isEmpty()){
             try {
                 TypeInfo typeInfo = getTypeService().getType(selectedAOWrapper.getAoInfo().getTypeKey(), getContextInfo());
+                selectedAOWrapper.setTypeKey(typeInfo.getKey());
                 selectedAOWrapper.setTypeName(typeInfo.getName());
-                aoTypeName = typeInfo.getName(); 
+                aoTypeKey = typeInfo.getKey();
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -375,7 +374,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         ActivityOfferingClusterInfo aoCluster = theClusterWrapper.getAoCluster();
         List <ActivityOfferingSetInfo> aoSetList = aoCluster.getActivityOfferingSets();
         for (ActivityOfferingSetInfo aoSet:aoSetList){
-            if(aoTypeName.equalsIgnoreCase(aoSet.getActivityOfferingType())){
+            if(aoTypeKey.equalsIgnoreCase(aoSet.getActivityOfferingType())){
                 aoSet.getActivityOfferingIds().remove(selectedAOWrapper.getAoInfo().getId());                
                 break;
             }
@@ -383,9 +382,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         aoCluster = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
                 aoCluster.getId(), aoCluster, getContextInfo());
         theClusterWrapper.setAoCluster(aoCluster);
+
         List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), getContextInfo());
         List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, theClusterWrapper.getAoWrapperList());
         theClusterWrapper.setRgWrapperList(filteredRGs);
+
+        //finally, move selected AO from AO table under selected Cluster to the unassigned table
+        theClusterWrapper.getAoWrapperList().remove(selectedAOWrapper);
+        theForm.getFilteredUnassignedAOsForSelectedFO().add(selectedAOWrapper);
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
@@ -610,12 +614,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         //then update RGs
-        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
-        List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
-
-        if(rgInfos != null && rgInfos.size()>0) {
-            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
-        }
+//        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
+//        List<RegistrationGroupWrapper> filteredRGs = getRGsForSelectedFO(rgInfos, filteredAOs);
+//
+//        if(rgInfos != null && rgInfos.size()>0) {
+//            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
+//        }
         //return updated form
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
@@ -650,26 +654,27 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         for (ActivityOfferingWrapper aoWrapper:aoWrapperList){
             try {
                 TypeInfo typeInfo = getTypeService().getType(aoWrapper.getAoInfo().getTypeKey(), getContextInfo());
+                aoWrapper.setTypeKey(typeInfo.getKey());
                 aoWrapper.setTypeName(typeInfo.getName());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
-            String aoTypeName = aoWrapper.getTypeName();
-            if (aoSetMap.containsKey(aoTypeName)){
-                ActivityOfferingSetInfo aoSetInfo = aoSetMap.get(aoTypeName);
+            String aoTypeKey = aoWrapper.getTypeKey();
+            if (aoSetMap.containsKey(aoTypeKey)){
+                ActivityOfferingSetInfo aoSetInfo = aoSetMap.get(aoTypeKey);
                 List<String> aoIds = aoSetInfo.getActivityOfferingIds();
                 aoIds.add(aoWrapper.getAoInfo().getId());
                 aoSetInfo.setActivityOfferingIds(aoIds);
-                aoSetMap.put(aoTypeName,aoSetInfo);
+                aoSetMap.put(aoTypeKey,aoSetInfo);
             }
             else {
                 ActivityOfferingSetInfo aoSetInfo = new ActivityOfferingSetInfo();
                 List<String> aoIds = aoSetInfo.getActivityOfferingIds();
                 aoIds.add(aoWrapper.getAoInfo().getId());
                 aoSetInfo.setActivityOfferingIds(aoIds);
-                aoSetInfo.setActivityOfferingType(aoTypeName);
-                aoSetMap.put(aoTypeName,aoSetInfo);
+                aoSetInfo.setActivityOfferingType(aoTypeKey);
+                aoSetMap.put(aoTypeKey,aoSetInfo);
             }
         }
         List<ActivityOfferingSetInfo> aoSetList = new ArrayList<ActivityOfferingSetInfo>();
