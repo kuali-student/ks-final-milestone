@@ -62,22 +62,4 @@ public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase imple
         return keyValues;
     }
 
-    // Delete this after testing with real data from the service
-    private static List<ActivityOfferingClusterInfo> getMockedActivityOfferingClusterInfos(){
-        List<ActivityOfferingClusterInfo> clusterInfos = new ArrayList<ActivityOfferingClusterInfo>();
-        ActivityOfferingClusterInfo clusterInfo = new ActivityOfferingClusterInfo();
-        clusterInfo.setId("abcd");
-        clusterInfo.setName("abcd");
-        clusterInfos.add(clusterInfo);
-        clusterInfo = new ActivityOfferingClusterInfo();
-        clusterInfo.setId("efgh");
-        clusterInfo.setName("efgh");
-        clusterInfos.add(clusterInfo);
-        clusterInfo = new ActivityOfferingClusterInfo();
-        clusterInfo.setId("ijkl");
-        clusterInfo.setName("ijkl");
-        clusterInfos.add(clusterInfo);
-
-        return clusterInfos;
-    }
 }
