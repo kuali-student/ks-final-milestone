@@ -13,45 +13,21 @@ import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGr
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.constants.RoomServiceConstants;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -61,13 +37,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author nwright
@@ -90,6 +60,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     @Resource
     private SchedulingService schedulingService;
+
+    @Resource
+    private RoomService roomService;
 
     public CourseOfferingService getCoService() {
         return coService;
@@ -123,6 +96,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.courseService = courseService;
     }
 
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
+    }
+
     private CourseOfferingService _getCoService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
@@ -137,6 +114,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     SchedulingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return schedulingService;
+    }
+
+    public RoomService _getRoomService() {
+        if (roomService == null){
+            roomService = (RoomService)GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE,
+                    RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return roomService;
     }
 
     private ActivityOfferingInfo _RCO_createTargetActivityOffering(ActivityOfferingInfo sourceAo, FormatOfferingInfo targetFo,
@@ -161,12 +146,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetAo.setMeta(null);
         // Make sure to copy the activity code
         targetAo.setActivityCode(sourceAo.getActivityCode());
-        if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-            targetAo.setScheduleId(null);
-            // TODO: set the schedule request to null as well
-        }else{
-            targetAo.setScheduleId(null); //We need to copy the schedule since it is not reusable, but for now we are just copying the schedule to a request
-        }
+        //Target AO should have no actual schedule
+        targetAo.setScheduleId(null);
 
         if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
             targetAo.getInstructors().clear();
@@ -181,26 +162,43 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     private void _RCO_rolloverScheduleToScheduleRequest(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         //Copy the schedule to a schedule request
         ScheduleDisplayInfo sourceSchedule = this._getSchedulingService().getScheduleDisplay(sourceAo.getScheduleId(),context);
+        ScheduleInfo sourceScheduleInfo = this._getSchedulingService().getSchedule(sourceAo.getScheduleId(), context);
         ScheduleRequestInfo targetScheduleRequest = new ScheduleRequestInfo();
         targetScheduleRequest.setRefObjectId(targetAo.getId());
         targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
         targetScheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
         targetScheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        targetScheduleRequest.setName(sourceSchedule.getName());
-        //TODO Map additional fields (there are lots of things that might need to be copied/translated for the new term.
+        targetScheduleRequest.setName("Schedule request for " + targetAo.getCourseOfferingCode() + " - " + targetAo.getActivityCode());
+        targetScheduleRequest.setDescr(sourceSchedule.getDescr());
+
         for(AttributeInfo sourceAttribute : sourceSchedule.getAttributes()){
             targetScheduleRequest.getAttributes().add(new AttributeInfo(sourceAttribute));
         }
-        for(ScheduleComponentDisplay sourceComponent:sourceSchedule.getScheduleComponentDisplays()){
+
+        for(int i = 0; i < sourceSchedule.getScheduleComponentDisplays().size(); i++){
+            ScheduleComponentDisplay sourceComponent = sourceSchedule.getScheduleComponentDisplays().get(i);
+            ScheduleComponentInfo componentInfo =  sourceScheduleInfo.getScheduleComponents().get(i);
+
             ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
             if(sourceComponent.getBuilding()!=null){
                 requestComponentInfo.getBuildingIds().add(sourceComponent.getBuilding().getId());
                 requestComponentInfo.getCampusIds().add(sourceComponent.getBuilding().getCampusKey());
             }
-            if(sourceComponent.getRoom()!=null){
-                requestComponentInfo.getRoomIds().add(sourceComponent.getRoom().getId());
+            if(componentInfo !=null){
+                requestComponentInfo.getRoomIds().add(componentInfo.getRoomId());
+                requestComponentInfo.setIsTBA(componentInfo.getIsTBA());
+                List<String> responsibleOrgIdList = this._getRoomService().getRoomResponsibleOrgIdsByRoom(componentInfo.getRoomId(), context);
+                if(responsibleOrgIdList != null) {
+                    for(String id : responsibleOrgIdList) {
+                        requestComponentInfo.getOrgIds().add(id);
+                    }
+                }
             }
-            requestComponentInfo.setIsTBA(Boolean.FALSE);//TODO map this in M6
+            List<String> resourceTypeKeys = new ArrayList<String>();
+            resourceTypeKeys.add(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+            requestComponentInfo.setResourceTypeKeys(resourceTypeKeys);
+
+
             for(TimeSlot timeSlot : sourceComponent.getTimeSlots()){
                 TimeSlotInfo targetTimeSlot = new TimeSlotInfo(timeSlot);
                 targetTimeSlot.setId(null);
