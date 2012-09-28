@@ -2348,6 +2348,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
         if (null != activityOfferingClusterEntity) {
+            // Don't delete AOC if there are dependent RGs.
+            List<RegistrationGroupInfo> rgInfos =
+                    getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, context);
+            if (rgInfos != null && !rgInfos.isEmpty()) {
+                throw new DependentObjectsExistException("Activity offering cluster (id: " + activityOfferingClusterId + ") has attached reg groups");
+            }
             // Delete attributes
             if (activityOfferingClusterEntity.getAttributes() != null) {
                 for(ActivityOfferingClusterAttributeEntity attr:activityOfferingClusterEntity.getAttributes()) {
