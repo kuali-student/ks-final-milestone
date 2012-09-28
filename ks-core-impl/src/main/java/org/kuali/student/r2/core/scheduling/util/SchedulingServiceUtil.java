@@ -21,6 +21,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
@@ -212,8 +213,20 @@ public class SchedulingServiceUtil {
             requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
 
             // retrieve the room to find the building id
-            RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
-            requestComponentInfo.getBuildingIds().add(room.getBuildingId());
+            if(schedComp.getRoomId() != null) {
+                RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
+                requestComponentInfo.getBuildingIds().add(room.getBuildingId());
+
+                BuildingInfo building = roomService.getBuilding(room.getBuildingId(), callContext);
+                requestComponentInfo.getCampusIds().add(building.getCampusKey());
+
+                List<String> responsibleOrgIdList = roomService.getRoomResponsibleOrgIdsByRoom(schedComp.getRoomId(), callContext);
+                if(responsibleOrgIdList != null) {
+                    for(String id : responsibleOrgIdList) {
+                        requestComponentInfo.getOrgIds().add(id);
+                    }
+                }
+            }
 
             result.getScheduleRequestComponents().add(requestComponentInfo);
         }
