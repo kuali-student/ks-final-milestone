@@ -17,7 +17,11 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
@@ -25,7 +29,11 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -43,7 +51,11 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -51,7 +63,16 @@ import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -65,6 +86,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient RoomService roomService;
     private transient PopulationService populationService;
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
+
+    private static final String TIME_FORMAT_STRING = "hh:mm a";
+    private static final DateFormat TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT_STRING);
 
     @Override
     public void saveDataObject() {
@@ -88,7 +112,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
-    private void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper){
+    private void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper) {
 
         if (wrapper.getScheduleRequestInfo() == null){
             ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
@@ -135,9 +159,11 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         componentInfo.setId(UUIDHelper.genStringUUID());
         componentInfo.setIsTBA(scheduleWrapper.isTba());
 
-        List<String> room = new ArrayList();
-        room.add(scheduleWrapper.getRoom().getId());
-        componentInfo.setRoomIds(room);
+        if(scheduleWrapper.getRoom() != null) {
+            List<String> room = new ArrayList<String>();
+            room.add(scheduleWrapper.getRoom().getId());
+            componentInfo.setRoomIds(room);
+        }
 
         componentInfo.setResourceTypeKeys(scheduleWrapper.getFeatures());
 
@@ -147,11 +173,11 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
         timeSlot.setWeekdays(days);
 
-        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
 
-        if (!scheduleWrapper.getStartTime().isEmpty()) {
+
+        if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
             try {
-                long time = dateFormat.parse(scheduleWrapper.getStartTimeUI()).getTime();
+                long time = TIME_FORMAT.parse(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM()).getTime();
                 TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
                 timeOfDayInfo.setMilliSeconds(time);
                 timeSlot.setStartTime(timeOfDayInfo);
@@ -160,9 +186,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
         }
 
-        if (!scheduleWrapper.getEndTime().isEmpty()) {
+        if (StringUtils.isNotEmpty(scheduleWrapper.getEndTime())) {
             try {
-                long time = dateFormat.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
+                long time = TIME_FORMAT.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
                 TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
                 timeOfDayInfo.setMilliSeconds(time);
                 timeSlot.setEndTime(timeOfDayInfo);
@@ -184,34 +210,38 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     private List<Integer> buildDaysForDTO(String days){
 
-        List<Integer> weekdays  = new ArrayList();
+        List<Integer> weekdays  = new ArrayList<Integer>();
 
-        if (StringUtils.containsIgnoreCase(days,"M")){
-            weekdays.add(Calendar.MONDAY);
-        }
+        if(days != null) {
 
-        if (StringUtils.containsIgnoreCase(days,"T")){
-            weekdays.add(Calendar.TUESDAY);
-        }
+            if (StringUtils.containsIgnoreCase(days,"M")){
+                weekdays.add(Calendar.MONDAY);
+            }
 
-        if (StringUtils.containsIgnoreCase(days,"W")){
-            weekdays.add(Calendar.WEDNESDAY);
-        }
+            if (StringUtils.containsIgnoreCase(days,"T")){
+                weekdays.add(Calendar.TUESDAY);
+            }
 
-        if (StringUtils.containsIgnoreCase(days,"H")){
-            weekdays.add(Calendar.THURSDAY);
-        }
+            if (StringUtils.containsIgnoreCase(days,"W")){
+                weekdays.add(Calendar.WEDNESDAY);
+            }
 
-        if (StringUtils.containsIgnoreCase(days,"F")){
-            weekdays.add(Calendar.FRIDAY);
-        }
+            if (StringUtils.containsIgnoreCase(days,"H")){
+                weekdays.add(Calendar.THURSDAY);
+            }
 
-        if (StringUtils.containsIgnoreCase(days,"S")){
-            weekdays.add(Calendar.SATURDAY);
-        }
+            if (StringUtils.containsIgnoreCase(days,"F")){
+                weekdays.add(Calendar.FRIDAY);
+            }
 
-        if (StringUtils.containsIgnoreCase(days,"U")){
-            weekdays.add(Calendar.SUNDAY);
+            if (StringUtils.containsIgnoreCase(days,"S")){
+                weekdays.add(Calendar.SATURDAY);
+            }
+
+            if (StringUtils.containsIgnoreCase(days,"U")){
+                weekdays.add(Calendar.SUNDAY);
+            }
+
         }
 
         return weekdays;
@@ -222,7 +252,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         String returnValue = StringUtils.EMPTY;
 
         for (Integer day : days) {
-            switch (day.intValue()){
+            switch (day){
                 case Calendar.MONDAY:
                    returnValue = returnValue + "M ";
                    break;
@@ -253,26 +283,42 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     public void addOrUpdateScheduleRequestComponent(ActivityOfferingWrapper wrapper){
         ScheduleWrapper scheduleWrapper = wrapper.getNewScheduleRequest();
 
-        //Add a space between selected days ("MTWHFSU") for informational purpose
-        char[] days = scheduleWrapper.getDays().toUpperCase().toCharArray();
-        StringBuffer buffer = new StringBuffer();
-        for (char day : days) {
-            buffer.append(day + " ");
+        //Add a space between selected days ("MTWHFSU") for the UI read-only string
+        StringBuilder buffer = new StringBuilder();
+        if(scheduleWrapper.getDays() != null) {
+            char[] days = scheduleWrapper.getDays().toUpperCase().toCharArray();
+            for (char day : days) {
+                buffer.append(day).append(" ");
+            }
         }
 
         scheduleWrapper.setDaysUI(StringUtils.stripEnd(buffer.toString()," "));
-        scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
-        scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
+        if(scheduleWrapper.getStartTime() != null) {
+            scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
+        }
+        if(scheduleWrapper.getEndTime() != null) {
+            scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
+        }
 
         try {
-            List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(),getContextInfo());
-            scheduleWrapper.setBuilding(buildings.get(0));
-            List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(),scheduleWrapper.getRoomCode(),getContextInfo());
-            RoomInfo room = rooms.get(0);
-            if(room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()){
-                scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
+
+            if(StringUtils.isNotEmpty(scheduleWrapper.getBuildingCode())) {
+                List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(),getContextInfo());
+                if(!buildings.isEmpty()) {
+                    scheduleWrapper.setBuilding(buildings.get(0));
+                }
             }
-            scheduleWrapper.setRoom(room);
+
+            if (StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
+                List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(),scheduleWrapper.getRoomCode(),getContextInfo());
+                if(!rooms.isEmpty()) {
+                    RoomInfo room = rooms.get(0);
+                    if(room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()){
+                        scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
+                    }
+                    scheduleWrapper.setRoom(room);
+                }
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -298,29 +344,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     public void saveAndProcessScheduleRequest(ActivityOfferingWrapper activityOfferingWrapper,ActivityOfferingForm form){
 
-        ScheduleInfo scheduleInfo = activityOfferingWrapper.getScheduleInfo();
-
-//        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getBackUpActualComponents()){
-//             scheduleInfo.getScheduleComponents().remove(scheduleWrapper.getScheduleComponentInfo());
-//        }
-//
-//        try {
-//            if (!activityOfferingWrapper.getBackUpActualComponents().isEmpty()){
-//                scheduleInfo = getSchedulingService().updateSchedule(scheduleInfo.getId(),scheduleInfo,getContextInfo());
-//                activityOfferingWrapper.setScheduleInfo(scheduleInfo);
-//            }
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
-
         ScheduleRequestInfo requestInfo = activityOfferingWrapper.getScheduleRequestInfo();
 
         boolean isUpdateRequest = false;
-//        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getBackUpRequestedComponents()){
-//            requestInfo.getScheduleRequestComponents().remove(scheduleWrapper.getScheduleComponentInfo());
-//            isUpdateRequest = true;
-//        }
-
         for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getRequestedScheduleComponents()){
             ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
             requestInfo.getScheduleRequestComponents().add(componentInfo);
@@ -502,12 +528,11 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     if (!timeSlotInfos.isEmpty()){
                         scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
-                        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
                         Date timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                        scheduleWrapper.setStartTimeUI(dateFormat.format(timeForDisplay));
+                        scheduleWrapper.setStartTimeUI(TIME_FORMAT.format(timeForDisplay));
 
                         timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                        scheduleWrapper.setEndTimeUI(dateFormat.format(timeForDisplay));
+                        scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
 
                         scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
                     }
@@ -552,12 +577,11 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 if (!timeSlotInfos.isEmpty()){
                     scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
-                    DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
                     Date timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                    scheduleWrapper.setStartTimeUI(dateFormat.format(timeForDisplay));
+                    scheduleWrapper.setStartTimeUI(TIME_FORMAT.format(timeForDisplay));
 
                     timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                    scheduleWrapper.setEndTimeUI(dateFormat.format(timeForDisplay));
+                    scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
 
                     scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
                 }
@@ -591,8 +615,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
      *
      * unwrap seatPoolWrapper. If the seatPoolWrapper is null or contains no seatPools, return null
      *
-     * @param seatPoolWrappers
-     * @return
+     * @param seatPoolWrappers list of SeatPoolWrappers to unwrap
+     * @return list of SeatPoolDefinitionInfo objects derived from the wrappers
      */
     private List<SeatPoolDefinitionInfo> getSeatPoolDefinitions(List<SeatPoolWrapper> seatPoolWrappers)   {
 
@@ -619,9 +643,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-        QueryByCriteria qbc = qbcBuilder.build();
 
-        return qbc;
+        return qbcBuilder.build();
     }
 
     private String getTermDisplayString(String termId, TermInfo term) {
@@ -849,36 +872,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             roomService = CourseOfferingResourceLoader.loadRoomService();
         }
         return roomService;
-    }
-
-    /**
-     * Mock data that was being used in the Delivery Logistics section of Edit Activity Offering
-     *
-     * @param userEnteredCode
-     * @return
-     */
-    public List<String> getBuildingsCodesForSuggest(String userEnteredCode) {
-        //TODO - make this an actual search based on user-entered text
-        List<String> buildingCodes = new ArrayList<String>();
-        buildingCodes.add(userEnteredCode+"Dog");
-        buildingCodes.add(userEnteredCode+"Emu");
-        buildingCodes.add(userEnteredCode+"Fox");
-        return buildingCodes;
-    }
-
-    /**
-     * Mock data that was being used in the Delivery Logistics section of Edit Activity Offering
-     *
-     * @param buildingCode
-     * @return
-     */
-    public List<String> getRoomNumbersForSuggest(String buildingCode) {
-        //TODO - make this an actual search based on the building & user-entered text
-        List<String> roomNumbers = new ArrayList<String>();
-        roomNumbers.add("101");
-        roomNumbers.add("202");
-        roomNumbers.add("303");
-        return roomNumbers;
     }
 
 }
