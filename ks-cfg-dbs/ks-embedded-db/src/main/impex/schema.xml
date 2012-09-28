@@ -6216,9 +6216,9 @@
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="WEEKDAYS" required="true" size="255" type="VARCHAR"/>
-        <column name="START_TIME_MS" required="true" size="22" type="DECIMAL"/>
-        <column name="END_TIME_MS" required="true" size="22" type="DECIMAL"/>
+        <column name="WEEKDAYS" size="255" type="VARCHAR"/>
+        <column name="START_TIME_MS" size="22" type="DECIMAL"/>
+        <column name="END_TIME_MS" size="22" type="DECIMAL"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
