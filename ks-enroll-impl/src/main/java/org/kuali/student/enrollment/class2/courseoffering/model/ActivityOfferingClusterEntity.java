@@ -123,6 +123,8 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
             ActivityOfferingSetEntity aoSetEntity;
             if (existingAOSets.containsKey(aoSet.getId())){
                 aoSetEntity = existingAOSets.remove(aoSet.getId());
+                aoSetEntity.getAoIds().clear();
+                aoSetEntity.getAoIds().addAll(aoSet.getActivityOfferingIds());
             } else {
                 aoSetEntity = new ActivityOfferingSetEntity(aoSet);
             }

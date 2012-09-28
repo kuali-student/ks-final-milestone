@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGr
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
+import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -485,7 +486,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return list.get(0).getId();
     }
 
-
     /*
      * Note: The Registration Group Code is what the admnin's want to see the reg groups on a per course offering basis.
      * 
@@ -512,29 +512,26 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     * The core generation logic should work with in the impl as well.
     */
     @Override
-    public StatusInfo generateRegistrationGroupsForFormatOffering(
-            String formatOfferingId, ContextInfo contextInfo)
+    public StatusInfo generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DataValidationErrorException {
+                   MissingParameterException, OperationFailedException,
+                   PermissionDeniedException, DataValidationErrorException {
 
         // check for any existing registration groups
         this._getCoService(); // Make sure coService gets set
 
         // verify we are allowed to do this.
-
         boolean generated = false;
         List<String> aocIdList = coService.getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
 
-        if (aocIdList.size() == 0)
+        if (aocIdList.isEmpty()) {
             throw new DoesNotExistException("No ActivityOfferingCluster's exist for formatOfferingId = " + formatOfferingId);
+        }
 
         for (String aocId : aocIdList) {
             try {
                 StatusInfo status = generateRegistrationGroupsForCluster(aocId, contextInfo);
-
                 generated = status.getIsSuccess();
-
             } catch (Exception e) {
                 throw new OperationFailedException("formatOfferingId = " + formatOfferingId + ": failed to generate reg groups for activityOfferingClusterId = " + aocId, e);
             }
@@ -545,21 +542,38 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return success;
     }
 
+    private boolean _clusterHasIncompleteRegGroups(ActivityOfferingClusterInfo cluster,
+                                                   List<RegistrationGroupInfo> currentRGs) {
+        List<Integer> permutationCounter = new ArrayList<Integer>(cluster.getActivityOfferingSets().size());
+        for (int i = 0; i < permutationCounter.size(); i++) {
+            // set index to all 0's to start
+            permutationCounter.set(i, 0);
+        }
+        return false;
+    }
+
     @Override
-    public StatusInfo generateRegistrationGroupsForCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+                   MissingParameterException, OperationFailedException, PermissionDeniedException {
         // check for any existing registration groups
         this._getCoService(); // Make sure coService gets set
+
+        // Run a basic validation to see if each AOset is non-empty.  If there is an empty set, throw exception.
+        AOClusterVerifyResultsInfo result =
+                coService.verifyActivityOfferingClusterForGeneration(activityOfferingClusterId, contextInfo);
+        List<ValidationResultInfo> resultInfos = result.getValidationResults();
+        for (ValidationResultInfo vri: resultInfos) {
+            if (vri.isError()) {
+                throw new DataValidationErrorException("One or more AOsets in the cluster is empty--can't generate reg groups");
+            }
+        }
 
         // TODO: this should be moved to the validation decorator in the verify method
         List<RegistrationGroupInfo> existingRegistrationGroups =
                 coService.getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
 
-        if (existingRegistrationGroups.size() > 0) {
+        if (!existingRegistrationGroups.isEmpty()) {
             // for M4 compatibility
             // should be removed once M5 work starts as the delta add should be supported
             // and cascaded delete on an AO should remove the reg group.
@@ -570,7 +584,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
         ActivityOfferingClusterInfo aoc = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
         List<String> typeList = extractTypes(aoc.getActivityOfferingSets());
-        Map<String, List<String>> activityOfferingTypeToOfferingMap = extractActivityOfferingMap(aoc.getActivityOfferingSets());
+        Map<String, List<String>> activityOfferingTypeToOfferingMap = _extractActivityOfferingMap(aoc.getActivityOfferingSets());
         List<List<String>> generatedPermutations = new ArrayList<List<String>>();
 
         PermutationUtils.generatePermutations(typeList,
@@ -610,19 +624,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return success;
     }
 
-    private Map<String, List<String>> extractActivityOfferingMap(
-            List<ActivityOfferingSetInfo> activityOfferingSets) {
+    private Map<String, List<String>> _extractActivityOfferingMap(List<ActivityOfferingSetInfo> activityOfferingSets) {
         Map<String, List<String>> aoTypeToListMap = new LinkedHashMap<String, List<String>>();
 
         for (ActivityOfferingSetInfo aoSet : activityOfferingSets) {
-
             for (String aoId : aoSet.getActivityOfferingIds()) {
-
                 List<String> aoIdList = aoTypeToListMap.get(aoSet.getActivityOfferingType());
 
                 if (aoIdList == null) {
                     aoIdList = new ArrayList<String>();
-
                     aoTypeToListMap.put(aoSet.getActivityOfferingType(), aoIdList);
                 }
 

@@ -26,74 +26,65 @@ import java.util.Map;
  */
 public final class PermutationUtils {
 
-	/**
-	 * 
-	 */
-	private PermutationUtils() {
-	}
-	
-	/**
-	 * Generates a list of permutations.  A permutation is a combination of one element from each data category.
-	 * 
-	 * Each category corresponds to an index in the resultant permutation. e.g.
-	 * <p>
-	 * "LEC" -> "A", "B"
-	 * 
-	 * "LAB" -> "Z"
-	 * 
-	 * Permutations:
-	 * "A", "Z"
-	 * "B", "Z"
-	 * 
-	 * The index 0 is for type "LEC" and index 1 for type "LAB"
-	 * 
-	 * 
-	 * This method calls itself recursively to descend the list of available categories and build out each permutation.
-	 * 
-	 * 
-	 * @param keyList The ordered list of categories available.
-	 * @param prefix The built up prefix 
-	 * @param dataMap The category to list of elements for that category.
-	 * @param generatedPermutations The list of generatedPermutations to this point.
-	 * 
-	 * 
-	 */
-	public static void generatePermutations(List<String> keyList,
-			List<String> prefix, Map<String, List<String>> dataMap,
-			List<List<String>> generatedPermutations) {
+    /**
+     *
+     */
+    private PermutationUtils() {
+    }
 
-		if (keyList.size() == 0) {
-			generatedPermutations.add(prefix);
-		} else {
+    /**
+     * Generates a list of permutations.  A permutation is a combination of one element from each data category.
+     * <p/>
+     * Each category corresponds to an index in the resultant permutation. e.g.
+     * <p/>
+     * "LEC" -> "A", "B"
+     * <p/>
+     * "LAB" -> "Z"
+     * <p/>
+     * Permutations:
+     * "A", "Z"
+     * "B", "Z"
+     * <p/>
+     * The index 0 is for type "LEC" and index 1 for type "LAB"
+     * <p/>
+     * <p/>
+     * This method calls itself recursively to descend the list of available categories and build out each permutation.
+     *
+     * @param keyList               The ordered list of categories available.
+     * @param prefix                The built up prefix
+     * @param dataMap               The category to list of elements for that category.
+     * @param generatedPermutations The list of generatedPermutations to this point.
+     */
+    public static void generatePermutations(List<String> keyList,
+                                            List<String> prefix, Map<String, List<String>> dataMap,
+                                            List<List<String>> generatedPermutations) {
 
-			String type = keyList.get(0);
+        if (keyList.isEmpty()) {
+            generatedPermutations.add(prefix);
+        } else {
+            String type = keyList.get(0);
+            List<String> typeOptionsList = dataMap.get(type);
 
-			List<String> typeOptionsList = dataMap.get(type);
+            if (typeOptionsList == null) {
+                // This is needed to prevent a null pointer exception.  This will also cause
+                // generatedPermutations will be empty--which it should be.
+                return;
+            }
 
-			for (String option : typeOptionsList) {
+            for (String option : typeOptionsList) {
+                List<String> nextPrefix = new ArrayList<String>();
+                nextPrefix.addAll(prefix);
+                nextPrefix.add(option);
+                Map<String, List<String>> nextMap = new HashMap<String, List<String>>();
+                nextMap.putAll(dataMap);
+                nextMap.remove(type);
+                List<String> nextKeyList = new ArrayList<String>(keyList);
+                nextKeyList.remove(type);
+                generatePermutations(nextKeyList, nextPrefix, nextMap,
+                        generatedPermutations);
 
-				List<String> nextPrefix = new ArrayList<String>();
-
-				nextPrefix.addAll(prefix);
-
-				nextPrefix.add(option);
-
-				Map<String, List<String>> nextMap = new HashMap<String, List<String>>();
-
-				nextMap.putAll(dataMap);
-
-				nextMap.remove(type);
-
-				List<String> nextKeyList = new ArrayList<String>(keyList);
-
-				nextKeyList.remove(type);
-
-				generatePermutations(nextKeyList, nextPrefix, nextMap,
-						generatedPermutations);
-
-			}
-
-		}
-	}
+            }
+        }
+    }
 
 }
