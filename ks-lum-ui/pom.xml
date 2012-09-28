@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-lum-ui</artifactId>
     <name>KS LUM UI</name>
@@ -79,7 +78,6 @@
                     </plugin>
                 </plugins>
             </build>
-
             <!-- Required dependencies for testing lum-ui -->
             <dependencies>
                 <dependency>
@@ -98,7 +96,6 @@
                     <artifactId>spring-web</artifactId>
                     <scope>runtime</scope>
                 </dependency>
-
                 <!-- core-impl used to get mock message service impl -->
                 <dependency>
                     <groupId>org.kuali.student.core</groupId>
@@ -120,14 +117,13 @@
                     <groupId>org.kuali.rice</groupId>
                     <artifactId>rice-impl</artifactId>
                 </dependency>
-			    <dependency>
-			      <groupId>org.kuali.student.core</groupId>
-			      <artifactId>ks-standard-sec</artifactId>
-			      <version>${ks.core.version}</version>
-			    </dependency>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-standard-sec</artifactId>
+                    <version>${ks.core.version}</version>
+                </dependency>
             </dependencies>
         </profile>
-
         <profile>
             <id>headless</id>
             <build>
@@ -149,7 +145,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <id>selenium</id>
             <properties>
