@@ -9,5 +9,6 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
  */
 public class RegistrationGroupConstants {
     public static final String MSG_ERROR_INVALID_CLUSTER = "error.enroll.rg.invalid.cluster";
+    public static final String MSG_ERROR_INVALID_CLUSTER_NAME = "error.enroll.rg.invalid.cluster.name";
 
 }

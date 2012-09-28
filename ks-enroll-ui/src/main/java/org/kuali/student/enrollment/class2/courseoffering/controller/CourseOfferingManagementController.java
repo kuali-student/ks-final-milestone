@@ -267,21 +267,25 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             boolean createNewCluster = getBooleanDialogResponse("createNewClusterDialog", theForm, request, response);
             if(createNewCluster){
                 String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
-                //build a new empty cluster
-                ActivityOfferingClusterInfo emptyCluster = buildEmptyAOCluster(formatOfferingId,
-                    theForm.getPrivateClusterNameForLightBox(), theForm.getPublishedClusterNameForLightBox());
-
-                //persist it in DB , comment out for now since it does not work for now
-                emptyCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
-                    emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
-
-                List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
-                ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
-                aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
-                aoClusterWrapper.setAoCluster(emptyCluster);
-                aoClusterWrapperList.add(aoClusterWrapper);
-                theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
-                theForm.setHasAOCluster(true);
+                if (_isClusterUnique(formatOfferingId, theForm.getPrivateClusterNameForLightBox())){
+                    //build a new empty cluster
+                    ActivityOfferingClusterInfo emptyCluster = buildEmptyAOCluster(formatOfferingId,
+                        theForm.getPrivateClusterNameForLightBox(), theForm.getPublishedClusterNameForLightBox());
+    
+                    //persist it in DB , comment out for now since it does not work for now
+                    emptyCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
+                        emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
+    
+                    List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
+                    ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
+                    aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
+                    aoClusterWrapper.setAoCluster(emptyCluster);
+                    aoClusterWrapperList.add(aoClusterWrapper);
+                    theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
+                    theForm.setHasAOCluster(true);
+                }else {
+                    GlobalVariables.getMessageMap().putError("privateClusterNameForLightBox", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+                }
             }else {
                 //closeLightbox??
             }
@@ -299,23 +303,27 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView createNewCluster(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
-        //build a new empty cluster
-        ActivityOfferingClusterInfo emptyCluster = buildEmptyAOCluster(formatOfferingId,
-                theForm.getPrivateClusterName(), theForm.getPrivateClusterName());
-
-        //persist it in DB , comment out for now since it does not work for now
-        emptyCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
-                emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
-        
-        List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
-        ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
-        aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
-        aoClusterWrapper.setAoCluster(emptyCluster);
-        aoClusterWrapperList.add(aoClusterWrapper);
-        theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
-        theForm.setHasAOCluster(true);
-        theForm.setPrivateClusterName("");
-        theForm.setPublishedClusterName("");
+        if (_isClusterUnique(formatOfferingId, theForm.getPrivateClusterName())){
+            //build a new empty cluster
+            ActivityOfferingClusterInfo emptyCluster = buildEmptyAOCluster(formatOfferingId,
+                    theForm.getPrivateClusterName(), theForm.getPrivateClusterName());
+    
+            //persist it in DB , comment out for now since it does not work for now
+            emptyCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
+                    emptyCluster.getTypeKey(), emptyCluster, getContextInfo());
+            
+            List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
+            ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
+            aoClusterWrapper.setActivityOfferingClusterId(emptyCluster.getId());
+            aoClusterWrapper.setAoCluster(emptyCluster);
+            aoClusterWrapperList.add(aoClusterWrapper);
+            theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
+            theForm.setHasAOCluster(true);
+            theForm.setPrivateClusterName("");
+            theForm.setPublishedClusterName("");
+        }else{
+            GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+        }
         
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
@@ -335,13 +343,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(hasDialogBeenAnswered("renameClusterDialog", theForm)) {
             boolean wantToRename = getBooleanDialogResponse("renameClusterDialog", theForm, request, response);
             if(wantToRename){
-                selectedClusterWrapper = theForm.getSelectedCluster();
-                ActivityOfferingClusterInfo  aoCluster = selectedClusterWrapper.getAoCluster();
-                aoCluster.setName(theForm.getPublishedClusterNameForRename());
-                aoCluster.setPrivateName(theForm.getPrivateClusterNameForRename());
-                aoCluster = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
-                        aoCluster.getId(), aoCluster, getContextInfo());
-                selectedClusterWrapper.setAoCluster(aoCluster);
+                if (_isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRename())){
+                    selectedClusterWrapper = theForm.getSelectedCluster();
+                    ActivityOfferingClusterInfo  aoCluster = selectedClusterWrapper.getAoCluster();
+                    aoCluster.setName(theForm.getPublishedClusterNameForRename());
+                    aoCluster.setPrivateName(theForm.getPrivateClusterNameForRename());
+                    aoCluster = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
+                            aoCluster.getId(), aoCluster, getContextInfo());
+                    selectedClusterWrapper.setAoCluster(aoCluster);
+                }else {
+                    GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+                }
             }
             theForm.setSelectedCluster(null);
         }
@@ -1017,6 +1029,21 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         return filterdRGList;
+    }
+    
+    private boolean _isClusterUnique(String formatOfferingId, String privateName) throws Exception{
+        //Build up a term search criteria
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.equal("privateName", privateName),
+                PredicateFactory.equal("formatOfferingId", formatOfferingId)));
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<ActivityOfferingClusterInfo> aoClusterList = getCourseOfferingService().searchForActivityOfferingClusters(criteria, getContextInfo());
+        if (aoClusterList.size()>0)
+            return false;
+        else
+            return true;
     }
 
     protected AcademicCalendarService getAcademicCalendarService() {
