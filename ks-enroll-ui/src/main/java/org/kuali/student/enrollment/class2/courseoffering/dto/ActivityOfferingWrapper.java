@@ -61,6 +61,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private String roomName;
     private String tbaDisplayName;
 
+    private boolean schedulesRevised;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -444,4 +446,13 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setRevisedScheduleRequestComponents(List<ScheduleWrapper> revisedScheduleRequestComponents) {
         this.revisedScheduleRequestComponents = revisedScheduleRequestComponents;
     }
+
+    public boolean isSchedulesRevised() {
+       return schedulesRevised;
+    }
+
+    public void setSchedulesRevised(boolean schedulesRevised) {
+       this.schedulesRevised = schedulesRevised;
+    }
+
 }

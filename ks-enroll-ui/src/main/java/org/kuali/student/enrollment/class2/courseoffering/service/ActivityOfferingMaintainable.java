@@ -10,5 +10,5 @@ public interface ActivityOfferingMaintainable extends Maintainable{
 
     public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper);
 
-    public void saveAndProcessScheduleRequest(ActivityOfferingWrapper activityOfferingWrapper,ActivityOfferingForm form);
+    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper);
 }

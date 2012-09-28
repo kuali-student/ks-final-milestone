@@ -33,9 +33,9 @@
         </property>
         <property name="footer.items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveScheduleRequest" p:actionLabel="Save Request"/>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveAndProcessScheduleRequest" p:actionLabel="Save and Process Request"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="cancelEditingSchedule" p:actionLabel="Cancel" />
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="saveRevisedSchedules" p:actionLabel="Save Request"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="processRevisedSchedules" p:actionLabel="Save and Process Request"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancelScheduleRevise" p:actionLabel="Cancel" />
             </list>
         </property>
     </bean>

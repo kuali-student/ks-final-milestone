@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -56,6 +57,7 @@ import java.util.*;
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
     private transient CourseOfferingService courseOfferingService;
+    private transient CourseOfferingSetService courseOfferingSetService;
     private transient ContextInfo contextInfo;
     private transient TypeService typeService;
     private transient StateService stateService;
@@ -79,7 +81,11 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
 
-            createOrUpdateScheduleRequests(activityOfferingWrapper);
+            if (activityOfferingWrapper.isSchedulesRevised()){
+                processRevisedSchedules(activityOfferingWrapper);
+            } else {
+                createOrUpdateScheduleRequests(activityOfferingWrapper);
+            }
 
             try {
                 ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
@@ -93,6 +99,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     private void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper) {
 
+        //For revise, schedule  request should be already there.. but for some ref data, it's missing..
         if (wrapper.getScheduleRequestInfo() == null){
             ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
             scheduleRequest.setRefObjectId(wrapper.getAoInfo().getId());
@@ -322,20 +329,34 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             ScheduleWrapper forRevise = new ScheduleWrapper(scheduleWrapper);
             wrapper.getRevisedScheduleRequestComponents().add(forRevise);
         }
-
     }
 
-    public void saveAndProcessScheduleRequest(ActivityOfferingWrapper activityOfferingWrapper,ActivityOfferingForm form){
+    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper){
 
+        //Create/update schedule requests
         createOrUpdateScheduleRequests(activityOfferingWrapper);
 
         try{
+
+            //Schedule AO
             StatusInfo statusInfo = getCourseOfferingService().scheduleActivityOffering(activityOfferingWrapper.getId(),getContextInfo());
-            if (statusInfo.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Activity Offering has been successfully scheduled");
-            } else {
+
+            if (!statusInfo.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,statusInfo.getMessage());
+                return;
             }
+
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Activity Offering has been successfully scheduled");
+
+            ActivityOfferingInfo latest = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
+            activityOfferingWrapper.setAoInfo(latest);
+            //This will change the AO/FO/CO state and gets the updated AO
+            ActivityOfferingInfo latestAO = CourseOfferingServiceStateHelper.updateScheduledActivityOffering(activityOfferingWrapper.getAoInfo(),getCourseOfferingService(),getCourseOfferingSetService(),getContextInfo());
+
+            //Set it in the wrapper and load all the revised schedule Actuals
+            activityOfferingWrapper.setAoInfo(latestAO);
+            loadScheduleActuals(activityOfferingWrapper);
+
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -531,9 +552,14 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     protected void loadScheduleActuals(ActivityOfferingWrapper wrapper){
 
         if(wrapper.getAoInfo().getScheduleId() == null) return;
+
         try {
+
             ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(wrapper.getAoInfo().getScheduleId(),getContextInfo());
             wrapper.setScheduleInfo(scheduleInfo);
+
+            //Clear Actuals first (it may be having old ones before schedules revised)
+            wrapper.getActualScheduleComponents().clear();
 
             for (ScheduleComponentInfo componentInfo : scheduleInfo.getScheduleComponents()) {
                 ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
@@ -775,6 +801,20 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
+    @Override
+    public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
+
+        if (StringUtils.endsWith(collectionPath, "revisedScheduleRequestComponents")){
+            ActivityOfferingForm form = (ActivityOfferingForm)model;
+            if(form.isScheduleEditInProgress()){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Editing a schedule request in progress. Please update it first before processing");
+                return;
+            }
+        }
+
+        super.processCollectionDeleteLine(view,model,collectionPath,lineIndex);
+    }
+
     public ContextInfo getContextInfo() {
         if (null == contextInfo) {
             contextInfo = ContextBuilder.loadContextInfo();
@@ -802,6 +842,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
         }
         return courseOfferingService;
+    }
+
+    protected CourseOfferingSetService getCourseOfferingSetService(){
+        if (courseOfferingSetService == null){
+            courseOfferingSetService = CourseOfferingResourceLoader.loadCourseOfferingSetService();
+        }
+        return courseOfferingSetService;
     }
 
     private CourseService getCourseService() {
