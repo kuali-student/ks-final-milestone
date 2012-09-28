@@ -325,7 +325,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
 
                 if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-                    _RCO_rolloverScheduleToScheduleRequest(sourceAo, targetAo, context);
+                    if(sourceAo.getScheduleId() != null && !sourceAo.getScheduleId().isEmpty()) {
+                        _RCO_rolloverScheduleToScheduleRequest(sourceAo, targetAo, context);
+                    }
                 }
                 _RCO_rolloverSeatpools(sourceAo, targetAo, context);
 
