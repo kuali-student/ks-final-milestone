@@ -16,6 +16,9 @@ public class ActivityOfferingForm extends MaintenanceForm {
     public static final String MAIN_PAGE = "ActivityOfferingEdit-MainPage";
     public static final String SCHEDULE_PAGE = "ActivityOfferingEdit-SchedulePage";
 
+    private String deliveryLogisiticsAddButtonText;
+    private boolean scheduleEditInProgress;
+
     public ActivityOfferingForm(){
     }
 
@@ -35,5 +38,28 @@ public class ActivityOfferingForm extends MaintenanceForm {
         return StringUtils.equals(view.getCurrentPageId(),MAIN_PAGE);
     }
 
+    public String getDeliveryLogisiticsAddButtonText() {
+        if (isMainPage()){
+            return "Add";
+        } else{
+            return deliveryLogisiticsAddButtonText;
+        }
+    }
+
+    public void setDeliveryLogisiticsAddButtonText(String deliveryLogisiticsAddButtonText) {
+         this.deliveryLogisiticsAddButtonText = deliveryLogisiticsAddButtonText;
+    }
+
+    public boolean isScheduleEditInProgress() {
+        if (isMainPage()){
+            return false;
+        } else{
+            return scheduleEditInProgress;
+        }
+    }
+
+    public void setScheduleEditInProgress(boolean scheduleEditInProgress) {
+        this.scheduleEditInProgress = scheduleEditInProgress;
+    }
 
 }

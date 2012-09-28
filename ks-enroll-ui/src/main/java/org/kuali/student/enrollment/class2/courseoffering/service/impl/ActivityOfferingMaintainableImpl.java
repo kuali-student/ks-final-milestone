@@ -17,11 +17,7 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.*;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
@@ -29,11 +25,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -51,11 +43,7 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -63,16 +51,7 @@ import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Formatter;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -123,6 +102,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
             wrapper.setScheduleRequestInfo(scheduleRequest);
         }
+
+        wrapper.getScheduleRequestInfo().getScheduleRequestComponents().clear();
 
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
             if (!scheduleWrapper.isAlreadySaved()){
@@ -280,8 +261,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return StringUtils.removeEnd(returnValue," ");
     }
 
-    public void addOrUpdateScheduleRequestComponent(ActivityOfferingWrapper wrapper){
-        ScheduleWrapper scheduleWrapper = wrapper.getNewScheduleRequest();
+    public void addScheduleRequestComponent(ActivityOfferingForm form){
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
 
         //Add a space between selected days ("MTWHFSU") for the UI read-only string
         StringBuilder buffer = new StringBuilder();
@@ -323,44 +306,28 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             throw new RuntimeException(e);
         }
 
-        wrapper.getRequestedScheduleComponents().add(scheduleWrapper);
-        wrapper.setNewScheduleRequest(new ScheduleWrapper());
+        if (form.isMainPage()){
+            activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
+        }else{
+            activityOfferingWrapper.getRevisedScheduleRequestComponents().add(scheduleWrapper);
+        }
+
+        activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
 
     }
 
-    public ScheduleWrapper getMatchingActualForRequestedSchedule(ActivityOfferingWrapper activityOfferingWrapper,ScheduleWrapper request){
-        for (ScheduleWrapper actual : activityOfferingWrapper.getActualScheduleComponents()){
-            if (request.isTba() && actual.isTba() &&
-                StringUtils.equals(request.getDaysUI(),actual.getDaysUI()) &&
-                StringUtils.equals(request.getStartTimeUI(),actual.getStartTimeUI()) &&
-                StringUtils.equals(request.getEndTimeUI(),actual.getEndTimeUI()) &&
-                StringUtils.equals(request.getBuildingCode(),actual.getBuildingCode()) &&
-                StringUtils.equals(request.getRoomCode(),actual.getRoomCode())){
-                return actual;
-            }
+    public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper){
+         wrapper.getRevisedScheduleRequestComponents().clear();
+        for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
+            ScheduleWrapper forRevise = new ScheduleWrapper(scheduleWrapper);
+            wrapper.getRevisedScheduleRequestComponents().add(forRevise);
         }
-        return null;
+
     }
 
     public void saveAndProcessScheduleRequest(ActivityOfferingWrapper activityOfferingWrapper,ActivityOfferingForm form){
 
-        ScheduleRequestInfo requestInfo = activityOfferingWrapper.getScheduleRequestInfo();
-
-        boolean isUpdateRequest = false;
-        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getRequestedScheduleComponents()){
-            ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
-            requestInfo.getScheduleRequestComponents().add(componentInfo);
-            isUpdateRequest = true;
-        }
-
-        if (isUpdateRequest){
-            try{
-                requestInfo = getSchedulingService().updateScheduleRequest(requestInfo.getId(),requestInfo,getContextInfo());
-                activityOfferingWrapper.setScheduleRequestInfo(requestInfo);
-            }catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }
+        createOrUpdateScheduleRequests(activityOfferingWrapper);
 
         try{
             StatusInfo statusInfo = getCourseOfferingService().scheduleActivityOffering(activityOfferingWrapper.getId(),getContextInfo());

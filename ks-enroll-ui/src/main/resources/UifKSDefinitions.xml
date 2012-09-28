@@ -167,7 +167,7 @@
     </bean>
 
     <!-- If the action button is in collection, this will submits the form (useful for redirect) instead of KRAD's default ajax callback and update the collection component -->
-    <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:actionScript="jq('#kualiForm').submit();" abstract="true" />
+    <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:actionScript="actionInvokeHandler(this);" abstract="true" />
 
     <bean id="KS-Link" parent="Uif-Link">
         <property name="lightBox">

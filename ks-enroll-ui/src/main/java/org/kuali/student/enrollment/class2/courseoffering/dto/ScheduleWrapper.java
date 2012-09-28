@@ -49,13 +49,43 @@ public class ScheduleWrapper implements Serializable{
     private String startTimeUI;
     private String endTimeUI;
 
-    private boolean edited;
-    private boolean newlyAdded;
-
     public ScheduleWrapper(){
         features = new ArrayList<String>();
         setBuildingCode("CCC");
         setRoomCode("1115");
+    }
+
+    public ScheduleWrapper(ScheduleWrapper wrapper){
+        this.scheduleComponentInfo = wrapper.getScheduleComponentInfo();
+        this.scheduleRequestComponentInfo = wrapper.getScheduleRequestComponentInfo();
+        this.days = wrapper.getDays();
+        this.startTime = wrapper.getStartTime();
+        this.startTimeAMPM = wrapper.getStartTimeAMPM();
+        this.endTime = wrapper.getEndTime();
+        this.endTimeAMPM = wrapper.getEndTimeAMPM();
+        this.tba = wrapper.isTba();
+        this.buildingCode = wrapper.getBuildingCode();
+        this.buildingId = wrapper.getBuildingId();
+        this.roomCode = wrapper.getRoomCode();
+        this.roomCapacity = wrapper.getRoomCapacity();
+        this.features = wrapper.getFeatures();
+        this.daysUI = wrapper.getDaysUI();
+        this.startTimeUI = wrapper.getStartTimeUI();
+        this.endTimeUI = wrapper.getEndTimeUI();
+    }
+
+    public void copyForEditing(ScheduleWrapper wrapper){
+        this.scheduleComponentInfo = null;
+        this.scheduleRequestComponentInfo = null;
+        this.days = wrapper.getDays();
+        this.startTime = wrapper.getStartTime();
+        this.startTimeAMPM = wrapper.getStartTimeAMPM();
+        this.endTime = wrapper.getEndTime();
+        this.endTimeAMPM = wrapper.getEndTimeAMPM();
+        this.buildingId = wrapper.getBuildingId();
+        this.buildingCode = wrapper.getBuildingCode();
+        this.roomCode = wrapper.getRoomCode();
+        this.roomCapacity = wrapper.getRoomCapacity();
     }
 
     public ScheduleWrapper(ScheduleRequestComponentInfo scheduleRequestComponentInfo){
@@ -232,22 +262,6 @@ public class ScheduleWrapper implements Serializable{
 
     public ScheduleComponentInfo getScheduleComponentInfo() {
         return scheduleComponentInfo;
-    }
-
-    public boolean isEdited() {
-        return edited;
-    }
-
-    public void setEdited(boolean edited) {
-        this.edited = edited;
-    }
-
-    public boolean isNewlyAdded() {
-        return newlyAdded;
-    }
-
-    public void setNewlyAdded(boolean newlyAdded) {
-        this.newlyAdded = newlyAdded;
     }
 
     public String getBuildingId() {

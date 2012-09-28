@@ -40,7 +40,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private String waitListText = "";
     private String toolTipText = "";
 
-
     private String instructorNameHighestPercentEffort = "";
 
     private String firstInstructorDisplayName;
@@ -49,6 +48,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private List<ScheduleWrapper> actualScheduleComponents;
     private List<ScheduleWrapper> requestedScheduleComponents;
+    private List<ScheduleWrapper> revisedScheduleRequestComponents;
     private ScheduleWrapper newScheduleRequest;
 
     private ScheduleRequestInfo scheduleRequestInfo;
@@ -74,6 +74,7 @@ public class ActivityOfferingWrapper implements Serializable{
         this.setIsChecked(false);
         actualScheduleComponents = new ArrayList<ScheduleWrapper>();
         requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
+        revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
     }
 
@@ -433,4 +434,14 @@ public class ActivityOfferingWrapper implements Serializable{
         this.typeKey = typeKey;
     }
 
+    public List<ScheduleWrapper> getRevisedScheduleRequestComponents() {
+        if (revisedScheduleRequestComponents == null){
+            revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
+        }
+        return revisedScheduleRequestComponents;
+    }
+
+    public void setRevisedScheduleRequestComponents(List<ScheduleWrapper> revisedScheduleRequestComponents) {
+        this.revisedScheduleRequestComponents = revisedScheduleRequestComponents;
+    }
 }
