@@ -306,9 +306,9 @@
                 <bean parent="Uif-LinkGroup" p:style="float:right">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroupsPerCluster" p:actionLabel="View Registration Groups" p:render="@{#line.hasRegGroups}"
+                            <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroupsPerCluster" p:actionLabel="View Registration Groups" p:render="@{#line.hasRegGroups and #line.RgStatus != 'Only Some Registration Groups Generated'}"
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightbox('registrationGroupsPerCluster_line@{#index}');"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasRegGroups or #line.RgStatus eq 'Only Some Registration Groups Generated'}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
                             <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />

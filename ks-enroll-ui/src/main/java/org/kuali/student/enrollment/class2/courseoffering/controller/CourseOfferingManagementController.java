@@ -581,6 +581,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
 
+   /*
+    *  Move unassigned FO(s) to one of the existing clusters
+    */
     @RequestMapping(params = "methodToCall=moveAOToACluster")
     public ModelAndView moveAOToACluster (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -591,6 +594,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<ActivityOfferingWrapper> aoWrapperList = theForm.getFilteredUnassignedAOsForSelectedFO();
         for (ActivityOfferingWrapper aoWrapper : aoWrapperList) {
             if (aoWrapper.getIsChecked()) {
+                //delete RGs this AO belongs to
+                List<RegistrationGroupInfo> rgInfoList = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedAOCInfo.getId(),getContextInfo());
+                if (rgInfoList.size() > 0) {
+                    for (RegistrationGroupInfo rgInfo :rgInfoList) {
+                        for (String aoId : rgInfo.getActivityOfferingIds()) {
+                            if (aoWrapper.getAoInfo().getId().equals(aoId)) {
+                                getCourseOfferingService().deleteRegistrationGroup(rgInfo.getId(),getContextInfo());
+                            }
+                        }
+                    }
+                }
                 //check if TypeKey exists in aosList and add to appropriate aosIds
                 boolean typeKeyExists = false;
                 for ( int i=0; i < selectedAOCInfo.getActivityOfferingSets().size(); i++) {
@@ -600,7 +614,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                         break;
                     }
                 }
-                if (!typeKeyExists){  //create new aos and add to aoc
+                if (!typeKeyExists){  //create new aos and add to aoc < should always be already created in the cluster
                         ActivityOfferingSetInfo aosInfo =   new ActivityOfferingSetInfo();
                         aosInfo.setActivityOfferingType(aoWrapper.getAoInfo().getTypeKey());
                         List<String> aoIdList = new ArrayList<String>();
@@ -622,7 +636,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             theForm.setFormatOfferingName(filteredAOs.get(0).getAoInfo().getFormatOfferingName());
         }
 
-        //update AO list in selected cluster
+        //update AO list in selected cluster and sort out RGs
         List<ActivityOfferingWrapper> filteredClusteredAOs = new ArrayList <ActivityOfferingWrapper>();
         List<ActivityOfferingInfo> aosInCluster = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfo.getId(), getContextInfo());
         for ( ActivityOfferingInfo aoInfo : aosInCluster) {
@@ -631,17 +645,16 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         for ( int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++ ) {
             if (theForm.getFilteredAOClusterWrapperList().get(i).getActivityOfferingClusterId().equals(updatedSelectedAOCInfo.getId())) {
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOs);
+                //update RG status
+                List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfo.getId(), getContextInfo());
+                if (rgInfos.size() > 0) {
+                    //theForm.getFilteredAOClusterWrapperList().get(i).setHasRegGroups(true);
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("Only Some Registration Groups Generated");
+                }
                 break;
             }
         }
 
-        //then update RGs
-//        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), getContextInfo());
-//        List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, filteredAOs);
-//
-//        if(rgInfos != null && rgInfos.size()>0) {
-//            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
-//        }
         //return updated form
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
