@@ -13,12 +13,31 @@ import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGr
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -27,17 +46,24 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
-import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author nwright
@@ -161,52 +187,16 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     private void _RCO_rolloverScheduleToScheduleRequest(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         //Copy the schedule to a schedule request
-        ScheduleDisplayInfo sourceSchedule = this._getSchedulingService().getScheduleDisplay(sourceAo.getScheduleId(),context);
         ScheduleInfo sourceScheduleInfo = this._getSchedulingService().getSchedule(sourceAo.getScheduleId(), context);
-        ScheduleRequestInfo targetScheduleRequest = new ScheduleRequestInfo();
+
+        ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleToRequest(sourceScheduleInfo, _getRoomService(), context);
         targetScheduleRequest.setRefObjectId(targetAo.getId());
         targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-        targetScheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-        targetScheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        targetScheduleRequest.setName("Schedule request for " + targetAo.getCourseOfferingCode() + " - " + targetAo.getActivityCode());
-        targetScheduleRequest.setDescr(sourceSchedule.getDescr());
+        StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
+        nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
+        targetScheduleRequest.setName(nameBuilder.toString());
+        targetScheduleRequest.setDescr(sourceScheduleInfo.getDescr());
 
-        for(AttributeInfo sourceAttribute : sourceSchedule.getAttributes()){
-            targetScheduleRequest.getAttributes().add(new AttributeInfo(sourceAttribute));
-        }
-
-        for(int i = 0; i < sourceSchedule.getScheduleComponentDisplays().size(); i++){
-            ScheduleComponentDisplay sourceComponent = sourceSchedule.getScheduleComponentDisplays().get(i);
-            ScheduleComponentInfo componentInfo =  sourceScheduleInfo.getScheduleComponents().get(i);
-
-            ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
-            if(sourceComponent.getBuilding()!=null){
-                requestComponentInfo.getBuildingIds().add(sourceComponent.getBuilding().getId());
-                requestComponentInfo.getCampusIds().add(sourceComponent.getBuilding().getCampusKey());
-            }
-            if(componentInfo !=null){
-                requestComponentInfo.getRoomIds().add(componentInfo.getRoomId());
-                requestComponentInfo.setIsTBA(componentInfo.getIsTBA());
-                List<String> responsibleOrgIdList = this._getRoomService().getRoomResponsibleOrgIdsByRoom(componentInfo.getRoomId(), context);
-                if(responsibleOrgIdList != null) {
-                    for(String id : responsibleOrgIdList) {
-                        requestComponentInfo.getOrgIds().add(id);
-                    }
-                }
-            }
-            List<String> resourceTypeKeys = new ArrayList<String>();
-            resourceTypeKeys.add(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-            requestComponentInfo.setResourceTypeKeys(resourceTypeKeys);
-
-
-            for(TimeSlot timeSlot : sourceComponent.getTimeSlots()){
-                TimeSlotInfo targetTimeSlot = new TimeSlotInfo(timeSlot);
-                targetTimeSlot.setId(null);
-                targetTimeSlot = this._getSchedulingService().createTimeSlot(targetTimeSlot.getTypeKey(), targetTimeSlot, context);
-                requestComponentInfo.getTimeSlotIds().add(targetTimeSlot.getId());
-            }
-            targetScheduleRequest.getScheduleRequestComponents().add(requestComponentInfo);
-        }
         this._getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
     }
 
@@ -252,7 +242,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                                                             String targetTermId,
                                                             List<String> optionKeys,
                                                             ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         CourseOfferingInfo sourceCo = this._getCoService().getCourseOffering(sourceCoId, context);
@@ -281,7 +271,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         // TODO: Not hard code "Active" but use a constant ... except these are R1 States
         if (optionKeys.contains(CourseOfferingSetServiceConstants.STILL_OFFERABLE_OPTION_KEY)) {
-            if (!targetCourse.getState().equals("Active")) {
+            if (!targetCourse.getStateKey().equals("Active")) {
                 throw new DataValidationErrorException("skipped because canonical course is no longer active");
             }
         }
@@ -459,10 +449,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     private List<ValidationResultInfo> _compare(String element, String courseValue, String coValue, String message) {
         if (courseValue == null && coValue == null) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         if (courseValue.equals(coValue)) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
         ValidationResultInfo result = new ValidationResultInfo();
         result.setElement(element);
@@ -474,7 +464,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     protected List<ValidationResultInfo> compareCreditsToSchedule(CourseInfo course, CourseOfferingInfo co) {
         // TODO: implement this complex logic
         // This is protected because it is explected that implementing instituations will vary widely in this implementation
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
     private String _findFirstExistingCourseOfferingIdInTargetTerm(String targetCourseId, String targetTermId, ContextInfo context)
