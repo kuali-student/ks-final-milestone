@@ -65,6 +65,7 @@ public class ActivityOfferingSetEntity extends BaseEntity {
     public ActivityOfferingSetInfo toDto() {
         ActivityOfferingSetInfo aoSetInfo = new ActivityOfferingSetInfo();
         // Set the instance variables that are common to most entities
+        aoSetInfo.setId(getId());
         aoSetInfo.setActivityOfferingType(aoType);
         aoSetInfo.getActivityOfferingIds().clear();
         aoSetInfo.getActivityOfferingIds().addAll(aoIds);
