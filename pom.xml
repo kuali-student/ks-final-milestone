@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-    <version>1.7.9</version>
+        <version>1.7.9</version>
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
@@ -92,7 +91,6 @@
         <ks.enroll.version>1.0.0-SNAPSHOT</ks.enroll.version>
         <ks.lum.version>2.0.0-SNAPSHOT</ks.lum.version>
         <ks.deployments.version>2.0.0-SNAPSHOT</ks.deployments.version>
-
         <!-- 3rd party library/plugin version definitions -->
         <antlr.runtime.version>3.1.1</antlr.runtime.version>
         <antlr.legacy.version>2.7.7</antlr.legacy.version>
@@ -155,12 +153,10 @@
         <tomcat.plugin.version>1.1</tomcat.plugin.version>
         <velocity.version>1.6.4</velocity.version>
         <velocity.tools.version>2.0</velocity.tools.version>
-
         <!-- build properties -->
         <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
         <kuali.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</kuali.clover.exclude.pattern.2>
         <kuali.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</kuali.clover.exclude.pattern.3>
-
         <kuali.javadoc.exclude.package.names>*.service.jaxws:*.exceptions.jaxws</kuali.javadoc.exclude.package.names>
         <kuali.javadoc.link.3>http://cxf.apache.org/javadoc/${cxf.javadoc.version}/</kuali.javadoc.link.3>
         <kuali.javadoc.link.4>http://download.oracle.com/javaee/5/api/</kuali.javadoc.link.4>
@@ -169,17 +165,14 @@
         <kuali.javadoc.link.7>http://site.kuali.org/rice/${kuali.rice.version}/apidocs/</kuali.javadoc.link.7>
         <kuali.javadoc.link.8>http://logging.apache.org/log4j/${log4j.javadoc.version}/apidocs/</kuali.javadoc.link.8>
         <kuali.javadoc.link.9>http://ws.apache.org/wss4j/apidocs/</kuali.javadoc.link.9>
-
         <!-- gwt properties -->
         <ks.gwt.compile.draftCompile>false</ks.gwt.compile.draftCompile>
         <ks.gwt.compile.force>false</ks.gwt.compile.force>
         <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
         <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
-
         <!-- gwt modules to build -->
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
         <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
-
         <!-- phases -->
         <ks.contractdoc.phase>site</ks.contractdoc.phase>
         <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>
@@ -203,13 +196,12 @@
                     <version>${plugin.enforcer.version}</version>
                 </plugin>
                 <plugin>
-                  <artifactId>maven-compiler-plugin</artifactId>
-                  <configuration>
-                    <!-- Don't compile sources that are in jars -->
-                    <compilerArgument>-implicit:none</compilerArgument>
-                  </configuration>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <!-- Don't compile sources that are in jars -->
+                        <compilerArgument>-implicit:none</compilerArgument>
+                    </configuration>
                 </plugin>
-
                 <!-- Codehaus GWT Maven Plugin Configuration -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -227,7 +219,6 @@
                         <force>${ks.gwt.compile.force}</force>
                     </configuration>
                 </plugin>
-
                 <!-- CXF Java2WS Default Configuration -->
                 <plugin>
                     <groupId>org.apache.cxf</groupId>
@@ -252,7 +243,6 @@
                         <argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
                     </configuration>
                 </plugin>
-
                 <!-- Tomcat Plugin Configuration -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -270,7 +260,6 @@
                         </dependency>
                     </dependencies>
                 </plugin>
-
                 <!-- Jetty Plugin Configuration -->
                 <plugin>
                     <groupId>org.mortbay.jetty</groupId>
@@ -282,7 +271,6 @@
                         <webApp>${project.build.directory}/${project.artifactId}-webapp</webApp>
                     </configuration>
                 </plugin>
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
@@ -318,9 +306,9 @@
                                 </requirePluginVersions>
                                 <bannedDependencies>
                                     <excludes>
-                                        <!-- excluding standard release of commons-beanutils -->
-                                        <exclude>commons-beanutils:commons-beanutils</exclude>
-                                        <exclude>org.apache.commons:commons-beanutils</exclude>
+                                    <!-- excluding standard release of commons-beanutils -->
+                                    <exclude>commons-beanutils:commons-beanutils</exclude>
+                                    <exclude>org.apache.commons:commons-beanutils</exclude>
                                     </excludes>
                                 </bannedDependencies>
                             </rules>
@@ -431,7 +419,6 @@
                 <artifactId>spring-security-config</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
-
             <!-- This jar is only needed if you are using CAS with Spring Security
             -->
             <dependency>
@@ -578,7 +565,6 @@
                         <groupId>org.eclipse.jdt</groupId>
                         <artifactId>core</artifactId>
                     </exclusion>
-
                     <!-- itext -->
                     <exclusion>
                         <groupId>itext</groupId>
@@ -977,7 +963,6 @@
                 <artifactId>cglib-nodep</artifactId>
                 <version>${cglib.nodep.version}</version>
             </dependency>
-
             <!-- Atomikos -->
             <dependency>
                 <groupId>com.atomikos</groupId>
@@ -1073,7 +1058,6 @@
                 <artifactId>stax-ex</artifactId>
                 <version>${stax-ex.version}</version>
             </dependency>
-
             <!-- GWT Dependencies -->
             <dependency>
                 <groupId>javax.xml.bind</groupId>
@@ -1127,7 +1111,6 @@
                 <artifactId>jsr107cache</artifactId>
                 <version>${jsr107cache.version}</version>
             </dependency>
-
             <!-- Jasper Report dependencies -->
             <dependency>
                 <groupId>net.sf.jasperreports</groupId>
@@ -1203,8 +1186,8 @@
                         <groupId>antlr</groupId>
                     </exclusion>
                     <exclusion>
-                      <artifactId>commons-beanutils</artifactId>
-                      <groupId>commons-beanutils</groupId>
+                        <artifactId>commons-beanutils</artifactId>
+                        <groupId>commons-beanutils</groupId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -1248,5 +1231,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>
