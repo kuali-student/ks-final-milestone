@@ -117,6 +117,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
                 wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(componentInfo);
             }
+            else {
+                wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(scheduleWrapper.getScheduleRequestComponentInfo());
+            }
         }
 
         if (StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())){
@@ -516,11 +519,16 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     if (!timeSlotInfos.isEmpty()){
                         scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
-                        Date timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                        scheduleWrapper.setStartTimeUI(TIME_FORMAT.format(timeForDisplay));
+                        Date timeForDisplay = null;
+                        if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
+                            timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
+                            scheduleWrapper.setStartTimeUI(TIME_FORMAT.format(timeForDisplay));
+                        }
 
-                        timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                        scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
+                        if(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null) {
+                            timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
+                            scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
+                        }
 
                         scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
                     }

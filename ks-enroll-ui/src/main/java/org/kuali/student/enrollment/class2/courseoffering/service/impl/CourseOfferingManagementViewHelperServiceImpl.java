@@ -475,11 +475,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
                         TimeOfDayInfo endTime = timeSlot.getEndTime();
                         List<Integer> days = timeSlot.getWeekdays();
 
-                        if (startTime != null) {
+                        if (startTime != null && startTime.getMilliSeconds() != null) {
                             calendar.setTimeInMillis(startTime.getMilliSeconds());
                             aoWrapper.setStartTimeDisplay(format.format(calendar.getTime()));
                         }
-                        if (endTime != null) {
+                        if (endTime != null && endTime.getMilliSeconds() != null) {
                             calendar.setTimeInMillis(endTime.getMilliSeconds());
                             aoWrapper.setEndTimeDisplay(format.format(calendar.getTime()));
                         }
