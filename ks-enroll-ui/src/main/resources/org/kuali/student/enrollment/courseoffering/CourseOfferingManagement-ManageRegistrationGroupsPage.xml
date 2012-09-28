@@ -328,6 +328,7 @@
 
     <bean id="KS-ManageRegistrationGroupPage-ActivityOfferingsPerClusterSubSection" parent="Uif-TableCollectionSubSection"
           p:renderAddLine="false"  p:renderLineActions="true">
+        <property name="id" value="activityOfferingsPerCluster" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="aoWrapperList" />
         <property name="headerText" value=""/>
@@ -403,7 +404,7 @@
 
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>
+                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="moveAActivityOffering" p:actionLabel="Move"/>-->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="removeAOFromCluster" p:actionLabel="Remove"/>
             </list>
         </property>
