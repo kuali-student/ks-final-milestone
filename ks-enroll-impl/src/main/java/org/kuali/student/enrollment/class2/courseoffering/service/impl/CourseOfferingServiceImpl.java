@@ -1896,7 +1896,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
 
-    private List<String> getTimeSlotIdsbyActivityOffering(String activityOfferingId, String deliveryLogisticsType, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private List<String> _getTimeSlotIdsbyActivityOffering(String activityOfferingId, String deliveryLogisticsType, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, context);
         List<String> timeSlotIds = new ArrayList<String>();
 
@@ -1933,7 +1933,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     // return: true - overlap; false - no overlap
-    private boolean checkTimeSlotsOverlap (List<String> timeSlotInfoList1, List<String> timeSlotInfoList2, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private boolean _checkTimeSlotsOverlap (List<String> timeSlotInfoList1, List<String> timeSlotInfoList2, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         for (int i=0; i<timeSlotInfoList1.size(); i++) {
             for (int j=0; j<timeSlotInfoList2.size(); j++) {
                 if (getSchedulingService().areTimeSlotsInConflict (timeSlotInfoList1.get(i), timeSlotInfoList2.get(j), contextInfo)) {
@@ -1953,6 +1953,100 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
 
+        List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
+        Map<String, Map<String, List<String>>> aoTimeSlotMap = new HashMap<String, Map<String, List<String>>>(aoIds.size());
+
+        try {
+            if (aoIds != null && !aoIds.isEmpty() && aoIds.size() > 1) {
+                //push the actual and requested timeslots associated with the AOs of the given RG into a map
+                for (int i=0; i<aoIds.size(); i++) {
+                    Map<String, List<String>> timeSlotMap = new HashMap<String, List<String>>();
+
+                    List<String> timeSlotIdsActualForInsert = _getTimeSlotIdsbyActivityOffering(aoIds.get(i), "actual", context);
+                    if (timeSlotIdsActualForInsert != null && !timeSlotIdsActualForInsert.isEmpty()) {
+                        timeSlotMap.put("actual", timeSlotIdsActualForInsert);
+                    }
+                    // retrieve the requested time slots for given AO
+                    List<String> timeSlotIdsRequestedForInsert = _getTimeSlotIdsbyActivityOffering(aoIds.get(i), "requested", context);
+                    if (timeSlotIdsRequestedForInsert != null && !timeSlotIdsRequestedForInsert.isEmpty()) {
+                        timeSlotMap.put("requested", timeSlotIdsRequestedForInsert);
+                    }
+
+                    aoTimeSlotMap.put(aoIds.get(i), timeSlotMap);
+                }
+
+                for (Map.Entry<String, Map<String, List<String>>> entry : aoTimeSlotMap.entrySet()) {
+                    boolean hasTimeSlotAcutal = false, hasTimeSlotRequested = false;
+                    List<String> timeSlotIdsActual = entry.getValue().get("actual");
+                    List<String> timeSlotIdsRequested = entry.getValue().get("requested");
+
+                    if (timeSlotIdsActual != null && !timeSlotIdsActual.isEmpty()) {
+                        hasTimeSlotAcutal = true;
+                    }
+                    if (timeSlotIdsRequested != null && !timeSlotIdsRequested.isEmpty()) {
+                        hasTimeSlotRequested = true;
+                    }
+
+                    if (hasTimeSlotAcutal == true || hasTimeSlotRequested == true) {
+                        for (Map.Entry<String, Map<String, List<String>>> innerEntry : aoTimeSlotMap.entrySet()) {
+                            boolean hasTimeSlotAcutalCompared = false, hasTimeSlotRequestedCompared = false;
+
+                            if (!entry.getKey().equals(innerEntry.getKey())) {
+                                List<String> timeSlotIdsComparedActual = innerEntry.getValue().get("actual");
+                                List<String> timeSlotIdsComparedRequested = innerEntry.getValue().get("requested");
+                                if (timeSlotIdsComparedActual != null && !timeSlotIdsComparedActual.isEmpty()) {
+                                    hasTimeSlotAcutalCompared = true;
+                                }
+                                if (timeSlotIdsComparedRequested != null && !timeSlotIdsComparedRequested.isEmpty()) {
+                                    hasTimeSlotRequestedCompared = true;
+                                }
+
+                                if (hasTimeSlotAcutalCompared == true || hasTimeSlotRequestedCompared == true) {
+                                    if (hasTimeSlotAcutal != false  && hasTimeSlotAcutalCompared != false) {
+                                        if (_checkTimeSlotsOverlap(timeSlotIdsActual, timeSlotIdsComparedActual, context)) {
+                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                                            validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
+                                            validationResultInfos.add(validationResultInfo);
+                                            return validationResultInfos;
+                                        }
+                                    } else if (hasTimeSlotAcutal != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
+                                        if (_checkTimeSlotsOverlap(timeSlotIdsActual, timeSlotIdsComparedRequested, context)) {
+                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                                            validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
+                                            validationResultInfos.add(validationResultInfo);
+                                            return validationResultInfos;
+                                        }
+                                    } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared != false) {
+                                        if (_checkTimeSlotsOverlap(timeSlotIdsRequested, timeSlotIdsComparedActual, context)) {
+                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                                            validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
+                                            validationResultInfos.add(validationResultInfo);
+                                            return validationResultInfos;
+                                        }
+                                    } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
+                                        if (_checkTimeSlotsOverlap(timeSlotIdsRequested, timeSlotIdsComparedRequested, context)) {
+                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                                            validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
+                                            validationResultInfos.add(validationResultInfo);
+                                            return validationResultInfos;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new OperationFailedException("unexpected", e);
+        }
+
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfo.setMessage("No time conflict in the Registration Group");
+        validationResultInfos.add(validationResultInfo);
+        return validationResultInfos;
+
+        /*
         try {
             List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
             if (aoIds != null && !aoIds.isEmpty() && aoIds.size() > 1) {
@@ -2025,6 +2119,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
         validationResultInfos.add(validationResultInfo);
         return validationResultInfos;
+        */
     }
 
     @Override
@@ -2188,6 +2283,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                         if (aoSetMaxEnrollNumber.compareTo(tempAoSetMaxEnrollNumber) != 0) {
                             //validationResultInfo.setError("");
                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                            validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
                             validationResultInfos.add(validationResultInfo);
 
                             return validationResultInfos;
@@ -2204,6 +2300,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfo.setMessage("Sum of enrollment for each AO type is equal");
         validationResultInfos.add(validationResultInfo);
         return validationResultInfos;
 
@@ -2225,6 +2322,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 if (aoIdList == null || aoIdList.isEmpty()) {
                     //invalidValidationInfo.setError("");
                     validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                    validationResultInfo.setMessage("AO type: " + aoSetInfo.getActivityOfferingType() + " doesn't have AOs attached to it");
                     validationResultInfos.add(validationResultInfo);
                     aoClusterVerifyResultsInfo.setValidationResults(validationResultInfos);
 
@@ -2236,6 +2334,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfo.setMessage("Each AO type has AOs attached to it");
         validationResultInfos.add(validationResultInfo);
         aoClusterVerifyResultsInfo.setValidationResults(validationResultInfos);
 
