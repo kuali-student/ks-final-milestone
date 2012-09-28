@@ -11,15 +11,19 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * @Version 2.0
- * @Author Sri komandur@uw.edu
+ * @version 2.0
+ * @author Sri komandur@uw.edu
  */
 @Entity
 @Table(name = "KSEN_SCHED_RQST")
@@ -95,7 +99,13 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
             }
         }
 
-        this.setAttributes(new HashSet<ScheduleRequestAttributeEntity>());
+        if(this.getAttributes() == null) {
+            this.setAttributes(new HashSet<ScheduleRequestAttributeEntity>());
+        }
+        else {
+            this.getAttributes().clear();
+        }
+
         for (Attribute att : scheduleRequest.getAttributes()) {
             this.getAttributes().add(new ScheduleRequestAttributeEntity(att, this));
         }
