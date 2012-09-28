@@ -283,17 +283,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     aoClusterWrapperList.add(aoClusterWrapper);
                     theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
                     theForm.setHasAOCluster(true);
+                    theForm.setPrivateClusterNameForLightBox("");
+                    theForm.setPublishedClusterNameForLightBox("");
                 }else {
                     GlobalVariables.getMessageMap().putError("privateClusterNameForLightBox", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
                 }
             }else {
-                //closeLightbox??
+                theForm.setPrivateClusterNameForLightBox("");
+                theForm.setPublishedClusterNameForLightBox("");
             }
-            //form.getDialogManager
+
         }
 
-        theForm.setPrivateClusterNameForLightBox("");
-        theForm.setPublishedClusterNameForLightBox("");
         // clear dialog history so they can press the button again
         theForm.getDialogManager().removeDialog("createNewClusterDialog");
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
