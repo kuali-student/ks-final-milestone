@@ -35,7 +35,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ScheduleOfClasses-ResultSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-ScheduleOfClasses-ResultSection" parent="Uif-VerticalBoxSection" p:render="@{!#dp.coDisplayWrapperList.empty}">
         <property name="headerText" value="@{termName} Schedule of Classes" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
