@@ -1449,7 +1449,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
-
+/*
             if (!hasDialogBeenAnswered("schedulingConfirmDialog", theForm)){
                 loadSelectedCOsForScheduling(theForm);
                 return showDialog("schedulingConfirmDialog", theForm, request, response);
@@ -1462,6 +1462,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
                 theForm.getDialogManager().resetDialogStatus("schedulingConfirmDialog");
             }
+*/
+            getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
+            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
         }
 
         return getUIFModelAndView(theForm);
