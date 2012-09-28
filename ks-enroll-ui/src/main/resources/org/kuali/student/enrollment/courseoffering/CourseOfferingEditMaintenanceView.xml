@@ -273,6 +273,9 @@
                 <!--p:addBlankOption="false" />-->
                 <!--</property>-->
                 <!--</bean>-->
+                <bean parent="Uif-MessageField" p:label="Student Registration Options"
+                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                       p:render="true" />
                 <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
@@ -281,8 +284,7 @@
                       p:propertyName="auditStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
                       p:render="@{#dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
-                <bean parent="Uif-MessageField" p:label="Student Registration Options"
-                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                <bean parent="Uif-MessageField"
                       p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
             </list>
         </property>
