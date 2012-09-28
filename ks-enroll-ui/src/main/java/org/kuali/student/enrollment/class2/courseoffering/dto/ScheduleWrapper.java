@@ -86,6 +86,8 @@ public class ScheduleWrapper implements Serializable{
         this.buildingCode = wrapper.getBuildingCode();
         this.roomCode = wrapper.getRoomCode();
         this.roomCapacity = wrapper.getRoomCapacity();
+        this.room = wrapper.getRoom();
+        this.building = wrapper.getBuilding();
     }
 
     public ScheduleWrapper(ScheduleRequestComponentInfo scheduleRequestComponentInfo){

@@ -67,7 +67,7 @@
             p:layoutManager.renderSequenceField="false">
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup">
-                <property name="render" value="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId != null}"/>
+                <property name="render" value="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId != null and maintenanceAction eq 'Edit'}"/>
                  <property name="items">
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="reviseSchedule" p:actionLabel="Revise" />

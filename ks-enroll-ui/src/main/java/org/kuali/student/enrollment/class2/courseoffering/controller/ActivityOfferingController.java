@@ -82,6 +82,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return getUIFModelAndView(form,ActivityOfferingForm.SCHEDULE_PAGE);
         }
 
+        activityOfferingWrapper.getRequestedScheduleComponents().clear();
+
         for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getRevisedScheduleRequestComponents()){
             activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
         }
@@ -102,6 +104,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return getUIFModelAndView(form,ActivityOfferingForm.SCHEDULE_PAGE);
         }
 
+        activityOfferingWrapper.getRequestedScheduleComponents().clear();
+
         for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getRevisedScheduleRequestComponents()){
             activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
         }
@@ -111,6 +115,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
         activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
         activityOfferingWrapper.setSchedulesRevised(false);
+
+        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Schedule has been successfully processed");
 
         return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
     }

@@ -84,7 +84,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             if (activityOfferingWrapper.isSchedulesRevised()){
                 processRevisedSchedules(activityOfferingWrapper);
             } else {
-                createOrUpdateScheduleRequests(activityOfferingWrapper);
+                //If Schedule Actuals available but not revised, skip processing schedule request
+                if (StringUtils.isBlank(activityOfferingWrapper.getAoInfo().getScheduleId())){
+                    createOrUpdateScheduleRequests(activityOfferingWrapper);
+                }
             }
 
             try {
@@ -349,8 +352,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 return;
             }
 
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Activity Offering has been successfully scheduled");
-
             ActivityOfferingInfo latest = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
             activityOfferingWrapper.setAoInfo(latest);
             //This will change the AO/FO/CO state and gets the updated AO
@@ -522,15 +523,28 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                         Date timeForDisplay = null;
                         if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
                             timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                            scheduleWrapper.setStartTimeUI(TIME_FORMAT.format(timeForDisplay));
+                            String formattedTime = TIME_FORMAT.format(timeForDisplay);
+                            //Set for read only display purpose in the format hh:mm a
+                            scheduleWrapper.setStartTimeUI(formattedTime);
+                            //Set only hh:mm for user editable purpose
+                            scheduleWrapper.setStartTime(StringUtils.substringBefore(formattedTime," "));
+                            scheduleWrapper.setStartTimeAMPM(StringUtils.substringAfter(formattedTime," "));
                         }
 
                         if(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null) {
                             timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
+                            String formattedTime = TIME_FORMAT.format(timeForDisplay);
                             scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
+                            //Set for read only display purpose in the format hh:mm a
+                            scheduleWrapper.setEndTimeUI(formattedTime);
+                            //Set only hh:mm for user editable purpose
+                            scheduleWrapper.setEndTime(StringUtils.substringBefore(formattedTime," "));
+                            scheduleWrapper.setEndTimeAMPM(StringUtils.substringAfter(formattedTime," "));
                         }
 
-                        scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
+                        String daysUI = buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays());
+                        scheduleWrapper.setDaysUI(daysUI);
+                        scheduleWrapper.setDays(StringUtils.remove(daysUI, " "));
                     }
 
                     if (!componentInfo.getRoomIds().isEmpty()){
@@ -818,9 +832,12 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Editing a schedule request in progress. Please update it first before processing");
                 return;
             }
+            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            wrapper.setSchedulesRevised(true);
+            wrapper.getRevisedScheduleRequestComponents().remove(lineIndex);
+        }else {
+            super.processCollectionDeleteLine(view,model,collectionPath,lineIndex);
         }
-
-        super.processCollectionDeleteLine(view,model,collectionPath,lineIndex);
     }
 
     public ContextInfo getContextInfo() {
