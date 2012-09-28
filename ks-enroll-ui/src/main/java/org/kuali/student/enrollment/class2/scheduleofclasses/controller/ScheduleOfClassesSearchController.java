@@ -109,7 +109,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
             String course = theForm.getCourse();
             if (course != null && course.length() > 0) {
                 getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(termCode, course, theForm);
-                theForm.setSearchParameter("Course or Prefix: " + course);
+                theForm.setSearchParameter("Course: " + course);
             } else {
                 LOG.error("Error: search field can't be empty");
                 GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
