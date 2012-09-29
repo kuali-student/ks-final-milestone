@@ -154,6 +154,6 @@
     <bean parent="enValidation" p:messageId="validation.validChars.gpa9.9" p:value="Can only contain a GPA in the form 9.9."/>
     <bean parent="enValidation" p:messageId="validation.validChars.positive.integer" p:value="Can only contain a positive integer."/>
     <bean parent="enValidation" p:messageId="validation.validChars.relationalOperator" p:value="Can only contain one of these operators &gt;,&lt;,=,&gt;=,&lt;=, or &lt;&gt;"/>
-    
+    <bean parent="enValidation" p:messageId="validation.lookup.cause" p:value="The selected value is causing another field to be invalid"/>
     
 </beans>
