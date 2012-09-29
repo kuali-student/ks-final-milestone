@@ -561,6 +561,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                         BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(),getContextInfo());
                         scheduleWrapper.setBuilding(buildingInfo);
                         scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                        scheduleWrapper.setBuildingId(room.getBuildingId());
                     }
 
                     wrapper.getRequestedScheduleComponents().add(scheduleWrapper);

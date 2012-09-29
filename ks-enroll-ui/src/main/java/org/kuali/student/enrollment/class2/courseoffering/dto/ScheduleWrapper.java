@@ -51,8 +51,6 @@ public class ScheduleWrapper implements Serializable{
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
-        setBuildingCode("CCC");
-        setRoomCode("1115");
     }
 
     public ScheduleWrapper(ScheduleWrapper wrapper){
@@ -72,6 +70,8 @@ public class ScheduleWrapper implements Serializable{
         this.daysUI = wrapper.getDaysUI();
         this.startTimeUI = wrapper.getStartTimeUI();
         this.endTimeUI = wrapper.getEndTimeUI();
+        this.room = wrapper.getRoom();
+        this.building = wrapper.getBuilding();
     }
 
     public void copyForEditing(ScheduleWrapper wrapper){
