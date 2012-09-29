@@ -88,15 +88,13 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
         this.contextInfo = contextInfo;
     }
 
+    /**
+     * !!! This method has to state change the SOC back to a sane value for success ("completed") or fail ("notstarted").
+     */
     @Override
     public void run() {
         try {
             SocInfo soc = socService.getSoc(socId, contextInfo);
-
-            // update the Soc to mark that the scheduling is in progress
-            contextInfo.setCurrentDate(new Date());
-            socService.updateSocState(socId, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
-
             List<String> coIds = socService.getCourseOfferingIdsBySoc(soc.getId(), contextInfo);
 
             log("Submitting ", coIds.size(), " course offerings for scheduling");

@@ -32,22 +32,24 @@ public class CourseOfferingSetPublishingHelper {
     private CourseOfferingSetService socService;
 
     /**
-     * Kicks off SOC lifecycle mass publishing event.
-     *
-     * Runs asynchronously by default. If any items are are provided in the options List runs runs in the existing thread.
+     * Kicks off SOC lifecycle mass publishing event. Runs asychronously by default.
      *
      * @param socId The ID of the SOC to publish.
-     * @param optionKeys List of options. Runs synchronously unless the list is empty.
+     * @param optionKeys List of options.
      * @param context
      * @return A StatusInfo on success. Otherwise, throws and exception.
      */
     public StatusInfo startMassPublishingEvent(String socId, List<String> optionKeys, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-        //  Validate the SOC. Should exist and state should be "publishing".
+        //  Validate the SOC. Should exist, state should be "publishing" and scheduling state "completed" .
         SocInfo soc = getSocService().getSoc(socId, context);
-        if ( ! StringUtils.equals(soc.getStateKey(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)) {
+        if ( ! StringUtils.equals(soc.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)) {
             throw new OperationFailedException(String.format("SOC state [%s] was invalid for mass publishing.", soc.getStateKey()));
+        }
+
+        if (! StringUtils.equals(soc.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED)) {
+            throw new OperationFailedException(String.format("SOC scheduling state [%s] was invalid for mass publishing.", soc.getStateKey()));
         }
 
         //  Initialize the runner
@@ -57,11 +59,11 @@ public class CourseOfferingSetPublishingHelper {
         runner.setSocId(socId);
         runner.setContext(context);
 
-        if (optionKeys.size() > 0) {
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY)) {
             //  Run in the existing thread.
             runner.run();
         } else {
-            //  Run asynchronously
+            //  Run asynchronously after any transactions clear
             KSThreadRunnerAfterTransactionSynchronization.runAfterTransactionCompletes(runner);
         }
 
@@ -97,6 +99,11 @@ public class CourseOfferingSetPublishingHelper {
         return coService;
     }
 
+    /**
+     * Performs publishing state changes on COs, FOs, and AOs.
+     *
+     * !!! This code should set the SOC state to a sane value: "published" on success or back to "final edits" if there is a problem. !!!
+     */
     public class SocMassPublishingRunner implements Runnable {
         private ContextInfo context;
         private CourseOfferingService coService;
@@ -116,10 +123,7 @@ public class CourseOfferingSetPublishingHelper {
         public void run() {
             LOG.warn(String.format("Beginning Mass Publishing Event for SOC [%s].", socId));
             try {
-
                 context.setCurrentDate(new Date());
-                socService.updateSocState(socId, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, context);
-
                 /*
                  * Get all of the COs within the SOC. Query the AOs for each CO and do state changes.
                  */

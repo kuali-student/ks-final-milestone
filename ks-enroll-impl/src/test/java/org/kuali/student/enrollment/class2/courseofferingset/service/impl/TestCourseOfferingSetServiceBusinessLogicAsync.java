@@ -122,6 +122,9 @@ public class TestCourseOfferingSetServiceBusinessLogicAsync extends TestCourseOf
         term.setEndDate(new Date());
 
         SocInfo info = socService.createSoc(orig.getTermId(), orig.getTypeKey(), orig, callContext);
+        //  Do state changes so that log entries are correct and state is correct for scheduling.
+        socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, callContext);
+        socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, callContext);
         info = socService.getSoc(info.getId(), callContext);
 
         acalService.createTerm(term.getTypeKey(), term, callContext);

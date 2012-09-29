@@ -4,6 +4,7 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -410,8 +411,15 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
 
     @Override
     public StatusInfo startScheduleSoc(@WebParam(name = "socId") String socId, @WebParam(name = "optionKeys") List<String> optionKeys, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // ensure there is a valid Soc for the given id
+        //  Validate SOC. Ensure there is a valid Soc for the given id and make sure the state and scheduling state are correct.
         SocInfo socInfo = this._getSocService().getSoc(socId, context);
+        if ( ! StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)) {
+            throw new OperationFailedException(String.format("SOC state [%s] was invalid for mass schduling.", socInfo.getStateKey()));
+        }
+
+        if (! StringUtils.equals(socInfo.getSchedulingStateKey(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS)) {
+            throw new OperationFailedException(String.format("SOC scheduling state [%s] was invalid for mass scheduling.", socInfo.getStateKey()));
+        }
 
         final CourseOfferingSetSchedulingRunner schedulingRunner = new CourseOfferingSetSchedulingRunner(socInfo.getId());
         schedulingRunner.setContextInfo(context);
@@ -424,7 +432,6 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
 
         StatusInfo status = new StatusInfo();
         status.setMessage("Scheduling runner started successfully");
-
         return status;
     }
 }

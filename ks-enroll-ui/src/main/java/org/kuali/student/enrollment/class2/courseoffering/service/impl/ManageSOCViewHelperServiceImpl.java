@@ -24,18 +24,25 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.apache.log4j.Logger;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
+    final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
 
     private transient AcademicCalendarService acalService;
+
     private transient CourseOfferingSetService courseOfferingSetService;
     private transient StateService stateService;
+
+    //  Storage for SOC state descriptions.
+    private static Map<String, String> socStateDescriptions = new HashMap<String, String>();
 
     public List<TermInfo> getTermByCode(String termCode) throws Exception {
 
@@ -66,7 +73,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(socForm.getTermInfo().getId(), ContextUtils.createDefaultContextInfo());
 
             if (socIds.isEmpty()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM,"SOC does not exist for this term");
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "SOC does not exist for this term");
                 socForm.setTermInfo(null);
                 return;
             }
@@ -193,7 +200,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @param socForm SOC form
      */
     public void lockSOC(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY,"Set of Courses has been Locked");
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, "Set of Courses has been Locked");
     }
 
     /**
@@ -202,11 +209,12 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @param socForm SOC form
      */
     public void allowSOCFinalEdit(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY,"Set of Courses has been opened for Final Edits.");
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, "Set of Courses has been opened for Final Edits.");
     }
 
     /**
-     * This method changes the SOC state to PUBLISHING. This will be processed by mass publishing process and it changes the state to PUBLISHED
+     * This method changes the SOC state to PUBLISHING.
+     * This will be processed by mass publishing process and it changes the state to PUBLISHED
      *
      * @param socForm SOC form
      */
@@ -214,9 +222,12 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         CourseOfferingSetPublishingHelper mpeHelper = new CourseOfferingSetPublishingHelper();
         try {
+            //  First state change the SOC to state "publishing"
+            getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, contextInfo);
+            //  Then kick off the runner.
             mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), contextInfo);
             reload(socForm, contextInfo);
-            socForm.setSocPublishingStatus("In Progress");
+            socForm.setSocPublishingStatus(getSocStateDescription(CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY));
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
         }
@@ -228,7 +239,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @param socForm SOC form
      */
     public void closeSOC(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY,"Set of Courses has been closed.");
+        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY, "Set of Courses has been closed.");
     }
 
     /**
@@ -238,8 +249,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @param stateKey
      */
     public void changeSOCState(SocInfo socInfo,String stateKey,String message){
-
-        try{
+        try {
             StatusInfo status = getCourseOfferingSetService().updateSocState(socInfo.getId(), stateKey, ContextUtils.createDefaultContextInfo());
 
             if (status.getIsSuccess()){
@@ -301,14 +311,18 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         try {
-            List<String> optionKeys = new ArrayList<String>();
+            //  First state change the SOC to state "inprogress".
+            getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(),
+                    CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
 
+            // Then kick off the mass scheduling event.
+            List<String> optionKeys = new ArrayList<String>();
             StatusInfo status = getCourseOfferingSetService().startScheduleSoc(socForm.getSocInfo().getId(), optionKeys, contextInfo);
 
             if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM,  "Approved activities were successfully sent to Scheduler.");
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Approved activities were successfully sent to Scheduler.");
                 reload(socForm, contextInfo);
-                socForm.setSocSchedulingStatus("In Progress");
+                socForm.setSocSchedulingStatus(getSocStateDescription(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS));
             } else {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error locking SOC");
             }
@@ -320,21 +334,18 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
     }
 
     protected String getSocPublishingStatus(SocInfo info) {
-        if(info.getStateKey() != null) {
+        if (info.getStateKey() != null) {
             if (StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)) {
-
-                return  "In Progress";
+                return getSocStateDescription(CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY);
             } else if (StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
                     StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY)) {
-                return "Completed";
+                return getSocStateDescription(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED);
             }
         }
-
-        return "Not Started";
+        return getSocStateDescription(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED);
     }
 
     private void reload(ManageSOCForm socForm, ContextInfo contextInfo)  {
-
         SocInfo socInfo;
         try {
             socInfo = getCourseOfferingSetService().getSoc(socForm.getSocInfo().getId(), contextInfo);
@@ -350,4 +361,24 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         }
     }
 
+    /**
+     * Gets a SOC state given a SOC state or SOC scheduling state key.
+     * @return The description of a SOC state.
+     */
+     public String getSocStateDescription(String stateKey) {
+        if (socStateDescriptions == null) {
+            List<StateInfo> allSOCStates = null;
+            try {
+                allSOCStates = CourseOfferingResourceLoader.loadStateService()
+                        .getStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, ContextUtils.createDefaultContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException("Call to state service failed.", e);
+            }
+            socStateDescriptions = new HashMap<String, String>();
+            for (StateInfo stateInfo : allSOCStates) {
+                socStateDescriptions.put(stateInfo.getKey(), stateInfo.getName());
+            }
+        }
+        return socStateDescriptions.get(stateKey);
+    }
 }

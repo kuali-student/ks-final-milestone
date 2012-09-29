@@ -263,8 +263,11 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         soc.setTermId(CourseOfferingSetSchedulingRunnerDataLoader.TERM_ID);
 
         SocInfo info = socService.createSoc(soc.getTermId(), soc.getTypeKey(), soc, context);
-
         setSocId(info.getId());
+
+        //  Do state changes so that log entries are correct and state is correct for scheduling.
+        socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, context);
+        socService.updateSocState(info.getId(), CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, context);
 
         // days of week M W F
         CourseOfferingSetSchedulingRunnerDataLoader.DOW_M_W_F.add(Calendar.MONDAY);

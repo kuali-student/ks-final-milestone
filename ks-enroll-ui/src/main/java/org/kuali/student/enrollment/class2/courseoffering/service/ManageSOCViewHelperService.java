@@ -21,4 +21,6 @@ public interface ManageSOCViewHelperService extends ViewHelperService{
     public void closeSOC(ManageSOCForm socForm);
 
     public void startMassScheduling(ManageSOCForm socForm);
+
+    public String getSocStateDescription(String stateKey);
 }

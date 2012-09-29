@@ -43,7 +43,9 @@ public class TestCourseOfferingSetPublishingHelper {
         //  Create a SOC in state "publishing".
         SocInfo socInfo = new SocInfo();
         socInfo.setId(socId);
-        socInfo.setStateKey(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY);
+        //  Set SOC state to "completed" and scheduling state to "publishing".
+        socInfo.setStateKey(CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY);
+        socInfo.setSchedulingStateKey(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED);
         socInfo.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
         socServiceMock.createSoc(termId, CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY, socInfo, context);
 
@@ -150,7 +152,7 @@ public class TestCourseOfferingSetPublishingHelper {
         socPub.setCoService(coServiceMock);
         socPub.setSocService(socServiceMock);
         List<String> options = new ArrayList<String>();
-        options.add("Run Synchronously");
+        options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
         socPub.startMassPublishingEvent(socId, options, context);
 
         SocInfo soc = socServiceMock.getSoc(socId, context);
