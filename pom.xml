@@ -192,6 +192,35 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.kuali.maven.plugins</groupId>
+                    <artifactId>externals-maven-plugin</artifactId>
+                    <configuration>
+                        <commitMessage>[externals-maven-plugin] Automated pom formatting</commitMessage>
+                        <mappings>
+                            <mapping>
+                                <module>ks-api</module>
+                                <versionProperty>ks.api.version</versionProperty>
+                            </mapping>
+                            <mapping>
+                                <module>ks-core</module>
+                                <versionProperty>ks.core.version</versionProperty>
+                            </mapping>
+                            <mapping>
+                                <module>ks-enroll</module>
+                                <versionProperty>ks.enroll.version</versionProperty>
+                            </mapping>
+                            <mapping>
+                                <module>ks-lum</module>
+                                <versionProperty>ks.lum.version</versionProperty>
+                            </mapping>
+                            <mapping>
+                                <module>ks-deployments</module>
+                                <versionProperty>ks.deployments.version</versionProperty>
+                            </mapping>
+                        </mappings>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>${plugin.enforcer.version}</version>
                 </plugin>
