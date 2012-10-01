@@ -395,26 +395,18 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (model instanceof AcademicCalendarForm){
-            if (addLine instanceof HolidayCalendarWrapper){
-                AcademicCalendarForm form = (AcademicCalendarForm)model;
-                if ((form.getHolidayCalendarList().size() == 0))  {
-                    GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",
-                            CalendarConstants.MSG_ERROR_NO_HCAL);
-                    return false;
-                } else {
-
-                    for(HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()){
-                        String holidayCalendarId = holidayCalendarWrapper.getId();
-                        if (StringUtils.equals(holidayCalendarWrapper.getId(),((HolidayCalendarWrapper) addLine).getId())){
-                            GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",
-                                    CalendarConstants.MSG_ERROR_DUPLICATE_HCAL,
-                                    holidayCalendarWrapper.getHolidayCalendarInfo().getName());
-                            return false;
-                        }
+            if (addLine instanceof HolidayCalendarWrapper) {
+                AcademicCalendarForm form = (AcademicCalendarForm) model;
+                for (HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()) {
+                    String holidayCalendarId = holidayCalendarWrapper.getId();
+                    if (StringUtils.equals(holidayCalendarWrapper.getId(), ((HolidayCalendarWrapper) addLine).getId())) {
+                        GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",
+                                CalendarConstants.MSG_ERROR_DUPLICATE_HCAL,
+                                holidayCalendarWrapper.getHolidayCalendarInfo().getName());
+                        return false;
                     }
                 }
-            }
-            else if (addLine instanceof KeyDatesGroupWrapper) {
+            } else if (addLine instanceof KeyDatesGroupWrapper) {
                 KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
                 if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
                     GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
