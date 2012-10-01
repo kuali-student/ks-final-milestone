@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+    <bean id="OfferingInstructorWrapper" parent="OfferingInstructorWrapper-parentBean"/>
+
+    <bean id="OfferingInstructorWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="name" value="offeringInstructorWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper"/>
+        <property name="objectLabel" value="OfferingInstructor Wrapper"/>
+        <property name="titleAttribute" value="offeringInstructorInfo.personId"/>
+        <property name="primaryKeys">
+            <list>
+                <value>offeringInstructorInfo.personId</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingWrapper" parent="ActivityOfferingWrapper-parentBean"/>
+
+    <bean id="ActivityOfferingWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+        <property name="titleAttribute" value="aoInfo.id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Activity Offering"/>
+        <property name="primaryKeys">
+            <list>
+                <value>aoInfo.id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}">
+        <property name="headerText" value="Activity Offering Maintenance"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/activityOffering.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/activity-offering.js</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>
+                <bean parent="Uif-HeaderThree" p:headerText="Edit @{document.newMaintainableObject.dataObject.activityCode} (@{document.newMaintainableObject.dataObject.abbreviatedCourseType})"/>
+                <bean parent="Uif-VerticalBoxSection">
+
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
+                            <bean parent="Uif-DataField" p:label="Term" p:propertyName="termDisplayString" p:readOnly="true" />
+
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <!-- <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="aoInfo.typeKey" p:readOnly="true"/> -->
+                                        <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="typeName" p:readOnly="true"/>
+                                        <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
+                                        <!-- <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true" p:defaultValue="Lecture"/> -->
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <ref bean="KSDocumentPageFooter_SubmitCancel"/>
+
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
+                    <property name="headerText" value="Activity Offering Information"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="1"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:label="Total Maximum Enrollment" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.maximumEnrollment"
+                                  p:id="maximumEnrollment" p:onKeyUpScript="calculatePercent(jQuery(this))">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="3"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- until KSENROLL-1191 is worked on again:
+                <bean parent="Uif-VerticalBoxSection">
+
+                    <property name="render" value="false"/>
+                    <property name="headerText" value="Requested Delivery Logistics"/>
+                    <property name="items">
+                        <list>
+                            <bean id="KS-ActivityOffering-MeetingTimes" parent="Uif-TableCollectionSection">
+                                <property name="headerText" value="Meeting Times and Location Details" />
+                                <property name="header">
+                                    <bean parent="Uif-HeaderFour"/>
+                                </property>
+                                <property name="layoutManager.addLineGroup.layoutManager.numberOfColumns" value="1"/>
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper" />
+                                <property name="propertyName" value="scheduleComponentWrappers" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.separateAddLine" value="true" />
+                                <property name="layoutManager.richTable.render" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="addLineLabel.render" value="false" />
+                                <property name="addLineLabel">
+                                    <bean parent="Uif-Label" p:render="false"/>
+                                </property>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-meeting-collection</value>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="weekDays" p:label="Requested Day(s)"/>
+                                        <bean parent="Uif-DataField" p:propertyName="startTime" p:label="Start Time"/>
+                                        <bean parent="Uif-DataField" p:propertyName="endTime" p:label="End Time"/>
+                                        <bean parent="Uif-DataField" p:propertyName="building" p:label="Building"/>
+                                        <bean parent="Uif-DataField" p:propertyName="room" p:label="Room"/>
+                                        <bean parent="Uif-DataField" p:propertyName="ownership" p:label="Ownership"/>
+                                        <bean parent="Uif-DataField" p:propertyName="capacity" p:label="Capacity"/>
+                                        <bean parent="Uif-DataField" p:propertyName="roomFeatures" p:label="Room Features"
+                                              p:style="font-size:95%"/>
+                                    </list>
+                                </property>
+                                <property name="addLineItems">
+                                    <list>
+                                        <bean parent="Uif-VerticalFieldGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-HorizontalFieldGroup">
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean parent="Uif-VerticalFieldGroup"
+                                                                      p:label="Days *" p:fieldLabel.renderColon="false"
+                                                                      p:style="margin-bottom:0;">
+                                                                    <property name="cssClasses">
+                                                                        <list merge="true">
+                                                                            <value>ks-meeting-collection-days</value>
+                                                                        </list>
+                                                                    </property>
+                                                                    <property name="items">
+                                                                        <list>
+                                                                            <bean parent="Uif-InputField"
+                                                                                  p:propertyName="addDaysSpecifiedBoolean"
+                                                                                  p:defaultValue="1">
+                                                                                <property name="control">
+                                                                                    <bean parent="Uif-HorizontalRadioControl">
+                                                                                        <property name="options">
+                                                                                            <list>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Specify Days"/>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="0" p:value="TBA"/>
+                                                                                            </list>
+                                                                                        </property>
+                                                                                    </bean>
+                                                                                </property>
+                                                                            </bean>
+                                                                            <bean parent="Uif-InputField-LabelTop"
+                                                                                  p:propertyName="addWeekDayOptions"
+                                                                                  p:id="dowCheckbox"
+                                                                                  p:progressiveRender="@{#lp.addDaysSpecifiedBoolean eq '1'}"
+                                                                                  p:style="margin-bottom:0;">
+                                                                                <property name="control">
+                                                                                    <bean parent="Uif-HorizontalCheckboxesControl">
+                                                                                        <property name="options">
+                                                                                            <list>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="M"/>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="T"/>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="W"/>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Th"/>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="F"/>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Sa"/>
+                                                                                                <bean parent="Uif-KeyLabelPair" p:key="0" p:value="Su"/>
+                                                                                            </list>
+                                                                                        </property>
+                                                                                    </bean>
+                                                                                </property>
+                                                                            </bean>
+                                                                            <bean parent="Uif-Message"
+                                                                                  p:messageText="Days set as &amp;quot;To Be Announced&amp;quot;"
+                                                                                  p:progressiveRender="@{#lp.addDaysSpecifiedBoolean eq '0'}" />
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean parent="Uif-VerticalFieldGroup">
+                                                                    <property name="cssClasses">
+                                                                        <list merge="true">
+                                                                            <value>ks-meeting-collection-time</value>
+                                                                        </list>
+                                                                    </property>
+                                                                    <property name="items">
+                                                                        <list>
+                                                                            <bean parent="Uif-HorizontalFieldGroup"
+                                                                                  p:label="Start Time *"
+                                                                                  p:fieldLabel.renderColon="false"
+                                                                                  p:style="margin-bottom:0;">
+                                                                                <property name="items">
+                                                                                    <list>
+                                                                                        <bean parent="Uif-InputField"
+                                                                                              p:propertyName="addStartTimeHour"
+                                                                                              p:required="true">
+                                                                                            <property name="control">
+                                                                                                <bean parent="Uif-TextControl"
+                                                                                                      p:size="4"
+                                                                                                      p:watermarkText="hh:mm"/>
+                                                                                            </property>
+                                                                                        </bean>
+                                                                                        <bean parent="Uif-InputField"
+                                                                                              p:propertyName="addStartTimeAmPm">
+                                                                                            <property name="control">
+                                                                                                <bean parent="Uif-DropdownControl"
+                                                                                                      p:options-ref="ampm-options"/>
+                                                                                            </property>
+                                                                                        </bean>
+                                                                                    </list>
+                                                                                </property>
+                                                                            </bean>
+                                                                            <bean parent="Uif-Message"
+                                                                                  p:messageText="hh:mm or &amp;quot;TBA&amp;quot;"/>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean parent="Uif-VerticalFieldGroup"
+                                                                      p:style="margin-bottom:0;">
+                                                                    <property name="cssClasses">
+                                                                        <list merge="true">
+                                                                            <value>ks-meeting-collection-time</value>
+                                                                        </list>
+                                                                    </property>
+                                                                    <property name="items">
+                                                                        <list>
+                                                                            <bean parent="Uif-HorizontalFieldGroup"
+                                                                                  p:label="End Time *"
+                                                                                  p:fieldLabel.renderColon="false"
+                                                                                  p:style="margin-bottom:0;">
+                                                                                <property name="items">
+                                                                                    <list>
+                                                                                        <bean parent="Uif-InputField"
+                                                                                              p:propertyName="addEndTimeHour"
+                                                                                              p:required="true">
+                                                                                            <property name="control">
+                                                                                                <bean parent="Uif-TextControl"
+                                                                                                      p:size="4"
+                                                                                                      p:watermarkText="hh:mm"/>
+                                                                                            </property>
+                                                                                            <property name="validCharactersConstraint">
+                                                                                                <bean parent="ValidCharactersConstraint"
+                                                                                                      p:value="^(\d?\d:\d\d|([tT][bB][aA]))$"/>
+                                                                                            </property>
+                                                                                        </bean>
+                                                                                        <bean parent="Uif-InputField"
+                                                                                              p:propertyName="addEndTimeAmPm">
+                                                                                            <property name="control">
+                                                                                                <bean parent="Uif-DropdownControl"
+                                                                                                      p:options-ref="ampm-options"/>
+                                                                                            </property>
+                                                                                        </bean>
+                                                                                    </list>
+                                                                                </property>
+                                                                            </bean>
+                                                                            <bean parent="Uif-Message"
+                                                                                  p:messageText="hh:mm or &amp;quot;TBA&amp;quot;"/>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-HorizontalFieldGroup"
+                                                          p:style="margin-bottom:0;">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>ks-meeting-collection-location</value>
+                                                            </list>
+                                                        </property>
+                                                        <property name="items">
+                                                            <list>
+                                                                <bean parent="Uif-InputField-LabelTop"
+                                                                      p:propertyName="building"
+                                                                      p:label="Building">
+                                                                    <property name="suggest.render" value="true" />
+                                                                    <property name="suggest.sourcePropertyName" value="building" />
+                                                                    <property name="attributeQuery">
+                                                                        <bean parent="Uif-AttributeQueryConfig">
+                                                                            <property name="queryMethodToCall"
+                                                                                      value="getBuildingsCodesForSuggest"/>
+                                                                            <property name="queryMethodArgumentFieldList"
+                                                                                      value="building"/>
+                                                                        </bean>
+                                                                    </property>
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:size="15">
+                                                                        </bean>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean parent="Uif-InputField-LabelTop"
+                                                                      p:propertyName="room"
+                                                                      p:label="Room">
+                                                                    <property name="suggest.render" value="true" />
+                                                                    <property name="suggest.sourcePropertyName" value="room" />
+                                                                    <property name="suggest.suggestQuery.dataObjectClassName"
+                                                                              value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
+                                                                    <property name="attributeQuery">
+                                                                    <!==<property name="suggest.suggestQuery">==>
+                                                                        <bean parent="Uif-AttributeQueryConfig">
+                                                                            <property name="queryMethodToCall"
+                                                                                      value="getRoomNumbersForSuggest"/>
+                                                                            <property name="queryMethodArgumentFieldList"
+                                                                                      value="building"/>
+                                                                        </bean>
+                                                                    </property>
+                                                                    <property name="refreshWhenChangedPropertyNames"
+                                                                              value="#lp.building"/>
+                                                                    <property name="control">
+                                                                        <bean parent="Uif-TextControl" p:size="7">
+                                                                            <property name="disabled"
+                                                                                      value="@{#empty(#lp.building)}"/>
+                                                                        </bean>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean parent="Uif-VerticalFieldGroup"
+                                                                      p:style="margin-bottom:0;">
+                                                                    <property name="items">
+                                                                        <list>
+                                                                            <bean parent="Uif-InputField-LabelTop"
+                                                                                  p:propertyName="addRoomResources"
+                                                                                  p:label="Room Resources"
+                                                                                  p:style="margin-bottom:2px">
+                                                                                //  p:finalizeMethodToCall="populateGradeOptions"
+                                                                                <property name="control">
+                                                                                    <bean parent="Uif-DropdownControl"
+                                                                                          p:multiple="true" p:size="5"
+                                                                                          p:style="width:200px"/>
+                                                                                </property>
+                                                                                <property name="optionsFinder">
+                                                                                    <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.ActivityOfferingRoomResourcesListFinder"
+                                                                                          p:addBlankOption="false"/>
+                                                                                </property>
+                                                                                <property name="propertyReplacers">
+                                                                                    <list>
+                                                                                        <bean parent="Uif-ConditionalBeanPropertyReplacer"
+                                                                                              p:propertyName="control"
+                                                                                              p:condition="#lp.addRoomResources.size() eq 0">
+                                                                                            <property name="replacement">
+                                                                                                <bean parent="Uif-TextControl" p:size="10"/>
+                                                                                            </property>
+                                                                                        </bean>
+                                                                                    </list>
+                                                                                </property>
+                                                                            </bean>
+                                                                            <bean parent="Uif-ActionLink"
+                                                                                  p:actionLabel="Clear resource selections"
+                                                                                  p:actionScript="clearRoomResourcesSelections(jq(this))"/>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                                <bean parent="Uif-DataField-LabelTop"
+                                                                      p:propertyName="capacity"
+                                                                      p:label="Capacity"/>
+                                                                <bean parent="Uif-DataField-LabelTop"
+                                                                      p:propertyName="ownership"
+                                                                      p:label="Ownership"/>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                -->
+
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Personnel"/>
+                    <property name="items">
+                        <list>
+                            <bean id="KS-ActivityOffering-PersonnelSection" parent="Uif-TableCollectionSection"
+                                  p:layoutManager.numberOfColumns="6"
+                                  p:id="ao-personnelgroup"
+                                  p:layoutManager.style="width: 100%; display:block;">
+                                <property name="headerText" value="Affiliated Personnel" />
+                                <!-- <property name="header">
+                                    <bean parent="Uif-HeaderFour"/>
+                                </property> -->
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
+                                <property name="propertyName" value="instructors" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.separateAddLine" value="false" />
+                                <property name="layoutManager.richTable.render" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="addLineItems">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" p:required="true">
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="name" value="offeringInstructorInfo.personName"/>
+                                                    <entry key="entityId" value="offeringInstructorInfo.personId"/>
+                                                </map>
+                                            </property>
+                                            <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
+                                        </bean>
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:readOnly="true"/>
+                                        <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="true" p:exclusiveMin="0" p:inclusiveMax="100">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="10" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" p:readOnly="true"/>
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:readOnly="true"/>
+                                        <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:readOnly="true">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="true" p:exclusiveMin="0" p:inclusiveMax="100">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="10" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Seat Pools"/>
+                     <property name="items">
+                        <list>
+                            <bean id="KS-ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
+                                  p:layoutManager.numberOfColumns="6"
+                                  p:id="ao-seatpoolgroup"
+                                  p:layoutManager.style="width: 100%; display:block;">
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
+                                <property name="propertyName" value="seatpools" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.separateAddLine" value="false" />
+                                <property name="layoutManager.richTable.render" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="addLineActions">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                                              p:actionEvent="addLine" p:onDocumentReadyScript="calculatePercent()" />
+                                    </list>
+                                </property>
+                                <property name="lineActions">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="remove"
+                                              p:actionEvent="deleteLine" p:onDocumentReadyScript="calculatePercent()" />
+                                    </list>
+                                </property>
+
+                                <property name="addLineItems">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="2" />
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="IntegerPatternConstraint" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit">
+                                            <property name="control">
+                                                <!--bean parent="Uif-TextControl" p:size="3" p:onKeyDownScript="calculatePercent(jq(this))"/-->
+                                                <bean parent="Uif-TextControl" p:size="3" />
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="IntegerPatternConstraint" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-MessageField" p:messageText="" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
+                                        <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
+                                            </property>
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                    <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
+                                                </map>
+                                            </property>
+                                            <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:defaultValue="kuali.atp.milestone.firstdayofclasses" p:label="EXPIRATION MILESTONE">
+                                            <!-- property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ExpirationMilestoneKeyValues" p:addBlankOption="false" />
+                                            </property -->
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" />
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.processingPriority" p:label="PRIORITY" p:maxLength="2">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="2" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="3" p:onKeyUpScript="calculatePercent(jQuery(this))" />
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
+                                        <bean parent="Uif-DataField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name">
+                                            <!--<property name="control">
+                                                <bean parent="Uif-TextControl" p:size="40" p:disabled="true" />
+                                            </property>
+                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                            <property name="quickfinder.fieldConversions">
+                                                <map>
+                                                    <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                    <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
+                                                </map>
+                                            </property>-->
+                                            <!--<property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />-->
+                                        </bean>
+                                        <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:label="EXPIRATION MILESTONE">
+                                            <!-- property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ExpirationMilestoneKeyValues" p:addBlankOption="false" />
+                                            </property -->
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" />
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SeatPoolExpirationMilestoneTypeKeyValues" p:addBlankOption="false"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount" />
+                            <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining" />
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- Miscellaneous Section Begin -->
+                <bean parent="Uif-VerticalBoxSection"
+                      p:headerText="Miscellaneous"
+                      p:id="aoInfo.Miscellaneous">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop"
+                                  p:propertyName="aoInfo.activityOfferingURL"
+                                  p:label="Course URL">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl"
+                                          p:size="30"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalFieldGroup"
+                                  p:label="Evaluation"
+                                  p:fieldLabel.renderColon="false"
+                                  p:style="margin-bottom:0">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField-LabelRight"
+                                              p:propertyName="aoInfo.isEvaluated"
+                                              p:label="This lecture requires an evaluation"
+                                              p:fieldLabel.cssClasses="label-normal"
+                                              p:required="false">
+                                            <property name="control">
+                                                <bean parent="Uif-CheckboxControl"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalFieldGroup"
+                                  p:label="Honors Flag"
+                                  p:fieldLabel.renderColon="false"
+                                  p:style="margin-bottom:0">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField-LabelRight"
+                                              p:propertyName="aoInfo.isHonorsOffering"
+                                              p:label="This is an honors course"
+                                              p:fieldLabel.cssClasses="label-normal"
+                                              p:required="false">
+                                            <property name="control">
+                                                <bean parent="Uif-CheckboxControl"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <!-- Miscellaneous Section End -->
+
+            </list>
+        </property>
+
+        <!-- <property name="footer.items">
+           <list/>
+       </property> -->
+        <!-- Updated the for Jira 1639 -->
+        <property name="page.footer.items">
+            <ref bean="KSDocumentPageFooter_SubmitCancel" />
+        </property>
+
+    </bean>
+
+    <bean id="ActivityOfferingMaintenanceDocument" parent="ActivityOfferingMaintenanceDocument-parentBean"/>
+
+    <bean id="ActivityOfferingMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl"/>
+        <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.ActivityOfferingRule" />
+        <property name="documentTypeName" value="ActivityOfferingInfoMaintenanceDocument"/>
+        <property name="lockingKeys">
+            <list>
+                <value>aoInfo.id</value>
+            </list>
+        </property>
+    </bean>
+
+    <util:list id="aoInstructors-options">
+        <bean parent="Uif-KeyLabelPair" p:key="" p:value="Select One..."/>
+        <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.main" p:value="Instructor"/>
+        <bean parent="Uif-KeyLabelPair" p:key="kuali.lpr.type.instructor.assistant" p:value="Teaching Assistant"/>
+    </util:list>
+
+    <util:list id="ampm-options">
+        <bean parent="Uif-KeyLabelPair" p:key="am" />
+        <bean parent="Uif-KeyLabelPair" p:key="pm" />
+    </util:list>
+
+    <util:list id="expMilestones-options">
+        <bean parent="Uif-KeyLabelPair" p:key="Test1" p:value="Test1"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Test2" p:value="Test2"/>
+        <bean parent="Uif-KeyLabelPair" p:key="Test3" p:value="Test3"/>
+    </util:list>
+
+</beans>

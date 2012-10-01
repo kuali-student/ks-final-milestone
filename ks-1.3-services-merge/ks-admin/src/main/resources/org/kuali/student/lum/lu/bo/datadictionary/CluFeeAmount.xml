@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+  <bean id="CluFeeAmount" parent="CluFeeAmount-parentBean" />
+  <bean id="CluFeeAmount-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.student.lum.lu.bo.CluFeeAmount" />
+    <property name="titleAttribute" value="id" />
+    <property name="objectLabel" value="CLU Fee Amount" />
+    <property name="attributes">
+      <list>
+        <ref bean="CluFeeAmount-id" />
+        <ref bean="CluFeeAmount-cluFeeRecordId" />
+        <ref bean="CluFeeAmount-currencyTypeKey" />
+        <ref bean="CluFeeAmount-currencyQuantity" />        
+      </list>
+    </property>
+  </bean>
+
+  <alias alias="CluFeeAmount-id" name="CoreAttributeReference-id" />
+      
+  <bean id="CluFeeAmount-cluFeeRecordId" parent="CluFeeAmount-cluFeeRecordId-parentBean" />
+  <bean id="CluFeeAmount-cluFeeRecordId-parentBean" abstract="true" parent="CoreAttributeReference-id">
+    <property name="name" value="cluFeeRecordId" />
+    <property name="shortLabel" value="CLU Fee Record ID"/>
+    <property name="summary" value="CLU Fee Record ID"/>
+    <property name="label" value="CLU Fee Record ID"/>
+    <property name="description" value="CLU Fee Record ID"/>
+  </bean>
+  
+  <bean id="CluFeeAmount-currencyTypeKey" parent="CluFeeAmount-currencyTypeKey-parentBean" />
+  <bean id="CluFeeAmount-currencyTypeKey-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="name" value="currencyTypeKey" />
+    <property name="shortLabel" value="Currency Type ID"/>
+    <property name="summary" value="Currency Type ID"/>
+    <property name="label" value="Currency Type ID"/>
+    <property name="description" value="Currency Type ID"/>
+  </bean>
+  
+  <bean id="CluFeeAmount-currencyQuantity" parent="CluFeeAmount-currencyQuantity-parentBean" />
+  <bean id="CluFeeAmount-currencyQuantity-parentBean" abstract="true" parent="CoreAttributeReference-genericInteger">
+    <property name="name" value="currencyQuantity" />
+    <property name="shortLabel" value="Currency Qty"/>
+    <property name="summary" value="Currency Quantity"/>
+    <property name="label" value="Currency Quantity"/>
+    <property name="description" value="Currency Quantity"/>
+  </bean>
+  
+</beans>

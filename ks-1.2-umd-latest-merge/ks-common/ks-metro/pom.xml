@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>ks-metro</artifactId>
+  <packaging>pom</packaging>
+  <name>KS Metro Pom</name>
+  <description>KS metro dependencies</description>
+  <parent>
+    <groupId>org.kuali.student.common</groupId>
+    <artifactId>ks-common</artifactId>
+    <version>1.2.2-M4-UMD-M5-SNAPSHOT</version>
+  </parent>
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>webservices-rt</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jvnet.jax-ws-commons.spring</groupId>
+      <artifactId>jaxws-spring</artifactId>
+    </dependency>
+  </dependencies>
+</project>

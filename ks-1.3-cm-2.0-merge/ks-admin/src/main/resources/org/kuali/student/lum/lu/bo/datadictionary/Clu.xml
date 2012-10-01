@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="Clu" parent="Clu-parentBean" />
+  <bean id="Clu-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.student.lum.lu.bo.Clu" />
+    <property name="titleAttribute" value="id" />
+    <property name="objectLabel" value="CLU" />
+    <property name="lookupDefinition">
+      <ref bean="Clu-lookupDefinition" />
+    </property>
+    <property name="inquiryDefinition">
+      <ref bean="Clu-inquiryDefinition" />
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="Clu-id" />
+        <ref bean="Clu-createId" />
+        <ref bean="Clu-createDate" />
+        <ref bean="Clu-updateId" />
+        <ref bean="Clu-updateDate" />
+        <ref bean="Clu-versionIndId" />
+        <ref bean="Clu-sequenceNumber" />
+        <ref bean="Clu-currentVersionEnd" />
+        <ref bean="Clu-currentVersionStart" />
+        <ref bean="Clu-versionedFromId" />
+        <ref bean="Clu-versionComment" />
+        <ref bean="Clu-activeFromDate" />
+        <ref bean="Clu-activeToDate" />
+        <ref bean="Clu-studySubjectArea" />
+        <ref bean="Clu-expectedFirstAtp" />
+        <ref bean="Clu-lastAtp" />
+        <ref bean="Clu-lastAdmitAtp" />
+        <ref bean="Clu-referenceURL" />
+        <ref bean="Clu-nextReviewPeriod" />
+        <ref bean="Clu-defaultEnrollmentEstimate" />
+        <ref bean="Clu-defaultMaximumEnrollment" />
+        <ref bean="Clu-canCreateLui" />
+        <ref bean="Clu-hazardousForDisabledStudents" />
+        <ref bean="Clu-hasEarlyDropDeadline" />
+        <ref bean="Clu-enrollable" />
+        <ref bean="Clu-intensityTypeId" />
+        <ref bean="Clu-intensityQuantity" />
+        <ref bean="Clu-atpDurationTypeId" />
+        <ref bean="Clu-timeQuantity" />
+        <ref bean="Clu-typeId" />
+        <ref bean="Clu-state" />
+        <ref bean="Clu-description.plain" />
+        <ref bean="Clu-luType.name" />
+        <ref bean="Clu-officialCluId" />
+        <ref bean="Clu-officialIdentifier.code" />
+        <ref bean="Clu-primaryInstructor.personId" />
+        <ref bean="Clu-fee.description.plain" />
+      </list>
+    </property>
+    <property name="collections">
+      <list>
+        <bean parent="CollectionDefinition" p:name="alternateIdentifiers" p:shortLabel="Alternate Identifiers"
+            p:summary="Alternate Identifiers" p:label="Alternate Identifiers"
+            p:description="Alternate identifiers for this CLU." />
+        <bean parent="CollectionDefinition" p:name="offeredAtpTypes" p:shortLabel="Offered ATP Types"
+            p:summary="Offered ATP Types" p:label="Offered ATP Types"
+            p:description="Offered ATP types for this CLU." />
+      </list>
+    </property>
+    <property name="relationships">
+      <list>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="expectedFirstAtp"/>
+          <property name="targetClass" value="org.kuali.student.core.atp.bo.Atp" />
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="expectedFirstAtp" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="lastAtp"/>
+          <property name="targetClass" value="org.kuali.student.core.atp.bo.Atp" />
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="lastAtp" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="lastAdmitAtp"/>
+          <property name="targetClass" value="org.kuali.student.core.atp.bo.Atp" />
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="lastAdmitAtp" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="nextReviewPeriod"/>
+          <property name="targetClass" value="org.kuali.student.core.atp.bo.Atp" />
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="nextReviewPeriod" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="atpDurationTypeId"/>
+          <property name="targetClass" value="org.kuali.student.core.atp.bo.AtpDurationType" />
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="atpDurationTypeId" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+        <bean parent="RelationshipDefinition">
+          <property name="objectAttributeName" value="intensityTypeId"/>
+          <property name="targetClass" value="org.kuali.student.core.atp.bo.AtpDurationType" />
+          <property name="primitiveAttributes">
+            <list>
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="intensityTypeId" p:targetName="id"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <alias alias="Clu-id" name="CoreAttributeReference-id" />
+  <alias alias="Clu-createId" name="CoreAttributeReference-createId" />
+  <alias alias="Clu-createDate" name="CoreAttributeReference-createDate" />
+  <alias alias="Clu-updateId" name="CoreAttributeReference-updateId" />
+  <alias alias="Clu-updateDate" name="CoreAttributeReference-updateDate" />
+  <alias alias="Clu-versionIndId" name="CoreAttributeReference-versionIndId" />
+  <alias alias="Clu-sequenceNumber" name="CoreAttributeReference-sequenceNumber" />
+  <alias alias="Clu-currentVersionEnd" name="CoreAttributeReference-currentVersionEnd" />
+  <alias alias="Clu-currentVersionStart" name="CoreAttributeReference-currentVersionStart" />
+  <alias alias="Clu-versionedFromId" name="CoreAttributeReference-versionedFromId" />
+  <alias alias="Clu-versionComment" name="CoreAttributeReference-versionComment" />
+  <alias alias="Clu-activeFromDate" name="CoreAttributeReference-activeFromDate" />
+  <alias alias="Clu-activeToDate" name="CoreAttributeReference-activeToDate" />
+  
+  <bean id="Clu-studySubjectArea" parent="Clu-studySubjectArea-parentBean" />
+  <bean id="Clu-studySubjectArea-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="shortLabel" value="Study Subject Area"/>
+    <property name="summary" value="Study Subject Area"/>
+    <property name="name" value="studySubjectArea"/>
+    <property name="label" value="Study Subject Area"/>
+    <property name="description" value="Study Subject Area"/>
+  </bean>
+  
+  <bean id="Clu-expectedFirstAtp" parent="Clu-expectedFirstAtp-parentBean" />
+  <bean id="Clu-expectedFirstAtp-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="shortLabel" value="First ATP"/>
+    <property name="summary" value="Expected First ATP"/>
+    <property name="name" value="expectedFirstAtp"/>
+    <property name="label" value="First ATP"/>
+    <property name="description" value="Expected First ATP"/>
+  </bean>
+  
+  <bean id="Clu-lastAtp" parent="Clu-lastAtp-parentBean" />
+  <bean id="Clu-lastAtp-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="shortLabel" value="Last ATP"/>
+    <property name="summary" value="Last ATP"/>
+    <property name="name" value="lastAtp"/>
+    <property name="label" value="Last ATP"/>
+    <property name="description" value="Last ATP"/>
+  </bean>
+  
+  <bean id="Clu-lastAdmitAtp" parent="Clu-lastAdmitAtp-parentBean" />
+  <bean id="Clu-lastAdmitAtp-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="shortLabel" value="Last Admit ATP"/>
+    <property name="summary" value="Last Admit ATP"/>
+    <property name="name" value="lastAdmitAtp"/>
+    <property name="label" value="Last Admit ATP"/>
+    <property name="description" value="Last Admit ATP"/>
+  </bean>
+  
+  <bean id="Clu-referenceURL" parent="Clu-referenceURL-parentBean" />
+  <bean id="Clu-referenceURL-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="shortLabel" value="Reference URL"/>
+    <property name="summary" value="Reference URL"/>
+    <property name="name" value="referenceURL"/>
+    <property name="label" value="Reference URL"/>
+    <property name="description" value="Reference URL"/>
+  </bean>
+  
+  <bean id="Clu-nextReviewPeriod" parent="Clu-nextReviewPeriod-parentBean" />
+  <bean id="Clu-nextReviewPeriod-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="shortLabel" value="Next Review Period"/>
+    <property name="summary" value="Next Review Period"/>
+    <property name="name" value="nextReviewPeriod"/>
+    <property name="label" value="Next Review Period"/>
+    <property name="description" value="Next Review Period"/>
+  </bean>
+
+  <bean id="Clu-defaultEnrollmentEstimate" parent="Clu-defaultEnrollmentEstimate-parentBean"/>
+  <bean id="Clu-defaultEnrollmentEstimate-parentBean" abstract="true" parent="CoreAttributeReference-genericInteger">
+    <property name="name" value="defaultEnrollmentEstimate"/>
+    <property name="shortLabel" value="Enrollment Estimate"/>
+    <property name="summary" value="Enrollment estimate"/>
+    <property name="label" value="Default Enrollment Estimate"/>
+    <property name="description" value="Default Enrollment Estimate"/>
+  </bean>
+  
+  <bean id="Clu-defaultMaximumEnrollment" parent="Clu-defaultMaximumEnrollment-parentBean"/>
+  <bean id="Clu-defaultMaximumEnrollment-parentBean" abstract="true" parent="CoreAttributeReference-genericInteger">
+    <property name="name" value="defaultMaximumEnrollment"/>
+    <property name="shortLabel" value="Max Enrollment Estimate"/>
+    <property name="summary" value="Default Maximum Enrollment estimate"/>
+    <property name="label" value="Default Maximum Enrollment Estimate"/>
+    <property name="description" value="Default Maximum Enrollment Estimate"/>
+  </bean>
+  
+  <bean id="Clu-canCreateLui" parent="Clu-canCreateLui-parentBean" />
+  <bean id="Clu-canCreateLui-parentBean" abstract="true" parent="CoreAttributeReference-genericBoolean">
+    <property name="shortLabel" value="Create LUI Indicator"/>
+    <property name="summary" value="Can create LUI indicator"/>
+    <property name="name" value="canCreateLui"/>
+    <property name="label" value="Create LUI Indicator"/>
+    <property name="description" value="Indicates whether LUI can be created."/>
+  </bean>
+  
+  <bean id="Clu-hazardousForDisabledStudents" parent="Clu-hazardousForDisabledStudents-parentBean" />
+  <bean id="Clu-hazardousForDisabledStudents-parentBean" abstract="true" parent="CoreAttributeReference-genericBoolean">
+    <property name="shortLabel" value="Hazardous For Disabled"/>
+    <property name="summary" value="Hazardous for disabled students indicator"/>
+    <property name="name" value="hazardousForDisabledStudents"/>
+    <property name="label" value="Hazardous For Disabled"/>
+    <property name="description" value="Indicateds whether LUI is hazardous for disabled students."/>
+  </bean>
+  
+  <bean id="Clu-hasEarlyDropDeadline" parent="Clu-hasEarlyDropDeadline-parentBean" />
+  <bean id="Clu-hasEarlyDropDeadline-parentBean" abstract="true" parent="CoreAttributeReference-genericBoolean">
+    <property name="shortLabel" value="Early Drop Deadline Indicator"/>
+    <property name="summary" value="CEarly drop deadline indicator"/>
+    <property name="name" value="hasEarlyDropDeadline"/>
+    <property name="label" value="Early Drop Deadline Indicator"/>
+    <property name="description" value="Indicates wheter LUI has early drop deadline."/>
+  </bean>
+  
+  <bean id="Clu-enrollable" parent="Clu-enrollable-parentBean" />
+  <bean id="Clu-enrollable-parentBean" abstract="true" parent="CoreAttributeReference-genericBoolean">
+    <property name="shortLabel" value="Enrollable Indicator"/>
+    <property name="summary" value="Is LUI Enrollable indicator"/>
+    <property name="name" value="enrollable"/>
+    <property name="label" value="Enrollable Indicator"/>
+    <property name="description" value="Indicated wheter LUI is enrollable."/>
+  </bean>
+
+  <bean id="Clu-intensityTypeId" parent="Clu-intensityTypeId-parentBean" />
+  <bean id="Clu-intensityTypeId-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="name" value="intensityTypeId"/>
+    <property name="shortLabel" value="Intensity Type"/>
+    <property name="summary" value="Intensity Type"/>
+    <property name="label" value="Intensity Type"/>
+    <property name="description" value="Intensity Type"/>
+  </bean>
+  
+  <bean id="Clu-intensityQuantity" parent="Clu-intensityQuantity-parentBean"/>
+  <bean id="Clu-intensityQuantity-parentBean" abstract="true" parent="CoreAttributeReference-genericInteger">
+    <property name="name" value="intensityQuantity"/>
+    <property name="shortLabel" value="Intensity Quantity"/>
+    <property name="summary" value="Intensity Quantity"/>
+    <property name="label" value="Intensity Quantity"/>
+    <property name="description" value="Intensity Quantity"/>
+  </bean>
+  
+  <bean id="Clu-atpDurationTypeId" parent="Clu-atpDurationTypeId-parentBean" />
+  <bean id="Clu-atpDurationTypeId-parentBean" abstract="true" parent="CoreAttributeReference-typeId">
+    <property name="name" value="atpDurationTypeId" />
+    <property name="shortLabel" value="Duration Type"/>
+    <property name="summary" value="Duration Type"/>
+    <property name="label" value="Duration Type"/>
+    <property name="description" value="Duration Type"/>
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.core.atp.bo.options.AtpDurationTypeValuesFinder"/>
+    </property>
+  </bean>
+  
+  <bean id="Clu-timeQuantity" parent="Clu-timeQuantity-parentBean" />
+  <bean id="Clu-timeQuantity-parentBean" abstract="true" parent="CoreAttributeReference-genericInteger">
+    <property name="name" value="timeQuantity" />
+    <property name="shortLabel" value="Duration Amount"/>
+    <property name="summary" value="Duration Amount"/>
+    <property name="label" value="Duration Amount"/>
+    <property name="description" value="Duration Amount"/>
+  </bean>
+
+  <bean id="Clu-typeId" parent="Clu-typeId-parentBean" />
+  <bean id="Clu-typeId-parentBean" abstract="true" parent="CoreAttributeReference-typeId">
+    <property name="control">
+      <bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.student.lum.lu.bo.options.LuTypeValuesFinder"/>
+    </property>
+  </bean>
+  
+  <!-- simple def until get more info on this vs atp state -->
+  <bean id="Clu-state" parent="Clu-state-parentBean" />
+  <bean id="Clu-state-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+    <property name="shortLabel" value="State"/>
+    <property name="summary" value="State of the CLU"/>
+    <property name="name" value="state"/>
+    <property name="label" value="State"/>
+    <property name="description" value="State fo the CLU"/>
+  </bean>
+  
+  <bean id="Clu-description.plain" parent="Clu-description.plain-parentBean" />
+  <bean id="Clu-description.plain-parentBean" abstract="true" parent="CoreAttributeReference-richText.plain">
+    <property name="summary" value="Description for the CLU"/>
+    <property name="name" value="description.plain"/>
+    <property name="label" value="Description"/>
+    <property name="description" value="Description for the CLU"/>
+  </bean>
+
+  <bean id="Clu-luType.name" parent="Clu-luType.name-parentBean" />
+  <bean id="Clu-luType.name-parentBean" abstract="true" parent="LuType-name">
+    <property name="name" value="luType.name" />
+  </bean>
+  
+  <bean id="Clu-officialCluId" parent="Clu-officialCluId-parentBean" />
+  <bean id="Clu-officialCluId-parentBean" abstract="true" parent="CoreAttributeReference-id">
+    <property name="name" value="officialCluId" />
+  </bean>
+  
+  <bean id="Clu-officialIdentifier.code" parent="Clu-officialIdentifier.code-parentBean" />
+  <bean id="Clu-officialIdentifier.code-parentBean" abstract="true" parent="CluIdentifier-code">
+    <property name="name" value="officialIdentifier.code" />
+  </bean>
+
+  <bean id="Clu-primaryInstructor.personId" parent="Clu-primaryInstructor.personId-parentBean" />
+  <bean id="Clu-primaryInstructor.personId-parentBean" abstract="true" parent="CluInstructor-personId">
+    <property name="name" value="primaryInstructor.personId" />
+    <property name="shortLabel" value="Primary Instructor"/>
+    <property name="summary" value="Primary Instructor"/>
+    <property name="label" value="Primary Instructor"/>
+    <property name="description" value="Primary Instructor"/>
+  </bean>
+  
+  <bean id="Clu-fee.description.plain" parent="Clu-fee.description.plain-parentBean" />
+  <bean id="Clu-fee.description.plain-parentBean" abstract="true" parent="CoreAttributeReference-richText.plain">
+    <property name="name" value="fee.description.plain"/>
+    <property name="summary" value="Description of the fee"/>
+    <property name="label" value="Description"/>
+    <property name="description" value="Description for the fee"/>
+  </bean>
+  
+
+  <bean id="Clu-lookupDefinition" parent="Clu-lookupDefinition-parentBean" />
+  <bean id="Clu-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="Learning Unit Lookup" />
+      <property name="lookupFields">
+          <list>
+            <bean parent="FieldDefinition" p:attributeName="id" />
+            <bean parent="FieldDefinition" p:attributeName="versionIndId" />
+            <bean parent="FieldDefinition" p:attributeName="officialIdentifier.code" />
+            <bean parent="FieldDefinition" p:attributeName="description.plain" />
+            <bean parent="FieldDefinition" p:attributeName="typeId" />
+            <bean parent="FieldDefinition" p:attributeName="state" />
+          </list>
+      </property>
+      <property name="resultFields">
+        <list>
+          <bean parent="FieldDefinition" p:attributeName="id" />
+          <bean parent="FieldDefinition" p:attributeName="officialIdentifier.code" />
+          <bean parent="FieldDefinition" p:attributeName="description.plain" />
+          <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="luType.name"/>
+          <bean parent="FieldDefinition" p:attributeName="state" />
+        </list>
+      </property>
+  </bean>
+
+  <bean id="Clu-inquiryDefinition" parent="Clu-inquiryDefinition-parentBean" />
+  <bean id="Clu-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="CLU Inquiry" />
+    <property name="inquirySections">
+      <list>
+        <ref bean="Clu-inquirySection-overview" />
+        <ref bean="Clu-inquirySection-alternateIdentifiers" />
+        <ref bean="Clu-inquirySection-adminOrgs" />
+        <ref bean="Clu-inquirySection-instructors" />
+        <ref bean="Clu-inquirySection-campusLocations" />
+        <ref bean="Clu-inquirySection-accreditations" />
+        <ref bean="Clu-inquirySection-accounting" />
+        <ref bean="Clu-inquirySection-fee" />
+        <ref bean="Clu-inquirySection-luCodes" />
+        <ref bean="Clu-inquirySection-offeredAtpTypes" />
+        <ref bean="Clu-inquirySection-attributes" />
+        <ref bean="Clu-inquirySection-cluRelations" />
+        <ref bean="Clu-inquirySection-metaInformation" />
+      </list>
+    </property>
+  </bean>
+  <!-- 
+  <bean id="Clu-inquirySection-overview" parent="Clu-inquirySection-overview-parentBean" />
+  <bean id="Clu-inquirySection-overview-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Overview" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" />
+        <bean parent="FieldDefinition" p:attributeName="officialIdentifier.code" />
+        <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="luType.name"/>
+        <bean parent="FieldDefinition" p:attributeName="versionIndId" />
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+        <bean parent="FieldDefinition" p:attributeName="currentVersionStart" />
+        <bean parent="FieldDefinition" p:attributeName="currentVersionEnd" />
+        <bean parent="FieldDefinition" p:attributeName="versionedFromId" />
+        <bean parent="FieldDefinition" p:attributeName="versionComment" />
+        <bean parent="FieldDefinition" p:attributeName="studySubjectArea" />
+        <bean parent="FieldDefinition" p:attributeName="description.plain" />
+        <bean parent="FieldDefinition" p:attributeName="expectedFirstAtp" />
+        <bean parent="FieldDefinition" p:attributeName="lastAtp" />
+        <bean parent="FieldDefinition" p:attributeName="lastAdmitAtp" />
+        <bean parent="FieldDefinition" p:attributeName="referenceURL" />
+        <bean parent="FieldDefinition" p:attributeName="nextReviewPeriod" />
+        <bean parent="FieldDefinition" p:attributeName="defaultEnrollmentEstimate" />
+        <bean parent="FieldDefinition" p:attributeName="defaultMaximumEnrollment" />
+        <bean parent="FieldDefinition" p:attributeName="canCreateLui" />
+        <bean parent="FieldDefinition" p:attributeName="hazardousForDisabledStudents" />
+        <bean parent="FieldDefinition" p:attributeName="hasEarlyDropDeadline" />
+        <bean parent="FieldDefinition" p:attributeName="enrollable" />
+        <bean parent="FieldDefinition" p:attributeName="intensityTypeId" />
+        <bean parent="FieldDefinition" p:attributeName="intensityQuantity" />
+        <bean parent="FieldDefinition" p:attributeName="atpDurationTypeId" />
+        <bean parent="FieldDefinition" p:attributeName="timeQuantity" />
+        <bean parent="FieldDefinition" p:attributeName="primaryInstructor.personId" />
+        <bean parent="FieldDefinition" p:attributeName="state" />
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+        <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+      </list>
+    </property>
+  </bean>
+  -->
+  
+  <bean id="Clu-inquirySection-overview" parent="Clu-inquirySection-overview-parentBean" />
+  <bean id="Clu-inquirySection-overview-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Overview" />
+    <property name="numberOfColumns" value="2" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="officialIdentifier.code" />
+        <bean parent="FieldDefinition" p:attributeName="id" />
+        <bean parent="FieldDefinition" p:attributeName="typeId" p:alternateDisplayAttributeName="luType.name"/>
+        <bean parent="FieldDefinition" p:attributeName="versionIndId" />
+        <bean parent="FieldDefinition" p:attributeName="studySubjectArea" />
+        <bean parent="FieldDefinition" p:attributeName="sequenceNumber" />
+        <bean parent="FieldDefinition" p:attributeName="expectedFirstAtp" />
+        <bean parent="FieldDefinition" p:attributeName="currentVersionStart" />
+        <bean parent="FieldDefinition" p:attributeName="lastAdmitAtp" />
+        <bean parent="FieldDefinition" p:attributeName="currentVersionEnd" />
+        <bean parent="FieldDefinition" p:attributeName="lastAtp" />
+        <bean parent="FieldDefinition" p:attributeName="versionedFromId" />
+        <bean parent="FieldDefinition" p:attributeName="nextReviewPeriod" />
+        <bean parent="FieldDefinition" p:attributeName="versionComment" />
+        <bean parent="FieldDefinition" p:attributeName="referenceURL" />
+        <bean parent="FieldDefinition" p:attributeName="hazardousForDisabledStudents" />
+        <bean parent="FieldDefinition" p:attributeName="defaultEnrollmentEstimate" />
+        <bean parent="FieldDefinition" p:attributeName="enrollable" />
+        <bean parent="FieldDefinition" p:attributeName="defaultMaximumEnrollment" />
+        <bean parent="FieldDefinition" p:attributeName="canCreateLui" />
+        <bean parent="FieldDefinition" p:attributeName="intensityTypeId" />
+        <bean parent="FieldDefinition" p:attributeName="hasEarlyDropDeadline" />
+        <bean parent="FieldDefinition" p:attributeName="intensityQuantity" />
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+        <bean parent="FieldDefinition" p:attributeName="atpDurationTypeId" />
+        <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+        <bean parent="FieldDefinition" p:attributeName="timeQuantity" />
+        <bean parent="FieldDefinition" p:attributeName="primaryInstructor.personId" />
+        <bean parent="FieldDefinition" p:attributeName="state" />
+        <bean parent="FieldDefinition" p:attributeName="description.plain" />
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-alternateIdentifiers" parent="Clu-inquirySection-alternateIdentifiers-parentBean" />
+  <bean id="Clu-inquirySection-alternateIdentifiers-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Alternate Identifiers" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="alternateIdentifiers" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluIdentifier" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="Alternate Identifier" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="code" />
+              <bean parent="FieldDefinition" p:attributeName="type" />
+              <bean parent="FieldDefinition" p:attributeName="shortName" />
+              <bean parent="FieldDefinition" p:attributeName="longName" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="code" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-adminOrgs" parent="Clu-inquirySection-adminOrgs-parentBean" />
+  <bean id="Clu-inquirySection-adminOrgs-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Admin Organizations" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="adminOrgs" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluAdminOrg" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="Organization" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+              <bean parent="FieldDefinition" p:attributeName="type" />
+              <bean parent="FieldDefinition" p:attributeName="primary" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-instructors" parent="Clu-inquirySection-instructors-parentBean" />
+  <bean id="Clu-inquirySection-instructors-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Additional Instructors" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="instructors" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluInstructor" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="Instructor" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+              <bean parent="FieldDefinition" p:attributeName="personId" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="personId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-campusLocations" parent="Clu-inquirySection-campusLocations-parentBean" />
+  <bean id="Clu-inquirySection-campusLocations-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Campus Locations" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="campusLocations" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluCampusLocation" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="Campus" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="campusLocation" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="campusLocation" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-accreditations" parent="Clu-inquirySection-accreditations-parentBean" />
+  <bean id="Clu-inquirySection-accreditations-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Accreditations" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="accreditations" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluAccreditation" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="Accreditation" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+              <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-accounting" parent="Clu-inquirySection-accounting-parentBean" />
+  <bean id="Clu-inquirySection-accounting-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Accounting" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="accounting.affiliatedOrgs" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.AffiliatedOrg" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="Organization" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+              <bean parent="FieldDefinition" p:attributeName="percentage" />
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+              <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <!-- cant show fee.description.plain because it makes the collection dissapear -->
+  <bean id="Clu-inquirySection-fee" parent="Clu-inquirySection-fee-parentBean" />
+  <bean id="Clu-inquirySection-fee-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Fees" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="fee.cluFeeRecords" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluFeeRecord" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="Fee" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="feeType" />
+              <bean parent="FieldDefinition" p:attributeName="rateType" />
+              <bean parent="FieldDefinition" p:attributeName="description.plain" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="feeType" />
+              <bean parent="FieldDefinition" p:attributeName="rateType" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-luCodes" parent="Clu-inquirySection-luCodes-parentBean" />
+  <bean id="Clu-inquirySection-luCodes-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Codes" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="luCodes" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.LuCode" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="Code" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="type" />
+              <bean parent="FieldDefinition" p:attributeName="value" />
+              <bean parent="FieldDefinition" p:attributeName="description" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="type" />
+              <bean parent="FieldDefinition" p:attributeName="value" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-offeredAtpTypes" parent="Clu-inquirySection-offeredAtpTypes-parentBean" />
+  <bean id="Clu-inquirySection-offeredAtpTypes-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Offered ATP Types" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="offeredAtpTypes" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluAtpTypeKey" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="ATP" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="atpTypeKey" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="atpTypeKey" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-attributes" parent="Clu-inquirySection-attributes-parentBean" />
+  <bean id="Clu-inquirySection-attributes-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="Attributes" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="attributes" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluAttribute" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="name" />
+              <bean parent="FieldDefinition" p:attributeName="value" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <bean id="Clu-inquirySection-cluRelations" parent="Clu-inquirySection-cluRelations-parentBean" />
+  <bean id="Clu-inquirySection-cluRelations-parentBean" abstract="true" parent="InquirySectionDefinition">
+    <property name="title" value="CLU Relations" />
+    <property name="numberOfColumns" value="1" />
+    <property name="inquiryFields">
+      <list>
+        <bean parent="InquiryCollectionDefinition">
+          <property name="attributeName" value="cluRelations" />
+          <property name="businessObjectClass"
+              value="org.kuali.student.lum.lu.bo.CluCluRelation" />
+          <property name="numberOfColumns" value="1" />
+          <property name="summaryTitle" value="CLU" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="relatedCluId" />
+              <bean parent="FieldDefinition" p:attributeName="luLuRelationTypeId" />
+              <bean parent="FieldDefinition" p:attributeName="cluRelationRequired" />
+            </list>
+          </property>
+          <property name="summaryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+  <alias alias="Clu-inquirySection-metaInformation" name="CoreAttributeReference-inquirySection-metaInformation" />
+
+</beans>

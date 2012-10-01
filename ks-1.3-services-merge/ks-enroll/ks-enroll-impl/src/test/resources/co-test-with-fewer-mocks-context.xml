@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <context:annotation-config />
+
+    <import resource="classpath:META-INF/default-property-config-context-test.xml" />
+    <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
+    <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:en-course-test-context.xml" />
+    <import resource="classpath:search-test-context.xml"/>
+  <!-- Preloaded data NO DATA TO LOAD DONE VIA SERVICES -->
+<!--  <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+    <property name="jtaTxManager" ref="JtaTxManager" />
+    <property name="shouldLoadData" value="true" />
+    <property name="preloadMap">
+      <map>
+        <entry key="co">
+          <value>classpath:ks-courseOffering.sql</value>
+        </entry>
+      </map>
+    </property>
+  </bean>-->
+  
+<!--  STILL USING THESE MOCKS-->
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+
+    <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl">
+    </bean>
+
+    <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
+        <property name="properties" value="${propertiesPrefix.systemProperties}" />
+    </bean>
+
+    <bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init"
+          destroy-method="close" depends-on="systemPropertyConfigurer">
+        <property name="forceShutdown" value="true" />
+        <property name="startupTransactionService" value="true" />
+        <property name="transactionTimeout" value="120" />
+    </bean>
+
+    <bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer"></bean>
+
+    <bean id="JtaTxManager" class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="systemPropertyConfigurer">
+        <property name="transactionManager" ref="AtomikosTxMgr" />
+        <property name="userTransaction" ref="AtomikosUsrTx" />
+        <property name="transactionSynchronizationName" value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+    </bean>
+
+    <bean id="dataSource" class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean"
+          init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
+        <property name="uniqueResourceName" value="dataSource" />
+        <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
+        <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}" />
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+    </bean>
+
+    <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
+        <property name="databasePlatform" value="${jpa.databasePlatform}" />
+        <property name="showSql" value="${jpa.showSql}" />
+        <property name="generateDdl" value="${jpa.generateDdl}" />
+    </bean>
+
+  <!-- Default JPA EntityManagerFactory -->
+    <bean id="defaultEntityManagerFactory" abstract="true"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter" ref="vendorAdapter" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}" />
+    <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" /> -->
+    </bean>
+
+    <bean id="entityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="co" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/courseOffering-persistence.xml" />
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
+        <property name="luiDao" ref="luiDao" />
+        <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
+    </bean>
+
+
+
+    <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+
+
+    <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
+        <property name="stateDao" ref="stateDao" />
+        <property name="lifecycleDao" ref="lifecycleDao" />
+    </bean>
+
+    <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+        <property name="atpDao" ref="atpDao" />
+        <property name="atpRelDao" ref="atpAtpRelationDao" />
+        <property name="milestoneDao" ref="milestoneDao" />
+        <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
+        <property name="criteriaLookupService" ref="atpCriteriaLookupService" />
+    </bean>
+
+    <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="milestoneDao" class="org.kuali.student.r2.core.class1.atp.dao.MilestoneDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="atpMilestoneRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+<!--  <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl">
+    <property name="lprService" ref="lprPersistenceService" />
+    <property name="courseOfferingService" ref="coService" />
+    <property name="gradeRosterAssembler" ref="grAssembler" />
+  </bean>-->
+    
+    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+        <property name="luiService" ref="luiService" />
+        <property name="rgAssembler" ref="rgAssembler" />
+        <property name="courseService" ref="courseService" />
+        <property name="acalService" ref="acalService" />
+        <property name="stateService" ref="stateService" />
+        <property name="lprService" ref="lprPersistenceService" />
+        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
+        <property name="businessLogic" ref="businessLogic" />
+        <property name="atpService" ref="atpService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
+    </bean>
+
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+        <property name="lprService" ref="lprPersistenceService" />
+        <property name="personService" ref="personService" />
+    </bean>
+    <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
+
+    <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
+        <property name="courseService" ref="courseService" />
+        <property name="acalService" ref="acalService" />
+        <property name="coService" ref="coService" />
+    </bean>
+    
+    <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
+        <property name="luiService" ref="luiService" />
+        <property name="regGroupTransformer" ref="regGroupTransformer"/>
+    </bean>
+
+    <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
+    </bean>
+
+    <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+        <property name="atpService" ref="atpService" />
+        <property name="acalAssembler" ref="acalAssembler" />
+        <property name="termAssembler" ref="termAssembler" />
+        <property name="typeService" ref="typeService" />
+        <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
+    </bean>
+
+
+    <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
+        <property name="atpService" ref="atpService" />
+    </bean>
+
+    <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
+
+
+    <bean id="coServiceValidationDecorator"
+          class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
+        <property name="nextDecorator" ref="coService" />
+        <property name="validator" ref="validator" />
+    </bean>
+
+    <bean id="coServiceAuthDecorator"
+          class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceAuthorizationDecorator">
+        <property name="nextDecorator" ref="coServiceValidationDecorator" />
+        <property name="permissionService" ref="permissionService" />
+    </bean>
+
+    <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
+
+    <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
+        <property name="lprDao" ref="lprDao" />
+        <property name="lprTransactionDao" ref="lprTransactionDao" />
+        <property name="lprTransactionItemDao" ref="lprTransactionItemDao" />
+    </bean>
+
+
+
+    <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="lprStateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="lprTransactionDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="lprTransactionItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="regGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer" />
+    <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
+
+
+    <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
+
+</beans>
+

@@ -1,0 +1,35 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+.KS-Horizontal-Block-Flow{
+	/*Firefox and others*/
+	display: inline-block;
+}
+
+@if user.agent ie6 ie7 {  
+	.KS-Horizontal-Block-Flow{
+		/*This is an IE hack for inline block format*/
+		zoom: 1; /*activates HasFormat*/
+		display: inline;
+	}
+}
+
+.KS-Horizontal-Inline-Flow{
+	display: inline;
+}
+
+.KS-Vertical-Flow{
+	display: block;
+}

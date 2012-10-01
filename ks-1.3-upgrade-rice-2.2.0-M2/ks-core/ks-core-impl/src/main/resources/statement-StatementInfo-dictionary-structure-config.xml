@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ***************************************** -->
+<!-- object structure for object.StatementInfo -->
+<!-- ***************************************** -->
+<!-- Detailed information about a single statement. -->
+<dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.StatementInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.statement.dto.StatementInfo" id="object.StatementInfo" parent="object.StatementInfo.abstract"/>
+
+<dict:type key="*" id="type.StatementInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.StatementInfo"/>
+</dict:type>
+<dict:type key="*" id="type.StatementInfo" parent="type.StatementInfo.abstract"/>
+
+<!-- ************************************************* -->
+<!-- State for state.StatementInfo.(default).(default) -->
+<!-- ************************************************* -->
+
+<dict:state key="*" id="state.StatementInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.statementInfo.name"/>
+	<dict:fieldRef bean="field.statementInfo.desc"/>
+	<dict:fieldRef bean="field.statementInfo.operator"/>
+	<dict:fieldRef bean="field.statementInfo.statementIds"/>
+	<dict:fieldRef bean="field.statementInfo.reqComponentIds"/>
+	<dict:fieldRef bean="field.statementInfo.metaInfo"/>
+	<dict:fieldRef bean="field.statementInfo.type"/>
+	<dict:fieldRef bean="field.statementInfo.state"/>
+	<dict:fieldRef bean="field.statementInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.StatementInfo" parent="state.StatementInfo.abstract"/>
+
+
+<dict:field key="name" id="field.statementInfo.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.name.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.name.cd"/>
+</dict:field>
+<dict:field key="name" id="field.statementInfo.name" parent="field.statementInfo.name.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.name.fd.abstract" abstract="true">
+	<dict:name>Statement Name</dict:name>
+	<dict:desc>Friendly name for the statement.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.name.fd" parent="field.statementInfo.name.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); A basic single line of text, no embedded carraige returns or tabs limited to 255 -->
+<dict:constraintDescriptor id="field.statementInfo.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.single.line.text"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="field.statementInfo.name.cd" parent="field.statementInfo.name.cd.abstract"/>
+
+<dict:field key="desc" id="field.statementInfo.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.desc.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="field.statementInfo.desc" parent="field.statementInfo.desc.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.desc.fd.abstract" abstract="true">
+	<dict:name>Statement Description</dict:name>
+	<dict:desc>Narrative description for the statement.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.statementInfo.desc"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.desc.fd" parent="field.statementInfo.desc.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.statementInfo.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="field.statementInfo.desc.cd" parent="field.statementInfo.desc.cd.abstract"/>
+
+<!-- ************************************************************************ -->
+<!-- object structure for object.field.statementInfo.desc.(default).(default) -->
+<!-- ************************************************************************ -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.statementInfo.desc.abstract" abstract="true">
+	<dict:typeRef bean="type.field.statementInfo.desc"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.statementInfo.desc" parent="object.field.statementInfo.desc.abstract"/>
+
+<dict:type key="*" id="type.field.statementInfo.desc.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.statementInfo.desc"/>
+</dict:type>
+<dict:type key="*" id="type.field.statementInfo.desc" parent="type.field.statementInfo.desc.abstract"/>
+
+<!-- ******************************************************************************** -->
+<!-- State for state.field.statementInfo.desc.(default).(default).(default).(default) -->
+<!-- ******************************************************************************** -->
+
+<dict:state key="*" id="state.field.statementInfo.desc.abstract" abstract="true">
+	<dict:fieldRef bean="field.statementInfo.desc.plain"/>
+	<dict:fieldRef bean="field.statementInfo.desc.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.statementInfo.desc" parent="state.field.statementInfo.desc.abstract"/>
+
+
+<dict:field key="plain" id="field.statementInfo.desc.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.desc.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.desc.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.statementInfo.desc.plain" parent="field.statementInfo.desc.plain.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.desc.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.desc.plain.fd" parent="field.statementInfo.desc.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.statementInfo.desc.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.statementInfo.desc.plain.cd" parent="field.statementInfo.desc.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.statementInfo.desc.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.desc.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.desc.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.statementInfo.desc.formatted" parent="field.statementInfo.desc.formatted.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.desc.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.desc.formatted.fd" parent="field.statementInfo.desc.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.statementInfo.desc.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.statementInfo.desc.formatted.cd" parent="field.statementInfo.desc.formatted.cd.abstract"/>
+
+<dict:field key="operator" id="field.statementInfo.operator.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.operator.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.operator.cd"/>
+</dict:field>
+<dict:field key="operator" id="field.statementInfo.operator" parent="field.statementInfo.operator.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.operator.fd.abstract" abstract="true">
+	<dict:name>Statement Operator</dict:name>
+	<dict:desc>Logical operator used to assemble statements. Acceptable values are restricted to AND and OR. This operator applies to both the statements and requirement components contained within this statement.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.operator.fd" parent="field.statementInfo.operator.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Alphanumeric code, hypen and period.; In list of configured statement operators (AND and OR) -->
+<dict:constraintDescriptor id="field.statementInfo.operator.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.code"/>
+	<dict:constraintRef bean="constraint.statement.operators"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="operator" id="field.statementInfo.operator.cd" parent="field.statementInfo.operator.cd.abstract"/>
+
+<!-- services has both statement ids and requirement component ids as required but this can't be true.  What is required is that either a statement or requirement component is required so there is a cross field constraint but not both -->
+<dict:field key="statementIds" id="field.statementInfo.statementIds.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.statementIds.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.statementIds.cd"/>
+</dict:field>
+<dict:field key="statementIds" id="field.statementInfo.statementIds" parent="field.statementInfo.statementIds.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.statementIds.fd.abstract" abstract="true">
+	<dict:name>Contained Statement Identifiers</dict:name>
+	<dict:desc>List of statement identifiers.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.statementIds.fd" parent="field.statementInfo.statementIds.fd.abstract"/>
+<!-- Optional; Repeating; Id of an existing Statement -->
+<dict:constraintDescriptor id="field.statementInfo.statementIds.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.statementd"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="statementIds" id="field.statementInfo.statementIds.cd" parent="field.statementInfo.statementIds.cd.abstract"/>
+
+<!-- services has both statement ids and requirement component ids as required but this can't be true.  What is required is that either a statement or requirement component is required so there is a cross field constraint but not both -->
+<dict:field key="reqComponentIds" id="field.statementInfo.reqComponentIds.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.reqComponentIds.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.reqComponentIds.cd"/>
+</dict:field>
+<dict:field key="reqComponentIds" id="field.statementInfo.reqComponentIds" parent="field.statementInfo.reqComponentIds.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.reqComponentIds.fd.abstract" abstract="true">
+	<dict:name>Contained Requirement Component Identifiers</dict:name>
+	<dict:desc>List of requirement component identifiers.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.reqComponentIds.fd" parent="field.statementInfo.reqComponentIds.fd.abstract"/>
+<!-- Optional; Repeating; Id of an existing requirement component -->
+<dict:constraintDescriptor id="field.statementInfo.reqComponentIds.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+	<dict:constraintRef bean="constraint.related.requirementComponentId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="reqComponentIds" id="field.statementInfo.reqComponentIds.cd" parent="field.statementInfo.reqComponentIds.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.statementInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.statementInfo.metaInfo" parent="field.statementInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.statementInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.fd" parent="field.statementInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.statementInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.statementInfo.metaInfo.cd" parent="field.statementInfo.metaInfo.cd.abstract"/>
+
+<!-- **************************************************************************** -->
+<!-- object structure for object.field.statementInfo.metaInfo.(default).(default) -->
+<!-- **************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.statementInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.statementInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.statementInfo.metaInfo" parent="object.field.statementInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.statementInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.statementInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.statementInfo.metaInfo" parent="type.field.statementInfo.metaInfo.abstract"/>
+
+<!-- ************************************************************************************ -->
+<!-- State for state.field.statementInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- ************************************************************************************ -->
+
+<dict:state key="*" id="state.field.statementInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.statementInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.statementInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.statementInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.statementInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.statementInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.statementInfo.metaInfo" parent="state.field.statementInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.statementInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.statementInfo.metaInfo.versionInd" parent="field.statementInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.versionInd.fd" parent="field.statementInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.statementInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.statementInfo.metaInfo.versionInd.cd" parent="field.statementInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.statementInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.statementInfo.metaInfo.createTime" parent="field.statementInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.createTime.fd" parent="field.statementInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.statementInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.statementInfo.metaInfo.createTime.cd" parent="field.statementInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.statementInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.statementInfo.metaInfo.createId" parent="field.statementInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.createId.fd" parent="field.statementInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.statementInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.statementInfo.metaInfo.createId.cd" parent="field.statementInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.statementInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.statementInfo.metaInfo.updateTime" parent="field.statementInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.updateTime.fd" parent="field.statementInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.statementInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.statementInfo.metaInfo.updateTime.cd" parent="field.statementInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.statementInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.statementInfo.metaInfo.updateId" parent="field.statementInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.metaInfo.updateId.fd" parent="field.statementInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.statementInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.statementInfo.metaInfo.updateId.cd" parent="field.statementInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.statementInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.statementInfo.type" parent="field.statementInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.type.fd.abstract" abstract="true">
+	<dict:name>Statement Type Identifier</dict:name>
+	<dict:desc>Unique identifier for an statement type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.type.fd" parent="field.statementInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid statement types -->
+<dict:constraintDescriptor id="field.statementInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.statement.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.statementInfo.type.cd" parent="field.statementInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.statementInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.state.cd"/>
+</dict:field>
+<dict:field key="state" id="field.statementInfo.state" parent="field.statementInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.state.fd.abstract" abstract="true">
+	<dict:name>Statement State</dict:name>
+	<dict:desc>The current status of the statement. The values for this field are constrained to those in the StatementState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.state.fd" parent="field.statementInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE; In list of valid statement states -->
+<dict:constraintDescriptor id="field.statementInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.statement.states"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.statementInfo.state.cd" parent="field.statementInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.statementInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.statementInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.statementInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.statementInfo.id" parent="field.statementInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.statementInfo.id.fd.abstract" abstract="true">
+	<dict:name>Statement Identifier</dict:name>
+	<dict:desc>Unique identifier for a single statement record. This is optional, due to the identifier being set at the time of creation. Once the statement has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.statementInfo.id.fd" parent="field.statementInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.statementInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.statementInfo.id.cd" parent="field.statementInfo.id.cd.abstract"/>
+</beans>

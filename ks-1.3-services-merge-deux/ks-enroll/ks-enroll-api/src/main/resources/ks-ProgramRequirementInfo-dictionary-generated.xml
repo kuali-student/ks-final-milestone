@@ -1,0 +1,589 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- ProgramRequirementInfo-->
+	<bean id="ProgramRequirementInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="programRequirementInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo"/>
+		<property name="objectLabel" value="Program Requirement"/>
+		<property name="objectDescription">
+			<value>
+Detailed information about a program requirement
+			</value>
+		</property>
+		<property name="titleAttribute" value="shortTitle"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="ProgramRequirementInfo.id"/>
+				<ref bean="ProgramRequirementInfo.typeKey"/>
+				<ref bean="ProgramRequirementInfo.stateKey"/>
+				<ref bean="ProgramRequirementInfo.shortTitle"/>
+				<ref bean="ProgramRequirementInfo.longTitle"/>
+				<ref bean="ProgramRequirementInfo.minCredits"/>
+				<ref bean="ProgramRequirementInfo.maxCredits"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="ProgramRequirementInfo.descr"/>
+				<ref bean="ProgramRequirementInfo.statement"/>
+				<ref bean="ProgramRequirementInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+				<ref bean="ProgramRequirementInfo.learningObjectives"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+Description of the requirement.
+			</value>
+		</property>
+		<property name="label" value="Description"/>
+		<property name="description">
+			<value>
+Description of the requirement.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Description"/>
+				<property name="objectDescription">
+					<value>
+Description of the requirement.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="ProgramRequirementInfo.descr.plain"/>
+						<ref bean="ProgramRequirementInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.shortTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="shortTitle"/>
+		<property name="shortLabel" value="Short Title"/>
+		<property name="summary">
+			<value>
+Brief title for the requirement.
+			</value>
+		</property>
+		<property name="label" value="Short Title"/>
+		<property name="description">
+			<value>
+Brief title for the requirement.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.longTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="longTitle"/>
+		<property name="shortLabel" value="Long Title"/>
+		<property name="summary">
+			<value>
+Long name for the requirement
+			</value>
+		</property>
+		<property name="label" value="Long Title"/>
+		<property name="description">
+			<value>
+Long name for the requirement
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.learningObjectives-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="learningObjectives"/>
+		<property name="shortLabel" value="Learning Objectives"/>
+		<property name="summary">
+			<value>
+Learning Objectives for the Program Requirement
+			</value>
+		</property>
+		<property name="label" value="Learning Objectives"/>
+		<property name="elementLabel" value="Learning Objective"/>
+		<property name="description">
+			<value>
+Learning Objectives for the Program Requirement
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.LoDisplayInfo"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="statement"/>
+		<property name="shortLabel" value="Statement"/>
+		<property name="summary">
+			<value>
+Rule Statement for the requirement
+			</value>
+		</property>
+		<property name="label" value="Statement"/>
+		<property name="description">
+			<value>
+Rule Statement for the requirement
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="statement"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
+				<property name="objectLabel" value="Statement"/>
+				<property name="objectDescription">
+					<value>
+Rule Statement for the requirement
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="ProgramRequirementInfo.statement.id"/>
+						<ref bean="ProgramRequirementInfo.statement.typeKey"/>
+						<ref bean="ProgramRequirementInfo.statement.stateKey"/>
+						<ref bean="ProgramRequirementInfo.statement.name"/>
+						<ref bean="ProgramRequirementInfo.statement.operator"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+						<ref bean="ProgramRequirementInfo.statement.descr"/>
+						<ref bean="ProgramRequirementInfo.statement.meta"/>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+						<ref bean="ProgramRequirementInfo.statement.statements"/>
+						<ref bean="ProgramRequirementInfo.statement.reqComponents"/>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+A description of the entity.
+			</value>
+		</property>
+		<property name="label" value="Description"/>
+		<property name="description">
+			<value>
+A description of the entity.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Description"/>
+				<property name="objectDescription">
+					<value>
+A description of the entity.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="ProgramRequirementInfo.statement.descr.plain"/>
+						<ref bean="ProgramRequirementInfo.statement.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.operator-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="operator"/>
+		<property name="shortLabel" value="Operator"/>
+		<property name="summary">
+			<value>
+Statement operator
+			</value>
+		</property>
+		<property name="label" value="Operator"/>
+		<property name="description">
+			<value>
+Statement operator
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.statements-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="statements"/>
+		<property name="shortLabel" value="Statements"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Statements"/>
+		<property name="elementLabel" value="Statement"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="minOccurs" value="1"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.reqComponents-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="reqComponents"/>
+		<property name="shortLabel" value="Req Components"/>
+		<property name="summary">
+			<value>
+Required components
+			</value>
+		</property>
+		<property name="label" value="Req Components"/>
+		<property name="elementLabel" value="Req Component"/>
+		<property name="description">
+			<value>
+Required components
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.statement.dto.ReqComponentInfo"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="ProgramRequirementInfo.statement.meta.versionInd"/>
+						<ref bean="ProgramRequirementInfo.statement.meta.createTime"/>
+						<ref bean="ProgramRequirementInfo.statement.meta.createId"/>
+						<ref bean="ProgramRequirementInfo.statement.meta.updateTime"/>
+						<ref bean="ProgramRequirementInfo.statement.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.statement.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.minCredits-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="minCredits"/>
+		<property name="shortLabel" value="Min Credits"/>
+		<property name="summary">
+			<value>
+Minimum credits awarded
+			</value>
+		</property>
+		<property name="label" value="Max Credits"/>
+		<property name="description">
+			<value>
+Minimum credits awarded
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.maxCredits-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="maxCredits"/>
+		<property name="shortLabel" value="Max Credits"/>
+		<property name="summary">
+			<value>
+Maximum credits awarded
+			</value>
+		</property>
+		<property name="label" value="Min Credits"/>
+		<property name="description">
+			<value>
+Maximum credits awarded
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="ProgramRequirementInfo.meta.versionInd"/>
+						<ref bean="ProgramRequirementInfo.meta.createTime"/>
+						<ref bean="ProgramRequirementInfo.meta.createId"/>
+						<ref bean="ProgramRequirementInfo.meta.updateTime"/>
+						<ref bean="ProgramRequirementInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="ProgramRequirementInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+</beans>

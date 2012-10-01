@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Use this one for deploying to JBoss -->
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+	http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+	version="1.0">
+
+	<!-- JPA test "unit" -->
+    <persistence-unit name="co" transaction-type="JTA">
+        <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
+        
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntryAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.roster.model.LprRosterAttributeEntity</class>
+        
+      	<class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
+		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
+		
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
+
+        <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity</class>
+        <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldAttributeEntity</class>
+
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>    
+        <class>org.kuali.student.enrollment.class1.lui.model.LuCodeAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
+        <class> org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
+        <class> org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
+
+        <class>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue</class>
+        <class>org.kuali.student.core.enumerationmanagement.entity.ContextEntity</class>
+
+        <class>org.kuali.student.core.enumerationmanagement.entity.Enumeration</class>
+
+        <class>org.kuali.student.common.entity.Type</class>
+        <class>org.kuali.student.common.entity.Attribute</class>
+        <class>org.kuali.student.common.entity.Meta</class>
+        <class>org.kuali.student.common.entity.MetaEntity</class>
+        <class>org.kuali.student.common.entity.TimeAmount</class>
+
+        <class>org.kuali.student.core.organization.entity.Org</class>
+        <class>org.kuali.student.core.organization.entity.OrgAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgHierarchy</class>
+        <class>org.kuali.student.core.organization.entity.OrgHierarchyAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelation</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationType</class>
+        <class>org.kuali.student.core.organization.entity.OrgOrgRelationTypeAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelation</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationType</class>
+        <class>org.kuali.student.core.organization.entity.OrgPersonRelationTypeAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgPositionRestriction</class>
+        <class>org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute</class>
+        <class>org.kuali.student.core.organization.entity.OrgType</class>
+        <class>org.kuali.student.core.organization.entity.OrgTypeAttribute</class>
+
+        <class>org.kuali.student.lum.lo.entity.LoRichText</class>
+        <class>org.kuali.student.lum.lo.entity.Lo</class>
+        <class>org.kuali.student.lum.lo.entity.LoAttribute</class>
+        <class>org.kuali.student.lum.lo.entity.LoCategory</class>
+        <class>org.kuali.student.lum.lo.entity.LoCategoryAttribute</class>
+        <class>org.kuali.student.lum.lo.entity.LoCategoryType</class>
+        <class>org.kuali.student.lum.lo.entity.LoCategoryTypeAttribute</class>
+        <class>org.kuali.student.lum.lo.entity.LoLoCategoryJoin</class>
+        <class>org.kuali.student.lum.lo.entity.LoRepository</class>
+        <class>org.kuali.student.lum.lo.entity.LoRepositoryAttribute</class>
+        <class>org.kuali.student.lum.lo.entity.LoType</class>
+        <class>org.kuali.student.lum.lo.entity.LoTypeAttribute</class>
+        <class>org.kuali.student.lum.lo.entity.LoLoRelation</class>
+        <class>org.kuali.student.lum.lo.entity.LoLoRelationAttribute</class>
+        <class>org.kuali.student.lum.lo.entity.LoLoRelationType</class>
+        <class>org.kuali.student.lum.lo.entity.LoLoRelationTypeAttribute</class>
+        <class>org.kuali.student.lum.lo.entity.AllowedLoLoRelationType</class>
+
+        <class>org.kuali.student.common.entity.RichText</class>
+        <class>org.kuali.student.common.entity.TimeAmount</class>
+
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultScaleEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
+
+        <class>org.kuali.student.lum.lrc.entity.LrcRichText</class>
+        <class>org.kuali.student.lum.lrc.entity.ResultComponent</class>
+        <class>org.kuali.student.lum.lrc.entity.ResultComponentAttribute</class>
+        <class>org.kuali.student.lum.lrc.entity.ResultComponentType</class>
+
+        <class>org.kuali.student.lum.lrc.entity.ResultComponentTypeAttribute</class>
+        <class>org.kuali.student.lum.lrc.entity.ResultValue</class>
+        <class>org.kuali.student.lum.lrc.entity.Scale</class>
+        <class>org.kuali.student.lum.lrc.entity.ScaleAttribute</class>
+        <class>org.kuali.student.core.statement.entity.RefStatementRelation</class>
+        <class>org.kuali.student.core.statement.entity.RefStatementRelationAttribute</class>
+        <class>org.kuali.student.core.statement.entity.RefStatementRelationType</class>
+        <class>org.kuali.student.core.statement.entity.RefStatementRelationTypeAttribute</class>
+        <class>org.kuali.student.core.statement.entity.ObjectType</class>
+        <class>org.kuali.student.core.statement.entity.ObjectTypeAttribute</class>
+        <class>org.kuali.student.core.statement.entity.ObjectSubType</class>
+        <class>org.kuali.student.core.statement.entity.ObjectSubTypeAttribute</class>
+        <class>org.kuali.student.core.statement.entity.NlUsageType</class>
+        <class>org.kuali.student.core.statement.entity.NlUsageTypeAttribute</class>
+
+        <class>org.kuali.student.core.statement.entity.Statement</class>
+        <class>org.kuali.student.core.statement.entity.StatementAttribute</class>
+        <class>org.kuali.student.core.statement.entity.StatementRichText</class>
+        <class>org.kuali.student.core.statement.entity.StatementType</class>
+        <class>org.kuali.student.core.statement.entity.OrderedStatementType</class>
+        <class>org.kuali.student.core.statement.entity.StatementTypeAttribute</class>
+        <class>org.kuali.student.core.statement.entity.ReqComponent</class>
+        <class>org.kuali.student.core.statement.entity.ReqComponentField</class>
+        <class>org.kuali.student.core.statement.entity.ReqComponentFieldType</class>
+        <class>org.kuali.student.core.statement.entity.ReqComponentType</class>
+        <class>org.kuali.student.core.statement.entity.OrderedReqComponentType</class>
+        <class>org.kuali.student.core.statement.entity.ReqComponentTypeAttribute</class>
+        <class>org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate</class>
+
+        <class>org.kuali.student.common.entity.Amount</class>
+
+        <class>org.kuali.student.lum.lu.entity.AffiliatedOrg</class>
+        <class>org.kuali.student.lum.lu.entity.AllowedCluLoRelationType</class>
+        <class>org.kuali.student.lum.lu.entity.AllowedCluResultLuType</class>
+        <class>org.kuali.student.lum.lu.entity.AllowedLuLuRelationType</class>
+        <class>org.kuali.student.lum.lu.entity.AllowedResultComponentUsageType</class>
+        <class>org.kuali.student.lum.lu.entity.AllowedResultUsageLuType</class>
+        <class>org.kuali.student.lum.lu.entity.Clu</class>
+        <class>org.kuali.student.lum.lu.entity.CluAcademicSubjectOrg</class>
+        <class>org.kuali.student.lum.lu.entity.CluAccounting</class>
+        <class>org.kuali.student.lum.lu.entity.CluAccountingAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluAccreditation</class>
+        <class>org.kuali.student.lum.lu.entity.CluAccreditationAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluAdminOrg</class>
+        <class>org.kuali.student.lum.lu.entity.CluAdminOrgAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluAtpTypeKey</class>
+        <class>org.kuali.student.lum.lu.entity.CluAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluCampusLocation</class>
+        <class>org.kuali.student.lum.lu.entity.CluCluRelation</class>
+        <class>org.kuali.student.lum.lu.entity.CluCluRelationAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluCredit</class>
+        <class>org.kuali.student.lum.lu.entity.CluFee</class>
+        <class>org.kuali.student.lum.lu.entity.CluFeeAmount</class>
+        <class>org.kuali.student.lum.lu.entity.CluFeeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluFeeRecord</class>
+        <class>org.kuali.student.lum.lu.entity.CluFeeRecordAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluIdentifier</class>
+        <class>org.kuali.student.lum.lu.entity.CluIdentifierAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluInstructor</class>
+        <class>org.kuali.student.lum.lu.entity.CluInstructorAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluLoRelation</class>
+        <class>org.kuali.student.lum.lu.entity.CluLoRelationAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluLoRelationType</class>
+        <class>org.kuali.student.lum.lu.entity.CluLoRelationTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluPublication</class>
+        <class>org.kuali.student.lum.lu.entity.CluPublicationAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluPublicationType</class>
+        <class>org.kuali.student.lum.lu.entity.CluPublicationTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluPublicationVariant</class>
+        <class>org.kuali.student.lum.lu.entity.CluResult</class>
+        <class>org.kuali.student.lum.lu.entity.CluResultType</class>
+        <class>org.kuali.student.lum.lu.entity.CluResultTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluSet</class>
+        <class>org.kuali.student.lum.lu.entity.CluSetAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.CluSetJoinVersionIndClu</class>
+        <class>org.kuali.student.lum.lu.entity.CluSetType</class>
+        <class>org.kuali.student.lum.lu.entity.CluSetTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.DeliveryMethodType</class>
+        <class>org.kuali.student.lum.lu.entity.DeliveryMethodTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.InstructionalFormatType</class>
+        <class>org.kuali.student.lum.lu.entity.InstructionalFormatTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuCode</class>
+        <class>org.kuali.student.lum.lu.entity.LuCodeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuCodeType</class>
+        <class>org.kuali.student.lum.lu.entity.LuCodeTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.Lui</class>
+        <class>org.kuali.student.lum.lu.entity.LuiAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuiLuiRelation</class>
+        <class>org.kuali.student.lum.lu.entity.LuiLuiRelationAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuLuRelationType</class>
+        <class>org.kuali.student.lum.lu.entity.LuLuRelationTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuPublicationType</class>
+        <class>org.kuali.student.lum.lu.entity.LuPublicationTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.LuRichText</class>
+        <class>org.kuali.student.lum.lu.entity.LuType</class>
+        <class>org.kuali.student.lum.lu.entity.LuTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.Resource</class>
+        <class>org.kuali.student.lum.lu.entity.ResultOption</class>
+        <class>org.kuali.student.lum.lu.entity.ResultUsageType</class>
+        <class>org.kuali.student.lum.lu.entity.ResultUsageTypeAttribute</class>
+        <class>org.kuali.student.lum.lu.entity.MembershipQuery</class>
+        <class>org.kuali.student.lum.lu.entity.SearchParameter</class>
+        <class>org.kuali.student.lum.lu.entity.SearchParameterValue</class>
+
+        <class>org.kuali.student.core.atp.entity.Atp</class>
+        <class>org.kuali.student.core.atp.entity.AtpAttribute</class>
+        <class>org.kuali.student.core.atp.entity.AtpDurationType</class>
+        <class>org.kuali.student.core.atp.entity.AtpDurationTypeAttribute</class>
+        <class>org.kuali.student.core.atp.entity.AtpRichText</class>
+        <class>org.kuali.student.core.atp.entity.AtpSeasonalType</class>
+        <class>org.kuali.student.core.atp.entity.AtpSeasonalTypeAttribute</class>
+        <class>org.kuali.student.core.atp.entity.AtpType</class>
+        <class>org.kuali.student.core.atp.entity.AtpTypeAttribute</class>
+        <class>org.kuali.student.core.atp.entity.DateRange</class>
+        <class>org.kuali.student.core.atp.entity.DateRangeAttribute</class>
+        <class>org.kuali.student.core.atp.entity.DateRangeType</class>
+        <class>org.kuali.student.core.atp.entity.DateRangeTypeAttribute</class>
+        <class>org.kuali.student.core.atp.entity.Milestone</class>
+        <class>org.kuali.student.core.atp.entity.MilestoneAttribute</class>
+        <class>org.kuali.student.core.atp.entity.MilestoneType</class>
+        <class>org.kuali.student.core.atp.entity.MilestoneTypeAttribute</class>
+
+        <class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.LrrRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
+        <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceAttributeEntity</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+    </persistence-unit>
+
+
+</persistence>

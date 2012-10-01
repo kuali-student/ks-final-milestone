@@ -1,0 +1,551 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<import resource="classpath:ks-base-dictionary-context.xml" />
+
+	<!-- Generic ProposalInfo-->
+	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo-parent"
+		abstract="true" parent="objectStructureDefinition">
+		<property name="name"
+			value="org.kuali.student.core.proposal.dto.ProposalInfo" />
+		<property name="attributes">
+			<list>
+				<ref bean="proposalInfo.detailDesc" />
+				<ref bean="proposalInfo.effectiveDate" />
+				<ref bean="proposalInfo.expirationDate" />
+				<ref bean="proposalInfo.id" />
+				<ref bean="proposalInfo.workflowId" />
+				<ref bean="proposalInfo.workflowNode" />				
+				<ref bean="proposalInfo.name" />
+				<ref bean="proposalInfo.proposalReference" />
+				<ref bean="proposalInfo.proposalReferenceType" />
+				<ref bean="proposalInfo.proposerOrg" />
+				<ref bean="proposalInfo.proposerPerson" />
+				<ref bean="proposalInfo.rationale" />
+				<ref bean="proposalInfo.state" />
+				<ref bean="proposalInfo.type" />
+			</list>
+		</property>
+		<property name="hasMetaData" value="true" />
+	</bean>
+	<bean id="org.kuali.student.core.proposal.dto.ProposalInfo"
+		parent="org.kuali.student.core.proposal.dto.ProposalInfo-parent" />
+
+	<!-- Proposal definition for Course Proposal. NOTE: There is no java class called CourseProposalInfo -->
+	<bean id="org.kuali.student.core.proposal.definition.CourseProposalInfo"
+		parent="org.kuali.student.core.proposal.dto.ProposalInfo" >
+		<property name="name"
+			value="org.kuali.student.core.proposal.definition.CourseProposalInfo" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="courseProposalInfo.prevStartTerm" />
+				<ref bean="courseProposalInfo.prevEndTerm" />
+			</list>
+		</property>	
+	</bean>
+
+	<!-- Proposal definition for Retire Course *By Proposal*. KSCM-982 -->
+	<bean id="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo"
+		parent="org.kuali.student.core.proposal.dto.ProposalInfo" >
+		<property name="name"
+			value="org.kuali.student.core.proposal.definition.RetireCourseProposalInfo" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="retireCourseProposalInfo.otherComments" />
+				<ref bean="retireCourseProposalInfo.proposedEndTerm" />
+				<ref bean="retireCourseProposalInfo.proposedLastTermOffered" />
+				<ref bean="retireCourseProposalInfo.proposedLastCourseCatalogYear" />	
+				<ref bean="retireCourseProposalInfo.prevStartTerm" />	
+			</list>
+		</property>	
+	</bean>	
+
+	<!-- Proposal definition for Program Proposal. NOTE: There is no java class called ProgramProposalInfo -->
+	<bean id="org.kuali.student.core.proposal.definition.ProgramProposalInfo"
+		parent="org.kuali.student.core.proposal.dto.ProposalInfo" >
+		<property name="name"
+			value="org.kuali.student.core.proposal.definition.ProgramProposalInfo" />
+		<property name="attributes">
+			<list merge="true">
+				<ref bean="programProposalInfo.abstract" />
+				<ref bean="programProposalInfo.typeOfModification" />
+				<ref bean="programProposalInfo.impactedUnits" />	
+				<ref bean="programProposalInfo.relatedCourseChanges" />
+				<ref bean="programProposalInfo.impactedArticulationTransferPrograms" />
+				<ref bean="programProposalInfo.studentTransitionPlans" />
+				<ref bean="programProposalInfo.prevStartTerm" />
+				<ref bean="programProposalInfo.prevEndTerm" />
+				<ref bean="programProposalInfo.prevEndInstAdmitTerm" />	
+				<ref bean="programProposalInfo.prevEndProgramEntryTerm" />				
+			</list>
+		</property>	
+	</bean>
+
+    <!--  Retire Course By Proposal Fields (KSCM-982) -->
+	<bean id="retireCourseProposalInfo.otherComments-parent" abstract="true"
+		parent="baseKualiDescription">
+		<property name="name" value="otherComments" />
+		<property name="dynamic" value="true"/>
+    </bean>
+	<bean id="retireCourseProposalInfo.otherComments" parent="retireCourseProposalInfo.otherComments-parent" />
+
+	<bean id="retireCourseProposalInfo.proposedEndTerm-parent" abstract="true"
+		parent="proposalInfo.prevEndTerm-parent">
+		<property name="name" value="proposedEndTerm" />
+		<property name="minOccurs" value="1" />	
+	</bean>
+	<bean id="retireCourseProposalInfo.proposedEndTerm" parent="retireCourseProposalInfo.proposedEndTerm-parent" />
+
+	<bean id="retireCourseProposalInfo.proposedLastTermOffered-parent" abstract="true"
+		parent="proposalInfo.prevEndTerm-parent">
+		<property name="name" value="proposedLastTermOffered" />
+	</bean>	
+	<bean id="retireCourseProposalInfo.proposedLastTermOffered" parent="retireCourseProposalInfo.proposedLastTermOffered-parent" />
+	
+	<bean id="retireCourseProposalInfo.proposedLastCourseCatalogYear-parent" abstract="true"
+		parent="proposalInfo.prevEndTerm-parent">
+		<property name="name" value="proposedLastCourseCatalogYear" />
+	</bean>
+	<bean id="retireCourseProposalInfo.proposedLastCourseCatalogYear" parent="retireCourseProposalInfo.proposedLastCourseCatalogYear-parent" />
+
+	<bean id ="retireCourseProposalInfo.proposedRetirementRationale-parent" abstract="true"
+		parent="proposalInfo.rationale-parent">
+		<property name="name" value="proposedRetirementRationale" />
+	</bean>
+	<bean id="retireCourseProposalInfo.proposedRetirementRationale" parent="retireCourseProposalInfo.proposedRetirementRationale-parent" />
+
+	
+	
+    <!-- Normal Proposal Fields -->
+	<bean id="proposalInfo.detailDesc-parent" abstract="true"
+		parent="baseKualiDescription">
+		<property name="name" value="detailDesc" />
+	</bean>
+	<bean id="proposalInfo.detailDesc" parent="proposalInfo.detailDesc-parent" />
+
+	<bean id="proposalInfo.effectiveDate-parent" abstract="true"
+		parent="baseKualiEffectiveDate">
+		<property name="name" value="effectiveDate" />
+	</bean>
+	<bean id="proposalInfo.effectiveDate" parent="proposalInfo.effectiveDate-parent" />
+
+	<bean id="proposalInfo.expirationDate-parent" abstract="true"
+		parent="baseKualiExpirationDate">
+		<property name="name" value="expirationDate" />
+	</bean>
+	<bean id="proposalInfo.expirationDate" parent="proposalInfo.expirationDate-parent" />
+
+	<bean id="proposalInfo.prevStartTerm-parent" abstract="true"
+		parent="baseKualiType">
+		<property name="name" value="prevStartTerm" />
+		<property name="lookupDefinition" ref="constraint.lookup.atp"/>
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="retireCourseProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
+	<bean id="courseProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
+	<bean id="programProposalInfo.prevStartTerm" parent="proposalInfo.prevStartTerm-parent" />
+	
+	<bean id="proposalInfo.prevEndTerm-parent" abstract="true"
+		parent="baseKualiType">
+		<property name="name" value="prevEndTerm" />
+		<property name="lookupDefinition" ref="constraint.lookup.proposal.prevEndTerm"/>
+		<property name="dynamic" value="true"/>
+		<property name="caseConstraint">
+		   <bean parent="caseConstraint">
+		    <property name="operator" value="EQUALS"/>
+		    <property name="fieldPath" value="state"/>
+		    <property name="caseSensitive" value="false"/>
+		    <property name="whenConstraint">
+		     <list>
+		      <bean parent="whenConstraint">
+		       <property name="values">
+		        <list>
+		         <value>DRAFT</value>
+		        </list>
+		       </property>
+		       <property name="constraint">
+		        <bean parent="baseKualiType">
+		         <property name="caseConstraint">
+		            <bean parent="caseConstraint">
+	           		    <property name="operator" value="EQUALS"/>
+		    			<property name="caseSensitive" value="false"/>
+		        		<property name="fieldPath" value="proposal/workflowNode"/>
+				        <property name="whenConstraint">
+							<list>
+								<bean parent="whenConstraint">
+									<property name="values" ref="proposalInfo.prevEndTerm.requiredByNode" />
+									<property name="constraint">
+								        <bean parent="baseKualiType">
+								         <property name="minOccurs" value="1" />
+								        </bean>
+									</property>
+								</bean>
+							</list>
+						</property>
+				    </bean>
+				    </property>
+		        </bean>
+		       </property>
+		      </bean>
+		     </list>
+		    </property>
+		   </bean>
+	  </property>
+	</bean>
+	
+	<bean id="proposalInfo.prevEndTerm.requiredByNode" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<value>Publication Review</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+   	<bean id="courseProposalInfo.prevEndTerm" parent="proposalInfo.prevEndTerm-parent" />
+	<bean id="programProposalInfo.prevEndTerm" parent="proposalInfo.prevEndTerm-parent" />
+    <bean id="programProposalInfo.prevEndInstAdmitTerm" parent="proposalInfo.prevEndTerm-parent" >
+    	<property name="name" value="prevEndInstAdmitTerm"/>
+    </bean>
+    <bean id="programProposalInfo.prevEndProgramEntryTerm" parent="proposalInfo.prevEndTerm-parent" >
+    	<property name="name" value="prevEndProgramEntryTerm"/>
+    </bean>
+    
+    
+    <bean id="constraint.lookup.proposal.prevEndTerm-parent" parent="constraint.lookup.atp">
+	 <property name="params">
+	  <list merge="true">
+	   <bean parent="param">
+		<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+		<property name="caseSensitive" value="false" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="fieldPath" value="prevStartTerm"/>
+	   </bean>
+	   <bean parent="param">
+		<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+		<property name="caseSensitive" value="false" />
+		<property name="writeAccess" value="NEVER" />
+		<property name="dataType" value="STRING" />
+		<property name="optional" value="true" />
+		<property name="fieldPath" value="/startTerm"/>
+	   </bean>
+	  </list>
+	 </property>
+	</bean>
+	<bean id="constraint.lookup.proposal.prevEndTerm" parent="constraint.lookup.proposal.prevEndTerm-parent"/>
+    
+    <bean id="constraint.lookup.atp"
+          class="org.kuali.student.common.dictionary.dto.LookupConstraint"
+          parent="kuali.common.lookup.atp">
+        <property name="id" value="all atps"/>
+    </bean>
+
+	<bean id="proposalInfo.id-parent" abstract="true" parent="baseKualiId">
+		<property name="name" value="id" />		
+	</bean>
+	<bean id="proposalInfo.id" parent="proposalInfo.id-parent" />
+
+	<bean id="proposalInfo.workflowId-parent" abstract="true" parent="baseString">
+		<property name="name" value="workflowId" />		
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="proposalInfo.workflowId" parent="proposalInfo.workflowId-parent" />
+
+	<bean id="proposalInfo.workflowNode-parent" abstract="true" parent="baseString">
+		<property name="name" value="workflowNode" />		
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="proposalInfo.workflowNode" parent="proposalInfo.workflowNode-parent" />
+
+	<bean id="proposalInfo.name-parent" abstract="true" parent="baseKualiName">
+		<property name="name" value="name" />
+		<property name="minOccurs" value="1" />
+		<property name="maxLength" value="150"/>
+		<property name="caseConstraint">
+		   <bean parent="caseConstraint">
+		    <property name="operator" value="EQUALS"/>
+		    <property name="fieldPath" value="state"/>
+		    <property name="caseSensitive" value="false"/>
+		    <property name="whenConstraint">
+		     <list>
+		      <bean parent="whenConstraint">
+		       <property name="values">
+		        <list>
+		         <value>DRAFT</value>
+		        </list>
+		       </property>
+		       <property name="constraint">
+		        <bean parent="baseKualiName">
+		         <property name="maxLength" value="150"/>
+		         <!-- <property name="caseConstraint">
+		            <bean parent="caseConstraint">
+	           		    <property name="operator" value="EQUALS"/>
+		    			<property name="caseSensitive" value="false"/>
+		        		<property name="fieldPath" value="proposal/workflowNode"/>
+				        <property name="whenConstraint">
+							<list>
+								<bean parent="whenConstraint">
+									<property name="values">
+										<list>
+											<value>PreRoute</value>
+										</list>
+									</property>
+									<property name="constraint">
+								        <bean parent="baseKualiName">
+								         <property name="maxLength" value="150"/>
+								        </bean>
+									</property>
+								</bean>
+							</list>
+						</property>
+				    </bean>
+				    </property> -->
+		        </bean>
+		       </property>
+		      </bean>
+		     </list>
+		    </property>
+		   </bean>
+	  </property>
+	</bean>
+	<bean id="proposalInfo.name" parent="proposalInfo.name-parent" />
+
+	<bean id="proposalInfo.proposalReference-parent" abstract="true"
+		parent="baseKualiId">
+		<property name="name" value="proposalReference" />
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	<bean id="proposalInfo.proposalReference" parent="proposalInfo.proposalReference-parent" />
+
+	<bean id="proposalInfo.proposalReferenceType-parent" abstract="true"
+		parent="baseKualiType">
+		<property name="name" value="proposalReferenceType" />
+	</bean>
+	<bean id="proposalInfo.proposalReferenceType" parent="proposalInfo.proposalReferenceType-parent" />
+
+	<bean id="proposalInfo.proposerOrg-parent" abstract="true"
+		parent="baseKualiOrgId">
+		<property name="name" value="proposerOrg" />
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	<bean id="proposalInfo.proposerOrg" parent="proposalInfo.proposerOrg-parent" />
+
+	<bean id="proposalInfo.proposerPerson-parent" abstract="true"
+		parent="baseKualiPersonId">
+		<property name="name" value="proposerPerson" />
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	<bean id="proposalInfo.proposerPerson" parent="proposalInfo.proposerPerson-parent" />
+
+	<bean id="proposalInfo.rationale-parent" abstract="true"
+		parent="baseKualiDescription">
+		<property name="name" value="rationale" />
+		<property name="maxOccurs" value="1" />
+		<property name="minOccurs" value="0" />
+		<property name="maxLength" value="400"/>
+  		<property name="caseConstraint">
+	  	  <bean parent="caseConstraint">
+	   		<property name="operator" value="EQUALS"/>
+	   		<property name="fieldPath" value="state"/>
+	   		<property name="caseSensitive" value="false"/>
+	   		<property name="whenConstraint">
+	    	  <list>
+	    	  <bean parent="whenConstraint">
+		       <property name="values">
+		        <list>
+		         <value>DRAFT</value>
+		        </list>
+		       </property>
+		       <property name="constraint">
+		        <bean parent="baseKualiDescription">
+				 <property name="maxOccurs" value="1" />
+				 <property name="maxLength" value="400"/>
+		         <property name="caseConstraint">
+		            <bean parent="caseConstraint">
+	           		    <property name="operator" value="EQUALS"/>
+		    			<property name="caseSensitive" value="false"/>
+		        		<property name="fieldPath" value="proposal/workflowNode"/>
+				        <property name="whenConstraint">
+							<list>
+								<bean parent="whenConstraint">
+									<property name="values" ref="proposalInfo.rationale.requiredByNode"/>
+									<property name="constraint">
+						                <bean parent="baseKualiDescription">
+							              <property name="maxOccurs" value="1" />
+							              <property name="minOccurs" value="1" />
+							              <property name="maxLength" value="400"/>
+					        			</bean>
+									</property>
+								</bean>
+							</list>
+						</property>
+				    </bean>
+				    </property>
+		        </bean>
+		       </property>
+		      </bean>
+	     		<bean parent="whenConstraint">
+	      		  <property name="values">
+	       	        <list>
+	                  <value>ENROUTE</value>
+	                  <value>APPROVED</value>
+	                  <value>RETIRED</value>
+	       		    </list>
+	              </property>
+	      		  <property name="constraint">
+	                <bean parent="baseKualiDescription">
+		              <property name="maxOccurs" value="1" />
+		              <property name="minOccurs" value="1" />
+		              <property name="maxLength" value="400"/>
+        			</bean>
+	      		  </property>
+	     		</bean>
+	    	  </list>
+	   		</property>
+	  	  </bean>
+	   </property>
+	</bean>
+	<bean id="proposalInfo.rationale" parent="proposalInfo.rationale-parent" />
+	
+	<bean id="proposalInfo.rationale.requiredByNode" class="java.util.ArrayList">
+	    <constructor-arg>
+			<list>
+				<value>PreRoute</value>
+				<value>Document Organization Review</value>
+				<value>Publication Decision Review</value>
+				<value>Department Review</value>
+				<value>Division Review</value>
+				<value>College Review</value>
+				<value>Senate Review</value>
+				<value>Publication Review</value>
+			</list>
+	    </constructor-arg>
+	</bean>
+
+	<bean id="proposalInfo.state-parent" abstract="true"
+		parent="baseKualiState">
+		<property name="name" value="state" />
+	</bean>
+	<bean id="proposalInfo.state" parent="proposalInfo.state-parent" />
+
+	<bean id="proposalInfo.type-parent" abstract="true"
+		parent="baseKualiTypeRequired">
+		<property name="name" value="type" />
+	</bean>
+	<bean id="proposalInfo.type" parent="proposalInfo.type-parent" />
+
+
+	<bean id="programProposalInfo.abstract-parent" abstract="true" parent="baseKualiDescription">
+		<property name="name" value="abstract" />		
+		<property name="dynamic" value="true"/>
+	</bean>
+	<bean id="programProposalInfo.abstract" parent="programProposalInfo.abstract-parent" />
+
+	<bean id="programProposalInfo.typeOfModification-parent" abstract="true" parent="baseStringReallyLong">
+		<property name="name" value="typeOfModification" />		
+		<property name="dynamic" value="true"/>
+		<property name="minOccurs" value="0" />
+		<property name="maxOccurs" value="unbounded" />
+		<property name="caseConstraint">
+	  	  <bean parent="caseConstraint">
+	   		<property name="operator" value="EQUALS"/>
+	   		<property name="fieldPath" value="state"/>
+	   		<property name="caseSensitive" value="false"/>
+	   		<property name="whenConstraint">
+	    	  <list>
+	    	  <bean parent="whenConstraint">
+		       <property name="values">
+		        <list>
+		         <value>DRAFT</value>
+		        </list>
+		       </property>
+		       <property name="constraint">
+		        <bean parent="baseStringReallyLong">
+				 <property name="maxOccurs" value="unbounded" />
+				 <property name="caseConstraint">
+		            <bean parent="caseConstraint">
+	           		    <property name="operator" value="EQUALS"/>
+		    			<property name="caseSensitive" value="false"/>
+		        		<property name="fieldPath" value="proposal/workflowNode"/>
+				        <property name="whenConstraint">
+							<list>
+								<bean parent="whenConstraint">
+									<property name="values">
+										<list>
+											<value>PreRoute</value>
+											<value>Department Review</value>
+											<value>Division Review</value>
+											<value>College Review</value>
+											<value>Curriculum Admin Review</value>
+											<value>Senate Review</value>
+											<value>Presidents Office Review</value>
+											<value>System Office Review</value>
+											<value>Publication Review</value>
+										</list>
+									</property>
+									<property name="constraint">
+						                <bean parent="baseStringReallyLong">
+							              <property name="maxOccurs" value="unbounded" />
+							              <property name="minOccurs" value="1" />
+							            </bean>
+									</property>
+								</bean>
+							</list>
+						</property>
+				    </bean>
+				    </property>
+		        </bean>
+		       </property>
+		      </bean>
+	     		<bean parent="whenConstraint">
+	      		  <property name="values">
+	       	        <list>
+	                  <value>ENROUTE</value>
+	                  <value>APPROVED</value>
+	       		    </list>
+	              </property>
+	      		  <property name="constraint">
+	                <bean parent="baseStringReallyLong">
+		              <property name="maxOccurs" value="unbounded" />
+		              <property name="minOccurs" value="1" />
+		            </bean>
+	      		  </property>
+	     		</bean>
+	    	  </list>
+	   		</property>
+	  	  </bean>
+	   </property>
+	</bean>
+	<bean id="programProposalInfo.typeOfModification" parent="programProposalInfo.typeOfModification-parent" />
+	
+
+	<bean id="programProposalInfo.impactedUnits-parent" abstract="true" parent="baseStringReallyLong">
+		<property name="name" value="impactedUnits" />		
+		<property name="dynamic" value="true"/>	
+		<property name="maxOccurs" value="unbounded" />
+	</bean>
+	<bean id="programProposalInfo.impactedUnits" parent="programProposalInfo.impactedUnits-parent" />
+	
+	<bean id="programProposalInfo.relatedCourseChanges-parent" abstract="true" parent="baseKualiDescription">
+		<property name="name" value="relatedCourseChanges" />		
+		<property name="dynamic" value="true"/>	
+ 	</bean>
+ 	
+ 	<bean id="programProposalInfo.relatedCourseChanges" parent="programProposalInfo.relatedCourseChanges-parent" />
+  	
+ 	<bean id="programProposalInfo.impactedArticulationTransferPrograms-parent" abstract="true" parent="baseKualiDescription">
+		<property name="name" value="impactedArticulationTransferPrograms" />		
+		<property name="dynamic" value="true"/>	
+ 	</bean>
+ 
+  	<bean id="programProposalInfo.impactedArticulationTransferPrograms" parent="programProposalInfo.impactedArticulationTransferPrograms-parent" />
+  	
+ 	<bean id="programProposalInfo.studentTransitionPlans-parent" abstract="true" parent="baseKualiDescription">
+		<property name="name" value="studentTransitionPlans" />		
+		<property name="dynamic" value="true"/>	
+ 	</bean>
+ 
+   	<bean id="programProposalInfo.studentTransitionPlans" parent="programProposalInfo.studentTransitionPlans-parent" />
+ 
+</beans>

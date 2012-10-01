@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+        updateCheck="false">
+	<defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false" />
+	<cache name="enumCache" maxElementsInMemory="100" eternal="false" overflowToDisk="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+	<cache name="atpCache" maxElementsInMemory="100" eternal="false" overflowToDisk="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+	<cache name="orgCache" maxElementsInMemory="100" eternal="false" overflowToDisk="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+	<cache name="lrcCache" maxElementsInMemory="100" eternal="false" overflowToDisk="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+	<cache name="statementCache" maxElementsInMemory="100" eternal="false" overflowToDisk="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+</ehcache>

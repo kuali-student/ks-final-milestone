@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="AffiliatedOrg" parent="AffiliatedOrg-parentBean" />
+  <bean id="AffiliatedOrg-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.student.lum.lu.bo.AffiliatedOrg" />
+    <property name="titleAttribute" value="id" />
+    <property name="objectLabel" value="CLU Affiliated Organization" />
+    <property name="lookupDefinition">
+      <ref bean="AffiliatedOrg-lookupDefinition" />
+    </property>
+    <property name="inquiryDefinition">
+      <ref bean="AffiliatedOrg-inquiryDefinition" />
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="AffiliatedOrg-id" />
+        <ref bean="AffiliatedOrg-activeFromDate" />
+        <ref bean="AffiliatedOrg-activeToDate" />
+        <ref bean="AffiliatedOrg-active" />        
+        <ref bean="AffiliatedOrg-orgId" />
+        <ref bean="AffiliatedOrg-percentage" />
+      </list>
+    </property>
+  </bean>
+
+  <alias alias="AffiliatedOrg-id" name="CoreAttributeReference-id" />
+  <alias alias="AffiliatedOrg-activeFromDate" name="CoreAttributeReference-activeFromDate" />
+  <alias alias="AffiliatedOrg-activeToDate" name="CoreAttributeReference-activeToDate" />
+  <alias alias="AffiliatedOrg-active" name="CoreAttributeReference-active" />
+  
+  <alias alias="AffiliatedOrg-orgId" name="CoreAttributeReference-orgId" />
+  
+  <bean id="AffiliatedOrg-percentage" parent="AffiliatedOrg-percentage-parentBean"/>
+    <bean id="AffiliatedOrg-percentage-parentBean" abstract="true" parent="AttributeDefinition">
+      <property name="forceUppercase" value="true"/>
+      <property name="shortLabel" value="Percent"/>
+      <property name="maxLength" value="2"/>
+      <property name="validationPattern">
+        <bean parent="NumericValidationPattern"/>
+      </property>
+      <property name="control">
+        <bean parent="TextControlDefinition"/>
+      </property>
+      <property name="summary" value="Percentage"/>
+      <property name="name" value="percentage"/>
+      <property name="label" value="Percentage"/>
+      <property name="description" value="Percentage"/>
+    </bean>
+
+
+  <bean id="AffiliatedOrg-lookupDefinition" parent="AffiliatedOrg-lookupDefinition-parentBean" />
+  <bean id="AffiliatedOrg-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="CLU Affiliated Organization Lookup" />
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" />
+        <bean parent="FieldDefinition" p:attributeName="orgId" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" />
+        <bean parent="FieldDefinition" p:attributeName="orgId" />
+        <bean parent="FieldDefinition" p:attributeName="percentage" />
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+        <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="AffiliatedOrg-inquiryDefinition" parent="AffiliatedOrg-inquiryDefinition-parentBean" />
+  <bean id="AffiliatedOrg-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="CLU Affiliated Organization Inquiry" />
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Overview" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+              <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+  
+</beans>

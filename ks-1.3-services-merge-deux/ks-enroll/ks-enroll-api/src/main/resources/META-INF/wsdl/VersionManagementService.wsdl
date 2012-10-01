@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="VersionManagementServiceService" targetNamespace="http://student.kuali.org/wsdl/versionmanagement" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/versionmanagement" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://student.kuali.org/wsdl/clu" xmlns:ns1="http://exceptions.common.r2.student.kuali.org/" xmlns:tns="http://student.kuali.org/wsdl/versionmanagement" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/versionmanagement">
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionDisplayInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionIndId" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="sequenceNumber" type="xs:long"/>
+<xs:element minOccurs="0" name="currentVersionEnd" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="currentVersionStart" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="versionComment" type="xs:string"/>
+<xs:element minOccurs="0" name="versionedFromId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+</xs:complexType>
+<xs:element name="getCurrentVersionOnDate" nillable="true" type="ns0:getCurrentVersionOnDate"/>
+<xs:element name="getCurrentVersionOnDateResponse" nillable="true" type="ns0:getCurrentVersionOnDateResponse"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns1:InvalidParameterException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns1:PermissionDeniedException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns1:OperationFailedException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns1:DoesNotExistException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns1:MissingParameterException"/>
+<xs:element name="getFirstVersion" nillable="true" type="ns0:getFirstVersion"/>
+<xs:element name="getFirstVersionResponse" nillable="true" type="ns0:getFirstVersionResponse"/>
+<xs:element name="getVersions" nillable="true" type="ns0:getVersions"/>
+<xs:element name="getVersionsResponse" nillable="true" type="ns0:getVersionsResponse"/>
+<xs:element name="getVersionBySequenceNumber" nillable="true" type="ns0:getVersionBySequenceNumber"/>
+<xs:element name="getVersionBySequenceNumberResponse" nillable="true" type="ns0:getVersionBySequenceNumberResponse"/>
+<xs:element name="getCurrentVersion" nillable="true" type="ns0:getCurrentVersion"/>
+<xs:element name="getCurrentVersionResponse" nillable="true" type="ns0:getCurrentVersionResponse"/>
+<xs:element name="getLatestVersion" nillable="true" type="ns0:getLatestVersion"/>
+<xs:element name="getLatestVersionResponse" nillable="true" type="ns0:getLatestVersionResponse"/>
+<xs:element name="getVersionsInDateRange" nillable="true" type="ns0:getVersionsInDateRange"/>
+<xs:element name="getVersionsInDateRangeResponse" nillable="true" type="ns0:getVersionsInDateRangeResponse"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://student.kuali.org/wsdl/versionmanagement" xmlns:tns="http://student.kuali.org/wsdl/clu" targetNamespace="http://student.kuali.org/wsdl/clu" version="1.0">
+<xs:import namespace="http://student.kuali.org/wsdl/versionmanagement"/>
+<xs:element name="getCurrentVersion" type="tns:getCurrentVersion"/>
+<xs:element name="getCurrentVersionOnDate" type="tns:getCurrentVersionOnDate"/>
+<xs:element name="getCurrentVersionOnDateResponse" type="tns:getCurrentVersionOnDateResponse"/>
+<xs:element name="getCurrentVersionResponse" type="tns:getCurrentVersionResponse"/>
+<xs:element name="getFirstVersion" type="tns:getFirstVersion"/>
+<xs:element name="getFirstVersionResponse" type="tns:getFirstVersionResponse"/>
+<xs:element name="getLatestVersion" type="tns:getLatestVersion"/>
+<xs:element name="getLatestVersionResponse" type="tns:getLatestVersionResponse"/>
+<xs:element name="getVersionBySequenceNumber" type="tns:getVersionBySequenceNumber"/>
+<xs:element name="getVersionBySequenceNumberResponse" type="tns:getVersionBySequenceNumberResponse"/>
+<xs:element name="getVersions" type="tns:getVersions"/>
+<xs:element name="getVersionsInDateRange" type="tns:getVersionsInDateRange"/>
+<xs:element name="getVersionsInDateRangeResponse" type="tns:getVersionsInDateRangeResponse"/>
+<xs:element name="getVersionsResponse" type="tns:getVersionsResponse"/>
+<xs:complexType name="getCurrentVersionOnDate">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="contextInfo" type="ns1:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCurrentVersionOnDateResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="ns1:VersionDisplayInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFirstVersion">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="ns1:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFirstVersionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="ns1:VersionDisplayInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getVersions">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="ns1:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getVersionsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:VersionDisplayInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getVersionBySequenceNumber">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="sequence" type="xs:long"/>
+<xs:element minOccurs="0" name="contextInfo" type="ns1:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getVersionBySequenceNumberResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="ns1:VersionDisplayInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCurrentVersion">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="ns1:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCurrentVersionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="ns1:VersionDisplayInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLatestVersion">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="ns1:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLatestVersionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="ns1:VersionDisplayInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getVersionsInDateRange">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectUri" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="from" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="to" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="contextInfo" type="ns1:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getVersionsInDateRangeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="ns1:VersionDisplayInfo"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getVersionsInDateRange">
+    <wsdl:part name="parameters" element="tns:getVersionsInDateRange">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentVersionOnDate">
+    <wsdl:part name="parameters" element="tns:getCurrentVersionOnDate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionsInDateRangeResponse">
+    <wsdl:part name="parameters" element="tns:getVersionsInDateRangeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentVersionResponse">
+    <wsdl:part name="parameters" element="tns:getCurrentVersionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLatestVersionResponse">
+    <wsdl:part name="parameters" element="tns:getLatestVersionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentVersion">
+    <wsdl:part name="parameters" element="tns:getCurrentVersion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFirstVersion">
+    <wsdl:part name="parameters" element="tns:getFirstVersion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentVersionOnDateResponse">
+    <wsdl:part name="parameters" element="tns:getCurrentVersionOnDateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionsResponse">
+    <wsdl:part name="parameters" element="tns:getVersionsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersions">
+    <wsdl:part name="parameters" element="tns:getVersions">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionBySequenceNumberResponse">
+    <wsdl:part name="parameters" element="tns:getVersionBySequenceNumberResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionBySequenceNumber">
+    <wsdl:part name="parameters" element="tns:getVersionBySequenceNumber">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLatestVersion">
+    <wsdl:part name="parameters" element="tns:getLatestVersion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFirstVersionResponse">
+    <wsdl:part name="parameters" element="tns:getFirstVersionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="VersionManagementService">
+    <wsdl:operation name="getCurrentVersionOnDate">
+      <wsdl:input name="getCurrentVersionOnDate" message="tns:getCurrentVersionOnDate">
+    </wsdl:input>
+      <wsdl:output name="getCurrentVersionOnDateResponse" message="tns:getCurrentVersionOnDateResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFirstVersion">
+      <wsdl:input name="getFirstVersion" message="tns:getFirstVersion">
+    </wsdl:input>
+      <wsdl:output name="getFirstVersionResponse" message="tns:getFirstVersionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersions">
+      <wsdl:input name="getVersions" message="tns:getVersions">
+    </wsdl:input>
+      <wsdl:output name="getVersionsResponse" message="tns:getVersionsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionBySequenceNumber">
+      <wsdl:input name="getVersionBySequenceNumber" message="tns:getVersionBySequenceNumber">
+    </wsdl:input>
+      <wsdl:output name="getVersionBySequenceNumberResponse" message="tns:getVersionBySequenceNumberResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentVersion">
+      <wsdl:input name="getCurrentVersion" message="tns:getCurrentVersion">
+    </wsdl:input>
+      <wsdl:output name="getCurrentVersionResponse" message="tns:getCurrentVersionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLatestVersion">
+      <wsdl:input name="getLatestVersion" message="tns:getLatestVersion">
+    </wsdl:input>
+      <wsdl:output name="getLatestVersionResponse" message="tns:getLatestVersionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionsInDateRange">
+      <wsdl:input name="getVersionsInDateRange" message="tns:getVersionsInDateRange">
+    </wsdl:input>
+      <wsdl:output name="getVersionsInDateRangeResponse" message="tns:getVersionsInDateRangeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="VersionManagementServiceServiceSoapBinding" type="tns:VersionManagementService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCurrentVersionOnDate">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCurrentVersionOnDate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCurrentVersionOnDateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFirstVersion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getFirstVersion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getFirstVersionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVersions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionBySequenceNumber">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVersionBySequenceNumber">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionBySequenceNumberResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentVersion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getCurrentVersion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCurrentVersionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLatestVersion">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLatestVersion">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLatestVersionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getVersionsInDateRange">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getVersionsInDateRange">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVersionsInDateRangeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VersionManagementServiceService">
+    <wsdl:port name="VersionManagementServicePort" binding="tns:VersionManagementServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/VersionManagementServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

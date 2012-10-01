@@ -1,0 +1,45 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:ks="urn:import:org.kuali.student.common.ui.client.widgets">
+	<ui:style>
+		.container{
+			float:left;
+		}
+		
+		.content{
+			
+		}
+		
+		.drawerColumn a{
+            font-size:1.2em;
+            text-decoration:none;
+            color: #000;
+		}
+        .drawerColumn a:hover {
+            text-decoration:underline;
+         }		
+		.drawerHandle{
+			padding:0 1px 0 3px;
+		}
+		
+		.noPadding{
+			padding: 0px;
+		}
+		
+	</ui:style>
+	<g:HTMLPanel ui:field='container' styleName='{style.container}'>
+		<table id='collapsePanel'>
+			<tr>
+				<td class='{style.noPadding}'>
+					<g:SimplePanel styleName='{style.content}' ui:field='content' />
+				</td>
+				<td class='{style.noPadding}' style="vertical-align: top">
+					<span class='{style.drawerColumn}'>
+						<ks:KSButton styleName='{style.drawerHandle}' ui:field='drawerHandle' />
+					</span>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="LuType" parent="LuType-parentBean" />
+    <bean id="LuType-parentBean" abstract="true" parent="BusinessObjectEntry">
+      <property name="objectLabel" value="Learning Unit Type" />
+        <property name="businessObjectClass" value="org.kuali.student.lum.lu.bo.LuType" />
+        <property name="titleAttribute" value="id" />
+        <property name="lookupDefinition">
+            <ref bean="LuType-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="LuType-inquiryDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="LuType-id" />
+                <ref bean="LuType-name" />
+                <ref bean="LuType-description" />
+                <ref bean="LuType-activeFromDate" />
+                <ref bean="LuType-activeToDate" />
+                <ref bean="LuType-active" />
+                <ref bean="LuType-instructionalFormat" />
+                <ref bean="LuType-deliveryMethod" />
+            </list>
+        </property>
+    </bean>
+
+    <alias alias="LuType-id" name="CoreTypeReference-id" />
+    <bean id="LuType-name" parent="CoreTypeReference-name" />
+    <alias alias="LuType-description" name="CoreTypeReference-description" />
+    <alias alias="LuType-activeFromDate" name="CoreTypeReference-activeFromDate" />
+    <alias alias="LuType-activeToDate" name="CoreTypeReference-activeToDate" />
+    <alias alias="LuType-active" name="CoreTypeReference-active" />
+    
+    <bean id="LuType-instructionalFormat" parent="LuType-instructionalFormat-parentBean"/>
+    <bean id="LuType-instructionalFormat-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+      <property name="shortLabel" value="Instr Format"/>
+      <property name="summary" value="Name for the type"/>
+      <property name="name" value="instructionalFormat"/>
+      <property name="label" value="Instructional Format"/>
+      <property name="description" value="Instructional format for this LU type"/>
+    </bean>
+  
+    <bean id="LuType-deliveryMethod" parent="LuType-deliveryMethod-parentBean"/>
+    <bean id="LuType-deliveryMethod-parentBean" abstract="true" parent="CoreAttributeReference-genericString">
+      <property name="shortLabel" value="Delivery Method"/>
+      <property name="summary" value="Name for the type"/>
+      <property name="name" value="deliveryMethod"/>
+      <property name="label" value="Delivery Method"/>
+      <property name="description" value="Delivery method for the LU type"/>
+    </bean>
+
+
+    <bean id="LuType-lookupDefinition" parent="LuType-lookupDefinition-parentBean" />
+    <bean id="LuType-lookupDefinition-parentBean" abstract="true" parent="CoreTypeReference-lookupDefinition">
+      <property name="title" value="Learning Unit Type Lookup" />
+      <property name="resultFields">
+        <list merge="true">
+          <bean parent="FieldDefinition" p:attributeName="instructionalFormat" />
+          <bean parent="FieldDefinition" p:attributeName="deliveryMethod" />
+        </list>
+      </property>
+    </bean>
+
+    <bean id="LuType-inquiryDefinition" parent="LuType-inquiryDefinition-parentBean" />
+    <bean id="LuType-inquiryDefinition-parentBean" abstract="true" parent="CoreTypeReference-inquiryDefinition">
+        <property name="title" value="Learning Unit Type Inquiry" />
+        <property name="inquirySections">
+            <list merge="true">
+              <ref bean="LuType-inquirySection" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="LuType-inquirySection" parent="LuType-inquirySection-parentBean" />
+    <bean id="LuType-inquirySection-parentBean" abstract="true" parent="InquirySectionDefinition">
+      <property name="title" value="LU Type Information" />
+      <property name="numberOfColumns" value="1" />
+      <property name="inquiryFields">
+        <list>
+          <bean parent="FieldDefinition" p:attributeName="instructionalFormat" />
+          <bean parent="FieldDefinition" p:attributeName="deliveryMethod" />
+        </list>
+      </property>
+    </bean>        
+
+</beans>

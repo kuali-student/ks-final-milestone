@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ******************************************** -->
+<!-- object structure for object.reqComponentInfo -->
+<!-- ******************************************** -->
+<!-- Information about a requirement component. -->
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqComponentInfo" id="object.reqComponentInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.reqComponentInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqComponentInfo" id="object.reqComponentInfo" parent="object.reqComponentInfo.abstract"/>
+
+<dict:type key="*" id="type.reqComponentInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.reqComponentInfo"/>
+</dict:type>
+<dict:type key="*" id="type.reqComponentInfo" parent="type.reqComponentInfo.abstract"/>
+
+<!-- **************************************************** -->
+<!-- State for state.reqComponentInfo.(default).(default) -->
+<!-- **************************************************** -->
+
+<dict:state key="*" id="state.reqComponentInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.reqComponentInfo.desc"/>
+	<dict:fieldRef bean="field.reqComponentInfo.reqCompField"/>
+	<dict:fieldRef bean="field.reqComponentInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.reqComponentInfo.expirationDate"/>
+	<dict:fieldRef bean="field.reqComponentInfo.metaInfo"/>
+	<dict:fieldRef bean="field.reqComponentInfo.type"/>
+	<dict:fieldRef bean="field.reqComponentInfo.state"/>
+	<dict:fieldRef bean="field.reqComponentInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.reqComponentInfo" parent="state.reqComponentInfo.abstract"/>
+
+
+<dict:field key="desc" id="field.reqComponentInfo.desc.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.desc.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.desc.cd"/>
+</dict:field>
+<dict:field key="desc" id="field.reqComponentInfo.desc" parent="field.reqComponentInfo.desc.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.desc.fd.abstract" abstract="true">
+	<dict:name>Requirement Component Description</dict:name>
+	<dict:desc>Narrative description of the requirement component.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.reqComponentInfo.desc"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.desc.fd" parent="field.reqComponentInfo.desc.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.reqComponentInfo.desc.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="desc" id="field.reqComponentInfo.desc.cd" parent="field.reqComponentInfo.desc.cd.abstract"/>
+
+<!-- *************************************************************************** -->
+<!-- object structure for object.field.reqComponentInfo.desc.(default).(default) -->
+<!-- *************************************************************************** -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.reqComponentInfo.desc.abstract" abstract="true">
+	<dict:typeRef bean="type.field.reqComponentInfo.desc"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.reqComponentInfo.desc" parent="object.field.reqComponentInfo.desc.abstract"/>
+
+<dict:type key="*" id="type.field.reqComponentInfo.desc.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.reqComponentInfo.desc"/>
+</dict:type>
+<dict:type key="*" id="type.field.reqComponentInfo.desc" parent="type.field.reqComponentInfo.desc.abstract"/>
+
+<!-- *********************************************************************************** -->
+<!-- State for state.field.reqComponentInfo.desc.(default).(default).(default).(default) -->
+<!-- *********************************************************************************** -->
+
+<dict:state key="*" id="state.field.reqComponentInfo.desc.abstract" abstract="true">
+	<dict:fieldRef bean="field.reqComponentInfo.desc.plain"/>
+	<dict:fieldRef bean="field.reqComponentInfo.desc.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.reqComponentInfo.desc" parent="state.field.reqComponentInfo.desc.abstract"/>
+
+
+<dict:field key="plain" id="field.reqComponentInfo.desc.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.desc.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.desc.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.reqComponentInfo.desc.plain" parent="field.reqComponentInfo.desc.plain.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.desc.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.desc.plain.fd" parent="field.reqComponentInfo.desc.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.reqComponentInfo.desc.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.reqComponentInfo.desc.plain.cd" parent="field.reqComponentInfo.desc.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.reqComponentInfo.desc.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.desc.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.desc.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.reqComponentInfo.desc.formatted" parent="field.reqComponentInfo.desc.formatted.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.desc.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.desc.formatted.fd" parent="field.reqComponentInfo.desc.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.reqComponentInfo.desc.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.reqComponentInfo.desc.formatted.cd" parent="field.reqComponentInfo.desc.formatted.cd.abstract"/>
+
+<dict:field key="reqCompField" id="field.reqComponentInfo.reqCompField.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.reqCompField.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.reqCompField.cd"/>
+</dict:field>
+<dict:field key="reqCompField" id="field.reqComponentInfo.reqCompField" parent="field.reqComponentInfo.reqCompField.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.reqCompField.fd.abstract" abstract="true">
+	<dict:name>Requirement Component Field</dict:name>
+	<dict:desc>Detailed information about a requirement component field value.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.reqComponentInfo.reqCompField"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.reqCompField.fd" parent="field.reqComponentInfo.reqCompField.fd.abstract"/>
+<!-- Optional; Repeating -->
+<dict:constraintDescriptor id="field.reqComponentInfo.reqCompField.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.repeating"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="reqCompField" id="field.reqComponentInfo.reqCompField.cd" parent="field.reqComponentInfo.reqCompField.cd.abstract"/>
+
+<!-- *********************************************************************************** -->
+<!-- object structure for object.field.reqComponentInfo.reqCompField.(default).(default) -->
+<!-- *********************************************************************************** -->
+<!-- Detailed information about a requirement component field value. -->
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField.abstract" abstract="true">
+	<dict:typeRef bean="type.field.reqComponentInfo.reqCompField"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.core.statement.dto.ReqCompFieldInfo" id="object.field.reqComponentInfo.reqCompField" parent="object.field.reqComponentInfo.reqCompField.abstract"/>
+
+<dict:type key="*" id="type.field.reqComponentInfo.reqCompField.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.reqComponentInfo.reqCompField"/>
+</dict:type>
+<dict:type key="*" id="type.field.reqComponentInfo.reqCompField" parent="type.field.reqComponentInfo.reqCompField.abstract"/>
+
+<!-- ******************************************************************************************* -->
+<!-- State for state.field.reqComponentInfo.reqCompField.(default).(default).(default).(default) -->
+<!-- ******************************************************************************************* -->
+
+<dict:state key="*" id="state.field.reqComponentInfo.reqCompField.abstract" abstract="true">
+	<dict:fieldRef bean="field.reqComponentInfo.reqCompField.value"/>
+	<dict:fieldRef bean="field.reqComponentInfo.reqCompField.key"/>
+</dict:state>
+<dict:state key="*" id="state.field.reqComponentInfo.reqCompField" parent="state.field.reqComponentInfo.reqCompField.abstract"/>
+
+
+<dict:field key="value" id="field.reqComponentInfo.reqCompField.value.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.reqCompField.value.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.reqCompField.value.cd"/>
+</dict:field>
+<dict:field key="value" id="field.reqComponentInfo.reqCompField.value" parent="field.reqComponentInfo.reqCompField.value.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.reqCompField.value.fd.abstract" abstract="true">
+	<dict:name>Requirement Component Field Value</dict:name>
+	<dict:desc>Value for this requirement component field.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.reqCompField.value.fd" parent="field.reqComponentInfo.reqCompField.value.fd.abstract"/>
+<!-- Required -->
+<dict:constraintDescriptor id="field.reqComponentInfo.reqCompField.value.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="value" id="field.reqComponentInfo.reqCompField.value.cd" parent="field.reqComponentInfo.reqCompField.value.cd.abstract"/>
+
+<dict:field key="key" id="field.reqComponentInfo.reqCompField.key.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.reqCompField.key.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.reqCompField.key.cd"/>
+</dict:field>
+<dict:field key="key" id="field.reqComponentInfo.reqCompField.key" parent="field.reqComponentInfo.reqCompField.key.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.reqCompField.key.fd.abstract" abstract="true">
+	<dict:name>Requirement Component Field Type Key</dict:name>
+	<dict:desc>Unique identifier for a requirement component field type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.reqCompField.key.fd" parent="field.reqComponentInfo.reqCompField.key.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid lu requirement component field keys -->
+<dict:constraintDescriptor id="field.reqComponentInfo.reqCompField.key.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lu.requirement.component.field.keys"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="key" id="field.reqComponentInfo.reqCompField.key.cd" parent="field.reqComponentInfo.reqCompField.key.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.reqComponentInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.reqComponentInfo.effectiveDate" parent="field.reqComponentInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this requirement component became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.effectiveDate.fd" parent="field.reqComponentInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.reqComponentInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.reqComponentInfo.effectiveDate.cd" parent="field.reqComponentInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.reqComponentInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.reqComponentInfo.expirationDate" parent="field.reqComponentInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this requirement component expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.expirationDate.fd" parent="field.reqComponentInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.reqComponentInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.reqComponentInfo.expirationDate.cd" parent="field.reqComponentInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="metaInfo" id="field.reqComponentInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.metaInfo.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.metaInfo.cd"/>
+</dict:field>
+<dict:field key="metaInfo" id="field.reqComponentInfo.metaInfo" parent="field.reqComponentInfo.metaInfo.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.reqComponentInfo.metaInfo"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.fd" parent="field.reqComponentInfo.metaInfo.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.reqComponentInfo.metaInfo.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="metaInfo" id="field.reqComponentInfo.metaInfo.cd" parent="field.reqComponentInfo.metaInfo.cd.abstract"/>
+
+<!-- ******************************************************************************* -->
+<!-- object structure for object.field.reqComponentInfo.metaInfo.(default).(default) -->
+<!-- ******************************************************************************* -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.reqComponentInfo.metaInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.field.reqComponentInfo.metaInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.reqComponentInfo.metaInfo" parent="object.field.reqComponentInfo.metaInfo.abstract"/>
+
+<dict:type key="*" id="type.field.reqComponentInfo.metaInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.reqComponentInfo.metaInfo"/>
+</dict:type>
+<dict:type key="*" id="type.field.reqComponentInfo.metaInfo" parent="type.field.reqComponentInfo.metaInfo.abstract"/>
+
+<!-- *************************************************************************************** -->
+<!-- State for state.field.reqComponentInfo.metaInfo.(default).(default).(default).(default) -->
+<!-- *************************************************************************************** -->
+
+<dict:state key="*" id="state.field.reqComponentInfo.metaInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.reqComponentInfo.metaInfo.versionInd"/>
+	<dict:fieldRef bean="field.reqComponentInfo.metaInfo.createTime"/>
+	<dict:fieldRef bean="field.reqComponentInfo.metaInfo.createId"/>
+	<dict:fieldRef bean="field.reqComponentInfo.metaInfo.updateTime"/>
+	<dict:fieldRef bean="field.reqComponentInfo.metaInfo.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.reqComponentInfo.metaInfo" parent="state.field.reqComponentInfo.metaInfo.abstract"/>
+
+
+<dict:field key="versionInd" id="field.reqComponentInfo.metaInfo.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.metaInfo.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.metaInfo.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.reqComponentInfo.metaInfo.versionInd" parent="field.reqComponentInfo.metaInfo.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.versionInd.fd" parent="field.reqComponentInfo.metaInfo.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.reqComponentInfo.metaInfo.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.reqComponentInfo.metaInfo.versionInd.cd" parent="field.reqComponentInfo.metaInfo.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.reqComponentInfo.metaInfo.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.metaInfo.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.metaInfo.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.reqComponentInfo.metaInfo.createTime" parent="field.reqComponentInfo.metaInfo.createTime.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.createTime.fd" parent="field.reqComponentInfo.metaInfo.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.reqComponentInfo.metaInfo.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.reqComponentInfo.metaInfo.createTime.cd" parent="field.reqComponentInfo.metaInfo.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.reqComponentInfo.metaInfo.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.metaInfo.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.metaInfo.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.reqComponentInfo.metaInfo.createId" parent="field.reqComponentInfo.metaInfo.createId.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.createId.fd" parent="field.reqComponentInfo.metaInfo.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.reqComponentInfo.metaInfo.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.reqComponentInfo.metaInfo.createId.cd" parent="field.reqComponentInfo.metaInfo.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.reqComponentInfo.metaInfo.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.metaInfo.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.metaInfo.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.reqComponentInfo.metaInfo.updateTime" parent="field.reqComponentInfo.metaInfo.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.updateTime.fd" parent="field.reqComponentInfo.metaInfo.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.reqComponentInfo.metaInfo.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.reqComponentInfo.metaInfo.updateTime.cd" parent="field.reqComponentInfo.metaInfo.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.reqComponentInfo.metaInfo.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.metaInfo.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.metaInfo.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.reqComponentInfo.metaInfo.updateId" parent="field.reqComponentInfo.metaInfo.updateId.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.metaInfo.updateId.fd" parent="field.reqComponentInfo.metaInfo.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.reqComponentInfo.metaInfo.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.reqComponentInfo.metaInfo.updateId.cd" parent="field.reqComponentInfo.metaInfo.updateId.cd.abstract"/>
+
+<dict:field key="type" id="field.reqComponentInfo.type.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.type.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.type.cd"/>
+</dict:field>
+<dict:field key="type" id="field.reqComponentInfo.type" parent="field.reqComponentInfo.type.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.type.fd.abstract" abstract="true">
+	<dict:name>Requirement Component Type</dict:name>
+	<dict:desc>Unique identifier for a requirement component type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.type.fd" parent="field.reqComponentInfo.type.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only; In list of valid lu requirement component types -->
+<dict:constraintDescriptor id="field.reqComponentInfo.type.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+	<dict:constraintRef bean="constraint.lu.requirement.component.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="type" id="field.reqComponentInfo.type.cd" parent="field.reqComponentInfo.type.cd.abstract"/>
+
+<dict:field key="state" id="field.reqComponentInfo.state.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.state.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.state.cd"/>
+</dict:field>
+<dict:field key="state" id="field.reqComponentInfo.state" parent="field.reqComponentInfo.state.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.state.fd.abstract" abstract="true">
+	<dict:name>Requirement Component State</dict:name>
+	<dict:desc>The current status of the requirement component. The values for this field are constrained to those in the reqComponentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.state.fd" parent="field.reqComponentInfo.state.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali STATE; In list of valid lu requirement component states -->
+<dict:constraintDescriptor id="field.reqComponentInfo.state.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.state"/>
+	<dict:constraintRef bean="constraint.lu.requirement.component.states"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="state" id="field.reqComponentInfo.state.cd" parent="field.reqComponentInfo.state.cd.abstract"/>
+
+<dict:field key="id" id="field.reqComponentInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.reqComponentInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.reqComponentInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.reqComponentInfo.id" parent="field.reqComponentInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.reqComponentInfo.id.fd.abstract" abstract="true">
+	<dict:name>Requirement Component Identifier</dict:name>
+	<dict:desc>Unique identifier for a requirement component. This is optional, due to the identifier being set at the time of creation. Once the requirement component has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.reqComponentInfo.id.fd" parent="field.reqComponentInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.reqComponentInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.reqComponentInfo.id.cd" parent="field.reqComponentInfo.id.cd.abstract"/>
+</beans>

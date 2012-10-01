@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="EnumerationManagementServiceService" targetNamespace="http://student.kuali.org/wsdl/enumerationmanagement" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/enumerationmanagement" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:tns="http://student.kuali.org/wsdl/enumerationmanagement" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/enumerationmanagement">
+<xs:element name="addEnumeratedValue" type="tns:addEnumeratedValue"/>
+<xs:element name="addEnumeratedValueResponse" type="tns:addEnumeratedValueResponse"/>
+<xs:element name="deleteEnumeratedValue" type="tns:deleteEnumeratedValue"/>
+<xs:element name="deleteEnumeratedValueResponse" type="tns:deleteEnumeratedValueResponse"/>
+<xs:element name="getEnumeratedValues" type="tns:getEnumeratedValues"/>
+<xs:element name="getEnumeratedValuesResponse" type="tns:getEnumeratedValuesResponse"/>
+<xs:element name="getEnumeration" type="tns:getEnumeration"/>
+<xs:element name="getEnumerationResponse" type="tns:getEnumerationResponse"/>
+<xs:element name="getEnumerations" type="tns:getEnumerations"/>
+<xs:element name="getEnumerationsResponse" type="tns:getEnumerationsResponse"/>
+<xs:element name="updateEnumeratedValue" type="tns:updateEnumeratedValue"/>
+<xs:element name="updateEnumeratedValueResponse" type="tns:updateEnumeratedValueResponse"/>
+<xs:element name="validateEnumeratedValue" type="tns:validateEnumeratedValue"/>
+<xs:element name="validateEnumeratedValueResponse" type="tns:validateEnumeratedValueResponse"/>
+<xs:complexType name="addEnumeratedValue">
+<xs:sequence>
+<xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+<xs:element minOccurs="0" name="code" type="xs:string"/>
+<xs:element minOccurs="0" name="enumeratedValueInfo" type="tns:EnumeratedValueInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="EnumeratedValueInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="code" type="xs:string"/>
+<xs:element minOccurs="0" name="abbrevValue" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="sortKey" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="contexts" type="tns:EnumContextValueInfo"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="enumerationKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="EnumContextValueInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addEnumeratedValueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:EnumeratedValueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getEnumeration">
+<xs:sequence>
+<xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getEnumerationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:EnumerationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="EnumerationInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="contextDescriptors" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="key" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteEnumeratedValue">
+<xs:sequence>
+<xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+<xs:element minOccurs="0" name="code" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteEnumeratedValueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getEnumeratedValues">
+<xs:sequence>
+<xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextValue" type="xs:string"/>
+<xs:element minOccurs="0" name="contextDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getEnumeratedValuesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:EnumeratedValueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateEnumeratedValue">
+<xs:sequence>
+<xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+<xs:element minOccurs="0" name="code" type="xs:string"/>
+<xs:element minOccurs="0" name="enumeratedValueInfo" type="tns:EnumeratedValueInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateEnumeratedValueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:EnumeratedValueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateEnumeratedValue">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="enumerationKey" type="xs:string"/>
+<xs:element minOccurs="0" name="code" type="xs:string"/>
+<xs:element minOccurs="0" name="enumeratedValueInfo" type="tns:EnumeratedValueInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateEnumeratedValueResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getEnumerations">
+<xs:sequence>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getEnumerationsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:EnumerationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="ReadOnlyException" nillable="true" type="ns0:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="ReadOnlyException" type="tns:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReadOnlyException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getEnumerationResponse">
+    <wsdl:part name="parameters" element="tns:getEnumerationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateEnumeratedValueResponse">
+    <wsdl:part name="parameters" element="tns:validateEnumeratedValueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteEnumeratedValue">
+    <wsdl:part name="parameters" element="tns:deleteEnumeratedValue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOnlyException">
+    <wsdl:part name="ReadOnlyException" element="tns:ReadOnlyException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnumeration">
+    <wsdl:part name="parameters" element="tns:getEnumeration">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnumeratedValuesResponse">
+    <wsdl:part name="parameters" element="tns:getEnumeratedValuesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateEnumeratedValue">
+    <wsdl:part name="parameters" element="tns:validateEnumeratedValue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addEnumeratedValueResponse">
+    <wsdl:part name="parameters" element="tns:addEnumeratedValueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnumeratedValues">
+    <wsdl:part name="parameters" element="tns:getEnumeratedValues">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateEnumeratedValue">
+    <wsdl:part name="parameters" element="tns:updateEnumeratedValue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateEnumeratedValueResponse">
+    <wsdl:part name="parameters" element="tns:updateEnumeratedValueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addEnumeratedValue">
+    <wsdl:part name="parameters" element="tns:addEnumeratedValue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteEnumeratedValueResponse">
+    <wsdl:part name="parameters" element="tns:deleteEnumeratedValueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnumerationsResponse">
+    <wsdl:part name="parameters" element="tns:getEnumerationsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getEnumerations">
+    <wsdl:part name="parameters" element="tns:getEnumerations">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="EnumerationManagementService">
+    <wsdl:operation name="addEnumeratedValue">
+      <wsdl:input name="addEnumeratedValue" message="tns:addEnumeratedValue">
+    </wsdl:input>
+      <wsdl:output name="addEnumeratedValueResponse" message="tns:addEnumeratedValueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnumeration">
+      <wsdl:input name="getEnumeration" message="tns:getEnumeration">
+    </wsdl:input>
+      <wsdl:output name="getEnumerationResponse" message="tns:getEnumerationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEnumeratedValue">
+      <wsdl:input name="deleteEnumeratedValue" message="tns:deleteEnumeratedValue">
+    </wsdl:input>
+      <wsdl:output name="deleteEnumeratedValueResponse" message="tns:deleteEnumeratedValueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnumeratedValues">
+      <wsdl:input name="getEnumeratedValues" message="tns:getEnumeratedValues">
+    </wsdl:input>
+      <wsdl:output name="getEnumeratedValuesResponse" message="tns:getEnumeratedValuesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateEnumeratedValue">
+      <wsdl:input name="updateEnumeratedValue" message="tns:updateEnumeratedValue">
+    </wsdl:input>
+      <wsdl:output name="updateEnumeratedValueResponse" message="tns:updateEnumeratedValueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateEnumeratedValue">
+      <wsdl:input name="validateEnumeratedValue" message="tns:validateEnumeratedValue">
+    </wsdl:input>
+      <wsdl:output name="validateEnumeratedValueResponse" message="tns:validateEnumeratedValueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnumerations">
+      <wsdl:input name="getEnumerations" message="tns:getEnumerations">
+    </wsdl:input>
+      <wsdl:output name="getEnumerationsResponse" message="tns:getEnumerationsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EnumerationManagementServiceServiceSoapBinding" type="tns:EnumerationManagementService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="addEnumeratedValue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addEnumeratedValue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addEnumeratedValueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnumeration">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEnumeration">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEnumerationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEnumeratedValue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteEnumeratedValue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteEnumeratedValueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnumeratedValues">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEnumeratedValues">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEnumeratedValuesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateEnumeratedValue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateEnumeratedValue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateEnumeratedValueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateEnumeratedValue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateEnumeratedValue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateEnumeratedValueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnumerations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getEnumerations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getEnumerationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EnumerationManagementServiceService">
+    <wsdl:port name="EnumerationManagementServicePort" binding="tns:EnumerationManagementServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/EnumerationManagementServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

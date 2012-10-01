@@ -1,0 +1,3964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SchedulingService" targetNamespace="http://student.kuali.org/wsdl/scheduling" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/scheduling" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:ns1="http://rice.kuali.org/core/v2_0" xmlns:tns="http://student.kuali.org/wsdl/scheduling" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/scheduling">
+<xs:import namespace="http://rice.kuali.org/core/v2_0"/>
+<xs:element name="addScheduleRequestsToScheduleBatch" type="tns:addScheduleRequestsToScheduleBatch"/>
+<xs:element name="addScheduleRequestsToScheduleBatchResponse" type="tns:addScheduleRequestsToScheduleBatchResponse"/>
+<xs:element name="commitSchedules" type="tns:commitSchedules"/>
+<xs:element name="commitSchedulesResponse" type="tns:commitSchedulesResponse"/>
+<xs:element name="createSchedule" type="tns:createSchedule"/>
+<xs:element name="createScheduleBatch" type="tns:createScheduleBatch"/>
+<xs:element name="createScheduleBatchResponse" type="tns:createScheduleBatchResponse"/>
+<xs:element name="createScheduleRequest" type="tns:createScheduleRequest"/>
+<xs:element name="createScheduleRequestResponse" type="tns:createScheduleRequestResponse"/>
+<xs:element name="createScheduleResponse" type="tns:createScheduleResponse"/>
+<xs:element name="createTimeSlot" type="tns:createTimeSlot"/>
+<xs:element name="createTimeSlotResponse" type="tns:createTimeSlotResponse"/>
+<xs:element name="deleteSchedule" type="tns:deleteSchedule"/>
+<xs:element name="deleteScheduleBatch" type="tns:deleteScheduleBatch"/>
+<xs:element name="deleteScheduleBatchResponse" type="tns:deleteScheduleBatchResponse"/>
+<xs:element name="deleteScheduleRequest" type="tns:deleteScheduleRequest"/>
+<xs:element name="deleteScheduleRequestResponse" type="tns:deleteScheduleRequestResponse"/>
+<xs:element name="deleteScheduleResponse" type="tns:deleteScheduleResponse"/>
+<xs:element name="deleteTimeSlot" type="tns:deleteTimeSlot"/>
+<xs:element name="deleteTimeSlotResponse" type="tns:deleteTimeSlotResponse"/>
+<xs:element name="getSchedule" type="tns:getSchedule"/>
+<xs:element name="getScheduleBatch" type="tns:getScheduleBatch"/>
+<xs:element name="getScheduleBatchIdsByType" type="tns:getScheduleBatchIdsByType"/>
+<xs:element name="getScheduleBatchIdsByTypeResponse" type="tns:getScheduleBatchIdsByTypeResponse"/>
+<xs:element name="getScheduleBatchResp" type="tns:getScheduleBatchResp"/>
+<xs:element name="getScheduleBatchRespIdsByType" type="tns:getScheduleBatchRespIdsByType"/>
+<xs:element name="getScheduleBatchRespIdsByTypeResponse" type="tns:getScheduleBatchRespIdsByTypeResponse"/>
+<xs:element name="getScheduleBatchRespResponse" type="tns:getScheduleBatchRespResponse"/>
+<xs:element name="getScheduleBatchResponse" type="tns:getScheduleBatchResponse"/>
+<xs:element name="getScheduleBatchRespsByIds" type="tns:getScheduleBatchRespsByIds"/>
+<xs:element name="getScheduleBatchRespsByIdsResponse" type="tns:getScheduleBatchRespsByIdsResponse"/>
+<xs:element name="getScheduleBatchRespsByScheduleBatchRequest" type="tns:getScheduleBatchRespsByScheduleBatchRequest"/>
+<xs:element name="getScheduleBatchRespsByScheduleBatchRequestResponse" type="tns:getScheduleBatchRespsByScheduleBatchRequestResponse"/>
+<xs:element name="getScheduleBatchesByIds" type="tns:getScheduleBatchesByIds"/>
+<xs:element name="getScheduleBatchesByIdsResponse" type="tns:getScheduleBatchesByIdsResponse"/>
+<xs:element name="getScheduleBatchesForScheduleRequest" type="tns:getScheduleBatchesForScheduleRequest"/>
+<xs:element name="getScheduleBatchesForScheduleRequestResponse" type="tns:getScheduleBatchesForScheduleRequestResponse"/>
+<xs:element name="getScheduleIdsByType" type="tns:getScheduleIdsByType"/>
+<xs:element name="getScheduleIdsByTypeResponse" type="tns:getScheduleIdsByTypeResponse"/>
+<xs:element name="getScheduleRequest" type="tns:getScheduleRequest"/>
+<xs:element name="getScheduleRequestIdsByType" type="tns:getScheduleRequestIdsByType"/>
+<xs:element name="getScheduleRequestIdsByTypeResponse" type="tns:getScheduleRequestIdsByTypeResponse"/>
+<xs:element name="getScheduleRequestResponse" type="tns:getScheduleRequestResponse"/>
+<xs:element name="getScheduleRequestsByIds" type="tns:getScheduleRequestsByIds"/>
+<xs:element name="getScheduleRequestsByIdsResponse" type="tns:getScheduleRequestsByIdsResponse"/>
+<xs:element name="getScheduleRequestsByRefObject" type="tns:getScheduleRequestsByRefObject"/>
+<xs:element name="getScheduleRequestsByRefObjectResponse" type="tns:getScheduleRequestsByRefObjectResponse"/>
+<xs:element name="getScheduleRequestsForScheduleBatch" type="tns:getScheduleRequestsForScheduleBatch"/>
+<xs:element name="getScheduleRequestsForScheduleBatchResponse" type="tns:getScheduleRequestsForScheduleBatchResponse"/>
+<xs:element name="getScheduleResp" type="tns:getScheduleResp"/>
+<xs:element name="getScheduleRespIdsByType" type="tns:getScheduleRespIdsByType"/>
+<xs:element name="getScheduleRespIdsByTypeResponse" type="tns:getScheduleRespIdsByTypeResponse"/>
+<xs:element name="getScheduleRespResponse" type="tns:getScheduleRespResponse"/>
+<xs:element name="getScheduleResponse" type="tns:getScheduleResponse"/>
+<xs:element name="getScheduleRespsByIds" type="tns:getScheduleRespsByIds"/>
+<xs:element name="getScheduleRespsByIdsResponse" type="tns:getScheduleRespsByIdsResponse"/>
+<xs:element name="getScheduleRespsByScheduleBatchResp" type="tns:getScheduleRespsByScheduleBatchResp"/>
+<xs:element name="getScheduleRespsByScheduleBatchRespResponse" type="tns:getScheduleRespsByScheduleBatchRespResponse"/>
+<xs:element name="getScheduleRespsByScheduleRequestIds" type="tns:getScheduleRespsByScheduleRequestIds"/>
+<xs:element name="getScheduleRespsByScheduleRequestIdsResponse" type="tns:getScheduleRespsByScheduleRequestIdsResponse"/>
+<xs:element name="getSchedulesByIds" type="tns:getSchedulesByIds"/>
+<xs:element name="getSchedulesByIdsResponse" type="tns:getSchedulesByIdsResponse"/>
+<xs:element name="getTimeSlot" type="tns:getTimeSlot"/>
+<xs:element name="getTimeSlotIdsByType" type="tns:getTimeSlotIdsByType"/>
+<xs:element name="getTimeSlotIdsByTypeResponse" type="tns:getTimeSlotIdsByTypeResponse"/>
+<xs:element name="getTimeSlotResponse" type="tns:getTimeSlotResponse"/>
+<xs:element name="getTimeSlotsByDaysAndStartTime" type="tns:getTimeSlotsByDaysAndStartTime"/>
+<xs:element name="getTimeSlotsByDaysAndStartTimeAndEndTime" type="tns:getTimeSlotsByDaysAndStartTimeAndEndTime"/>
+<xs:element name="getTimeSlotsByDaysAndStartTimeAndEndTimeResponse" type="tns:getTimeSlotsByDaysAndStartTimeAndEndTimeResponse"/>
+<xs:element name="getTimeSlotsByDaysAndStartTimeResponse" type="tns:getTimeSlotsByDaysAndStartTimeResponse"/>
+<xs:element name="getTimeSlotsByIds" type="tns:getTimeSlotsByIds"/>
+<xs:element name="getTimeSlotsByIdsResponse" type="tns:getTimeSlotsByIdsResponse"/>
+<xs:element name="getValidDaysOfWeekByTimeSlotType" type="tns:getValidDaysOfWeekByTimeSlotType"/>
+<xs:element name="getValidDaysOfWeekByTimeSlotTypeResponse" type="tns:getValidDaysOfWeekByTimeSlotTypeResponse"/>
+<xs:element name="removeScheduleRequestsFromScheduleBatch" type="tns:removeScheduleRequestsFromScheduleBatch"/>
+<xs:element name="removeScheduleRequestsFromScheduleBatchResponse" type="tns:removeScheduleRequestsFromScheduleBatchResponse"/>
+<xs:element name="searchForScheduleBatchIds" type="tns:searchForScheduleBatchIds"/>
+<xs:element name="searchForScheduleBatchIdsResponse" type="tns:searchForScheduleBatchIdsResponse"/>
+<xs:element name="searchForScheduleBatches" type="tns:searchForScheduleBatches"/>
+<xs:element name="searchForScheduleBatchesResponse" type="tns:searchForScheduleBatchesResponse"/>
+<xs:element name="searchForScheduleIds" type="tns:searchForScheduleIds"/>
+<xs:element name="searchForScheduleIdsResponse" type="tns:searchForScheduleIdsResponse"/>
+<xs:element name="searchForScheduleRequestIds" type="tns:searchForScheduleRequestIds"/>
+<xs:element name="searchForScheduleRequestIdsResponse" type="tns:searchForScheduleRequestIdsResponse"/>
+<xs:element name="searchForScheduleRequests" type="tns:searchForScheduleRequests"/>
+<xs:element name="searchForScheduleRequestsResponse" type="tns:searchForScheduleRequestsResponse"/>
+<xs:element name="searchForSchedules" type="tns:searchForSchedules"/>
+<xs:element name="searchForSchedulesResponse" type="tns:searchForSchedulesResponse"/>
+<xs:element name="searchForTimeSlotIds" type="tns:searchForTimeSlotIds"/>
+<xs:element name="searchForTimeSlotIdsResponse" type="tns:searchForTimeSlotIdsResponse"/>
+<xs:element name="searchForTimeSlots" type="tns:searchForTimeSlots"/>
+<xs:element name="searchForTimeSlotsResponse" type="tns:searchForTimeSlotsResponse"/>
+<xs:element name="submitScheduleBatch" type="tns:submitScheduleBatch"/>
+<xs:element name="submitScheduleBatchResponse" type="tns:submitScheduleBatchResponse"/>
+<xs:element name="updateSchedule" type="tns:updateSchedule"/>
+<xs:element name="updateScheduleBatch" type="tns:updateScheduleBatch"/>
+<xs:element name="updateScheduleBatchResponse" type="tns:updateScheduleBatchResponse"/>
+<xs:element name="updateScheduleRequest" type="tns:updateScheduleRequest"/>
+<xs:element name="updateScheduleRequestResponse" type="tns:updateScheduleRequestResponse"/>
+<xs:element name="updateScheduleResponse" type="tns:updateScheduleResponse"/>
+<xs:element name="updateTimeSlot" type="tns:updateTimeSlot"/>
+<xs:element name="updateTimeSlotResponse" type="tns:updateTimeSlotResponse"/>
+<xs:element name="validateSchedule" type="tns:validateSchedule"/>
+<xs:element name="validateScheduleBatch" type="tns:validateScheduleBatch"/>
+<xs:element name="validateScheduleBatchResponse" type="tns:validateScheduleBatchResponse"/>
+<xs:element name="validateScheduleRequest" type="tns:validateScheduleRequest"/>
+<xs:element name="validateScheduleRequestResponse" type="tns:validateScheduleRequestResponse"/>
+<xs:element name="validateScheduleResponse" type="tns:validateScheduleResponse"/>
+<xs:element name="validateTimeSlot" type="tns:validateTimeSlot"/>
+<xs:element name="validateTimeSlotResponse" type="tns:validateTimeSlotResponse"/>
+<xs:complexType name="getScheduleBatchRespsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleBatchRespIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchRespsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleBatchRespInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ScheduleBatchRespInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="submittedDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+<xs:element minOccurs="0" name="finalStatus" type="tns:StatusInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForTimeSlotIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForTimeSlotIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleRequestIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleRequestInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ScheduleRequestInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectTypeKey" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleRequestComponents" type="tns:ScheduleRequestComponentInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ScheduleRequestComponentInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="buildingIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="campusIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="orgIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="resourceTypeKeys" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="roomIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="timeSlotIds" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createSchedule">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleInfo" type="tns:ScheduleInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ScheduleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="atpId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleComponents" type="tns:ScheduleComponentInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="blackoutDates" type="tns:DateRangeInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="blackoutMilestoneIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="additionalMeetingTimes" type="tns:MeetingTimeInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="ScheduleComponentInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="timeSlotIds" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DateRangeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="endDate" type="xs:dateTime"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MeetingTimeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="startDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="duration" type="tns:TimeAmountInfo"/>
+<xs:element minOccurs="0" name="roomId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TimeAmountInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="atpDurationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="timeQuantity" type="xs:int"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createScheduleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchRespIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchRespTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchRespIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeScheduleRequestsFromScheduleBatch">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleRequestIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleBatchId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removeScheduleRequestsFromScheduleBatchResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotsByDaysAndStartTimeAndEndTime">
+<xs:sequence>
+<xs:element minOccurs="0" name="timeSlotTypeKey" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="daysOfWeek" type="xs:int"/>
+<xs:element minOccurs="0" name="startTime" type="tns:TimeOfDayInfo"/>
+<xs:element minOccurs="0" name="endTime" type="tns:TimeOfDayInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TimeOfDayInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="milliSeconds" type="xs:long"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotsByDaysAndStartTimeAndEndTimeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TimeSlotInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="TimeSlotInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="weekdays" type="xs:int"/>
+<xs:element minOccurs="0" name="startTime" type="tns:TimeOfDayInfo"/>
+<xs:element minOccurs="0" name="endTime" type="tns:TimeOfDayInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="getScheduleResp">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleRespId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleRespInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ScheduleRespInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="batchRespId" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleRequestId" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleId" type="xs:string"/>
+<xs:element minOccurs="0" name="statusMessage" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="validateTimeSlot">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="timeSlotTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="timeSlotInfo" type="tns:TimeSlotInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateTimeSlotResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateSchedule">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleInfo" type="tns:ScheduleInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateScheduleResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleRequestIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleRequestIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatch">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleBatchInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ScheduleBatchInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="requestingPersonId" type="xs:string"/>
+<xs:element minOccurs="0" name="orgId" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="deleteTimeSlot">
+<xs:sequence>
+<xs:element minOccurs="0" name="timeSlotId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteTimeSlotResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteSchedule">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteScheduleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateScheduleRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleRequestId" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleRequestInfo" type="tns:ScheduleRequestInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateScheduleRequestResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleRequestInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleRequestTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateTimeSlot">
+<xs:sequence>
+<xs:element minOccurs="0" name="timeSlotId" type="xs:string"/>
+<xs:element minOccurs="0" name="timeSlotInfo" type="tns:TimeSlotInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateTimeSlotResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TimeSlotInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchesByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleBatchIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchesByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleBatchInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getValidDaysOfWeekByTimeSlotType">
+<xs:sequence>
+<xs:element minOccurs="0" name="timeSlotTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getValidDaysOfWeekByTimeSlotTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlot">
+<xs:sequence>
+<xs:element minOccurs="0" name="timeSlotId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TimeSlotInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="timeSlotIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TimeSlotInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleRequestId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleRequestInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotsByDaysAndStartTime">
+<xs:sequence>
+<xs:element minOccurs="0" name="timeSlotTypeKey" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="daysOfWeek" type="xs:int"/>
+<xs:element minOccurs="0" name="startTime" type="tns:TimeOfDayInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotsByDaysAndStartTimeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TimeSlotInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateScheduleBatch">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchId" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleBatchInfo" type="tns:ScheduleBatchInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateScheduleBatchResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleBatchInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateScheduleBatch">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleBatchTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleBatchInfo" type="tns:ScheduleBatchInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateScheduleBatchResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSchedule">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteScheduleRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleRequestId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteScheduleRequestResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleRespTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="timeSlotTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTimeSlotIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespsByScheduleBatchResp">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchRespId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespsByScheduleBatchRespResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleRespInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchesForScheduleRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleRequestId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchesForScheduleRequestResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleBatchInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createScheduleBatch">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleBatchInfo" type="tns:ScheduleBatchInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createScheduleBatchResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleBatchInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateScheduleRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleRequestTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleRequestInfo" type="tns:ScheduleRequestInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateScheduleRequestResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="commitSchedules">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchRespId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="commitSchedulesResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForSchedules">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForSchedulesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleBatches">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleBatchesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleBatchInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestsForScheduleBatch">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestsForScheduleBatchResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleRequestInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSchedulesByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSchedulesByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createTimeSlot">
+<xs:sequence>
+<xs:element minOccurs="0" name="timeSlotTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="timeSlotInfo" type="tns:TimeSlotInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createTimeSlotResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:TimeSlotInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForTimeSlots">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForTimeSlotsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:TimeSlotInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleBatchIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleBatchIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleRespIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleRespInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestsByRefObject">
+<xs:sequence>
+<xs:element minOccurs="0" name="refObjectType" type="xs:string"/>
+<xs:element minOccurs="0" name="refObjectId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRequestsByRefObjectResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addScheduleRequestsToScheduleBatch">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleRequestIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleBatchId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addScheduleRequestsToScheduleBatchResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateSchedule">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleId" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleInfo" type="tns:ScheduleInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateScheduleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleRequests">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForScheduleRequestsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleRequestInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespsByScheduleRequestIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="scheduleRequestIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleRespsByScheduleRequestIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleRespInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createScheduleRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleRequestTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="scheduleRequestInfo" type="tns:ScheduleRequestInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createScheduleRequestResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleRequestInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="submitScheduleBatch">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="submitScheduleBatchResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleRespInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchRespsByScheduleBatchRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchRespsByScheduleBatchRequestResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ScheduleBatchRespInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchResp">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchRespId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getScheduleBatchRespResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:ScheduleBatchRespInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteScheduleBatch">
+<xs:sequence>
+<xs:element minOccurs="0" name="scheduleBatchId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteScheduleBatchResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="ReadOnlyException" nillable="true" type="ns0:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rice.kuali.org/core/v2_0" elementFormDefault="qualified" targetNamespace="http://rice.kuali.org/core/v2_0" version="1.0">
+<xs:element name="and" type="tns:AndType"/>
+<xs:element name="dateTimeValue" type="tns:CriteriaDateTimeValueType"/>
+<xs:element name="decimalValue" type="tns:CriteriaDecimalValueType"/>
+<xs:element name="equal" type="tns:EqualType"/>
+<xs:element name="greaterThan" type="tns:GreaterThanType"/>
+<xs:element name="greaterThanOrEqual" type="tns:GreaterThanOrEqualType"/>
+<xs:element name="in" type="tns:InType"/>
+<xs:element name="integerValue" type="tns:CriteriaIntegerValueType"/>
+<xs:element name="lessThan" type="tns:LessThanType"/>
+<xs:element name="lessThanOrEqual" type="tns:LessThanOrEqualType"/>
+<xs:element name="like" type="tns:LikeType"/>
+<xs:element name="notEqual" type="tns:NotEqualType"/>
+<xs:element name="notIn" type="tns:NotInType"/>
+<xs:element name="notLike" type="tns:NotLikeType"/>
+<xs:element name="notNull" type="tns:NotNullType"/>
+<xs:element name="null" type="tns:NullType"/>
+<xs:element name="or" type="tns:OrType"/>
+<xs:element name="queryByCriteria" type="tns:QueryByCriteriaType"/>
+<xs:element name="stringValue" type="tns:CriteriaStringValueType"/>
+<xs:complexType final="extension restriction" name="QueryByCriteriaType">
+<xs:sequence>
+<xs:choice minOccurs="0">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+<xs:element minOccurs="0" name="startAtIndex" type="xs:int"/>
+<xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+<xs:element name="countFlag" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AndType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="CompositePredicateType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractPredicate">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="EqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:simpleType name="CriteriaStringValueType">
+<xs:restriction base="xs:string"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDateTimeValueType">
+<xs:restriction base="xs:dateTime"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDecimalValueType">
+<xs:restriction base="xs:decimal"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaIntegerValueType">
+<xs:restriction base="xs:integer"/>
+</xs:simpleType>
+<xs:complexType final="extension restriction" name="GreaterThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="GreaterThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="InType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotInType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotLikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotNullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="OrType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="ReadOnlyException" type="tns:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReadOnlyException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="searchForScheduleIds">
+    <wsdl:part name="parameters" element="tns:searchForScheduleIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteScheduleRequestResponse">
+    <wsdl:part name="parameters" element="tns:deleteScheduleRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleBatches">
+    <wsdl:part name="parameters" element="tns:searchForScheduleBatches">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequest">
+    <wsdl:part name="parameters" element="tns:getScheduleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="submitScheduleBatch">
+    <wsdl:part name="parameters" element="tns:submitScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForTimeSlotIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForTimeSlotIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTimeSlot">
+    <wsdl:part name="parameters" element="tns:createTimeSlot">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createScheduleRequestResponse">
+    <wsdl:part name="parameters" element="tns:createScheduleRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotsByDaysAndStartTimeAndEndTime">
+    <wsdl:part name="parameters" element="tns:getTimeSlotsByDaysAndStartTimeAndEndTime">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleBatchIds">
+    <wsdl:part name="parameters" element="tns:searchForScheduleBatchIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestsForScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestsForScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateScheduleResponse">
+    <wsdl:part name="parameters" element="tns:validateScheduleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForTimeSlotIds">
+    <wsdl:part name="parameters" element="tns:searchForTimeSlotIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotsByDaysAndStartTime">
+    <wsdl:part name="parameters" element="tns:getTimeSlotsByDaysAndStartTime">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateScheduleBatch">
+    <wsdl:part name="parameters" element="tns:validateScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="commitSchedulesResponse">
+    <wsdl:part name="parameters" element="tns:commitSchedulesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:updateScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespsByScheduleBatchRespResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRespsByScheduleBatchRespResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespsByIds">
+    <wsdl:part name="parameters" element="tns:getScheduleRespsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateScheduleBatch">
+    <wsdl:part name="parameters" element="tns:updateScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getTimeSlotIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getValidDaysOfWeekByTimeSlotTypeResponse">
+    <wsdl:part name="parameters" element="tns:getValidDaysOfWeekByTimeSlotTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleRequestIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForScheduleRequestIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForTimeSlotsResponse">
+    <wsdl:part name="parameters" element="tns:searchForTimeSlotsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleBatchIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForScheduleBatchIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateTimeSlot">
+    <wsdl:part name="parameters" element="tns:validateTimeSlot">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleIdsByType">
+    <wsdl:part name="parameters" element="tns:getScheduleIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespIdsByType">
+    <wsdl:part name="parameters" element="tns:getScheduleRespIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchRespsByScheduleBatchRequest">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchRespsByScheduleBatchRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:deleteScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchesForScheduleRequest">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchesForScheduleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="commitSchedules">
+    <wsdl:part name="parameters" element="tns:commitSchedules">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleBatchesResponse">
+    <wsdl:part name="parameters" element="tns:searchForScheduleBatchesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:createScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotResponse">
+    <wsdl:part name="parameters" element="tns:getTimeSlotResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSchedulesByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getSchedulesByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlot">
+    <wsdl:part name="parameters" element="tns:getTimeSlot">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchesForScheduleRequestResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchesForScheduleRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRespIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestsForScheduleBatch">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestsForScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchRespIdsByType">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchRespIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getTimeSlotsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotIdsByType">
+    <wsdl:part name="parameters" element="tns:getTimeSlotIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeScheduleRequestsFromScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:removeScheduleRequestsFromScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getValidDaysOfWeekByTimeSlotType">
+    <wsdl:part name="parameters" element="tns:getValidDaysOfWeekByTimeSlotType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotsByDaysAndStartTimeResponse">
+    <wsdl:part name="parameters" element="tns:getTimeSlotsByDaysAndStartTimeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateSchedule">
+    <wsdl:part name="parameters" element="tns:validateSchedule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRespResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteScheduleResponse">
+    <wsdl:part name="parameters" element="tns:deleteScheduleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchRespResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchRespResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchIdsByType">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createScheduleResponse">
+    <wsdl:part name="parameters" element="tns:createScheduleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createScheduleBatch">
+    <wsdl:part name="parameters" element="tns:createScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForSchedules">
+    <wsdl:part name="parameters" element="tns:searchForSchedules">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleRequestIds">
+    <wsdl:part name="parameters" element="tns:searchForScheduleRequestIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateTimeSlot">
+    <wsdl:part name="parameters" element="tns:updateTimeSlot">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSchedule">
+    <wsdl:part name="parameters" element="tns:getSchedule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateScheduleRequestResponse">
+    <wsdl:part name="parameters" element="tns:validateScheduleRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchRespsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchRespsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForTimeSlots">
+    <wsdl:part name="parameters" element="tns:searchForTimeSlots">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateScheduleResponse">
+    <wsdl:part name="parameters" element="tns:updateScheduleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOnlyException">
+    <wsdl:part name="ReadOnlyException" element="tns:ReadOnlyException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespsByScheduleRequestIds">
+    <wsdl:part name="parameters" element="tns:getScheduleRespsByScheduleRequestIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateScheduleRequestResponse">
+    <wsdl:part name="parameters" element="tns:updateScheduleRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchesByIds">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchesByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchesByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchesByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestsByRefObject">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestsByRefObject">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateTimeSlotResponse">
+    <wsdl:part name="parameters" element="tns:updateTimeSlotResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteScheduleBatch">
+    <wsdl:part name="parameters" element="tns:deleteScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRespsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestsByIds">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchRespsByIds">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchRespsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespsByScheduleBatchResp">
+    <wsdl:part name="parameters" element="tns:getScheduleRespsByScheduleBatchResp">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSchedulesByIds">
+    <wsdl:part name="parameters" element="tns:getSchedulesByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotsByIds">
+    <wsdl:part name="parameters" element="tns:getTimeSlotsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForSchedulesResponse">
+    <wsdl:part name="parameters" element="tns:searchForSchedulesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addScheduleRequestsToScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:addScheduleRequestsToScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestsByRefObjectResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestsByRefObjectResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createSchedule">
+    <wsdl:part name="parameters" element="tns:createSchedule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateScheduleRequest">
+    <wsdl:part name="parameters" element="tns:validateScheduleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForScheduleIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteScheduleRequest">
+    <wsdl:part name="parameters" element="tns:deleteScheduleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createScheduleRequest">
+    <wsdl:part name="parameters" element="tns:createScheduleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchResp">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchResp">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTimeSlot">
+    <wsdl:part name="parameters" element="tns:deleteTimeSlot">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createTimeSlotResponse">
+    <wsdl:part name="parameters" element="tns:createTimeSlotResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addScheduleRequestsToScheduleBatch">
+    <wsdl:part name="parameters" element="tns:addScheduleRequestsToScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleResp">
+    <wsdl:part name="parameters" element="tns:getScheduleResp">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteTimeSlotResponse">
+    <wsdl:part name="parameters" element="tns:deleteTimeSlotResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchRespsByScheduleBatchRequestResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchRespsByScheduleBatchRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:validateScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRespsByScheduleRequestIdsResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleRespsByScheduleRequestIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleRequests">
+    <wsdl:part name="parameters" element="tns:searchForScheduleRequests">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatchRespIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleBatchRespIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForScheduleRequestsResponse">
+    <wsdl:part name="parameters" element="tns:searchForScheduleRequestsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeScheduleRequestsFromScheduleBatch">
+    <wsdl:part name="parameters" element="tns:removeScheduleRequestsFromScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleRequestIdsByType">
+    <wsdl:part name="parameters" element="tns:getScheduleRequestIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteSchedule">
+    <wsdl:part name="parameters" element="tns:deleteSchedule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateSchedule">
+    <wsdl:part name="parameters" element="tns:updateSchedule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTimeSlotsByDaysAndStartTimeAndEndTimeResponse">
+    <wsdl:part name="parameters" element="tns:getTimeSlotsByDaysAndStartTimeAndEndTimeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateTimeSlotResponse">
+    <wsdl:part name="parameters" element="tns:validateTimeSlotResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getScheduleIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getScheduleBatch">
+    <wsdl:part name="parameters" element="tns:getScheduleBatch">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateScheduleRequest">
+    <wsdl:part name="parameters" element="tns:updateScheduleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="submitScheduleBatchResponse">
+    <wsdl:part name="parameters" element="tns:submitScheduleBatchResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SchedulingService">
+    <wsdl:operation name="getScheduleBatchRespsByIds">
+      <wsdl:input name="getScheduleBatchRespsByIds" message="tns:getScheduleBatchRespsByIds">
+    </wsdl:input>
+      <wsdl:output name="getScheduleBatchRespsByIdsResponse" message="tns:getScheduleBatchRespsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForTimeSlotIds">
+      <wsdl:input name="searchForTimeSlotIds" message="tns:searchForTimeSlotIds">
+    </wsdl:input>
+      <wsdl:output name="searchForTimeSlotIdsResponse" message="tns:searchForTimeSlotIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequestsByIds">
+      <wsdl:input name="getScheduleRequestsByIds" message="tns:getScheduleRequestsByIds">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRequestsByIdsResponse" message="tns:getScheduleRequestsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createSchedule">
+      <wsdl:input name="createSchedule" message="tns:createSchedule">
+    </wsdl:input>
+      <wsdl:output name="createScheduleResponse" message="tns:createScheduleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchRespIdsByType">
+      <wsdl:input name="getScheduleBatchRespIdsByType" message="tns:getScheduleBatchRespIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getScheduleBatchRespIdsByTypeResponse" message="tns:getScheduleBatchRespIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchIdsByType">
+      <wsdl:input name="getScheduleBatchIdsByType" message="tns:getScheduleBatchIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getScheduleBatchIdsByTypeResponse" message="tns:getScheduleBatchIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeScheduleRequestsFromScheduleBatch">
+      <wsdl:input name="removeScheduleRequestsFromScheduleBatch" message="tns:removeScheduleRequestsFromScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="removeScheduleRequestsFromScheduleBatchResponse" message="tns:removeScheduleRequestsFromScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleIds">
+      <wsdl:input name="searchForScheduleIds" message="tns:searchForScheduleIds">
+    </wsdl:input>
+      <wsdl:output name="searchForScheduleIdsResponse" message="tns:searchForScheduleIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlotsByDaysAndStartTimeAndEndTime">
+      <wsdl:input name="getTimeSlotsByDaysAndStartTimeAndEndTime" message="tns:getTimeSlotsByDaysAndStartTimeAndEndTime">
+    </wsdl:input>
+      <wsdl:output name="getTimeSlotsByDaysAndStartTimeAndEndTimeResponse" message="tns:getTimeSlotsByDaysAndStartTimeAndEndTimeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleResp">
+      <wsdl:input name="getScheduleResp" message="tns:getScheduleResp">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRespResponse" message="tns:getScheduleRespResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateTimeSlot">
+      <wsdl:input name="validateTimeSlot" message="tns:validateTimeSlot">
+    </wsdl:input>
+      <wsdl:output name="validateTimeSlotResponse" message="tns:validateTimeSlotResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateSchedule">
+      <wsdl:input name="validateSchedule" message="tns:validateSchedule">
+    </wsdl:input>
+      <wsdl:output name="validateScheduleResponse" message="tns:validateScheduleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleRequestIds">
+      <wsdl:input name="searchForScheduleRequestIds" message="tns:searchForScheduleRequestIds">
+    </wsdl:input>
+      <wsdl:output name="searchForScheduleRequestIdsResponse" message="tns:searchForScheduleRequestIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatch">
+      <wsdl:input name="getScheduleBatch" message="tns:getScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="getScheduleBatchResponse" message="tns:getScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTimeSlot">
+      <wsdl:input name="deleteTimeSlot" message="tns:deleteTimeSlot">
+    </wsdl:input>
+      <wsdl:output name="deleteTimeSlotResponse" message="tns:deleteTimeSlotResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSchedule">
+      <wsdl:input name="deleteSchedule" message="tns:deleteSchedule">
+    </wsdl:input>
+      <wsdl:output name="deleteScheduleResponse" message="tns:deleteScheduleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateScheduleRequest">
+      <wsdl:input name="updateScheduleRequest" message="tns:updateScheduleRequest">
+    </wsdl:input>
+      <wsdl:output name="updateScheduleRequestResponse" message="tns:updateScheduleRequestResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequestIdsByType">
+      <wsdl:input name="getScheduleRequestIdsByType" message="tns:getScheduleRequestIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRequestIdsByTypeResponse" message="tns:getScheduleRequestIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateTimeSlot">
+      <wsdl:input name="updateTimeSlot" message="tns:updateTimeSlot">
+    </wsdl:input>
+      <wsdl:output name="updateTimeSlotResponse" message="tns:updateTimeSlotResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchesByIds">
+      <wsdl:input name="getScheduleBatchesByIds" message="tns:getScheduleBatchesByIds">
+    </wsdl:input>
+      <wsdl:output name="getScheduleBatchesByIdsResponse" message="tns:getScheduleBatchesByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getValidDaysOfWeekByTimeSlotType">
+      <wsdl:input name="getValidDaysOfWeekByTimeSlotType" message="tns:getValidDaysOfWeekByTimeSlotType">
+    </wsdl:input>
+      <wsdl:output name="getValidDaysOfWeekByTimeSlotTypeResponse" message="tns:getValidDaysOfWeekByTimeSlotTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleIdsByType">
+      <wsdl:input name="getScheduleIdsByType" message="tns:getScheduleIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getScheduleIdsByTypeResponse" message="tns:getScheduleIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlot">
+      <wsdl:input name="getTimeSlot" message="tns:getTimeSlot">
+    </wsdl:input>
+      <wsdl:output name="getTimeSlotResponse" message="tns:getTimeSlotResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlotsByIds">
+      <wsdl:input name="getTimeSlotsByIds" message="tns:getTimeSlotsByIds">
+    </wsdl:input>
+      <wsdl:output name="getTimeSlotsByIdsResponse" message="tns:getTimeSlotsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequest">
+      <wsdl:input name="getScheduleRequest" message="tns:getScheduleRequest">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRequestResponse" message="tns:getScheduleRequestResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlotsByDaysAndStartTime">
+      <wsdl:input name="getTimeSlotsByDaysAndStartTime" message="tns:getTimeSlotsByDaysAndStartTime">
+    </wsdl:input>
+      <wsdl:output name="getTimeSlotsByDaysAndStartTimeResponse" message="tns:getTimeSlotsByDaysAndStartTimeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateScheduleBatch">
+      <wsdl:input name="updateScheduleBatch" message="tns:updateScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="updateScheduleBatchResponse" message="tns:updateScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateScheduleBatch">
+      <wsdl:input name="validateScheduleBatch" message="tns:validateScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="validateScheduleBatchResponse" message="tns:validateScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSchedule">
+      <wsdl:input name="getSchedule" message="tns:getSchedule">
+    </wsdl:input>
+      <wsdl:output name="getScheduleResponse" message="tns:getScheduleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteScheduleRequest">
+      <wsdl:input name="deleteScheduleRequest" message="tns:deleteScheduleRequest">
+    </wsdl:input>
+      <wsdl:output name="deleteScheduleRequestResponse" message="tns:deleteScheduleRequestResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRespIdsByType">
+      <wsdl:input name="getScheduleRespIdsByType" message="tns:getScheduleRespIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRespIdsByTypeResponse" message="tns:getScheduleRespIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlotIdsByType">
+      <wsdl:input name="getTimeSlotIdsByType" message="tns:getTimeSlotIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getTimeSlotIdsByTypeResponse" message="tns:getTimeSlotIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRespsByScheduleBatchResp">
+      <wsdl:input name="getScheduleRespsByScheduleBatchResp" message="tns:getScheduleRespsByScheduleBatchResp">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRespsByScheduleBatchRespResponse" message="tns:getScheduleRespsByScheduleBatchRespResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchesForScheduleRequest">
+      <wsdl:input name="getScheduleBatchesForScheduleRequest" message="tns:getScheduleBatchesForScheduleRequest">
+    </wsdl:input>
+      <wsdl:output name="getScheduleBatchesForScheduleRequestResponse" message="tns:getScheduleBatchesForScheduleRequestResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createScheduleBatch">
+      <wsdl:input name="createScheduleBatch" message="tns:createScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="createScheduleBatchResponse" message="tns:createScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateScheduleRequest">
+      <wsdl:input name="validateScheduleRequest" message="tns:validateScheduleRequest">
+    </wsdl:input>
+      <wsdl:output name="validateScheduleRequestResponse" message="tns:validateScheduleRequestResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="commitSchedules">
+      <wsdl:input name="commitSchedules" message="tns:commitSchedules">
+    </wsdl:input>
+      <wsdl:output name="commitSchedulesResponse" message="tns:commitSchedulesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForSchedules">
+      <wsdl:input name="searchForSchedules" message="tns:searchForSchedules">
+    </wsdl:input>
+      <wsdl:output name="searchForSchedulesResponse" message="tns:searchForSchedulesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleBatches">
+      <wsdl:input name="searchForScheduleBatches" message="tns:searchForScheduleBatches">
+    </wsdl:input>
+      <wsdl:output name="searchForScheduleBatchesResponse" message="tns:searchForScheduleBatchesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequestsForScheduleBatch">
+      <wsdl:input name="getScheduleRequestsForScheduleBatch" message="tns:getScheduleRequestsForScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRequestsForScheduleBatchResponse" message="tns:getScheduleRequestsForScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSchedulesByIds">
+      <wsdl:input name="getSchedulesByIds" message="tns:getSchedulesByIds">
+    </wsdl:input>
+      <wsdl:output name="getSchedulesByIdsResponse" message="tns:getSchedulesByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createTimeSlot">
+      <wsdl:input name="createTimeSlot" message="tns:createTimeSlot">
+    </wsdl:input>
+      <wsdl:output name="createTimeSlotResponse" message="tns:createTimeSlotResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForTimeSlots">
+      <wsdl:input name="searchForTimeSlots" message="tns:searchForTimeSlots">
+    </wsdl:input>
+      <wsdl:output name="searchForTimeSlotsResponse" message="tns:searchForTimeSlotsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleBatchIds">
+      <wsdl:input name="searchForScheduleBatchIds" message="tns:searchForScheduleBatchIds">
+    </wsdl:input>
+      <wsdl:output name="searchForScheduleBatchIdsResponse" message="tns:searchForScheduleBatchIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRespsByIds">
+      <wsdl:input name="getScheduleRespsByIds" message="tns:getScheduleRespsByIds">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRespsByIdsResponse" message="tns:getScheduleRespsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequestsByRefObject">
+      <wsdl:input name="getScheduleRequestsByRefObject" message="tns:getScheduleRequestsByRefObject">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRequestsByRefObjectResponse" message="tns:getScheduleRequestsByRefObjectResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addScheduleRequestsToScheduleBatch">
+      <wsdl:input name="addScheduleRequestsToScheduleBatch" message="tns:addScheduleRequestsToScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="addScheduleRequestsToScheduleBatchResponse" message="tns:addScheduleRequestsToScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateSchedule">
+      <wsdl:input name="updateSchedule" message="tns:updateSchedule">
+    </wsdl:input>
+      <wsdl:output name="updateScheduleResponse" message="tns:updateScheduleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleRequests">
+      <wsdl:input name="searchForScheduleRequests" message="tns:searchForScheduleRequests">
+    </wsdl:input>
+      <wsdl:output name="searchForScheduleRequestsResponse" message="tns:searchForScheduleRequestsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRespsByScheduleRequestIds">
+      <wsdl:input name="getScheduleRespsByScheduleRequestIds" message="tns:getScheduleRespsByScheduleRequestIds">
+    </wsdl:input>
+      <wsdl:output name="getScheduleRespsByScheduleRequestIdsResponse" message="tns:getScheduleRespsByScheduleRequestIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createScheduleRequest">
+      <wsdl:input name="createScheduleRequest" message="tns:createScheduleRequest">
+    </wsdl:input>
+      <wsdl:output name="createScheduleRequestResponse" message="tns:createScheduleRequestResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="submitScheduleBatch">
+      <wsdl:input name="submitScheduleBatch" message="tns:submitScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="submitScheduleBatchResponse" message="tns:submitScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchRespsByScheduleBatchRequest">
+      <wsdl:input name="getScheduleBatchRespsByScheduleBatchRequest" message="tns:getScheduleBatchRespsByScheduleBatchRequest">
+    </wsdl:input>
+      <wsdl:output name="getScheduleBatchRespsByScheduleBatchRequestResponse" message="tns:getScheduleBatchRespsByScheduleBatchRequestResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchResp">
+      <wsdl:input name="getScheduleBatchResp" message="tns:getScheduleBatchResp">
+    </wsdl:input>
+      <wsdl:output name="getScheduleBatchRespResponse" message="tns:getScheduleBatchRespResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteScheduleBatch">
+      <wsdl:input name="deleteScheduleBatch" message="tns:deleteScheduleBatch">
+    </wsdl:input>
+      <wsdl:output name="deleteScheduleBatchResponse" message="tns:deleteScheduleBatchResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SchedulingServiceSoapBinding" type="tns:SchedulingService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getScheduleBatchRespsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleBatchRespsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleBatchRespsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForTimeSlotIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForTimeSlotIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForTimeSlotIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequestsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRequestsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRequestsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createSchedule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createSchedule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createScheduleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchRespIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleBatchRespIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleBatchRespIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleBatchIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleBatchIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeScheduleRequestsFromScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeScheduleRequestsFromScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeScheduleRequestsFromScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleResp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleResp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRespResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlotsByDaysAndStartTimeAndEndTime">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTimeSlotsByDaysAndStartTimeAndEndTime">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTimeSlotsByDaysAndStartTimeAndEndTimeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForScheduleIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForScheduleIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateTimeSlot">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateTimeSlot">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateTimeSlotResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleRequestIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForScheduleRequestIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForScheduleRequestIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateSchedule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateSchedule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateScheduleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTimeSlot">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteTimeSlot">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteTimeSlotResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteSchedule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteSchedule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteScheduleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequestIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRequestIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRequestIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateScheduleRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateScheduleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateScheduleRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateTimeSlot">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateTimeSlot">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateTimeSlotResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchesByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleBatchesByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleBatchesByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getValidDaysOfWeekByTimeSlotType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getValidDaysOfWeekByTimeSlotType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getValidDaysOfWeekByTimeSlotTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlot">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTimeSlot">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTimeSlotResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlotsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTimeSlotsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTimeSlotsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlotsByDaysAndStartTime">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTimeSlotsByDaysAndStartTime">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTimeSlotsByDaysAndStartTimeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteScheduleRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteScheduleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteScheduleRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSchedule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSchedule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRespIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRespIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRespIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTimeSlotIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getTimeSlotIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTimeSlotIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRespsByScheduleBatchResp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRespsByScheduleBatchResp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRespsByScheduleBatchRespResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchesForScheduleRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleBatchesForScheduleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleBatchesForScheduleRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="commitSchedules">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="commitSchedules">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="commitSchedulesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateScheduleRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateScheduleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateScheduleRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForSchedules">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForSchedules">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForSchedulesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleBatches">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForScheduleBatches">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForScheduleBatchesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequestsForScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRequestsForScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRequestsForScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createTimeSlot">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createTimeSlot">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createTimeSlotResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSchedulesByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getSchedulesByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getSchedulesByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForTimeSlots">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForTimeSlots">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForTimeSlotsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleBatchIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForScheduleBatchIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForScheduleBatchIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRespsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRespsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRespsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRequestsByRefObject">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRequestsByRefObject">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRequestsByRefObjectResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addScheduleRequestsToScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addScheduleRequestsToScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addScheduleRequestsToScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateSchedule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateSchedule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateScheduleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleRespsByScheduleRequestIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleRespsByScheduleRequestIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleRespsByScheduleRequestIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForScheduleRequests">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForScheduleRequests">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForScheduleRequestsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createScheduleRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createScheduleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createScheduleRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="submitScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="submitScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="submitScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchResp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleBatchResp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleBatchRespResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getScheduleBatchRespsByScheduleBatchRequest">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getScheduleBatchRespsByScheduleBatchRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getScheduleBatchRespsByScheduleBatchRequestResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteScheduleBatch">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteScheduleBatch">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteScheduleBatchResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SchedulingService">
+    <wsdl:port name="SchedulingService" binding="tns:SchedulingServiceSoapBinding">
+      <soap:address location="http://localhost:9090/SchedulingService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

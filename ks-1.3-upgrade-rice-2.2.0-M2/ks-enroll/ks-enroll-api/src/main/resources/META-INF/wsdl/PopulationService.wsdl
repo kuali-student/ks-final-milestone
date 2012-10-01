@@ -1,0 +1,2728 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="PopulationService" targetNamespace="http://student.kuali.org/wsdl/population" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/population" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:ns1="http://rice.kuali.org/core/v2_0" xmlns:tns="http://student.kuali.org/wsdl/population" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/population">
+<xs:import namespace="http://rice.kuali.org/core/v2_0"/>
+<xs:element name="addPopulationToPopulationCategory" type="tns:addPopulationToPopulationCategory"/>
+<xs:element name="addPopulationToPopulationCategoryResponse" type="tns:addPopulationToPopulationCategoryResponse"/>
+<xs:element name="applyPopulationRuleToPopulation" type="tns:applyPopulationRuleToPopulation"/>
+<xs:element name="applyPopulationRuleToPopulationResponse" type="tns:applyPopulationRuleToPopulationResponse"/>
+<xs:element name="createPopulation" type="tns:createPopulation"/>
+<xs:element name="createPopulationCategory" type="tns:createPopulationCategory"/>
+<xs:element name="createPopulationCategoryResponse" type="tns:createPopulationCategoryResponse"/>
+<xs:element name="createPopulationResponse" type="tns:createPopulationResponse"/>
+<xs:element name="createPopulationRule" type="tns:createPopulationRule"/>
+<xs:element name="createPopulationRuleResponse" type="tns:createPopulationRuleResponse"/>
+<xs:element name="deletePopulation" type="tns:deletePopulation"/>
+<xs:element name="deletePopulationCategory" type="tns:deletePopulationCategory"/>
+<xs:element name="deletePopulationCategoryResponse" type="tns:deletePopulationCategoryResponse"/>
+<xs:element name="deletePopulationResponse" type="tns:deletePopulationResponse"/>
+<xs:element name="deletePopulationRule" type="tns:deletePopulationRule"/>
+<xs:element name="deletePopulationRuleResponse" type="tns:deletePopulationRuleResponse"/>
+<xs:element name="getMembersAsOfDate" type="tns:getMembersAsOfDate"/>
+<xs:element name="getMembersAsOfDateResponse" type="tns:getMembersAsOfDateResponse"/>
+<xs:element name="getPopulation" type="tns:getPopulation"/>
+<xs:element name="getPopulationCategoriesByIds" type="tns:getPopulationCategoriesByIds"/>
+<xs:element name="getPopulationCategoriesByIdsResponse" type="tns:getPopulationCategoriesByIdsResponse"/>
+<xs:element name="getPopulationCategoriesForPopulation" type="tns:getPopulationCategoriesForPopulation"/>
+<xs:element name="getPopulationCategoriesForPopulationResponse" type="tns:getPopulationCategoriesForPopulationResponse"/>
+<xs:element name="getPopulationCategory" type="tns:getPopulationCategory"/>
+<xs:element name="getPopulationCategoryIdsByType" type="tns:getPopulationCategoryIdsByType"/>
+<xs:element name="getPopulationCategoryIdsByTypeResponse" type="tns:getPopulationCategoryIdsByTypeResponse"/>
+<xs:element name="getPopulationCategoryResponse" type="tns:getPopulationCategoryResponse"/>
+<xs:element name="getPopulationIdsByType" type="tns:getPopulationIdsByType"/>
+<xs:element name="getPopulationIdsByTypeResponse" type="tns:getPopulationIdsByTypeResponse"/>
+<xs:element name="getPopulationResponse" type="tns:getPopulationResponse"/>
+<xs:element name="getPopulationRule" type="tns:getPopulationRule"/>
+<xs:element name="getPopulationRuleForPopulation" type="tns:getPopulationRuleForPopulation"/>
+<xs:element name="getPopulationRuleForPopulationResponse" type="tns:getPopulationRuleForPopulationResponse"/>
+<xs:element name="getPopulationRuleIdsByType" type="tns:getPopulationRuleIdsByType"/>
+<xs:element name="getPopulationRuleIdsByTypeResponse" type="tns:getPopulationRuleIdsByTypeResponse"/>
+<xs:element name="getPopulationRuleResponse" type="tns:getPopulationRuleResponse"/>
+<xs:element name="getPopulationRulesByIds" type="tns:getPopulationRulesByIds"/>
+<xs:element name="getPopulationRulesByIdsResponse" type="tns:getPopulationRulesByIdsResponse"/>
+<xs:element name="getPopulationsByIds" type="tns:getPopulationsByIds"/>
+<xs:element name="getPopulationsByIdsResponse" type="tns:getPopulationsByIdsResponse"/>
+<xs:element name="getPopulationsForPopulationRule" type="tns:getPopulationsForPopulationRule"/>
+<xs:element name="getPopulationsForPopulationRuleResponse" type="tns:getPopulationsForPopulationRuleResponse"/>
+<xs:element name="isMemberAsOfDate" type="tns:isMemberAsOfDate"/>
+<xs:element name="isMemberAsOfDateResponse" type="tns:isMemberAsOfDateResponse"/>
+<xs:element name="removePopulationFromPopulationCategory" type="tns:removePopulationFromPopulationCategory"/>
+<xs:element name="removePopulationFromPopulationCategoryResponse" type="tns:removePopulationFromPopulationCategoryResponse"/>
+<xs:element name="removePopulationRuleFromPopulation" type="tns:removePopulationRuleFromPopulation"/>
+<xs:element name="removePopulationRuleFromPopulationResponse" type="tns:removePopulationRuleFromPopulationResponse"/>
+<xs:element name="searchForPopulationCategories" type="tns:searchForPopulationCategories"/>
+<xs:element name="searchForPopulationCategoriesResponse" type="tns:searchForPopulationCategoriesResponse"/>
+<xs:element name="searchForPopulationCategoryIds" type="tns:searchForPopulationCategoryIds"/>
+<xs:element name="searchForPopulationCategoryIdsResponse" type="tns:searchForPopulationCategoryIdsResponse"/>
+<xs:element name="searchForPopulationIds" type="tns:searchForPopulationIds"/>
+<xs:element name="searchForPopulationIdsResponse" type="tns:searchForPopulationIdsResponse"/>
+<xs:element name="searchForPopulationRuleIds" type="tns:searchForPopulationRuleIds"/>
+<xs:element name="searchForPopulationRuleIdsResponse" type="tns:searchForPopulationRuleIdsResponse"/>
+<xs:element name="searchForPopulationRules" type="tns:searchForPopulationRules"/>
+<xs:element name="searchForPopulationRulesResponse" type="tns:searchForPopulationRulesResponse"/>
+<xs:element name="searchForPopulations" type="tns:searchForPopulations"/>
+<xs:element name="searchForPopulationsResponse" type="tns:searchForPopulationsResponse"/>
+<xs:element name="updatePopulation" type="tns:updatePopulation"/>
+<xs:element name="updatePopulationCategory" type="tns:updatePopulationCategory"/>
+<xs:element name="updatePopulationCategoryResponse" type="tns:updatePopulationCategoryResponse"/>
+<xs:element name="updatePopulationResponse" type="tns:updatePopulationResponse"/>
+<xs:element name="updatePopulationRule" type="tns:updatePopulationRule"/>
+<xs:element name="updatePopulationRuleResponse" type="tns:updatePopulationRuleResponse"/>
+<xs:element name="validatePopulation" type="tns:validatePopulation"/>
+<xs:element name="validatePopulationCategory" type="tns:validatePopulationCategory"/>
+<xs:element name="validatePopulationCategoryResponse" type="tns:validatePopulationCategoryResponse"/>
+<xs:element name="validatePopulationResponse" type="tns:validatePopulationResponse"/>
+<xs:element name="validatePopulationRule" type="tns:validatePopulationRule"/>
+<xs:element name="validatePopulationRuleResponse" type="tns:validatePopulationRuleResponse"/>
+<xs:complexType name="getPopulationRuleForPopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationRuleForPopulationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationRuleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PopulationRuleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="searchCriteria" type="ns1:QueryByCriteriaType"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="agendaIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="groupIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="personIds" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="childPopulationIds" type="xs:string"/>
+<xs:element minOccurs="0" name="referencePopulationId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="sortOrderTypeKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="variesByTime" type="xs:boolean"/>
+<xs:element minOccurs="0" name="supportsGetMembers" type="xs:boolean"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deletePopulationRule">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationRuleId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deletePopulationRuleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationCategoriesForPopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationCategoriesForPopulationResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:PopulationCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PopulationCategoryInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="getPopulationCategoriesByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="populationCategoryIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationCategoriesByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:PopulationCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationTypeId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationRules">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationRulesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:PopulationRuleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validatePopulationCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="populationCategoryTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="populationCategoryInfo" type="tns:PopulationCategoryInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validatePopulationCategoryResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationCategoryIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationCategoryIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createPopulationCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationCategoryTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="populationCategoryInfo" type="tns:PopulationCategoryInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createPopulationCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="applyPopulationRuleToPopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationRuleId" type="xs:string"/>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="applyPopulationRuleToPopulationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addPopulationToPopulationCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="populationCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addPopulationToPopulationCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationRule">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationRuleId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationRuleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationRuleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationRulesByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="populationRuleIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationRulesByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:PopulationRuleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updatePopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="populationInfo" type="tns:PopulationInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PopulationInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="sortOrderTypeKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="variesByTime" type="xs:boolean"/>
+<xs:element minOccurs="0" name="supportsGetMembers" type="xs:boolean"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="updatePopulationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="populationIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:PopulationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updatePopulationCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="populationInfo" type="tns:PopulationCategoryInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updatePopulationCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMembersAsOfDate">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getMembersAsOfDateResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulations">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:PopulationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationRuleIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationRuleIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationCategories">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationCategoriesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:PopulationCategoryInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isMemberAsOfDate">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="date" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isMemberAsOfDateResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:boolean"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createPopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationInfo" type="tns:PopulationInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createPopulationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removePopulationFromPopulationCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="populationCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removePopulationFromPopulationCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createPopulationRule">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationRuleInfo" type="tns:PopulationRuleInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createPopulationRuleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationRuleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationsForPopulationRule">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationRuleId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationsForPopulationRuleResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:PopulationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deletePopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deletePopulationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validatePopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="populationInfo" type="tns:PopulationInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validatePopulationResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForPopulationIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removePopulationRuleFromPopulation">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationRuleId" type="xs:string"/>
+<xs:element minOccurs="0" name="populationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="removePopulationRuleFromPopulationResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deletePopulationCategory">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationCategoryId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deletePopulationCategoryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationRuleIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationRuleIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updatePopulationRule">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationRuleId" type="xs:string"/>
+<xs:element minOccurs="0" name="populationInfo" type="tns:PopulationRuleInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updatePopulationRuleResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:PopulationRuleInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validatePopulationRule">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="populationRuleInfo" type="tns:PopulationRuleInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validatePopulationRuleResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationCategoryIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="populationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPopulationCategoryIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="ReadOnlyException" nillable="true" type="ns0:ReadOnlyException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rice.kuali.org/core/v2_0" elementFormDefault="qualified" targetNamespace="http://rice.kuali.org/core/v2_0" version="1.0">
+<xs:element name="and" type="tns:AndType"/>
+<xs:element name="dateTimeValue" type="tns:CriteriaDateTimeValueType"/>
+<xs:element name="decimalValue" type="tns:CriteriaDecimalValueType"/>
+<xs:element name="equal" type="tns:EqualType"/>
+<xs:element name="greaterThan" type="tns:GreaterThanType"/>
+<xs:element name="greaterThanOrEqual" type="tns:GreaterThanOrEqualType"/>
+<xs:element name="in" type="tns:InType"/>
+<xs:element name="integerValue" type="tns:CriteriaIntegerValueType"/>
+<xs:element name="lessThan" type="tns:LessThanType"/>
+<xs:element name="lessThanOrEqual" type="tns:LessThanOrEqualType"/>
+<xs:element name="like" type="tns:LikeType"/>
+<xs:element name="notEqual" type="tns:NotEqualType"/>
+<xs:element name="notIn" type="tns:NotInType"/>
+<xs:element name="notLike" type="tns:NotLikeType"/>
+<xs:element name="notNull" type="tns:NotNullType"/>
+<xs:element name="null" type="tns:NullType"/>
+<xs:element name="or" type="tns:OrType"/>
+<xs:element name="queryByCriteria" type="tns:QueryByCriteriaType"/>
+<xs:element name="stringValue" type="tns:CriteriaStringValueType"/>
+<xs:complexType final="extension restriction" name="QueryByCriteriaType">
+<xs:sequence>
+<xs:choice minOccurs="0">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+<xs:element minOccurs="0" name="startAtIndex" type="xs:int"/>
+<xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+<xs:element name="countFlag" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AndType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="CompositePredicateType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractPredicate">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="EqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:simpleType name="CriteriaStringValueType">
+<xs:restriction base="xs:string"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDateTimeValueType">
+<xs:restriction base="xs:dateTime"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDecimalValueType">
+<xs:restriction base="xs:decimal"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaIntegerValueType">
+<xs:restriction base="xs:integer"/>
+</xs:simpleType>
+<xs:complexType final="extension restriction" name="GreaterThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="GreaterThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="InType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotInType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotLikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotNullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="OrType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="ReadOnlyException" type="tns:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReadOnlyException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="validatePopulationCategoryResponse">
+    <wsdl:part name="parameters" element="tns:validatePopulationCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validatePopulationResponse">
+    <wsdl:part name="parameters" element="tns:validatePopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationRulesByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationRulesByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPopulation">
+    <wsdl:part name="parameters" element="tns:createPopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOnlyException">
+    <wsdl:part name="ReadOnlyException" element="tns:ReadOnlyException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationCategoriesForPopulationResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationCategoriesForPopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePopulationResponse">
+    <wsdl:part name="parameters" element="tns:deletePopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPopulationRule">
+    <wsdl:part name="parameters" element="tns:createPopulationRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationIdsByType">
+    <wsdl:part name="parameters" element="tns:getPopulationIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePopulationCategory">
+    <wsdl:part name="parameters" element="tns:updatePopulationCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationCategoriesByIds">
+    <wsdl:part name="parameters" element="tns:getPopulationCategoriesByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addPopulationToPopulationCategory">
+    <wsdl:part name="parameters" element="tns:addPopulationToPopulationCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationRuleForPopulation">
+    <wsdl:part name="parameters" element="tns:getPopulationRuleForPopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePopulationCategoryResponse">
+    <wsdl:part name="parameters" element="tns:updatePopulationCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMembersAsOfDateResponse">
+    <wsdl:part name="parameters" element="tns:getMembersAsOfDateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationCategoryIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForPopulationCategoryIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validatePopulationCategory">
+    <wsdl:part name="parameters" element="tns:validatePopulationCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePopulationRule">
+    <wsdl:part name="parameters" element="tns:updatePopulationRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationCategoriesByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationCategoriesByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePopulation">
+    <wsdl:part name="parameters" element="tns:updatePopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePopulationResponse">
+    <wsdl:part name="parameters" element="tns:updatePopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationRulesResponse">
+    <wsdl:part name="parameters" element="tns:searchForPopulationRulesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removePopulationFromPopulationCategoryResponse">
+    <wsdl:part name="parameters" element="tns:removePopulationFromPopulationCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationsForPopulationRuleResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationsForPopulationRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removePopulationRuleFromPopulation">
+    <wsdl:part name="parameters" element="tns:removePopulationRuleFromPopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationCategoryIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationCategoryIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationCategory">
+    <wsdl:part name="parameters" element="tns:getPopulationCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isMemberAsOfDateResponse">
+    <wsdl:part name="parameters" element="tns:isMemberAsOfDateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getMembersAsOfDate">
+    <wsdl:part name="parameters" element="tns:getMembersAsOfDate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationsByIds">
+    <wsdl:part name="parameters" element="tns:getPopulationsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validatePopulation">
+    <wsdl:part name="parameters" element="tns:validatePopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isMemberAsOfDate">
+    <wsdl:part name="parameters" element="tns:isMemberAsOfDate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="applyPopulationRuleToPopulationResponse">
+    <wsdl:part name="parameters" element="tns:applyPopulationRuleToPopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationsResponse">
+    <wsdl:part name="parameters" element="tns:searchForPopulationsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationCategories">
+    <wsdl:part name="parameters" element="tns:searchForPopulationCategories">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePopulationRule">
+    <wsdl:part name="parameters" element="tns:deletePopulationRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationCategoryIdsByType">
+    <wsdl:part name="parameters" element="tns:getPopulationCategoryIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validatePopulationRule">
+    <wsdl:part name="parameters" element="tns:validatePopulationRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPopulationCategory">
+    <wsdl:part name="parameters" element="tns:createPopulationCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validatePopulationRuleResponse">
+    <wsdl:part name="parameters" element="tns:validatePopulationRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePopulationCategory">
+    <wsdl:part name="parameters" element="tns:deletePopulationCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePopulationRuleResponse">
+    <wsdl:part name="parameters" element="tns:deletePopulationRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationIds">
+    <wsdl:part name="parameters" element="tns:searchForPopulationIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationRulesByIds">
+    <wsdl:part name="parameters" element="tns:getPopulationRulesByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPopulationRuleResponse">
+    <wsdl:part name="parameters" element="tns:createPopulationRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePopulation">
+    <wsdl:part name="parameters" element="tns:deletePopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationRuleIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForPopulationRuleIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="applyPopulationRuleToPopulation">
+    <wsdl:part name="parameters" element="tns:applyPopulationRuleToPopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPopulationCategoryResponse">
+    <wsdl:part name="parameters" element="tns:createPopulationCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removePopulationRuleFromPopulationResponse">
+    <wsdl:part name="parameters" element="tns:removePopulationRuleFromPopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationRuleIdsByType">
+    <wsdl:part name="parameters" element="tns:getPopulationRuleIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationRuleIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationRuleIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addPopulationToPopulationCategoryResponse">
+    <wsdl:part name="parameters" element="tns:addPopulationToPopulationCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationRuleIds">
+    <wsdl:part name="parameters" element="tns:searchForPopulationRuleIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulations">
+    <wsdl:part name="parameters" element="tns:searchForPopulations">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationRule">
+    <wsdl:part name="parameters" element="tns:getPopulationRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulation">
+    <wsdl:part name="parameters" element="tns:getPopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationCategoryIds">
+    <wsdl:part name="parameters" element="tns:searchForPopulationCategoryIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deletePopulationCategoryResponse">
+    <wsdl:part name="parameters" element="tns:deletePopulationCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removePopulationFromPopulationCategory">
+    <wsdl:part name="parameters" element="tns:removePopulationFromPopulationCategory">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createPopulationResponse">
+    <wsdl:part name="parameters" element="tns:createPopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationCategoriesResponse">
+    <wsdl:part name="parameters" element="tns:searchForPopulationCategoriesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationRuleResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForPopulationIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationRuleForPopulationResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationRuleForPopulationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationsForPopulationRule">
+    <wsdl:part name="parameters" element="tns:getPopulationsForPopulationRule">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationCategoryResponse">
+    <wsdl:part name="parameters" element="tns:getPopulationCategoryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePopulationRuleResponse">
+    <wsdl:part name="parameters" element="tns:updatePopulationRuleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPopulationCategoriesForPopulation">
+    <wsdl:part name="parameters" element="tns:getPopulationCategoriesForPopulation">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForPopulationRules">
+    <wsdl:part name="parameters" element="tns:searchForPopulationRules">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PopulationService">
+    <wsdl:operation name="getPopulationRuleForPopulation">
+      <wsdl:input name="getPopulationRuleForPopulation" message="tns:getPopulationRuleForPopulation">
+    </wsdl:input>
+      <wsdl:output name="getPopulationRuleForPopulationResponse" message="tns:getPopulationRuleForPopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePopulationRule">
+      <wsdl:input name="deletePopulationRule" message="tns:deletePopulationRule">
+    </wsdl:input>
+      <wsdl:output name="deletePopulationRuleResponse" message="tns:deletePopulationRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationCategoriesForPopulation">
+      <wsdl:input name="getPopulationCategoriesForPopulation" message="tns:getPopulationCategoriesForPopulation">
+    </wsdl:input>
+      <wsdl:output name="getPopulationCategoriesForPopulationResponse" message="tns:getPopulationCategoriesForPopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationCategoriesByIds">
+      <wsdl:input name="getPopulationCategoriesByIds" message="tns:getPopulationCategoriesByIds">
+    </wsdl:input>
+      <wsdl:output name="getPopulationCategoriesByIdsResponse" message="tns:getPopulationCategoriesByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationIdsByType">
+      <wsdl:input name="getPopulationIdsByType" message="tns:getPopulationIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getPopulationIdsByTypeResponse" message="tns:getPopulationIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationRules">
+      <wsdl:input name="searchForPopulationRules" message="tns:searchForPopulationRules">
+    </wsdl:input>
+      <wsdl:output name="searchForPopulationRulesResponse" message="tns:searchForPopulationRulesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validatePopulationCategory">
+      <wsdl:input name="validatePopulationCategory" message="tns:validatePopulationCategory">
+    </wsdl:input>
+      <wsdl:output name="validatePopulationCategoryResponse" message="tns:validatePopulationCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationCategory">
+      <wsdl:input name="getPopulationCategory" message="tns:getPopulationCategory">
+    </wsdl:input>
+      <wsdl:output name="getPopulationCategoryResponse" message="tns:getPopulationCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationCategoryIds">
+      <wsdl:input name="searchForPopulationCategoryIds" message="tns:searchForPopulationCategoryIds">
+    </wsdl:input>
+      <wsdl:output name="searchForPopulationCategoryIdsResponse" message="tns:searchForPopulationCategoryIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPopulationCategory">
+      <wsdl:input name="createPopulationCategory" message="tns:createPopulationCategory">
+    </wsdl:input>
+      <wsdl:output name="createPopulationCategoryResponse" message="tns:createPopulationCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="applyPopulationRuleToPopulation">
+      <wsdl:input name="applyPopulationRuleToPopulation" message="tns:applyPopulationRuleToPopulation">
+    </wsdl:input>
+      <wsdl:output name="applyPopulationRuleToPopulationResponse" message="tns:applyPopulationRuleToPopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addPopulationToPopulationCategory">
+      <wsdl:input name="addPopulationToPopulationCategory" message="tns:addPopulationToPopulationCategory">
+    </wsdl:input>
+      <wsdl:output name="addPopulationToPopulationCategoryResponse" message="tns:addPopulationToPopulationCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationRule">
+      <wsdl:input name="getPopulationRule" message="tns:getPopulationRule">
+    </wsdl:input>
+      <wsdl:output name="getPopulationRuleResponse" message="tns:getPopulationRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationRulesByIds">
+      <wsdl:input name="getPopulationRulesByIds" message="tns:getPopulationRulesByIds">
+    </wsdl:input>
+      <wsdl:output name="getPopulationRulesByIdsResponse" message="tns:getPopulationRulesByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updatePopulation">
+      <wsdl:input name="updatePopulation" message="tns:updatePopulation">
+    </wsdl:input>
+      <wsdl:output name="updatePopulationResponse" message="tns:updatePopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationsByIds">
+      <wsdl:input name="getPopulationsByIds" message="tns:getPopulationsByIds">
+    </wsdl:input>
+      <wsdl:output name="getPopulationsByIdsResponse" message="tns:getPopulationsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updatePopulationCategory">
+      <wsdl:input name="updatePopulationCategory" message="tns:updatePopulationCategory">
+    </wsdl:input>
+      <wsdl:output name="updatePopulationCategoryResponse" message="tns:updatePopulationCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMembersAsOfDate">
+      <wsdl:input name="getMembersAsOfDate" message="tns:getMembersAsOfDate">
+    </wsdl:input>
+      <wsdl:output name="getMembersAsOfDateResponse" message="tns:getMembersAsOfDateResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulations">
+      <wsdl:input name="searchForPopulations" message="tns:searchForPopulations">
+    </wsdl:input>
+      <wsdl:output name="searchForPopulationsResponse" message="tns:searchForPopulationsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationRuleIds">
+      <wsdl:input name="searchForPopulationRuleIds" message="tns:searchForPopulationRuleIds">
+    </wsdl:input>
+      <wsdl:output name="searchForPopulationRuleIdsResponse" message="tns:searchForPopulationRuleIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationCategories">
+      <wsdl:input name="searchForPopulationCategories" message="tns:searchForPopulationCategories">
+    </wsdl:input>
+      <wsdl:output name="searchForPopulationCategoriesResponse" message="tns:searchForPopulationCategoriesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isMemberAsOfDate">
+      <wsdl:input name="isMemberAsOfDate" message="tns:isMemberAsOfDate">
+    </wsdl:input>
+      <wsdl:output name="isMemberAsOfDateResponse" message="tns:isMemberAsOfDateResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPopulation">
+      <wsdl:input name="createPopulation" message="tns:createPopulation">
+    </wsdl:input>
+      <wsdl:output name="createPopulationResponse" message="tns:createPopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removePopulationFromPopulationCategory">
+      <wsdl:input name="removePopulationFromPopulationCategory" message="tns:removePopulationFromPopulationCategory">
+    </wsdl:input>
+      <wsdl:output name="removePopulationFromPopulationCategoryResponse" message="tns:removePopulationFromPopulationCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPopulationRule">
+      <wsdl:input name="createPopulationRule" message="tns:createPopulationRule">
+    </wsdl:input>
+      <wsdl:output name="createPopulationRuleResponse" message="tns:createPopulationRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationsForPopulationRule">
+      <wsdl:input name="getPopulationsForPopulationRule" message="tns:getPopulationsForPopulationRule">
+    </wsdl:input>
+      <wsdl:output name="getPopulationsForPopulationRuleResponse" message="tns:getPopulationsForPopulationRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulation">
+      <wsdl:input name="getPopulation" message="tns:getPopulation">
+    </wsdl:input>
+      <wsdl:output name="getPopulationResponse" message="tns:getPopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePopulation">
+      <wsdl:input name="deletePopulation" message="tns:deletePopulation">
+    </wsdl:input>
+      <wsdl:output name="deletePopulationResponse" message="tns:deletePopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validatePopulation">
+      <wsdl:input name="validatePopulation" message="tns:validatePopulation">
+    </wsdl:input>
+      <wsdl:output name="validatePopulationResponse" message="tns:validatePopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationIds">
+      <wsdl:input name="searchForPopulationIds" message="tns:searchForPopulationIds">
+    </wsdl:input>
+      <wsdl:output name="searchForPopulationIdsResponse" message="tns:searchForPopulationIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removePopulationRuleFromPopulation">
+      <wsdl:input name="removePopulationRuleFromPopulation" message="tns:removePopulationRuleFromPopulation">
+    </wsdl:input>
+      <wsdl:output name="removePopulationRuleFromPopulationResponse" message="tns:removePopulationRuleFromPopulationResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePopulationCategory">
+      <wsdl:input name="deletePopulationCategory" message="tns:deletePopulationCategory">
+    </wsdl:input>
+      <wsdl:output name="deletePopulationCategoryResponse" message="tns:deletePopulationCategoryResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationRuleIdsByType">
+      <wsdl:input name="getPopulationRuleIdsByType" message="tns:getPopulationRuleIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getPopulationRuleIdsByTypeResponse" message="tns:getPopulationRuleIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updatePopulationRule">
+      <wsdl:input name="updatePopulationRule" message="tns:updatePopulationRule">
+    </wsdl:input>
+      <wsdl:output name="updatePopulationRuleResponse" message="tns:updatePopulationRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validatePopulationRule">
+      <wsdl:input name="validatePopulationRule" message="tns:validatePopulationRule">
+    </wsdl:input>
+      <wsdl:output name="validatePopulationRuleResponse" message="tns:validatePopulationRuleResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationCategoryIdsByType">
+      <wsdl:input name="getPopulationCategoryIdsByType" message="tns:getPopulationCategoryIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getPopulationCategoryIdsByTypeResponse" message="tns:getPopulationCategoryIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PopulationServiceSoapBinding" type="tns:PopulationService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getPopulationRuleForPopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationRuleForPopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationRuleForPopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePopulationRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletePopulationRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletePopulationRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationCategoriesForPopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationCategoriesForPopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationCategoriesForPopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationCategoriesByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationCategoriesByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationCategoriesByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationRules">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForPopulationRules">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForPopulationRulesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validatePopulationCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validatePopulationCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validatePopulationCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPopulationCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createPopulationCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createPopulationCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationCategoryIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForPopulationCategoryIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForPopulationCategoryIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="applyPopulationRuleToPopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="applyPopulationRuleToPopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="applyPopulationRuleToPopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addPopulationToPopulationCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addPopulationToPopulationCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addPopulationToPopulationCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationRulesByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationRulesByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationRulesByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updatePopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatePopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatePopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMembersAsOfDate">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getMembersAsOfDate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getMembersAsOfDateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updatePopulationCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatePopulationCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatePopulationCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulations">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForPopulations">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForPopulationsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationRuleIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForPopulationRuleIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForPopulationRuleIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createPopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createPopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isMemberAsOfDate">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isMemberAsOfDate">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isMemberAsOfDateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationCategories">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForPopulationCategories">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForPopulationCategoriesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removePopulationFromPopulationCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removePopulationFromPopulationCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removePopulationFromPopulationCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createPopulationRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createPopulationRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createPopulationRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationsForPopulationRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationsForPopulationRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationsForPopulationRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletePopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletePopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForPopulationIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForPopulationIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForPopulationIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validatePopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validatePopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validatePopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deletePopulationCategory">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deletePopulationCategory">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deletePopulationCategoryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removePopulationRuleFromPopulation">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removePopulationRuleFromPopulation">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removePopulationRuleFromPopulationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationRuleIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationRuleIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationRuleIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updatePopulationRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updatePopulationRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updatePopulationRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPopulationCategoryIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPopulationCategoryIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPopulationCategoryIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validatePopulationRule">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validatePopulationRule">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validatePopulationRuleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PopulationService">
+    <wsdl:port name="PopulationService" binding="tns:PopulationServiceSoapBinding">
+      <soap:address location="http://localhost:9090/PopulationService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

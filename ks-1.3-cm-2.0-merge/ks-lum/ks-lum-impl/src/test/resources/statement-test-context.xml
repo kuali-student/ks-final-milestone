@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:statement-test-context-registry.xml"/>
+
+    <bean id="systemPropertyConfigurer"
+        class="org.kuali.student.common.util.SystemPropertyConfigurer">
+        <property name="properties" value="${propertiesPrefix.systemProperties}"/>
+    </bean>
+
+    <bean id="lumDataSource"
+        class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init"
+        destroy-method="close" depends-on="systemPropertyConfigurer">
+        <property name="uniqueResourceName" value="dataSource" />
+        <property name="xaDataSourceClassName" value="${jdbc.xaDataSourceClassName}" />
+        <property name="xaProperties" value="${propertiesPrefix.jdbc.xaDataSourceProperties}"/>
+        <property name="maxPoolSize" value="${jdbc.maxPoolSize}" />
+    </bean>
+
+    <bean id="postProcessorList" class="java.util.ArrayList">
+        <constructor-arg index="0">
+            <list>
+                <bean id="ricePostProcessor"
+                    class="org.kuali.rice.krad.app.persistence.jpa.RicePersistenceUnitPostProcessor">
+                    <property name="jtaDataSource"
+                        ref="lumDataSource" />
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
+        <property name="databasePlatform" value="${jpa.databasePlatform}" />
+        <property name="showSql" value="${jpa.showSql}" />
+        <property name="generateDdl" value="${jpa.generateDdl}" />
+    </bean>
+
+    <bean id="defaultEntityManagerFactory" abstract="true"
+        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter" ref="vendorAdapter" />
+        <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
+        <property name="persistenceUnitPostProcessors" ref="postProcessorList" />
+    </bean>
+
+    <bean id="AtomikosTxMgr"
+        class="com.atomikos.icatch.jta.UserTransactionManager"
+        init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
+        <property name="forceShutdown" value="true" />
+        <property name="startupTransactionService" value="true" />
+        <property name="transactionTimeout" value="60" />
+    </bean>
+
+    <bean id="AtomikosUsrTx"
+        class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer"></bean>
+
+    <bean id="jtaTxManager"
+        class="org.springframework.transaction.jta.JtaTransactionManager" depends-on="systemPropertyConfigurer">
+        <property name="transactionManager" ref="AtomikosTxMgr" />
+        <property name="userTransaction" ref="AtomikosUsrTx" />
+        <property name="transactionSynchronizationName"
+            value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.kuali.student.common.util.jta.AtomikosJtaTransactionController"/>
+        <property name="targetMethod" value="setTm"/>
+        <property name="arguments">
+            <list>
+                <ref bean="AtomikosTxMgr"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetClass" value="org.kuali.student.common.util.jta.AtomikosManagedRuntime"/>
+        <property name="targetMethod" value="setTm"/>
+        <property name="arguments">
+            <list>
+                <ref bean="AtomikosTxMgr"/>
+            </list>
+        </property>
+    </bean>
+
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+    <tx:annotation-driven transaction-manager="jtaTxManager"
+        order="1000" />
+
+    <bean
+        class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+    <!-- Learning Service Config -->
+    <bean id="luEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Lu"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/lu-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="luEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="luEntityManagerFactory" />
+    </bean>
+    
+    <bean id="luDao"
+        class="org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl">
+        <property name="em" ref="luEntityManager" />        
+    </bean>
+
+    <bean id="stmtEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Statement"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/statement-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="stmtEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="stmtEntityManagerFactory" />
+    </bean>
+    
+    <bean id="statementDao"
+        class="org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl">
+        <property name="em" ref="stmtEntityManager" />        
+    </bean>
+
+    <!--  Preloaded data -->
+    <bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+        <property name="jtaTxManager" ref="jtaTxManager"/>
+        <property name="shouldLoadData" value="true"/>
+        <property name="preloadMap">
+            <map>
+                <entry key="Statement">
+                    <list>
+                        <!--value>classpath:ks-statement.sql</value-->
+	                    <!--value>classpath:ks-statement-data.sql</value-->
+                        <!--value>classpath:ks-statement-tree.sql</value-->
+                        <value>classpath:statement-test-data.sql</value>
+                    </list>
+                </entry>
+                <entry key="Lu">
+                    <value>classpath:ks-statement-lu-data.sql</value>
+                </entry>
+                <entry key="Organization">
+                    <value>classpath:ks-org.sql</value>
+                </entry>
+                <entry key="Atp">
+                    <value>classpath:ks-atp.sql</value>
+                </entry>
+                <entry key="Lrc">
+                    <value>classpath:ks-lrc.sql</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="mapExceptionAdvisor"
+        class="org.kuali.student.common.util.ExceptionMappingAdvice">
+        <property name="defaultException"
+            value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
+        <property name="exceptionMapping">
+            <map>
+                <entry key="javax.persistence.EntityExistsException"
+                    value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
+                <entry
+                    key="org.hibernate.exception.ConstraintViolationException"
+                    value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
+            </map>
+        </property>
+    </bean>
+    <aop:config>
+        <aop:aspect id="dataAccessToBusinessException"
+            ref="mapExceptionAdvisor">
+            <aop:after-throwing
+                pointcut="execution(* org.kuali.student.r1.core.statement.service.*.*(..))"
+                method="afterThrowing" throwing="ex" />
+        </aop:aspect>
+    </aop:config>
+
+    <bean id="lumSearchDispatcher"
+          class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
+        <property name="services">
+            <list>
+                <ref bean="luServiceImpl"/>
+                <ref bean="statementService"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="lumCrossServiceSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.CrossSearchManager">
+        <property name="searchDispatcher" ref="lumSearchDispatcher"/>
+    </bean>
+    <bean id="luSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:lu-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+    <bean id="statementSearchManager"
+          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:statement-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+    </bean>
+
+    <bean id="luServiceImpl"
+        class="org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl">
+        <property name="luDao" ref="luDao"/>
+        <property name="searchManager" ref="luSearchManager"/>
+    </bean>
+
+    <bean id="statementAssembler"
+        class="org.kuali.student.r1.core.statement.service.impl.StatementAssembler">
+        <property name="statementDao" ref="statementDao"/>
+    </bean>
+    
+    <bean id="statementService" autowire="byName"
+        class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
+        <property name="statementAssembler" ref="statementAssembler"/>
+        <property name="statementDao" ref="statementDao"/>
+        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
+        <property name="searchManager" ref="statementSearchManager"/>
+    </bean>
+
+    <!-- Atp Service Config -->
+    <bean id="atpEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Atp"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="atpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="atpEntityManagerFactory" />
+    </bean>
+
+    <bean id="atpDao"
+        class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
+        <property name="em" ref="atpEntityManager" />
+    </bean>
+
+    <bean id="atpServiceImpl"
+        class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+        <property name="atpDao" ref="atpDao" />
+        <property name="searchManager" ref="atpSearchManager"/>
+    </bean>
+
+    <bean id="atpSearchManager"
+        class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+    </bean>
+
+    <!--  Organization Service Config -->
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+        <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
+    </bean>
+
+    <bean id="orgEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Organization"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/organization-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="orgEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="orgEntityManagerFactory" />
+    </bean>
+
+    <bean id="orgDao"
+        class="org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl">
+        <property name="em" ref="orgEntityManager" />
+    </bean>
+
+    <bean id="orgServiceImpl"
+        class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
+        <property name="organizationDao" ref="orgDao" />
+        <property name="searchManager" ref="orgSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryServiceDelegate"/>
+    </bean>
+
+    <bean id="orgSearchManager"
+        class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:organization-search-config.xml" />
+    </bean>
+
+    <!-- Learning Result service config -->
+    <bean id="lrcEntityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no" >
+        <property name="persistenceUnitName" value="Lrc"/>
+        <property name="persistenceXmlLocation"
+            value="classpath:META-INF/lrc-persistence.xml" />
+        <property name="dataSource" ref="lumDataSource" />
+    </bean>
+
+    <bean id="lrcEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
+        <property name="entityManagerFactory" ref="lrcEntityManagerFactory" />
+    </bean>
+
+    <bean id="lrcDao"
+        class="org.kuali.student.r2.lum.lrc.dao.impl.LrcDaoImpl">
+        <property name="em" ref="lrcEntityManager" />
+    </bean>
+
+    <bean id="lrcSearchManager"
+        class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:lrc-search-config.xml" />
+        <!-- property name="crossSearchManager" ref="lumCrossServiceSearchManager"/-->
+    </bean>
+
+    <bean id="lrcServiceImpl"
+        class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
+        <property name="lrcDao" ref="lrcDao" />
+        <property name="searchManager" ref="lrcSearchManager" />
+    </bean>
+
+</beans>

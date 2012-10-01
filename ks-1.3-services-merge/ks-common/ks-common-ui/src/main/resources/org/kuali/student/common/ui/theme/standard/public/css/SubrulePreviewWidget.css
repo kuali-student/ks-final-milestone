@@ -1,0 +1,57 @@
+/**
+ * Copyright 2010 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+/* subrule is a section of a rule that user can manipulate separately */
+.KS-Rule-Preview-Subrule-Box{
+    background: #f1f1f2;
+    border: 1px solid #a8a6a6;
+    padding-left: 15px;
+    padding-bottom:15px;    
+    margin-bottom: 10px;    
+}
+
+.KS-Rule-Preview-Subrule-Box .ks-form-module h6{
+    font-weight: normal;
+}
+
+.KS-Rule-Preview-Subrule-header{
+    font-weight: normal;
+    width: 600px;
+    border-bottom: 1px solid #a8a6a6;
+    margin-top:10px;    
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+}
+
+.KS-Rule-Preview-Subrule-header-action{
+    float:right;
+}
+
+.KS-Rule-Preview-Subrule-ul{
+  /*  padding-top: 5px; */
+    padding-left: 0px;
+    margin-top: 0px;
+    margin-bottom:0px;    
+   /* font-size: 50%; */
+}
+
+.KS-Rule-Preview-Subrule-ORAND{
+    color: #DF7401;
+    font-weight: bold;
+}
+
+.KS-Rule-Preview-Subrule-li {
+	padding-top: 5px;
+}

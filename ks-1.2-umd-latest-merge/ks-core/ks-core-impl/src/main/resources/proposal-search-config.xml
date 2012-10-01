@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+    xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+    xsi:schemaLocation="
+    http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+    http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="proposal-dictionary-config.xml" />
+
+    <search:searchType id="proposal.search.proposalsForReferenceIds" parent="proposal.search.proposalsForReferenceIds-parent"/>
+    <search:searchType id="proposal.search.proposalsForReferenceIds-parent" abstract="true">
+        <search:name>Proposal search by course codes</search:name>
+        <search:desc>Returns all proposals that contain the course codes</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="proposal.result.proposalsForReferenceIds" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="proposal.criteria.proposalsForReferenceIds"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+    
+    <search:searchResultTypeInfo id="proposal.result.proposalsForReferenceIds" parent="proposal.result.proposalsForReferenceIds-parent"/>
+	<search:searchResultTypeInfo id="proposal.result.proposalsForReferenceIds-parent"  abstract="true">
+        <search:name>Course Proposal Result</search:name>
+        <search:desc>List of course proposals for a given course code</search:desc>
+        <search:resultColumns>
+            <ref bean="proposal.resultColumn.proposalId" />
+            <ref bean="proposal.resultColumn.proposalOptionalName" />
+            <ref bean="proposal.resultColumn.proposalOptionalReferenceId" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+    
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalsForReferenceIds" parent="proposal.criteria.proposalsForReferenceIds-parent"/>
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalsForReferenceIds-parent"  abstract="true">
+        <search:name>ProposalAdvancedCriteria</search:name>
+        <search:desc>Advanced criteria</search:desc>
+        <search:queryParams>
+            <ref bean="proposal.queryParam.proposalOptionalReferenceIds"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+    <search:searchType id="proposal.search.generic" parent="proposal.search.generic-parent"/>
+    <search:searchType id="proposal.search.generic-parent"  abstract="true">
+        <search:name>Proposal search for clu proposals</search:name>
+        <search:desc>Returns all proposals</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="proposal.result.generic" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="proposal.criteria.proposalAdvancedCriteria"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+    
+    <search:searchType id="proposal.search.countForProposals" parent="proposal.search.countForProposals-parent"/>
+    <search:searchType id="proposal.search.countForProposals-parent"  abstract="true">
+        <search:name>Proposal search to return count of open proposals for a clu</search:name>
+        <search:desc>Returns count of open proposals</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="proposal.result.countForProposals" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="proposal.criteria.countForProposalsCriteria"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalAdvancedCriteria" parent="proposal.criteria.proposalAdvancedCriteria-parent"/>
+    <search:searchCriteriaTypeInfo id="proposal.criteria.proposalAdvancedCriteria-parent"  abstract="true">
+        <search:name>ProposalAdvancedCriteria</search:name>
+        <search:desc>Advanced criteria</search:desc>
+        <search:queryParams>
+            <ref bean="proposal.queryParam.proposalId"/>
+            <ref bean="proposal.queryParam.proposalOptionalName"/>
+            <ref bean="proposal.queryParam.proposalOptionalType"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+   
+    <search:searchCriteriaTypeInfo id="proposal.criteria.countForProposalsCriteria" parent="proposal.criteria.countForProposalsCriteria-parent"/>
+    <search:searchCriteriaTypeInfo id="proposal.criteria.countForProposalsCriteria-parent"  abstract="true">
+        <search:name>CountForProposalsCriteria</search:name>
+        <search:desc>Count for proposals criteria</search:desc>
+        <search:queryParams>
+            <ref bean="proposal.queryParam.cluId"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+    
+    <search:queryParam id="proposal.queryParam.cluId" parent="proposal.queryParam.cluId-parent"/>
+    <search:queryParam id="proposal.queryParam.cluId-parent"
+        optional="false" abstract="true">
+        <ref bean="field.proposalInfo.proposalReferenceType.fd" />
+    </search:queryParam>
+
+    <search:queryParam id="proposal.queryParam.proposalId" parent="proposal.queryParam.proposalId-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalId-parent"
+        optional="true" abstract="true">
+        <ref bean="field.proposalInfo.id.fd" />
+    </search:queryParam>
+
+    <search:queryParam id="proposal.queryParam.proposalOptionalName" parent="proposal.queryParam.proposalOptionalName-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalOptionalName-parent"
+        optional="true" abstract="true">
+        <ref bean="field.proposalInfo.name.fd" />
+    </search:queryParam>
+	
+	<!-- An optional query param used to choose the type of proposal to search for (program or course).    -->
+    <search:queryParam id="proposal.queryParam.proposalOptionalType" parent="proposal.queryParam.proposalOptionalType-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalOptionalType-parent"
+        optional="true" abstract="true">
+        <ref bean="field.proposalInfo.name.fd" />
+    </search:queryParam>
+
+    <search:queryParam id="proposal.queryParam.proposalOptionalReferenceIds" parent="proposal.queryParam.proposalOptionalReferenceIds-parent"/>
+    <search:queryParam id="proposal.queryParam.proposalOptionalReferenceIds-parent"
+        optional="true" abstract="true">
+        <ref bean="field.proposalInfo.name.fd" />
+    </search:queryParam>
+
+    <search:searchResultTypeInfo id="proposal.result.generic" parent="proposal.result.generic-parent"/>
+	<search:searchResultTypeInfo id="proposal.result.generic-parent"  abstract="true">
+        <search:name>CourseProposalResult</search:name>
+        <search:desc>List of course proposals</search:desc>
+        <search:resultColumns>
+            <ref bean="proposal.resultColumn.proposalId" />
+            <ref bean="proposal.resultColumn.proposalOptionalName" />
+            <ref bean="proposal.resultColumn.proposalOptionalType" />
+            <ref bean="proposal.resultColumn.proposalOptionalStatus" />
+            <ref bean="proposal.resultColumn.proposalOptionalTypeName" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+    
+    <search:searchResultTypeInfo id="proposal.result.countForProposals" parent="proposal.result.countForProposals-parent"/>
+	<search:searchResultTypeInfo id="proposal.result.countForProposals-parent"  abstract="true">
+        <search:name>ProposalCount</search:name>
+        <search:desc>Count of open proposals</search:desc>
+        <search:resultColumns>
+            <ref bean="proposal.resultColumn.proposalCount" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalId" parent="proposal.resultColumn.proposalId-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalId-parent"  abstract="true">
+        <search:name>Proposal Identifier</search:name>
+        <search:desc>Identifier of a Proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="proposal.resultColumn.proposalCount" parent="proposal.resultColumn.proposalCount-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalCount-parent"  abstract="true">
+        <search:name>Proposal Count</search:name>
+        <search:desc>Number of proposals</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalStatus" parent="proposal.resultColumn.proposalOptionalStatus-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalStatus-parent"  abstract="true">
+        <search:name>Proposal Status</search:name>
+        <search:desc>Status of a Proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalName" parent="proposal.resultColumn.proposalOptionalName-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalName-parent" abstract="true" >
+        <search:name>Proposal Name</search:name>
+        <search:desc>Name of the proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+     <search:resultColumn id="proposal.resultColumn.proposalOptionalTypeName" parent="proposal.resultColumn.proposalOptionalTypeName-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalTypeName-parent" abstract="true" >
+        <search:name>Proposal Type name</search:name>
+        <search:desc>Type name of the proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalReferenceId" parent="proposal.resultColumn.proposalOptionalReferenceId-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalReferenceId-parent" abstract="true" >
+        <search:name>Proposal Reference Id</search:name>
+        <search:desc>Id of the reference object</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="proposal.resultColumn.proposalOptionalType" parent="proposal.resultColumn.proposalOptionalType-parent"/>
+	<search:resultColumn id="proposal.resultColumn.proposalOptionalType-parent" abstract="true" >
+        <search:name>Proposal Type</search:name>
+        <search:desc>Type of the proposal</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+	<bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+                <entry key="proposal.search.generic">
+                    <value>SELECT proposal.id, proposal.name, proposal.type.id, proposal.state,proposal.type.name FROM Proposal proposal</value>
+                </entry>
+                <!-- Returns # of proposals that are being processed  -->
+                <entry key="proposal.search.countForProposals">
+                    <value>SELECT count (proposal.id) FROM Proposal proposal, IN (proposal.proposalReference) pr where pr.objectReferenceId = :proposal_queryParam_cluId and pr.type='kuali.proposal.referenceType.clu' and proposal.state IN ('Saved','Enroute')</value>
+                </entry>
+                <entry key="proposal.queryParam.proposalOptionalName">
+                    <value>proposal.name</value>
+                </entry>
+                <entry key="proposal.queryParam.proposalOptionalType">
+                    <value>proposal.type.id IN(:proposal_queryParam_proposalOptionalType)</value>
+                </entry>
+
+            </map>
+		</property>
+	</bean>
+	
+	<bean id="queryMap" parent="queryMap-parent"/>
+</beans>

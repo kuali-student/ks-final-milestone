@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+        >
+    <!--
+    Copyright 2007-2009 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    -->
+
+    <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
+    <bean id="KSTheme-parentBean" parent="Uif-KradTheme">
+        <property name="cssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/enroll.css</value>
+            </list>
+        </property>
+        <property name="scriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/enroll.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFormView" abstract="true" parent="Uif-FormView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+    </bean>
+
+    <bean id="KSLookupView" abstract="true" parent="Uif-KSLookupView-parentBean"/>
+
+    <bean id="Uif-KSLookupView-parentBean" abstract="true"
+          class="org.kuali.student.enrollment.uif.view.KSLookupView" parent="Uif-LookupView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+    </bean>
+
+    <!-- try to override the default Uif-LookupView-ResultActions which contains edit, copy and delete.
+         Here we only need edit -->
+    <bean id="KS-LookupView-ResultActions" parent="Uif-LinkGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-lookupView-resultActions</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:order="10">
+                    <property name="linkText" value="edit"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                        <list>
+                            <value>maintenanceEdit</value>
+                        </list>
+                    </property>
+                    <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSInquiryView" abstract="true" parent="Uif-InquiryView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+    </bean>
+
+    <bean id="KSMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="header.rightGroup.items">      <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
+          <list/>
+        </property>
+        <property name="page.header.lowerGroup.items">   <!-- Also, expandall/collapseall not needed-->
+            <list/>
+        </property>
+    </bean>
+
+    <!--Added by Bonnie-->
+    <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
+    <bean id="KSDocumentPageFooter_SubmitCancel" parent="KSDocumentPageFooter_SubmitCancel-parent"/>
+    <bean id="KSDocumentPageFooter_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                                                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                                              p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSGroup" abstract="true" parent="Uif-VerticalBoxSection">
+      <property name="disclosure">
+        <bean parent="KSDisclosure"/>
+      </property>
+    </bean>
+
+
+    <bean id="KSDisclosure" abstract="true" parent="Uif-Disclosure-parentBean">
+      <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
+      <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+    </bean>
+
+
+    <bean id="ScheduleControl" parent="ScheduleControl-parentBean"/>
+    <bean id="ScheduleControl-parentBean" abstract="true"
+          class="org.kuali.student.enrollment.uif.control.ScheduleControl" scope="prototype">
+        <property name="template" value="/ks-enroll/WEB-INF/jsp/schedule.jsp"/>
+        <property name="sundayFirst" value="false"/>
+        <property name="startTime" value="5"/>
+        <property name="endTime" value="20"/>
+        <property name="dayType" value="ONE_LETTER"/>
+        <property name="useLetterKeys" value="false"/>
+        <property name="omitWeekend" value="false"/>
+        <property name="omitAMPMSuffix" value="false"/>
+        <property name="militaryTime" value="false"/>
+    </bean>
+
+    <bean id="ScheduleCartControl" parent="ScheduleCartControl-parentBean"/>
+    <bean id="ScheduleCartControl-parentBean" abstract="true"
+          class="org.kuali.student.enrollment.uif.control.ScheduleCartControl" scope="prototype">
+        <property name="template" value="/ks-enroll/WEB-INF/jsp/scheduleCart.jsp"/>
+    </bean>
+
+    <bean id="TimePreviewControl" parent="TimePreviewControl-parentBean"/>
+    <bean id="TimePreviewControl-parentBean" abstract="true"
+          class="org.kuali.student.enrollment.uif.control.TimePreviewControl" scope="prototype">
+        <property name="template" value="/ks-enroll/WEB-INF/jsp/timePreview.jsp"/>
+    </bean>
+
+    <bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>
+    <bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"
+          class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">
+        <property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>
+        <property name="cssClasses" value="ui-priority-secondary-sm"/>
+    </bean>
+
+    <bean id="KSHeader_Empty" parent="Uif-HeaderOne">
+      <property name="items">
+          <list/>
+      </property>
+    </bean>
+
+    <bean id="KSInputField" abstract="true" parent="Uif-InputField"
+          p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
+          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
+          p:instructionalMessage.render="false" />
+
+    <!-- If the action button is in collection, this will submits the form (useful for redirect) instead of KRAD's default ajax callback and update the collection component -->
+    <bean id="KS-SubmitActionLink" parent="Uif-ActionLink" p:actionScript="jq('#kualiForm').submit();" abstract="true" />
+
+    <bean id="KS-Link" parent="Uif-Link">
+        <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+        </property>
+        <property name="target" value="_blank"/>
+    </bean>
+
+    <bean id="KS-Edit-Link" parent="KS-Link" p:order="10">
+        <property name="linkText" value="Edit"/>
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>maintenanceEdit</value>
+            </list>
+        </property>
+        <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
+    </bean>
+
+    <!-- currently not being used
+    <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parentBean"/>
+    <bean id="KS-Disclosure-HorizontalCollectionSection-parentBean" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+          <bean parent="Uif-StackedCollectionLayout-WithGridItems">
+            <property name="template" value="/krad/WEB-INF/jsp/templates/layout/stackedList.jsp"/>
+            <property name="lineGroupPrototype">
+              <bean parent="Uif-HorizontalBoxSection">
+                <property name="header">
+                  <bean parent="Uif-HeaderFour"/>
+                </property>
+                <property name="disclosure.renderImage" value="true"/>
+                <property name="disclosure.defaultOpen" value="true"/>
+              </bean>
+            </property>
+            <property name="addLineGroup">
+              <bean parent="Uif-CollectionHorizontalBoxItem">
+                <property name="cssClasses">
+                  <list merge="true">
+                    <value>uif-collectionAddItem</value>
+                  </list>
+                </property>
+              </bean>
+            </property>
+            <property name="subCollectionFieldGroupPrototype">
+              <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="true"/>
+            </property>
+          </bean>
+        </property>
+    </bean>
+    -->
+
+    <bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>
+    <bean id="KS-HorizontalCollectionSection-parent" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!-- IMPORTANT NOTE:
+                     Rice 2.2.0-M1 has a bug such that StackedCollectionLayout-WithBoxItems does not
+                     assign the correct horizontal class to each item, so the items will incorrectly
+                     stack vertically.  To fix this, put the items in a HorizontalFieldGroup element:
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+                    <property name="items">
+                        <list>
+                            { actual list of items }
+                        </list>
+                    </property>
+                </bean>
+                -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parent"/>
+    <bean id="KS-Disclosure-HorizontalCollectionSection-parent" parent="KS-HorizontalCollectionSection">
+        <property name="disclosure.render" value="true"/>
+    </bean>
+
+    <bean id="KS-HorizontalCollectionSubSection" parent="KS-HorizontalCollectionSubSection-parent"/>
+    <bean id="KS-HorizontalCollectionSubSection-parent" parent="Uif-StackedCollectionSubSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <!-- IMPORTANT NOTE: See note in KS-HorizontalCollectionSection -->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Disclosure-HorizontalCollectionSubSection" parent="KS-Disclosure-HorizontalCollectionSubSection-parent"/>
+    <bean id="KS-Disclosure-HorizontalCollectionSubSection-parent" parent="KS-HorizontalCollectionSubSection">
+        <property name="disclosure.render" value="true"/>
+    </bean>
+
+</beans>
