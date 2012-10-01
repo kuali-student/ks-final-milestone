@@ -658,6 +658,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         for ( int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++ ) {
             if (theForm.getFilteredAOClusterWrapperList().get(i).getActivityOfferingClusterId().equals(updatedSelectedAOCInfo.getId())) {
+                //need to update AOCluster in the AOClusterWrapper because it will be used for other operation
+                theForm.getFilteredAOClusterWrapperList().get(i).setAoCluster(updatedSelectedAOCInfo);
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOs);
                 //update RG status
                 List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfo.getId(), getContextInfo());
