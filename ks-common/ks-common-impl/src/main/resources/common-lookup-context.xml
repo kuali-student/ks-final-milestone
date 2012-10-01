@@ -2659,7 +2659,15 @@
                     <property name="desc" value="Result Component Type"/>
                     <property name="dataType" value="STRING"/>
                     <property name="writeAccess" value="NEVER"/>
-                    <property name="defaultValueString" value="kuali.resultComponentType.degree"/>
+                    <property name="defaultValueString" value="kuali.result.values.group.type.fixed"/>
+                </bean>
+                <bean parent="param">
+                    <property name="key" value="lrc.queryParam.resultComponent.resultScaleId"/>
+                    <property name="name" value="Result Scale id"/>
+                    <property name="desc" value="Result Scale id"/>
+                    <property name="dataType" value="STRING"/>
+                    <property name="writeAccess" value="NEVER"/>
+                    <property name="defaultValueString" value="kuali.result.scale.degree"/>
                 </bean>
                 <!--<bean parent="param">-->
                     <!--<property name="key" value="lrc.queryParam.resultComponent.idRestrictionList"/>-->
