@@ -32,9 +32,7 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -444,72 +442,122 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     }
     
     public ActivityOfferingWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception{
-        Calendar calendar = new  GregorianCalendar();
+
         ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
+
         StateInfo state = getStateService().getState(aoInfo.getStateKey(), getContextInfo());
         aoWrapper.setStateName(state.getName());
+
         TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), getContextInfo());
         aoWrapper.setTypeName(typeInfo.getName());
+
         FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), getContextInfo());
         aoWrapper.setFormatOffering(fo);
+
         OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
+
         if(displayInstructor != null) {
             aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
         }
 
-        // assign the time and days
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
-        List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), getContextInfo());
-        if (scheduleRequestInfoList != null && scheduleRequestInfoList.size() > 0) {
-            ScheduleRequestInfo scheduleRequestInfo = scheduleRequestInfoList.get(0);
-            List<ScheduleRequestComponentInfo> componentList = scheduleRequestInfo.getScheduleRequestComponents();
-            if (componentList != null && componentList.size() > 0) {
-                if(componentList.get(0).getIsTBA() != null) {
-                    aoWrapper.setTbaDisplayName(componentList.get(0).getIsTBA());
-                }
-                List<String> ids = componentList.get(0).getTimeSlotIds();
-                if (ids != null && ids.size() > 0) {
-                    TimeSlotInfo timeSlot = getSchedulingService().getTimeSlot(ids.get(0), getContextInfo());
-                    if (timeSlot != null) {
-                        TimeOfDayInfo startTime = timeSlot.getStartTime();
-                        TimeOfDayInfo endTime = timeSlot.getEndTime();
-                        List<Integer> days = timeSlot.getWeekdays();
+        //This section is to display either schedule request or actuals. If actuals available, display that instead of request
+        if (StringUtils.isNotBlank(aoInfo.getScheduleId())){
+            //FIXME: Use display object once we get the TBA with ScheduleComponentDisplay
+            /*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),getContextInfo());
+            if (!displayInfo.getScheduleComponentDisplays().isEmpty()){
+                ScheduleComponentDisplay componentDisplay = displayInfo.getScheduleComponentDisplays().get(0);
+                updateScheduleToAOWrapperForDisplay(aoWrapper,Boolean.FALSE,componentDisplay.getRoom(),componentDisplay.getTimeSlots().get(0));
 
-                        if (startTime != null && startTime.getMilliSeconds() != null) {
-                            calendar.setTimeInMillis(startTime.getMilliSeconds());
-                            aoWrapper.setStartTimeDisplay(format.format(calendar.getTime()));
-                        }
-                        if (endTime != null && endTime.getMilliSeconds() != null) {
-                            calendar.setTimeInMillis(endTime.getMilliSeconds());
-                            aoWrapper.setEndTimeDisplay(format.format(calendar.getTime()));
-                        }
-                        if (days != null && days.size() > 0) {
-                            aoWrapper.setDaysDisplayName(getDays(days));
-                        }
-                    }
-                }
+            }*/
 
-                // assign building and room info
-                List<String> roomIds = componentList.get(0).getRoomIds();
-                if (roomIds != null && roomIds.size() > 0) {
-                    if (roomIds.get(0) != null) {
-                        RoomInfo roomInfo = getRoomService().getRoom(roomIds.get(0), getContextInfo());
-                        if (roomInfo != null) {
-                            if (roomInfo.getBuildingId() != null && !roomInfo.getBuildingId().isEmpty()) {
-                                BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
-                                if (buildingInfo != null)
-                                    aoWrapper.setBuildingName(buildingInfo.getName());
-                            }
-                            aoWrapper.setRoomName(roomInfo.getRoomCode());
-                        }
+            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(),getContextInfo());
+
+            if (!scheduleInfo.getScheduleComponents().isEmpty()){
+
+                boolean appendScheduleRowDisplay = false;
+
+                for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
+
+                    String roomId = scheduleComponentInfo.getRoomId();
+                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0),getContextInfo());
+
+                    updateScheduleToAOWrapperForDisplay(aoWrapper,scheduleComponentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
+
+                    if (!appendScheduleRowDisplay){
+                        appendScheduleRowDisplay = true;
                     }
                 }
 
             }
+
+        }else{
+
+            List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), getContextInfo());
+
+            if (!scheduleRequestInfoList.isEmpty()){
+
+                boolean appendScheduleRowDisplay = false;
+
+                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfoList.get(0).getScheduleRequestComponents()) {
+                    String roomId = componentInfo.getRoomIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getRoomIds().get(0);
+                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(componentInfo.getTimeSlotIds().get(0),getContextInfo());
+
+                    updateScheduleToAOWrapperForDisplay(aoWrapper,componentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
+
+                    if (!appendScheduleRowDisplay){
+                        appendScheduleRowDisplay = true;
+                    }
+                }
+            }
+
         }
+
         return aoWrapper;
     }
-    
+
+    private void updateScheduleToAOWrapperForDisplay(ActivityOfferingWrapper aoWrapper, Boolean isTBA,String roomId,TimeSlotInfo timeSlot,boolean append) throws Exception{
+         RoomInfo roomInfo = null;
+         if (StringUtils.isNotBlank(roomId)){
+            roomInfo = getRoomService().getRoom(roomId, getContextInfo());
+         }
+         updateScheduleToAOWrapperForDisplay(aoWrapper,isTBA,roomInfo,timeSlot,append);
+    }
+
+    private void updateScheduleToAOWrapperForDisplay(ActivityOfferingWrapper aoWrapper, Boolean isTBA, RoomInfo roomInfo,TimeSlotInfo timeSlot,boolean append) throws Exception{
+
+        Calendar calendar = new  GregorianCalendar();
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+
+        aoWrapper.setTbaDisplayName(isTBA,append);
+
+        if (timeSlot != null) {
+
+            TimeOfDayInfo startTime = timeSlot.getStartTime();
+            TimeOfDayInfo endTime = timeSlot.getEndTime();
+            List<Integer> days = timeSlot.getWeekdays();
+
+            if (startTime != null && startTime.getMilliSeconds() != null) {
+                calendar.setTimeInMillis(startTime.getMilliSeconds());
+                aoWrapper.setStartTimeDisplay(format.format(calendar.getTime()),append);
+            }
+
+            if (endTime != null && endTime.getMilliSeconds() != null) {
+                calendar.setTimeInMillis(endTime.getMilliSeconds());
+                aoWrapper.setEndTimeDisplay(format.format(calendar.getTime()),append);
+            }
+
+            if (days != null && days.size() > 0) {
+                aoWrapper.setDaysDisplayName(getDays(days),append);
+            }
+        }
+
+        if (roomInfo != null && StringUtils.isNotBlank(roomInfo.getBuildingId())) {
+            BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
+            aoWrapper.setBuildingName(buildingInfo.getName(),append);
+            aoWrapper.setRoomName(roomInfo.getRoomCode(),append);
+        }
+    }
+
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,

@@ -131,6 +131,15 @@
 
     <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:methodToCall="selectAllActivityOfferings" p:actionLabel="Select All" />
 
+    <bean parent="KS-Schedule-DisplayField" p:cssClasses="font-light12" abstract="true">
+        <property name="propertyReplacers">
+          <list>
+            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                  p:condition="#line.aoInfo.scheduleId == null" p:replacement="color:grey;"/>
+          </list>
+        </property>
+    </bean>
+
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
           p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
@@ -161,39 +170,17 @@
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                     </property>
                 </bean>
-               <bean parent="Uif-DataField"
-                      p:label="STATUS"
-                      p:propertyName="stateName" />
-                <bean parent="Uif-DataField"
-                      p:label="TYPE"
-                      p:propertyName="typeName"/>
-                <bean parent="Uif-DataField"
-                      p:label="FORMAT"
-                      p:propertyName="aoInfo.formatOfferingName"/>
-                <bean parent="Uif-DataField"
-                      p:label="TBA"
-                      p:propertyName="tbaDisplayName"/>
-                <bean parent="Uif-DataField"
-                      p:label="DAYS"
-                      p:propertyName="daysDisplayName"/>
-                <bean parent="Uif-DataField"
-                      p:label="START TIME"
-                      p:propertyName="startTimeDisplay"/>
-                <bean parent="Uif-DataField"
-                      p:label="END TIME"
-                      p:propertyName="endTimeDisplay"/>
-                <bean parent="Uif-DataField"
-                      p:label="BUILDING"
-                      p:propertyName="buildingName"/>
-                <bean parent="Uif-DataField"
-                      p:label="ROOM"
-                      p:propertyName="roomName"/>
-                <bean parent="Uif-DataField"
-                      p:label="INSTRUCTOR"
-                      p:propertyName="firstInstructorDisplayName"/>
-                <bean parent="Uif-DataField"
-                      p:label="MAX ENR"
-                      p:propertyName="aoInfo.maximumEnrollment"/>
+                <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
+                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
+                <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="TBA" p:messageText="@{#line.tbaDisplayName}"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="DAYS" p:messageText="@{#line.daysDisplayName}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="START TIME" p:messageText="@{#line.startTimeDisplay}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="END TIME" p:messageText="@{#line.endTimeDisplay}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="FACILITY" p:messageText="@{#line.buildingName}"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
+                <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
+                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">

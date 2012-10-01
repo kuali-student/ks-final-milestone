@@ -9,8 +9,11 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.BuildingInfoLookupable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +31,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements BuildingIn
     @Override
     public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria){
         if (searchCriteria == null || searchCriteria.isEmpty() || StringUtils.isBlank(searchCriteria.get("buildingId"))){
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Building Id should not be empty");
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Building Id should not be empty. Please use the lookup to select the Building");
             return false;
         }
         return true;
@@ -36,12 +39,19 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements BuildingIn
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        try {
-            List<String> roomIds = getRoomService().getRoomIdsByBuilding(fieldValues.get("buildingId"), ContextBuilder.loadContextInfo());
-            return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        boolean validate = validateSearchParameters(lookupForm,fieldValues);
+        if (validate){
+            try {
+                List<String> roomIds = getRoomService().getRoomIdsByBuilding(fieldValues.get("buildingId"), ContextBuilder.loadContextInfo());
+                return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
+            } catch (DoesNotExistException e) {
+                return new ArrayList<RoomInfo>();
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+
+        return new ArrayList<RoomInfo>();
 
     }
 

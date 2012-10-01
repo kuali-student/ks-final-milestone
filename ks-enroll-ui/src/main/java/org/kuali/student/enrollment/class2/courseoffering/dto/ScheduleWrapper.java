@@ -217,7 +217,7 @@ public class ScheduleWrapper implements Serializable{
         this.endTimeUI = endTimeUI;
     }
 
-    public boolean isAlreadySaved() {
+    public boolean isRequestAlreadySaved() {
         if (scheduleRequestComponentInfo != null){
             return StringUtils.isNotBlank(scheduleRequestComponentInfo.getId());
         }

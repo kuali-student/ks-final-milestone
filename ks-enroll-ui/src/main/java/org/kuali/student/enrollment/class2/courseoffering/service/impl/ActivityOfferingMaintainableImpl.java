@@ -116,7 +116,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         wrapper.getScheduleRequestInfo().getScheduleRequestComponents().clear();
 
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
-            if (!scheduleWrapper.isAlreadySaved()){
+            if (!scheduleWrapper.isRequestAlreadySaved()){
                 ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
                 wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(componentInfo);
             }

@@ -54,7 +54,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private ScheduleRequestInfo scheduleRequestInfo;
     private ScheduleInfo scheduleInfo;
 
-    private String startTimeDisplay;
+    private String startTimeUI;
     private String endTimeDisplay;
     private String daysDisplayName;
     private String buildingName;
@@ -169,10 +169,14 @@ public class ActivityOfferingWrapper implements Serializable{
         return tbaDisplayName;
     }
 
-    public void setTbaDisplayName(boolean tba) {
-        tbaDisplayName = StringUtils.EMPTY;
-        if (tba){
-            tbaDisplayName =  "TBA";
+    public void setTbaDisplayName(boolean tba,boolean appendForDisplay) {
+        if (appendForDisplay){
+            tbaDisplayName =  tbaDisplayName + "<br>" + (tba ? "TBA" : StringUtils.EMPTY);
+        } else {
+            tbaDisplayName = StringUtils.EMPTY;
+            if (tba){
+                tbaDisplayName =  "TBA";
+            }
         }
     }
 
@@ -372,44 +376,65 @@ public class ActivityOfferingWrapper implements Serializable{
         this.newScheduleRequest = newScheduleRequest;
     }
 
-    public String getStartTimeDisplay() {
-        return startTimeDisplay;
+    public String getStartTimeUI() {
+        return startTimeUI;
     }
 
-    public void setStartTimeDisplay(String startTimeDisplay) {
-        this.startTimeDisplay = startTimeDisplay;
+    public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay) {
+        if (appendForDisplay){
+            this.startTimeUI = this.startTimeUI + "<br>" + StringUtils.defaultString(startTimeDisplay);
+        }else{
+            this.startTimeUI = StringUtils.defaultString(startTimeDisplay);
+        }
+
     }
 
     public String getEndTimeDisplay() {
         return endTimeDisplay;
     }
 
-    public void setEndTimeDisplay(String endTimeDisplay) {
-        this.endTimeDisplay = endTimeDisplay;
+    public void setEndTimeDisplay(String endTimeDisplay,boolean appendForDisplay) {
+        if (appendForDisplay){
+            this.endTimeDisplay = this.endTimeDisplay + "<br>" + StringUtils.defaultString(endTimeDisplay);
+        }else{
+            this.endTimeDisplay = StringUtils.defaultString(endTimeDisplay);
+        }
     }
 
     public String getDaysDisplayName() {
         return daysDisplayName;
     }
 
-    public void setDaysDisplayName(String daysDisplayName) {
-        this.daysDisplayName = daysDisplayName;
+    public void setDaysDisplayName(String daysDisplayName,boolean appendForDisplay) {
+        if (appendForDisplay){
+            this.daysDisplayName = this.daysDisplayName + "<br>" + StringUtils.defaultString(daysDisplayName);
+        }else{
+            this.daysDisplayName = StringUtils.defaultString(daysDisplayName);
+        }
     }
 
     public String getBuildingName() {
         return buildingName;
     }
 
-    public void setBuildingName(String buildingName) {
-        this.buildingName = buildingName;
+    public void setBuildingName(String buildingName,boolean appendForDisplay) {
+        if (appendForDisplay){
+            this.buildingName = this.buildingName + "<br>" + StringUtils.defaultString(buildingName);
+        }else{
+            this.buildingName = StringUtils.defaultString(buildingName);
+        }
     }
 
     public String getRoomName() {
         return roomName;
     }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
+    public void setRoomName(String roomName,boolean appendForDisplay) {
+        if (appendForDisplay){
+            this.roomName = this.roomName + "<br>" + StringUtils.defaultString(roomName);
+        }else{
+            this.roomName = StringUtils.defaultString(roomName);
+        }
     }
 
     public ScheduleRequestInfo getScheduleRequestInfo() {
