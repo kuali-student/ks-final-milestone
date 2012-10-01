@@ -85,7 +85,7 @@
         CREATETIME="20120622000000"
         DESCR_FORMATTED="Standard A-F grading scale"
         DESCR_PLAIN="Standard A-F grading scale"
-        ID="kuali.result.scale.grade.letter" NAME="A-F Grading Scale"
+        ID="kuali.result.scale.grade.letter" NAME="Letter"
         RESULT_SCALE_STATE="kuali.result.scale.state.approved"
         RESULT_SCALE_TYPE="kuali.result.scale.type.grade" VER_NBR="0"/>
     <KSEN_LRC_RESULT_SCALE CREATEID="SYSTEMLOADER"
