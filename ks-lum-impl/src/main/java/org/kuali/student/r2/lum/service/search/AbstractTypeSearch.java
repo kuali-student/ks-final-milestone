@@ -44,6 +44,15 @@ public abstract class AbstractTypeSearch implements TypeSearch{
         return null;
     }
 
+    protected List<String> getParamListForKey(SearchRequest searchRequest, String key){
+        for(SearchParam param : searchRequest.getParams()){
+            if (param.getKey().equals(key)){
+                return (List<String>) param.getValue();
+            }
+        }
+        return null;
+    }
+
     protected SearchResult createSearchResultFromTypeInfo(TypeInfo typeInfo, String idKey, String nameKey, String descKey){
 
         List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
