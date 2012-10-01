@@ -58,6 +58,7 @@
 			<ref bean="lrc.queryParam.resultComponent.id" />
 			<ref bean="lrc.queryParam.resultComponent.type" />
 			<ref bean="lrc.queryParam.resultComponent.idRestrictionList" />
+			<ref bean="lrc.queryParam.resultComponent.resultScaleId" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -94,6 +95,19 @@
 	
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd" parent="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract"/>
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract" abstract="true">
+		<dict:name>Result Component Ids Key</dict:name>
+		<dict:desc>Result Component Ids Key</dict:desc>
+		<dict:dataType>list</dict:dataType>
+		<dict:readOnly>true</dict:readOnly>
+	</dict:fieldDescriptor>
+	
+		<search:queryParam id="lrc.queryParam.resultComponent.resultScaleId" parent="lrc.queryParam.resultComponent.resultScaleId-parent"/>
+	<search:queryParam id="lrc.queryParam.resultComponent.resultScaleId-parent" optional="true" abstract="true">
+		<ref bean="lrc.queryParam.resultComponent.resultScaleId.fd"/>	
+	</search:queryParam>			
+	
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.resultScaleId.fd" parent="lrc.queryParam.resultComponent.resultScaleId.fd-abstract"/>
+	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.resultScaleId.fd-abstract" abstract="true">
 		<dict:name>Result Component Ids Key</dict:name>
 		<dict:desc>Result Component Ids Key</dict:desc>
 		<dict:dataType>list</dict:dataType>
@@ -225,6 +239,9 @@
 				</entry>
 				<entry key="lrc.queryParam.resultComponent.idRestrictionList">
 					<value>rc.id IN (:lrc_queryParam_resultComponent_idRestrictionList)</value>
+				</entry>
+				<entry key="lrc.queryParam.resultComponent.resultScaleId">
+					<value>rc.resultScaleId IN (:lrc_queryParam_resultComponent_resultScaleId)</value>
 				</entry>
 				<entry key="lrc.queryParam.resultValue.id">
 					<value>rv.id = :lrc_queryParam_resultValue_id</value>

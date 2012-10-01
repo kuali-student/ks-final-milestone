@@ -3120,8 +3120,11 @@ public class CluServiceImpl implements CluService {
 
         //The result component types need to be mapped back as well
         SearchRequest resultComponentSearchRequest = new SearchRequest(SEARCH_KEY_RESULT_COMPONENT);
-        resultComponentSearchRequest
-                .addParam("lrc.queryParam.resultComponent.type", "kuali.resultComponentType.degree");
+        resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.type",
+                "kuali.result.values.group.type.fixed");
+        resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.resultScaleId",
+                "kuali.result.scale.degree");
+
         SearchResult resultComponentSearchResults = searchDispatcher.dispatchSearch(resultComponentSearchRequest);
 
         //Get a mapping of result type id to result type name:
