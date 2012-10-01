@@ -43,6 +43,8 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.RoomServiceConstants;
+import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
@@ -81,6 +83,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private SchedulingService schedulingService;
     private LRCService lrcService;
     private CriteriaLookupService criteriaLookupService;
+    private RoomService roomService;
 
     public CourseOfferingServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -232,6 +235,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         rgInfo.setCourseOfferingId(coInfo.getId());
         rgInfo.setRegistrationCode(registrationGroupInfo.getRegistrationCode());
         return rgInfo;
+    }
+
+    public RoomService getRoomService() {
+        if (roomService == null){
+            roomService = (RoomService)GlobalResourceLoader.getService(new QName(RoomServiceConstants.NAMESPACE,
+                    RoomServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return roomService;
+    }
+
+    public void setRoomService(RoomService roomService) {
+        this.roomService = roomService;
     }
 
     public CriteriaLookupService getCriteriaLookupService() {
@@ -1298,6 +1313,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo targetAO = new ActivityOfferingInfo(sourceAO);
         targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         targetAO.setId(null);
+        targetAO.setScheduleId(null);
         if (targetAO.getInstructors() != null && !targetAO.getInstructors().isEmpty()) {
             for (OfferingInstructorInfo inst : targetAO.getInstructors()) {
                 inst.setId(null);
@@ -1305,6 +1321,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         targetAO.setActivityCode(null);
         targetAO = createActivityOffering(sourceAO.getFormatOfferingId(), sourceAO.getActivityId(), sourceAO.getTypeKey(), targetAO, context);
+
+        // copy ADL from source AO to RDL in target AO
+        if(sourceAO.getScheduleId() != null && !sourceAO.getScheduleId().isEmpty()) {
+            // _RCO_rolloverScheduleToScheduleRequest(sourceAo, targetAo, context);
+            ScheduleInfo sourceScheduleInfo = this.getSchedulingService().getSchedule(sourceAO.getScheduleId(), context);
+
+            ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleToRequest(sourceScheduleInfo, getRoomService(), context);
+            targetScheduleRequest.setRefObjectId(targetAO.getId());
+            targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
+            nameBuilder.append(targetAO.getCourseOfferingCode()).append(" - ").append(targetAO.getActivityCode());
+            targetScheduleRequest.setName(nameBuilder.toString());
+            targetScheduleRequest.setDescr(sourceScheduleInfo.getDescr());
+
+            this.getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
+        }
 
         try {
             List<SeatPoolDefinitionInfo> sourceSPList = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
