@@ -54,12 +54,12 @@ public class ActivityOfferingWrapper implements Serializable{
     private ScheduleRequestInfo scheduleRequestInfo;
     private ScheduleInfo scheduleInfo;
 
-    private String startTimeUI;
-    private String endTimeDisplay;
-    private String daysDisplayName;
-    private String buildingName;
-    private String roomName;
-    private String tbaDisplayName;
+    private String startTimeDisplay = "";
+    private String endTimeDisplay = "";
+    private String daysDisplayName = "";
+    private String buildingName = "";
+    private String roomName = "";
+    private String tbaDisplayName = "";
 
     private boolean schedulesRevised;
 
@@ -376,15 +376,15 @@ public class ActivityOfferingWrapper implements Serializable{
         this.newScheduleRequest = newScheduleRequest;
     }
 
-    public String getStartTimeUI() {
-        return startTimeUI;
+    public String getStartTimeDisplay() {
+        return startTimeDisplay;
     }
 
     public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay) {
         if (appendForDisplay){
-            this.startTimeUI = this.startTimeUI + "<br>" + StringUtils.defaultString(startTimeDisplay);
+            this.startTimeDisplay = this.startTimeDisplay + "<br>" + StringUtils.defaultString(startTimeDisplay);
         }else{
-            this.startTimeUI = StringUtils.defaultString(startTimeDisplay);
+            this.startTimeDisplay = StringUtils.defaultString(startTimeDisplay);
         }
 
     }

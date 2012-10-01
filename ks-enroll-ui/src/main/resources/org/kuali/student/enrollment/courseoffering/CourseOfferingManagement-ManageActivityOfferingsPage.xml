@@ -131,7 +131,7 @@
 
     <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:methodToCall="selectAllActivityOfferings" p:actionLabel="Select All" />
 
-    <bean id="KS-Schedule-DisplayField" p:cssClasses="font-light12" abstract="true">
+    <bean id="KS-Schedule-DisplayField" parent="Uif-MessageField" p:cssClasses="font-light12" abstract="true">
         <property name="propertyReplacers">
           <list>
             <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
