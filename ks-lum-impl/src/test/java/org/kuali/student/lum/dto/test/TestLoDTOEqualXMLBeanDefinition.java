@@ -48,7 +48,7 @@ public class TestLoDTOEqualXMLBeanDefinition {
 		startingClasses.add(LoLoRelationInfo.class.getName());
 		startingClasses.add(LoRepositoryInfo.class.getName());
 		
-		String contextFile = "ks-loinfo-dictionary-context";
+		String contextFile = "ks-loInfo-dictionary-context";
 		String outFile = "target/" + contextFile + ".txt";
 		DictionaryDiscrepencyTesterHelper helper = new DictionaryDiscrepencyTesterHelper(
 				outFile, startingClasses, contextFile + ".xml", false);
