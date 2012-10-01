@@ -389,7 +389,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 throw new RuntimeException(e);
             }
         }
-        ActivityOfferingClusterInfo aoCluster = theClusterWrapper.getAoCluster();
+        //try to retrieve the accurate AOCluster from DB always
+        ActivityOfferingClusterInfo aoCluster = getCourseOfferingService().getActivityOfferingCluster(
+                                                            theClusterWrapper.getAoCluster().getId(), getContextInfo());
         List <ActivityOfferingSetInfo> aoSetList = aoCluster.getActivityOfferingSets();
         for (ActivityOfferingSetInfo aoSet:aoSetList){
             if(aoTypeKey.equalsIgnoreCase(aoSet.getActivityOfferingType())){
