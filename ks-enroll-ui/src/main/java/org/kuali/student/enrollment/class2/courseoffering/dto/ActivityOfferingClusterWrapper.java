@@ -20,24 +20,30 @@ public class ActivityOfferingClusterWrapper implements Serializable {
     private List<RegistrationGroupWrapper> rgWrapperList;
     private List<ActivityOfferingWrapper> aoWrapperList;
     private String rgStatus;
-    private boolean hasRegGroups;
+    /**
+     * hasCorrectRegGroups=true means all RGs have been generated for
+     * a group of AOs within a cluster and rgStatus="All Registration Groups Generated"
+     * hasCorrectRegGroups=false means no RGs has been generated or
+     * only some RGs are generated.
+     * rgStatus = "No Registration Group Generated" or
+     * rgStatus = "Some Registration Groups Generated"
+     * when  hasCorrectRegGroups=true, show "View Registration Groups" link
+     * when  hasCorrectRegGroups=false, show "Generate Registration Groups" link
+     */
+    private boolean hasCorrectRegGroups;
 
     public ActivityOfferingClusterWrapper() {
         rgWrapperList = new ArrayList<RegistrationGroupWrapper>();
         aoWrapperList = new ArrayList<ActivityOfferingWrapper>();
-        hasRegGroups = false;
+        hasCorrectRegGroups = false;
         rgStatus = "No Registration Groups Generated";
     }
     
     public ActivityOfferingClusterWrapper(String activityOfferingClusterId, List<RegistrationGroupWrapper> rgWrapperList){
         this.activityOfferingClusterId = activityOfferingClusterId;
         this.rgWrapperList = rgWrapperList;
-        if (!rgWrapperList.isEmpty()) {
-            hasRegGroups = true;
-            rgStatus = "All Registration Groups Generated";
-        }
-        else {
-            hasRegGroups = false;
+        if (rgWrapperList.isEmpty()) {
+            hasCorrectRegGroups = false;
             rgStatus = "No Registration Groups Generated";
         }
     }
@@ -64,13 +70,9 @@ public class ActivityOfferingClusterWrapper implements Serializable {
 
     public void setRgWrapperList(List<RegistrationGroupWrapper> rgWrapperList) {
         this.rgWrapperList = rgWrapperList;
-        if (!rgWrapperList.isEmpty()) {
-            hasRegGroups = true;
-            rgStatus = "All Registration Groups Generated";
-        }
-        else {
-           hasRegGroups = false;
-           rgStatus = "No Registration Groups Generated";
+        if (rgWrapperList.isEmpty()) {
+            hasCorrectRegGroups = false;
+            rgStatus = "No Registration Groups Generated";
         }
     }
 
@@ -90,11 +92,11 @@ public class ActivityOfferingClusterWrapper implements Serializable {
         this.rgStatus = rgStatus;
     }
 
-    public boolean isHasRegGroups() {
-        return hasRegGroups;
+    public boolean isHasCorrectRegGroups() {
+        return hasCorrectRegGroups;
     }
 
-    public void setHasRegGroups(boolean hasRegGroups) {
-        this.hasRegGroups = hasRegGroups;
+    public void setHasCorrectRegGroups(boolean hasCorrectRegGroups) {
+        this.hasCorrectRegGroups = hasCorrectRegGroups;
     }
 }
