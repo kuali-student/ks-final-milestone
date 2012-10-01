@@ -220,7 +220,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, getContextInfo());
         theForm.setFormatOfferingName(formatOfferingList.get(0).getName());
         theForm.setFormatOfferingIdForViewRG(formatOfferingList.get(0).getId());
-        //get unassgined AOs (didn't belong to any cluster
+        //get unassgined AOs (didn't belong to any cluster)
         List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(formatOfferingList.get(0).getId(), theForm);
         theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
 
@@ -434,7 +434,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 }
                 theForm.setFilteredUnassignedAOsForSelectedFO(unassignedAOs);
                 //then delete the selected cluster
-                getCourseOfferingService().deleteActivityOfferingCluster(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
+//                getCourseOfferingService().deleteActivityOfferingCluster(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
+                getCourseOfferingService().deleteActivityOfferingClusterCascaded(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
                 List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
                 aoClusterWrapperList.remove(selectedCluster);
                 if(aoClusterWrapperList.size() ==0){
@@ -963,15 +964,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             filterdAOList.add(new ActivityOfferingWrapper(ao));
 
         }
-
-        //This is a temp walk around solution
-//        List<ActivityOfferingWrapper> fullAOs = theForm.getActivityWrapperList();
-//        for (ActivityOfferingWrapper ao: fullAOs)  {
-//            String formatOfferingId =ao.getAoInfo().getFormatOfferingId();
-//            if (formatOfferingId.equals(theFOId) ){
-//                filterdAOList.add(ao);
-//            }
-//        }
         return filterdAOList;
     }
 
