@@ -53,6 +53,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -1221,7 +1222,36 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public AOClusterVerifyResultsInfo verifyActivityOfferingClusterForGeneration(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // This is the same implementation as the CourseOfferingServiceImpl.  (It had been unimplemented).
+        // TODO: Find some way to resuse the COSI impl.
+        AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = new AOClusterVerifyResultsInfo();
+        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+
+        try {
+            ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+            List<ActivityOfferingSetInfo> aoSetInfos = aoCInfo.getActivityOfferingSets();
+
+            for (ActivityOfferingSetInfo aoSetInfo : aoSetInfos ){
+                List<String> aoIdList = aoSetInfo.getActivityOfferingIds();
+                if (aoIdList == null || aoIdList.isEmpty()) {
+                    //invalidValidationInfo.setError("");
+                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                    validationResultInfos.add(validationResultInfo);
+                    aoClusterVerifyResultsInfo.setValidationResults(validationResultInfos);
+
+                    return aoClusterVerifyResultsInfo;
+                }
+            }
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfos.add(validationResultInfo);
+        aoClusterVerifyResultsInfo.setValidationResults(validationResultInfos);
+
+        return aoClusterVerifyResultsInfo;
     }
 
 
