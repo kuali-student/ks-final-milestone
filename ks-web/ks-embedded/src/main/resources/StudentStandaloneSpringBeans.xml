@@ -206,6 +206,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionOptions.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LinkFields.xml</value>
+                <!--<value>classpath:org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/RadioButtons.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/TextAreaField.xml</value>

@@ -24,7 +24,12 @@
 
     <strong>Lookups, etc</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Combo Boxes" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ComboBoxes-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Combo Boxes"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ComboBoxes-View&methodToCall=start" /></li>
+        <%--
+        <li><portal:portalLink displayTitle="true" title="Lookup with default action"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupDefaultAction-View&methodToCall=start" /></li>
+        --%>
     </ul>
 
     <strong>Collections</strong>
