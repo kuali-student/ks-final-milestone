@@ -2178,35 +2178,90 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return list;
     }
 
-    private void _verifyAOSetsMatchAOTypes(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo)
-            throws InvalidParameterException {
-        List<String> aoTypes = foInfo.getActivityOfferingTypeKeys();
-        int numAoTypes = aoTypes.size();
-        int numAoSets = clusterInfo.getActivityOfferingSets().size();
-        if (numAoTypes != numAoSets) {
-            // Make sure the two match
-            throw new InvalidParameterException("Number of AO sets, " + numAoSets + ", does not match number of AO types, " + numAoTypes);
+    private Set<String> _verifyUniquenessOfAoTypes(ActivityOfferingClusterInfo clusterInfo) throws InvalidParameterException {
+        Set<String> aoTypeSet = new HashSet<String>();
+        if (clusterInfo.getActivityOfferingSets() == null) {
+            return aoTypeSet;
         }
-        // Tracks how often we see an AOset of a AOtype (to avoid two AOset having same AOtype)
-        Map<String, ActivityOfferingSetInfo> aoTypeToAoSet = new HashMap<String, ActivityOfferingSetInfo>();
-        for (String aoType: aoTypes) {
-            aoTypeToAoSet.put(aoType, null);
-        }
-        List<ActivityOfferingSetInfo> aoSets = clusterInfo.getActivityOfferingSets();
+        int count = 0;
+        // Check that each AO set has a non-null type and no two sets have the same AO type
         for (ActivityOfferingSetInfo setInfo: clusterInfo.getActivityOfferingSets()) {
-            if (!aoTypeToAoSet.containsKey(setInfo.getActivityOfferingType())) {
-                // Is this a valid AO type?  No.
-                throw new InvalidParameterException("Unknown AO type for this FO: " + setInfo.getActivityOfferingType());
+            String aoType = setInfo.getActivityOfferingType();
+            if (aoType == null) {
+                throw new InvalidParameterException("Activity Offering Set has null AO type");
             }
-            ActivityOfferingSetInfo set = aoTypeToAoSet.get(setInfo.getActivityOfferingType());
-            if (set != null) {
-                // Somehow there are more than one aoSet for this ao type key
-                throw new InvalidParameterException("AO type appears multiple times: " + setInfo.getActivityOfferingType());
+            // Make sure you haven't seen this AO type before--if so, exception
+            if (aoTypeSet.contains(aoType)) {
+                throw new InvalidParameterException("AO type, " + aoType + ", appears more than once in AO set of AO cluster");
+            }
+            aoTypeSet.add(aoType);
+        }
+        return aoTypeSet;
+    }
+
+    private void _verifyClusterAoTypesMatchFoAoTypes(Set<String> clusterAoTypes, Set<String> foAoTypes,
+                                                     ActivityOfferingClusterInfo clusterInfo,
+                                                     String foId) throws InvalidParameterException {
+        if (!clusterAoTypes.equals(foAoTypes)) {
+            Set<String> aoTypeSetCopy = new HashSet<String>(clusterAoTypes);
+            aoTypeSetCopy.removeAll(foAoTypes);
+            if (!aoTypeSetCopy.isEmpty()) {
+                // There are aoTypes in the cluster, which do not appear in the fo's ao types
+                String error = "";
+                for (String aoType: aoTypeSetCopy) {
+                    error += aoType + " ";
+                }
+                error += "not valid AO types for FO (" + foId + ")";
+                throw new InvalidParameterException(error);
             } else {
-                // Map it
-                aoTypeToAoSet.put(setInfo.getActivityOfferingType(), setInfo);
+                // All cluster AO types exist in FO but some are missing, so fill in missing ones
+                Set<String> missingAoTypes = new HashSet<String>(foAoTypes);
+                missingAoTypes.removeAll(clusterAoTypes);
+                for (String aoType: missingAoTypes) {
+                    ActivityOfferingSetInfo setInfo = new ActivityOfferingSetInfo();
+                    setInfo.setActivityOfferingType(aoType);
+                    clusterInfo.getActivityOfferingSets().add(setInfo);
+                }
             }
         }
+    }
+
+    private void _verifyAoIdsInCorrectAoSet(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+                   PermissionDeniedException, OperationFailedException {
+
+        for (ActivityOfferingSetInfo setInfo: clusterInfo.getActivityOfferingSets()) {
+            String aoType = setInfo.getActivityOfferingType();
+            for (String aoId: setInfo.getActivityOfferingIds()) {
+                LuiInfo lui = luiService.getLui(aoId, contextInfo);
+                if (!lui.getTypeKey().equals(aoType)) {
+                    throw new InvalidParameterException("AO (" + lui.getId() + ") does not match AOset's AoType, " + aoType);
+                }
+            }
+        }
+    }
+
+    /**
+     * Mostly throws InvalidParameterException if data validation fails.  If there are missing AOsets in the
+     * cluster, this will fill them in as a side effect, provided nothing else is wrong.
+     * @param foInfo Format offering info
+     * @param clusterInfo AO cluster info
+     * @param contextInfo Context
+     */
+    private void _verifyAOSetsInCluster(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo,
+                                        ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+                   OperationFailedException, PermissionDeniedException {
+        // Make sure types are unique
+        Set<String> clusterAoTypes = _verifyUniquenessOfAoTypes(clusterInfo);
+        List<String> aoTypes = foInfo.getActivityOfferingTypeKeys();
+        Set<String> foAoTypes = new HashSet<String>(aoTypes);
+        if (foAoTypes.size() != aoTypes.size()) {
+            // FOs should not have more than one AO type
+            throw new InvalidParameterException("FO (" + foInfo.getId() + ") has AO types that appear more than once");
+        }
+        _verifyClusterAoTypesMatchFoAoTypes(clusterAoTypes, foAoTypes, clusterInfo, foInfo.getId());
+        _verifyAoIdsInCorrectAoSet(clusterInfo, contextInfo);
     }
 
     @Override
@@ -2237,7 +2292,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             // If it's empty
             _createAOSets(foInfo, activityOfferingClusterInfo);
         } else {
-            _verifyAOSetsMatchAOTypes(foInfo, activityOfferingClusterInfo);  // Throws exception if it fails to verify
+            _verifyAOSetsInCluster(foInfo, activityOfferingClusterInfo, contextInfo);  // Throws exception if it fails to verify
         }
         // persist
         ActivityOfferingClusterEntity activityOfferingClusterEntity =
@@ -2449,6 +2504,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             if (!activityOfferingClusterEntity.getActivityOfferingClusterState().equals(activityOfferingClusterInfo.getStateKey())) {
                 throw new ReadOnlyException("state key can only be changed by calling updateActivityOfferingClusterState");
             }
+            FormatOfferingInfo foInfo = getFormatOffering(formatOfferingId, contextInfo);
+            _verifyAOSetsInCluster(foInfo, activityOfferingClusterInfo, contextInfo);
 
             List<Object> orphans = activityOfferingClusterEntity.fromDto(activityOfferingClusterInfo);
             // Delete any orphaned children
