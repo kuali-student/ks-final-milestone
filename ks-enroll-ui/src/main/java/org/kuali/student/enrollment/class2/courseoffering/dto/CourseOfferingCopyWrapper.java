@@ -64,9 +64,9 @@ public class CourseOfferingCopyWrapper implements Serializable{
         setWaitlistTypeKey("");
         setIsHonors(false);
 
-        setIsExcludeCancelledActivityOfferings(false);
-        setIsExcludeSchedulingInformation(false);
-        setIsExcludeInstructorInformation(false);
+        setExcludeCancelledActivityOfferings(false);
+        setExcludeSchedulingInformation(false);
+        setExcludeInstructorInformation(false);
         setExistingOfferingsInCurrentTerm(new ArrayList<ExistingCourseOffering>());
     }
 
@@ -221,7 +221,7 @@ public class CourseOfferingCopyWrapper implements Serializable{
         return excludeCancelledActivityOfferings;
     }
 
-    public void setIsExcludeCancelledActivityOfferings(boolean excludeCancelledActivityOfferings) {
+    public void setExcludeCancelledActivityOfferings(boolean excludeCancelledActivityOfferings) {
         this.excludeCancelledActivityOfferings = excludeCancelledActivityOfferings;
     }
 
@@ -229,7 +229,7 @@ public class CourseOfferingCopyWrapper implements Serializable{
         return excludeSchedulingInformation;
     }
 
-    public void setIsExcludeSchedulingInformation(boolean excludeSchedulingInformation) {
+    public void setExcludeSchedulingInformation(boolean excludeSchedulingInformation) {
         this.excludeSchedulingInformation = excludeSchedulingInformation;
     }
 
@@ -237,7 +237,7 @@ public class CourseOfferingCopyWrapper implements Serializable{
         return excludeInstructorInformation;
     }
 
-    public void setIsExcludeInstructorInformation(boolean excludeInstructorInformation) {
+    public void setExcludeInstructorInformation(boolean excludeInstructorInformation) {
         this.excludeInstructorInformation = excludeInstructorInformation;
     }
 
