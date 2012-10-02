@@ -531,7 +531,7 @@
     </bean>
 
     <bean id="KS-ManageRegistrationGroupsPage-ConfirmToRemoveAOFromAClusterDialog" parent="Uif-DialogGroup">
-        <property name="headerText" value="Remove Activity Offering Cluster"/>
+        <property name="headerText" value="Delete Activity Offering Cluster"/>
         <property name="promptText" value="This action is not reversible. Are you sure you want to continue?"/>
         <!--<property name="items">-->
         <!--<list>-->
@@ -541,7 +541,7 @@
         <!--</property>-->
         <property name="availableResponses">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Remove"/>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Delete"/>
                 <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
             </list>
         </property>
