@@ -637,7 +637,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
         if (!aoChecked) {
-            GlobalVariables.getMessageMap().putError("wrongaocselection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
+            GlobalVariables.getMessageMap().putError("wrongaoselection", RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
             return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
         }
 
@@ -754,7 +754,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
         if (!aoChecked) {
-            GlobalVariables.getMessageMap().putError("wrongaocselection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
+            GlobalVariables.getMessageMap().putError("wrongaoselection", RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
             return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
         }
         //persist selected AOCs

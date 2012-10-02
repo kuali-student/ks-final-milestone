@@ -12,4 +12,5 @@ public class RegistrationGroupConstants {
     public static final String MSG_ERROR_INVALID_CLUSTER_NAME = "error.enroll.rg.invalid.cluster.name";
     public static final String MSG_ERROR_INVALID_AOLIST ="error.enroll.rg.invalid.aolist";
     public static final String MSG_ERROR_INVALID_CLUSTER_SELECTION ="error.enroll.rg.invalid.aocselection";
+    public static final String MSG_ERROR_INVALID_AO_SELECTION ="error.enroll.rg.invalid.aoselection";
 }
