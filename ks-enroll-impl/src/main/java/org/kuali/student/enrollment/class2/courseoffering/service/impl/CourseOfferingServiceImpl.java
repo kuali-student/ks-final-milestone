@@ -2178,6 +2178,37 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return list;
     }
 
+    private void _verifyAOSetsMatchAOTypes(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo)
+            throws InvalidParameterException {
+        List<String> aoTypes = foInfo.getActivityOfferingTypeKeys();
+        int numAoTypes = aoTypes.size();
+        int numAoSets = clusterInfo.getActivityOfferingSets().size();
+        if (numAoTypes != numAoSets) {
+            // Make sure the two match
+            throw new InvalidParameterException("Number of AO sets, " + numAoSets + ", does not match number of AO types, " + numAoTypes);
+        }
+        // Tracks how often we see an AOset of a AOtype (to avoid two AOset having same AOtype)
+        Map<String, ActivityOfferingSetInfo> aoTypeToAoSet = new HashMap<String, ActivityOfferingSetInfo>();
+        for (String aoType: aoTypes) {
+            aoTypeToAoSet.put(aoType, null);
+        }
+        List<ActivityOfferingSetInfo> aoSets = clusterInfo.getActivityOfferingSets();
+        for (ActivityOfferingSetInfo setInfo: clusterInfo.getActivityOfferingSets()) {
+            if (!aoTypeToAoSet.containsKey(setInfo.getActivityOfferingType())) {
+                // Is this a valid AO type?  No.
+                throw new InvalidParameterException("Unknown AO type for this FO: " + setInfo.getActivityOfferingType());
+            }
+            ActivityOfferingSetInfo set = aoTypeToAoSet.get(setInfo.getActivityOfferingType());
+            if (set != null) {
+                // Somehow there are more than one aoSet for this ao type key
+                throw new InvalidParameterException("AO type appears multiple times: " + setInfo.getActivityOfferingType());
+            } else {
+                // Map it
+                aoTypeToAoSet.put(setInfo.getActivityOfferingType(), setInfo);
+            }
+        }
+    }
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ActivityOfferingClusterInfo createActivityOfferingCluster(String formatOfferingId,
@@ -2206,7 +2237,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             // If it's empty
             _createAOSets(foInfo, activityOfferingClusterInfo);
         } else {
-//            _verifyAOSetsMatchAOTypes(foInfo, activityOfferingClusterInfo);  // Throws exception if it fails to verify
+            _verifyAOSetsMatchAOTypes(foInfo, activityOfferingClusterInfo);  // Throws exception if it fails to verify
         }
         // persist
         ActivityOfferingClusterEntity activityOfferingClusterEntity =

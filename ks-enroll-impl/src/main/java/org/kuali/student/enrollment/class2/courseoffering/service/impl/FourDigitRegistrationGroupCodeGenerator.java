@@ -114,7 +114,21 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
     }
 
     @Override
-    public void initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context, Map<String, Object> keyValues) {
+    public void initializeGenerator(CourseOfferingService coService, FormatOffering fo, ContextInfo context,
+                                    Map<String, Object> keyValues) {
+        if (keyValues != null && keyValues.containsKey(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE)) {
+            // Should be an integer version of a code like "0101" (which would be 101)
+            int val = (Integer) keyValues.get(CourseOfferingServiceBusinessLogicImpl.FIRST_REG_GROUP_CODE);
+            regGroupSuffix = val % 100;
+            if (regGroupSuffix == 0) {
+                regGroupSuffix = 100; // Forces exception to be thrown
+            }
+            prefix = "" + (val / 100);
+            if (prefix.length() == 1) {
+                prefix = "0" + prefix;  // Changes "1" to "01"
+            }
+            return; // Exit function
+        }
         try {
             CourseOfferingInfo coInfo = coService.getCourseOffering(fo.getCourseOfferingId(), context);
             List<FormatOfferingInfo> foInfos = coService.getFormatOfferingsByCourseOffering(coInfo.getId(), context);

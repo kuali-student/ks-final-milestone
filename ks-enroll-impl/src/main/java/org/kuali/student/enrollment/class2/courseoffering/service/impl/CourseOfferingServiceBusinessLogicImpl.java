@@ -40,23 +40,22 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-import org.kuali.student.r2.common.permutation.PermutationUtils;
+import org.kuali.student.r2.common.permutation.PermutationCounter;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,6 +64,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author nwright
@@ -239,6 +239,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultItemInfo rolloverCourseOffering(String sourceCoId,
                                                             String targetTermId,
                                                             List<String> optionKeys,
@@ -414,10 +415,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
     @Override
-    public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, List<String> optionKeys, ContextInfo context)
-            throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException {
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public CourseOfferingInfo updateCourseOfferingFromCanonical(String courseOfferingId, List<String> optionKeys,
+                                                                ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+                   MissingParameterException, OperationFailedException,
+                   PermissionDeniedException, VersionMismatchException {
+
         CourseOfferingInfo co = this._getCoService().getCourseOffering(courseOfferingId, context);
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(co.getCourseId());
         // copy from canonical
@@ -432,9 +436,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo,
-                                                                          List<String> optionKeys, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
+                                                                          List<String> optionKeys, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+                   MissingParameterException, OperationFailedException {
+
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(courseOfferingInfo.getCourseId());
         if (!optionKeys.contains(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY)) {
@@ -487,31 +494,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
     /*
-     * Note: The Registration Group Code is what the admnin's want to see the reg groups on a per course offering basis.
-     * 
-     * The Registration Code will be a globally unique key used during registration and exactly how this works is not yet defined (see the null below).
-     */
-    private RegistrationGroupInfo _makeRegGroup(String regGroupCode, List<String> activityOfferingPermutation, FormatOfferingInfo formatOffering, String activityOfferingClusterId) {
-        RegistrationGroupInfo rg = new RegistrationGroupInfo();
-
-        rg.setActivityOfferingIds(activityOfferingPermutation);
-        rg.setCourseOfferingId(formatOffering.getCourseOfferingId());
-        rg.setDescr(new RichTextInfo(regGroupCode, regGroupCode));
-        rg.setFormatOfferingId(formatOffering.getId());
-        rg.setActivityOfferingClusterId(activityOfferingClusterId);
-        rg.setIsGenerated(true);
-        rg.setName(regGroupCode);
-        rg.setRegistrationCode(null);
-        rg.setTermId(formatOffering.getTermId());
-        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
-        rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
-        return rg;
-    }
-
-    /*
     * The core generation logic should work with in the impl as well.
     */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo generateRegistrationGroupsForFormatOffering(String formatOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
                    MissingParameterException, OperationFailedException,
@@ -542,24 +528,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return success;
     }
 
-    private boolean _clusterHasIncompleteRegGroups(ActivityOfferingClusterInfo cluster,
-                                                   List<RegistrationGroupInfo> currentRGs) {
-        List<Integer> permutationCounter = new ArrayList<Integer>(cluster.getActivityOfferingSets().size());
-        for (int i = 0; i < permutationCounter.size(); i++) {
-            // set index to all 0's to start
-            permutationCounter.set(i, 0);
-        }
-        return false;
-    }
+    private void _gRGFC_basicValidate(String activityOfferingClusterId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+                   PermissionDeniedException, DataValidationErrorException {
 
-    @Override
-    public StatusInfo generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
-                   MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // check for any existing registration groups
-        this._getCoService(); // Make sure coService gets set
-
-        // Run a basic validation to see if each AOset is non-empty.  If there is an empty set, throw exception.
         AOClusterVerifyResultsInfo result =
                 coService.verifyActivityOfferingClusterForGeneration(activityOfferingClusterId, contextInfo);
         List<ValidationResultInfo> resultInfos = result.getValidationResults();
@@ -568,52 +540,94 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 throw new DataValidationErrorException("One or more AOsets in the cluster is empty--can't generate reg groups");
             }
         }
+    }
+
+
+    /**
+     * Note: The Registration Group Code is what the administrators want to see the reg groups on a per course offering basis.
+     * Registration codes, which are 5-digit values assigned to an RG and are unique to a term, is not yet implemented as of M5.
+     * @param regGroupCode 4-digit value that uniquely identifies a reg group within a course offering
+     * @param activityOfferingPermutation Contains a set of AO IDs that form a registration group
+     * @param formatOffering The format offering which the reg group belongs to
+     * @param activityOfferingClusterId The cluster id which the AO IDs were selected from
+     * @return A reg group (to be perssisted via services)
+     */
+    private RegistrationGroupInfo _gRGFC_makeRegGroup(String regGroupCode, Set<String> activityOfferingPermutation,
+                                                FormatOfferingInfo formatOffering, String activityOfferingClusterId) {
+        RegistrationGroupInfo rg = new RegistrationGroupInfo();
+
+        List<String> aoIdsList = new ArrayList<String>(activityOfferingPermutation); // convert to list
+        rg.setActivityOfferingIds(aoIdsList);
+        rg.setCourseOfferingId(formatOffering.getCourseOfferingId());
+        rg.setDescr(new RichTextInfo(regGroupCode, regGroupCode));
+        rg.setFormatOfferingId(formatOffering.getId());
+        rg.setActivityOfferingClusterId(activityOfferingClusterId);
+        rg.setIsGenerated(true);
+        rg.setName(regGroupCode);
+        rg.setRegistrationCode(null);
+        rg.setTermId(formatOffering.getTermId());
+        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
+        return rg;
+    }
+
+    private Integer _gRGFC_computeFirstRegGroupCode(List<RegistrationGroupInfo> regGroups) {
+        List<Integer> rgCodesUsed = new ArrayList<Integer>();
+        if (regGroups.isEmpty()) {
+            return null; // Use the default
+        }
+        for (RegistrationGroupInfo rg: regGroups) {
+            String regGroupCode = rg.getName(); // The name field stores
+            Integer regGroupNum = Integer.parseInt(regGroupCode);
+            rgCodesUsed.add(regGroupNum);
+        }
+        return Collections.max(rgCodesUsed) + 1;
+    }
+    public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+                   MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // Initializes coService
+        this._getCoService();
 
         // TODO: this should be moved to the validation decorator in the verify method
+        // Run a basic validation to see if each AOset is non-empty.  If there is an empty set, throw exception.
+        _gRGFC_basicValidate(activityOfferingClusterId, contextInfo);
+
         List<RegistrationGroupInfo> existingRegistrationGroups =
                 coService.getRegistrationGroupsByActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+        Integer firstRegGroupCode = _gRGFC_computeFirstRegGroupCode(existingRegistrationGroups);
 
-        if (!existingRegistrationGroups.isEmpty()) {
-            // for M4 compatibility
-            // should be removed once M5 work starts as the delta add should be supported
-            // and cascaded delete on an AO should remove the reg group.
-            coService.deleteRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
+        // Calculate the set of "set of AO IDs" from which to generate reg groups.
+        ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+        Set<Set<String>> regGroupAoIds =
+                PermutationCounter.computeMissingRegGroupAoIdsInCluster(cluster, existingRegistrationGroups);
 
-        }
-
-        List<RegistrationGroupInfo> regGroupList = new ArrayList<RegistrationGroupInfo>();
-        ActivityOfferingClusterInfo aoc = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-        List<String> typeList = extractTypes(aoc.getActivityOfferingSets());
-        Map<String, List<String>> activityOfferingTypeToOfferingMap = _extractActivityOfferingMap(aoc.getActivityOfferingSets());
-        List<List<String>> generatedPermutations = new ArrayList<List<String>>();
-
-        PermutationUtils.generatePermutations(typeList,
-                new ArrayList<String>(),
-                activityOfferingTypeToOfferingMap,
-                generatedPermutations);
+        FormatOfferingInfo fo = coService.getFormatOffering(cluster.getFormatOfferingId(), contextInfo);
+        List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
 
         // New instance created each time if desired
         RegistrationGroupCodeGenerator generator =
                 registrationCodeGeneratorFactory.makeCodeGenerator();
+        Map<String, Object> keyValues = null;
+        if (firstRegGroupCode != null) {
+            keyValues = new HashMap<String, Object>();
+            keyValues.put(FIRST_REG_GROUP_CODE, firstRegGroupCode);
+        }
+        generator.initializeGenerator(coService, fo, contextInfo, keyValues);
 
-        FormatOfferingInfo fo = coService.getFormatOffering(aoc.getFormatOfferingId(), contextInfo);
-        List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
-
-        generator.initializeGenerator(coService, fo, contextInfo, null);
-        for (List<String> activityOfferingPermutation : generatedPermutations) {
+        // Loop through each set of AO Ids and create a reg group.
+        for (Set<String> activityOfferingPermutation : regGroupAoIds) {
             String regGroupCode = generator.generateRegistrationGroupCode(fo, aoList, null);
-            // Honours Offering and max enrollment is out of scope for M4 so this hard set is ok.
-            String name = regGroupCode;
-            RegistrationGroupInfo rg = _makeRegGroup(regGroupCode, activityOfferingPermutation, fo, aoc.getId());
+            RegistrationGroupInfo rg = _gRGFC_makeRegGroup(regGroupCode, activityOfferingPermutation, fo, cluster.getId());
 
             try {
-                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(aoc.getFormatOfferingId(), aoc.getId(),
+                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(),
                         LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
-
-                regGroupList.add(rgInfo);
             } catch (DataValidationErrorException e) {
                 throw new OperationFailedException("Failed to validate registration group", e);
-
             } catch (ReadOnlyException e) {
                 throw new OperationFailedException("Failed to write registration group", e);
             }
