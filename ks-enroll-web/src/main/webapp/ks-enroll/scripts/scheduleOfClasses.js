@@ -13,9 +13,20 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
         jQuery('#' + divTempId).slideUp(1000).remove();
         jQuery(tr).css("height", height);
         image.attr("src", openImage);
+
+        // Temporal solution to display 2 AO lists simultaneously.
+        var displayCoId = jQuery('span[id=displayCoId]').text().trim();
+        if (courseOfferingId == displayCoId) {
+            jQuery('span[id=displayCoId]').text('');
+        } else {
+            jQuery('span[id=displayCoIdAdd]').text('');
+        }
     }
     else {
-        ajaxSubmitForm(controllerMethod, updateTable, {courseOfferingId:courseOfferingId}, jQuery('#' + courseOfferingId), null, "update-page");
+        // Temporal solution to display 2 AO lists simultaneously.
+        var displayCoId = jQuery('span[id=displayCoId]').text().trim();
+        var displayCoIdAdd = jQuery('span[id=displayCoIdAdd]').text().trim();
+        ajaxSubmitForm(controllerMethod, updateTable, {courseOfferingId:courseOfferingId, displayCoId:displayCoId, displayCoIdAdd:displayCoIdAdd}, jQuery('#' + courseOfferingId), null, "update-page");
     }
 
     function updateTable() {
@@ -45,6 +56,39 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
             console.log(trHeight + ", " + divHeight);
             jQuery(tr).css("height", "+=" + divHeight);
             var image = jQuery('#' + courseOfferingId).children('img');
+            image.attr("src", closeImage);
+        }
+
+         // Temporal solution to display 2 AO lists simultaneously.
+        var courseOfferingIdAdd = jQuery('span[id=displayCoIdAdd]').text().trim();
+        var divTempIdAdd = 'findThisId_' + courseOfferingIdAdd;
+
+        if (courseOfferingIdAdd != null && courseOfferingIdAdd.length > 0 && jQuery('#scheduleOfClassesSearchResultsAdd').length > 0) {
+            var rowContent = jQuery('#scheduleOfClassesSearchResultsAdd').html();
+            var div = jQuery('<div/>');
+            div.attr('id', divTempIdAdd);
+            div.html(rowContent);
+            var descPara = jQuery('</p>');
+            jQuery(descPara).css('margin', '15px 0px');
+            descPara.html(description);
+            div.prepend(descPara);
+
+            // Calculate the height of the row containing the new div
+            var tr = jQuery(jQuery('#' + courseOfferingIdAdd)).parents('tr');
+            var td = jQuery(jQuery('#' + courseOfferingIdAdd)).parents('td');
+            td = jQuery(td).next();
+            var trHeight = jQuery(tr).height();
+            window.originalRowHeight = trHeight;
+            jQuery(div).css("position", "absolute");
+            var bgc = jQuery(tr).css('background-color');
+            jQuery(div).css("background-color", bgc);
+            jQuery(div).css("min-width", "600px");
+            jQuery(div).css("max-width", "960px");
+            td.slideDown(1000).append(div);
+            var divHeight = jQuery(div).height();
+            console.log(trHeight + ", " + divHeight);
+            jQuery(tr).css("height", "+=" + divHeight);
+            var image = jQuery('#' + courseOfferingIdAdd).children('img');
             image.attr("src", closeImage);
         }
     }
