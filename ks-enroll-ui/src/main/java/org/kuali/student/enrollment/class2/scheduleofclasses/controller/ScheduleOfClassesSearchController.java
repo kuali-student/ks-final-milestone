@@ -159,7 +159,16 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         String courseOfferingId = theForm.getCourseOfferingId();
 
         if (courseOfferingId != null && courseOfferingId.length() > 0) {
+            // Temporal solution to display 2 AO lists simultaneously.
+            if(theForm.getDisplayCoId() != null && !theForm.getDisplayCoId().isEmpty()) {
+                theForm.setDisplayCoIdAdd(theForm.getDisplayCoId());
+                theForm.setAoDisplayWrapperAddList(theForm.getAoDisplayWrapperList());
+            } else if ((theForm.getDisplayCoIdAdd() == null || theForm.getDisplayCoIdAdd().isEmpty()) && !theForm.getAoDisplayWrapperAddList().isEmpty()) {
+                theForm.getAoDisplayWrapperAddList().clear();
+            }
             getViewHelperService(theForm).loadActivityOfferingsByCourseOfferingId(courseOfferingId, theForm);
+            // Temporal solution to display 2 AO lists simultaneously.
+            theForm.setDisplayCoId(courseOfferingId);
         } else {
             LOG.error("Error: search field can't be empty");
             GlobalVariables.getMessageMap().putError("course", ScheduleOfClassesConstants.SOC_MSG_ERROR_COURSE_IS_EMPTY);
