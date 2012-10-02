@@ -615,12 +615,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView moveAOToACluster (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
         //get selected AOC info
+        if (theForm.getClusterIdIdForNewFO().equals("")){
+            GlobalVariables.getMessageMap().putError("wrongaocselection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
+            return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+        }
         ActivityOfferingClusterInfo selectedAOCInfo = getCourseOfferingService().getActivityOfferingCluster(theForm.getClusterIdIdForNewFO(),getContextInfo());
 
         //get FOs and add them to the selected AOC
         List<ActivityOfferingWrapper> aoWrapperList = theForm.getFilteredUnassignedAOsForSelectedFO();
+        boolean aoChecked = false; //at least one AO must be checked
         for (ActivityOfferingWrapper aoWrapper : aoWrapperList) {
             if (aoWrapper.getIsChecked()) {
+                aoChecked = true;
                 //add to appropriate aosIds
                 for ( int i=0; i < selectedAOCInfo.getActivityOfferingSets().size(); i++) {
                     if ( selectedAOCInfo.getActivityOfferingSets().get(i).getActivityOfferingType().equals(aoWrapper.getAoInfo().getTypeKey()) ) {  //add aoId
@@ -630,6 +636,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 }
             }
         }
+        if (!aoChecked) {
+            GlobalVariables.getMessageMap().putError("wrongaocselection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
+            return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+        }
+
         //persist selected AOC
         ActivityOfferingClusterInfo updatedSelectedAOCInfo = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
                                                                                                                       theForm.getClusterIdIdForNewFO(),
@@ -686,22 +697,28 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             } else {
                 aocId = theForm.getClusterIdForAOMove();
             }
+            if (aocId.equals("")) {
+                GlobalVariables.getMessageMap().putError("wrongaocselection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
+                return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+            }
             selectedAOCInfoTo = getCourseOfferingService().getActivityOfferingCluster(aocId, getContextInfo());
         } 
 
         //check if valid selectedAOCInfoTo is selected
         if(selectedAOCInfoTo.getId() == null || selectedAOCInfoTo.getId().equals("") ) {
-            //TODO: throw error > allowed selection is from only one cluster to another cluster
+            GlobalVariables.getMessageMap().putError("wrongaocselection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
             return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
         }
 
         //get FOs and add them to the selected AOC
+        boolean aoChecked = false; //at least one AO must be checked
         for (ActivityOfferingClusterWrapper aocWreapperFrom : aocWrapperToList) {
             for (ActivityOfferingWrapper aoWrapper : aocWreapperFrom.getAoWrapperList()) {
                 if (aoWrapper.getIsChecked()) {
+                    aoChecked = true;
                     //selectedAOCInfoFrom and selectedAOCInfoTo clusters have to be different and only one selectedAOCInfoFrom cluster is allowed at this point
                     if (aocWreapperFrom.getActivityOfferingClusterId().equals(selectedAOCInfoTo.getId())) {
-                        //TODO: show error > allowed selection is from only one cluster to another cluster
+                        GlobalVariables.getMessageMap().putError("wrongaocselection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
                         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
                     } else {
                         selectedAOCInfoFrom = aocWreapperFrom.getAoCluster();
@@ -735,6 +752,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     }
                 }
             }
+        }
+        if (!aoChecked) {
+            GlobalVariables.getMessageMap().putError("wrongaocselection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
+            return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
         }
         //persist selected AOCs
         ActivityOfferingClusterInfo updatedSelectedAOCInfoTo = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
