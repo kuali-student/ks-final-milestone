@@ -225,6 +225,10 @@ public class CluServiceAssembler extends BaseAssembler {
         dto.setIntensity(toAmountInfo(entity.getIntensity()));
 
         dto.setVersionInfo(toVersionInfo(entity.getVersion()));
+        dto.setIsEnrollable(entity.isEnrollable());
+        dto.setCanCreateLui(entity.isCanCreateLui());
+        dto.setIsHasEarlyDropDeadline(entity.isHasEarlyDropDeadline());
+        dto.setIsHazardousForDisabledStudents(entity.isHazardousForDisabledStudents());
 
         return dto;
 

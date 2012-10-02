@@ -1203,15 +1203,35 @@ public class CluServiceImpl implements CluService {
             accreditations.add(accreditation);
         }
 
-        
-        // Now copy all not standard properties
+
+        // TODO: the following should be done via copyProperties
+        // dictionary needs work
+        // required field name allignment between CluInfo and Clu
+                if (cluInfo.getCanCreateLui() != null) {
+                    clu.setCanCreateLui(cluInfo.getCanCreateLui());
+                }
+
+                if (cluInfo.getIsEnrollable() != null) {
+                    clu.setEnrollable(cluInfo.getIsEnrollable());
+                }
+
+                if (cluInfo.getIsHasEarlyDropDeadline() != null) {
+                    clu.setHasEarlyDropDeadline(cluInfo.getIsHasEarlyDropDeadline());
+                }
+
+                if (cluInfo.getIsHazardousForDisabledStudents() != null) {
+                    clu.setHazardousForDisabledStudents(cluInfo.getIsHazardousForDisabledStudents());
+                }
+
+
+         // Now copy all not standard properties
         BeanUtils.copyProperties(cluInfo, clu, new String[]{"luType",
                 "officialIdentifier", "alternateIdentifiers", "descr",
                 "luCodes", "primaryInstructor", "instructors", "stdDuration",
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
                 "meta", "versionInfo", "intensity",
                 "campusLocations", "accreditations",
-                "adminOrgs", "canCreateLui"});
+                "adminOrgs", "canCreateLui", "hasEarlyDropDeadline", ""});
 
         return clu;
     }
@@ -1312,9 +1332,11 @@ public class CluServiceImpl implements CluService {
             if (cluInstructor == null) {
                 cluInstructor = new CluInstructor();
             }
+
             // Do Copy
+            // new id will be created with updated instructor/org pair so disregard old id
             BeanUtils.copyProperties(instructorInfo, cluInstructor,
-                    new String[]{"attributes"});
+                    new String[]{"attributes","id"});
             cluInstructor.setAttributes(CluServiceAssembler.toGenericAttributes(
                     CluInstructorAttribute.class, instructorInfo.getAttributes(), cluInstructor, luDao));
             clu.getInstructors().add(cluInstructor);
@@ -1361,12 +1383,14 @@ public class CluServiceImpl implements CluService {
             luCode.setAttributes(CluServiceAssembler.toGenericAttributes(
                     LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
                     luDao));
-            BeanUtils.copyProperties(luCodeInfo, luCode, new String[]{
-                    "attributes", "meta"});
+
+            luCode.setValue(luCodeInfo.getValue());
             if (luCodeInfo.getDescr() != null) {
                 luCode.setDescr(luCodeInfo.getDescr().getPlain());
             }
+            luCode.setType(luCodeInfo.getTypeKey());
             luCode.setClu(clu);
+
             clu.getLuCodes().add(luCode);
         }
 
@@ -1545,14 +1569,20 @@ public class CluServiceImpl implements CluService {
             luDao.delete(entry.getValue());
         }
 
+        clu.setHasEarlyDropDeadline(cluInfo.getIsHasEarlyDropDeadline());
+        clu.setHazardousForDisabledStudents(cluInfo.getIsHazardousForDisabledStudents());
+        clu.setEnrollable(cluInfo.getIsEnrollable());
+        clu.setCanCreateLui(cluInfo.getCanCreateLui());
+
         // Now copy all not standard properties
         BeanUtils.copyProperties(cluInfo, clu, new String[]{"luType",
                 "officialIdentifier", "alternateIdentifiers", "descr",
                 "luCodes", "primaryInstructor", "instructors", "stdDuration",
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-                "meta", "intensity",
+                "meta", "versionInfo", "intensity",
                 "campusLocations", "accreditations",
-                "adminOrgs"});
+                "adminOrgs", "canCreateLui", "hasEarlyDropDeadline",
+                "hazardousForDisabledStudents", "enrollable", ""});
         Clu updated = null;
         try {
             updated = luDao.update(clu);
