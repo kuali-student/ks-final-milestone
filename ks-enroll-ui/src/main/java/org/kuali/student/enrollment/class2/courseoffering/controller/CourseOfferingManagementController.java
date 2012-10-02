@@ -408,7 +408,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theClusterWrapper.setRgWrapperList(filteredRGs);
         if(rgInfos.size()>0){
             theClusterWrapper.setRgStatus("All Registration Groups Generated");
-            theClusterWrapper.setHasAllCorrectRegGroups(true);
+            theClusterWrapper.setHasAllRegGroups(true);
         }
 
         //finally, move selected AO from AO table under selected Cluster to the unassigned table
@@ -542,7 +542,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 //build RGWrapperList and set it to selectedClusterWrapper
                 List<RegistrationGroupWrapper> rgWrapperListPerCluster = _getRGsForSelectedFO(rgInfos, selectedClusterWrapper.getAoWrapperList());
                 selectedClusterWrapper.setRgWrapperList(rgWrapperListPerCluster);
-                selectedClusterWrapper.setHasAllCorrectRegGroups(true);
+                selectedClusterWrapper.setHasAllRegGroups(true);
                 selectedClusterWrapper.setRgStatus("All Registration Groups Generated");
             }
         }else {
@@ -589,7 +589,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
             aoClusterWrapper.setAoWrapperList(defaultAOList);
             if(rgInfos.size()>0){
-                aoClusterWrapper.setHasAllCorrectRegGroups(true);
+                aoClusterWrapper.setHasAllRegGroups(true);
                 aoClusterWrapper.setRgStatus("All Registration Groups Generated");
             }
             List<ActivityOfferingClusterWrapper> aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
@@ -677,7 +677,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 //update RG status
                 List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfo.getId(), getContextInfo());
                 if (rgInfos.size() > 0) {
-                    theForm.getFilteredAOClusterWrapperList().get(i).setHasAllCorrectRegGroups(false);
+                    theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("Only Some Registration Groups Generated");
                 }
                 break;
