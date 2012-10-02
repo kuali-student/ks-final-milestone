@@ -1066,7 +1066,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         //Turn the following code on once the COServiceImpl supports it
         List<ActivityOfferingInfo> aoList = getCourseOfferingService().getActivityOfferingsWithoutClusterByFormatOffering(theFOId,getContextInfo());
         for (ActivityOfferingInfo ao: aoList){
-            filterdAOList.add(new ActivityOfferingWrapper(ao));
+            ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(ao);
+            filterdAOList.add(aoWrapper);
 
         }
         return filterdAOList;

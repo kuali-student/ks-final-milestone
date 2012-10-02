@@ -57,10 +57,10 @@
 
 
                                         <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups"-->
-                                              <!--p:actionScript = "showLightboxComponent('registrationGroupsPerFormatSection');" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_button"/>-->
+                                        <!--p:actionScript = "showLightboxComponent('registrationGroupsPerFormatSection');" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_button"/>-->
                                         <!--<ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>-->
                                         <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster"-->
-                                              <!--p:actionScript = "showLightboxComponent('createNewClusterSection');" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="create_new_cluster_button"/>-->
+                                        <!--p:actionScript = "showLightboxComponent('createNewClusterSection');" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="create_new_cluster_button"/>-->
                                         <!--<ref bean="KS-CreateNewCluster" />-->
                                     </list>
                                 </property>
@@ -245,14 +245,14 @@
         <property name="items">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster (LightBox)" p:methodToCall="createNewClusterFromLightBox"
-                    p:id="create_new_cluster_button"/>
+                      p:id="create_new_cluster_button"/>
                 <ref bean="KS-ManageRegistrationGroupsPage-CreateNewClusterSection"/>
                 <ref bean="KS-ManageRegistrationGroupPage-ClusterCollection"/>
             </list>
         </property>
     </bean>
-            
-            
+
+
     <bean id="KS-ManageRegistrationGroupPage-ClusterCollection" parent="KS-HorizontalCollectionSection"
           p:renderAddLine="false"  p:renderLineActions="false">
         <property name="disclosure.render" value="false"/>
@@ -268,7 +268,7 @@
             <list>
                 <ref bean="KS-ManageRegistrationGroupPage-StateAndActionLinks"/>
             </list>
-         </property>
+        </property>
         <property name="subCollections">
             <list>
                 <ref bean="KS-ManageRegistrationGroupPage-ActivityOfferingsPerClusterSubSection" />
@@ -276,7 +276,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="KS-ManageRegistrationGroupsPage-CreateNewClusterSection" parent="Uif-HorizontalBoxSection">
         <property name="id" value="createNewClusterSection" />
         <property name="disclosure.render" value="false"/>
@@ -314,12 +314,12 @@
                             <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
                             <!--<bean parent="Uif-ActionLink" p:methodToCall="deleteACluster" p:actionLabel="Remove Cluster"-->
-                                  <!--p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"-->
-                                   <!--/>-->
+                            <!--p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"-->
+                            <!--/>-->
                             <!--<bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />-->
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteAClusterThroughDialog" p:actionLabel="Delete"
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" />
-                                  <!--p:actionScript="showLightboxComponent('confirmToDeleteClusterDialog');"  />-->
+                            <!--p:actionScript="showLightboxComponent('confirmToDeleteClusterDialog');"  />-->
                         </list>
                     </property>
                 </bean>
@@ -517,12 +517,12 @@
         <property name="headerText" value="Delete Activity Offering Cluster"/>
         <property name="promptText" value="This action is not reversible. Are you sure you want to continue?"/>
         <!--<property name="items">-->
-            <!--<list>-->
-                <!--<bean id="imageWarning" parent="Uif-ImageField" p:width="75px" p:height="75px"-->
-                      <!--p:source="@{#ConfigProperties['krad.externalizable.images.url']}warning.png"/>-->
-            <!--</list>-->
+        <!--<list>-->
+        <!--<bean id="imageWarning" parent="Uif-ImageField" p:width="75px" p:height="75px"-->
+        <!--p:source="@{#ConfigProperties['krad.externalizable.images.url']}warning.png"/>-->
+        <!--</list>-->
         <!--</property>-->
-         <property name="availableResponses">
+        <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Delete"/>
                 <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
