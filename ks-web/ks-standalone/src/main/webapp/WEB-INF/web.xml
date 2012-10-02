@@ -16,55 +16,70 @@
 
 -->
 
-<web-app>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>Kuali Student Standalone</display-name>
+
+    <!-- Change this if you want to use a different Spring file -->
+    <context-param>
+      <param-name>web.bootstrap.spring.file</param-name>
+      <param-value>classpath:org/kuali/rice/standalone/config/StandaloneSpringBeans.xml</param-value>
+    </context-param>
 
     <context-param>
       <param-name>log4j.config.file.location</param-name>
       <param-value>${user.home}/kuali/main/dev/ks-standalone-log4j.properties</param-value>
     </context-param>
 
-    <listener>
-      <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
-    </listener>
-    
     <context-param>
-	    <param-name>contextConfigLocation</param-name>
-      	<param-value>classpath:ksb/ks-standalone-context.xml</param-value>
-    </context-param>	
-   
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:ks-spring-security.xml</param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+   	  <filter-name>springSecurityFilterChain</filter-name>
+   	  <url-pattern>/*</url-pattern>
+   	</filter-mapping>
+
 	<servlet>
 		<servlet-name>remoting</servlet-name>
 		<servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>remoting</servlet-name>
-		<url-pattern>/services/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
+    <servlet>
+       <servlet-name>ks-krad</servlet-name>
+       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+       <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <servlet>
 		<servlet-name>GWT-ORG</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+      			<param-name>contextConfigLocation</param-name>
+      			<param-value>classpath:core-gwt-context.xml</param-value>
+        </init-param>
 		<load-on-startup>3</load-on-startup>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:core-gwt-context.xml</param-value>
-		</init-param>		
 	</servlet>
-	
+
 	<servlet>
 		<servlet-name>GWT-LUM</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>2</load-on-startup>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:lum-gwt-context.xml</param-value>
-		</init-param>		
+		</init-param>
+        <load-on-startup>2</load-on-startup>
 	</servlet>
-	
-	<!-- Export Download HTTP Servlet -->
-    <servlet>  
+
+    <servlet>
    	 	<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
    	 	<servlet-class>org.kuali.student.common.ui.server.gwt.ExportDocumentDownload</servlet-class>  
    	 </servlet>  
@@ -73,8 +88,6 @@
    	 		<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
    			<url-pattern>/exportDownloadHTTPServlet</url-pattern>  
    	 </servlet-mapping>  
-	<!-- HTTP Servlet end -->
-	
 
 	<servlet-mapping>
 		<servlet-name>GWT-ORG</servlet-name>
@@ -100,20 +113,45 @@
 		<servlet-name>GWT-LUM</servlet-name>
 		<url-pattern>/org.kuali.student.lum.lu.ui.workflow.CollaboratorRequest/rpcservices/*</url-pattern>
 	</servlet-mapping>	
-	
-	<welcome-file-list>
+
+    <servlet-mapping>
+   		<servlet-name>remoting</servlet-name>
+   		<url-pattern>/services/*</url-pattern>
+   	</servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>ks-krad</servlet-name>
+        <url-pattern>/kr-krad/*</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
 		<welcome-file>index.html</welcome-file>
         <!--  <welcome-file>index.jsp</welcome-file> -->
 	</welcome-file-list>
  	
-  	<filter>
-	  <filter-name>springSecurityFilterChain</filter-name>
-	  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-	</filter>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
-	<filter-mapping>
-	  <filter-name>springSecurityFilterChain</filter-name>
-	  <url-pattern>/*</url-pattern>
-	</filter-mapping>
+    <listener>
+        <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.core.web.listener.BootstrapListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+    </listener>
+
  
 </web-app>

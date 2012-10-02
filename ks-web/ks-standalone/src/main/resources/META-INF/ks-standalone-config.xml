@@ -18,6 +18,7 @@
 <config>
     
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
+    <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
 
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
@@ -28,7 +29,8 @@
     <param name="jpa.vendor">hibernate</param>
 
     <param name="app.code">ks-standalone</param>
-    <param name="appserver.url">http://localhost:8084</param>
+    <param name="application.id">ks-standalone</param>
+    <param name="appserver.url">http://localhost:8081</param>
 	
     <param name="serviceNamespace">ks-standalone</param>
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
@@ -76,7 +78,7 @@
     <param name="datasource.password.derby">r1c3</param>
     <param name="datasource.pool.validationQuery.derby">values(1)</param>
     
-    <param name="rice.ksb.jpa.enabled.oracle">true</param>
+    <param name="rice.ksb.jpa.enabled.oracle">false</param>
     <param name="rice.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
 	<param name="datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
@@ -102,8 +104,11 @@
     <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
-    
-    
+
+    <!-- run modes -->
+    <param name="kim.mode">EMBEDDED</param>
+    <param name="kew.mode">EMBEDDED</param>
+
     <!-- additional config files -->
     <!--
         Setting this property allows selective loading lum or core project or both
@@ -120,9 +125,11 @@
     
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">http://localhost:8080/ks-rice-${environment}</param>
-    
+    <param name="rice.server.url">${ks.rice.url}</param>
+    <!-- Set all services to /services instead of /remoting -->
     <param name="serviceServletUrl">${application.url}/services/</param>
-    
+    <param name="rice.ksb.registry.serviceUrl">${rice.server.url}/services/soap/ksb/v2_0/serviceRegistry</param>
+
     <!-- Rice URLS --> 
 	<param name="ks.rice.personLookup.serviceAddress">${ks.rice.url}/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">${ks.rice.url}/kew/ActionList.do</param>
