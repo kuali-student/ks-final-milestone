@@ -1672,7 +1672,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		}
 	}
 
-	//@Test
+	@Test
 	public void testSearchForResults() throws AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1692,13 +1692,13 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			}
 		});
 		assertNotNull(clus);
-		assertEquals(103, clus.getRows().size());
+		assertEquals(111, clus.getRows().size());
 		SearchResultRow result = clus.getRows().get(0);
 		assertNotNull(result);
 
 		List<SearchResultCell> resultCells = result.getCells();
 		assertNotNull(resultCells);
-		assertEquals(2, resultCells.size());
+		assertEquals(3, resultCells.size());
 
 		SearchResultCell resultCell = resultCells.get(0);
 		assertEquals("lu.resultColumn.cluId", resultCell.getKey());
@@ -2271,7 +2271,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	// KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
-	//@Test
+	@Test
 	public void testCreateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
@@ -2365,7 +2365,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
     // KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
-	//@Test
+	@Test
 	public void testGetDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
@@ -2475,7 +2475,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
     // KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
-	//@Test
+	@Test
 	public void testUpdateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 	    
