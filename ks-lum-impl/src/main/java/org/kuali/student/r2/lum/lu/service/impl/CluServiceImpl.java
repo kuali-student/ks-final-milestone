@@ -1313,6 +1313,7 @@ public class CluServiceImpl implements CluService {
             luDao.delete(clu.getPrimaryInstructor());
         }
 
+        // TODO KSENROLL-3210 - this needs rework as clu-instructor ids will be replaced with new UUIDs for modified elements
         // Update the List of instructors
         // Get a map of Id->object of all the currently persisted objects in the
         // list
@@ -1356,6 +1357,7 @@ public class CluServiceImpl implements CluService {
             luDao.delete(clu.getStdDuration());
         }
 
+        // TODO KSENROLL-3210 - this needs rework as clu-instructor ids will be replaced with new UUIDs for modified elements
         // Update the LuCodes
         // Get a map of Id->object of all the currently persisted objects in the
         // list
