@@ -43,6 +43,10 @@
                 <bean parent="Uif-Message" p:messageText="@{searchParameter}" p:style="font-size:125%;font-weight:bold;"/>
                 <ref bean="KS-ScheduleOfClasses-CourseOfferingListSection"/>
                 <ref bean="scheduleOfClassesSearchResults"/>
+                <!-- Temporal solution to display 2 AO lists simultaneously. -->
+                <ref bean="scheduleOfClassesSearchResultsAdd"/>
+                <bean parent="Uif-DataField" p:propertyName="displayCoId" p:hidden="true" p:id="displayCoId" />
+                <bean parent="Uif-DataField" p:propertyName="displayCoIdAdd" p:hidden="true" p:id="displayCoIdAdd" />
             </list>
         </property>
     </bean>
@@ -86,6 +90,32 @@
         <property name="headerText" value="Activities" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper" />
         <property name="propertyName" value="aoDisplayWrapperList" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="CODE" p:propertyName="aoDisplayInfo.activityOfferingCode" />
+                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="aoDisplayInfo.typeName" />
+                <bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />
+                <bean parent="Uif-DataField" p:label="DAYS" p:propertyName="daysDisplayName"/>
+                <bean parent="Uif-DataField" p:label="START TIME" p:propertyName="startTimeDisplay"/>
+                <bean parent="Uif-DataField" p:label="END TIME" p:propertyName="endTimeDisplay"/>
+                <bean parent="Uif-DataField" p:label="BUILDING" p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField" p:label="ROOM" p:propertyName="roomName"/>
+                <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" />
+                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoDisplayInfo.maximumEnrollment" />
+                <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Temporal solution to display 2 AO lists simultaneously. -->
+    <bean id="scheduleOfClassesSearchResultsAdd" parent="Uif-TableSubCollection-WithinSection" p:renderAddLine="false" p:renderLineActions="false" p:render="@{courseOfferingId != ''}" p:style="display: none">
+        <property name="headerText" value="Activities" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper" />
+        <property name="propertyName" value="aoDisplayWrapperAddList" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
