@@ -49,10 +49,15 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
     // For AJAX purpose
     private String courseOfferingId;
     private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList;
+    private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperAddList;
+    // Temporal solution to display 2 AO lists simultaneously.
+    private String displayCoId;
+    private String displayCoIdAdd;
 
     public ScheduleOfClassesSearchForm (){
         coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
         aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
+        aoDisplayWrapperAddList = new ArrayList<ActivityOfferingDisplayWrapper>();
         courseOfferingId = "";
     }
 
@@ -166,5 +171,29 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
 
     public void setAoDisplayWrapperList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList) {
         this.aoDisplayWrapperList = aoDisplayWrapperList;
+    }
+
+    public List<ActivityOfferingDisplayWrapper> getAoDisplayWrapperAddList() {
+        return aoDisplayWrapperAddList;
+    }
+
+    public void setAoDisplayWrapperAddList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperAddList) {
+        this.aoDisplayWrapperAddList = aoDisplayWrapperAddList;
+    }
+
+    public String getDisplayCoId() {
+        return displayCoId;
+    }
+
+    public void setDisplayCoId(String displayCoId) {
+        this.displayCoId = displayCoId;
+    }
+
+    public String getDisplayCoIdAdd() {
+        return displayCoIdAdd;
+    }
+
+    public void setDisplayCoIdAdd(String displayCoIdAdd) {
+        this.displayCoIdAdd = displayCoIdAdd;
     }
 }
