@@ -50,7 +50,8 @@
     </bean>
 
     <bean id="ActivityOffering-MaintenanceView" parent="KSMaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView}" p:entryPageId="ActivityOfferingEdit-MainPage">
-        <property name="headerText" value="Activity Offering Maintenance"/>
+        <property name="headerText" value="Edit Activity Offering"/>
+        <property name="breadcrumbTitlePropertyName" value="aoInfo.activityCode"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
         <property name="singlePageView" value="false"/>
