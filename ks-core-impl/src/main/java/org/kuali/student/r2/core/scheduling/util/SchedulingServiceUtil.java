@@ -90,7 +90,9 @@ public class SchedulingServiceUtil {
     }
 
     public static List<Integer> weekdaysString2WeekdaysList(String weekdaysString) {
+
         List<Integer> result = new ArrayList<Integer>();
+        if(weekdaysString == null) return result;
 
         checkStringForDayCode(SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE, Calendar.MONDAY, result, weekdaysString);
         checkStringForDayCode(SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE, Calendar.TUESDAY, result, weekdaysString);
