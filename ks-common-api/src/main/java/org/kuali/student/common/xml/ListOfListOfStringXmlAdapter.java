@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2012 The Kuali Foundation
  *
  * Licensed under the the Educational Community License, Version 1.0
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.courseoffering.service;
+package org.kuali.student.common.xml;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * @author ocleirig
+ * @author Kuali Student Team
  *
  */
 public class ListOfListOfStringXmlAdapter extends XmlAdapter<String, List<List<String>>> {
