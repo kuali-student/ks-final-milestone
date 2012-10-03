@@ -814,7 +814,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         defaultCluster = getCourseOfferingService().createActivityOfferingCluster(formatOfferingId,
                 defaultCluster.getTypeKey(), defaultCluster, getContextInfo());
         List<ActivityOfferingWrapper> filteredAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
-        defaultCluster = _updateAOSets(filteredAOs,defaultCluster);
+        defaultCluster = _updateAOSets(filteredAOs,defaultCluster,formatOfferingId);
         return defaultCluster;
     }
 
@@ -831,7 +831,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     private  ActivityOfferingClusterInfo _updateAOSets(List<ActivityOfferingWrapper> aoWrapperList,
-                                                            ActivityOfferingClusterInfo clusterInfo) {
+                                         ActivityOfferingClusterInfo clusterInfo, String formatOfferingId) throws Exception {
         List<ActivityOfferingSetInfo> aoSetInfoList = clusterInfo.getActivityOfferingSets();
         for (ActivityOfferingWrapper aoWrapper:aoWrapperList){
             try {
@@ -853,6 +853,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
             clusterInfo.setActivityOfferingSets(aoSetInfoList);
         }
+        clusterInfo = getCourseOfferingService().updateActivityOfferingCluster(formatOfferingId,
+                                                                    clusterInfo.getId(), clusterInfo, getContextInfo());
         return clusterInfo;
     }
     
