@@ -279,9 +279,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
 
-        //Add a space between selected days ("MTWHFSU") for the UI read-only string
+        // Add a space between selected days ("MTWHFSU") for the UI read-only string
         StringBuilder buffer = new StringBuilder();
-        if(scheduleWrapper.getDays() != null) {
+        if (scheduleWrapper.getDays() != null) {
             char[] days = scheduleWrapper.getDays().toUpperCase().toCharArray();
             for (char day : days) {
                 buffer.append(day).append(" ");
@@ -289,25 +289,32 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         scheduleWrapper.setDaysUI(StringUtils.stripEnd(buffer.toString()," "));
-        if(scheduleWrapper.getStartTime() != null) {
+        if (scheduleWrapper.getStartTime() != null) {
             scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
         }
-        if(scheduleWrapper.getEndTime() != null) {
+        if (scheduleWrapper.getEndTime() != null) {
             scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
         }
 
         try {
-
-            if(StringUtils.isNotEmpty(scheduleWrapper.getBuildingCode())) {
-                List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(),getContextInfo());
-                if(!buildings.isEmpty()) {
+            //  Validate building and room codes before returning on error.
+            boolean hasBuildingRoomError = false;
+            if (StringUtils.isNotEmpty(scheduleWrapper.getBuildingCode())) {
+                List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(), getContextInfo());
+                if (buildings.isEmpty()) {
+                    GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.buildingCode", RiceKeyConstants.ERROR_CUSTOM, "Facility code was invalid.");
+                    hasBuildingRoomError = true;
+                } else {
                     scheduleWrapper.setBuilding(buildings.get(0));
                 }
             }
 
             if (StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
                 List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(),scheduleWrapper.getRoomCode(),getContextInfo());
-                if(!rooms.isEmpty()) {
+                if (rooms.isEmpty()) {
+                    GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.roomCode", RiceKeyConstants.ERROR_CUSTOM, "Room code was invalid.");
+                    hasBuildingRoomError = true;
+                } else {
                     RoomInfo room = rooms.get(0);
                     if(room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()){
                         scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
@@ -315,18 +322,21 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     scheduleWrapper.setRoom(room);
                 }
             }
+
+            if (hasBuildingRoomError) {
+                return;
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         if (form.isMainPage()){
             activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
-        }else{
+        } else {
             activityOfferingWrapper.getRevisedScheduleRequestComponents().add(scheduleWrapper);
         }
 
         activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
-
     }
 
     public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper){
