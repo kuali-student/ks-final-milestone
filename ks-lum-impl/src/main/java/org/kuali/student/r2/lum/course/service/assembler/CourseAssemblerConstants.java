@@ -61,9 +61,9 @@ public class CourseAssemblerConstants {
 //	public final static String COURSE_RESULT_TYPE_CREDITS = "kuali.resultType.credits";
 	public final static String COURSE_RESULT_TYPE_GRADE   = "kuali.resultType.gradeCourseResult";
 	public final static String COURSE_RESULT_TYPE_CREDITS = "kuali.resultType.creditCourseResult";
-	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_FIXED = "kuali.resultComponentType.credit.degree.fixed";
-	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE = "kuali.resultComponentType.credit.degree.range";
-	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE = "kuali.resultComponentType.credit.degree.multiple";
+	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_FIXED = "kuali.result.values.group.type.fixed";
+	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE = "kuali.result.values.group.type.range";
+	public final static String COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE = "kuali.result.values.group.type.multiple";
 	public static final String COURSE_RESULT_COMP_GRADE_PASSFAIL = "kuali.resultComponent.grade.passFail";
 	public static final String COURSE_RESULT_COMP_GRADE_AUDIT = "kuali.resultComponent.grade.audit";
 	public static final String COURSE_RESULT_COMP_ATTR_PASSFAIL = "passFail";

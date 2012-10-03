@@ -1313,14 +1313,12 @@ public class CluServiceImpl implements CluService {
             luDao.delete(clu.getPrimaryInstructor());
         }
 
-        // TODO KSENROLL-3210 - this needs rework as clu-instructor ids will be replaced with new UUIDs for modified elements
         // Update the List of instructors
         // Get a map of Id->object of all the currently persisted objects in the
         // list
         Map<String, CluInstructor> oldInstructorMap = new HashMap<String, CluInstructor>();
         for (CluInstructor cluInstructor : clu.getInstructors()) {
-            oldInstructorMap.put(cluInstructor.getOrgId() + "_"
-                    + cluInstructor.getPersonId(), cluInstructor);
+            oldInstructorMap.put(cluInstructor.getId(), cluInstructor);
         }
         clu.getInstructors().clear();
 
@@ -1328,16 +1326,13 @@ public class CluServiceImpl implements CluService {
         // remove from the list
         // otherwise create a new entry
         for (CluInstructorInfo instructorInfo : cluInfo.getInstructors()) {
-            CluInstructor cluInstructor = oldInstructorMap.remove(instructorInfo.getOrgId() + "_"
-                    + instructorInfo.getPersonId());
+            CluInstructor cluInstructor = oldInstructorMap.remove(instructorInfo.getId());
             if (cluInstructor == null) {
                 cluInstructor = new CluInstructor();
             }
-
             // Do Copy
-            // new id will be created with updated instructor/org pair so disregard old id
             BeanUtils.copyProperties(instructorInfo, cluInstructor,
-                    new String[]{"attributes","id"});
+                    new String[]{"attributes"});
             cluInstructor.setAttributes(CluServiceAssembler.toGenericAttributes(
                     CluInstructorAttribute.class, instructorInfo.getAttributes(), cluInstructor, luDao));
             clu.getInstructors().add(cluInstructor);

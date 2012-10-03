@@ -536,19 +536,19 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         SwapCompositeCondition fixedCreditCondition = new SwapCompositeCondition(
                 CompositeConditionOperator.AND);
         fixedCreditCondition.getChildrenConditions().add(
-                makeCondition(creditTypeFullPath, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.fixed")
+                makeCondition(creditTypeFullPath, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.result.values.group.type.fixed")
         );
         fixedCreditCondition.setConditionId("1");
         SwapCompositeCondition multipleCreditCondition = new SwapCompositeCondition(
                 CompositeConditionOperator.AND);
         multipleCreditCondition.getChildrenConditions().add(
-                makeCondition(creditTypeFullPath, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.multiple")
+                makeCondition(creditTypeFullPath, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.result.values.group.type.multiple")
         );
         multipleCreditCondition.setConditionId("2");
         SwapCompositeCondition variableCreditCondition = new SwapCompositeCondition(
                 CompositeConditionOperator.AND);
         variableCreditCondition.getChildrenConditions().add(
-                makeCondition(creditTypeFullPath, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.resultComponentType.credit.degree.range")
+                makeCondition(creditTypeFullPath, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.result.values.group.type.range")
         );
         variableCreditCondition.setConditionId("3");
         

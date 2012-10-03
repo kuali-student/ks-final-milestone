@@ -202,15 +202,15 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                     credits = credits + "; ";
                                 }
 
-                                if (creditType.equals("kuali.resultComponentType.credit.degree.fixed")) {
+                                if (creditType.equals("kuali.result.values.group.type.fixed")) {
                                     credits = credits + resultValues.get(0);
-                                } else if (creditType.equals("kuali.resultComponentType.credit.degree.multiple")) {
+                                } else if (creditType.equals("kuali.result.values.group.type.multiple")) {
                                     boolean firstValue = true;
                                     for (String resultValue : resultValues) {
                                         credits = credits + (firstValue ? "" :", ")  + resultValue;
                                         firstValue = false;
                                     }
-                                } else if (creditType.equals("kuali.resultComponentType.credit.degree.range")) {
+                                } else if (creditType.equals("kuali.result.values.group.type.range")) {
                                     String minCredits = null;
                                     String maxCredits = null;
                                     for (AttributeInfo attr : resultComponentInfo.getAttributes()){

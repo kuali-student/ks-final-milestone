@@ -198,7 +198,7 @@ public class CreateCourseSeleniumTest {
         driver.findElement(By.id("gwt-debug-Completed-notation-input")).click();
         driver.findElement(By.id("gwt-debug-Standard-final-Exam-input")).click();
         WebElement outcome1Type = driver.findElement(By.xpath("//select[@id='gwt-debug-creditOptions-0-type']"));
-        clickOptionInSelectList(outcome1Type, "kuali.resultComponentType.credit.degree.fixed");
+        clickOptionInSelectList(outcome1Type, "kuali.result.values.group.type.fixed");
         // ERROR: Caught exception [ERROR: Unsupported command [select]]
         WebElement outcome1CreditValue = driver.findElement(By
                 .xpath("//input[@id='gwt-debug-creditOptions-0-fixedCreditValue']"));

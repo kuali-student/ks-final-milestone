@@ -4,6 +4,7 @@ SELECT type_key, obj_id, nvl(name,' '), type_desc, type_desc, eff_dt, expir_dt, 
     'http://student.kuali.org/wsdl/lrc/LrcService', nvl(ver_nbr,0), to_date('2012/09/17','YYYY/MM/DD'), 'CMLRCUPGRADE', null, null 
 FROM KSLR_RESCOMP_TYPE
 WHERE type_key NOT IN (SELECT TYPE_KEY FROM KSEN_TYPE)
+AND type_key NOT IN ('kuali.resultComponentType.credit.degree.range','kuali.resultComponentType.credit.degree.fixed','kuali.resultComponentType.credit.degree.multiple')
 /
 
 
@@ -13,10 +14,10 @@ INSERT INTO KSEN_LRC_RVG
 SELECT RC.ID, RC.OBJ_ID,
 (CASE
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.degree' THEN 'kuali.result.values.group.type.fixed'
-WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.range' THEN 'kuali.resultComponentType.credit.degree.range'
-WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.fixed' THEN 'kuali.resultComponentType.credit.degree.fixed'
+WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.range' THEN 'kuali.result.values.group.type.range'
+WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.fixed' THEN 'kuali.result.values.group.type.fixed'
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.grade.finalGrade' THEN 'kuali.resultComponentType.grade.finalGrade'
-WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.multiple' THEN 'kuali.resultComponentType.credit.degree.multiple'
+WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.multiple' THEN 'kuali.result.values.group.type.multiple'
 END), 
 NVL(RC.STATE, 'state.null'), 
 RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''), 

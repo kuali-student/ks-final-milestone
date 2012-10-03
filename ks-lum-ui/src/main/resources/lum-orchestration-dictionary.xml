@@ -8786,8 +8786,8 @@ Questions please contact Norm Wright.
                     <property name="optional" value="true" />
 					<property name="defaultValueList">
 						<list>
-							<value>kuali.resultComponentType.credit.degree.fixed</value>
-							<value>kuali.resultComponentType.credit.degree.range</value>
+							<value>kuali.result.values.group.type.fixed</value>
+							<value>kuali.result.values.group.type.range</value>
 						</list>
 					</property>                   
                     <property name="name" value="Result Component Type" />

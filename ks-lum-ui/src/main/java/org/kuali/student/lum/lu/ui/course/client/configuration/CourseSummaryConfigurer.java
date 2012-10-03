@@ -715,12 +715,12 @@ public class CourseSummaryConfigurer extends Configurer implements
 
                     if (data1 != null && data1 instanceof String) {
                         if (!((String) data1)
-                                .equals("kuali.resultComponentType.credit.degree.multiple")) {
+                                .equals("kuali.result.values.group.type.multiple")) {
                             row.setShown(false);
                         }
                     } else if (data2 != null && data2 instanceof String) {
                         if (!((String) data2)
-                                .equals("kuali.resultComponentType.credit.degree.multiple")) {
+                                .equals("kuali.result.values.group.type.multiple")) {
                             row.setShown(false);
                         }
                     }
@@ -1122,12 +1122,12 @@ public class CourseSummaryConfigurer extends Configurer implements
 
                     if (data1 != null && data1 instanceof String) {
                         if (!((String) data1)
-                                .equals("kuali.resultComponentType.credit.degree.multiple")) {
+                                .equals("kuali.result.values.group.type.multiple")) {
                             row.setShown(false);
                         }
                     } else if (data2 != null && data2 instanceof String) {
                         if (!((String) data2)
-                                .equals("kuali.resultComponentType.credit.degree.multiple")) {
+                                .equals("kuali.result.values.group.type.multiple")) {
                             row.setShown(false);
                         }
                     }

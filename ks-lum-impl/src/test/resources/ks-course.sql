@@ -15,7 +15,7 @@
 
 // Course
 INSERT INTO KSLU_LUTYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) values ('kuali.lu.type.activity.WebDiscussion', 'Instructor discussion of course materials via the web', {ts '2000-01-01 00:00:00.0'}, {ts '2000-12-31 00:00:00.0'}, 'Discussion')
-//INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.resultComponentType.credit.degree.multiple', 'This records multiple number of credits that are awarded if the student passes the course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Multiple Number');
+//INSERT INTO KSLR_RESCOMP_TYPE (TYPE_KEY, TYPE_DESC, EFF_DT, EXPIR_DT, NAME) VALUES ('kuali.result.values.group.type.multiple', 'This records multiple number of credits that are awarded if the student passes the course.', {ts '2000-01-01 00:00:00.0'}, {ts '2020-01-01 00:00:00.0'}, 'Multiple Number');
 
 // LoCategory
 INSERT INTO KSLO_LO_CATEGORY (ID, NAME, RT_DESCR_ID, LO_REPO_ID, LO_CATEGORY_TYPE_ID, STATE, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('category-1', 'Perception', 'RICHTEXT-14', 'kuali.loRepository.key.singleUse', 'loCategoryType.skillarea', 'active', {ts '2008-01-01 00:00:00.0'}, {ts '2010-01-01 00:00:00.0'},1)
