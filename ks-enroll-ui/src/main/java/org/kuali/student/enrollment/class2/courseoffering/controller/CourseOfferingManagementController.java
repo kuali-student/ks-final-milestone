@@ -670,12 +670,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView moveAOBetweenClusters (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActivityOfferingClusterInfo selectedAOCInfoTo = new ActivityOfferingClusterInfo();
-        ActivityOfferingClusterInfo selectedAOCInfoFrom = new ActivityOfferingClusterInfo();        
+        ActivityOfferingClusterInfo selectedAOCInfoFrom = new ActivityOfferingClusterInfo();
         List<ActivityOfferingClusterWrapper> aocWrapperToList = theForm.getFilteredAOClusterWrapperList();
 
-            //get selected TO AOC info
+        //get selected TO AOC info
         if (theForm.getClusterIdForAOMove() != null && !theForm.getClusterIdForAOMove().equals("") &&
-                theForm.getClusterIdForAOMove().length() > 0  ) { 
+                theForm.getClusterIdForAOMove().length() > 0  ) {
             String aocId = "";
             if (theForm.getClusterIdForAOMove().contains(",") ) {
                 //strip off "," - not sure why commas are between IDs in the keyValue finder in the footer?
@@ -688,7 +688,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
             }
             selectedAOCInfoTo = getCourseOfferingService().getActivityOfferingCluster(aocId, getContextInfo());
-        } 
+        }
 
         //check if valid selectedAOCInfoTo is selected
         if(selectedAOCInfoTo.getId() == null || selectedAOCInfoTo.getId().equals("") ) {
@@ -709,8 +709,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     } else {
                         selectedAOCInfoFrom = aocWreapperFrom.getAoCluster();
                     }
-                    
-                    //delete all RGs for the cluster the  AO(s) is moved from
+
+                    //delete all RGs for AO being moved
                     List<RegistrationGroupInfo> rgInfoList = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedAOCInfoFrom.getId(),getContextInfo());
                     if (rgInfoList.size() > 0) {
                         for (RegistrationGroupInfo rgInfo :rgInfoList) {
@@ -776,9 +776,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
             if (theForm.getFilteredAOClusterWrapperList().get(i).getActivityOfferingClusterId().equals(updatedSelectedAOCInfoFrom.getId())) {
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOsFrom);
-                //update RG status for updatedSelectedAOCInfoTo (RGs were deleted above)
-                theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
-                theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("No Registration Groups Generated");
+                //update RG status for updatedSelectedAOCInfoFrom
+                List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfoFrom.getId(), getContextInfo());
+                if (rgInfos.size() > 0) {
+                    theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(true);
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("View Registration Groups");
+                    //update RGs for the form
+                    List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgWrapperList(filteredRGs);
+                } else {
+                    theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("No Registration Groups Generated");
+                }
             }
         }
         //return updated form
