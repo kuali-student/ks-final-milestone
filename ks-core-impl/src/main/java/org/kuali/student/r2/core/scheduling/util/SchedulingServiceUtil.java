@@ -131,31 +131,14 @@ public class SchedulingServiceUtil {
         }
         if (!hasCommonWeekday) return false;
         // there is a common weekday, so now check if there is an overlap of time.
-        // Check if the start times or end times are same, then they overlap.
-        if ((timeSlotInfo1.getStartTime().equals(timeSlotInfo2.getStartTime()))
-                || (timeSlotInfo1.getEndTime().equals(timeSlotInfo2.getEndTime()))) {
-            return true;
+        // If the end time of one time slot is before the start time of the other, there is
+        // no overlap (alternate implementation--if you use semi-closed intervals where start
+        // time is in the interval but end time is not, then change isBefore to ! isAfter).
+        if (timeSlotInfo1.getEndTime().isBefore(timeSlotInfo2.getStartTime()) ||
+                timeSlotInfo2.getEndTime().isBefore(timeSlotInfo1.getStartTime())) {
+            return false;
         }
-        // now they have differing start times or end times.
-
-        // if first timeslot starts before second time slot, it must end before second timeslot starts
-        if (timeSlotInfo1.getStartTime().isBefore(timeSlotInfo2.getStartTime())) {
-            if (timeSlotInfo1.getEndTime().isBefore(timeSlotInfo2.getStartTime())) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-
-        // if first timeslot starts after second time slot, it must start after second timeslot ends
-        if (timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getStartTime())) {
-            if (timeSlotInfo1.getStartTime().isAfter(timeSlotInfo2.getEndTime())) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     /**
