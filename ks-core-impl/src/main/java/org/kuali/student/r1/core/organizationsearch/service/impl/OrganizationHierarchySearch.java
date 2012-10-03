@@ -20,7 +20,6 @@ import org.kuali.student.r1.core.organization.entity.Org;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-@Deprecated
 public class OrganizationHierarchySearch implements OrganizationSearch {
 
     private OrganizationDao organizationDao;

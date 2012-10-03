@@ -29,14 +29,27 @@ import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.r1.core.organization.entity.OrgType;
+import org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationSearch;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao;
-import org.kuali.student.r2.core.organization.dto.*;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +57,7 @@ import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @WebService(endpointInterface = "org.kuali.student.r2.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
@@ -58,6 +72,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private SearchManager searchManager;
     private Validator validator;
     private CriteriaLookupService criteriaLookupService;
+    private Map<String, OrganizationSearch> searchOperations;
 
     /**
      * Check for missing parameter and throw localized exception if missing
@@ -72,6 +87,11 @@ public class OrganizationServiceImpl implements OrganizationService {
             throw new MissingParameterException(paramName + " can not be null");
         }
     }
+
+    public void setSearchOperations(Map<String, OrganizationSearch> searchOperations) {
+        this.searchOperations = searchOperations;
+    }
+
 
     public DictionaryService getDictionaryServiceDelegate() {
         return dictionaryServiceDelegate;
@@ -983,6 +1003,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
+
+        // Look for a Organization Search instance.
+        if (searchOperations != null) {
+            OrganizationSearch search = searchOperations.get(searchRequest.getSearchKey());
+            if (search != null) {
+                return search.search(searchRequest);
+            }
+        }
+
         return searchManager.search(searchRequest, organizationDao);
     }
 

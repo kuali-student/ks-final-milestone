@@ -128,6 +128,11 @@
         <property name="searchManager" ref="orgSearchManager" />
         <property name="extendedOrgDao" ref="extendedOrgDao"/>
         <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
+        <property name="searchOperations">
+            <map>
+                <entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" value-ref="organizationSearch"/>
+            </map>
+        </property>
     </bean>
 
     <bean id="orgSearchManager"
