@@ -76,14 +76,14 @@
     </bean>
 
     <bean id="KS-KitchenSink-Buttons-SecondarySmallImage" parent="Uif-SecondaryActionButton-Small">
-        <property name="actionLabel" value="Image Right"/>
+        <property name="actionLabel" value="Image Left"/>
         <property name="actionScript" value="alert('click');"/>
-        <property name="actionImagePlacement" value="RIGHT"/>
+        <property name="actionImagePlacement" value="LEFT"/>
         <property name="actionImage">
             <bean parent="Uif-Image">
-                <property name="source" value="@{#ConfigProperties['krad.externalizable.images.url']}h2_expand-back-ks.png"/>
+                <!--<property name="source" value="@{#ConfigProperties['krad.externalizable.images.url']}h2_expand-back-ks.png"/>-->
                 <!-- using ConfigProperties sometimes throws a freemarker exception; if so use -->
-                <!--<property name="source" value="../krad/images/h2_expand-back-ks.png"/>-->
+                <property name="source" value="../ks-enroll-ksink/images/plus_15px.png"/>
             </bean>
         </property>
     </bean>

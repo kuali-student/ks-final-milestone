@@ -1,2 +1,2 @@
-// allow cross-domain scripting to work
-document.domain = "kuali.org";
+// Allow cross-domain scripting to work.
+if (document.domain != "localhost") document.domain = "kuali.org";
