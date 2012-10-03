@@ -496,6 +496,55 @@
                 <ks.impex.generate.sql.mysql.phase>none</ks.impex.generate.sql.mysql.phase>
             </properties>
         </profile>
+
+        <profile>
+            <!--
+        This profile connects the dropping/creating/loading of a database to appropriate
+        phases of the Maven build lifecycle. The "clean" phase drops the db, the "initialize" phase creates the
+        db and grants permissions, and the "install" phase loads data into the db
+      -->
+            <id>ks-db-refresh</id>
+            <properties>
+                <ks.impex.generate.phase>none</ks.impex.generate.phase>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>maven-impex-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>import-data</id>
+                                <phase>install</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>drop-db</id>
+                                <phase>validate</phase>
+                            </execution>
+                            <execution>
+                                <id>validate-dba-config</id>
+                                <phase>validate</phase>
+                            </execution>
+                            <execution>
+                                <id>init-db</id>
+                                <phase>initialize</phase>
+                            </execution>
+                            <execution>
+                                <id>validate-db-config</id>
+                                <phase>verify</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <!--
         This profile connects the dropping/creating/loading of a database to appropriate
