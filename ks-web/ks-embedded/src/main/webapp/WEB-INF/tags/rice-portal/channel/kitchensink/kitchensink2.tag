@@ -46,9 +46,16 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
-        <li><portal:portalLink displayTitle="true" title="Collection Group Table Layout" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionsTL-View&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Collection Group Stacked Layout" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionSL-View&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Nested Table" url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-NestedTable-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection Group Table Layout"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionsTL-View&methodToCall=start" /></li>
+        <%-- replaced by CollectionStacked.xml
+        <li><portal:portalLink displayTitle="true" title="Collection Group Stacked Layout"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionSL-View&methodToCall=start" /></li>
+        --%>
+        <li><portal:portalLink displayTitle="true" title="Nested Table"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-NestedTable-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Stacked collection"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionStacked-View&methodToCall=collectionOne" /></li>
     </ul>
 
     <strong>Button / Header Levels</strong>
