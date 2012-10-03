@@ -21,9 +21,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,15 +30,13 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingEditWrapper implements Serializable {
+public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
-    private CourseOfferingInfo coInfo;
     private List<FormatOfferingInfo> formatOfferingList;
     private List<String> studentRegOptions;
     private List<String> crsGradingOptions;
     private List<OrganizationInfoWrapper> organizationNames;
     private List<OfferingInstructorWrapper> instructors;
-    private CourseInfo course;
     private String termStartEnd;
     private String stateName;
 
@@ -57,22 +53,14 @@ public class CourseOfferingEditWrapper implements Serializable {
     private String gradingOption;
 
     public CourseOfferingEditWrapper(){
-        coInfo = new CourseOfferingInfo();
+        super();
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         studentRegOptions = new ArrayList<String>();
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
         super();
-        coInfo = info;
-    }
-
-    public CourseOfferingInfo getCoInfo() {
-        return coInfo;
-    }
-
-    public void setCoInfo(CourseOfferingInfo coInfo) {
-        this.coInfo = coInfo;
+        setCoInfo(info);
     }
 
     public List<FormatOfferingInfo> getFormatOfferingList() {
@@ -133,14 +121,6 @@ public class CourseOfferingEditWrapper implements Serializable {
         this.selectedStudentRegOpts = selectedStudentRegOpts;
     }
 
-    public CourseInfo getCourse() {
-        return course;
-    }
-
-    public void setCourse(CourseInfo course) {
-        this.course = course;
-    }
-
     public CreditOptionInfo getCreditOption() {
         return creditOption;
     }
@@ -199,9 +179,10 @@ public class CourseOfferingEditWrapper implements Serializable {
 
     public boolean isLegalToDelete() {
 
-        if (StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
-            StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
-            StringUtils.equals(coInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {
+        if (getCoInfo() != null &&
+            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_DRAFT_STATE_KEY) ||
+            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) ||
+            StringUtils.equals(getCoInfo().getStateKey(), LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {
             return true;
         }
 
@@ -214,9 +195,11 @@ public class CourseOfferingEditWrapper implements Serializable {
         }
         return "No Credits Selected";
     }
+
     public String getSelectedStudentRegOptsUI(){
         return selectedStudentRegOpts;
     }
+
     public boolean getAuditStudentRegOpts() {
         return auditStudentRegOpts;
     }

@@ -229,22 +229,16 @@
                     </property>
                 </bean>
                <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP">
+                      p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP" p:refreshWhenChangedPropertyNames="#lp.formatId" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradeRosterLevelKeyValues"/>
                     </property>
                 </bean>
-               <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
-                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP">
+               <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatId"
+                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
-                   <property name="optionsFinder">
-                       <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FinalExamDriverKeyValues"/>
-                   </property>
                 </bean>
            </list>
          </property>

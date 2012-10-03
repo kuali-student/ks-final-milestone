@@ -16,8 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -28,35 +26,17 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class //TODO ... This calss is specific to CourseOffering and should be renamed appropriately
@@ -77,28 +57,6 @@ public class ViewHelperUtil {
     public static PersonService getPersonService() {
         return KimApiServiceLocator.getPersonService();
     }
-
-    public static List<KeyValue> collectActivityTypeKeyValues(CourseInfo course, TypeService typeService, ContextInfo contextInfo) {
-        List<KeyValue> results = new ArrayList<KeyValue>();
-
-        Set<String> activityTypes = new HashSet<String>();
-        for(FormatInfo format : course.getFormats()) {
-            for (ActivityInfo activity : format.getActivities()) {
-                // if we haven't added a value for this activity type yet
-                if(activityTypes.add(activity.getTypeKey())) {
-                    try {
-                        TypeInfo type = typeService.getType(activity.getTypeKey(), contextInfo);
-                        results.add(new ConcreteKeyValue(type.getKey(), type.getName()));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-        }
-
-        return results;
-    }
-
 
     public static String trimTrailing0(String creditValue){
         if (creditValue.indexOf(".0") > 0) {

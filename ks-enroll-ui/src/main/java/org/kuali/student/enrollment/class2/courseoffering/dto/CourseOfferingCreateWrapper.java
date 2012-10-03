@@ -1,15 +1,11 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseOfferingCreateWrapper implements Serializable{
+public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private String targetTermCode;
     private String catalogCourseCode;
@@ -26,10 +22,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     private int noOfTermOfferings;
 
-    private CourseInfo course;
-    private CourseOfferingInfo coInfo;
-    private TermInfo term;
-
     private List<FormatOfferingInfo> formatOfferingList;
     private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
@@ -39,6 +31,7 @@ public class CourseOfferingCreateWrapper implements Serializable{
     private boolean excludeInstructorInformation;
 
     public CourseOfferingCreateWrapper(){
+        super();
         showTermOfferingLink = true;
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
@@ -67,22 +60,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setCreateFromCatalog(boolean createFromCatalog) {
         this.createFromCatalog = createFromCatalog;
-    }
-
-    public CourseInfo getCourse() {
-        return course;
-    }
-
-    public void setCourse(CourseInfo course) {
-        this.course = course;
-    }
-
-    public CourseOfferingInfo getCoInfo() {
-        return coInfo;
-    }
-
-    public void setCoInfo(CourseOfferingInfo coInfo) {
-        this.coInfo = coInfo;
     }
 
     public String getCreditCount() {
@@ -131,14 +108,6 @@ public class CourseOfferingCreateWrapper implements Serializable{
 
     public void setExistingOfferingsInCurrentTerm(List<ExistingCourseOffering> existingOfferingsInCurrentTerm) {
         this.existingOfferingsInCurrentTerm = existingOfferingsInCurrentTerm;
-    }
-
-    public TermInfo getTerm() {
-        return term;
-    }
-
-    public void setTerm(TermInfo term) {
-        this.term = term;
     }
 
     public List<ExistingCourseOffering> getExistingTermOfferings() {
