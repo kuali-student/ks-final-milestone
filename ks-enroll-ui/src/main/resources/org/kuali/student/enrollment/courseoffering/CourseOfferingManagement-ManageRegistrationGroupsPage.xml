@@ -224,8 +224,8 @@
                     <property name="headerText" value="or create an activity offering cluster to manage constrained registration groups"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster (LightBox)" p:methodToCall="createNewClusterFromLightBox"
-                                  p:id="create_new_cluster_button"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewClusterFromLightBox"
+                                  p:id="create_new_cluster_button" p:render="@{!withinPortal}"/>
                             <ref bean="KS-ManageRegistrationGroupsPage-CreateNewClusterSection"/>
                         </list>
                     </property>
@@ -244,8 +244,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster (LightBox)" p:methodToCall="createNewClusterFromLightBox"
-                      p:id="create_new_cluster_button"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewClusterFromLightBox"
+                      p:id="create_new_cluster_button" p:render="@{!withinPortal}"/>
                 <ref bean="KS-ManageRegistrationGroupsPage-CreateNewClusterSection"/>
                 <ref bean="KS-ManageRegistrationGroupPage-ClusterCollection"/>
             </list>
@@ -277,7 +277,8 @@
         </property>
     </bean>
 
-    <bean id="KS-ManageRegistrationGroupsPage-CreateNewClusterSection" parent="Uif-HorizontalBoxSection">
+    <bean id="KS-ManageRegistrationGroupsPage-CreateNewClusterSection" parent="Uif-HorizontalBoxSection"
+          p:render="@{withinPortal}">
         <property name="id" value="createNewClusterSection" />
         <property name="disclosure.render" value="false"/>
         <property name="headerText" value=""/>
@@ -311,13 +312,11 @@
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightbox('registrationGroupsPerCluster_line@{#index}');"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasAllRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
-                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <!--<bean parent="Uif-ActionLink" p:methodToCall="deleteACluster" p:actionLabel="Remove Cluster"-->
-                            <!--p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"-->
-                            <!--/>-->
-                            <!--<bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />-->
-                            <bean parent="Uif-ActionLink" p:methodToCall="deleteAClusterThroughDialog" p:actionLabel="Delete"
+                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:render="@{!withinPortal}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                            <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!withinPortal}"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="deleteACluster" p:actionLabel="Delete" p:render="@{withinPortal}"
+                                p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="deleteAClusterThroughDialog" p:actionLabel="Delete" p:render="@{!withinPortal}"
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" />
                             <!--p:actionScript="showLightboxComponent('confirmToDeleteClusterDialog');"  />-->
                         </list>
@@ -397,7 +396,7 @@
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Move" p:methodToCall="moveAOBetweenClusters" p:id="move_ao_button" p:valign="BOTTOM" p:align="right"/>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Move" p:methodToCall="moveAOBetweenClusters" p:id="move_ao_button" p:valign="BOTTOM" p:align="right" p:style="margin-top:17px;"/>
                     </list>
                 </property>
             </bean>

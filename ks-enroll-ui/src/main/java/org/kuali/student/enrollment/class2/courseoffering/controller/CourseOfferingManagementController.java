@@ -92,6 +92,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
             checkViewAuthorization(form, methodToCall);
         }
+        
+        // check if the view is invoked within portal or not
+            String inputValue = request.getParameter("withinPortal");
+            if ((inputValue != null) && !inputValue.isEmpty()){
+                boolean withinPortal = new Boolean(request.getParameter("withinPortal")).booleanValue();
+                CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) form;
+                theForm.setWithinPortal(withinPortal);
+            }
 
         /**
          * When user cancels edit AO/CO, this will be called. Based on the radio button selected, we need to set the page id

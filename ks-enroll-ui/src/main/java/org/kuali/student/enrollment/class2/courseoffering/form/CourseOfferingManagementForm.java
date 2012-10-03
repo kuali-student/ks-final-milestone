@@ -65,6 +65,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private int toBeScheduledCourseOfferingsCount;
     private boolean selectedIllegalAOInDeletion = false;
 
+    private boolean withinPortal = true;
+
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
@@ -73,6 +75,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
         courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
         setCourseOfferingCopyWrapper(null);
         hasAOCluster = false;
+        withinPortal = true;
     }
 
     public String getTermCode(){
@@ -387,5 +390,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setClusterIdForAOMove(String clusterIdForAOMove) {
         this.clusterIdForAOMove = clusterIdForAOMove;
+    }
+
+    public boolean isWithinPortal() {
+        return withinPortal;
+    }
+
+    public void setWithinPortal(boolean withinPortal) {
+        this.withinPortal = withinPortal;
     }
 }
