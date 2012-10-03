@@ -62,7 +62,7 @@ public class TestCourseOfferingSetServiceJpaPersistenceImpl extends TestCourseOf
 
         assertEquals(startDateString, formatter.format(updated.getLastSchedulingRunStarted()));
         assertNotNull(updated.getLastSchedulingRunCompleted());
-        assertFalse(updated.getLastSchedulingRunStarted().before(updated.getLastSchedulingRunCompleted()));
+        assertFalse(updated.getLastSchedulingRunStarted().compareTo(updated.getLastSchedulingRunCompleted()) > 0);
     }
 
     @Test
