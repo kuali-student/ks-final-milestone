@@ -108,6 +108,12 @@
     </bean>
 
     <bean id="KS-KitchenSink-CollectionColumnSorting-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <!-- if the crossdomain.js script works, move into KS-KitchenSink-FormView-Bare -->
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/scripts/crossdomain.js</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
