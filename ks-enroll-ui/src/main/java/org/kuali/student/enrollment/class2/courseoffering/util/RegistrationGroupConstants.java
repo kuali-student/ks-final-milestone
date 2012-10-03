@@ -14,4 +14,5 @@ public class RegistrationGroupConstants {
     public static final String MSG_ERROR_INVALID_CLUSTER_SELECTION ="error.enroll.rg.invalid.aocselection";
     public static final String MSG_ERROR_INVALID_AO_SELECTION ="error.enroll.rg.invalid.aoselection";
     public static final String MSG_WARNING_MAX_ENROLLMENT="error.enroll.rg.max.enrollment";
+    public static final String MSG_WARNING_AO_TIMECONFLICT="error.enroll.rg.ao.timeconflict";
 }
