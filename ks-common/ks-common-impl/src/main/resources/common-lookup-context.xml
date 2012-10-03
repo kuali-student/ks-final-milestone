@@ -2348,9 +2348,9 @@
 					<property name="writeAccess" value="NEVER"/>
 					<property name="defaultValueList">
 						<list>
-							<value>kuali.resultComponentType.credit.degree.fixed</value>
-							<value>kuali.resultComponentType.credit.degree.range</value>
-							<value>kuali.resultComponentType.credit.degree.multiple</value>
+							<value>kuali.result.values.group.type.fixed</value>
+							<value>kuali.result.values.group.type.range</value>
+							<value>kuali.result.values.group.type.multiple</value>
 						</list>
 					</property>
 				</bean>

@@ -962,14 +962,14 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:constraint key="hard.coded.fixed.credit" id="constraint.hard.coded.fixed.credit" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.resultComponentType.credit.degree.fixed" -->
 		<dict:validChars>
-		<dict:value>regex:kuali\.resultComponentType\.credit\.degree\.fixed</dict:value>
+		<dict:value>regex:kuali\.result\.values\.group\.type\.fixed</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
 	<dict:constraint key="hard.coded.variable.credit" id="constraint.hard.coded.variable.credit" className="org.kuali.student.common.calculation.HardCodedValueCalculator" serverSide="true">
 		<!-- Must be "kuali.resultComponentType.credit.degree.range" -->
 		<dict:validChars>
-		<dict:value>regex:kuali\.resultComponentType\.credit\.degree\.range</dict:value>
+		<dict:value>regex:kuali\.result\.values\.group\.type\.range</dict:value>
 		</dict:validChars>
 		</dict:constraint>
 
