@@ -91,11 +91,8 @@ public class SchedulingServiceUtil {
     }
 
     public static List<Integer> weekdaysString2WeekdaysList(String weekdaysString) {
-
         List<Integer> result = new ArrayList<Integer>();
-        if(weekdaysString == null) return result;
-
-        if (StringUtils.isNotEmpty(weekdaysString)) {
+        if (StringUtils.isNotBlank(weekdaysString)) {
             checkStringForDayCode(SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE, Calendar.MONDAY, result, weekdaysString);
             checkStringForDayCode(SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE, Calendar.TUESDAY, result, weekdaysString);
             checkStringForDayCode(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE, Calendar.WEDNESDAY, result, weekdaysString);
@@ -104,7 +101,6 @@ public class SchedulingServiceUtil {
             checkStringForDayCode(SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE, Calendar.SATURDAY, result, weekdaysString);
             checkStringForDayCode(SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE, Calendar.SUNDAY, result, weekdaysString);
         }
-
         return result;
     }
 
