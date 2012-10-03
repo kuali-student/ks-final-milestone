@@ -1153,7 +1153,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("unsupported");
+        List<ActivityOfferingClusterInfo> clusters = new ArrayList<ActivityOfferingClusterInfo>();
+        for (ActivityOfferingClusterInfo info: this.activityOfferingClusterMap.values()) {
+            if (info.getFormatOfferingId().equals(formatOfferingId)) {
+                clusters.add(info);
+            }
+        }
+        return clusters;
     }
 
 
