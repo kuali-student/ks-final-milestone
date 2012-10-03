@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -21,7 +22,8 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -30,8 +32,13 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
     final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
@@ -43,6 +50,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
     //  Storage for SOC state descriptions.
     private static Map<String, String> socStateDescriptions = new HashMap<String, String>();
+    private static final Long ONE_MINUTE_IN_MILLIS = 1000l * 60l;  // (1000 milliseconds per second * 60 seconds per minute)
 
     public List<TermInfo> getTermByCode(String termCode) throws Exception {
 
@@ -53,8 +61,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         QueryByCriteria criteria = qbcBuilder.build();
 
         AcademicCalendarService acalService = getAcalService();
-        List<TermInfo> terms = acalService.searchForTerms(criteria, new ContextInfo());
-        return terms;
+        return acalService.searchForTerms(criteria, new ContextInfo());
     }
 
     /**
@@ -142,11 +149,11 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
             socForm.setPublishCompleteDate(formatScheduleDate(socInfo.getPublishingCompleted()));
 
             if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
-                socForm.setScheduleDuration(getTimeDiffUI(socInfo.getLastSchedulingRunCompleted(), socInfo.getLastSchedulingRunStarted()));
+                socForm.setScheduleDuration(getTimeDiffUI(socInfo.getLastSchedulingRunCompleted(), socInfo.getLastSchedulingRunStarted(), true));
             }
 
             if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
-                socForm.setPublishDuration(getTimeDiffUI(socInfo.getPublishingCompleted(), socInfo.getPublishingStarted()));
+                socForm.setPublishDuration(getTimeDiffUI(socInfo.getPublishingCompleted(), socInfo.getPublishingStarted(), true));
             }
 
         } catch (DoesNotExistException e) {
@@ -161,7 +168,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
     /**
      * Highlight and grey color History entries.
      *
-     * @param socForm
+     * @param socForm  KRAD form with Manage SOC information
      */
     protected void highlightAndGreyTextHistories(ManageSOCForm socForm){
         //Highlight or grey text histories.
@@ -185,12 +192,25 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
     /**
      * This calculates the time difference for display. Generates a time difference string in the format hh:mm
      *
-     *  @param dateOne
-     * @param dateTwo
-     * @return formatted date String (hh:mm)
+     *  @param dateOne end time
+     *  @param dateTwo start time
+     *  @param roundUpMinute whether or not to round up the time difference to the nearest minute
+     *
+     *  @return formatted date String (hh:mm)
      */
-    protected String getTimeDiffUI(Date dateOne, Date dateTwo) {
-        return DurationFormatUtils.formatDuration(dateOne.getTime() - dateTwo.getTime(),"HH:mm",true);
+    protected String getTimeDiffUI(Date dateOne, Date dateTwo, boolean roundUpMinute) {
+        Long millisDuration = dateOne.getTime() - dateTwo.getTime();
+        if (roundUpMinute) {
+            // check the difference between the two dates as milliseconds, and round up to the nearest minute
+
+            // if dividing by one minute results in a remainder, then round up to the next minute
+            if(millisDuration % ONE_MINUTE_IN_MILLIS != 0l) {
+                Long difference = ONE_MINUTE_IN_MILLIS - (millisDuration % ONE_MINUTE_IN_MILLIS);
+                millisDuration += difference;
+            }
+        }
+
+        return DurationFormatUtils.formatDuration(millisDuration, "HH:mm", true);
     }
 
     /**
@@ -246,7 +266,8 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * This method changes the state of SOC. This is called to change the SOC state to locked,finaledits,publishing and closed.
      *
      * @param socInfo SOCInfo
-     * @param stateKey
+     * @param stateKey state to set the SOC to
+     * @param message Success message to show in UI
      */
     public void changeSOCState(SocInfo socInfo,String stateKey,String message){
         try {
@@ -367,7 +388,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      */
      public String getSocStateDescription(String stateKey) {
         if (socStateDescriptions == null) {
-            List<StateInfo> allSOCStates = null;
+            List<StateInfo> allSOCStates;
             try {
                 allSOCStates = CourseOfferingResourceLoader.loadStateService()
                         .getStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, ContextUtils.createDefaultContextInfo());
