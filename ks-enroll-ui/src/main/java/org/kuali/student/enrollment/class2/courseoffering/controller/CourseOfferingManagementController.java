@@ -35,12 +35,14 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -72,6 +74,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
+    private StateService stateService;
+
 
     private CourseOfferingManagementViewHelperService viewHelperService;
     private OrganizationService organizationService;
@@ -1245,6 +1249,26 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 if (filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment() != null) {
                     aoMaxEnrText = aoMaxEnrText + Integer.toString(filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment()) + "<br/>";
                 }
+
+                if(filteredAOsHM.get(aoID).getStartTimeDisplay() != null){
+                    rgWrapper.setStartTimeDisplay(filteredAOsHM.get(aoID).getStartTimeDisplay(), true);
+                }
+
+                if(filteredAOsHM.get(aoID).getEndTimeDisplay() != null){
+                    rgWrapper.setEndTimeDisplay(filteredAOsHM.get(aoID).getEndTimeDisplay(), true);
+                }
+
+                if(filteredAOsHM.get(aoID).getBuildingName() != null){
+                    rgWrapper.setBuildingName(filteredAOsHM.get(aoID).getBuildingName(), true);
+                }
+
+                if(filteredAOsHM.get(aoID).getRoomName() != null){
+                    rgWrapper.setRoomName(filteredAOsHM.get(aoID).getRoomName(), true);
+                }
+
+                if(filteredAOsHM.get(aoID).getDaysDisplayName() != null){
+                    rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true);
+                }
             }
             if (aoActivityCodeText.length() > 0) {
                 aoActivityCodeText = aoActivityCodeText.substring(0, aoActivityCodeText.lastIndexOf("<br/>"));
@@ -1268,6 +1292,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             rgWrapper.setAoInstructorText(aoInstructorText);
             rgWrapper.setAoMaxEnrText(aoMaxEnrText);
             filterdRGList.add(rgWrapper);
+
+            try{
+            rgWrapper.setStateKey(getStateService().getState(rgInfo.getStateKey(), getContextInfo()).getName());
+            }catch (Exception e){
+                LOG.info("Error occured to get the StateService" + e.getMessage());
+            }
         }
 
         return filterdRGList;
@@ -1964,6 +1994,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return this.typeService;
+    }
+
+    public StateService getStateService() {
+        if(stateService == null) {
+            stateService = CourseOfferingResourceLoader.loadStateService();
+        }
+        return this.stateService;
     }
 
     public CourseOfferingService getCourseOfferingService() {

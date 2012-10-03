@@ -309,7 +309,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroupsPerCluster" p:actionLabel="View Registration Groups" p:render="@{#line.hasAllRegGroups}"
-                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightbox('registrationGroupsPerCluster_line@{#index}');"/>
+                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightbox('registrationGroupsPerCluster_line@{#index}', '@{#ConfigProperties['application.url']}');"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasAllRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
                             <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:render="@{!withinPortal}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
@@ -443,8 +443,26 @@
                       p:label="STATUS"
                       p:messageText="@{#line.aoStateNameText}" />
                 <bean parent="Uif-MessageField"
+                      p:label="STATE"
+                      p:messageText="@{#line.stateKey}" />
+                <bean parent="Uif-MessageField"
                       p:label="TYPE"
                       p:messageText="@{#line.aoTypeNameText}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="DAYS"
+                      p:messageText="@{#line.daysDisplayName}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="START TIME"
+                      p:messageText="@{#line.startTimeDisplay}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="END TIME"
+                      p:messageText="@{#line.endTimeDisplay}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="BUILDING"
+                      p:messageText="@{#line.buildingName}"/>
+                <bean parent="Uif-MessageField"
+                      p:label="ROOM"
+                      p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
                       p:messageText="@{#line.aoInstructorText}"/>

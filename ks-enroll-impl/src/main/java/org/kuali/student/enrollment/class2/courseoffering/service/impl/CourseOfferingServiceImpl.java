@@ -2393,7 +2393,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             for (ActivityOfferingSetInfo aoSetInfo : aoSetInfos ){
                 for (String aoId : aoSetInfo.getActivityOfferingIds()) {
                     ActivityOfferingInfo aoInfo = getActivityOffering(aoId, contextInfo);
-                    if (aoInfo != null) {
+                    if (aoInfo != null &&  aoInfo.getMaximumEnrollment() != null) {
                         aoSetMaxEnrollNumber += aoInfo.getMaximumEnrollment();
                     }
                 }
