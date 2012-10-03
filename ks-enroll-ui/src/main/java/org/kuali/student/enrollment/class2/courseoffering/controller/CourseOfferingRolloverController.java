@@ -188,6 +188,21 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         // validation to check for like terms and target term year comes before source term year.
         String targetTermCd = form.getTargetTermCode();
         String sourceTermCd = form.getSourceTermCode();
+        List<TermInfo> targetTermsByCode = helper.findTermByTermCode(targetTermCd);
+        List<TermInfo> sourceTermsByCode = helper.findTermByTermCode(sourceTermCd);
+
+        //Check that the source and target terms exist in the db
+        if(sourceTermsByCode.isEmpty()){
+            GlobalVariables.getMessageMap().putError("sourceTermCode", "error.courseoffering.sourceTerm.inValid");
+            form.setIsRolloverButtonDisabled(true);
+            return getUIFModelAndView(form);
+        }
+        if(targetTermsByCode.isEmpty()){
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
+            form.setIsRolloverButtonDisabled(true);
+            return getUIFModelAndView(form);
+        }
+
         TermInfo targetTerm = helper.findTermByTermCode(targetTermCd).get(0);
         TermInfo sourceTerm = helper.findTermByTermCode(sourceTermCd).get(0);
         boolean likeTerms = sourceTerm.getTypeKey().equals(targetTerm.getTypeKey());

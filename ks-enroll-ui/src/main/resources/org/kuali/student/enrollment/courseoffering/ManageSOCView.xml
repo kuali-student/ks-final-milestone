@@ -46,7 +46,7 @@
                       <list>
                         <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" >
                             <property name="control">
-                                <bean parent="Uif-TextControl" p:size="5" p:minLength="5" p:maxLength="5"/>
+                                <bean parent="Uif-TextControl" p:size="6" p:minLength="5" p:maxLength="6"/>
                             </property>
                         </bean>
                         <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="buildModel" p:valign="bottom"/>

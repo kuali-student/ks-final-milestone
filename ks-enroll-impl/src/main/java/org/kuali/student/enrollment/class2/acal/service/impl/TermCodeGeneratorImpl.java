@@ -47,6 +47,10 @@ public class TermCodeGeneratorImpl implements TermCodeGenerator {
 
     @Override
     public String generateTermCode(TermInfo term) {
+        //Don't generate if the term was set already
+        if (term.getCode() != null){
+            return term.getCode();
+        }
         // if the term is not of a type that is handled by the defined formula, return null, since the value for the atp code is undefined at that point
         if(!termTypeCodeMap.containsKey(term.getTypeKey())) {
             return null;
