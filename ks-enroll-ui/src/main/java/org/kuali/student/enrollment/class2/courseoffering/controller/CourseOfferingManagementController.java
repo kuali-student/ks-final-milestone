@@ -34,6 +34,8 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -856,28 +858,34 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     private  ActivityOfferingClusterWrapper _buildAOClusterWrapper (ActivityOfferingClusterInfo aoCluster,
-                         CourseOfferingManagementForm theForm, int index) throws Exception{
+                         CourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
         ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
         aoClusterWrapper.setActivityOfferingClusterId(aoCluster.getId());
         aoClusterWrapper.setAoCluster(aoCluster);
-        List<ActivityOfferingSetInfo> aoSetInfoList = aoCluster.getActivityOfferingSets();
+        List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByCluster(aoCluster.getId(), getContextInfo());
         List<ActivityOfferingWrapper> aoWrapperListPerCluster = new ArrayList<ActivityOfferingWrapper>();
-        for(ActivityOfferingSetInfo aoSetInfo: aoSetInfoList){
-            List<String>aoIds=aoSetInfo.getActivityOfferingIds();
-            for (String aoId : aoIds){
-                ActivityOfferingInfo aoInfo = getCourseOfferingService().getActivityOffering(aoId, getContextInfo());
-                ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
-                aoWrapperListPerCluster.add(aoWrapper);
-            }
+        for(ActivityOfferingInfo aoInfo: aoInfoList){
+            ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
+            aoWrapperListPerCluster.add(aoWrapper);
         }
+//        List<ActivityOfferingSetInfo> aoSetInfoList = aoCluster.getActivityOfferingSets();
+//        for(ActivityOfferingSetInfo aoSetInfo: aoSetInfoList){
+//            List<String>aoIds=aoSetInfo.getActivityOfferingIds();
+//            for (String aoId : aoIds){
+//                ActivityOfferingInfo aoInfo = getCourseOfferingService().getActivityOffering(aoId, getContextInfo());
+//                ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
+//                aoWrapperListPerCluster.add(aoWrapper);
+//            }
+//        }
         aoClusterWrapper.setAoWrapperList(aoWrapperListPerCluster);
 
         List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), getContextInfo());
         List<RegistrationGroupWrapper> rgListPerCluster = new ArrayList<RegistrationGroupWrapper>();
         if(rgInfos.size()>0){
-            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
-            aoClusterWrapper.setHasAllRegGroups(true);
-            aoClusterWrapper.setRgStatus("All Registration Groups Generated");
+  //          getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
+            _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex);
+//            aoClusterWrapper.setHasAllRegGroups(true);
+//            aoClusterWrapper.setRgStatus("All Registration Groups Generated");
             rgListPerCluster= _getRGsForSelectedFO(rgInfos, aoWrapperListPerCluster);
         }
         else{
@@ -887,6 +895,100 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         aoClusterWrapper.setRgWrapperList(rgListPerCluster);
         return aoClusterWrapper;
+    }
+
+    private void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
+                              ActivityOfferingClusterWrapper aoClusterWrapper, CourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
+
+        Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
+                _constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
+
+        List<List<String>> generatedPermutations = new ArrayList<List<String>>();
+        List<List<String>> foundList = new ArrayList<List<String>>();
+
+        PermutationUtils.generatePermutations(new ArrayList<String>(
+                activityOfferingTypeToAvailableActivityOfferingMap.keySet()),
+                new ArrayList<String>(),
+                activityOfferingTypeToAvailableActivityOfferingMap,
+                generatedPermutations);
+
+        List<RegistrationGroupInfo> rgInfosCopy = new ArrayList<RegistrationGroupInfo>(rgInfos.size());
+        for(RegistrationGroupInfo rgInfo:rgInfos) {
+            rgInfosCopy.add(rgInfo);
+        }
+
+        for (List<String> activityOfferingPermutation : generatedPermutations) {
+            for (RegistrationGroupInfo rgInfo : rgInfosCopy){
+                if (_hasGeneratedRegGroup(activityOfferingPermutation,rgInfo)){
+                    rgInfosCopy.remove(rgInfo);
+                    foundList.add(activityOfferingPermutation);
+                    break;
+                }
+            }
+        }
+        if (generatedPermutations.size() != foundList.size() )  {
+            aoClusterWrapper.setRgStatus("Only Some Registration Groups Generated");
+            aoClusterWrapper.setHasAllRegGroups(false);
+//          GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_MISSING_REGGROUPS);
+        }
+        else {
+            aoClusterWrapper.setRgStatus("All Registration Groups Generated");
+            aoClusterWrapper.setHasAllRegGroups(true);
+            List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
+                        "validation on max enroll totals", theForm.getFormatOfferingIdForViewRG(), aoClusterWrapper.getAoCluster(), getContextInfo());
+
+            if (validationResultInfoList.get(0).isError())  {
+                String errorMessage =  validationResultInfoList.get(0).getMessage();
+                GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT);
+            }
+        }
+        if (!rgInfosCopy.isEmpty()){
+            GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);
+        }
+
+    }
+
+    private Map<String, List<String>> _constructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {
+        Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
+
+        for (ActivityOfferingInfo info : aoList) {
+            String activityType = info.getTypeKey();
+            List<String> activityList = activityOfferingTypeToAvailableActivityOfferingMap
+                    .get(activityType);
+
+            if (activityList == null) {
+                activityList = new ArrayList<String>();
+                activityOfferingTypeToAvailableActivityOfferingMap.put(
+                        activityType, activityList);
+            }
+
+            activityList.add(info.getId());
+
+        }
+        return activityOfferingTypeToAvailableActivityOfferingMap;
+    }
+
+    private boolean _hasGeneratedRegGroup(List<String>activityOfferingPermutation, RegistrationGroupInfo rgInfo){
+        boolean isMatched = true;
+        List<String> aoIds = rgInfo.getActivityOfferingIds();
+        List<String> aoIdsCopy = new ArrayList<String>(aoIds.size());
+        for (String aoId: aoIds){
+            aoIdsCopy.add(aoId);
+        }
+        List<String> foundList = new ArrayList<String>();
+        for (String activityOfferingPermutationItem : activityOfferingPermutation){
+            for (String aoId: aoIdsCopy){
+                if (activityOfferingPermutationItem.equals(aoId)){
+                    aoIdsCopy.remove(aoId);
+                    foundList.add(activityOfferingPermutationItem);
+                    break;
+                }
+            }
+        }
+        if (activityOfferingPermutation.size() != foundList.size() ||!aoIdsCopy.isEmpty()  )  {
+            isMatched = false;
+        }
+        return isMatched;
     }
 
     @RequestMapping(params = "methodToCall=loadPreviousCO")
