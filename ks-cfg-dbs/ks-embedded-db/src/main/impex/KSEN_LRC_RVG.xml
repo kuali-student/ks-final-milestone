@@ -69,7 +69,7 @@
         RANGE_MAX_VALUE=".5" RANGE_MIN_VALUE=".5"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="ACTIVE"
-        RVG_TYPE="kuali.resultComponentType.credit.degree.fixed"
+        RVG_TYPE="kuali.result.values.group.type.fixed"
         UPDATEID="CMLRCUPGRADE" UPDATETIME="20120917000000" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="CMLRCUPGRADE" CREATETIME="20120510081913"
         EFF_DT="00010101000000" ID="kuali.creditType.credit.degree.0.6"
@@ -77,7 +77,7 @@
         RANGE_MAX_VALUE=".6" RANGE_MIN_VALUE=".6"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="ACTIVE"
-        RVG_TYPE="kuali.resultComponentType.credit.degree.fixed"
+        RVG_TYPE="kuali.result.values.group.type.fixed"
         UPDATEID="CMLRCUPGRADE" UPDATETIME="20120917000000" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="SYSTEMLOADER" CREATETIME="20120622000000"
         DESCR_FORMATTED="1-2 Credits may be awarded"
@@ -125,7 +125,7 @@
         RANGE_MAX_VALUE="8" RANGE_MIN_VALUE="1"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="Active"
-        RVG_TYPE="kuali.resultComponentType.credit.degree.range"
+        RVG_TYPE="kuali.result.values.group.type.range"
         UPDATEID="CMLRCUPGRADE" UPDATETIME="20120917000000" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="SYSTEMLOADER" CREATETIME="20120622000000"
         DESCR_FORMATTED="1 Academic Credit"
@@ -140,7 +140,7 @@
         OBJ_ID="94d9b357-0a22-4268-8a1f-a514fd488555"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="ACTIVE"
-        RVG_TYPE="kuali.resultComponentType.credit.degree.multiple"
+        RVG_TYPE="kuali.result.values.group.type.multiple"
         UPDATEID="CMLRCUPGRADE" UPDATETIME="20120917000000" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="SYSTEMLOADER" CREATETIME="20120622000000"
         DESCR_FORMATTED="1.0,2.0 Academic Credits"
@@ -349,7 +349,7 @@
         RANGE_MAX_VALUE="1.5" RANGE_MIN_VALUE="1.5"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="ACTIVE"
-        RVG_TYPE="kuali.resultComponentType.credit.degree.fixed"
+        RVG_TYPE="kuali.result.values.group.type.fixed"
         UPDATEID="CMLRCUPGRADE" UPDATETIME="20120917000000" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="SYSTEMLOADER" CREATETIME="20120622000000"
         DESCR_FORMATTED="10 Academic Credits"
@@ -460,7 +460,7 @@
         RANGE_MAX_VALUE="3" RANGE_MIN_VALUE="2"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="Active"
-        RVG_TYPE="kuali.resultComponentType.credit.degree.range"
+        RVG_TYPE="kuali.result.values.group.type.range"
         UPDATEID="CMLRCUPGRADE" UPDATETIME="20120917000000" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="CMLRCUPGRADE" CREATETIME="20110810000000"
         EFF_DT="00010101000000" ID="kuali.creditType.credit.degree.2-4"
@@ -468,7 +468,7 @@
         RANGE_MAX_VALUE="4" RANGE_MIN_VALUE="2"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="Active"
-        RVG_TYPE="kuali.resultComponentType.credit.degree.range"
+        RVG_TYPE="kuali.result.values.group.type.range"
         UPDATEID="CMLRCUPGRADE" UPDATETIME="20120917000000" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="SYSTEMLOADER" CREATETIME="20120622000000"
         DESCR_FORMATTED="2 Academic Credits"
@@ -708,7 +708,7 @@
         RANGE_MAX_VALUE="6" RANGE_MIN_VALUE="4"
         RESULT_SCALE_ID="kuali.result.scale.credit.degree"
         RVG_STATE="Active"
-        RVG_TYPE="kuali.resultComponentType.credit.degree.range"
+        RVG_TYPE="kuali.result.values.group.type.range"
         UPDATEID="CMLRCUPGRADE" UPDATETIME="20120917000000" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="SYSTEMLOADER" CREATETIME="20120622000000"
         DESCR_FORMATTED="4 Academic Credits"
