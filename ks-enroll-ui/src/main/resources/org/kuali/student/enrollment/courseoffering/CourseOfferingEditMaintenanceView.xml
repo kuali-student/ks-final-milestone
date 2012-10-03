@@ -304,7 +304,7 @@
                 </bean>
                 <!-- Fixed Type -->
                 <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
-                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed' or #dp.creditOption.typeKey eq 'kuali.resultComponentType.credit.degree.fixed'}"
+                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}"
                       p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
                       p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
                     <property name="control">
@@ -312,7 +312,7 @@
                     </property>
                 </bean>
                 <!-- Range -->
-                <bean parent="Uif-HorizontalBoxSection" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range' or #dp.creditOption.typeKey eq 'kuali.resultComponentType.credit.degree.range'}">
+                <bean parent="Uif-HorizontalBoxSection" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:label="Minimum Credits" p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
@@ -331,7 +331,7 @@
                     </property>
                 </bean>
                 <!-- Multiple -->
-                <bean parent="Uif-InputField" p:readOnlyDisplayReplacement="@{#dp.creditOptionCreditsUI}" p:propertyName="creditOption.credits" p:label="Credits" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.multiple' or #dp.creditOption.typeKey eq 'kuali.resultComponentType.credit.degree.multiple'}">
+                <bean parent="Uif-InputField" p:readOnlyDisplayReplacement="@{#dp.creditOptionCreditsUI}" p:propertyName="creditOption.credits" p:label="Credits" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.multiple'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalCheckboxesControl"/>
                     </property>
