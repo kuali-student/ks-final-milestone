@@ -1079,6 +1079,16 @@
         <property name="searchManager" ref="orgSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
         <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
+        <property name="searchOperations">
+            <map>
+                <entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" value-ref="organizationHierarchySearch"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="organizationHierarchySearch"
+          class="org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationHierarchySearch">
+        <property name="organizationDao" ref="orgDao"/>
     </bean>
 
     <bean id="orgSearchManager"
