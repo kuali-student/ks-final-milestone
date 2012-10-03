@@ -1,5 +1,17 @@
-/**
- * 
+/*
+ * Copyright 2012 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.common.spring;
 
@@ -16,7 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
-import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +42,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  * It should result in only the course offering service being KSB proxied.
  * 
- * @author Kuali Student
+ * @author Kuali Student Team
  * 
  */
 @RunWith(BlockJUnit4ClassRunner.class)
@@ -111,7 +122,7 @@ File tempFile = File.createTempFile("proxy", "dat");
 		
 		long serializedSizeInBytes = FileUtils.sizeOf(tempFile);
 		
-//		Assert.assertEquals(expectedSize, serializedSizeInBytes);
+		Assert.assertEquals(expectedSize, serializedSizeInBytes);
 		
 		ObjectInputStream iis = new ObjectInputStream(new FileInputStream(tempFile));
 		

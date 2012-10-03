@@ -1,5 +1,17 @@
-/**
- * 
+/*
+ * Copyright 2012 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.kuali.student.common.spring;
 
@@ -20,7 +32,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  * The MessageService will be resolved using the KSB lookup from the QName defined on its @WebService annotation.
  * 
- * @author Kuali Student
+ * @author Kuali Student Team
  *
  */
 @RunWith(BlockJUnit4ClassRunner.class)
@@ -51,7 +63,7 @@ public class TestWebServiceAwareBeanPostProcessorSinglePostProcessor  {
 
 	@Test
 	public void testDirectDictionaryServiceWithMessageServiceProxy() {
-	TestBean bean = context.getBean(TestBean.class);
+		TestBean bean = context.getBean(TestBean.class);
 		
 		String dataDictionaryClassName = bean.getDictionaryService().getClass().getName();
 		

@@ -28,12 +28,6 @@
 	<!-- The course offering service should be the proxy. -->
 	<bean id="TestBean" class="org.kuali.student.common.spring.TestBean" />
 	
-<!-- 	This won't work here but it does look like it could work -->
-<!-- 	<bean id="ks.AtpServiceExport" class="org.kuali.student.commone.spring.KualiWebServiceExporter"> -->
-<!--         <property name="webService" ref="AtpService"/> -->
-        
-<!--     </bean> -->
-
 	<bean class="org.kuali.student.common.spring.WebServiceAwareSpringBeanPostProcessor" />
 	
 		

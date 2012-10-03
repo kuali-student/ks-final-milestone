@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2012 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
@@ -32,7 +32,7 @@ import org.springframework.util.ReflectionUtils;
  * 
  * A Serializable Proxy Invokation Handler.  This handler is serializable and knows how to look up the service using the GlobalResourceLocator.
  * 
- * @author Kuali Student 
+ * @author Kuali Student Team
  * 
  */
 public class SerializableProxyInvokationHandler implements InvocationHandler, Externalizable {
@@ -79,6 +79,8 @@ public class SerializableProxyInvokationHandler implements InvocationHandler, Ex
             	
             	if (method.getName().equals("toString")) {
             		// fake toString
+            		// spring has an assertion that expects this to work so we will just fake it
+            		// once the delegate is resolved the normal toString method will be used.
             		return getClass().getName() + " (serviceName=" + serviceName + ")";
             	}
             	else
