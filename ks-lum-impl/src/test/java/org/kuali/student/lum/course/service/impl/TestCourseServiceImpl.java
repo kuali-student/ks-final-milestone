@@ -168,7 +168,7 @@ public class TestCourseServiceImpl{
             assertTrue("unitsContentOwner-57".equals(orgId) || "unitsContentOwner-58".equals(orgId));
             
            
-            assertEquals(4, retrievedCourse.getAttributes().size());
+            assertEquals(5, retrievedCourse.getAttributes().size());
             
             Map<String, String> attrs = new HashMap<String, String>();
             attrs.put("key-4", "value-5");
@@ -276,7 +276,7 @@ public class TestCourseServiceImpl{
         assertEquals("kuali.lu.type.CreditCourse", createdCourse.getTypeKey());
         assertEquals("courseTitle-12", createdCourse.getCourseTitle());
         assertEquals(2, createdCourse.getUnitsContentOwner().size());
-        assertEquals(4, createdCourse.getAttributes().size());
+        assertEquals(5, createdCourse.getAttributes().size());
 
         // update some fields
         createdCourse.getUnitsContentOwner().clear();
@@ -459,7 +459,7 @@ public class TestCourseServiceImpl{
         assertEquals(1, updatedCourse.getUnitsContentOwner().size());
         assertEquals("testOrgId", updatedCourse.getUnitsContentOwner().get(0));
 
-        assertEquals(5, updatedCourse.getAttributes().size());
+        assertEquals(6, updatedCourse.getAttributes().size());
         assertNotNull(updatedCourse.getAttributes().contains("testKey"));
         Map<String, String> attrs = new HashMap<String, String>();
         attrs.put("testKey", "testValue");
