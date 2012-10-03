@@ -42,18 +42,17 @@
         </property>
     </bean>
 
-    <!-- currently no way to prevent TextAreaField from being resized
     <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextAreaField-Example2">
         <property name="propertyName" value="stringField1"/>
         <property name="label" value="Field Label"/>
         <property name="control">
             <bean parent="Uif-TextAreaControl">
+                <property name="style" value="resize:none;"/>
                 <property name="rows" value="7"/>
                 <property name="cols" value="35"/>
             </bean>
         </property>
     </bean>
-    -->
 
 
 
@@ -82,8 +81,8 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-TextAreaField-Content" parent="Uif-TabSection" p:width="500px">-->
-    <bean id="KS-KitchenSink-TextAreaField-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
+    <bean id="KS-KitchenSink-TextAreaField-Content" parent="Uif-TabSection" p:width="500px">
+    <!--<bean id="KS-KitchenSink-TextAreaField-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">-->
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-TextAreaField-Example1-Section">
@@ -94,16 +93,14 @@
                         </list>
                     </property>
                 </bean>
-                <!--
                 <bean parent="KS-KitchenSink-TextAreaField-Example2-Section">
                     <property name="items">
                         <list merge="true">
                             <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="Uif-InputField using a TextArea control with property &quot;textExpand&quot; set to false."/>
+                                  p:messageText="Uif-InputField using a TextArea control with property &quot;style&quot; set to &quot;resize:none&quot;."/>
                         </list>
                     </property>
                 </bean>
-                -->
             </list>
         </property>
     </bean>
@@ -217,10 +214,8 @@
                                     <map>
                                         <entry key="Expandable TextArea"
                                                value="../kr-krad/kitchensink?viewId=KS-KitchenSink-TextAreaField-Example1-View-Bare&amp;methodToCall=start"/>
-                                        <!--
                                         <entry key="Non-Expandable TextArea"
                                                value="../kr-krad/kitchensink?viewId=KS-KitchenSink-TextAreaField-Example2-View-Bare&amp;methodToCall=start"/>
-                                        -->
                                     </map>
                                 </property>
                             </bean>
