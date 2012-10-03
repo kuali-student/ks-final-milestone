@@ -337,12 +337,12 @@ public class CourseOfferingEditMaintainableImpl extends MaintainableImpl {
                 }
 
                 //TODO REMOVE THIS WHEN KRAD IS FIXED
-                if(studentRegOptions.contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
+                if(coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
                     formObject.setAuditStudentRegOpts(true);
                 }else{
                     formObject.setAuditStudentRegOpts(false);
                 }
-                if(studentRegOptions.contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
+                if(coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
                     formObject.setPassFailStudentRegOpts(true);
                 }else{
                     formObject.setPassFailStudentRegOpts(false);

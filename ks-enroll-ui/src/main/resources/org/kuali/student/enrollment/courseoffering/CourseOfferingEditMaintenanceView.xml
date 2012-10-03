@@ -262,6 +262,7 @@
     <bean id="KS-CourseOfferingEdit-StudentRegOptions" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <!-- Commented out - List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <!--<bean parent="Uif-InputField-LabelTop" p:propertyName="coInfo.studentRegistrationGradingOptions"-->
                 <!--p:label="Student Registration Options" p:render="@{!#dp.studentRegOptions.empty}"-->
                 <!-->-->
@@ -276,14 +277,21 @@
                 <bean parent="Uif-MessageField" p:label="Student Registration Options"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
                        p:render="true" />
+                <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
-                      p:render="@{#dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
                 <bean parent="Uif-CheckboxInputField" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
-                      p:render="@{#dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
+                <!-- For read only view show as message fields -->
+                <bean parent="Uif-MessageField"
+                      p:messageText="Pass/Fail" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.passFailStudentRegOpts}"/>
+                <bean parent="Uif-MessageField"
+                      p:messageText="Audit" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.auditStudentRegOpts}"/>
+                <!-- No reg options were available -->
                 <bean parent="Uif-MessageField"
                       p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
             </list>

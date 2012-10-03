@@ -2712,16 +2712,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<String> courseOfferingIds = searchForCourseOfferingIds(criteria, context);
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
-        for (String coId: courseOfferingIds) {
-            try {
-                CourseOfferingInfo co = this.getCourseOffering(coId, context);
-                courseOfferings.add(co); // Add the course offering
-            } catch (DoesNotExistException ex) {
-                throw new OperationFailedException(coId, ex);
+        for (LuiEntity lui : results.getResults()) {
+            if (_checkTypeForCourseOfferingType(lui.getLuiType())) {
+                CourseOfferingInfo co = new CourseOfferingInfo();
+                //Associate instructors to the given CO
+                courseOfferingTransformer.lui2CourseOffering(lui.toDto(), co, context);
+                courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
+                courseOfferings.add(co);
             }
         }
+
         return courseOfferings;
     }
 
@@ -2774,17 +2776,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> searchForRegistrationGroups(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
 
-        List<String> registrationGroupIds = searchForRegistrationGroupIds(criteria, context);
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
-        for (String rgId: registrationGroupIds) {
-            try {
-                RegistrationGroupInfo rgInfo = this.getRegistrationGroup(rgId, context);
-                regGroups.add(rgInfo); // Add the reg group
-            } catch (DoesNotExistException ex) {
-                throw new OperationFailedException(rgId, ex);
+        for (LuiEntity lui : results.getResults()) {
+            if (_checkTypeForRegistrationGroupType(lui.getLuiType())) {
+                RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui.toDto(), context);
+                try {
+                    rgInfo.setCourseOfferingId(this.getFormatOffering(rgInfo.getFormatOfferingId(), context).getCourseOfferingId());
+                    regGroups.add(rgInfo); // Add the reg group
+                } catch (DoesNotExistException ex) {
+                    throw new OperationFailedException(rgInfo.getFormatOfferingId(), ex);
+                }
             }
         }
+
         return regGroups;
     }
 
