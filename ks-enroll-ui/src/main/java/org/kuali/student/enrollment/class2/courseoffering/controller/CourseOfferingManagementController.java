@@ -237,15 +237,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             theForm.setFilteredAOClusterWrapperList(aoClusterWrappers);
         }
 
-        // Getting Reg Groups (if any) for the 1st FO
-//        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(formatOfferingList.get(0).getId(), getContextInfo());
-//        List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, filteredAOs);
-//*********************************************************
-//        theForm.setFilteredRGsForSelectedFO(filteredRGs);
-//*********************************************************
-//        if(rgInfos != null && rgInfos.size()>0) {
-//            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
-//        }
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
 
     }
@@ -409,6 +400,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(rgInfos.size()>0){
             theClusterWrapper.setRgStatus("All Registration Groups Generated");
             theClusterWrapper.setHasAllRegGroups(true);
+            // perform max enrollment validation
+            _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theClusterWrapper.getAoCluster(), new Integer(selectedClusterIndex).intValue());
         }
 
         //finally, move selected AO from AO table under selected Cluster to the unassigned table
@@ -847,12 +840,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private List<ActivityOfferingClusterWrapper> _convertToAOClusterWrappers(List<ActivityOfferingClusterInfo> aoClusterList,
                                     CourseOfferingManagementForm theForm) throws Exception{
         List<ActivityOfferingClusterWrapper> aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
-        int index =0;
+        int clusterIndex =0;
         for (ActivityOfferingClusterInfo aoCluster: aoClusterList) {
-//            List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), getContextInfo());
-            ActivityOfferingClusterWrapper aoClusterWrapper = _buildAOClusterWrapper (aoCluster, theForm, index);
+            ActivityOfferingClusterWrapper aoClusterWrapper = _buildAOClusterWrapper (aoCluster, theForm, clusterIndex);
             aoClusterWrapperList.add(aoClusterWrapper);
-            index++;
+            clusterIndex++;
         }
         return aoClusterWrapperList;
     }
@@ -868,15 +860,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
             aoWrapperListPerCluster.add(aoWrapper);
         }
-//        List<ActivityOfferingSetInfo> aoSetInfoList = aoCluster.getActivityOfferingSets();
-//        for(ActivityOfferingSetInfo aoSetInfo: aoSetInfoList){
-//            List<String>aoIds=aoSetInfo.getActivityOfferingIds();
-//            for (String aoId : aoIds){
-//                ActivityOfferingInfo aoInfo = getCourseOfferingService().getActivityOffering(aoId, getContextInfo());
-//                ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
-//                aoWrapperListPerCluster.add(aoWrapper);
-//            }
-//        }
         aoClusterWrapper.setAoWrapperList(aoWrapperListPerCluster);
 
         List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), getContextInfo());
@@ -884,8 +867,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if(rgInfos.size()>0){
   //          getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
             _validateRegistrationGroupsPerCluster(rgInfos, aoInfoList, aoClusterWrapper, theForm, clusterIndex);
-//            aoClusterWrapper.setHasAllRegGroups(true);
-//            aoClusterWrapper.setRgStatus("All Registration Groups Generated");
             rgListPerCluster= _getRGsForSelectedFO(rgInfos, aoWrapperListPerCluster);
         }
         else{
@@ -897,6 +878,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return aoClusterWrapper;
     }
 
+    /*
+     * Perform several validations:
+     * 1. check if All RGs have been generated given AOs in a cluster
+     *    if not, set rgStatus="Only Some Registration Groups Generated" and
+     *            set hasAllRegGroups=false, therefore "Generate Registration Group" action link will show up
+     *    if yes, set rgStatus="All Registration Groups Generated" and
+     *            set hasAllRegGroups=true, therefore "View Registration Group" action link will show up
+     * 2. when #1 validation result is yes, need to perform max enrollment validation.
+     * 3. when #1 validation result is yes, need to perform time conflict validation
+     *
+     */
     private void _validateRegistrationGroupsPerCluster(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingInfo> aoList,
                               ActivityOfferingClusterWrapper aoClusterWrapper, CourseOfferingManagementForm theForm, int clusterIndex) throws Exception{
 
@@ -929,23 +921,28 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if (generatedPermutations.size() != foundList.size() )  {
             aoClusterWrapper.setRgStatus("Only Some Registration Groups Generated");
             aoClusterWrapper.setHasAllRegGroups(false);
-//          GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_MISSING_REGGROUPS);
         }
         else {
             aoClusterWrapper.setRgStatus("All Registration Groups Generated");
             aoClusterWrapper.setHasAllRegGroups(true);
-            List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
-                        "validation on max enroll totals", theForm.getFormatOfferingIdForViewRG(), aoClusterWrapper.getAoCluster(), getContextInfo());
+            // perform max enrollment validation
+            _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), aoClusterWrapper.getAoCluster(), clusterIndex);
 
-            if (validationResultInfoList.get(0).isError())  {
-                String errorMessage =  validationResultInfoList.get(0).getMessage();
-                GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT);
-            }
         }
         if (!rgInfosCopy.isEmpty()){
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);
         }
 
+    }
+    
+    private void _performMaxEnrollmentValidation(String formateOfferingId, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
+        List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
+                "validation on max enroll totals", formateOfferingId, aoCluster, getContextInfo());
+
+        if (validationResultInfoList.get(0).isError())  {
+            String errorMessage =  validationResultInfoList.get(0).getMessage();
+            GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT);
+        }
     }
 
     private Map<String, List<String>> _constructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {
