@@ -537,6 +537,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 selectedClusterWrapper.setRgWrapperList(rgWrapperListPerCluster);
                 selectedClusterWrapper.setHasAllRegGroups(true);
                 selectedClusterWrapper.setRgStatus("All Registration Groups Generated");
+
+                //validation for max enrollment number
+                int selectedAOCLineIndex = -1;
+                String clusterIndex = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+                if (StringUtils.isNotBlank(clusterIndex)) {
+                    selectedAOCLineIndex = Integer.parseInt(clusterIndex);
+                }
+                if (selectedAOCLineIndex == -1) {
+                    throw new RuntimeException("Selected line index was not set");
+                }
+                _performMaxEnrollmentValidation(selectedClusterWrapper.getAoCluster().getFormatOfferingId(), selectedClusterWrapper.getAoCluster(), Integer.parseInt(clusterIndex));
             }
         }else {
             String errorMessage =  aoClusterVerifyResultsInfo.getValidationResults().get(0).getMessage();
