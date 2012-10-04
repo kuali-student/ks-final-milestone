@@ -53,7 +53,7 @@
         <property name="propertyName" value="revisedScheduleRequestComponents"/>
         <property name="lineActions">
             <list>
-                <bean parent="KS-SubmitActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
@@ -67,7 +67,7 @@
             p:layoutManager.renderSequenceField="false">
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup">
-                <property name="render" value="@{scheduleCompleted and maintenanceAction eq 'Edit'}"/>
+                <property name="render" value="@{scheduleCompleted and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                  <property name="items">
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="reviseSchedule" p:actionLabel="Revise" />
