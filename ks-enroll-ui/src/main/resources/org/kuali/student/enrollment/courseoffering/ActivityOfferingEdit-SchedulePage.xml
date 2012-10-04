@@ -67,7 +67,7 @@
             p:layoutManager.renderSequenceField="false">
         <property name="header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup">
-                <property name="render" value="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId != null and maintenanceAction eq 'Edit'}"/>
+                <property name="render" value="@{scheduleCompleted and maintenanceAction eq 'Edit'}"/>
                  <property name="items">
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="reviseSchedule" p:actionLabel="Revise" />
@@ -123,7 +123,7 @@
         <property name="propertyReplacers">
               <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="headerText"
-                      p:condition="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId == null}" p:replacement="Actual Delivery Logistics (Unassigned)"/>
+                      p:condition="@{!scheduleCompleted}" p:replacement="Actual Delivery Logistics (Unassigned)"/>
               </list>
          </property>
     </bean>
@@ -131,7 +131,7 @@
     <bean id="ActivityOffering-DeliveryLogistic-Requested" parent="Uif-TableCollectionSection"
             p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper"
             p:propertyName="requestedScheduleComponents"
-            p:render="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId == null}"
+            p:render="@{!scheduleCompleted}"
             p:renderAddLine="false"
             p:layoutManager.renderSequenceField="false">
         <property name="headerText" value="Requested Delivery Logistics"/>
@@ -182,7 +182,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.aoInfo.scheduleId == null}">
+    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:render="@{!scheduleCompleted}">
         <property name="headerText" value="Submit New Request"/>
         <property name="items">
             <list>

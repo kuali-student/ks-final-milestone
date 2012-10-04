@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
@@ -53,6 +54,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private ScheduleRequestInfo scheduleRequestInfo;
     private ScheduleInfo scheduleInfo;
+    private SocInfo socInfo;
 
     private String startTimeDisplay = "";
     private String endTimeDisplay = "";
@@ -478,6 +480,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setSchedulesRevised(boolean schedulesRevised) {
        this.schedulesRevised = schedulesRevised;
+    }
+
+    public SocInfo getSocInfo() {
+        return socInfo;
+    }
+
+    public void setSocInfo(SocInfo socInfo) {
+        this.socInfo = socInfo;
     }
 
 }

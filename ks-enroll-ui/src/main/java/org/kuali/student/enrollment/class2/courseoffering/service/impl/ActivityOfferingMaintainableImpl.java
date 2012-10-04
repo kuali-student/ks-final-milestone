@@ -27,10 +27,12 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -491,13 +493,34 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
             wrapper.setSeatpools(seatPoolWrapperList);
 
-            loadScheduleRequests(wrapper);
-            loadScheduleActuals(wrapper);
+            loadSchedules(wrapper);
 
             return wrapper;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected void loadSchedules(ActivityOfferingWrapper wrapper){
+
+        try{
+            List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(wrapper.getAoInfo().getTermId(), ContextUtils.createDefaultContextInfo());
+
+            if (socIds != null && !socIds.isEmpty()){
+                //For M5, it should have only one SOC
+                if (socIds.size() > 1){
+                    throw new RuntimeException("More than one SOC found for a term");
+                }
+
+                SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0),ContextUtils.createDefaultContextInfo());
+                wrapper.setSocInfo(soc);
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        loadScheduleRequests(wrapper);
+        loadScheduleActuals(wrapper);
     }
 
     /**

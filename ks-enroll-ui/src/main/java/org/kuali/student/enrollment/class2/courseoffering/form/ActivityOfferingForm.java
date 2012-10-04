@@ -3,6 +3,8 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 /**
  * Created by IntelliJ IDEA.
@@ -60,6 +62,16 @@ public class ActivityOfferingForm extends MaintenanceForm {
 
     public void setScheduleEditInProgress(boolean scheduleEditInProgress) {
         this.scheduleEditInProgress = scheduleEditInProgress;
+    }
+
+    public boolean isScheduleCompleted(){
+        ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)getDocument().getNewMaintainableObject().getDataObject();
+        if (wrapper.getSocInfo() != null){
+            if (StringUtils.equals(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED,wrapper.getSocInfo().getSchedulingStateKey())){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
