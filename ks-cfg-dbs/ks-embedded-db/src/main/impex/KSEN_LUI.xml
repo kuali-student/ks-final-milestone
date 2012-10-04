@@ -6081,7 +6081,7 @@
         DESCR_FORMATTED="Primarily for doctoral candidates in analytical chemistry. Current topics (e.g., flow injection analysis, mass spectrometry, and advanced radiochemistry). See department for instructor and topics during any particular quarter. Offered: AWSp."
         DESCR_PLAIN="Primarily for doctoral candidates in analytical chemistry. Current topics (e.g., flow injection analysis, mass spectrometry, and advanced radiochemistry). See department for instructor and topics during any particular quarter. Offered: AWSp."
         ID="efe8c784-b760-484f-aee1-5dda81b15a58"
-        LUI_STATE="kuali.lui.course.offering.state.offered"
+        LUI_STATE="kuali.lui.course.offering.state.canceled"
         LUI_TYPE="kuali.lui.type.course.offering" MAX_SEATS="20"
         MIN_SEATS="1" OBJ_ID="dd2cf4a6-6a0c-4db1-8b14-eb87e199cad6"
         UPDATEID="admin" UPDATETIME="20120613164336" VER_NBR="0"/>

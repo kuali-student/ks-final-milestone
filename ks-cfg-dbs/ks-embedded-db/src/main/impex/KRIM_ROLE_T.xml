@@ -253,8 +253,8 @@
         ROLE_NM="Initiator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Route Document permission for a given document type."
-        KIM_TYP_ID="139" LAST_UPDT_DT="20121004151704"
-        NMSPC_CD="KR-WKFLW" OBJ_ID="CB3E38EFDBE0AB15E040720A04830677"
+        KIM_TYP_ID="139" LAST_UPDT_DT="20121004191142"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="CB417FC44A04550FE040720A0483382B"
         ROLE_ID="936" ROLE_NM="Document Router" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
