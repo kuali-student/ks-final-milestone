@@ -1337,7 +1337,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         //Build up a term search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal("privateName", privateName),
+                PredicateFactory.equalIgnoreCase("privateName", privateName),
                 PredicateFactory.equal("formatOfferingId", formatOfferingId)));
         QueryByCriteria criteria = qbcBuilder.build();
 
