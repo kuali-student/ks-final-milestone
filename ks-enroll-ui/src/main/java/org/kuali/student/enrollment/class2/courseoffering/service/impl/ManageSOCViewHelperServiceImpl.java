@@ -32,13 +32,7 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
     final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
@@ -51,6 +45,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
     //  Storage for SOC state descriptions.
     private static Map<String, String> socStateDescriptions = new HashMap<String, String>();
     private static final Long ONE_MINUTE_IN_MILLIS = 1000l * 60l;  // (1000 milliseconds per second * 60 seconds per minute)
+    private static final String notStarted = "Not Started";
 
     public List<TermInfo> getTermByCode(String termCode) throws Exception {
 
@@ -304,7 +299,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                 }
         }
 
-        return "Not Started";
+        return notStarted;
     }
 
     protected AcademicCalendarService getAcalService() {
@@ -355,15 +350,16 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
     }
 
     protected String getSocPublishingStatus(SocInfo info) {
+
         if (info.getStateKey() != null) {
             if (StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)) {
                 return getSocStateDescription(CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY);
             } else if (StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
                     StringUtils.equals(info.getStateKey(), CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY)) {
-                return getSocStateDescription(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED);
+                return getSocStateDescription(info.getStateKey());
             }
         }
-        return getSocStateDescription(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED);
+        return notStarted;
     }
 
     private void reload(ManageSOCForm socForm, ContextInfo contextInfo)  {
@@ -387,7 +383,7 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
      * @return The description of a SOC state.
      */
      public String getSocStateDescription(String stateKey) {
-        if (socStateDescriptions == null) {
+        if (socStateDescriptions == null || socStateDescriptions.isEmpty()) {
             List<StateInfo> allSOCStates;
             try {
                 allSOCStates = CourseOfferingResourceLoader.loadStateService()
