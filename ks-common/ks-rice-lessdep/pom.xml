@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.student.core</groupId>
@@ -31,7 +30,6 @@
                     <groupId>javax.servlet.jsp</groupId>
                     <artifactId>jsp-api</artifactId>
                 </exclusion>
-
                 <!-- Javax Exclusions -->
                 <exclusion>
                     <groupId>javax.mail</groupId>
@@ -45,8 +43,6 @@
                     <groupId>javax.servlet</groupId>
                     <artifactId>servlet-api</artifactId>
                 </exclusion>
-
-
                 <!-- Acegi & CAS -->
                 <exclusion>
                     <groupId>org.acegisecurity</groupId>
@@ -64,7 +60,6 @@
                     <groupId>cas</groupId>
                     <artifactId>casclient</artifactId>
                 </exclusion>
-
                 <!-- Commons -->
                 <exclusion>
                     <groupId>commons-codec</groupId>
@@ -74,14 +69,12 @@
                     <groupId>commons-fileupload</groupId>
                     <artifactId>commons-fileupload</artifactId>
                 </exclusion>
-
                 <!-- Required for rice startup
                     <exclusion>
                         <groupId>commons-httpclient</groupId>
                         <artifactId>commons-httpclient</artifactId>
                     </exclusion>
                      -->
-
                 <!--  These commons libraries may be required -->
                 <exclusion>
                     <groupId>commons-io</groupId>
@@ -91,7 +84,6 @@
                     <groupId>commons-lang</groupId>
                     <artifactId>commons-lang</artifactId>
                 </exclusion>
-
                 <!-- OJB Dependencies (Thinking these may not be required when using JPA -->
                 <!--  Required for rice startup
                     <exclusion>
@@ -99,7 +91,6 @@
                         <artifactId>db-ojb</artifactId>
                     </exclusion>
                      -->
-
                 <!-- CXF - Transitive Dependencies-->
                 <exclusion>
                     <groupId>javax.xml.soap</groupId>
@@ -113,8 +104,6 @@
                     <groupId>org.codehaus.woodstox</groupId>
                     <artifactId>wstx-asl</artifactId>
                 </exclusion>
-
-
                 <!-- Jasper -->
                 <exclusion>
                     <groupId>tomcat</groupId>
@@ -128,7 +117,6 @@
                     <groupId>tomcat</groupId>
                     <artifactId>jasper-runtime</artifactId>
                 </exclusion>
-
                 <!-- Other Direct Rice Dependencies -->
                 <exclusion>
                     <groupId>backport-util-concurrent</groupId>
@@ -219,7 +207,6 @@
                     <groupId>org.mortbay.jetty</groupId>
                     <artifactId>jetty</artifactId>
                 </exclusion>
-
             </exclusions>
         </dependency>
     </dependencies>

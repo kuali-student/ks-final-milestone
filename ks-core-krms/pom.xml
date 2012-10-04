@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>ks-core</artifactId>
@@ -10,7 +10,6 @@
     <artifactId>ks-core-krms</artifactId>
     <name>KS Core KRMS</name>
     <description>KS KRMS integration</description>
-
     <!-- skipping tests until integrated with ks test environment -->
     <build>
         <plugins>
@@ -36,12 +35,10 @@
             </plugin>
         </plugins>
     </build>
-
     <properties>
         <mysql.jdbc.version>5.1.18</mysql.jdbc.version>
         <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.kuali.rice</groupId>
@@ -81,7 +78,6 @@
             <artifactId>${mysql.jdbc.artifactId}</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-core</artifactId>
@@ -118,7 +114,6 @@
             <artifactId>ks-core-api</artifactId>
             <version>${ks.api.version}</version>
         </dependency>
-
         <!--dependency>
  			<artifactId>rice-it</artifactId>
  			<groupId>org.kuali.rice</groupId>
