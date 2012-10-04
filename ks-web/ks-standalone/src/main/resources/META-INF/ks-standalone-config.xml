@@ -68,7 +68,7 @@
 
     <param name="rice.jpa.UseSerialization">false</param>
 
-    <param name="datasource.ojb.platform">Derby</param>
+    <param name="datasource.ojb.platform">Oracle9i</param>
  
     <param name="rice.ksb.jpa.enabled.derby">true</param>
     <param name="rice.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
