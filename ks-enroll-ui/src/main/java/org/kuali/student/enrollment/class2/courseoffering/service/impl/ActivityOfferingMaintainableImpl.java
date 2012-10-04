@@ -48,6 +48,7 @@ import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
@@ -274,49 +275,142 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return StringUtils.removeEnd(returnValue," ");
     }
 
+    private enum ScheduleInput {
+        WEEKDAYS("document.newMaintainableObject.dataObject.newScheduleRequest.days", "Day(s) are required"),
+        START_TIME("document.newMaintainableObject.dataObject.newScheduleRequest.startTime", "Start time is required"),
+        START_TIME_AMPM("document.newMaintainableObject.dataObject.newScheduleRequest.startTimeAMPM", "Start time AM/PM is required"),
+        END_TIME("document.newMaintainableObject.dataObject.newScheduleRequest.endTime", "End time is required"),
+        END_TIME_AMPM("document.newMaintainableObject.dataObject.newScheduleRequest.endTimeAMPM", "End time AM/PM is required"),
+        BUILDING("document.newMaintainableObject.dataObject.newScheduleRequest.buildingCode", "Facility is required"),
+        ROOM("document.newMaintainableObject.dataObject.newScheduleRequest.roomCode", "Room is required");
+
+        private final String beanId;
+        private final String requiredMessage;
+
+        private ScheduleInput(String beanId, String requiredMessage) {
+            this.beanId = beanId;
+            this.requiredMessage = requiredMessage;
+        }
+
+        public String getBeanId() {
+            return beanId;
+        }
+
+        public String getRequiredMessage() {
+            return requiredMessage;
+        }
+    }
+
     protected boolean validateNewScheduleRequest(ScheduleWrapper scheduleWrapper){
 
         GlobalVariables.getMessageMap().clearErrorMessages();
 
-        if (StringUtils.isNotBlank(scheduleWrapper.getStartTime()) &&
-            StringUtils.isBlank(scheduleWrapper.getStartTimeAMPM())){
-            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.startTimeAMPM", RiceKeyConstants.ERROR_CUSTOM, "Start time AM/PM is required");
-        }
+        if(scheduleWrapper.isTba()) {
+            // ensure at least one field is not empty
 
-        if (StringUtils.isNotBlank(scheduleWrapper.getEndTime()) &&
-            StringUtils.isBlank(scheduleWrapper.getEndTimeAMPM())){
-            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.startTimeAMPM", RiceKeyConstants.ERROR_CUSTOM, "Start time AM/PM is required");
-        }
+            boolean allEmpty = true;
+            List<String> values = Arrays.asList(
+                    scheduleWrapper.getDays(),
+                    scheduleWrapper.getStartTime(),
+                    scheduleWrapper.getEndTime(),
+                    scheduleWrapper.getBuildingCode(),
+                    scheduleWrapper.getRoomCode());
 
-        try {
-            //  Validate building and room codes before returning on error.
-            if (StringUtils.isNotEmpty(scheduleWrapper.getBuildingCode())) {
-                List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(), getContextInfo());
-                if (buildings.isEmpty()) {
-                    GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.buildingCode", RiceKeyConstants.ERROR_CUSTOM, "Facility code was invalid.");
-                } else {
-                    scheduleWrapper.setBuilding(buildings.get(0));
+            for(String s : values) {
+                if(StringUtils.isNotEmpty(s)) {
+                    allEmpty = false;
+                    break;
                 }
             }
 
-            if (StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
-                List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(),scheduleWrapper.getRoomCode(),getContextInfo());
-                if (rooms.isEmpty()) {
-                    GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.roomCode", RiceKeyConstants.ERROR_CUSTOM, "Room code was invalid.");
-                } else {
-                    RoomInfo room = rooms.get(0);
-                    if(room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()){
-                        scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
+            if(allEmpty) {
+                addErrorMessage(ScheduleInput.WEEKDAYS, "At least one field is required to add a TBA request");
+            }
+            else {
+
+                // AM/PM Fields are required if the time is entered
+                if(StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
+                    checkRequiredScheduleInput(scheduleWrapper.getStartTimeAMPM(), ScheduleInput.START_TIME_AMPM);
+                }
+
+                if(StringUtils.isNotEmpty(scheduleWrapper.getEndTime())) {
+                    checkRequiredScheduleInput(scheduleWrapper.getEndTimeAMPM(), ScheduleInput.END_TIME_AMPM);
+                }
+            }
+        }
+        else {
+
+            // all fields are required to at least have a value
+            checkRequiredScheduleInput(scheduleWrapper.getDays(), ScheduleInput.WEEKDAYS);
+            checkRequiredScheduleInput(scheduleWrapper.getStartTime(), ScheduleInput.START_TIME);
+            checkRequiredScheduleInput(scheduleWrapper.getStartTimeAMPM(), ScheduleInput.START_TIME_AMPM);
+            checkRequiredScheduleInput(scheduleWrapper.getEndTime(), ScheduleInput.END_TIME);
+            checkRequiredScheduleInput(scheduleWrapper.getEndTimeAMPM(), ScheduleInput.END_TIME_AMPM);
+            checkRequiredScheduleInput(scheduleWrapper.getBuildingCode(), ScheduleInput.BUILDING);
+            checkRequiredScheduleInput(scheduleWrapper.getRoomCode(), ScheduleInput.ROOM);
+
+        }
+
+        // The following validations should apply to both TBA and non-TBA schedule requests
+
+        // if there are no other errors
+        if(!GlobalVariables.getMessageMap().hasErrors()) {
+            // validate the weekdays
+            if (StringUtils.isNotEmpty(scheduleWrapper.getDays())) {
+                List<Integer> parsedWeekdays = SchedulingServiceUtil.weekdaysString2WeekdaysList(scheduleWrapper.getDays());
+                if(parsedWeekdays.isEmpty() || scheduleWrapper.getDays().trim().length() > parsedWeekdays.size()) {
+                    addErrorMessage(ScheduleInput.WEEKDAYS, "Day characters are invalid");
+                }
+            }
+
+            // if a room or a building were entered, ensure the building and room code are valid
+            try {
+
+                // if the building code is empty, but the room code is not, display an error
+                if (StringUtils.isEmpty(scheduleWrapper.getBuildingCode())) {
+                    if (StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
+                        addErrorMessage(ScheduleInput.BUILDING, "A Facility code is required if a room code is entered");
                     }
-                    scheduleWrapper.setRoom(room);
-                }
-            }
+                } else {
+                    // if a building code exists, validate the building code and populate the building info
+                    List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(), getContextInfo());
+                    if (buildings.isEmpty()) {
+                        addErrorMessage(ScheduleInput.BUILDING, "Facility code was invalid");
+                    } else {
+                        scheduleWrapper.setBuilding(buildings.get(0));
+                    }
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                    // if a building code exists and a room code exists, validate the room code and populate the room info
+                    if (StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
+                        List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(), scheduleWrapper.getRoomCode(), getContextInfo());
+                        if (rooms.isEmpty()) {
+                            addErrorMessage(ScheduleInput.ROOM, "Room code was invalid");
+                        } else {
+                            RoomInfo room = rooms.get(0);
+                            if (room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()) {
+                                scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
+                            }
+                            scheduleWrapper.setRoom(room);
+                        }
+                    }
+                }
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return !GlobalVariables.getMessageMap().hasErrors();
+    }
+
+    private void checkRequiredScheduleInput(String inputValue, ScheduleInput input) {
+        if(StringUtils.isBlank(inputValue)) {
+            addErrorMessage(input, input.getRequiredMessage());
+        }
+    }
+
+    private void addErrorMessage(ScheduleInput input, String message) {
+        GlobalVariables.getMessageMap().putError(input.getBeanId(), RiceKeyConstants.ERROR_CUSTOM, message);
     }
 
     public boolean addScheduleRequestComponent(ActivityOfferingForm form){
