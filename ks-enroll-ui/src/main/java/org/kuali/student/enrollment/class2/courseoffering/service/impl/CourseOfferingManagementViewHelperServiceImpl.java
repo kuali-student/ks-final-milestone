@@ -428,6 +428,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         }
     }
 
+    //TODO: do we still need this method? need code review, refactor, and clean up
     /*
      * For Manage Registration Group page
      */

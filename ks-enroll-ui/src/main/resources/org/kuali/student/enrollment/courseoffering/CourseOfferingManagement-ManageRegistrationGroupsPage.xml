@@ -53,15 +53,6 @@
                                         <ref bean="KS-ManageRegistrationGroupPage-ClusterForFormat"/>
                                         <ref bean="KS-ManageRegistrationGroupPage-NoClusterCondition"/>
                                         <ref bean="KS-ManageRegistrationGroupPage-HasClusterCondition"/>
-
-
-
-                                        <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Generate Unconstrained Registration Groups" p:methodToCall="generateUnconstrainedRegGroups"-->
-                                        <!--p:actionScript = "showLightboxComponent('registrationGroupsPerFormatSection');" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="generate_rgs_button"/>-->
-                                        <!--<ref bean="KS-ViewRegistrationGroupsPage-RegistrationGroupsPerFormatSection"/>-->
-                                        <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster"-->
-                                        <!--p:actionScript = "showLightboxComponent('createNewClusterSection');" p:render="@{!filteredAOsForSelectedFO.empty}" p:id="create_new_cluster_button"/>-->
-                                        <!--<ref bean="KS-CreateNewCluster" />-->
                                     </list>
                                 </property>
                             </bean>
@@ -261,7 +252,7 @@
         <property name="headerText" value=""/>
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
-        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.aoCluster.privateName} (@{#line.aoCluster.name})"/>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.clusterNameForDisplay}"/>
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
 
         <property name="items">
@@ -289,7 +280,7 @@
                         <bean parent="Uif-TextControl" p:size="40" p:minLength="3" p:maxLength="40"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:propertyName="publishedClusterName" p:label="Published Name" p:labelPlacement="TOP" p:required="true" p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="publishedClusterName" p:label="Published Name" p:labelPlacement="TOP" p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" p:minLength="3" p:maxLength="40"/>
                     </property>
@@ -481,7 +472,7 @@
         <property name="promptText" value=""/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="LEFT"  p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="LEFT" p:required="true" p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>
                     </property>
@@ -510,7 +501,7 @@
         <property name="promptText" value=""/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForRename" p:label="Private Name" p:labelPlacement="LEFT"  p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForRename" p:label="Private Name" p:labelPlacement="LEFT" p:required="true" p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>
                     </property>

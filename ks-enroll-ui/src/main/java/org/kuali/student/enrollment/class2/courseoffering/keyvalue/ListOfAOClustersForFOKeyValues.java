@@ -54,7 +54,7 @@ public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase imple
             CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
             List<ActivityOfferingClusterInfo> clusterInfos = courseOfferingService.getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
             for (ActivityOfferingClusterInfo clusterInfo : clusterInfos) {
-                keyValues.add(new ConcreteKeyValue(clusterInfo.getId(), clusterInfo.getName()));
+                keyValues.add(new ConcreteKeyValue(clusterInfo.getId(), clusterInfo.getPrivateName()));
             }
         } catch (Exception e) {
             throw new RuntimeException("Error getting clusters for format offering", e);

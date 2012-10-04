@@ -19,7 +19,9 @@ public class ActivityOfferingClusterWrapper implements Serializable {
     private ActivityOfferingClusterInfo aoCluster;
     private List<RegistrationGroupWrapper> rgWrapperList;
     private List<ActivityOfferingWrapper> aoWrapperList;
-    private String rgStatus;
+    private String rgStatus = "";
+    private String clusterNameForDisplay = "";
+
     /**
      * hasAllRegGroups=true means all RGs have been generated for
      * a group of AOs within a cluster and rgStatus="All Registration Groups Generated"
@@ -37,6 +39,7 @@ public class ActivityOfferingClusterWrapper implements Serializable {
         aoWrapperList = new ArrayList<ActivityOfferingWrapper>();
         hasAllRegGroups = false;
         rgStatus = "No Registration Groups Generated";
+        clusterNameForDisplay = "";
     }
     
     public ActivityOfferingClusterWrapper(String activityOfferingClusterId, List<RegistrationGroupWrapper> rgWrapperList){
@@ -98,5 +101,24 @@ public class ActivityOfferingClusterWrapper implements Serializable {
 
     public void setHasAllRegGroups(boolean hasAllRegGroups) {
         this.hasAllRegGroups = hasAllRegGroups;
+    }
+
+    public String getClusterNameForDisplay() {
+        return clusterNameForDisplay;
+    }
+
+    public void setClusterNameForDisplay(String clusterNameForDisplay) {
+        if(aoCluster == null){
+            this.clusterNameForDisplay = clusterNameForDisplay;
+        }
+        else {
+            String pubName=aoCluster.getName();
+            if (pubName != null && !pubName.isEmpty()) {
+                this.clusterNameForDisplay = aoCluster.getPrivateName()+" ("+pubName+")";
+            }
+            else{
+                this.clusterNameForDisplay = aoCluster.getPrivateName();
+            }
+        }
     }
 }
