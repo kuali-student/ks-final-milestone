@@ -20,20 +20,13 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -826,4 +819,270 @@ public interface LuiService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteLuiCapacity(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of Lui set types known by the service
+     *
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of Lui set type information
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getLuiSetTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves information about a specified Lui set type
+     *
+     * @param luiSetTypeKey Key of the Lui set type
+     * @param contextInfo   Context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return information about a Lui set type
+     * @throws DoesNotExistException     LuiSetTypeKey not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing LuiSetTypeKey or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TypeInfo getLuiSetType(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves information on a Lui set.
+     *
+     * @param luiSetId    Identifier of the Lui set
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return The retrieved Lui set information
+     * @throws DoesNotExistException     LuiSetId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing LuiSetId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public LuiSetInfo getLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieve information on Lui sets from a list of LuiSet Ids.
+     *
+     * @param luiSetIds   List of identifiers of Lui sets
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return The retrieved list of Lui set information
+     * @throws DoesNotExistException     One or more LuiSets not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing LuiSetIds or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<LuiSetInfo> getLuiSetsByIds(@WebParam(name = "luiSetIds") List<String> luiSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of Luis in a Lui set.
+     *
+     * @param luiSetId    Identifier of the Lui set
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return The retrieved list of information on the Luis within the Lui set
+     * @throws DoesNotExistException     LuiSetId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing LuiSetId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<LuiInfo> getLuisFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of Lui Identifiers within a Lui Set.
+     *
+     * @param luiSetId    Identifier of the Lui set
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return The retrieved list of Lui Ids within the specified Lui set
+     * @throws DoesNotExistException     LuiSetId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing LuiSetId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getLuiIdsFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Checks if a Lui is a member of a Lui set.
+     *
+     * @param luiId       Identifier of the Lui to check
+     * @param luiSetId    Identifier of the Lui set
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return True if the Lui is a member of the Lui Set
+     * @throws DoesNotExistException     LuiId, LuiSetId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing LuiId, LuiSetId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public Boolean isLuiInLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates information about a Lui set. Depending on the value of
+     * validationTypeKey, this validation could be limited to tests on just the
+     * current object and its directly contained sub-objects or expanded to
+     * perform all tests related to this object. If an identifier is present for
+     * the Lui set (and/or one of its contained sub-objects) and a record is
+     * found for that identifier, the validation checks if the Lui set can be
+     * shifted to the new values. If an identifier is not present or a record
+     * cannot be found for the identifier, it is assumed that the record does
+     * not exist and as such, the checks performed will be much shallower,
+     * typically mimicking those performed by setting the validationType to the
+     * current object.
+     *
+     * @param validationTypeKey identifier of the extent of validation
+     * @param luiSetTypeKey     type of the Lui set to be created
+     * @param LuiSetInfo        Lui set information to be tested.
+     * @param contextInfo       Context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return results from performing the validation
+     * @throws DoesNotExistException     validationTypeKey or LuiSetTypeKey not
+     *                                   found
+     * @throws InvalidParameterException invalid LuiSetInfo or contextInfo
+     * @throws MissingParameterException missing validationTypeKey, LuiSetTypeKey,
+     *                                   LuiSetInfo or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateLuiSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a Lui set.
+     *
+     * @param luiSetTypeKey type of the Lui set to be created
+     * @param luiSetInfo    information required to create a Lui set
+     * @param contextInfo   Context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return the created Lui set information
+     * @throws DataValidationErrorException data validation error
+     * @throws DoesNotExistException        LuiSetTypeKey not found
+     * @throws InvalidParameterException    invalid LuiSetInfo or contextInfo
+     * @throws MissingParameterException    missing LuiSetTypeKey, LuiSetInfo or
+     *                                      contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     * @throws UnsupportedActionException   Lui set need to be static or dynamic
+     *                                      but not both
+     */
+    public LuiSetInfo createLuiSet(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException;
+
+    /**
+     * Update the information for a Lui set
+     *
+     * @param luiSetId    identifier of the Lui set to be updated
+     * @param luiSetInfo  updated information about the Lui set
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the updated Lui set information
+     * @throws CircularRelationshipException added LuiSetId cannot be added to
+     *                                       the LuiSetInfo
+     * @throws DataValidationErrorException  data validation error
+     * @throws DoesNotExistException         LuiSetId not found
+     * @throws InvalidParameterException     invalid LuiSetInfo or contextInfo
+     * @throws MissingParameterException     missing LuiSetId, LuiSetInfo or
+     *                                       contextInfo
+     * @throws OperationFailedException      unable to complete request
+     * @throws PermissionDeniedException     authorization failure
+     * @throws ReadOnlyException             an attempt at supplying information
+     *                                       designated as read only
+     * @throws UnsupportedActionException    Lui set need to be static or
+     *                                       dynamic but not both
+     * @throws VersionMismatchException      an optimistic locking failure or
+     *                                       the action was attempted on an out
+     *                                       of date version
+     */
+    public LuiSetInfo updateLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException;
+
+    /**
+     * Delete a Lui set
+     *
+     * @param luiSetId    identifier of the Lui set to be deleted
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException     LuiSetId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing LuiSetId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Add a Lui to a Lui set
+     *
+     * @param luiId       identifier of Lui to add to the Lui set
+     * @param luiSetId    identifier of the Lui set
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException      LuiId, LuiSetId not found
+     * @throws InvalidParameterException  invalid contextInfo
+     * @throws MissingParameterException  missing LuiId, LuiSetId or
+     *                                    contextInfo
+     * @throws OperationFailedException   unable to complete request
+     * @throws PermissionDeniedException  authorization failure
+     * @throws UnsupportedActionException Lui set is dynamically determined
+     */
+    public StatusInfo addLuiToLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /**
+     * Adds a list of Luis to a Lui set. If any individual one would fail, then
+     * an error is returned and none are added.
+     *
+     * @param luiSetIds   list of identifiers of Luis to add to the Lui set
+     * @param luiSetId    identifier of the Lui set to be added
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException      LuiSetIds, LuiSetId not found
+     * @throws InvalidParameterException  invalid contextInfo
+     * @throws MissingParameterException  missing LuiSetIds, LuiSetId or
+     *                                    contextInfo
+     * @throws OperationFailedException   unable to complete request
+     * @throws PermissionDeniedException  authorization failure
+     * @throws UnsupportedActionException Lui set is dynamically determined
+     */
+    public StatusInfo addLuisToLuiSet(@WebParam(name = "luiSetIds") List<String> luiSetIds, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /**
+     * Remove a Lui from a Lui set
+     *
+     * @param luiId       identifier of Lui to remove from the Lui set
+     * @param luiSetId    identifier of the Lui set
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException      LuiId, LuiSetId not found
+     * @throws InvalidParameterException  invalid contextInfo
+     * @throws MissingParameterException  missing LuiId, LuiSetId or
+     *                                    contextInfo
+     * @throws OperationFailedException   unable to complete request
+     * @throws PermissionDeniedException  authorization failure
+     * @throws UnsupportedActionException Lui set is dynamically determined
+     */
+    public StatusInfo removeLuiFromLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 }
