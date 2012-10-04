@@ -717,43 +717,42 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         //get FOs and add them to the selected AOC
         boolean aoChecked = false; //at least one AO must be checked
-        for (ActivityOfferingClusterWrapper aocWreapperFrom : aocWrapperList) {
-            for (ActivityOfferingWrapper aoWrapper : aocWreapperFrom.getAoWrapperList()) {
-                if (aoWrapper.getIsChecked()) {
-                    aoChecked = true;
-                    //selectedAOCInfoFrom and selectedAOCInfoTo clusters have to be different and only one selectedAOCInfoFrom cluster is allowed at this point
-                    if (aocWreapperFrom.getActivityOfferingClusterId().equals(selectedAOCInfoTo.getId())) {
-                        GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
-                        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
-                    } else {
-                        selectedAOCInfoFrom = aocWreapperFrom.getAoCluster();
-                    }
+        ActivityOfferingClusterWrapper aocWreapperFrom = aocWrapperList.get(clusterIndex);
+        for (ActivityOfferingWrapper aoWrapper : aocWreapperFrom.getAoWrapperList()) {
+            if (aoWrapper.getIsChecked()) {
+                aoChecked = true;
+                //selectedAOCInfoFrom and selectedAOCInfoTo clusters have to be different and only one selectedAOCInfoFrom cluster is allowed at this point
+                if (aocWreapperFrom.getActivityOfferingClusterId().equals(selectedAOCInfoTo.getId())) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
+                    return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+                }
 
-                    //delete all RGs for AO being moved
-                    List<RegistrationGroupInfo> rgInfoList = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedAOCInfoFrom.getId(),getContextInfo());
-                    if (rgInfoList.size() > 0) {
-                        for (RegistrationGroupInfo rgInfo :rgInfoList) {
-                            for (String aoId : rgInfo.getActivityOfferingIds()) {
-                                if (aoWrapper.getAoInfo().getId().equals(aoId)) {
-                                    getCourseOfferingService().deleteRegistrationGroup(rgInfo.getId(),getContextInfo());
-                                }
+                selectedAOCInfoFrom = aocWreapperFrom.getAoCluster();
+
+                //delete all RGs for AO being moved
+                List<RegistrationGroupInfo> rgInfoList = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedAOCInfoFrom.getId(),getContextInfo());
+                if (rgInfoList.size() > 0) {
+                    for (RegistrationGroupInfo rgInfo :rgInfoList) {
+                        for (String aoId : rgInfo.getActivityOfferingIds()) {
+                            if (aoWrapper.getAoInfo().getId().equals(aoId)) {
+                                getCourseOfferingService().deleteRegistrationGroup(rgInfo.getId(),getContextInfo());
                             }
                         }
                     }
+                }
 
-                    //add AO to selectedAOCInfoTo
-                    for ( int i=0; i < selectedAOCInfoTo.getActivityOfferingSets().size(); i++) {
-                        if ( selectedAOCInfoTo.getActivityOfferingSets().get(i).getActivityOfferingType().equals(aoWrapper.getAoInfo().getTypeKey()) ) {
-                            selectedAOCInfoTo.getActivityOfferingSets().get(i).getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
-                            break;
-                        }
+                //add AO to selectedAOCInfoTo
+                for ( int i=0; i < selectedAOCInfoTo.getActivityOfferingSets().size(); i++) {
+                    if ( selectedAOCInfoTo.getActivityOfferingSets().get(i).getActivityOfferingType().equals(aoWrapper.getAoInfo().getTypeKey()) ) {
+                        selectedAOCInfoTo.getActivityOfferingSets().get(i).getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
+                        break;
                     }
-                    //remove AO from selectedAOCInfoFrom
-                    for ( int i=0; i < selectedAOCInfoFrom.getActivityOfferingSets().size(); i++) {
-                        if ( selectedAOCInfoFrom.getActivityOfferingSets().get(i).getActivityOfferingType().equals(aoWrapper.getAoInfo().getTypeKey()) ) {
-                            selectedAOCInfoFrom.getActivityOfferingSets().get(i).getActivityOfferingIds().remove(aoWrapper.getAoInfo().getId());
-                            break;
-                        }
+                }
+                //remove AO from selectedAOCInfoFrom
+                for ( int i=0; i < selectedAOCInfoFrom.getActivityOfferingSets().size(); i++) {
+                    if ( selectedAOCInfoFrom.getActivityOfferingSets().get(i).getActivityOfferingType().equals(aoWrapper.getAoInfo().getTypeKey()) ) {
+                        selectedAOCInfoFrom.getActivityOfferingSets().get(i).getActivityOfferingIds().remove(aoWrapper.getAoInfo().getId());
+                        break;
                     }
                 }
             }
@@ -785,6 +784,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         for ( int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
             if (theForm.getFilteredAOClusterWrapperList().get(i).getActivityOfferingClusterId().equals(updatedSelectedAOCInfoTo.getId())) {
+                theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList().removeAll(theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOsTo);
                 //update RG status for updatedSelectedAOCInfoTo
                 List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfoTo.getId(), getContextInfo());
@@ -794,6 +794,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 }
             }
             if (theForm.getFilteredAOClusterWrapperList().get(i).getActivityOfferingClusterId().equals(updatedSelectedAOCInfoFrom.getId())) {
+                theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList().removeAll(theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOsFrom);
                 //update RG status for updatedSelectedAOCInfoFrom
                 List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfoFrom.getId(), getContextInfo());
