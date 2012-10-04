@@ -145,65 +145,40 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             // Get THE term
             theForm.setTermInfo(termList.get(0));
         } else if (termList.size()>1) {
-            LOG.error("Error: Found more than one Term for term code: "+termCode);
+            LOG.error("Error: Found more than one Term for term code: " + termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
             theForm.getCourseOfferingEditWrapperList().clear();
             return getUIFModelAndView(theForm);
          } else{
-            LOG.error("Error: Can't find any Term for term code: "+termCode);
+            LOG.error("Error: Can't find any Term for term code: " + termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
             theForm.getCourseOfferingEditWrapperList().clear();
             return getUIFModelAndView(theForm);
         }
 
-        //Second, handle subjectCode vs courseOFferingCode
-        if (theForm.getRadioSelection().equals("subjectCode")){
-
-            //load all courseofferings based on subject Code
-            theForm.setSubjectCode(theForm.getInputCode());
-            theForm.setSubjectCodeDescription("");
-            getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
+        //load all courseofferings based on subject Code
+        String inputCode = theForm.getInputCode();
+        if (inputCode != null && !inputCode.isEmpty()) {
+            getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), inputCode, theForm);
             if(!theForm.getCourseOfferingEditWrapperList().isEmpty()) {
-                theForm.setSubjectCode(theForm.getCourseOfferingEditWrapperList().get(0).getCoInfo().getSubjectArea());
-                String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
-                theForm.setSubjectCodeDescription(longNameDescr);
+                if (theForm.getCourseOfferingEditWrapperList().size() > 1) {
+                    theForm.setSubjectCode(theForm.getCourseOfferingEditWrapperList().get(0).getCoInfo().getSubjectArea());
+                    String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
+                    theForm.setSubjectCodeDescription(longNameDescr);
+                } else { // just one course offering is returned
+                    CourseOfferingInfo coToShow = theForm.getCourseOfferingEditWrapperList().get(0).getCoInfo();
+                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
+                    return prepareManageAOsModelAndView(theForm, coToShow);
+                }
             }
-
             return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
-
         } else {
-            //load courseOffering based on courseOfferingCode and load all associated activity offerings
-            String courseOfferingCode = theForm.getInputCode();
-            theForm.setCourseOfferingCode(courseOfferingCode);
+            LOG.error("Error: Course Code search field can't be empty");
+            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
+            theForm.getCourseOfferingEditWrapperList().clear();
+            theForm.setActivityWrapperList(null);
 
-            List<CourseOfferingInfo> courseOfferingList = getViewHelperService(theForm).findCourseOfferingsByTermAndCourseOfferingCode(termCode, courseOfferingCode, theForm);
-
-            if (!courseOfferingList.isEmpty() && courseOfferingList.size() == 1 )  {
-
-                CourseOfferingInfo coToShow = courseOfferingList.get(0);
-
-                return prepareManageAOsModelAndView(theForm, coToShow);
-
-            } else if (courseOfferingList.size()>1) {
-
-                LOG.error("Error: Found more than one Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
-
-                GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_COURSE_OFFERING, courseOfferingCode, termCode);
-                theForm.getCourseOfferingEditWrapperList().clear();
-                theForm.setActivityWrapperList(null);
-
-                return getUIFModelAndView(theForm);
-
-            } else {
-
-                LOG.error("Error: Can't find any Course Offering for a Course Offering Code: "+courseOfferingCode+" in term: "+termCode);
-
-                GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", courseOfferingCode, termCode);
-                theForm.getCourseOfferingEditWrapperList().clear();
-                theForm.setActivityWrapperList(null);
-
-                return getUIFModelAndView(theForm);
-            }
+            return getUIFModelAndView(theForm);
         }
     }
 
