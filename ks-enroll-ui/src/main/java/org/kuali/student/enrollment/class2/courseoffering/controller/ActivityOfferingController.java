@@ -51,7 +51,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         newSchedule.copyForEditing(scheduleWrapper);
         activityOfferingWrapper.setNewScheduleRequest(newSchedule);
         activityOfferingWrapper.getRevisedScheduleRequestComponents().remove(scheduleWrapper);
-        form.setDeliveryLogisiticsAddButtonText("Update");
+        form.setDeliveryLogisiticsAddButtonText("Update Request");
         form.setScheduleEditInProgress(true);
 
         return getUIFModelAndView(form);
@@ -157,8 +157,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         }
 
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
-        Object selectedObject = ((List<Object>) collection).get(selectedLineIndex);
-
-        return selectedObject;
+        return ((List<Object>) collection).get(selectedLineIndex);
     }
 }
