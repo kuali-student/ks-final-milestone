@@ -94,6 +94,32 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         }
     }
 
+    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception {
+        // Building a query
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.like("courseOfferingCode", courseCode + "%"),
+                PredicateFactory.equalIgnoreCase("atpId", termId)),
+                PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
+        QueryByCriteria criteria = qbcBuilder.build();
+        List<String> courseOfferingIds = _getCourseOfferingService().searchForCourseOfferingIds(criteria, getContextInfo());
+
+        if(courseOfferingIds.size() > 0){
+            List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,getContextInfo());
+            form.getCourseOfferingEditWrapperList().clear();
+            for(CourseOfferingInfo coInfo: courseOfferingList){
+                CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
+                courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
+                StateInfo state = getStateService().getState(coInfo.getStateKey(),getContextInfo());
+                courseOfferingEditWrapper.setStateName(state.getName());
+                form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
+            }
+        } else {
+            LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
+            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Code", courseCode, termId);
+            form.getCourseOfferingEditWrapperList().clear();
+        }
+    }
 
     private String getGradingOption(String gradingOptionId) throws Exception {
           String gradingOption = "";
