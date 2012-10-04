@@ -31,7 +31,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements BuildingIn
     @Override
     public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria){
         if (searchCriteria == null || searchCriteria.isEmpty() || StringUtils.isBlank(searchCriteria.get("buildingId"))){
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Building Id should not be empty. Please use the Building lookup to select one");
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please use the Building lookup first to select a building");
             return false;
         }
         return true;
