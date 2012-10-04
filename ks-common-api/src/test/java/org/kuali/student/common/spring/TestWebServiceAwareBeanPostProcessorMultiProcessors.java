@@ -74,7 +74,7 @@ public class TestWebServiceAwareBeanPostProcessorMultiProcessors {
 		String dataDictionaryClassName = bean.getDictionaryService().getClass().getName();
 		
 		// this is not a proxy because @Autowired can find the service impl in the applicationContext.
-		Assert.assertTrue(dataDictionaryClassName.equals("org.kuali.student.common.spring.FakeDictionaryServiceImpl"));
+		Assert.assertTrue(dataDictionaryClassName.equals("org.kuali.student.common.spring.FakeDictionaryServiceDecoratorImpl"));
 		
 		String messageServiceClassName = bean.getMessageService().getClass().getName();
 		

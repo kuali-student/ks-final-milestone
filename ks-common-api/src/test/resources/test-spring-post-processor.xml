@@ -19,10 +19,14 @@
 		
 		This bean should appear in test bean.
 	 -->
-	<bean id="DictionaryService"
+	<bean id="DictionaryServiceImpl"
 		class="org.kuali.student.common.spring.FakeDictionaryServiceImpl">
 	</bean>
 	
+	<bean id="DictionaryService"
+		class="org.kuali.student.common.spring.FakeDictionaryServiceDecoratorImpl">
+		<!--  this should be the @Autowired bean -->
+	</bean>
 	<!-- 
 	
 		DictionaryService should be resolved through spring to the DictionaryService impl.

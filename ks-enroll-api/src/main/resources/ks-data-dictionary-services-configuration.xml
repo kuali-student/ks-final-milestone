@@ -8,8 +8,8 @@
 
     <!--LPR Service-->
     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
-        <property name="serviceNamespaceSuffix" value="luiPersonRelation" />
-        <property name="dictionaryLocations" ref="luiPersonRelationServiceDictionaryLocations" />
+        <property name="serviceNamespaceSuffix" value="lpr" />
+        <property name="dictionaryLocations" ref="LprServiceDictionaryLocations" />
     </bean>
     <!--ATP Service-->
     <bean id="dataDictionaryServiceForAtp" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">

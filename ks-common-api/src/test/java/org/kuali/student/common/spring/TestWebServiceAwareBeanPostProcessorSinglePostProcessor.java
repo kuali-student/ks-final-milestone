@@ -67,7 +67,7 @@ public class TestWebServiceAwareBeanPostProcessorSinglePostProcessor  {
 		
 		String dataDictionaryClassName = bean.getDictionaryService().getClass().getName();
 		
-		Assert.assertTrue(dataDictionaryClassName.equals("org.kuali.student.common.spring.FakeDictionaryServiceImpl"));
+		Assert.assertTrue(dataDictionaryClassName.equals("org.kuali.student.common.spring.FakeDictionaryServiceDecoratorImpl"));
 		
 		String messageServiceClassName = bean.getMessageService().getClass().getName();
 		

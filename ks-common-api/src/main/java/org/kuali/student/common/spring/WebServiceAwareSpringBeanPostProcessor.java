@@ -33,6 +33,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,6 +62,8 @@ public class WebServiceAwareSpringBeanPostProcessor extends AutowiredAnnotationB
 
 	private static final Logger log = LoggerFactory
 			.getLogger(WebServiceAwareSpringBeanPostProcessor.class);
+	
+	private BeanFactory beanFactory;
 
 	/**
 	 * 
@@ -116,10 +119,7 @@ public class WebServiceAwareSpringBeanPostProcessor extends AutowiredAnnotationB
 			if (!fieldHasInjectionAnnotation(field))
 				continue; // skip fields that don't have an injection annotation
 
-			String fieldName = field.getName();
-
-			String setterMethodName = "set" + StringUtils.capitalize(fieldName);
-
+			
 			Object currentValue = null;
 			try {
 
@@ -156,14 +156,36 @@ public class WebServiceAwareSpringBeanPostProcessor extends AutowiredAnnotationB
 				
 				String namespace = webServiceAnnotation.targetNamespace();
 				String serviceName = webServiceAnnotation.serviceName();
+				
+				if (serviceName.isEmpty())
+					serviceName = webServiceAnnotation.name();
 
 				if (namespace != null) {
-
-					final QName name = new QName(namespace, serviceName);
-
+					
+					// First check to see if the application context has a reference 
+					// using the serivceName
+					
 					try {
-
+					
 						Object service = null;
+                        try {
+	                        service = beanFactory.getBean(serviceName, fieldType);
+                        } catch (NoSuchBeanDefinitionException e) {
+                        	service = null;
+                        	// fall through
+                        }
+					
+						if (service != null) {
+							injectServiceReference(bean, beanName, field, service, " from ApplicationContext using BeanName: " + serviceName);
+							continue; // skip to the next field
+						}
+						// else service == null
+							// now try to resolve using the ksb
+					
+
+							final QName name = new QName(namespace, serviceName);
+
+					
 						
 						try {
 								SerializableProxyInvokationHandler invocationHandler = new SerializableProxyInvokationHandler();
@@ -176,46 +198,19 @@ public class WebServiceAwareSpringBeanPostProcessor extends AutowiredAnnotationB
 												new Class[] { fieldType },
 												invocationHandler);
 
-							
+								// now we have the service, try to inject it.
+								injectServiceReference(bean, beanName, field, service, " from KSB using QName: " + name);
 								
 						} catch (NullPointerException e1) {
 							log.warn("RiceResourceLoader is not configured/initialized properly.", e1);
 							// skip to the next field.
 							continue;
 						}
-
-						try {
-
-							/*
-							 * We use the set method because even though we can reach in and set the bean
-							 * if it is final we still get an exception.
-							 * This way it will always work.
-							 * And since the bean's are presently being wired using XML the setters will exist.
-							 * 
-							 */
-							Method setterMethod = beanClass.getMethod(
-									setterMethodName, field.getType());
-
-							ReflectionUtils.invokeMethod(setterMethod, bean,
-									service);
-
-							log.warn("RESOLVED: beanName = "  + beanName + ", fieldName = " + field.getName() + ", fieldType = " + fieldType.getName() + " from KSB using QName: " + name);
-							
-							continue;
-							
-						} catch (IllegalArgumentException e) {
-							log.warn("set error", e);
-						} catch (SecurityException e) {
-							log.warn("set error", e);
-						} catch (NoSuchMethodException e) {
-							
-							// try the field
-							ReflectionUtils.makeAccessible(field);
-							
-							field.set(bean, service);
-							log.warn("RESOLVED: beanName = "  + beanName + ", fieldName = " + field.getName() + ", fieldType = " + fieldType.getName() + " from KSB using QName: " + name);
-							continue;
-						}
+						
+						
+						
+					
+						
 					} catch (Exception e) {
 						log.error(
 								"failed to lookup resource in GlobalResourceLoader ("
@@ -235,6 +230,71 @@ public class WebServiceAwareSpringBeanPostProcessor extends AutowiredAnnotationB
 	
 
 	
+
+
+
+	/*
+	 * Inject the service reference into the bean.
+	 * 
+	 * Logic has been split out to let the proxy service be used
+	 * or if there is a bean in the application context that has the local name use that.
+	 * 
+	 */
+	private void injectServiceReference(Object bean, String beanName,  
+            Field field,
+            Object service, String message) throws IllegalArgumentException, IllegalAccessException {
+		
+		String fieldName = field.getName();
+
+		String setterMethodName = "set" + StringUtils.capitalize(fieldName);
+		
+		Class<? extends Object> beanClass = bean.getClass();
+		
+		Class<?> fieldType = field.getType();
+		
+		try {
+
+			/*
+			 * We use the set method because even though we can reach in and set the bean
+			 * if it is final we still get an exception.
+			 * This way it will always work.
+			 * And since the bean's are presently being wired using XML the setters will exist.
+			 * 
+			 */
+			Method setterMethod = beanClass.getMethod(
+					setterMethodName, field.getType());
+
+			ReflectionUtils.invokeMethod(setterMethod, bean,
+					service);
+
+			log.warn("RESOLVED: beanName = "  + beanName + ", fieldName = " + field.getName() + ", fieldType = " + fieldType.getName() + message);
+			
+			
+		} catch (IllegalArgumentException e) {
+			log.warn("set error", e);
+		} catch (SecurityException e) {
+			log.warn("set error", e);
+		} catch (NoSuchMethodException e) {
+			
+			// try the field
+			ReflectionUtils.makeAccessible(field);
+			
+			field.set(bean, service);
+			log.warn("RESOLVED: beanName = "  + beanName + ", fieldName = " + field.getName() + ", fieldType = " + fieldType.getName() + message);
+		}
+	    
+    }
+
+
+
+	/* (non-Javadoc)
+	 * @see org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor#setBeanFactory(org.springframework.beans.factory.BeanFactory)
+	 */
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+	    this.beanFactory = beanFactory;
+		super.setBeanFactory(beanFactory);
+    }
 
 
 

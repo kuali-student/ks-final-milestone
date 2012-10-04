@@ -81,7 +81,7 @@ public class TestWebServiceAwareBeanPostProcessorManualWithContextPostProcessor 
 
 		String dataDictionaryClassName = bean.getDictionaryService().getClass().getName();
 		
-		Assert.assertTrue(dataDictionaryClassName.equals("org.kuali.student.common.spring.FakeDictionaryServiceImpl"));
+		Assert.assertTrue(dataDictionaryClassName.equals("org.kuali.student.common.spring.FakeDictionaryServiceDecoratorImpl"));
 
 		String messageServiceClassName = bean.getMessageService().getClass()
 		        .getName();
@@ -102,7 +102,7 @@ public class TestWebServiceAwareBeanPostProcessorManualWithContextPostProcessor 
 		MessageService messageService = bean.getMessageService();
 	
 		// check that the serializable proxy takes only 394 bytes to serialize
-		testBeanSerialization(messageService, "org.kuali.student.common.spring.SerializableProxyInvokationHandler (serviceName={http://student.kuali.org/wsdl/message})", 394);
+		testBeanSerialization(messageService, "org.kuali.student.common.spring.SerializableProxyInvokationHandler (serviceName={http://student.kuali.org/wsdl/message}MessageService)", 408);
 		
 		// check that the non serializable service impl would take 2,018,492 bytes to save
 		testBeanSerialization(new FakeMessageServiceImpl(), FakeMessageServiceImpl.class.getName(), 2018492);
@@ -110,8 +110,9 @@ public class TestWebServiceAwareBeanPostProcessorManualWithContextPostProcessor 
 	}
 	
 	private void testBeanSerialization(Object bean, String expectedToStringValue, long expectedSize) throws IOException, ClassNotFoundException {
-File tempFile = File.createTempFile("proxy", "dat");
 		
+		File tempFile = File.createTempFile("proxy", "dat");
+
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(tempFile));
 		
 		oos.writeObject(bean);
