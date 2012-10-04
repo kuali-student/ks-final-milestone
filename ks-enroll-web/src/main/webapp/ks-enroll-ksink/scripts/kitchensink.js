@@ -1,7 +1,5 @@
 /* used by ks-enroll-ksink */
 
-/* used by ks-enroll-ksink */
-
 var originalSelect;
 //var tempSelect;
 var tempUl;

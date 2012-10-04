@@ -63,7 +63,10 @@ public class KitchenSinkController extends UifControllerBase {
 
         // pre-select option key "3" in checkbox controls
         uiTestForm.setCheckboxSelections(Arrays.asList("3"));
+        // pre-select option key "2" in radio button controls
         uiTestForm.setRadioButtonSelection("2");
+        // pre-select option key "2" in dropdown controls
+        uiTestForm.setDropdownSelection("2");
 
         return getUIFModelAndView(uiTestForm);
     }
@@ -79,9 +82,10 @@ public class KitchenSinkController extends UifControllerBase {
         collectionList.add(new KitchenSinkFormCollection1("Chainbreaker IPA", "A tasty beverage", "2011-06-09"));
         form.setCollection(collectionList);
 
+        // Collections.xml has been removed
         // for Collections.xml; same collection property causes validation problems
         //List<KitchenSinkFormCollection1> collectionList2 = KitchenSinkFormCollection1.clone(collectionList);
-        form.setCollection2(KitchenSinkFormCollection1.clone(collectionList));
+        //form.setCollection2(KitchenSinkFormCollection1.clone(collectionList));
 
         return getUIFModelAndView(form);
     }

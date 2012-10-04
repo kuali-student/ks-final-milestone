@@ -35,9 +35,10 @@ public class KitchenSinkForm extends UifFormBase {
     private Boolean checkboxSelected;
     private List<String> checkboxSelections;
     private List<KitchenSinkFormCollection1> collection;
-    private List<KitchenSinkFormCollection1> collection2;
+    //private List<KitchenSinkFormCollection1> collection2;
     private List<String> multiSelections;
     private String radioButtonSelection;
+    private String dropdownSelection;
 
     private List<UITestObject> list1 = new ArrayList<UITestObject>();
     private List<UITestObject> list3 = new ArrayList<UITestObject>();
@@ -133,12 +134,13 @@ public class KitchenSinkForm extends UifFormBase {
         this.activityList = activityList;
     }
 
-    public List<KitchenSinkFormCollection1> getCollection2() {
-        return collection2;
-    }
-    public void setCollection2(List<KitchenSinkFormCollection1> collection2) {
-        this.collection2 = collection2;
-    }
+// Collections.xml removed so this isn't necessary
+//    public List<KitchenSinkFormCollection1> getCollection2() {
+//        return collection2;
+//    }
+//    public void setCollection2(List<KitchenSinkFormCollection1> collection2) {
+//        this.collection2 = collection2;
+//    }
 
     public List<String> getMultiSelections() {
         return multiSelections;
@@ -154,4 +156,10 @@ public class KitchenSinkForm extends UifFormBase {
         this.radioButtonSelection = radioButtonSelection;
     }
 
+    public String getDropdownSelection() {
+        return dropdownSelection;
+    }
+    public void setDropdownSelection(String dropdownSelection) {
+        this.dropdownSelection = dropdownSelection;
+    }
 }
