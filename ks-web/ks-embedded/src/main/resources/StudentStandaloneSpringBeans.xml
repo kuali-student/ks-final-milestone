@@ -211,6 +211,7 @@
                 <!--<value>classpath:org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/RadioButtons.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/SelectControl.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/TextAreaField.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/TextField.xml</value>
                 <!-- -->
