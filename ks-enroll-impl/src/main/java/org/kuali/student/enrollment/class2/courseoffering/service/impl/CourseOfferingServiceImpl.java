@@ -1933,12 +1933,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<String> timeSlotIds = new ArrayList<String>();
 
         if (deliveryLogisticsType.equals("actual")) {
-            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(), context);
-            if (scheduleInfo != null) {
-                List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
-                if (scheduleComponentInfos != null && !scheduleComponentInfos.isEmpty()) {
-                    for (ScheduleComponentInfo scheduleComponentInfo : scheduleComponentInfos) {
-                        timeSlotIds.addAll(scheduleComponentInfo.getTimeSlotIds());
+            if (aoInfo.getScheduleId() != null && aoInfo.getScheduleId().length()>0) {
+                ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(), context);
+                if (scheduleInfo != null) {
+                    List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
+                    if (scheduleComponentInfos != null && !scheduleComponentInfos.isEmpty()) {
+                        for (ScheduleComponentInfo scheduleComponentInfo : scheduleComponentInfos) {
+                            if (scheduleComponentInfo.getTimeSlotIds() != null && !scheduleComponentInfo.getTimeSlotIds().isEmpty()) {
+                                timeSlotIds.addAll(scheduleComponentInfo.getTimeSlotIds());
+                            }
+                        }
                     }
                 }
             }
@@ -1949,18 +1953,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     List<ScheduleRequestComponentInfo> scheduleRequestComponentInfos = scheduleRequestInfo.getScheduleRequestComponents();
                     if (scheduleRequestComponentInfos != null && !scheduleRequestComponentInfos.isEmpty()) {
                         for (ScheduleRequestComponentInfo scheduleRequestComponentInfo : scheduleRequestComponentInfos) {
-                            timeSlotIds.addAll(scheduleRequestComponentInfo.getTimeSlotIds());
+                            if (scheduleRequestComponentInfo.getTimeSlotIds() != null && !scheduleRequestComponentInfo.getTimeSlotIds().isEmpty()) {
+                                timeSlotIds.addAll(scheduleRequestComponentInfo.getTimeSlotIds());
+                            }
                         }
                     }
                 }
             }
         }
 
-        /*
-        if (timeSlotIds != null && !timeSlotIds.isEmpty()) {
-            timeSlotInfos = getSchedulingService().getTimeSlotsByIds(timeSlotIds,context);
-        }
-        */
         return timeSlotIds;
     }
 
@@ -1994,6 +1995,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 for (int i=0; i<aoIds.size(); i++) {
                     Map<String, List<String>> timeSlotMap = new HashMap<String, List<String>>();
 
+                    // retrieve the actual time slots for given AO
                     List<String> timeSlotIdsActualForInsert = _getTimeSlotIdsbyActivityOffering(aoIds.get(i), "actual", context);
                     if (timeSlotIdsActualForInsert != null && !timeSlotIdsActualForInsert.isEmpty()) {
                         timeSlotMap.put("actual", timeSlotIdsActualForInsert);
