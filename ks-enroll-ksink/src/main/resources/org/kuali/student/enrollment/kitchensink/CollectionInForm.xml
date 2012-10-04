@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright 2005-2012 The Kuali Foundation
+  ~ Copyright 2006-2011 The Kuali Foundation
   ~
   ~ Licensed under the Educational Community License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -22,101 +22,102 @@
 
     <!-- The Interesting Bits -->
 
-    <bean id="KS-KitchenSink-CollectionStacked" parent="Uif-StackedCollectionSection">
-        <property name="propertyName" value="collection"/>
-        <property name="collectionObjectClass"
-                  value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection1"/>
-        <property name="layoutManager.addLineGroup.header.style" value="padding:0.5em;background-color:#bbb;"/>
-        <property name="layoutManager.addLineGroup.header.headerTagStyle" value="font-weight:bold;"/>
-        <property name="addLineLabel">
-            <bean parent="Uif-Label">
-                <property name="labelText" value="Add a new record"/>
-            </bean>
-        </property>
+    <bean id="KS-KitchenSink-CollectionInForm" parent="KS-KitchenSink-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField">
-                    <property name="propertyName" value="id"/>
-                    <property name="label" value="ID"/>
-                    <property name="render" value="@{!#isAddLine}"/>
-                </bean>
-                <bean parent="Uif-InputField">
-                    <property name="propertyName" value="name"/>
-                    <property name="label" value="Name"/>
-                    <property name="required" value="true"/>
-                </bean>
-                <bean parent="Uif-InputField">
-                    <property name="propertyName" value="description"/>
-                    <property name="label" value="Description"/>
-                    <property name="required" value="true"/>
-                </bean>
-                <bean parent="Uif-InputField">
-                    <property name="propertyName" value="date"/>
-                    <property name="label" value="Date"/>
-                    <property name="required" value="true"/>
-                    <property name="control">
-                        <bean parent="Uif-DateControl">
-                            <property name="watermarkText" value="mm/dd/yyyy"/>
-                        </bean>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint" />
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-
-    <!-- just the various containers for the interesting bits -->
-
-    <bean id="KS-KitchenSink-CollectionStacked-View" parent="KS-KitchenSink-FormView">
-        <property name="headerText" value="Collections"/>
-        <property name="items">
-            <list>
-                <bean parent="KS-KitchenSink-Page" p:headerText="Stacked Collection">
-                    <property name="items">
+                <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
+                <bean parent="KS-KitchenSink-Collection-Base">
+                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="addLineActions">
                         <list>
-                            <bean parent="KS-KitchenSink-Page-Summary"
-                                  p:messageText="Lists of data objects."/>
-                            <ref bean="KS-KitchenSink-CollectionStacked-Content"/>
-                            <ref bean="KS-KitchenSink-CollectionStacked-Links"/>
+                            <bean parent="Uif-SecondaryActionButton-Small">
+                                <property name="methodToCall" value="addLine"/>
+                                <property name="actionLabel" value="Add"/>
+                            </bean>
                         </list>
                     </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <!--<bean id="KS-KitchenSink-CollectionStacked-Content" parent="KS-KitchenSink-TabSection" p:width="100%">-->
-    <bean id="KS-KitchenSink-CollectionStacked-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
-          p:header.render="false" p:width="99%">
-        <property name="items">
-            <list>
-                <bean parent="KS-KitchenSink-CollectionStacked-Section">
-                    <property name="items">
-                        <list merge="true">
-                            <bean parent="Uif-MessageField">
-                                <property name="messageText">
-                                    <value>
-                                        This is a collection with a stacked layout.
-                                    </value>
-                                </property>
+                    <property name="lineActions">
+                        <list>
+                            <bean parent="Uif-ActionLink">
+                                <property name="methodToCall" value="deleteLine"/>
+                                <property name="actionLabel" value="delete"/>
                             </bean>
                         </list>
                     </property>
                 </bean>
+
+                <!--
+                    Uif-FooterBase should normally appear in the "footer" property of the
+                    Page component, but it can be moved around when desired...
+                -->
+                <bean parent="Uif-FooterBase" p:style="margin-bottom:0;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-PrimaryActionButton-Small">
+                                <property name="methodToCall" value="save"/>
+                                <property name="actionLabel" value="Save Changes"/>
+                            </bean>
+                            <!-- not implemented right now
+                            <bean parent="Uif-ActionLink">
+                                <property name="methodToCall" value="clearForm"/>
+                                <property name="actionLabel" value="Clear Changes"/>
+                                <property name="preSubmitCall" value="confirm('Are you sure you want to clear your changes?')"/>
+                            </bean>
+                            -->
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionStacked-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-CollectionInForm-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Collections"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Collection In Form">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary"
+                                  p:messageText="Lists of data objects."/>
+                            <ref bean="KS-KitchenSink-CollectionInForm-Content"/>
+                            <ref bean="KS-KitchenSink-CollectionInForm-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-KitchenSink-CollectionInForm-Content" parent="KS-KitchenSink-TabSection" p:width="100%">-->
+    <bean id="KS-KitchenSink-CollectionInForm-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
+          p:header.render="false" p:width="99%">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-CollectionInForm-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Description goes here when finished."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-CollectionInForm-View-Bare" parent="KS-KitchenSink-FormView">
+        <property name="breadcrumbs.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
                     <property name="items">
                         <list>
-                            <ref bean="KS-KitchenSink-CollectionStacked-Section"/>
+                            <ref bean="KS-KitchenSink-CollectionInForm-Section"/>
                         </list>
                     </property>
                 </bean>
@@ -124,18 +125,18 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionStacked-Section" parent="KS-KitchenSink-VerticalBoxSection"
-          p:headerText="Collection Column Sorting" p:header.render="false" p:width="99%">
+    <bean id="KS-KitchenSink-CollectionInForm-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Collection In Form" p:header.render="false">
         <property name="items">
             <list>
-                <ref bean="KS-KitchenSink-CollectionStacked"/>
+                <ref bean="KS-KitchenSink-CollectionInForm"/>
             </list>
         </property>
     </bean>
 
     <!-- Links -->
 
-    <bean id="KS-KitchenSink-CollectionStacked-Links" parent="KS-KitchenSink-Page-Links">
+    <bean id="KS-KitchenSink-CollectionInForm-Links" parent="KS-KitchenSink-Page-Links">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-FooterLinkSection">
@@ -144,15 +145,15 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionStacked.xml"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionStacked.xml"/>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionInForm.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionInForm.xml"/>
                                     </map>
                                 </property>
                             </bean>
                             <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="UifGroupDefinitions.xml (Uif-StackedCollectionSection)"
+                                        <entry key="UifGroupDefinitions.xml (Uif-TableCollectionSection)"
                                                value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
                                     </map>
                                 </property>
@@ -184,8 +185,8 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="Stacked Collection"
-                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionStacked-View-Bare&amp;methodToCall=collectionOne"/>
+                                        <entry key="Collection In Form"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionInForm-View-Bare&amp;methodToCall=collection"/>
                                     </map>
                                 </property>
                             </bean>
