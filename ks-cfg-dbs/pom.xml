@@ -496,7 +496,6 @@
                 <ks.impex.generate.sql.mysql.phase>none</ks.impex.generate.sql.mysql.phase>
             </properties>
         </profile>
-
         <profile>
             <!--
         This profile connects the dropping/creating/loading of a database to appropriate
@@ -544,7 +543,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <!--
         This profile connects the dropping/creating/loading of a database to appropriate
