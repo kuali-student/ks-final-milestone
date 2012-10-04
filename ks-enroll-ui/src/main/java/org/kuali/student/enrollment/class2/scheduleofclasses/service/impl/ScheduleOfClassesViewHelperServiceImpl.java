@@ -209,7 +209,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
         for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
             //Only returned offered AOS
-            if(!LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(aoDisplayInfo.getStateName())){
+            if(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(aoDisplayInfo.getStateKey())){
                 ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
                 aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
 

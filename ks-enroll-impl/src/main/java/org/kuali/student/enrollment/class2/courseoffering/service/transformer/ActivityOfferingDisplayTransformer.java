@@ -25,17 +25,14 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
-import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
@@ -82,8 +79,10 @@ public class ActivityOfferingDisplayTransformer {
         // typeName, stateName, courseOfferingTitle;
         TypeInfo aoType = typeService.getType(aoInfo.getTypeKey(), contextInfo);
         displayInfo.setTypeName(aoType.getName());
+        displayInfo.setTypeKey(aoType.getKey());
         StateInfo aoState = stateService.getState(aoInfo.getStateKey(), contextInfo);
         displayInfo.setStateName(aoState.getName());
+        displayInfo.setStateKey(aoState.getKey());
         displayInfo.setCourseOfferingTitle(aoInfo.getCourseOfferingTitle());
         // courseOfferingCode, formatOfferingId, formatOfferingName;
         displayInfo.setCourseOfferingCode(aoInfo.getCourseOfferingCode());
