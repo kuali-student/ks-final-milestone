@@ -51,21 +51,26 @@
                                     <bean parent="Uif-TextControl" p:size="6" p:watermarkText="20132" p:minLength="5" p:maxLength="6"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="radioSelection" p:label="" p:width="auto" p:required="true" p:defaultValue="courseOfferingCode">
+                            <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="Course" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-VerticalRadioControl">
-                                        <property name="options">
-                                            <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="courseOfferingCode" p:value="Course Offering Code"/>
-                                                <bean parent="Uif-KeyLabelPair" p:key="subjectCode" p:value="Subject Code"/>
-                                            </list>
+                                    <bean parent="Uif-TextControl" p:size="30" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
+                                </property>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="code" value="inputCode"/>
+                                    </map>
+                                </property>
+                                <property name="quickfinder.readOnlySearchFields" value="courseInfo.courseTitle" />
+                                <property name="quickfinder.quickfinderAction">
+                                    <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-QuickLookupImage"/>
                                         </property>
                                     </bean>
                                 </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="" p:required="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10"/>
+                                <property name="quickfinder.lightBoxLookup">
+                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show"/>
