@@ -224,15 +224,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             theForm.setFilteredAOClusterWrapperList(aoClusterWrappers);
 
             int clusterIndex =0;
-            for (ActivityOfferingClusterInfo aoCluster : aoClusters) {
-                if (aoCluster != null) {
-                    List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), getContextInfo());
+            for (ActivityOfferingClusterWrapper aoClusterWrapper : aoClusterWrappers) {
+                if (aoClusterWrapper != null && aoClusterWrapper.isHasAllRegGroups()) {
+                    List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoClusterWrapper.getAoCluster().getId(), getContextInfo());
                     if (rgInfos != null && !rgInfos.isEmpty()) {
-                        for (RegistrationGroupInfo rgInfo : rgInfos) {
-                            if (rgInfo != null) {
-                                _performRGTimeConflictValidation(aoCluster, rgInfo, clusterIndex);
-                            }
-                        }
+                        List<Integer> rgIndexList = _performRGTimeConflictValidation(aoClusterWrapper.getAoCluster(), rgInfos, clusterIndex);
                     }
                 }
                 clusterIndex++;
@@ -557,11 +553,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 _performMaxEnrollmentValidation(selectedClusterWrapper.getAoCluster().getFormatOfferingId(), selectedClusterWrapper.getAoCluster(), Integer.parseInt(clusterIndex));
 
                 //validation AO time conflict in RG
-                for (RegistrationGroupInfo rgInfo : rgInfos) {
-                    if (rgInfo != null) {
-                        _performRGTimeConflictValidation(selectedClusterWrapper.getAoCluster(), rgInfo, Integer.parseInt(clusterIndex));
-                    }
-                }
+                List<Integer> rgIndexList = _performRGTimeConflictValidation(selectedClusterWrapper.getAoCluster(), rgInfos, Integer.parseInt(clusterIndex));
 
             }
         }else {
@@ -994,17 +986,30 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
     }
 
+    private List<Integer> _performRGTimeConflictValidation(ActivityOfferingClusterInfo aoCluster, List<RegistrationGroupInfo> registrationGroupInfos, int clusterIndex) throws Exception{
+        List<Integer> rgIndexList = new ArrayList<Integer>();
+        rgIndexList.clear();
 
-    private void _performRGTimeConflictValidation(ActivityOfferingClusterInfo aoCluster, RegistrationGroupInfo registrationGroupInfo, int clusterIndex) throws Exception{
-        List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateRegistrationGroup(
-                "validation on AO time conflict check in a RG", aoCluster.getId(), registrationGroupInfo.getTypeKey(), registrationGroupInfo, getContextInfo());
+        if (aoCluster != null && registrationGroupInfos != null && !registrationGroupInfos.isEmpty()) {
+            int rgIndex = 0;
+            for (RegistrationGroupInfo registrationGroupInfo : registrationGroupInfos) {
+                List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateRegistrationGroup(
+                        "validation on AO time conflict check in a RG", aoCluster.getId(), registrationGroupInfo.getTypeKey(), registrationGroupInfo, getContextInfo());
 
-        if (validationResultInfoList.get(0).isError())  {
-            String errorMessage =  validationResultInfoList.get(0).getMessage();
-            GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
+                if (validationResultInfoList.get(0).isError())  {
+                    rgIndexList.add(rgIndex);
+                }
+
+                rgIndex++;
+            }
+
+            if (rgIndexList != null && !rgIndexList.isEmpty()) {
+                GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_AO_TIMECONFLICT, aoCluster.getPrivateName());
+            }
         }
-    }
 
+        return rgIndexList;
+    }
 
     private Map<String, List<String>> _constructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();

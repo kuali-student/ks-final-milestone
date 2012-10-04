@@ -2039,6 +2039,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
+                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
+
+                                            updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
                                         }
                                     } else if (hasTimeSlotAcutal != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
@@ -2046,6 +2049,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
+
+                                            updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
                                         }
                                     } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared != false) {
@@ -2053,6 +2058,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
+
+                                            updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
                                         }
                                     } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
@@ -2060,6 +2067,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
+
+                                            updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
                                         }
                                     }
@@ -2078,80 +2087,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         validationResultInfos.add(validationResultInfo);
         return validationResultInfos;
 
-        /*
-        try {
-            List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
-            if (aoIds != null && !aoIds.isEmpty() && aoIds.size() > 1) {
-                for (int i=0; i<aoIds.size(); i++) {
-                    boolean hasTimeSlotRequested = false, hasTimeSlotAcutal = false;
 
-                    // retrieve the actual time slots for given AO
-                    List<String> timeSlotIdsActual = getTimeSlotIdsbyActivityOffering(aoIds.get(i), "actual", context);
-                    if (timeSlotIdsActual != null && !timeSlotIdsActual.isEmpty()) {
-                        hasTimeSlotAcutal = true;
-                    }
-                    // retrieve the requested time slots for given AO
-                    List<String> timeSlotIdsRequested = getTimeSlotIdsbyActivityOffering(aoIds.get(i), "requested", context);
-                    if (timeSlotIdsRequested != null && !timeSlotIdsRequested.isEmpty()) {
-                        hasTimeSlotRequested = true;
-                    }
-
-                    // Do the time conflict check only when either actual or requested Delivery Logistics time slots exist
-                    if (hasTimeSlotAcutal != false || hasTimeSlotRequested != false) {
-                        for (int j=0; j<aoIds.size(); j++) {
-                            boolean hasTimeSlotRequestedCompared = false, hasTimeSlotAcutalCompared = false;
-                            if (i != j) {
-                                // retrieve the actual time slots for the compared AO
-                                List<String> timeSlotIdsComparedActual = getTimeSlotIdsbyActivityOffering(aoIds.get(j), "actual", context);
-                                if (timeSlotIdsComparedActual != null && !timeSlotIdsComparedActual.isEmpty()) {
-                                    hasTimeSlotAcutalCompared = true;
-                                }
-                                // retrieve the requested time slots for the compared AO
-                                List<String> timeSlotIdsComparedRequested = getTimeSlotIdsbyActivityOffering(aoIds.get(j), "requested", context);
-                                if (timeSlotIdsComparedRequested != null && !timeSlotIdsComparedRequested.isEmpty()) {
-                                    hasTimeSlotRequestedCompared = true;
-                                }
-
-                                if (hasTimeSlotAcutalCompared != false || hasTimeSlotRequestedCompared != false) {
-                                    if (hasTimeSlotAcutal != false  && hasTimeSlotAcutalCompared != false) {
-                                        if (checkTimeSlotsOverlap(timeSlotIdsActual, timeSlotIdsComparedActual, context)) {
-                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                                            validationResultInfos.add(validationResultInfo);
-                                            return validationResultInfos;
-                                        }
-                                    } else if (hasTimeSlotAcutal != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
-                                        if (checkTimeSlotsOverlap(timeSlotIdsActual, timeSlotIdsComparedRequested, context)) {
-                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                                            validationResultInfos.add(validationResultInfo);
-                                            return validationResultInfos;
-                                        }
-                                    } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared != false) {
-                                        if (checkTimeSlotsOverlap(timeSlotIdsRequested, timeSlotIdsComparedActual, context)) {
-                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                                            validationResultInfos.add(validationResultInfo);
-                                            return validationResultInfos;
-                                        }
-                                    } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
-                                        if (checkTimeSlotsOverlap(timeSlotIdsRequested, timeSlotIdsComparedRequested, context)) {
-                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                                            validationResultInfos.add(validationResultInfo);
-                                            return validationResultInfos;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            throw new OperationFailedException("unexpected", e);
-        }
-
-        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
-        validationResultInfos.add(validationResultInfo);
-        return validationResultInfos;
-        */
     }
 
     @Override
