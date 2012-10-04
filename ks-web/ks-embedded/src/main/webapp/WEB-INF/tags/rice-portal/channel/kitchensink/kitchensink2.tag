@@ -34,14 +34,16 @@
 
     <strong>Collections</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Collections"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-Collections-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection action image buttons"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionImages-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection action links on hover"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionActionLinksOnHover-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection as form"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionAsForm-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection column sorting"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionColumnSorting-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection in form"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionInForm-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection row selection and toggle"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
