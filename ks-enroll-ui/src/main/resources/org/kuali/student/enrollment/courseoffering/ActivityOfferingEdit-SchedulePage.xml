@@ -53,7 +53,7 @@
         <property name="propertyName" value="revisedScheduleRequestComponents"/>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit"/>
+                <bean parent="KS-SubmitActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
