@@ -261,7 +261,7 @@
         <property name="headerText" value=""/>
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
-        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.aoCluster.name}(@{#line.aoCluster.privateName})"/>
+        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.aoCluster.privateName} (@{#line.aoCluster.name})"/>
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
 
         <property name="items">
@@ -286,12 +286,12 @@
             <list>
                 <bean parent="Uif-InputField"  p:propertyName="privateClusterName" p:label="Private Name" p:labelPlacement="TOP" p:required="true" p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>
+                        <bean parent="Uif-TextControl" p:size="40" p:minLength="3" p:maxLength="40"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField"  p:propertyName="publishedClusterName" p:label="Published Name" p:labelPlacement="TOP" p:required="true" p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="40" p:minLength="3" p:maxLength="40"/>
                     </property>
                 </bean>
 
