@@ -169,8 +169,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
         timeSlot.setWeekdays(days);
 
-
-
         if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
             try {
                 long time = TIME_FORMAT.parse(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM()).getTime();
@@ -276,36 +274,26 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         return StringUtils.removeEnd(returnValue," ");
     }
 
-    public void addScheduleRequestComponent(ActivityOfferingForm form){
+    protected boolean validateNewScheduleRequest(ScheduleWrapper scheduleWrapper){
 
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
+        GlobalVariables.getMessageMap().clearErrorMessages();
 
-        // Add a space between selected days ("MTWHFSU") for the UI read-only string
-        StringBuilder buffer = new StringBuilder();
-        if (scheduleWrapper.getDays() != null) {
-            char[] days = scheduleWrapper.getDays().toUpperCase().toCharArray();
-            for (char day : days) {
-                buffer.append(day).append(" ");
-            }
+        if (StringUtils.isNotBlank(scheduleWrapper.getStartTime()) &&
+            StringUtils.isBlank(scheduleWrapper.getStartTimeAMPM())){
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.startTimeAMPM", RiceKeyConstants.ERROR_CUSTOM, "Start time AM/PM is required");
         }
 
-        scheduleWrapper.setDaysUI(StringUtils.stripEnd(buffer.toString()," "));
-        if (scheduleWrapper.getStartTime() != null) {
-            scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
-        }
-        if (scheduleWrapper.getEndTime() != null) {
-            scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
+        if (StringUtils.isNotBlank(scheduleWrapper.getEndTime()) &&
+            StringUtils.isBlank(scheduleWrapper.getEndTimeAMPM())){
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.startTimeAMPM", RiceKeyConstants.ERROR_CUSTOM, "Start time AM/PM is required");
         }
 
         try {
             //  Validate building and room codes before returning on error.
-            boolean hasBuildingRoomError = false;
             if (StringUtils.isNotEmpty(scheduleWrapper.getBuildingCode())) {
                 List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(), getContextInfo());
                 if (buildings.isEmpty()) {
                     GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.buildingCode", RiceKeyConstants.ERROR_CUSTOM, "Facility code was invalid.");
-                    hasBuildingRoomError = true;
                 } else {
                     scheduleWrapper.setBuilding(buildings.get(0));
                 }
@@ -315,7 +303,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(),scheduleWrapper.getRoomCode(),getContextInfo());
                 if (rooms.isEmpty()) {
                     GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.roomCode", RiceKeyConstants.ERROR_CUSTOM, "Room code was invalid.");
-                    hasBuildingRoomError = true;
                 } else {
                     RoomInfo room = rooms.get(0);
                     if(room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()){
@@ -325,11 +312,34 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 }
             }
 
-            if (hasBuildingRoomError) {
-                return;
-            }
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+
+        return !GlobalVariables.getMessageMap().hasErrors();
+    }
+
+    public boolean addScheduleRequestComponent(ActivityOfferingForm form){
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
+
+        boolean success = validateNewScheduleRequest(scheduleWrapper);
+
+        if (!success){
+            return false;
+        }
+
+        // Add a space between selected days ("MTWHFSU") for the UI display(read-only) string
+        if (StringUtils.isNotBlank(scheduleWrapper.getDays())){
+            scheduleWrapper.setDaysUI(scheduleWrapper.getDays().replace("", " ").trim().toUpperCase());
+        }
+
+        if (scheduleWrapper.getStartTime() != null) {
+            scheduleWrapper.setStartTimeUI(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM());
+        }
+        if (scheduleWrapper.getEndTime() != null) {
+            scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
         }
 
         if (form.isMainPage()){
@@ -339,6 +349,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
+
+        return true;
     }
 
     public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper){
@@ -626,11 +638,16 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 if (!timeSlotInfos.isEmpty()){
                     scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
-                    Date timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                    scheduleWrapper.setStartTimeUI(TIME_FORMAT.format(timeForDisplay));
+                    Date timeForDisplay = null;
+                    if (scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null){
+                        timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
+                        scheduleWrapper.setStartTimeUI(TIME_FORMAT.format(timeForDisplay));
+                    }
 
-                    timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                    scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
+                    if (scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null){
+                        timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
+                        scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
+                    }
 
                     scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
                 }

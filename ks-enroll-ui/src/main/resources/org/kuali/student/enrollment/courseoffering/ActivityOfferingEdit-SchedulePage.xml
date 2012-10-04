@@ -236,10 +236,20 @@
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                          <bean parent="PrerequisiteConstraint" p:propertyName="newScheduleRequest.startTimeAMPM"/>
+                        </list>
+                    </property>
                 </bean>
                 <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
+                    </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                          <bean parent="PrerequisiteConstraint" p:propertyName="newScheduleRequest.startTime"/>
+                        </list>
                     </property>
                 </bean>
                 <bean parent="KSInputField" p:label="End Time" p:propertyName="newScheduleRequest.endTime">
@@ -250,10 +260,20 @@
                     <property name="validCharactersConstraint">
                         <bean parent="TimePatternConstraint" />
                     </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                          <bean parent="PrerequisiteConstraint" p:propertyName="newScheduleRequest.endTimeAMPM"/>
+                        </list>
+                    </property>
                 </bean>
                 <bean parent="KSInputField" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"/>
+                    </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                          <bean parent="PrerequisiteConstraint" p:propertyName="newScheduleRequest.endTime"/>
+                        </list>
                     </property>
                 </bean>
                 <bean parent="KSInputField" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode">
@@ -282,8 +302,13 @@
                     </property>
                     <property name="quickfinder.lookupParameters">
                         <map>
-                            <entry key="newScheduleRequest.buildingId" value="buildingId"/>
+                            <entry key="newScheduleRequest.buildingId" value="buildingCode"/>
                         </map>
+                    </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                          <bean parent="PrerequisiteConstraint" p:propertyName="newScheduleRequest.buildingCode"/>
+                        </list>
                     </property>
                 </bean>
                 <!--<bean parent="KSInputField" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>-->

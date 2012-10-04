@@ -61,9 +61,9 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     public ModelAndView addScheduleComponent(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        getViewHelperService(form).addScheduleRequestComponent(form);
+        boolean success = getViewHelperService(form).addScheduleRequestComponent(form);
 
-        if (form.isSchedulePage()){
+        if (form.isSchedulePage() && success){
             form.setDeliveryLogisiticsAddButtonText("Add");
             form.setScheduleEditInProgress(false);
             activityOfferingWrapper.setSchedulesRevised(true);

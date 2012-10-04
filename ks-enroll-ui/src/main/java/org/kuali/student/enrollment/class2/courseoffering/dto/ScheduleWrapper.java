@@ -78,6 +78,7 @@ public class ScheduleWrapper implements Serializable{
         this.scheduleComponentInfo = null;
         this.scheduleRequestComponentInfo = null;
         this.days = wrapper.getDays();
+        this.tba = wrapper.isTba();
         this.startTime = wrapper.getStartTime();
         this.startTimeAMPM = wrapper.getStartTimeAMPM();
         this.endTime = wrapper.getEndTime();
