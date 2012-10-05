@@ -240,7 +240,7 @@ public interface CourseOfferingService
     /**
      * Retrieve a list of CourseOffering Ids by CourseOffering Type.
      *
-     * @param courseOfferingTypeKey the identfiier for a CourseOffering Type
+     * @param courseOfferingTypeKey the identifier for a CourseOffering Type
      * @param contextInfo           information containing the principalId and
      *                              locale information about the caller of
      *                              service operation
@@ -253,7 +253,7 @@ public interface CourseOfferingService
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getCourseOfferingIdsByType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingypeKey,
+    public List<String> getCourseOfferingIdsByType(@WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -534,8 +534,7 @@ public interface CourseOfferingService
      * with the given data can be created.
      *
      * @param validationTypeKey     the identifier for the validation Type
-     * @param courseOfferingTypeKey missing
-     * @param courseOfferingInfo    the CourseOffering ti be validated
+     * @param courseOfferingInfo    the CourseOffering to be validated
      * @param contextInfo           information containing the principalId and
      *                              locale information about the caller of
      *                              service operation
@@ -549,10 +548,8 @@ public interface CourseOfferingService
      *                                   courseOfferingInfo, or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     *                                   (missing)
      */
-    public List<ValidationResultInfo> validateCourseOffering(@WebParam(name = "validationType") String validationType,
+    public List<ValidationResultInfo> validateCourseOffering(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                              @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo,
                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -765,13 +762,14 @@ public interface CourseOfferingService
      * Gets an format offering  based on Id.
      *
      * @param formatOfferingId The  Format Offering  identifier
-     * @param context
-     * @return
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return the FormatOffering identified by the identifier
      * @throws DoesNotExistException     The Format Offering doesn't exist
      * @throws InvalidParameterException Invalid formatOfferingId
      * @throws MissingParameterException Missing formatOfferingId
      * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException
      */
     public FormatOfferingInfo getFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -779,8 +777,10 @@ public interface CourseOfferingService
      * Gets a list of format offering by a course offering id they belong to.
      *
      * @param courseOfferingId Course offering identifier
-     * @param context
-     * @return
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return a list of FormatOffering by course offering
      * @throws DoesNotExistException     The course offering  doesn't exist
      * @throws InvalidParameterException Invalid course offering id
      * @throws MissingParameterException Missing course offering id
@@ -794,10 +794,10 @@ public interface CourseOfferingService
      *
      * @param courseOfferingId   Course offering that the  Format Offering
      *                           belongs to
-     * @param formatId
+     * @param formatId          the identifier for the FormatOffering
      * @param formatOfferingType the type key of the  Format Offering  template
      * @param formatOfferingInfo The Format Offering  info object
-     * @return
+     * @return the information about the FormatOffering created
      * @throws DataValidationErrorException
      * @throws DoesNotExistException        if courseOfferingId or formatId does
      *                                      not exist for the course in the
@@ -816,8 +816,10 @@ public interface CourseOfferingService
      *
      * @param formatOfferingId   The  Id formatOffering to be updated
      * @param formatOfferingInfo The new formatOffering Info
-     * @param context
-     * @return
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return the updated information about the FormatOffering updated.
      * @throws DataValidationErrorException One or more values invalid for this
      *                                      operation
      * @throws DoesNotExistException        The formatOfferingId doesn't exist
@@ -877,8 +879,10 @@ public interface CourseOfferingService
      * Deletes an  Format Offering
      *
      * @param formatOfferingId The  Id formatOffering to be deleted
-     * @param context
-     * @return
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
      * @throws DoesNotExistException          The formatOfferingId doesn't
      *                                        exist
      * @throws InvalidParameterException      Invalid  formatOfferingId
@@ -898,8 +902,10 @@ public interface CourseOfferingService
      * Registration group
      *
      * @param formatOfferingId The  Id formatOffering to be deleted
-     * @param context
-     * @return
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return the status of the operation (success/fail)
      * @throws DoesNotExistException     The formatOfferingId doesn't exist
      * @throws InvalidParameterException Invalid  formatOfferingId
      * @throws MissingParameterException Missing  formatOfferingId
@@ -1201,8 +1207,10 @@ public interface CourseOfferingService
      * don't have registration groups created for them yet.
      *
      * @param formatOfferingId The Id of the format offering
-     * @param context
-     * @return
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return List of ActivityOfferings by format offering that don't have reg groups yet.
      * @throws DoesNotExistException     The formatOfferingId does not exist
      * @throws InvalidParameterException Invalid formatOfferingId
      * @throws MissingParameterException Missing formatOfferingId
@@ -1304,11 +1312,13 @@ public interface CourseOfferingService
     /**
      * Generates activity offerings based on a format offering.
      *
-     * @param formatOfferingId
-     * @param activityOfferingType
+     * @param formatOfferingId the identifier for the FormatOffering.
+     * @param activityOfferingType a key for an activity offering type
      * @param quantity
-     * @param context
-     * @return
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return activity offerings based on format offering
      * @throws InvalidParameterException formatOfferingId invalid
      * @throws MissingParameterException Missing formatOfferingId in the input
      * @throws OperationFailedException  unable to complete request
@@ -1582,8 +1592,11 @@ public interface CourseOfferingService
      * activity offerings in the input list.
      *
      * @param activityOfferingIds List of activityOffering Identifiers
-     * @param context
-     * @return
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return a list of RegistrationGroup records that contain all the
+     *         activity offerings in the input list.
      * @throws DoesNotExistException     One or more of the activityOfferingIds
      *                                   doesn't exist
      * @throws InvalidParameterException One or more invalid activityOfferingIds
@@ -2283,7 +2296,9 @@ public interface CourseOfferingService
      * Validate a seat pool definition
      *
      * @param validationTypeKey * @param seatPoolDefinitionInfo
-     * @param context
+     * @param context              Context information containing the
+     *                             principalId and locale information about the
+     *                             caller of service operation
      * @throws DataValidationErrorException
      * @throws DoesNotExistException
      * @throws InvalidParameterException
