@@ -1314,7 +1314,7 @@ public interface CourseOfferingService
      *
      * @param formatOfferingId the identifier for the FormatOffering.
      * @param activityOfferingType a key for an activity offering type
-     * @param quantity
+     * @param quantity           quantity of the activity offerings of that type
      * @param context            Context information containing the principalId
      *                           and locale information about the caller of
      *                           service operation
