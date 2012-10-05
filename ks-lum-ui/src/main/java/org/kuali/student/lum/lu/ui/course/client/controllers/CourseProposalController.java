@@ -731,7 +731,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @SuppressWarnings("unchecked")
     protected void createCopyCourseProposalModel(String originalProposalId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
 
-    	cluProposalRpcServiceAsync.createCopyCourseProposal(originalProposalId, new AsyncCallback<DataSaveResult>() {
+    	cluProposalRpcServiceAsync.createCopyCourseProposal(originalProposalId, currentDocType, new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
 				cluProposalModel.setRoot(result.getValue());
 		        setHeaderTitle();

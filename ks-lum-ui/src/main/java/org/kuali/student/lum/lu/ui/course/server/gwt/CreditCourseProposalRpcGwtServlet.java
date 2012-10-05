@@ -47,10 +47,10 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	}
 
 	@Override
-	public DataSaveResult createCopyCourseProposal(String originalProposalId)
+	public DataSaveResult createCopyCourseProposal(String originalProposalId, String documentType)
 			throws Exception {
 		try {
-			return copyCourseService.createCopyCourseProposal(originalProposalId, ContextUtils.getContextInfo());
+			return copyCourseService.createCopyCourseProposal(originalProposalId, documentType, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Error copying proposal with id:" + originalProposalId, e);
 			throw e;

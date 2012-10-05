@@ -38,7 +38,7 @@ public interface CourseRpcService extends BaseDataOrchestrationRpcService{
     public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception;
  
 	public DataSaveResult createCopyCourse(String originalCluId) throws Exception;
-	public DataSaveResult createCopyCourseProposal(String originalProposalId) throws Exception;
+	public DataSaveResult createCopyCourseProposal(String originalProposalId, String documentType) throws Exception;
 	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception;
 	public Boolean isAnyOtherRetireProposalsInWorkflow(String courseCluId) throws Exception;
 }

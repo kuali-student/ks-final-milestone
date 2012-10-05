@@ -160,7 +160,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	}
 
 	@Override
-	public DataSaveResult createCopyCourseProposal(String originalProposalId)
+	public DataSaveResult createCopyCourseProposal(String originalProposalId, String documentType)
 			throws Exception {
 		throw new UnsupportedOperationException("Copy is not implemented without a proposal.");
 	}

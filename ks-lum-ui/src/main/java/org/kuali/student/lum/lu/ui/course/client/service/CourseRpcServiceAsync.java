@@ -38,7 +38,7 @@ public interface CourseRpcServiceAsync extends BaseDataOrchestrationRpcServiceAs
     public void changeState(String courseId, String newState, String prevEndTerm, AsyncCallback<StatusInfo> callback);
 	
     public void createCopyCourse(String originalCluId, AsyncCallback<DataSaveResult> asyncCallback);
-	public void createCopyCourseProposal(String originalProposalId, AsyncCallback<DataSaveResult> asyncCallback);
+	public void createCopyCourseProposal(String originalProposalId, String documentType, AsyncCallback<DataSaveResult> asyncCallback);
 	public void isLatestVersion(String versionIndId, Long versionSequenceNumber, AsyncCallback<Boolean> callback);
 	public void isAnyOtherRetireProposalsInWorkflow(String courseCluId, AsyncCallback<Boolean> callback);
 }

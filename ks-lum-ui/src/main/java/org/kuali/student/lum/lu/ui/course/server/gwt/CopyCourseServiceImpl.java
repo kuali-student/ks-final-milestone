@@ -55,7 +55,6 @@ public class CopyCourseServiceImpl {
     private StatementService statementService;
     private ProposalService proposalService;
 
-    private String defaultDocumentType = CLUConstants.PROPOSAL_TYPE_COURSE_CREATE;
     private String defaultState = DtoConstants.STATE_DRAFT;
 
     private List<String> ignoreProperties;
@@ -69,9 +68,9 @@ public class CopyCourseServiceImpl {
         return result;
     }
 
-    public DataSaveResult createCopyCourseProposal(String originalProposalId, ContextInfo contextInfo) throws Exception {
+    public DataSaveResult createCopyCourseProposal(String originalProposalId, String documentType, ContextInfo contextInfo) throws Exception {
         //Copy the proposal and use the data service to return
-        ProposalInfo copiedProposal = copyProposal(originalProposalId, contextInfo);
+        ProposalInfo copiedProposal = copyProposal(originalProposalId, documentType, contextInfo);
 
         //Grab the data object so it is transformed
         Data data = courseProposalDataService.getData(copiedProposal.getId(), contextInfo);
@@ -86,7 +85,7 @@ public class CopyCourseServiceImpl {
                 courseService, contextInfo);
     }
 
-    private ProposalInfo copyProposal(String originalProposalId, ContextInfo contextInfo) throws Exception {
+    private ProposalInfo copyProposal(String originalProposalId, String documentType, ContextInfo contextInfo) throws Exception {
         try {
             //Get the original Proposal
             ProposalInfo originalProposal = proposalService.getProposal(originalProposalId);
@@ -95,25 +94,18 @@ public class CopyCourseServiceImpl {
             String originalCluId = originalProposal.getProposalReference().get(0);
             CourseInfo copiedCourse = copyCourse(originalCluId, contextInfo);
 
-            //Calculate a document type based on original document type.
-            String docType = defaultDocumentType;
-            if(CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN.equals(originalProposal.getType())||
-                    CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals(originalProposal.getType())){
-                docType = CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;
-            }
-
             //Clear ids and set the reference to the copied course
             originalProposal.setId(null);
             originalProposal.setWorkflowId(null);
             originalProposal.setState(defaultState);
-            originalProposal.setType(docType);
+            originalProposal.setType(documentType);
             originalProposal.getProposalReference().set(0, copiedCourse.getId());
             originalProposal.getProposerOrg().clear();
             originalProposal.getProposerPerson().clear();
             originalProposal.setName(null);
 
             //Create the proposal
-            ProposalInfo copiedProposal = proposalService.createProposal(docType, originalProposal);
+            ProposalInfo copiedProposal = proposalService.createProposal(documentType, originalProposal);
 
             return copiedProposal;
 
@@ -307,10 +299,6 @@ public class CopyCourseServiceImpl {
 
     public void setCourseProposalDataService(DataService courseProposalDataService) {
         this.courseProposalDataService = courseProposalDataService;
-    }
-
-    public void setDefaultDocumentType(String defaultDocumentType) {
-        this.defaultDocumentType = defaultDocumentType;
     }
 
     public void setDefaultState(String defaultState) {
