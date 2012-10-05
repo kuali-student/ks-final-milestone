@@ -99,8 +99,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.like("courseOfferingCode", courseCode + "%"),
-                PredicateFactory.equalIgnoreCase("atpId", termId)),
-                PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
+                PredicateFactory.equalIgnoreCase("atpId", termId)));
         QueryByCriteria criteria = qbcBuilder.build();
         List<String> courseOfferingIds = _getCourseOfferingService().searchForCourseOfferingIds(criteria, getContextInfo());
 
