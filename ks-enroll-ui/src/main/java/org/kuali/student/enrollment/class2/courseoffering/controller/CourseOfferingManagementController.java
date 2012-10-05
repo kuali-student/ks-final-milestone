@@ -527,12 +527,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             StatusInfo status = getCourseOfferingService().generateRegistrationGroupsForCluster(selectedClusterId, getContextInfo());
             List<RegistrationGroupInfo> rgInfos =getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedClusterId, getContextInfo());
             if(rgInfos.size()>0){
-                //build RGWrapperList and set it to selectedClusterWrapper
-                List<RegistrationGroupWrapper> rgWrapperListPerCluster = _getRGsForSelectedFO(rgInfos, selectedClusterWrapper.getAoWrapperList());
-                selectedClusterWrapper.setRgWrapperList(rgWrapperListPerCluster);
-                selectedClusterWrapper.setHasAllRegGroups(true);
-                selectedClusterWrapper.setRgStatus("All Registration Groups Generated");
-
                 //validation for max enrollment number
                 int selectedAOCLineIndex = -1;
                 String clusterIndex = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -547,6 +541,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 //validation AO time conflict in RG
                 List<Integer> rgIndexList = _performRGTimeConflictValidation(selectedClusterWrapper.getAoCluster(), rgInfos, Integer.parseInt(clusterIndex));
 
+                //build RGWrapperList and set it to selectedClusterWrapper
+                List<RegistrationGroupWrapper> rgWrapperListPerCluster = _getRGsForSelectedFO(rgInfos, selectedClusterWrapper.getAoWrapperList());
+                selectedClusterWrapper.setRgWrapperList(rgWrapperListPerCluster);
+                selectedClusterWrapper.setHasAllRegGroups(true);
+                selectedClusterWrapper.setRgStatus("All Registration Groups Generated");
             }
         }else {
             String errorMessage =  aoClusterVerifyResultsInfo.getValidationResults().get(0).getMessage();
