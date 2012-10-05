@@ -676,7 +676,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=moveAOBetweenClusters")
     public ModelAndView moveAOBetweenClusters (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, BindingResult result,
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //set clusterIndex for selected / from cluster
+        //set clusterIndex for selected/from cluster
         int clusterIndex = 0;
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         clusterIndex = Integer.parseInt(StringUtils.substringBetween(selectedCollectionPath,"filteredAOClusterWrapperList[","]"));
@@ -748,11 +748,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 }
             }
         }
+        //throw error if nothing is checked
         if (!aoChecked) {
             GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
             return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
         }
-        //persist selected AOCs
+
+        //persist selected AOCs for update
         ActivityOfferingClusterInfo updatedSelectedAOCInfoTo = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
                                                                                                                       selectedAOCInfoTo.getId(),
                                                                                                                       selectedAOCInfoTo, getContextInfo());
@@ -760,41 +762,48 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         ActivityOfferingClusterInfo updatedSelectedAOCInfoFrom = getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
                                                                                                                       selectedAOCInfoFrom.getId(),
                                                                                                                       selectedAOCInfoFrom, getContextInfo());
-        //update AO list in updatedSelectedAOCInfoTo and in updatedSelectedAOCInfoFrom
+
+        //UPDATE theForm
         List<ActivityOfferingWrapper> filteredClusteredAOsTo = new ArrayList <ActivityOfferingWrapper>();
         List<ActivityOfferingWrapper> filteredClusteredAOsFrom = new ArrayList <ActivityOfferingWrapper>();
-        //updatedSelectedAOCInfoFrom
+        //collect aoInfo(s) belonging to updatedSelectedAOCInfoFrom, convert them to AOWrapper(s) and store them in filteredClusteredAOsFrom list for updating theForm below
         List<ActivityOfferingInfo> aosInClusterFrom = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfoFrom.getId(), getContextInfo());
         for ( ActivityOfferingInfo aoInfo : aosInClusterFrom) {
             filteredClusteredAOsFrom.add(getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo));
         }
-        //updatedSelectedAOCInfoTo
+        //collect aoInfo(s) belonging to updatedSelectedAOCInfoTo, convert them to AOWrapper(s) and store them in filteredClusteredAOsTo list for updating theForm below
         List<ActivityOfferingInfo> aosInClusterTo = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfoTo.getId(), getContextInfo());
         for ( ActivityOfferingInfo aoInfo : aosInClusterTo) {
             filteredClusteredAOsTo.add(getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo));
         }
+
         for ( int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
+
+            //find the relevant AOCWrapperTo in theForm and update it
             if (theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId().equals(updatedSelectedAOCInfoTo.getId())) {
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoCluster(updatedSelectedAOCInfoTo);
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOsTo);
-                //update RG status for updatedSelectedAOCInfoTo
+                //if there are RGS belonging to updatedSelectedAOCInfoTo - set RG status (logic in RegistrationGroupInfo)
                 List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfoTo.getId(), getContextInfo());
                 if (rgInfos.size() > 0) {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("Only Some Registration Groups Generated");
                 }
             }
+
+            //find the relevant AOCWrapperFrom in theForm and update it
             if (theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId().equals(updatedSelectedAOCInfoFrom.getId())) {
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoCluster(updatedSelectedAOCInfoFrom);
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOsFrom);
-                //update RG status for updatedSelectedAOCInfoFrom
+
+                //if there are RGS belonging to updatedSelectedAOCInfoFrom - set RG status (logic in RegistrationGroupInfo)
                 List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfoFrom.getId(), getContextInfo());
                 if (rgInfos.size() > 0) {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(true);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("All Registration Groups Generated");
                     // perform max enrollment validation
-                     _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
-                    //update RGs for the form
+                    _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
+                    //update theForm with RGs belonging to updatedSelectedAOCInfoFrom
                     List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgWrapperList(filteredRGs);
                 } else {
