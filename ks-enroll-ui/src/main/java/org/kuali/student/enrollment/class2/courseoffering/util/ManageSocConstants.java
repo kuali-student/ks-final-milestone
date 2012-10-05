@@ -23,7 +23,6 @@ public class ManageSocConstants {
         public static final String MASS_SCHEDULING = "massScheduleConfirmDialog";
         public static final String MASS_PUBLISHLING = "massPublishConfirmDialog";
         public static final String LOCK = "lockConfirmDialog";
-        public static final String PUBLISH = "publishConfirmDialog";
         public static final String FINAL_EDITS = "finalEditConfirmDialog";
         public static final String CLOSE_SET = "closeConfirmDialog";
     }

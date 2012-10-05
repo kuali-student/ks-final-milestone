@@ -70,17 +70,6 @@
         </property>
     </bean>
 
-    <bean id="publishConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
-                  p:promptText="When Set of Courses is in Published state, Scheduled courses and activity offerings will set to offered and will be consumable by the wider community." >
-        <property name="headerText" value="Publish Set of Courses"/>
-        <property name="availableResponses">
-          <list>
-            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Publish Set"/>
-            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
-          </list>
-        </property>
-    </bean>
-
     <bean id="closeConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
                   p:promptText="Close Set" >
         <property name="headerText" value="Close Set"/>
