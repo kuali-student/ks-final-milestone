@@ -139,10 +139,25 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
 
             socForm.setScheduleInitiatedDate(formatScheduleDate(socInfo.getLastSchedulingRunStarted()));
             socForm.setScheduleCompleteDate(formatScheduleDate(socInfo.getLastSchedulingRunCompleted()));
+            if(StringUtils.equals(socForm.getSocSchedulingStatus(), "In Progress")) {
+                socForm.setScheduleCompleteDate("Scheduling in progress");
+            }
 
             socForm.setPublishInitiatedDate(formatScheduleDate(socInfo.getPublishingStarted()));
             socForm.setPublishCompleteDate(formatScheduleDate(socInfo.getPublishingCompleted()));
 
+            if(StringUtils.equals(socForm.getSocSchedulingStatus(), "In Progress")) {
+                Date curDate = new Date();
+                Date startDate = new Date();
+
+                if(socInfo.getLastSchedulingRunCompleted() != null)  {
+                    curDate = socInfo.getLastSchedulingRunCompleted();
+                }
+                if(socInfo.getPublishingStarted() != null)   {
+                    startDate =  socInfo.getPublishingStarted();
+                }
+                socForm.setScheduleDuration(getTimeDiffUI(curDate, startDate, true) + "  (in progress)");
+            }
             if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
                 socForm.setScheduleDuration(getTimeDiffUI(socInfo.getLastSchedulingRunCompleted(), socInfo.getLastSchedulingRunStarted(), true));
             }
