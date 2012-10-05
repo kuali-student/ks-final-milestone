@@ -46,41 +46,48 @@ function stepBrowserBack() {
 
 function showLightbox(componentId, url) {
     // Insert the following css files before the lightbox appearing
-    var contextPath = '';
-    var index = url.lastIndexOf('/');
-    if(index > -1){
-        contextPath = url.substring(index + 1);
-    }
 
-    parent.jQuery('link[href="/' + contextPath + '/rice-portal/css/portal.css"]').remove();
-    parent.jQuery('head').append('<link href="/' + contextPath + '/kr-dev/rice-portal/css/lightbox.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/css/global/fss-reset.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/css/global/fss-layout.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/css/global/fss-text.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/plugins/rice/datatables/jquery.dataTables.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/plugins/rice/datatables/TableTools.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/css/global/base.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/css/ks/theme-krad.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/krad/css/ks/fss-theme-krad.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/ks-enroll/css/enroll.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="/' + contextPath + '/ks-enroll/css/acal.css" rel="stylesheet" type="text/css">');
+    var isPortal = false;
+    parent.jQuery('head').find('link').each(function () {
+            var link = jQuery(this);
+            var href = jQuery(link).attr('href');
+            if (href.indexOf('rice-portal/css/portal.css') > -1) {
+                link.remove();
+                isPortal = true;
+            }
+        }
+    );
+
+    parent.jQuery('head').append('<link href="' + url + '/kr-dev/rice-portal/css/lightbox.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/css/global/fss-reset.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/css/global/fss-layout.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/css/global/fss-text.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/plugins/rice/datatables/jquery.dataTables.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/plugins/rice/datatables/TableTools.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/css/global/base.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/css/ks/theme-krad.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/krad/css/ks/fss-theme-krad.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/enroll.css" rel="stylesheet" type="text/css">');
+    parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/acal.css" rel="stylesheet" type="text/css">');
 
     var overrideOptions = { afterClose:function () {
         // Remove the following css files before the lightbox appearing
-        parent.jQuery('link[href="/' + contextPath + '/kr-dev/rice-portal/css/lightbox.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/css/global/fss-reset.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/css/global/fss-layout.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/css/global/fss-text.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/plugins/rice/datatables/jquery.dataTables.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/plugins/rice/datatables/TableTools.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/plugins/fancybox/jquery.fancybox.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/css/global/base.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/css/ks/theme-krad.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/krad/css/ks/fss-theme-krad.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/ks-enroll/css/enroll.css"]').remove();
-        parent.jQuery('link[href="/' + contextPath + '/ks-enroll/css/acal.css"]').remove();
-        parent.jQuery('head').append('<link href="/' + contextPath + '/rice-portal/css/portal.css" rel="stylesheet" type="text/css">');
+        parent.jQuery('link[href="' + url + '/kr-dev/rice-portal/css/lightbox.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/css/global/fss-reset.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/css/global/fss-layout.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/css/global/fss-text.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/plugins/rice/datatables/jquery.dataTables.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/plugins/rice/datatables/TableTools.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/plugins/fancybox/jquery.fancybox.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/css/global/base.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/css/ks/theme-krad.css"]').remove();
+        parent.jQuery('link[href="' + url + '/krad/css/ks/fss-theme-krad.css"]').remove();
+        parent.jQuery('link[href="' + url + '/ks-enroll/css/enroll.css"]').remove();
+        parent.jQuery('link[href="' + url + '/ks-enroll/css/acal.css"]').remove();
+        if(isPortal){
+            parent.jQuery('head').append('<link href="' + url + '/rice-portal/css/portal.css" rel="stylesheet" type="text/css">');
+        }
     }};
     showLightboxComponent(componentId, overrideOptions);
 }

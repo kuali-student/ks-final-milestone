@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
 
@@ -78,8 +79,13 @@ public class RegistrationGroupWrapper implements Serializable {
         return stateKey;
     }
 
-    public void setStateKey(String stateKey) {
-        this.stateKey = stateKey;
+    public void setStateKey(String key, String stateKey) {
+        // TODO: Add the cnacelled state here when it is added in M6
+        if(key.equalsIgnoreCase(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)){
+            this.stateKey = "<span class=\"uif-invalid-state\">" + stateKey + "</span>";
+        }else{
+            this.stateKey = stateKey;
+        }
     }
 
     public String getAoTypeNameText() {
@@ -114,14 +120,22 @@ public class RegistrationGroupWrapper implements Serializable {
         setStartTimeDisplay(startTimeDisplay, false);
     }
 
-    public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay) {
+    public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay){
+        setStartTimeDisplay(startTimeDisplay, false, null);
+    }
+
+    public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
         if(StringUtils.isEmpty(this.startTimeDisplay)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
-            this.startTimeDisplay = this.startTimeDisplay + "<br>" + StringUtils.defaultString(startTimeDisplay);
+            this.startTimeDisplay = this.startTimeDisplay + "<br><span " + cssClass + " >" + startTimeDisplay + "</span>";
         }else{
-            this.startTimeDisplay = StringUtils.defaultString(startTimeDisplay);
+            this.startTimeDisplay = "<span " + cssClass + " >" + startTimeDisplay + "</span>";
         }
     }
 
@@ -134,13 +148,21 @@ public class RegistrationGroupWrapper implements Serializable {
     }
 
     public void setEndTimeDisplay(String endTimeDisplay,boolean appendForDisplay) {
+        setEndTimeDisplay(endTimeDisplay, false, null);
+    }
+
+    public void setEndTimeDisplay(String endTimeDisplay,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
         if(StringUtils.isEmpty(this.endTimeDisplay)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
-            this.endTimeDisplay = this.endTimeDisplay + "<br>" + StringUtils.defaultString(endTimeDisplay);
+            this.endTimeDisplay = this.endTimeDisplay + "<br><span " + cssClass + " >" + endTimeDisplay + "</span>";
         }else{
-            this.endTimeDisplay = StringUtils.defaultString(endTimeDisplay);
+            this.endTimeDisplay = "<span " + cssClass + " >" + endTimeDisplay + "</span>";
         }
     }
 
@@ -153,13 +175,21 @@ public class RegistrationGroupWrapper implements Serializable {
     }
 
     public void setDaysDisplayName(String daysDisplayName,boolean appendForDisplay) {
+        setDaysDisplayName(daysDisplayName, false, null);
+    }
+
+    public void setDaysDisplayName(String daysDisplayName,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
         if(StringUtils.isEmpty(this.daysDisplayName)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
-            this.daysDisplayName = this.daysDisplayName + "<br>" + StringUtils.defaultString(daysDisplayName);
+            this.daysDisplayName = this.daysDisplayName + "<br><span " + cssClass + " >" + daysDisplayName + "</span>";
         }else{
-            this.daysDisplayName = StringUtils.defaultString(daysDisplayName);
+            this.daysDisplayName = "<span " + cssClass + " >" + daysDisplayName + "</span>";
         }
     }
 
@@ -172,13 +202,21 @@ public class RegistrationGroupWrapper implements Serializable {
     }
 
     public void setBuildingName(String buildingName,boolean appendForDisplay) {
-        if(StringUtils.isEmpty(this.buildingName)){
+        setBuildingName(buildingName, false, null);
+    }
+
+    public void setBuildingName(String buildingName,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.roomName)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
-            this.buildingName = this.buildingName + "<br>" + StringUtils.defaultString(buildingName);
+            this.buildingName = this.buildingName + "<br><span " + cssClass + " >" + buildingName + "</span>";
         }else{
-            this.buildingName = StringUtils.defaultString(buildingName);
+            this.buildingName = "<span " + cssClass + " >" + buildingName + "</span>";
         }
     }
 
@@ -191,13 +229,21 @@ public class RegistrationGroupWrapper implements Serializable {
     }
 
     public void setRoomName(String roomName,boolean appendForDisplay) {
+        setRoomName(roomName, false, null);
+    }
+
+    public void setRoomName(String roomName,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
         if(StringUtils.isEmpty(this.roomName)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
-            this.roomName = this.roomName + "<br>" + StringUtils.defaultString(roomName);
+            this.roomName = this.roomName + "<br><span " + cssClass + " >" + roomName + "</span>";
         }else{
-            this.roomName = StringUtils.defaultString(roomName);
+            this.roomName = "<span " + cssClass + " >" + roomName + "</span>";
         }
     }
 }

@@ -1253,6 +1253,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             rgWrapper.setRgInfo(rgInfo);
             String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
             for (String aoID : rgInfo.getActivityOfferingIds()) {
+                String cssClass = (filteredAOsHM.get(aoID).getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
                 if (filteredAOsHM.get(aoID).getAoInfo().getActivityCode() != null && !filteredAOsHM.get(aoID).getAoInfo().getActivityCode().equalsIgnoreCase("")) {
                     aoActivityCodeText = aoActivityCodeText + filteredAOsHM.get(aoID).getAoInfo().getActivityCode() + "<br/>";
                 }
@@ -1270,23 +1271,23 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 }
 
                 if(filteredAOsHM.get(aoID).getStartTimeDisplay() != null){
-                    rgWrapper.setStartTimeDisplay(filteredAOsHM.get(aoID).getStartTimeDisplay(), true);
+                    rgWrapper.setStartTimeDisplay(filteredAOsHM.get(aoID).getStartTimeDisplay(), true, cssClass);
                 }
 
                 if(filteredAOsHM.get(aoID).getEndTimeDisplay() != null){
-                    rgWrapper.setEndTimeDisplay(filteredAOsHM.get(aoID).getEndTimeDisplay(), true);
+                    rgWrapper.setEndTimeDisplay(filteredAOsHM.get(aoID).getEndTimeDisplay(), true, cssClass);
                 }
 
                 if(filteredAOsHM.get(aoID).getBuildingName() != null){
-                    rgWrapper.setBuildingName(filteredAOsHM.get(aoID).getBuildingName(), true);
+                    rgWrapper.setBuildingName(filteredAOsHM.get(aoID).getBuildingName(), true, cssClass);
                 }
 
                 if(filteredAOsHM.get(aoID).getRoomName() != null){
-                    rgWrapper.setRoomName(filteredAOsHM.get(aoID).getRoomName(), true);
+                    rgWrapper.setRoomName(filteredAOsHM.get(aoID).getRoomName(), true, cssClass);
                 }
 
                 if(filteredAOsHM.get(aoID).getDaysDisplayName() != null){
-                    rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true);
+                    rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true, cssClass);
                 }
             }
             if (aoActivityCodeText.length() > 0) {
@@ -1313,7 +1314,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             filterdRGList.add(rgWrapper);
 
             try{
-            rgWrapper.setStateKey(getStateService().getState(rgInfo.getStateKey(), getContextInfo()).getName());
+            rgWrapper.setStateKey(rgInfo.getStateKey(), getStateService().getState(rgInfo.getStateKey(), getContextInfo()).getName());
             }catch (Exception e){
                 LOG.info("Error occured to get the StateService" + e.getMessage());
             }
