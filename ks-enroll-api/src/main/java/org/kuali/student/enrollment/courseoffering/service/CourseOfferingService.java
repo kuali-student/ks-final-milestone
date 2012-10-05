@@ -704,7 +704,7 @@ public interface CourseOfferingService
      *                         and locale information about the caller of
      *                         service operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException          the SeatPoolDefinition does not
+     * @throws DoesNotExistException          the CourseOffering does not
      *                                        exist
      * @throws InvalidParameterException      One or more parameters invalid
      * @throws MissingParameterException      One or more parameters missing
@@ -729,7 +729,7 @@ public interface CourseOfferingService
      *                         and locale information about the caller of
      *                         service operation
      * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws DoesNotExistException     the CourseOffering does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
@@ -1030,7 +1030,7 @@ public interface CourseOfferingService
      *                           and locale information about the caller of
      *                           service operation
      * @return ActivityOffering associated with the passed in Id
-     * @throws DoesNotExistException     seatPoolDefinitionId not found
+     * @throws DoesNotExistException     ActivityOffering with activityOfferingId not found
      * @throws InvalidParameterException invalid activityOfferingId
      * @throws MissingParameterException missing activityOfferingId
      * @throws OperationFailedException  unable to complete request
@@ -1491,7 +1491,7 @@ public interface CourseOfferingService
      *                           and locale information about the caller of
      *                           service operation
      * @return in class contact hours for the term
-     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws DoesNotExistException     the ActivityOffering with activityOfferingId does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
@@ -1510,7 +1510,7 @@ public interface CourseOfferingService
      *                           and locale information about the caller of
      *                           service operation
      * @return out of class contact hours for the term
-     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws DoesNotExistException     the ActivityOffering with activityOfferingId does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
@@ -1529,7 +1529,7 @@ public interface CourseOfferingService
      *                           and locale information about the caller of
      *                           service operation
      * @return total class contact hours for the term
-     * @throws DoesNotExistException     the SeatPoolDefinition does not exist
+     * @throws DoesNotExistException     the ActivityOffering with activityOfferingId does not exist
      * @throws InvalidParameterException One or more parameters invalid
      * @throws MissingParameterException One or more parameters missing
      * @throws OperationFailedException  unable to complete request
