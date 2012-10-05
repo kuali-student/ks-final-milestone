@@ -244,7 +244,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
-        this.scheduleMap .put(scheduleInfo.getId(), copy);
+        this.scheduleMap.put(scheduleInfo.getId(), copy);
         return new ScheduleInfo(copy);
     }
 
