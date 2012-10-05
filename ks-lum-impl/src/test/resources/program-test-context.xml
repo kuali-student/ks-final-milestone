@@ -608,7 +608,7 @@
     </bean>
 
     <bean id="mockDocumentService" class="org.kuali.student.common.test.mock.MockProxyFactoryBean">
-        <property name="interfaceClass" value="org.kuali.student.r2.core.document.service.DocumentService"/>
+        <property name="interfaceClass" value="org.kuali.student.r1.core.document.service.DocumentService"/>
         <property name="methodReturnMap">
             <map>
                 <entry key="getRefDocRelation">
