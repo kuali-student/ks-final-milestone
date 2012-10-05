@@ -78,6 +78,18 @@
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 2, 'asc' ], [0, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
+                <entry key="aoColumns"
+                       value="[ {'sWidth':'4%'},
+                                {'sWidth':'6%'},
+                                {'sWidth':'10%'},
+                                {'sWidth':'6%'},
+                                {'sWidth':'8%'},
+                                {'sWidth':'8%'},
+                                {'sWidth':'8%'},
+                                {'sWidth':'21%'},
+                                {'sWidth':'5%'},
+                                {'sWidth':'30%'}
+                           ]"/>
             </map>
         </property>
         <property name="items">
