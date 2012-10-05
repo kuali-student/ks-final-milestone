@@ -54,12 +54,6 @@
 	</servlet>
 
     <servlet>
-       <servlet-name>ks-krad</servlet-name>
-       <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-       <load-on-startup>3</load-on-startup>
-    </servlet>
-
-    <servlet>
 		<servlet-name>GWT-ORG</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
@@ -119,11 +113,6 @@
    		<url-pattern>/services/*</url-pattern>
    	</servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>ks-krad</servlet-name>
-        <url-pattern>/kr-krad/*</url-pattern>
-    </servlet-mapping>
-
     <welcome-file-list>
 		<welcome-file>index.html</welcome-file>
         <!--  <welcome-file>index.jsp</welcome-file> -->
@@ -144,14 +133,4 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
-
-    <listener>
-        <listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
-    </listener>
-
-    <listener>
-        <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
-    </listener>
-
- 
 </web-app>
