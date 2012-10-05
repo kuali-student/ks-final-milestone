@@ -119,7 +119,7 @@ public class PermutationCounter {
     }
 
     // ============================== Static method ===============================
-    public static Set<Set<String>> computeMissingRegGroupAoIdsInCluster(ActivityOfferingClusterInfo cluster,
+    public static Set<List<String>> computeMissingRegGroupAoIdsInCluster(ActivityOfferingClusterInfo cluster,
                                                                         List<RegistrationGroupInfo> currentRGs)
             throws DataValidationErrorException {
 
@@ -136,20 +136,6 @@ public class PermutationCounter {
         if (!counter.isValid()) {
             throw new DataValidationErrorException("Counter is invalid: can't generate permutations");
         }
-        // Compute every permutation
-        Set<Set<String>> regGroupAoSetPermutations = new HashSet<Set<String>>();
-        for (int i = 0; i < counter.numIterations(); i++, counter.increment()) {
-            // Put each permutation of a reg group AOs into a set called regGroupAoIdSetPermutation
-            Set<String> regGroupAoIdSetPermutation = new HashSet<String>();
-            for (int aoSetIndex = 0; aoSetIndex < counter.size(); aoSetIndex++) {
-                // Picks an AO ID from each AO type
-                int aoIdIndex = counter.get(aoSetIndex);
-                String aoId = cluster.getActivityOfferingSets().get(aoSetIndex).getActivityOfferingIds().get(aoIdIndex);
-                regGroupAoIdSetPermutation.add(aoId);
-            }
-            // Add the set to a set of sets
-            regGroupAoSetPermutations.add(regGroupAoIdSetPermutation);
-        }
         // Find reg group AO sets for existing reg groups
         Set<Set<String>> actualRegGroupAoSets = new HashSet<Set<String>>();
         for (RegistrationGroupInfo rgInfo: currentRGs) {
@@ -157,9 +143,30 @@ public class PermutationCounter {
             regGroupAoIds.addAll(rgInfo.getActivityOfferingIds()); // Set of AO IDs in the reg group
             actualRegGroupAoSets.add(regGroupAoIds);
         }
-        // Do a set difference to get remaining sets of AOs to be used to generate reg groups.
-        Set<Set<String>> missingRegGroupAoSets = new HashSet<Set<String>>(regGroupAoSetPermutations);
-        missingRegGroupAoSets.removeAll(actualRegGroupAoSets);
+
+        // Compute every permutation
+        Set<List<String>> missingRegGroupAoSets = new HashSet<List<String>>();
+        for (int i = 0; i < counter.numIterations(); i++, counter.increment()) {
+            // Put each permutation of a reg group AOs into a set called regGroupAoIdSetPermutation
+            List<String> regGroupAoIdListPermutation = _computeRegGroupAoPermutation(cluster, counter);
+            Set<String> aoIdsSet = new HashSet<String>(regGroupAoIdListPermutation); // make into a set
+            // If this set of AO Ids does not exist in one of the RGs, then add it to those that are missing
+            if (!actualRegGroupAoSets.contains(aoIdsSet)) {
+                missingRegGroupAoSets.add(regGroupAoIdListPermutation);
+            }
+        }
+
         return missingRegGroupAoSets;
+    }
+
+    private static List<String> _computeRegGroupAoPermutation(ActivityOfferingClusterInfo cluster, PermutationCounter counter) {
+        List<String> regGroupAoIdSetPermutation = new ArrayList<String>();
+        for (int aoSetIndex = 0; aoSetIndex < counter.size(); aoSetIndex++) {
+            // Picks an AO ID from each AO type
+            int aoIdIndex = counter.get(aoSetIndex);
+            String aoId = cluster.getActivityOfferingSets().get(aoSetIndex).getActivityOfferingIds().get(aoIdIndex);
+            regGroupAoIdSetPermutation.add(aoId);
+        }
+        return regGroupAoIdSetPermutation;
     }
 }

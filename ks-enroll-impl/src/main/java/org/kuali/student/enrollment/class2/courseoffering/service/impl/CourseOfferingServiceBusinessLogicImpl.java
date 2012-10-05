@@ -563,7 +563,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
      * @param activityOfferingClusterId The cluster id which the AO IDs were selected from
      * @return A reg group (to be perssisted via services)
      */
-    private RegistrationGroupInfo _gRGFC_makeRegGroup(String regGroupCode, Set<String> activityOfferingPermutation,
+    private RegistrationGroupInfo _gRGFC_makeRegGroup(String regGroupCode, List<String> activityOfferingPermutation,
                                                 FormatOfferingInfo formatOffering, String activityOfferingClusterId) {
         RegistrationGroupInfo rg = new RegistrationGroupInfo();
 
@@ -613,7 +613,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         // Calculate the set of "set of AO IDs" from which to generate reg groups.
         ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-        Set<Set<String>> regGroupAoIds =
+        Set<List<String>> regGroupAoIds =
                 PermutationCounter.computeMissingRegGroupAoIdsInCluster(cluster, existingRegistrationGroups);
 
         FormatOfferingInfo fo = coService.getFormatOffering(cluster.getFormatOfferingId(), contextInfo);
@@ -630,7 +630,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         generator.initializeGenerator(coService, fo, contextInfo, keyValues);
 
         // Loop through each set of AO Ids and create a reg group.
-        for (Set<String> activityOfferingPermutation : regGroupAoIds) {
+        for (List<String> activityOfferingPermutation : regGroupAoIds) {
             String regGroupCode = generator.generateRegistrationGroupCode(fo, aoList, null);
             RegistrationGroupInfo rg = _gRGFC_makeRegGroup(regGroupCode, activityOfferingPermutation, fo, cluster.getId());
 
