@@ -33,43 +33,70 @@ function calculatePercent(jqObject){
 
 //    var seatLimitAdd =  jQuery('#seatLimit_add_control');
 //    var seatLimitPercentAdd =  jQuery('#seatLimitPercent_add #_span');
-    var maxEnroll =  jQuery('#maximumEnrollment_control');
-    var seatpoolCount = jQuery('#seatpoolCount .uif-message');
-    var seatsRemaining = jQuery('#seatsRemaining .uif-message');
-
+    var seatpoolCount = jQuery('#seatpoolCount span[class=uif-message]');
+    var seatsRemaining = jQuery('#seatsRemaining span[class=uif-message]');
     var count = 0;
     var seatsTotal = 0;
-    var rows = jQuery("[id^='seatLimit_line']");
-    rows.each(function () {
-        var id = jQuery(this).attr('id');
-        if(id.indexOf("_control") != -1) {
-            var num = id.substring(14, id.length - 8);
-            var elemPct = jQuery('#seatLimitPercent_line' + num);
-            count += 1;
-            if (maxEnroll.val() != "" && jQuery(this).val() != "") {
-                seatsTotal = parseInt(seatsTotal) + parseInt(jQuery(this).val());
-                var result = (jQuery(this).val() / maxEnroll.val()) * 100;
-                elemPct.text(Math.round(result) + "%");
-            } else {
-                elemPct.text("");
-            }
-        }
-    });
-    seatpoolCount.text(count);
+    var maxEnrollValue = 0;
 
-    if (maxEnroll.val() != "") {
-        var seatsRemain = (maxEnroll.val() > seatsTotal) ? (maxEnroll.val() - seatsTotal) : 0;
-        var percTotal = Math.round((seatsTotal / maxEnroll.val()) * 100);
+    // 2 different calculations: when on Edit page and when on View page, unfortunately IDs set up differently by KRAD
+    var maxEnrollView = jQuery('span[id=maximumEnrollment]');
+
+    if (maxEnrollView.length > 0) { // View page
+        maxEnrollValue = maxEnrollView.text().trim();
+        var rows = jQuery('span[id^=seatLimit_line]');
+        rows.each(function () {
+            var id = jQuery(this).attr('id');
+            if(id.match(/_/g).length == 1) {
+                var num = id.substring(14);
+                var elemPct = jQuery('#seatLimitPercent_line' + num + ' span[class=uif-message]');
+                var seatsNum = jQuery(this).text().trim();
+                count += 1;
+                if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
+                    seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
+                    var result = (seatsNum / maxEnrollValue) * 100;
+                    elemPct.text(Math.round(result) + "%");
+                } else {
+                    elemPct.text("");
+                }
+            }
+        });
+        seatpoolCount.text(count);
+    } else { // Edit page (different IDs)
+        var maxEnroll =  jQuery('#maximumEnrollment_control');
+        maxEnrollValue = maxEnroll.val();
+        var rows = jQuery("[id^='seatLimit_line']");
+        rows.each(function () {
+            var id = jQuery(this).attr('id');
+            if(id.indexOf("_control") != -1) {
+                var num = id.substring(14, id.length - 8);
+                var elemPct = jQuery('#seatLimitPercent_line' + num);
+                var seatsNum = jQuery(this).val();
+                count += 1;
+                if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
+                    seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
+                    var result = (seatsNum / maxEnrollValue) * 100;
+                    elemPct.text(Math.round(result) + "%");
+                } else {
+                    elemPct.text("");
+                }
+            }
+        });
+        seatpoolCount.text(count);
+    }
+
+    if (maxEnrollValue != "") {
+        var seatsRemain = (maxEnrollValue > seatsTotal) ? (maxEnrollValue - seatsTotal) : 0;
+        var percTotal = Math.round((seatsTotal / maxEnrollValue) * 100);
         var percRemain = (seatsRemain > 0) ? (100 - percTotal) : 0;
-        if (maxEnroll.val() >= seatsTotal){
-            seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnroll.val() + ")");
+        if (maxEnrollValue >= seatsTotal){
+            seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnrollValue + ")");
             jq(seatsRemaining).css('color', 'black');
         } else {
-            seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnroll.val() + ")" +
-            " - WARNING: Total seats exceeding the total max enrollment quantity by " + (seatsTotal-maxEnroll.val()) + " seats!");
+            seatsRemaining.text(percRemain + "% | " + seatsRemain + " Seats (Max Enrollment = " + maxEnrollValue + ")" +
+                " - WARNING: Total seats exceeding the total max enrollment quantity by " + (seatsTotal - maxEnrollValue) + " seats!");
             jq(seatsRemaining).css('color', 'red');
         }
-
     } else {
         seatsRemaining.text("");
     }
