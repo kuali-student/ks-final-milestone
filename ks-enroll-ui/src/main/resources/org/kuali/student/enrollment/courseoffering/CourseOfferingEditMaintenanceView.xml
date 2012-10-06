@@ -379,8 +379,7 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingEdit-DeliveryFormats" parent="Uif-HorizontalBoxSubSection" p:refreshWhenChangedPropertyNames="#dp.coInfo.finalExamType">
-        <property name="headerText" value="Delivery Formats"/>
+    <bean id="KS-CourseOfferingEdit-DeliveryFormats" parent="Uif-HorizontalBoxSubSection" p:refreshWhenChangedPropertyNames="#dp.coInfo.finalExamType" p:header.headerText="Delivery Formats" p:header.headerLevel="Uif-HeaderOne" p:header.style="font-weight:bold;">
         <property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>
         <property name="items">
             <list>
