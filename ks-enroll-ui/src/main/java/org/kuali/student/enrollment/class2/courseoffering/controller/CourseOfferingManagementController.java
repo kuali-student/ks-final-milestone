@@ -98,12 +98,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         
         // check if the view is invoked within portal or not
-            String inputValue = request.getParameter("withinPortal");
-            if ((inputValue != null) && !inputValue.isEmpty()){
-                boolean withinPortal = new Boolean(request.getParameter("withinPortal")).booleanValue();
-                CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) form;
-                theForm.setWithinPortal(withinPortal);
-            }
+        String inputValue = request.getParameter("withinPortal");
+        if ((inputValue != null) && !inputValue.isEmpty()){
+            boolean withinPortal = new Boolean(request.getParameter("withinPortal")).booleanValue();
+            CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) form;
+            theForm.setWithinPortal(withinPortal);
+        }
 
         /**
          * When user cancels edit AO/CO, this will be called. Based on the radio button selected, we need to set the page id
@@ -1095,8 +1095,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
             theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
             theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
-            theForm.setRadioSelection(CourseOfferingConstants.COURSEOFFERING_COURSE_OFFERING_CODE);
-
             return prepareManageAOsModelAndView(theForm, theCourseOffering);
         }
         else{
@@ -1450,9 +1448,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         CourseOfferingInfo theCourseOffering = theForm.getTheCourseOffering();
         String subjectCode = theCourseOffering.getSubjectArea();
         String termId = theForm.getTermInfo().getId();
-        theForm.setRadioSelection("subjectCode");
         theForm.setInputCode(subjectCode);
         getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(termId, subjectCode, theForm);
+        theForm.setSubjectCode(subjectCode);
+        String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
+        theForm.setSubjectCodeDescription(longNameDescr);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
