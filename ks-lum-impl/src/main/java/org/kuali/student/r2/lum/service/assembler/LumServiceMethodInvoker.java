@@ -1,13 +1,9 @@
 package org.kuali.student.r2.lum.service.assembler;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
-import org.kuali.student.r2.lum.course.service.assembler.LoCategoryRelationInfo;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementInfo;
@@ -28,6 +24,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -41,6 +38,9 @@ import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	final Logger LOG = Logger.getLogger(LumServiceMethodInvoker.class);
@@ -90,7 +90,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	 * @throws UnsupportedActionException
 	 * @throws UnsupportedOperationException
 	 * @throws CircularReferenceException
-	 * @throws ReadOnlyException 
+	 * @throws ReadOnlyException
 	 * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException
 	 * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
 	 * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
@@ -231,7 +231,13 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		    ResultValuesGroupInfo resultComponent = (ResultValuesGroupInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				ResultValuesGroupInfo createdResultComponent = lrcService.createResultValuesGroup(resultComponent.getResultScaleKey(), resultComponent.getTypeKey(), resultComponent, contextInfo);
+                //Do a get-create on each of the result values to ensure they exist.
+                List<String> createdKeys = new ArrayList<String>();
+                for(String resultValue : resultComponent.getResultValueKeys()){
+                    createdKeys.add(lrcService.getCreateResultValueForScale(resultValue, resultComponent.getResultScaleKey(), contextInfo).getKey());
+                }
+                resultComponent.setResultValueKeys(createdKeys);
+                ResultValuesGroupInfo createdResultComponent = lrcService.createResultValuesGroup(resultComponent.getResultScaleKey(), resultComponent.getTypeKey(), resultComponent, contextInfo);
 				//Copy the created back to the reference Should there be an assembler for this?
 				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultValuesGroupInfo){
 				    ResultValuesGroupInfo resultComponentToUpdate = (ResultValuesGroupInfo) results.getBusinessDTORef();
