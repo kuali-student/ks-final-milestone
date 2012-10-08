@@ -1,39 +1,12 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.apache.commons.collections.CollectionUtils.isEmpty;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.beans.IntrospectionException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperator;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -56,6 +29,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
@@ -67,6 +44,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
@@ -74,6 +52,28 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.beans.IntrospectionException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import static org.apache.commons.collections.CollectionUtils.isEmpty;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:course-test-context.xml"})
@@ -659,18 +659,18 @@ public class TestCourseServiceImpl{
             for(ResultValuesGroupInfo rc : co) { 
                 if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(rc.getTypeKey())){
                     assertEquals(3, rc.getResultValueKeys().size());
-                    assertTrue(rc.getResultValueKeys().contains("1.0"));
-                    assertTrue(rc.getResultValueKeys().contains("1.5"));
-                    assertTrue(rc.getResultValueKeys().contains("2.0"));                    
+                    assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.0"));
+                    assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.5"));
+                    assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.2.0"));
                 }
                 
                 if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getTypeKey())){
                     if(3 == rc.getAttributes().size()) {
                         assertEquals(9, rc.getResultValueKeys().size());
-                        assertTrue(rc.getResultValueKeys().contains("1.5"));
+                        assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.5"));
                     } else {                        
                         assertEquals(5, rc.getResultValueKeys().size());
-                        assertTrue(rc.getResultValueKeys().contains("3.0"));
+                        assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.3.0"));
                     }
                 }                
             }

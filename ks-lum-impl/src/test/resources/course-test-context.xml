@@ -471,9 +471,11 @@
 		<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
 	</bean>
 
-    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" />
+    <bean id="lrcServiceBusinessLogic" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceBusinessLogicImpl" >
+    <property name="lrcService" ref="lrcServiceImpl"/>
+    </bean>
 
-	<bean id="lrcServiceImpl"
+    <bean id="lrcServiceImpl"
 		class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
 		<property name="searchableDao" ref="lrcSearchableDao" />
         <property name="searchManager" ref="lrcSearchManager" />
