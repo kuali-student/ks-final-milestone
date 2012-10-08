@@ -30,7 +30,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements BuildingIn
 
     @Override
     public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria){
-        if (searchCriteria == null || searchCriteria.isEmpty() || StringUtils.isBlank(searchCriteria.get("buildingId"))){
+        if (searchCriteria == null || searchCriteria.isEmpty() || StringUtils.isBlank(searchCriteria.get("buildingCode"))){
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please use the Building lookup first to select a building");
             return false;
         }
@@ -42,7 +42,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements BuildingIn
         boolean validate = validateSearchParameters(lookupForm,fieldValues);
         if (validate){
             try {
-                List<String> roomIds = getRoomService().getRoomIdsByBuilding(fieldValues.get("buildingId"), ContextBuilder.loadContextInfo());
+                List<String> roomIds = getRoomService().getRoomIdsByBuilding(fieldValues.get("buildingCode"), ContextBuilder.loadContextInfo());
                 return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
             } catch (DoesNotExistException e) {
                 return new ArrayList<RoomInfo>();
