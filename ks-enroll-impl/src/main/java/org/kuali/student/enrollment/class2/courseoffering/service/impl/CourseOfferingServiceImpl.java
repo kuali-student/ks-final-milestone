@@ -1336,21 +1336,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             targetScheduleRequest.setDescr(sourceScheduleInfo.getDescr());
 
             this.getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
-        }
-        // copy the source RDL to target RDL
-        List<ScheduleRequestInfo> scheduleRequestInfoList =
-                getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAO.getId(), context);
-        if(scheduleRequestInfoList != null && !scheduleRequestInfoList.isEmpty()) {
-            for(ScheduleRequestInfo sourceRequestScheduleInfo : scheduleRequestInfoList) {
-                ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest(sourceRequestScheduleInfo, context);
-                targetScheduleRequest.setRefObjectId(targetAO.getId());
-                targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
-                nameBuilder.append(targetAO.getCourseOfferingCode()).append(" - ").append(targetAO.getActivityCode());
-                targetScheduleRequest.setName(nameBuilder.toString());
-                targetScheduleRequest.setDescr(sourceRequestScheduleInfo.getDescr());
+        }  else {
+            // copy the source RDL to target RDL
+            List<ScheduleRequestInfo> scheduleRequestInfoList =
+                    getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAO.getId(), context);
+            if (scheduleRequestInfoList != null && !scheduleRequestInfoList.isEmpty()) {
+                for (ScheduleRequestInfo sourceRequestScheduleInfo : scheduleRequestInfoList) {
+                    ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest(sourceRequestScheduleInfo, context);
+                    targetScheduleRequest.setRefObjectId(targetAO.getId());
+                    targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                    StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
+                    nameBuilder.append(targetAO.getCourseOfferingCode()).append(" - ").append(targetAO.getActivityCode());
+                    targetScheduleRequest.setName(nameBuilder.toString());
+                    targetScheduleRequest.setDescr(sourceRequestScheduleInfo.getDescr());
 
-                this.getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
+                    this.getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
+                }
             }
         }
 
