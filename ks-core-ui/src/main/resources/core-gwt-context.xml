@@ -67,7 +67,7 @@
 	</bean>
 	<bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.search.service.SearchService" />
-        <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}PersonSearchService" />
     </bean>
         <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
     <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">

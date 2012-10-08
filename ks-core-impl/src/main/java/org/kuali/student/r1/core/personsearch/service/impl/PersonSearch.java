@@ -49,7 +49,6 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@Deprecated
 public class PersonSearch {
     
     private static Logger LOG = Logger.getLogger( PersonSearch.class );
