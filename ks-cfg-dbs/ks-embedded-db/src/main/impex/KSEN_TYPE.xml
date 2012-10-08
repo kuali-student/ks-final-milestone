@@ -1269,6 +1269,18 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.type.Summer" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120821000000"
+        DESCR_FORMATTED="1st Summer Session"
+        DESCR_PLAIN="1st Summer Session" EFF_DT="20000101000000"
+        NAME="Summer 1" OBJ_ID="903E7055A6AA4BA3B9E696ED38C5AD9F"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.Summer1" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120821000000"
+        DESCR_FORMATTED="2nd Summer Session"
+        DESCR_PLAIN="2nd Summer Session" EFF_DT="20000101000000"
+        NAME="Summer 2" OBJ_ID="87AAB22EA1E34938BFEC4ADE03131557"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.Summer2" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="CMATPUPGRADE" CREATETIME="20120912000000"
         DESCR_FORMATTED="Summer Evening" DESCR_PLAIN="Summer Evening"
         EFF_DT="20000101000000" NAME="Summer Eve"
