@@ -85,7 +85,7 @@
                 <bean parent="Uif-Link" p:linkText="Create Course Offerings"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOffering?methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper&amp;returnLocation=${ConfigProperties.application.url}/portal.do&amp;hideReturnLink=true"/>
                 <bean parent="Uif-Link" p:linkText="Manage Course Offerings"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
                 <bean parent="Uif-Link" p:linkText="Manage SOC"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/manageSOC?viewId=ManageSOCView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Schedule of Classes"
