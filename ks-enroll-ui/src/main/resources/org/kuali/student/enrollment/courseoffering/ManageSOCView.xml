@@ -40,7 +40,6 @@
           <list>
             <ref bean="lockConfirmDialog"/>
             <ref bean="finalEditConfirmDialog"/>
-            <ref bean="publishConfirmDialog"/>
             <ref bean="closeConfirmDialog"/>
             <ref bean="massScheduleConfirmDialog"/>
             <ref bean="massPublishConfirmDialog"/>
