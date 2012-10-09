@@ -48,7 +48,7 @@
 }
 
 .uif-scheduled-dl {
-    color: #d3d3d3;
+    color: grey;
 }
 
 .uif-actual-dl {
@@ -56,4 +56,16 @@
 
 .uif-invalid-state{
     color: red;
+}
+
+.uif-rg-message-partial{
+    color: blue;
+}
+
+.uif-rg-message-all{
+    color: green;
+}
+
+.uif-rg-message-none{
+    color: yellow;
 }
