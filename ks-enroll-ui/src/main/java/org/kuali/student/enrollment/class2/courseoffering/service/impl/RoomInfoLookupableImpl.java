@@ -10,6 +10,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.BuildingInfoLo
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 
@@ -18,11 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
- * User: venkat
- * Date: 9/26/12
- * Time: 7:30 PM
- * To change this template use File | Settings | File Templates.
+ * This lookup implementation is just for the KD. This will be replaced by the autosuggest after M4 rice upgrade.
  */
 public class RoomInfoLookupableImpl extends LookupableImpl implements BuildingInfoLookupable{
 
@@ -31,7 +28,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements BuildingIn
     @Override
     public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria){
         if (searchCriteria == null || searchCriteria.isEmpty() || StringUtils.isBlank(searchCriteria.get("buildingCode"))){
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please use the Building lookup first to select a building");
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please enter the building code first to select a room");
             return false;
         }
         return true;
@@ -42,8 +39,21 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements BuildingIn
         boolean validate = validateSearchParameters(lookupForm,fieldValues);
         if (validate){
             try {
-                List<String> roomIds = getRoomService().getRoomIdsByBuilding(fieldValues.get("buildingCode"), ContextBuilder.loadContextInfo());
-                return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
+
+                List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(fieldValues.get("buildingCode"), ContextBuilder.loadContextInfo());
+
+                if (buildings.isEmpty()){
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Invalid building code");
+                    return new ArrayList<RoomInfo>();
+                }
+
+                if (StringUtils.isBlank(fieldValues.get("roomCode"))){
+                    List<String> roomIds = getRoomService().getRoomIdsByBuilding(buildings.get(0).getId(), ContextBuilder.loadContextInfo());
+                    return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
+                } else {
+                    return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(0).getId(),fieldValues.get("roomCode"),ContextBuilder.loadContextInfo());
+                }
+
             } catch (DoesNotExistException e) {
                 return new ArrayList<RoomInfo>();
             }catch (Exception e) {

@@ -284,7 +284,6 @@
                         <property name="quickfinder.fieldConversions">
                             <map>
                                 <entry key="buildingCode" value="newScheduleRequest.buildingCode"/>
-                                <entry key="id" value="newScheduleRequest.buildingId"/>
                             </map>
                     </property>
                 </bean>
@@ -297,12 +296,11 @@
                     <property name="quickfinder.fieldConversions">
                         <map>
                             <entry key="roomCode" value="newScheduleRequest.roomCode"/>
-                            <entry key="buildingId" value="newScheduleRequest.buildingId"/>
                         </map>
                     </property>
                     <property name="quickfinder.lookupParameters">
                         <map>
-                            <entry key="newScheduleRequest.buildingId" value="buildingCode"/>
+                            <entry key="newScheduleRequest.buildingCode" value="buildingCode"/>
                         </map>
                     </property>
                     <property name="dependencyConstraints">
