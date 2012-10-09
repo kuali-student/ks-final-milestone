@@ -468,13 +468,17 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 return;
             }
 
-            ActivityOfferingInfo latest = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
-            activityOfferingWrapper.setAoInfo(latest);
+            ActivityOfferingInfo latestAO = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
+
             //This will change the AO/FO/CO state and gets the updated AO
-            ActivityOfferingInfo latestAO = CourseOfferingServiceStateHelper.updateScheduledActivityOffering(activityOfferingWrapper.getAoInfo(),getCourseOfferingService(),getCourseOfferingSetService(),getContextInfo());
+            latestAO = CourseOfferingServiceStateHelper.updateScheduledActivityOffering(latestAO,getCourseOfferingService(),getCourseOfferingSetService(),getContextInfo());
+
+            //Copy only certain fields to the existing DTO to avoid unnecessary overwriting to the user modifications
+            activityOfferingWrapper.getAoInfo().setStateKey(latestAO.getStateKey());
+            activityOfferingWrapper.getAoInfo().setScheduleId(latestAO.getScheduleId());
+            activityOfferingWrapper.getAoInfo().setSchedulingStateKey(latestAO.getSchedulingStateKey());
 
             //Set it in the wrapper and load all the revised schedule Actuals
-            activityOfferingWrapper.setAoInfo(latestAO);
             loadScheduleActuals(activityOfferingWrapper);
 
         }catch (Exception e){
