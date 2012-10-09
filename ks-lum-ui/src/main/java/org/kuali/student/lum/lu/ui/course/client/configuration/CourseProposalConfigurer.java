@@ -29,12 +29,12 @@
  */
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -100,12 +100,11 @@ import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -117,17 +116,17 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     protected boolean WITH_DIVIDER = true;
     protected boolean NO_DIVIDER = false;
-  
+
     public static final String PROPOSAL_PATH = "proposal";
     public static final String PROPOSAL_TITLE_PATH = "proposal/name";
     public static final String COURSE_TITLE_PATH = "/courseTitle";
-   
 
-    protected DocumentTool documentTool;    
+
+    protected DocumentTool documentTool;
     protected CourseSummaryConfigurer summaryConfigurer;
 
     protected List<StatementTypeInfo> stmtTypes;
-    
+
     public static final String COURSE = "";
 
     public enum CourseSections {
@@ -143,50 +142,50 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     /**
      * Sets up all the views, sections, and views of the CourseProposalController.  This should be called
      * once for initialization and setup per CourseProposalController instance.
-     * 
+     *
      * @param layout
      */
     public void configure(final CourseProposalController layout) {
-    	type = "course";
+        type = "course";
         state = DtoConstants.STATE_DRAFT;
-    	groupName = LUUIConstants.COURSE_GROUP_NAME;
+        groupName = LUUIConstants.COURSE_GROUP_NAME;
 
-    	if (modelDefinition.getMetadata().isCanEdit()) {
-        	addCluStartSection(layout);
+        if (modelDefinition.getMetadata().isCanEdit()) {
+            addCluStartSection(layout);
             String sections = getLabel(LUUIConstants.COURSE_SECTIONS);
 
             //ProposalInformation
             //layout.addSection(new String[] {editTabLabel, getLabel(LUConstants.PROPOSAL_INFORMATION_LABEL_KEY)}, generateAuthorsRationaleSection());
 
             layout.addMenu(sections);
-            
-            
+
+
             //Course Content
-            layout.addMenuItem(sections, (SectionView)generateCourseInfoSection(initSectionView(CourseSections.COURSE_INFO, LUUIConstants.INFORMATION_LABEL_KEY)));
-            layout.addMenuItem(sections, (SectionView)generateGovernanceSection(initSectionView(CourseSections.GOVERNANCE, LUUIConstants.GOVERNANCE_LABEL_KEY)));
-            layout.addMenuItem(sections, (SectionView)generateCourseLogisticsSection(initSectionView(CourseSections.COURSE_LOGISTICS, LUUIConstants.LOGISTICS_LABEL_KEY)));
+            layout.addMenuItem(sections, (SectionView) generateCourseInfoSection(initSectionView(CourseSections.COURSE_INFO, LUUIConstants.INFORMATION_LABEL_KEY)));
+            layout.addMenuItem(sections, (SectionView) generateGovernanceSection(initSectionView(CourseSections.GOVERNANCE, LUUIConstants.GOVERNANCE_LABEL_KEY)));
+            layout.addMenuItem(sections, (SectionView) generateCourseLogisticsSection(initSectionView(CourseSections.COURSE_LOGISTICS, LUUIConstants.LOGISTICS_LABEL_KEY)));
             layout.addMenuItem(sections, generateLearningObjectivesSection());
 
             //Student Eligibility
-            layout.addMenuItem(sections, generateCourseRequisitesSection(layout,true));
+            layout.addMenuItem(sections, generateCourseRequisitesSection(layout, true));
 
             //Administrative
-            layout.addMenuItem(sections, (SectionView)generateActiveDatesSection(initSectionView(CourseSections.ACTIVE_DATES, LUUIConstants.ACTIVE_DATES_LABEL_KEY)));
-            layout.addMenuItem(sections, (SectionView)generateFinancialsSection(initSectionView(CourseSections.FINANCIALS, LUUIConstants.FINANCIALS_LABEL_KEY)));
-            
+            layout.addMenuItem(sections, (SectionView) generateActiveDatesSection(initSectionView(CourseSections.ACTIVE_DATES, LUUIConstants.ACTIVE_DATES_LABEL_KEY)));
+            layout.addMenuItem(sections, (SectionView) generateFinancialsSection(initSectionView(CourseSections.FINANCIALS, LUUIConstants.FINANCIALS_LABEL_KEY)));
+
             //Authors & Collaborators
             layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, getLabel(LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS), COURSE_PROPOSAL_MODEL));
-            
+
             //Documents
-            documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
-            documentTool.setModelDefinition((DataModelDefinition)modelDefinition);
+            documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE, CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
+            documentTool.setModelDefinition((DataModelDefinition) modelDefinition);
             layout.addMenuItem(sections, documentTool);
-            
+
             //Summary
             summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
-            summaryConfigurer.init(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
+            summaryConfigurer.init(type, state, groupName, (DataModelDefinition) modelDefinition, stmtTypes, (Controller) layout, COURSE_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
-            
+
             //Add common buttons to sections except for sections with specific button behavior
             List<Enum<?>> excludedViews = new ArrayList<Enum<?>>();
             excludedViews.add(CourseSections.DOCUMENTS);
@@ -197,46 +196,45 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             //Specific buttons for certain views
             //TODO people and permissions will use a different button than continue
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
-        }
-        else{
-             summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
-             summaryConfigurer.init(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
-        	 layout.removeMenuNavigation();
-             layout.addView(summaryConfigurer.generateProposalSummarySection(false));
+        } else {
+            summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+            summaryConfigurer.init(type, state, groupName, (DataModelDefinition) modelDefinition, stmtTypes, (Controller) layout, COURSE_PROPOSAL_MODEL);
+            layout.removeMenuNavigation();
+            layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
         layout.showPrint(true);
         layout.setDefaultView(CourseSections.SUMMARY);
         layout.addContentWidget(layout.getWfUtilities().getProposalStatusLabel());
         final CommentTool commentTool = new CommentTool(CourseSections.COMMENTS, getLabel(LUUIConstants.TOOL_COMMENTS_LABEL_KEY), "kuali.comment.type.generalRemarks", "Proposal Comments");
         commentTool.setController(layout);
-        
+
         layout.addContentWidget(new KSButton("Comments", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
-            
+
             @Override
             public void onClick(ClickEvent event) {
                 commentTool.show();
             }
         }));
 
-        
+
         final DecisionPanel decisionPanel = new DecisionPanel(CourseSections.DECISIONS, getLabel(LUUIConstants.TOOL_DECISION_LABEL_KEY), "kuali.comment.type.generalRemarks");
         layout.addView(decisionPanel);
         layout.addContentWidget(new KSButton("Decisions", ButtonStyle.DEFAULT_ANCHOR, new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
-            	decisionPanel.show();
+                decisionPanel.show();
             }
         }));
-        
+
     }
-    
-    protected KSButton getContinueButton(final CourseProposalController layout){
-        return new KSButton("Continue", new ClickHandler(){
-                    public void onClick(ClickEvent event) {
-                    	layout.showNextViewOnMenu();
-                    }
-                });
+
+    protected KSButton getContinueButton(final CourseProposalController layout) {
+        return new KSButton("Continue", new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                layout.showNextViewOnMenu();
+            }
+        });
     }
 
     public void addCluStartSection(CourseProposalController layout) {
@@ -256,18 +254,18 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     protected Section generateActiveDatesSection(Section section) {
         //Add this field and hide it so it is available for cross field validation 
-    	FieldDescriptor fd = addField(section, PROPOSAL_PATH + "/" + PREV_START_TERM, generateMessageInfo(LUUIConstants.PROPOSAL_PREV_START_TERM));
+        FieldDescriptor fd = addField(section, PROPOSAL_PATH + "/" + PREV_START_TERM, generateMessageInfo(LUUIConstants.PROPOSAL_PREV_START_TERM));
         fd.getFieldWidget().setVisible(false);
         fd.hideLabel();
-        
-    	addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
-    	
+
+        addField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
+
         addField(section, COURSE + "/" + PILOT_COURSE, generateMessageInfo(LUUIConstants.PILOT_COURSE_LABEL_KEY), new KSCheckBox(getLabel(LUUIConstants.PILOT_COURSE_TEXT_LABEL_KEY))).setIgnoreShowRequired(true);
         addField(section, COURSE + "/" + END_TERM, generateMessageInfo(LUUIConstants.END_TERM_LABEL_KEY)).setIgnoreShowRequired(true);
 
         return section;
     }
-    
+
     protected VerticalSection generateActiveDateEndSection() {
         VerticalSection endDate = initSection(getH3Title(LUUIConstants.END_DATE_LABEL_KEY), WITH_DIVIDER);
         addField(endDate, COURSE + "/" + EXPIRATION_DATE, generateMessageInfo(LUUIConstants.EXPIRATION_DATE_LABEL_KEY));
@@ -293,14 +291,14 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY));
         addField(section, COURSE + "/" + TRANSCRIPT_TITLE, generateMessageInfo(LUUIConstants.SHORT_TITLE_LABEL_KEY), new KSCharCount(getMetaData(COURSE + "/" + TRANSCRIPT_TITLE)));
         section.addSection(generateCourseNumberSection());
-    	FieldDescriptor instructorsFd = addField(section, COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUUIConstants.INSTRUCTORS_LABEL_KEY));
+        FieldDescriptor instructorsFd = addField(section, COURSE + "/" + INSTRUCTORS, generateMessageInfo(LUUIConstants.INSTRUCTORS_LABEL_KEY));
         instructorsFd.setWidgetBinding(new KeyListModelWigetBinding("personId"));
 
         section.addSection(generateDescriptionRationaleSection());
-        
+
         return section;
     }
-            
+
 
     protected GroupSection generateCourseNumberSection() {
 
@@ -334,13 +332,13 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 LUUIConstants.CROSS_LISTED_ITEM_LABEL_KEY,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                SUBJECT_AREA, 
+                                SUBJECT_AREA,
                                 LUUIConstants.SUBJECT_CODE_LABEL_KEY, null, null, true),
                         new MultiplicityFieldConfig(
-                                COURSE_NUMBER_SUFFIX, 
+                                COURSE_NUMBER_SUFFIX,
                                 LUUIConstants.COURSE_NUMBER_LABEL_KEY, null, null, true)),
-                        null,
-                        null,0);
+                null,
+                null, 0);
         SpanPanel jntlabelpan = new SpanPanel();
         jntlabelpan.setStyleName("ks-multiplicity-section-label");
         jntlabelpan.setHTML("Jointly Offered Courses");
@@ -351,10 +349,10 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 LUUIConstants.JOINT_OFFER_ITEM_LABEL_KEY,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                CreditCourseJointsConstants.COURSE_ID, 
+                                CreditCourseJointsConstants.COURSE_ID,
                                 LUUIConstants.COURSE_NUMBER_OR_TITLE_LABEL_KEY, null, null, true)),
-                                null,
-                                null,0);
+                null,
+                null, 0);
         SpanPanel vsnlabelpan = new SpanPanel();
         vsnlabelpan.setStyleName("ks-multiplicity-section-label");
         vsnlabelpan.setHTML("Version Codes");
@@ -365,27 +363,27 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 LUUIConstants.VERSION_CODE_LABEL_KEY,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                "variationCode", 
-                                LUUIConstants.VERSION_CODE_LABEL_KEY, null, null, true), 
+                                "variationCode",
+                                LUUIConstants.VERSION_CODE_LABEL_KEY, null, null, true),
                         new MultiplicityFieldConfig(
-                                "variationTitle", 
+                                "variationTitle",
                                 LUUIConstants.TITLE_LABEL_KEY, null, null, true)
                 ),
                 null,
-                null,0);
-        if(this.getClass().getName().contains("CourseProposalConfigurer"))
+                null, 0);
+        if (this.getClass().getName().contains("CourseProposalConfigurer"))
             result.getLayout().setVisible(true);
-         else {
-               result.getLayout().setVisible(false);
-         }
+        else {
+            result.getLayout().setVisible(false);
+        }
         return result;
     }
-    
-    protected void addFeeMultiplicityFields(Section section,  
-            String path, String addItemlabelMessageKey,
-            String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
-            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
-            List<String> deletionParentKeys) {
+
+    protected void addFeeMultiplicityFields(Section section,
+                                            String path, String addItemlabelMessageKey,
+                                            String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
+                                            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
+                                            List<String> deletionParentKeys) {
         MultiplicityConfiguration config = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
@@ -396,7 +394,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         section.addSection(ms);
 
     }
-    
+
     protected MultiplicityConfiguration setupMultiplicityConfig(
             MultiplicityConfiguration.MultiplicityType multiplicityType,
             MultiplicityConfiguration.StyleType styleType,
@@ -427,11 +425,11 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         return config;
     }
 
-    protected MultiplicitySection addMultiplicityFields(Section section,  
-            String path, String addItemlabelMessageKey,
-            String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
-            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
-            List<String> deletionParentKeys,int defaultItemsCreated) {
+    protected MultiplicitySection addMultiplicityFields(Section section,
+                                                        String path, String addItemlabelMessageKey,
+                                                        String itemLabelMessageKey, List<MultiplicityFieldConfig> fieldConfigs,
+                                                        Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
+                                                        List<String> deletionParentKeys, int defaultItemsCreated) {
         MultiplicityConfiguration config = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
@@ -456,7 +454,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
         MultiplicityFieldConfiguration fd = new MultiplicityFieldConfiguration(
                 fieldPath.toString(), generateMessageInfo(labelKey), meta, null);
-        
+
 
         return fd;
 
@@ -497,9 +495,9 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     }
 
     public Section generateCourseLogisticsSection(Section section) {
-    	if (section instanceof SectionView){
-    		((SectionView)section).setInstructions(getLabel(LUUIConstants.LOGISTICS_LABEL_KEY + "-instruct") + "<br><br>");
-    	}
+        if (section instanceof SectionView) {
+            ((SectionView) section).setInstructions(getLabel(LUUIConstants.LOGISTICS_LABEL_KEY + "-instruct") + "<br><br>");
+        }
 
         section.addSection(generateSchedulingSection());
         section.addSection(generateDurationSection());
@@ -528,11 +526,12 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         QueryPath creditOptionFixedFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_FIXED_CREDITS);
         QueryPath creditOptionMinFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_MIN_CREDITS);
         QueryPath creditOptionMaxFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_MAX_CREDITS);
+
         QueryPath creditResultValuesFullPath = QueryPath.concat(path, QueryPath.getWildCard(), "resultValueKeys");
 
         VerticalSection courseOutcomes = initSection(getH3Title(LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), WITH_DIVIDER);
         Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition =
-            new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
+                new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
         SwapCompositeCondition fixedCreditCondition = new SwapCompositeCondition(
                 CompositeConditionOperator.AND);
         fixedCreditCondition.getChildrenConditions().add(
@@ -551,12 +550,12 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 makeCondition(creditTypeFullPath, LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY, "kuali.result.values.group.type.range")
         );
         variableCreditCondition.setConditionId("3");
-        
+
         swappableFieldsDefinition.put(fixedCreditCondition,
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
                                 new MultiplicityFieldConfiguration(
-                                        creditOptionFixedFullPath.toString(), 
+                                        creditOptionFixedFullPath.toString(),
                                         generateMessageInfo(LUUIConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY),
                                         modelDefinition.getMetadata(creditOptionFixedFullPath),
                                         null),
@@ -564,18 +563,19 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                         )
                 )
         );
-        MultiplicityFieldWidgetInitializer multipleCreditInitializer = 
-            new MultiplicityFieldWidgetInitializer() {
-                @Override
-                public ModelWidgetBinding<?> getModelWidgetBindingInstance() {
-                    return new ListOfStringBinding();
-                }
-                @Override
-                public Widget getNewWidget() {
-                    return new ListOfStringWidget("Add Item");
-                }
-        };
-        
+        MultiplicityFieldWidgetInitializer multipleCreditInitializer =
+                new MultiplicityFieldWidgetInitializer() {
+                    @Override
+                    public ModelWidgetBinding<?> getModelWidgetBindingInstance() {
+                        return new ListOfStringBinding();
+                    }
+
+                    @Override
+                    public Widget getNewWidget() {
+                        return new ListOfStringWidget("Add Item");
+                    }
+                };
+
         swappableFieldsDefinition.put(multipleCreditCondition,
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
@@ -592,7 +592,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
                                 new MultiplicityFieldConfiguration(
-                                        creditOptionMinFullPath.toString(), 
+                                        creditOptionMinFullPath.toString(),
                                         generateMessageInfo(LUUIConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY),
                                         modelDefinition.getMetadata(creditOptionMinFullPath),
                                         null),
@@ -600,7 +600,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                         ),
                         new SwapCompositeConditionFieldConfig(
                                 new MultiplicityFieldConfiguration(
-                                        creditOptionMaxFullPath.toString(), 
+                                        creditOptionMaxFullPath.toString(),
                                         generateMessageInfo(LUUIConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY),
                                         modelDefinition.getMetadata(creditOptionMaxFullPath),
                                         null),
@@ -608,18 +608,18 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                         )
                 )
         );
-        
+
         MultiplicitySection ms = addMultiplicityFields(
-                courseOutcomes, 
-                path, 
+                courseOutcomes,
+                path,
                 LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
                 LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY,
                 Arrays.asList(
-                		new MultiplicityFieldConfig(
+                        new MultiplicityFieldConfig(
                                 CreditCourseConstants.TYPE,
                                 LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY,
                                 null, null, true)
-                ), swappableFieldsDefinition, null,1);
+                ), swappableFieldsDefinition, null, 1);
         //Set the required panel
         courseOutcomes.setRequired(ms.getConfig().getParentFd().getFieldElement().getRequiredPanel());
         return courseOutcomes;
@@ -658,7 +658,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         MultiplicityConfiguration activitiesConfig = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.SUB_LEVEL_GROUP,
-                COURSE + "/" + FORMATS + "/*/" + ACTIVITIES, 
+                COURSE + "/" + FORMATS + "/*/" + ACTIVITIES,
                 LUUIConstants.ADD_ACTIVITY_LABEL_KEY,
                 LUUIConstants.ACTIVITY_LITERAL_LABEL_KEY,
                 Arrays.asList(
@@ -701,10 +701,10 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 ), null, null);
         activitiesConfig.setDefaultItemsCreated(1);
         courseFormatConfig.setNestedConfig(activitiesConfig);
-        
+
 
         MultiplicitySection ms = null;
-        ms = new MultiplicitySection(courseFormatConfig, 
+        ms = new MultiplicitySection(courseFormatConfig,
                 null, null);
         courseFormats.addSection(ms);
         courseFormats.setRequired(courseFormatConfig.getParentFd().getFieldElement().getRequiredPanel());
@@ -736,45 +736,45 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
         FieldDescriptor field = addField(finalExam_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM, generateMessageInfo(LUUIConstants.FINAL_EXAM_STATUS_LABEL_KEY));
 
-        if (field.isVisible()){
-	        KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract) (((KSPicker) field.getFieldWidget()).getInputWidget());
-	        final FieldDescriptor rationaleField = addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
-	        rationaleField.setIgnoreShowRequired(true);
-	        final FieldDescriptor rationaleField2 = addField(finalExamRationale_group2, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
-	        rationaleField2.setIgnoreShowRequired(true);
-	        
-	        // Create SwapSection.
-	        final String altKey = "ALT";
-	        final String noneKey = "None";
-	        SwapSection swapSection = new SwapSection(picker);
-	        swapSection.addSection(finalExamRationale_group, altKey);
-	        swapSection.addSection(finalExamRationale_group2, noneKey);
-	        swapSection.setSwapEventHandler(new SwapEventHandler() {
-                
+        if (field.isVisible()) {
+            KSSelectItemWidgetAbstract picker = (KSSelectItemWidgetAbstract) (((KSPicker) field.getFieldWidget()).getInputWidget());
+            final FieldDescriptor rationaleField = addField(finalExamRationale_group, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+            rationaleField.setIgnoreShowRequired(true);
+            final FieldDescriptor rationaleField2 = addField(finalExamRationale_group2, COURSE + "/" + CreditCourseConstants.FINAL_EXAM_RATIONALE, generateMessageInfo(LUUIConstants.FINAL_EXAM_RATIONALE_LABEL_KEY));
+            rationaleField2.setIgnoreShowRequired(true);
+
+            // Create SwapSection.
+            final String altKey = "ALT";
+            final String noneKey = "None";
+            SwapSection swapSection = new SwapSection(picker);
+            swapSection.addSection(finalExamRationale_group, altKey);
+            swapSection.addSection(finalExamRationale_group2, noneKey);
+            swapSection.setSwapEventHandler(new SwapEventHandler() {
+
                 @Override
                 public void onShowSwappableSection(String key, Section section) {
                     progressiveEnableAndRequireSection(true, section);
                 }
-                
+
                 @Override
                 public void onRemoveSwappableSection(String key, Section section) {
                     progressiveEnableAndRequireSection(false, section);
                 }
             });
-	        finalExam.addSection(finalExam_group);
-	       
-	        finalExam.addSection(swapSection);
-	        return finalExam;
+            finalExam.addSection(finalExam_group);
+
+            finalExam.addSection(swapSection);
+            return finalExam;
         } else {
-        	return new VerticalSection();
+            return new VerticalSection();
         }
 
     }
-    
-    protected void progressiveEnableAndRequireSection(boolean enableAndRequire, Section section){
-        if (section != null){
-            List<FieldDescriptor> fields = section.getFields(); 
-            if ((fields != null) && (fields.size() > 0)){
+
+    protected void progressiveEnableAndRequireSection(boolean enableAndRequire, Section section) {
+        if (section != null) {
+            List<FieldDescriptor> fields = section.getFields();
+            if ((fields != null) && (fields.size() > 0)) {
                 BaseSection.progressiveEnableAndRequireFields(enableAndRequire, fields.toArray(new FieldDescriptor[fields.size()]));
             }
         }
@@ -788,7 +788,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     protected SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY);
-        section.setInstructions(getLabel(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY + "-instruct", QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc", "plain").toString())); 
+        section.setInstructions(getLabel(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY + "-instruct", QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc", "plain").toString()));
         section.addSection(generateLearningObjectivesNestedSection());
         return section;
     }
@@ -800,15 +800,15 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         Metadata meta = modelDefinition.getMetadata(path);
 
         LOBuilder loBuilder = new LOBuilder(type, state, groupName, "kuali.loRepository.key.singleUse", COURSE_SPECIFIC_LOS, meta);
-        final FieldDescriptor fd = addField(los, CreditCourseConstants.COURSE_SPECIFIC_LOS, null,loBuilder, COURSE);
-        
-        loBuilder.addValueChangeHandler(new ValueChangeHandler<List<OutlineNode<LOPicker>>>(){
-			@Override
-			public void onValueChange(ValueChangeEvent<List<OutlineNode<LOPicker>>> event) {
-				los.setIsDirty(true);
-			}        	
+        final FieldDescriptor fd = addField(los, CreditCourseConstants.COURSE_SPECIFIC_LOS, null, loBuilder, COURSE);
+
+        loBuilder.addValueChangeHandler(new ValueChangeHandler<List<OutlineNode<LOPicker>>>() {
+            @Override
+            public void onValueChange(ValueChangeEvent<List<OutlineNode<LOPicker>>> event) {
+                los.setIsDirty(true);
+            }
         });
-        
+
         // have to do this here, because decision on binding is done in ks-core,
         // and we obviously don't want ks-core referring to LOBuilder
         fd.setWidgetBinding(LOBuilderBinding.INSTANCE);
@@ -904,7 +904,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         return new MessageKeyInfo(groupName, type, state, labelKey);
     }
 
-    
+
     protected Section generateFinancialsSection(Section section) {
 
         VerticalSection justiFee = initSection(getH3Title(LUUIConstants.COURSE_FEE_TITLE), WITH_DIVIDER);
@@ -913,14 +913,14 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         courseFeeInstruction.setHTML(getLabel(LUUIConstants.COURSE_FEE_TITLE + FieldLayoutComponent.INSTRUCT_MESSAGE_KEY));
         courseFeeInstruction.setVisible(true);
         justiFee.addWidget(courseFeeInstruction);
-        
+
 //        addField(description, COURSE + "/" + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUConstants.DESCRIPTION_LABEL_KEY));
 
-        addField(justiFee, COURSE + "/" + "feeJustification" + "/" + RichTextInfoConstants.PLAIN,  generateMessageInfo(LUUIConstants.JUSTIFICATION_FEE));
+        addField(justiFee, COURSE + "/" + "feeJustification" + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.JUSTIFICATION_FEE));
         section.addSection(justiFee);
         Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition =
-            new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
-        
+                new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
+
         // condition: 
         //    if rateType field is Variable Rate Fee
         //    if rateType field is Fixed Rate Fee
@@ -931,18 +931,18 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         QueryPath rateTypeFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "rateType");
 //        fees/*/feeAmounts/currencyQuantity
         QueryPath deletionPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts");
-        QueryPath singularFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "0", "currencyQuantity"); 
-        QueryPath minFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "0", "currencyQuantity"); 
-        QueryPath maxFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "1", "currencyQuantity"); 
+        QueryPath singularFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "0", "currencyQuantity");
+        QueryPath minFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "0", "currencyQuantity");
+        QueryPath maxFeeAmountFieldPath = QueryPath.concat(feesPath.toString(), QueryPath.getWildCard(), "feeAmounts", "1", "currencyQuantity");
         Metadata feeAmountFieldMeta = modelDefinition.getMetadata(singularFeeAmountFieldPath);
-        
+
         SwapCompositeCondition variableRateCondition = new SwapCompositeCondition(
                 CompositeConditionOperator.AND);
         variableRateCondition.getChildrenConditions().add(
                 makeCondition(rateTypeFieldPath, "Rate Type", "variableRateFee")
         );
         variableRateCondition.setConditionId("0");
-        
+
         SwapCompositeCondition fixedRateCondition = new SwapCompositeCondition(
                 CompositeConditionOperator.AND);
         fixedRateCondition.getChildrenConditions().add(
@@ -968,27 +968,27 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
                                 new MultiplicityFieldConfiguration(
-                                        minFeeAmountFieldPath.toString(), 
+                                        minFeeAmountFieldPath.toString(),
                                         new MessageKeyInfo("Mininum Amount"), feeAmountFieldMeta,
                                         null),
                                 null
                         ),
                         new SwapCompositeConditionFieldConfig(
                                 new MultiplicityFieldConfiguration(
-                                        maxFeeAmountFieldPath.toString(), 
+                                        maxFeeAmountFieldPath.toString(),
                                         new MessageKeyInfo("Maximum Amount"), feeAmountFieldMeta,
                                         null),
                                 null
                         ))
         );
-        
+
         swappableFieldsDefinition.put(fixedRateCondition,
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
                                 new MultiplicityFieldConfiguration(
-                                        singularFeeAmountFieldPath.toString(), 
+                                        singularFeeAmountFieldPath.toString(),
                                         new MessageKeyInfo("Amount"), feeAmountFieldMeta,
-                                        null), 
+                                        null),
                                 null))
         );
 
@@ -996,22 +996,22 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
                                 new MultiplicityFieldConfiguration(
-                                        singularFeeAmountFieldPath.toString(), 
+                                        singularFeeAmountFieldPath.toString(),
                                         new MessageKeyInfo("Amount"), feeAmountFieldMeta,
                                         null),
                                 null))
         );
-        
+
         MultiplicityConfiguration multipleFeesConfig = setupMultiplicityConfig(
                 MultiplicityConfiguration.MultiplicityType.GROUP,
                 MultiplicityConfiguration.StyleType.BORDERLESS_TABLE,
-                COURSE + QueryPath.getPathSeparator() + FEES + QueryPath.getPathSeparator() + 
-                    QueryPath.getWildCard() + QueryPath.getPathSeparator() + "feeAmounts",
+                COURSE + QueryPath.getPathSeparator() + FEES + QueryPath.getPathSeparator() +
+                        QueryPath.getWildCard() + QueryPath.getPathSeparator() + "feeAmounts",
                 LUUIConstants.ADD_ANOTHER_FEE,
                 LUUIConstants.FEE,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                "currencyQuantity", 
+                                "currencyQuantity",
                                 "Amount", null, null, true)),
                 null,
                 null);
@@ -1019,27 +1019,27 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 Arrays.asList(
                         new SwapCompositeConditionFieldConfig(
                                 null, multipleFeesConfig
-                                ))
-                );
+                        ))
+        );
 
-        addFeeMultiplicityFields(justiFee, 
+        addFeeMultiplicityFields(justiFee,
                 COURSE + QueryPath.getPathSeparator() + FEES,
                 LUUIConstants.ADD_A_FEE,
                 LUUIConstants.FEE,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                "feeType", 
+                                "feeType",
                                 "Fee Type", null, null, true),
                         new MultiplicityFieldConfig(
-                                "rateType", 
+                                "rateType",
                                 "Rate Type", null, null, true)),
                 swappableFieldsDefinition,
                 Arrays.asList(
                         deletionPath.toString()));
-        
+
         section.addSection(justiFee);
-        
-        
+
+
         VerticalSection financialSection = initSection(getH3Title(LUUIConstants.FINANCIAL_INFORMATION), WITH_DIVIDER);
         SpanPanel financialInfoInstruction = new SpanPanel();
         financialInfoInstruction.setStyleName("ks-form-module-elements-instruction");
@@ -1062,56 +1062,56 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
         return section;
     }
-    
+
     protected void setupRevenueSection(Section parentSection) {
         // TODO customize multiplicity and change "Percentage" label into LUConstants.AMOUNT
         QueryPath revenuePath = QueryPath.concat(COURSE, "revenues");
         QueryPath affiliatedOrgIdSubPath = QueryPath.concat("affiliatedOrgs", "0", "orgId");
         QueryPath percentageSubPath = QueryPath.concat("affiliatedOrgs", "0", "percentage");
-        addMultiplicityFields(parentSection, 
-                revenuePath.toString(), 
-                LUUIConstants.ADD_ANOTHER_ORGANIZATION, 
+        addMultiplicityFields(parentSection,
+                revenuePath.toString(),
+                LUUIConstants.ADD_ANOTHER_ORGANIZATION,
                 LUUIConstants.REVENUE,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                affiliatedOrgIdSubPath.toString(), 
+                                affiliatedOrgIdSubPath.toString(),
                                 LUUIConstants.REVENUE, null, null, true),
                         new MultiplicityFieldConfig(
-                                percentageSubPath.toString(), 
-                                "Percentage", null, null, true)                                
+                                percentageSubPath.toString(),
+                                "Percentage", null, null, true)
                 ),
                 null,
                 null,
                 0);
     }
-    
+
     protected void setupExpenditureSection(Section parentSection) {
         // TODO customize multiplicity and change "Percentage" label into LUConstants.AMOUNT
         QueryPath expenditureAffiliatedOrgPath = QueryPath.concat(COURSE, "expenditure", "affiliatedOrgs");
         QueryPath affiliatedOrgIdSubPath = QueryPath.concat("orgId");
         QueryPath percentageSubPath = QueryPath.concat("percentage");
-        addMultiplicityFields(parentSection, 
-                expenditureAffiliatedOrgPath.toString(), 
-                LUUIConstants.ADD_ANOTHER_ORGANIZATION, 
+        addMultiplicityFields(parentSection,
+                expenditureAffiliatedOrgPath.toString(),
+                LUUIConstants.ADD_ANOTHER_ORGANIZATION,
                 LUUIConstants.EXPENDITURE,
                 Arrays.asList(
                         new MultiplicityFieldConfig(
-                                affiliatedOrgIdSubPath.toString(), 
+                                affiliatedOrgIdSubPath.toString(),
                                 LUUIConstants.EXPENDITURE, null, null, true),
                         new MultiplicityFieldConfig(
-                                percentageSubPath.toString(), 
-                                "Percentage", null, null, true)                                
+                                percentageSubPath.toString(),
+                                "Percentage", null, null, true)
                 ),
                 null,
                 null,
                 0);
     }
-    
-    protected SwapCondition makeCondition(QueryPath fieldPath, String messageLabelKey, 
-            String value) {
+
+    protected SwapCondition makeCondition(QueryPath fieldPath, String messageLabelKey,
+                                          String value) {
         SwapCondition swapCondition = new SwapCondition();
         swapCondition.setFd(new FieldDescriptor(
-                fieldPath.toString(), 
+                fieldPath.toString(),
                 new MessageKeyInfo(messageLabelKey),
                 modelDefinition.getMetadata(fieldPath)));
         swapCondition.setValue(value);
@@ -1271,30 +1271,37 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         protected String fieldKey;
         protected String labelKey;
         boolean nextLine;
-        
+
         public MultiplicityFieldConfig() {
         }
+
         public MultiplicityFieldConfig(String fieldKey, String labelKey,
-                Widget fieldWidget, ModelWidgetBinding<?> modelWidgetBinding, boolean nextLine) {
+                                       Widget fieldWidget, ModelWidgetBinding<?> modelWidgetBinding, boolean nextLine) {
             setFieldKey(fieldKey);
             setLabelKey(labelKey);
             setNextLine(nextLine);
         }
+
         public String getFieldKey() {
             return fieldKey;
         }
+
         public void setFieldKey(String fieldKey) {
             this.fieldKey = fieldKey;
         }
+
         public String getLabelKey() {
             return labelKey;
         }
+
         public void setLabelKey(String labelKey) {
             this.labelKey = labelKey;
         }
+
         public boolean isNextLine() {
             return nextLine;
         }
+
         public void setNextLine(boolean nextLine) {
             this.nextLine = nextLine;
         }
