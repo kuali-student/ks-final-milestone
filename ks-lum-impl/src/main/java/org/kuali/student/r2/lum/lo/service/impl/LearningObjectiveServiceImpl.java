@@ -25,7 +25,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dao.LoDao;
 import org.kuali.student.r2.lum.lo.entity.Lo;
 import org.kuali.student.r2.lum.lo.entity.LoCategory;
@@ -45,9 +45,6 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
