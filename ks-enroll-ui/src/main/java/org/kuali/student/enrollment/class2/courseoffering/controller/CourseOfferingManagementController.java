@@ -561,6 +561,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
             GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+selectedLine, RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER);
         }
+        //update all form AOCs with validation messages
+        for ( int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
+            //Collect RGs for each cluster
+            List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(
+                                                              theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId(), getContextInfo());
+                        //validate RGs for each cluster and set error msg
+            if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
+                // perform max enrollment validation
+                _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
+                //validate AO time conflict in RG
+                List<Integer> rgIndexList = _performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
+            }
+        }
+
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }
     
