@@ -304,7 +304,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ManageRegistrationGroupPage-StateAndActionLinks" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+    <bean id="KS-ManageRegistrationGroupPage-StateAndActionLinks" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:cssClasses="aoc_stateandlinks">
         <property name="items">
             <list>
                 <bean parent="Uif-Label" p:labelText="@{#line.rgStatus}" p:renderColon="false">
@@ -314,7 +314,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-LinkGroup" p:style="float:right">
+                <bean parent="Uif-LinkGroup" p:style="float:right; padding: 5px;">
                     <property name="items">
                         <list>
                             <bean parent="Uif-ActionLink" p:methodToCall="viewRegGroupsPerCluster" p:actionLabel="View Registration Groups" p:render="@{#line.hasAllRegGroups}"
@@ -491,7 +491,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ManageRegistrationGroupsPage-CreateNewClusterDialog" parent="Uif-DialogGroup">
+    <bean id="KS-ManageRegistrationGroupsPage-CreateNewClusterDialog" parent="Uif-DialogGroup" p:style="width: 300px; overflow: hidden" p:cssClasses="aoc_dialog">
         <property name="id" value="createNewClusterDialog" />
         <property name="hidden" value="true"/>
         <property name="disclosure.render" value="false"/>
@@ -499,14 +499,14 @@
         <property name="promptText" value=""/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="LEFT" p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForLightBox" p:label="Private Name" p:labelPlacement="TOP" p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForLightBox" p:label="Published Name" p:labelPlacement="LEFT"  p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForLightBox" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
                 </bean>
                 <!--<bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createNewClusterFromLightBox" />-->
@@ -520,7 +520,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ManageRegistrationGroupsPage-RenameClusterDialog" parent="Uif-DialogGroup">
+    <bean id="KS-ManageRegistrationGroupsPage-RenameClusterDialog" parent="Uif-DialogGroup" p:style="width: 300px; overflow: hidden" p:cssClasses="aoc_dialog">
         <property name="id" value="renameClusterDialog" />
         <property name="hidden" value="true"/>
         <property name="disclosure.render" value="false"/>
@@ -528,14 +528,14 @@
         <property name="promptText" value=""/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForRename" p:label="Private Name" p:labelPlacement="LEFT" p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="privateClusterNameForRename" p:label="Private Name" p:labelPlacement="TOP" p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:minLength="5" p:maxLength="10"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForRename" p:label="Published Name" p:labelPlacement="LEFT"  p:render="true">
+                <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForRename" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:minLength="5" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
                 </bean>
                 <!--<bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createNewClusterFromLightBox" />-->

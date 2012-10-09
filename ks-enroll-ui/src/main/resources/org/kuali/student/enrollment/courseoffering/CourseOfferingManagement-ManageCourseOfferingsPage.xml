@@ -94,7 +94,7 @@
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS"/>
         </property>
         <property name="lineActions">
             <list>

@@ -59,13 +59,48 @@
 }
 
 .uif-rg-message-partial{
-    color: blue;
+    background-color: #FFFFCC;
+    padding: 5px 10px;
+    border-right: 5px solid #FFFFFF;
 }
 
 .uif-rg-message-all{
-    color: green;
+    background-color: #C6F785;
+    padding: 5px 10px;
+    border-right: 5px solid #FFFFFF;
 }
 
 .uif-rg-message-none{
-    color: yellow;
+    background-color: #B1ECFF;
+    padding: 5px 10px;
+    border-right: 5px solid #FFFFFF;
+}
+
+.aoc_links
+{
+    float: right;
+    padding: 8px;
+}
+
+a
+{
+    white-space: normal;
+}
+
+.aoc_stateandlinks
+{
+    background: #EDEDED;
+}
+
+
+
+.aoc_stateandlinks .uif-boxLayoutHorizontalItem
+{
+    margin-bottom: 0px;
+}
+
+.aoc_dialog .uif-dialogHeader
+{
+    background:none;
+    margin-bottom: 0px;
 }
