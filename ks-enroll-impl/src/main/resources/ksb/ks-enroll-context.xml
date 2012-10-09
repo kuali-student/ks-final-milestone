@@ -1014,7 +1014,7 @@
     </bean>
 
     <!-- Search service -->
-    <bean id="apptWindowCountsSearchImpl" class="org.kuali.student.r2.core.class1.search.ApptWindowCountsSearchImpl">
+    <bean id="apptWindowCountsSearchImpl" class="org.kuali.student.r2.common.class1.search.ApptWindowCountsSearchImpl">
         <property name="genericEntityDao" ref="searchDao"/>
     </bean>
 
@@ -1023,7 +1023,7 @@
         <property name="noOfYears" value="5"/>
     </bean>
 
-    <bean id="searchService" class="org.kuali.student.r2.core.class1.search.SearchServiceDispatcherImpl">
+    <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
                  <ref bean="apptWindowCountsSearchImpl" />
@@ -1037,7 +1037,7 @@
         <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
             <property name="jaxWsService" value="true" />
             <property name="service" ref="searchService" />
-            <property name="serviceInterface" value="org.kuali.student.r2.core.search.service.SearchService" />
+            <property name="serviceInterface" value="org.kuali.student.r2.common.search.service.SearchService" />
             <property name="localServiceName" value="SearchService" />
             <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/search" />
             <property name="busSecurity" value="${ks.lum.bus.security}" />
