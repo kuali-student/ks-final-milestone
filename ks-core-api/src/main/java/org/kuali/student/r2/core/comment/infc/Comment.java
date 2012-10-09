@@ -36,6 +36,13 @@ public interface Comment extends IdNamelessEntity {
     public RichText getCommentText();
 
     /**
+     * Identity of the person making the comment
+     *
+     * @name Commenter Id
+     */
+    public String getCommenterId();
+
+    /**
      * Unique identifier for a reference type.
      *
      * @name Reference Type Key

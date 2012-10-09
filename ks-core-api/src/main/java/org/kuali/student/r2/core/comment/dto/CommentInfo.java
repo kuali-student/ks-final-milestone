@@ -33,7 +33,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CommentInfo", propOrder = {"id", "typeKey", "stateKey",
-        "commentText", "referenceTypeKey", "referenceId", "effectiveDate",
+        "commentText", "commentorId", "referenceTypeKey", "referenceId", "effectiveDate",
         "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class CommentInfo extends IdNamelessEntityInfo implements Comment, Serializable {
 
@@ -41,6 +41,9 @@ public class CommentInfo extends IdNamelessEntityInfo implements Comment, Serial
 
     @XmlElement
     private RichTextInfo commentText;
+
+    @XmlElement
+    private String commenterId;
 
     @XmlElement
     private String referenceTypeKey;
@@ -65,6 +68,7 @@ public class CommentInfo extends IdNamelessEntityInfo implements Comment, Serial
         super(comment);
         if (null != comment) {
             this.commentText = (null != comment.getCommentText()) ? new RichTextInfo(comment.getCommentText()) : null;
+            this.commenterId = comment.getCommenterId();
             this.referenceTypeKey = comment.getReferenceTypeKey();
             this.referenceId = comment.getReferenceId();
             this.effectiveDate = (null != comment.getEffectiveDate()) ? new Date(comment.getEffectiveDate().getTime()) : null;
@@ -81,6 +85,15 @@ public class CommentInfo extends IdNamelessEntityInfo implements Comment, Serial
 
     public void setCommentText(RichTextInfo commentText) {
         this.commentText = commentText;
+    }
+
+    @Override
+    public String getCommenterId() {
+        return this.commenterId;
+    }
+
+    public void setCommenterId(String commenterId) {
+        this.commenterId = commenterId;
     }
 
     @Override
