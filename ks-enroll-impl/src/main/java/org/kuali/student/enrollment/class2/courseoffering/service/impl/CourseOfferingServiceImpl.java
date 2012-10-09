@@ -2068,6 +2068,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
+                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
 
                                             updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
@@ -2077,6 +2078,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
+                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
 
                                             updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
@@ -2086,6 +2088,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                                             validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
                                             validationResultInfos.add(validationResultInfo);
+                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
 
                                             updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
                                             return validationResultInfos;
