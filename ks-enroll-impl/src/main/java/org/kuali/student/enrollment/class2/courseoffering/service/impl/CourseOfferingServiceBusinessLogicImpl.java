@@ -4,7 +4,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import groovyjarjarantlr.CSharpCodeGenerator;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -14,32 +13,12 @@ import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGr
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
-import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
@@ -59,14 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author nwright
@@ -204,6 +176,27 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         schedulingService.createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
     }
 
+    private void _copyScheduleRequest(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            DataValidationErrorException, ReadOnlyException {
+        //Copy the source schedule request to a schedule request
+        List<ScheduleRequestInfo> scheduleRequestInfoList =
+                schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAo.getId(), context);
+        if (scheduleRequestInfoList != null && !scheduleRequestInfoList.isEmpty()) {
+            for (ScheduleRequestInfo sourceRequestScheduleInfo : scheduleRequestInfoList) {
+                ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest(sourceRequestScheduleInfo, context);
+                targetScheduleRequest.setRefObjectId(targetAo.getId());
+                targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
+                nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
+                targetScheduleRequest.setName(nameBuilder.toString());
+                targetScheduleRequest.setDescr(sourceRequestScheduleInfo.getDescr());
+
+                schedulingService.createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
+            }
+        }
+    }
+
     private void _RCO_rolloverSeatpools(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context) {
         //attach SPs to the AO created
         try {
@@ -322,6 +315,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
                     if(sourceAo.getScheduleId() != null && !sourceAo.getScheduleId().isEmpty()) {
                         _RCO_rolloverScheduleToScheduleRequest(sourceAo, targetAo, context);
+                    } else {
+                        _copyScheduleRequest(sourceAo, targetAo, context);
                     }
                 }
                 _RCO_rolloverSeatpools(sourceAo, targetAo, context);
