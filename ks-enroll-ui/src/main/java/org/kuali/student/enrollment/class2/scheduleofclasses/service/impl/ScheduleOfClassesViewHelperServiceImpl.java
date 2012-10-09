@@ -220,7 +220,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 }
                 aoDisplayWrapper.setInformation(information);
 
-                if(!aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
+                if(aoDisplayInfo.getScheduleDisplay()!=null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
                     //TODO handle TBA state
                     ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
                     if(scheduleComponentDisplay.getBuilding() != null){

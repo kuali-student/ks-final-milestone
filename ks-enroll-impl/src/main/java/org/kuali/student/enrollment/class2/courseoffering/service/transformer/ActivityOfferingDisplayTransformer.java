@@ -114,7 +114,9 @@ public class ActivityOfferingDisplayTransformer {
         displayInfo.setMaximumEnrollment(aoInfo.getMaximumEnrollment());
 
         // scheduleDisplay
-        displayInfo.setScheduleDisplay(schedulingService.getScheduleDisplay(aoInfo.getScheduleId(), contextInfo));
+        if(aoInfo.getScheduleId()!=null){
+            displayInfo.setScheduleDisplay(schedulingService.getScheduleDisplay(aoInfo.getScheduleId(), contextInfo));
+        }
 
         return displayInfo;
     }
