@@ -823,6 +823,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 } else {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("No Registration Groups Generated");
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_NONE);
                 }
             }
 
@@ -929,6 +930,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         else{
             aoClusterWrapper.setHasAllRegGroups(false);
             aoClusterWrapper.setRgStatus("No Registration Groups Generated");
+            aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_NONE);
         }
 
         aoClusterWrapper.setRgWrapperList(rgListPerCluster);
