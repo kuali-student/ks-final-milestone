@@ -2657,13 +2657,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
-        List<String> courseOfferingIds = new ArrayList<String>(results.getResults().size());
-        for (LuiEntity lui : results.getResults()) {
-            if (_checkTypeForCourseOfferingType(lui.getLuiType())) {
-                courseOfferingIds.add(lui.getId());
-            }
-        }
+        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, criteria);
+        List<String> courseOfferingIds = results.getResults();
         return courseOfferingIds;
     }
 

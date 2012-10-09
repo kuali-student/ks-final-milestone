@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
@@ -24,6 +25,7 @@ import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -38,6 +40,8 @@ import java.util.List;
 public class LuiServiceImpl 
     implements LuiService {
 
+    private CriteriaLookupService criteriaLookupService;
+
     private LuiDao luiDao;
     private LuiLuiRelationDao luiLuiRelationDao;
 
@@ -47,6 +51,14 @@ public class LuiServiceImpl
 
     public void setLuiDao(LuiDao luiDao) {
         this.luiDao = luiDao;
+    }
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
+    }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
     }
 
     public LuiLuiRelationDao getLuiLuiRelationDao() {
@@ -172,7 +184,12 @@ public class LuiServiceImpl
                                         ContextInfo context) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
-        return new ArrayList<String>();
+
+        GenericQueryResults<String> results = criteriaLookupService.lookupIds(LuiEntity.class, criteria);
+        List<String> luiIds = results.getResults();
+
+        return luiIds;
+
     }
 
     @Override

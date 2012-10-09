@@ -50,4 +50,17 @@ public class CriteriaLookupServiceMockImpl implements CriteriaLookupService,
     public void clear() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public <T> GenericQueryResults<String> lookupIds(Class<T> queryClass, QueryByCriteria criteria) {
+
+        return null;
+    }
+
+    @Override
+    public <T> GenericQueryResults<String> lookupIds(Class<T> queryClass, QueryByCriteria criteria, LookupCustomizer<T> customizer) {
+
+        return null;
+    }
+
 }

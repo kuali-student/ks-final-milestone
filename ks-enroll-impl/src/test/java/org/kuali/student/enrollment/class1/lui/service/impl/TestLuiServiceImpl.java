@@ -534,6 +534,9 @@ public class TestLuiServiceImpl {
         }
 
     }
+
+
+
     @Test
     public void testGetLuiIdsByType() throws Exception {
 
