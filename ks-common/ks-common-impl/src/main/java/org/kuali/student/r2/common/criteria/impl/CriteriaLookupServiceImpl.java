@@ -53,4 +53,23 @@ public class CriteriaLookupServiceImpl implements CriteriaLookupService {
         return criteriaLookupDao.lookup(queryClass, criteria, customizer);
     }
 
+    @Override
+    public <T> GenericQueryResults<String> lookupIds(Class<T> queryClass, QueryByCriteria criteria) {
+
+        LookupCustomizer.Builder<T> lc = LookupCustomizer.Builder.create();
+        lc.setPredicateTransforms(this.getPredicateTransforms());
+        lc.setAdditionalTransforms(this.getAdditionalTransforms());
+
+        return criteriaLookupDao.lookupIds(queryClass, criteria, lc.build());
+    }
+
+    @Override
+    public <T> GenericQueryResults<String> lookupIds(Class<T> queryClass, QueryByCriteria criteria, LookupCustomizer<T> customizer) {
+
+        customizer.getAdditionalTransforms().addAll(this.getAdditionalTransforms());
+        customizer.getPredicateTransforms().addAll(this.getPredicateTransforms());
+
+        return criteriaLookupDao.lookupIds(queryClass, criteria, customizer);
+    }
+
 }

@@ -97,7 +97,9 @@ public class CriteriaLookupDaoJpaImpl {
         final Criteria parent = new Criteria(queryClass.getName());
 
         if (criteria.getPredicate() != null) {
+
             Predicate predicate = customizer.applyAdditionalTransforms(criteria.getPredicate(), parent);
+
             addPredicate(predicate, parent, parent, customizer);
         }
 
@@ -108,6 +110,42 @@ public class CriteriaLookupDaoJpaImpl {
                 return forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
             case INCLUDE:
                 return forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
+            default: throw new UnsupportedCountFlagException(criteria.getCountFlag());
+        }
+    }
+
+    public <T> GenericQueryResults<String> lookupIds(final Class<T> queryClass, final QueryByCriteria criteria, LookupCustomizer<T> customizer) {
+        if (queryClass == null) {
+            throw new IllegalArgumentException("queryClass is null");
+        }
+
+        if (criteria == null) {
+            throw new IllegalArgumentException("criteria is null");
+        }
+
+        if (customizer == null) {
+            throw new IllegalArgumentException("customizer is null");
+        }
+
+        Criteria parent = new Criteria(queryClass.getName(), false);
+        parent.select("id");
+
+
+        if (criteria.getPredicate() != null) {
+            String display2 = parent.toQuery(org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria.QueryByCriteriaType.SELECT);
+            Predicate predicate = customizer.applyAdditionalTransforms(criteria.getPredicate(), parent);
+
+
+            addPredicate(predicate, parent, parent, customizer);
+        }
+
+        switch (criteria.getCountFlag()) {
+            case ONLY:
+                return (GenericQueryResults<String>) forCountOnly(queryClass, criteria, parent);
+            case NONE:
+                return (GenericQueryResults<String>) forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
+            case INCLUDE:
+                return (GenericQueryResults<String>) forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
             default: throw new UnsupportedCountFlagException(criteria.getCountFlag());
         }
     }
