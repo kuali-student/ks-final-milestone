@@ -517,7 +517,8 @@ public class AcademicCalendarController extends UifControllerBase {
      * Method used to set Acal as official
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeAcalOfficial")
-    public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm) throws Exception {
+    public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         return saveAcademicCalendar(acalForm, CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
     }
 
