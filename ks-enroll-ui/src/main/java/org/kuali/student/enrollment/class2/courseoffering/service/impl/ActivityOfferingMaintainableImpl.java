@@ -305,10 +305,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         GlobalVariables.getMessageMap().clearErrorMessages();
 
-        if(scheduleWrapper.isTba()) {
-            // ensure at least one field is not empty
-
-            boolean allEmpty = true;
+        if (scheduleWrapper.isTba()) {
+            //  TBA requests must have at least one field blank.
+            boolean isOneEmpty = false;
             List<String> values = Arrays.asList(
                     scheduleWrapper.getDays(),
                     scheduleWrapper.getStartTime(),
@@ -316,20 +315,20 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     scheduleWrapper.getBuildingCode(),
                     scheduleWrapper.getRoomCode());
 
-            for(String s : values) {
-                if(StringUtils.isNotEmpty(s)) {
-                    allEmpty = false;
+            for (String s : values) {
+                if (StringUtils.isEmpty(s)) {
+                    isOneEmpty = true;
                     break;
                 }
             }
 
-            if(allEmpty) {
-                addErrorMessage(ScheduleInput.WEEKDAYS, "At least one field is required to add a TBA request");
+            if ( ! isOneEmpty) {
+                addErrorMessage(ScheduleInput.WEEKDAYS, "TBA requests must have at least one blank field.");
             }
             else {
 
                 // AM/PM Fields are required if the time is entered
-                if(StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
+                if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
                     checkRequiredScheduleInput(scheduleWrapper.getStartTimeAMPM(), ScheduleInput.START_TIME_AMPM);
                 }
 
@@ -339,7 +338,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
         }
         else {
-
             // all fields are required to at least have a value
             checkRequiredScheduleInput(scheduleWrapper.getDays(), ScheduleInput.WEEKDAYS);
             checkRequiredScheduleInput(scheduleWrapper.getStartTime(), ScheduleInput.START_TIME);
