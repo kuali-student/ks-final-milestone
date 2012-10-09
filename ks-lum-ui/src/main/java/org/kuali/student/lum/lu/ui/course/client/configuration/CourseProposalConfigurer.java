@@ -528,7 +528,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         QueryPath creditOptionFixedFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_FIXED_CREDITS);
         QueryPath creditOptionMinFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_MIN_CREDITS);
         QueryPath creditOptionMaxFullPath = QueryPath.concat(path, QueryPath.getWildCard(), CREDIT_OPTION_MAX_CREDITS);
-        QueryPath creditResultValuesFullPath = QueryPath.concat(path, QueryPath.getWildCard(), "resultValues");
+        QueryPath creditResultValuesFullPath = QueryPath.concat(path, QueryPath.getWildCard(), "resultValueKeys");
 
         VerticalSection courseOutcomes = initSection(getH3Title(LUUIConstants.LEARNING_RESULT_OUTCOME_LABEL_KEY), WITH_DIVIDER);
         Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition =
