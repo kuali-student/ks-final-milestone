@@ -25,9 +25,6 @@
 
     <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="manageCourseOfferingsPage">
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings"/>
-        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>

@@ -22,9 +22,6 @@
 
     <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="searchInputPage">
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" />
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
