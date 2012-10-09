@@ -65,7 +65,7 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
-import org.kuali.student.r2.core.search.dto.SearchParamHelper;
+import org.kuali.student.r2.common.search.dto.SearchParamHelper;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;

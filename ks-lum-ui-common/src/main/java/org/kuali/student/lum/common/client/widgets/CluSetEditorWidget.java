@@ -38,7 +38,7 @@ import org.kuali.student.r1.common.assembly.data.Data.DataValue;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r2.core.search.dto.SearchParamHelper;
+import org.kuali.student.r2.common.search.dto.SearchParamHelper;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -49,7 +49,6 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;

@@ -7,7 +7,7 @@ import java.util.List;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 public class CluSetRangeModelUtil {

@@ -20,7 +20,7 @@ import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.core.search.dto.SearchParamHelper;
+import org.kuali.student.r2.common.search.dto.SearchParamHelper;
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
