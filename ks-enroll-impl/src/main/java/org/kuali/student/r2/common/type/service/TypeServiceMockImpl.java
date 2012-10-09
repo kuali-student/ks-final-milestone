@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.class1.type.service;
+package org.kuali.student.r2.common.type.service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +12,9 @@ import javax.jws.WebParam;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -26,9 +29,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 public class TypeServiceMockImpl implements TypeService, MockService {

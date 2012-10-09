@@ -13,12 +13,12 @@ import org.junit.Test;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.text.SimpleDateFormat;

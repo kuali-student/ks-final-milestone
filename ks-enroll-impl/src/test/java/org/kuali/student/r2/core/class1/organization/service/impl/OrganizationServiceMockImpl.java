@@ -17,6 +17,7 @@ import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.common.validator.old.Validator;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -37,7 +38,6 @@ import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;

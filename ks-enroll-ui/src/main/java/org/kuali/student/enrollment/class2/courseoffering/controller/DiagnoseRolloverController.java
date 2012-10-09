@@ -21,17 +21,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DiagnoseRolloverViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,7 +40,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**

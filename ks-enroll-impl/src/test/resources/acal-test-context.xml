@@ -128,7 +128,7 @@
 
     <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
-    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl"/>
+    <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl"/>
 
     <bean id="atpServiceAuthorization" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">

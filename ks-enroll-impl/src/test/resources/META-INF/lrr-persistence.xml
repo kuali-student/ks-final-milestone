@@ -59,10 +59,10 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgAttributeEntity</class>-->
 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
         <class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>

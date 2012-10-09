@@ -23,7 +23,7 @@
 	<import resource="classpath:UifKSDefinitions.xml"/>
 	<!-- **********************************************
 	Paste this link below into WEB-INF ksAdminLinks.tag
-	<li><portal:portalLink displayTitle="true" title="TypeTypeRelationInfo Lookup"url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo&viewId=TypeTypeRelationInfoAdminLookupView.xml&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	<li><portal:portalLink displayTitle="true" title="TypeTypeRelationInfo Lookup"url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo&viewId=TypeTypeRelationInfoAdminLookupView.xml&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	Also...
 	Paste bean definition below into the list of dataDictionaryPackages of org.kuali.rice.krad.bo.ModuleConfiguration 
 	<value>classpath:org/kuali/student/ui/admin/type/TypeTypeRelationInfoAdminLookupView.xml</value>
@@ -32,7 +32,7 @@
 	<bean id="KS-TypeTypeRelationInfo-AdminLookupView" parent="KSLookupView"
 		p:title="TypeTypeRelationInfo Lookup"
 		p:header.headerText="TypeTypeRelationInfo Lookup"
-		p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo"
+		p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.type.TypeTypeRelationInfoAdminLookupableImpl">
 		
 		<property name="criteriaFields">
@@ -42,7 +42,7 @@
 				      p:helpSummary="Searches fields like name and description to see if they contain the keyword" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
+					p:quickfinder.dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo"
 					p:quickfinder.fieldConversions="key:typeKey"
 					/>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"
@@ -52,11 +52,11 @@
 				<!-- TODO: deal with  effectiveDate which is a Date -->
 				<!-- TODO: deal with  expirationDate which is a Date -->
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="ownerTypeKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
+					p:quickfinder.dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo"
 					p:quickfinder.fieldConversions="key:ownerTypeKey"
 					/>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="relatedTypeKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
+					p:quickfinder.dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo"
 					p:quickfinder.fieldConversions="key:relatedTypeKey"
 					/>
 				<!-- TODO: deal with  rank which is a Integer -->
@@ -76,12 +76,12 @@
 		    <list>
 		        <bean parent="Uif-DataField" p:propertyName="id">
 		            <property name="inquiry">
-		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo" p:inquiryParameters="id" />
+		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo" p:inquiryParameters="id" />
 		            </property>
 		        </bean>
 		        <bean parent="Uif-DataField" p:propertyName="typeKey">
 		            <property name="inquiry">
-		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
+		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		            </property>
 		        </bean>
 		        <bean parent="Uif-DataField" p:propertyName="stateKey">
@@ -93,12 +93,12 @@
 		        <bean parent="Uif-DataField" p:propertyName="expirationDate" />
 		        <bean parent="Uif-DataField" p:propertyName="ownerTypeKey">
 		            <property name="inquiry">
-		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="ownerTypeKey:key" />
+		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="ownerTypeKey:key" />
 		            </property>
 		        </bean>
 		        <bean parent="Uif-DataField" p:propertyName="relatedTypeKey">
 		            <property name="inquiry">
-		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="relatedTypeKey:key" />
+		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="relatedTypeKey:key" />
 		            </property>
 		        </bean>
 		        <bean parent="Uif-DataField" p:propertyName="rank" />

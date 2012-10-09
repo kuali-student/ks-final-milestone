@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 
 public class KeyDateWrapper extends TimeSetWrapper{
 

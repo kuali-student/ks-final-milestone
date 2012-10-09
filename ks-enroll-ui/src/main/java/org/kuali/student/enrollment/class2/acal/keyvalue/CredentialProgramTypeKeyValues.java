@@ -12,11 +12,11 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 public class CredentialProgramTypeKeyValues extends KeyValuesBase implements Serializable{

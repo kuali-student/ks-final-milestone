@@ -115,7 +115,7 @@
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
-    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl"/>
+    <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl" />
     <bean id="lrcService" class="org.kuali.student.enrollment.class1.lrc.service.impl.LrcServiceMockImpl" />
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl"/>

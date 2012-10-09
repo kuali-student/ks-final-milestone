@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
@@ -12,7 +13,6 @@ import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;

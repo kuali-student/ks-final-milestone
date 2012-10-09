@@ -39,9 +39,9 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;

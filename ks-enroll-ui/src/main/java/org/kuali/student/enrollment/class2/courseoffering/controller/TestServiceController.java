@@ -17,18 +17,14 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestServiceCallForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;

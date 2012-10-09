@@ -21,7 +21,7 @@
     </bean>
     
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl" />
-    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl"/>
+    <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl"/>
     
     <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">

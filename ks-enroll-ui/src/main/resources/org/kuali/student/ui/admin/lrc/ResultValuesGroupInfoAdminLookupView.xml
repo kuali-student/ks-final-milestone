@@ -42,7 +42,7 @@
 				      p:helpSummary="Searches fields like name and description to see if they contain the keyword" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="key" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
+					p:quickfinder.dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo"
 					p:quickfinder.fieldConversions="key:typeKey"
 					/>
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"
@@ -82,7 +82,7 @@
 		        </bean>
 		        <bean parent="Uif-DataField" p:propertyName="typeKey">
 		            <property name="inquiry">
-		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
+		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		            </property>
 		        </bean>
 		        <bean parent="Uif-DataField" p:propertyName="stateKey">

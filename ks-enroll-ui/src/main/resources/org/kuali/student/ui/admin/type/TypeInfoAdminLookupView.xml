@@ -23,7 +23,7 @@
 	<import resource="classpath:UifKSDefinitions.xml"/>
 	<!-- **********************************************
 	Paste this link below into WEB-INF ksAdminLinks.tag
-	<li><portal:portalLink displayTitle="true" title="TypeInfo Lookup"url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.class1.type.dto.TypeInfo&viewId=TypeInfoAdminLookupView.xml&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+	<li><portal:portalLink displayTitle="true" title="TypeInfo Lookup"url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.common.class1.type.dto.TypeInfo&viewId=TypeInfoAdminLookupView.xml&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
 	Also...
 	Paste bean definition below into the list of dataDictionaryPackages of org.kuali.rice.krad.bo.ModuleConfiguration 
 	<value>classpath:org/kuali/student/ui/admin/type/TypeInfoAdminLookupView.xml</value>
@@ -32,7 +32,7 @@
 	<bean id="KS-TypeInfo-AdminLookupView" parent="KSLookupView"
 		p:title="TypeInfo Lookup"
 		p:header.headerText="TypeInfo Lookup"
-		p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
+		p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.type.TypeInfoAdminLookupableImpl">
 		
 		<property name="criteriaFields">
@@ -69,7 +69,7 @@
 		    <list>
 		        <bean parent="Uif-DataField" p:propertyName="key">
 		            <property name="inquiry">
-		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="key" />
+		                <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="key" />
 		            </property>
 		        </bean>
 		        <bean parent="Uif-DataField" p:propertyName="name" />

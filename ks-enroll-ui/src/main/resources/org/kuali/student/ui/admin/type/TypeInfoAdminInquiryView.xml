@@ -28,7 +28,7 @@
 	<!-- InquiryView -->
 	<bean id="KS-TypeInfo-AdminInquiryView" parent="KSInquiryView"
 		p:title="TypeInfo Inquiry"
-		p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
+		p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.type.TypeInfoAdminInquirableImpl">
 		
 		<property name="Items">

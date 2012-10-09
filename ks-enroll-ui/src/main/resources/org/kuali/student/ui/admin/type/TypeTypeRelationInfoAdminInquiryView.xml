@@ -28,7 +28,7 @@
 	<!-- InquiryView -->
 	<bean id="KS-TypeTypeRelationInfo-AdminInquiryView" parent="KSInquiryView"
 		p:title="TypeTypeRelationInfo Inquiry"
-		p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo"
+		p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo"
 		p:viewHelperServiceClass="org.kuali.student.ui.admin.type.TypeTypeRelationInfoAdminInquirableImpl">
 		
 		<property name="Items">
@@ -41,7 +41,7 @@
 		                    <bean parent="Uif-DataField" p:propertyName="id" />
 		                    <bean parent="Uif-DataField" p:propertyName="typeKey">
 		                        <property name="inquiry">
-		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
+		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		                        </property>
 		                    </bean>
 		                    <bean parent="Uif-DataField" p:propertyName="stateKey">
@@ -53,12 +53,12 @@
 		                    <bean parent="Uif-DataField" p:propertyName="expirationDate" />
 		                    <bean parent="Uif-DataField" p:propertyName="ownerTypeKey">
 		                        <property name="inquiry">
-		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="ownerTypeKey:key" />
+		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="ownerTypeKey:key" />
 		                        </property>
 		                    </bean>
 		                    <bean parent="Uif-DataField" p:propertyName="relatedTypeKey">
 		                        <property name="inquiry">
-		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="relatedTypeKey:key" />
+		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="relatedTypeKey:key" />
 		                        </property>
 		                    </bean>
 		                    <bean parent="Uif-DataField" p:propertyName="rank" />

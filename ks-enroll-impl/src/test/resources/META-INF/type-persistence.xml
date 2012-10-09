@@ -11,10 +11,10 @@
 		transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-        <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationAttributeEntity</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>

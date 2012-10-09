@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 import org.kuali.student.enrollment.grading.service.GradingServiceDecorator;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -35,7 +36,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 
 public class GradingServiceAuthorizationDecorator extends GradingServiceDecorator implements HoldsPermissionService{

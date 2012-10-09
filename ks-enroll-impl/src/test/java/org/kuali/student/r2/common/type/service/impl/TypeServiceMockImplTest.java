@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.r2.core.class1.type.service.impl;
+package org.kuali.student.r2.common.type.service.impl;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl;
+import org.kuali.student.r2.common.type.service.TypeServiceMockImpl;
 
 /**
  *

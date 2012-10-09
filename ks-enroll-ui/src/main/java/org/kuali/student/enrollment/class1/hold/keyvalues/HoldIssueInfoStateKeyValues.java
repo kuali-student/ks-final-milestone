@@ -9,11 +9,8 @@ import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;

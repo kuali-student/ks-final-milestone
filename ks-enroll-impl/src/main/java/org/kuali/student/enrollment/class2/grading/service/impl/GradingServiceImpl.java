@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;

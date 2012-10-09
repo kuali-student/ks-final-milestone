@@ -433,7 +433,7 @@
 
     <bean id="businessServiceValidator" class="org.kuali.student.r2.common.service.impl.MockDefaultValidatorImpl"/>
 
-    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+    <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
     </bean>
 
     <bean id="rgAssembler"

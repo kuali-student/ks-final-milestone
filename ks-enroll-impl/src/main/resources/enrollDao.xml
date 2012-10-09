@@ -8,7 +8,7 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao">
+    <bean id="typeDao" class="org.kuali.student.r2.common.class1.type.dao.TypeDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
@@ -48,7 +48,7 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 -->    
-    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.class1.type.dao.TypeTypeRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
      

@@ -20,7 +20,7 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.class1.type.infc.Type;
+import org.kuali.student.r2.common.class1.type.infc.Type;
 
 /**
  * Types for Learning Person Relations

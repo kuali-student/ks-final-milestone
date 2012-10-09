@@ -196,7 +196,7 @@
 	</bean>
 
     <!-- Type Service config -->
-    <bean id="typeServiceImpl" class="org.kuali.student.r2.core.class1.type.service.TypeServiceMockImpl" />
+    <bean id="typeServiceImpl" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl" />
 
 	<!-- Statement Service Config -->
 	<import resource="classpath:statement-context.xml"/>
