@@ -652,10 +652,18 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     //Set the id
                     creditOption.setKey(id);
 
+                    //Ensure the resultValueKey has the proper prefix
+                    String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
+                    for(int i = 0; i < resultValues.size(); i++){
+                        if (!resultValues.get(i).contains(resultValueKeyPrefix)){
+                            resultValues.set(i,resultValueKeyPrefix+Float.parseFloat(resultValues.get(i)));
+                        }
+                    }
+
                     //Create a new result component
                     if(id != null && !resultValueGroupIds.contains(id)){
 
-                        //need to make a fixed degree result type component
+                        //Build the new ResultValuesGroup
                         ResultValuesGroupInfo resultValueGroup = new ResultValuesGroupInfo();
                         resultValueGroup.setKey(id);
                         resultValueGroup.setTypeKey(type);
@@ -778,6 +786,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     try {
                         if(resultOption.getResultComponentId()!=null){
                             ResultValuesGroupInfo resultValuesGroup = lrcService.getResultValuesGroup(resultOption.getResultComponentId(), contextInfo);
+
+                            //Strip the key prefix from the resultValueKeys
+                            String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
+                            List<String> resultValueKeys = resultValuesGroup.getResultValueKeys();
+                            List<String> resultValues  = new ArrayList<String>(resultValueKeys.size());
+                            for(int i = 0; i < resultValueKeys.size(); i++){
+                                if (resultValueKeys.get(i).contains(resultValueKeyPrefix)){
+                                    resultValues.add(resultValueKeys.get(i).replace(resultValueKeyPrefix,""));
+                                }else{
+                                    resultValues.add(resultValueKeys.get(i));
+                                }
+                            }
+                            resultValuesGroup.setResultValueKeys(resultValues);
                             results.add(resultValuesGroup);
                         }
                     } catch (DoesNotExistException e) {

@@ -659,18 +659,18 @@ public class TestCourseServiceImpl{
             for(ResultValuesGroupInfo rc : co) { 
                 if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(rc.getTypeKey())){
                     assertEquals(3, rc.getResultValueKeys().size());
-                    assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.0"));
-                    assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.5"));
-                    assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.2.0"));
+                    assertTrue(rc.getResultValueKeys().contains("1.0"));
+                    assertTrue(rc.getResultValueKeys().contains("1.5"));
+                    assertTrue(rc.getResultValueKeys().contains("2.0"));
                 }
                 
                 if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getTypeKey())){
                     if(3 == rc.getAttributes().size()) {
                         assertEquals(9, rc.getResultValueKeys().size());
-                        assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.5"));
+                        assertTrue(rc.getResultValueKeys().contains("1.5"));
                     } else {                        
                         assertEquals(5, rc.getResultValueKeys().size());
-                        assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.3.0"));
+                        assertTrue(rc.getResultValueKeys().contains("3.0"));
                     }
                 }                
             }

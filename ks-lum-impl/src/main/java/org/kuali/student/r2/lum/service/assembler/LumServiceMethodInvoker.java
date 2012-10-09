@@ -39,7 +39,6 @@ import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
@@ -232,11 +231,10 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			switch(results.getOperation()){
 			case CREATE:
                 //Do a get-create on each of the result values to ensure they exist.
-                List<String> createdKeys = new ArrayList<String>();
                 for(String resultValue : resultComponent.getResultValueKeys()){
-                    createdKeys.add(lrcService.getCreateResultValueForScale(resultValue, resultComponent.getResultScaleKey(), contextInfo).getKey());
+                    lrcService.getCreateResultValueForScale(resultValue, resultComponent.getResultScaleKey(), contextInfo);
                 }
-                resultComponent.setResultValueKeys(createdKeys);
+                //Create the RVG
                 ResultValuesGroupInfo createdResultComponent = lrcService.createResultValuesGroup(resultComponent.getResultScaleKey(), resultComponent.getTypeKey(), resultComponent, contextInfo);
 				//Copy the created back to the reference Should there be an assembler for this?
 				if(results.getBusinessDTORef()!=null&& results.getBusinessDTORef() instanceof ResultValuesGroupInfo){
