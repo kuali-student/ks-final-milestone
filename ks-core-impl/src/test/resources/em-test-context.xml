@@ -115,11 +115,11 @@
 
 
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl"></bean>
-    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao"/>
-    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao"/>
+    <bean id="typeDao" class="org.kuali.student.r2.common.class1.type.dao.TypeDao"/>
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.class1.type.dao.TypeTypeRelationDao"/>
 
 
-    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+    <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
         <property name="typeDao" ref="typeDao"/>
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     </bean>

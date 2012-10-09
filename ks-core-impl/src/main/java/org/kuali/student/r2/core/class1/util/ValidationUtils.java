@@ -18,12 +18,12 @@ package org.kuali.student.r2.core.class1.util;
 
 
 
+import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.HasType;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import java.util.ArrayList;
 import java.util.List;

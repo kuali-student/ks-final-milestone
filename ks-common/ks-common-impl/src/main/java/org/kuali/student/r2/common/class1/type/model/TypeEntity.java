@@ -8,16 +8,16 @@
  * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.core.class1.type.model;
+package org.kuali.student.r2.common.class1.type.model;
 
 import org.kuali.student.r1.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.class1.type.infc.Type;
+import org.kuali.student.r2.common.class1.type.infc.Type;
 
 import javax.persistence.*;
 import java.util.Date;

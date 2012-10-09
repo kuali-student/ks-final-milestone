@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.class1.type.dao;
+package org.kuali.student.r2.common.class1.type.dao;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import javax.persistence.Query;
 
 
 import org.kuali.student.r2.common.dao.GenericEntityDao;
-import org.kuali.student.r2.core.class1.type.model.TypeEntity;
+import org.kuali.student.r2.common.class1.type.model.TypeEntity;
 
 public class TypeDao extends GenericEntityDao<TypeEntity> {
 

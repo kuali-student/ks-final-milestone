@@ -42,7 +42,7 @@
 
 
 
-	<bean id="milestoneTypeLastDateToDrop" class="org.kuali.student.r2.core.class1.type.model.TypeEntity">
+	<bean id="milestoneTypeLastDateToDrop" class="org.kuali.student.r2.common.class1.type.model.TypeEntity">
 		<property name="id" value="atp.milestoneType.lastDateToDrop" />
 		<property name="name" value="LastDateToDrop" />
 		<property name="descrPlain"
@@ -51,7 +51,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 	</bean>
 
-	<bean id="dateRangeTypeFinals" class="org.kuali.student.r2.core.class1.type.model.TypeEntity">
+	<bean id="dateRangeTypeFinals" class="org.kuali.student.r2.common.class1.type.model.TypeEntity">
 		<property name="id" value="atp.dateRangeType.finals" />
 		<property name="name" value="Finals" />
 		<property name="descrPlain" value="ATP Duration Type for Finals" />
@@ -59,7 +59,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 	</bean>
 
-	<bean id="atpTypeSpringSemester" class="org.kuali.student.r2.core.class1.type.model.TypeEntity">
+	<bean id="atpTypeSpringSemester" class="org.kuali.student.r2.common.class1.type.model.TypeEntity">
 		<property name="id" value="atp.atpType.springSemester" />
 		<property name="name" value="Spring Semester" />
 		<property name="descrPlain" value="ATP Type for Spring Semester" />
@@ -69,7 +69,7 @@
 		<!--property name="seasonalType" ref="atpSeasonalTypeFall" /-->
 	</bean>
 
-	<bean id="atpTypeFallSemester" class="org.kuali.student.r2.core.class1.type.model.TypeEntity">
+	<bean id="atpTypeFallSemester" class="org.kuali.student.r2.common.class1.type.model.TypeEntity">
 		<property name="id" value="atp.atpType.fallSemester" />
 		<property name="name" value="Fall Semester" />
 		<property name="descrPlain" value="ATP Type for Fall Semester" />
@@ -81,7 +81,7 @@
 
 
 
-	<bean id="atpSeasonalTypeFall" class="org.kuali.student.r2.core.class1.type.model.TypeEntity">
+	<bean id="atpSeasonalTypeFall" class="org.kuali.student.r2.common.class1.type.model.TypeEntity">
 		<property name="id" value="atp.seasonType.fall" />
 		<property name="name" value="Fall" />
 		<property name="descrPlain" value="ATP Season Type for Fall" />
@@ -89,7 +89,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 		<property name="attributes">
 			<set>
-				<bean class="org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity">
+				<bean class="org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity">
 					<property name="key" value="atp.attribute.notes" />
 					<property name="value" value="Notes for a Seasonal type Fall attribute" />
 					<property name="owner" ref="atpSeasonalTypeFall" />
@@ -98,7 +98,7 @@
 		</property>
 	</bean>
 
-	<bean id="atpSeasonalTypeSpring" class="org.kuali.student.r2.core.class1.type.model.TypeEntity">
+	<bean id="atpSeasonalTypeSpring" class="org.kuali.student.r2.common.class1.type.model.TypeEntity">
 		<property name="id" value="atp.seasonType.spring" />
 		<property name="name" value="Spring" />
 		<property name="descrPlain" value="ATP Season Type for Spring" />
@@ -106,7 +106,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 		<property name="attributes">
 			<set>
-				<bean class="org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity">
+				<bean class="org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity">
 					<property name="key" value="atp.attribute.notes" />
 					<property name="value"
 						value="Notes for a Seasonal type Spring attribute" />
@@ -116,7 +116,7 @@
 		</property>
 	</bean>
 
-	<bean id="atpDurationTypeSemester" class="org.kuali.student.r2.core.class1.type.model.TypeEntity">
+	<bean id="atpDurationTypeSemester" class="org.kuali.student.r2.common.class1.type.model.TypeEntity">
 		<property name="id" value="atp.durationType.semester" />
 		<property name="name" value="Semester" />
 		<property name="descrPlain" value="ATP Duration Type for Semester" />
@@ -124,7 +124,7 @@
 		<property name="expirationDate" value="01/01/2100" />
 		<property name="attributes">
 			<set>
-				<bean class="org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity">
+				<bean class="org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity">
 					<property name="key" value="atp.attribute.notes" />
 					<property name="value"
 						value="Notes for a Duration type Semester attribute" />

@@ -1,16 +1,17 @@
-package org.kuali.student.r2.core.class1.type.service;
+package org.kuali.student.r2.common.class1.type.service;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -21,13 +22,11 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.class1.type.dao.TypeDao;
-import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
-import org.kuali.student.r2.core.class1.type.model.TypeEntity;
-import org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity;
+import org.kuali.student.r2.common.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.class1.type.dao.TypeDao;
+import org.kuali.student.r2.common.class1.type.dao.TypeTypeRelationDao;
+import org.kuali.student.r2.common.class1.type.model.TypeEntity;
+import org.kuali.student.r2.common.class1.type.model.TypeTypeRelationEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 public class TypeServiceImpl implements TypeService {

@@ -27,10 +27,10 @@
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
 
-        <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
-        <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationEntity</class>
+        <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
         <!-- Statement Persistence -->
         <class>org.kuali.student.r1.core.statement.entity.RefStatementRelation</class>

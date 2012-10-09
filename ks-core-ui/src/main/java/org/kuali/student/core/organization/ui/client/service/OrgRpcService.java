@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
