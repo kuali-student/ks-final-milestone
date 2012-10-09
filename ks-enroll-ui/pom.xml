@@ -14,13 +14,6 @@
             <artifactId>ks-enroll-api</artifactId>
             <version>${ks.api.version}</version>
         </dependency>
-        <!-- Added test jar to be able to wire in mock services, remove after actual implementations are complete -->
-        <dependency>
-            <groupId>org.kuali.student.api</groupId>
-            <artifactId>ks-enroll-api</artifactId>
-            <version>${ks.api.version}</version>
-            <type>test-jar</type>
-        </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
