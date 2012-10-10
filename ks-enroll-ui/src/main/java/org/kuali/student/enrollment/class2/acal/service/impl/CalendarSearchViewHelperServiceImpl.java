@@ -1,7 +1,9 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -53,6 +55,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
         props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
         props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         props.put(CalendarConstants.SELECT_TAB,CalendarConstants.ACAL_TERM_TAB);
+        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 
         if (readOnlyView){
             props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);
@@ -68,6 +71,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put(CalendarConstants.CALENDAR_ID,acal.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
+        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 
         if (StringUtils.equals(methodToCall,CalendarConstants.AC_COPY_METHOD)){
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE);
@@ -89,6 +93,7 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put(CalendarConstants.CALENDAR_ID, hcInfo.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
+        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 
         if (StringUtils.equals(methodToCall,CalendarConstants.HC_COPY_METHOD)){
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_COPYPAGE);
