@@ -61,6 +61,9 @@ public class ColocatedOfferingSetInfo extends IdEntityInfo implements ColocatedO
     @XmlElement
     private Date expirationDate;
 
+    @XmlElement
+    private Integer maximumEnrollment;
+
     //////////////////////////
     // Constructors
     //////////////////////////
@@ -76,6 +79,7 @@ public class ColocatedOfferingSetInfo extends IdEntityInfo implements ColocatedO
             this.offeringIds = new ArrayList<String>(colocatedOfferingSet.getOfferingIds());
             this.effectiveDate = (null != colocatedOfferingSet.getEffectiveDate()) ? new Date(colocatedOfferingSet.getEffectiveDate().getTime()) : null;
             this.expirationDate = (null != colocatedOfferingSet.getExpirationDate()) ? new Date(colocatedOfferingSet.getExpirationDate().getTime()) : null;
+            this.maximumEnrollment = (null != colocatedOfferingSet.getMaximumEnrollment()) ? new Integer(colocatedOfferingSet.getMaximumEnrollment()) : null;
         }
     }
 
@@ -117,4 +121,12 @@ public class ColocatedOfferingSetInfo extends IdEntityInfo implements ColocatedO
         this.offeringIds = offeringIds;
     }
 
+    @Override
+    public Integer getMaximumEnrollment() {
+        return maximumEnrollment;
+    }
+
+    public void setMaximumEnrollment(Integer maximumEnrollment) {
+        this.maximumEnrollment = maximumEnrollment;
+    }
 }

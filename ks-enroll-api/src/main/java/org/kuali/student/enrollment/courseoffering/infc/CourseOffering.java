@@ -177,18 +177,6 @@ public interface CourseOffering extends IdNamelessEntity {
     public Integer getMinimumEnrollment();
 
     /**
-     * The unique identifier of the other course offerings with which this
-     * offering is joint-listed
-     * 
-     * @name Joint Offering Ids
-     * @readOnly I think?
-     * @impl Canonical might suggest offerings that can be jointly offered. This
-     *       is stored as a luiluirelation of joint type
-     */
-    // TODO: Remove
-    // public List<String> getJointOfferingIds();
-
-    /**
      * The cross listings which this CourseOffering can be offered under.
      */
     public List<? extends CourseCrossListing> getCrossListings();

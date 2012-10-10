@@ -42,4 +42,11 @@ public interface ColocatedOfferingSet extends IdEntity, HasEffectiveDates {
      */
     public Boolean getIsMaxEnrollmentShared();
 
+    /**
+     * Maximum enrollment for the set of AOs (either shared or calculated).
+     * If the flag getIsMaxEnrollmentShared is true then this is a shared
+     * maximum enrollment, else it's a calculated maximum enrollment.
+     */
+    public Integer getMaximumEnrollment();
+
 }

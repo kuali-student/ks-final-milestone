@@ -16,11 +16,11 @@
 
 package org.kuali.student.enrollment.courseoffering.infc;
 
+import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.TimeAmount;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
  * Individual activity offerings correspond to events in a scheduling
@@ -293,4 +293,11 @@ public interface ActivityOffering extends IdEntity {
      * @impl maps to Lui.waitlistCheckinFrequency
      */
     public TimeAmount getWaitlistCheckinFrequency();
+
+    /**
+     * Indicates that the activity offering is part of a ColocatedOfferingSet.
+     * @required
+     */
+    public Boolean getIsPartOfColocatedOfferingSet();
+
 }

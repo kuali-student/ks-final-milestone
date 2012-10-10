@@ -48,6 +48,7 @@ import org.w3c.dom.Element;
                 "courseOfferingId", "courseOfferingTitle", 
                 "courseOfferingCode", "hasWaitlist", "waitlistTypeKey",
                 "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
+                "isPartOfColocatedOfferingSet",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo
@@ -149,6 +150,8 @@ public class ActivityOfferingInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    @XmlElement
+    private Boolean isPartOfColocatedOfferingSet;
 
     /**
      * Constructs a new ActivityOfferingInfo.
@@ -495,8 +498,6 @@ public class ActivityOfferingInfo
     public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
         this.waitlistCheckinFrequency = waitlistCheckinFrequency;
     }
-    
-    
 
     public void setSchedulingStateKey(String schedulingStateKey) {
 		this.schedulingStateKey = schedulingStateKey;
@@ -507,7 +508,16 @@ public class ActivityOfferingInfo
 		return schedulingStateKey;
 	}
 
-	@Override
+    @Override
+    public Boolean getIsPartOfColocatedOfferingSet() {
+        return isPartOfColocatedOfferingSet;
+    }
+
+    public void setIsPartOfColocatedOfferingSet(Boolean partOfColocatedOfferingSet) {
+        isPartOfColocatedOfferingSet = partOfColocatedOfferingSet;
+    }
+
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("ActivityOfferingInfo [id=");

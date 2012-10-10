@@ -2618,4 +2618,29 @@ public interface CourseOfferingService
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ColocatedOfferingSets Ids corresponding to the given list of ColocatedOfferingSets
+     * that an Activity Offering with given activity offering id is part of.
+     *
+     * @param activityOfferingId    the identifier for an ActivityOffering
+     * @param contextInfo           information containing the principalId and
+     *                              locale information about the caller of
+     *                              service operation
+     * @return a list of ColocatedOfferingSet identifiers for the Activity Offering,
+     *         or an empty list if none found
+     * @throws DoesNotExistException     deprecated
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException activityOfferingId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getColocatedOfferingSetIdsForActivityOffering (@WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 }

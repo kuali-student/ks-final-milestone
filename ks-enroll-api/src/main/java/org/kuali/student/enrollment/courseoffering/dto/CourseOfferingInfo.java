@@ -42,7 +42,6 @@ import java.util.List;
         "creditCnt", "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds",
         "unitsContentOwnerOrgIds",  "maximumEnrollment", 
         "minimumEnrollment",
-        // TODO: "jointOfferingIds",
         "crossListings", "gradingOptionId", "gradingOptionName",
         "studentRegistrationGradingOptions", "creditOptionName", "creditOptionId",
         "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
@@ -134,10 +133,6 @@ public class CourseOfferingInfo
     @XmlElement
     private String finalExamType;
 
-    // TODO: This is to be removed
-    //@XmlElement
-    //private List<String> jointOfferingIds;
-
     @XmlElement
     private List<CourseCrossListingInfo> crossListings;
 
@@ -217,11 +212,6 @@ public class CourseOfferingInfo
         this.waitlistMaximum = offering.getWaitlistMaximum();
         this.maximumEnrollment = offering.getMaximumEnrollment();
         this.minimumEnrollment = offering.getMinimumEnrollment();
-
-
-        // TODO: Remove
-        //this.jointOfferingIds = (null != offering.getJointOfferingIds()) ? new ArrayList<String>(
-        //        offering.getJointOfferingIds()) : null;
 
         List<CourseCrossListingInfo> courseCrossListingsList = new ArrayList<CourseCrossListingInfo>();
         for (CourseCrossListing courseCrossListing : offering.getCrossListings()) {
@@ -485,22 +475,6 @@ public class CourseOfferingInfo
     public void setMinimumEnrollment(Integer minimumEnrollment) {
         this.minimumEnrollment = minimumEnrollment;
     }
-
-    // TODO: Remove
-    /*
-    @Override
-    public List<String> getJointOfferingIds() {
-        if (null == this.jointOfferingIds) {
-            this.jointOfferingIds = new ArrayList<String>();
-        }
-
-        return this.jointOfferingIds;
-    }
-
-    public void setJointOfferingIds(List<String> jointOfferingIds) {
-        this.jointOfferingIds = jointOfferingIds;
-    }
-    */
 
     @Override
     public List<CourseCrossListingInfo> getCrossListings() {
