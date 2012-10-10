@@ -487,9 +487,6 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         StringBuilder sb = new StringBuilder();
         sb.append(scaleKey.replace(".scale.", ".value."));
         sb.append(".");
-        if(resultValue.contains(sb.toString())){
-            return resultValue;
-        }
         sb.append(resultValue);
         return sb.toString();
     }
