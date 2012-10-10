@@ -61,6 +61,7 @@ public class CourseOfferingConstants {
     public static final String AO_DELETE_CONFIRM_PAGE = "selectedAoDeleteConfirmationPage";
     public static final String REG_GROUP_PAGE = "manageRegistrationGroupsPage";
     public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
+    public static final String SEARCH_PAGE = "searchInputPage";
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";

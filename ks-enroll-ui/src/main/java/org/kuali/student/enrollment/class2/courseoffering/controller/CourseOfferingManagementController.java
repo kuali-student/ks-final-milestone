@@ -176,7 +176,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     return prepareManageAOsModelAndView(theForm, coToShow);
                 }
             }
-            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+            if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()){
+                return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
+            }else{
+                return getUIFModelAndView(theForm, CourseOfferingConstants.SEARCH_PAGE);
+            }
         } else {
             LOG.error("Error: Course Code search field can't be empty");
             GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
