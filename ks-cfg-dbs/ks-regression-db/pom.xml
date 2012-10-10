@@ -10,8 +10,8 @@
     <name>KS Regression Impex</name>
     <description>Kuali Student Regression Impex</description>
     <properties>
-        <ks.impex.username>KSREGRES</ks.impex.username>
-        <ks.impex.password>KSREGRES</ks.impex.password>
+        <ks.impex.username>KSREGRESKD</ks.impex.username>
+        <ks.impex.password>KSREGRESKD</ks.impex.password>
         <scm.phase>process-resources</scm.phase>
     </properties>
     <profiles>

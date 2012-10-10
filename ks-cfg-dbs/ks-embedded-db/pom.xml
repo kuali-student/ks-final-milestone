@@ -10,8 +10,8 @@
     <name>KS Embedded Impex</name>
     <description>Kuali Student Embedded Impex</description>
     <properties>
-        <ks.impex.username>KSEMBEDDED</ks.impex.username>
-        <ks.impex.password>KSEMBEDDED</ks.impex.password>
+        <ks.impex.username>KSEMBEDDEDKD</ks.impex.username>
+        <ks.impex.password>KSEMBEDDEDKD</ks.impex.password>
         <scm.phase>process-resources</scm.phase>
     </properties>
     <profiles>

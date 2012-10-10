@@ -10,8 +10,8 @@
     <name>KS Standalone Impex</name>
     <description>Kuali Student Standalone Impex</description>
     <properties>
-        <ks.impex.username>KSSTANDALONE</ks.impex.username>
-        <ks.impex.password>KSSTANDALONE</ks.impex.password>
+        <ks.impex.username>KSSTANDALONEKD</ks.impex.username>
+        <ks.impex.password>KSSTANDALONEKD</ks.impex.password>
         <scm.phase>process-resources</scm.phase>
     </properties>
     <profiles>
