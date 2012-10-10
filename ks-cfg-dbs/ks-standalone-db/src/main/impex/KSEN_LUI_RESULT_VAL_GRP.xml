@@ -5,6 +5,8 @@
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="01163f3e-d0f7-40ec-a373-a364545bb00a" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="01163f3e-d0f7-40ec-a373-a364545bb00a" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="017e5546-fe09-487f-a0e8-674a7896fcb0" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="02c4982b-2399-44d6-ba6c-7f9507a87aad" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
@@ -33,11 +35,17 @@
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="175a8b45-296b-415e-85d5-1acfec04dedd" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="175a8b45-296b-415e-85d5-1acfec04dedd" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="17dc5941-bb0d-47e3-85d4-a23b94ee5cbf" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="1980fe22-91c4-41a7-ab01-6ba936a83ca4" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="1980fe22-91c4-41a7-ab01-6ba936a83ca4" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="1a402ea2-cf09-45bc-bf93-82b715bdf7d6" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
+    <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="1a402ea2-cf09-45bc-bf93-82b715bdf7d6" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="2465c6d3-e8a8-42e1-bc00-26288157f94f" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
@@ -77,6 +85,8 @@
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="400182ef-3b55-495e-bfeb-95d654118f8c" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="400182ef-3b55-495e-bfeb-95d654118f8c" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="40479891-a967-46bb-92aa-450ee8ce52ac" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="441f72f7-6a0c-4b5b-a3d0-83c79358149e" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
@@ -86,6 +96,8 @@
         LUI_ID="45b231bd-2795-4e7e-babe-4e7af14c7a95" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="45ff95bf-a1c5-4b35-87ce-db5a7eba5c9e" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
+    <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="45ff95bf-a1c5-4b35-87ce-db5a7eba5c9e" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="47d5ebe8-bae6-4625-ad8a-d4b05fcf880a" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
@@ -115,6 +127,8 @@
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="64ded3d7-6283-43b1-a459-47ea08418862" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="64ded3d7-6283-43b1-a459-47ea08418862" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="66bfab5a-be3f-4b86-90d9-af84072a978b" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="6b89a0f3-be7e-4a0f-81b8-a42b178885c7" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
@@ -122,6 +136,8 @@
         LUI_ID="6d36cfbe-710f-43f0-9059-def489e7af15" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="6d6f727c-0268-40e1-9482-43cce4366c21" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
+    <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="6d6f727c-0268-40e1-9482-43cce4366c21" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="6f0289f2-a83a-481c-9dd6-35ee0eb7287a" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
@@ -147,7 +163,11 @@
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="847910dc-f64c-4d6e-a7a2-db5d8588fff7" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="847910dc-f64c-4d6e-a7a2-db5d8588fff7" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="85aa5fdb-22e4-4dc7-b8f7-8a97be724ad8" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
+    <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="85aa5fdb-22e4-4dc7-b8f7-8a97be724ad8" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="85cdc051-e3b0-4186-8480-f1bc62dfca5f" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
@@ -162,6 +182,8 @@
         LUI_ID="92791909-93fd-442c-b7e0-32ceea2bb996" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="93755708-c2c1-42ae-a9ba-25dd5d849673" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.audit"/>
+    <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="93755708-c2c1-42ae-a9ba-25dd5d849673" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.satisfactory"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="94ca845d-317c-4b0d-a897-5859bc9e00c1" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
@@ -179,6 +201,8 @@
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="9c0a1a13-0cb0-4f06-8c39-fb99365274ea" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="9c0a1a13-0cb0-4f06-8c39-fb99365274ea" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="9c1f4662-dcba-450e-8230-050c863defc5" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="a0acaf0e-c74f-498e-be7d-e4617a798b53" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
@@ -191,9 +215,13 @@
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="a6aea564-04f5-4924-bb4a-300e8d27f7f1" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.audit"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="a6aea564-04f5-4924-bb4a-300e8d27f7f1" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="aa9af7a0-eea7-4577-a314-0d2ca62bbd90" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="ab5ac2be-6200-469a-80c1-579a1e7cf6b6" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
+    <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="ab5ac2be-6200-469a-80c1-579a1e7cf6b6" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="ac486294-a86e-4297-953b-fea20921e027" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
@@ -259,6 +287,8 @@
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="f23296d6-27b3-4e1b-8de9-efb23a20dfe9" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
     <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="f23296d6-27b3-4e1b-8de9-efb23a20dfe9" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="f24946a1-e9d0-4c17-93ed-deb364345320" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="f502c5a0-386b-4f62-b092-e888db2c15e2" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
@@ -268,6 +298,8 @@
         LUI_ID="fa6c2058-4c2a-434c-a629-4a9733c36e3b" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="faa696f3-784c-4006-bbf9-a42318b2c596" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.passFail"/>
+    <KSEN_LUI_RESULT_VAL_GRP
+        LUI_ID="faa696f3-784c-4006-bbf9-a42318b2c596" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.percentage"/>
     <KSEN_LUI_RESULT_VAL_GRP
         LUI_ID="fbb3518e-610d-4009-92a4-91f275139bf9" RESULT_VAL_GRP_ID="kuali.resultComponent.grade.letter"/>
     <KSEN_LUI_RESULT_VAL_GRP
