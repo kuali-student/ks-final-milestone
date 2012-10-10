@@ -109,7 +109,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="addLineItems">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personId" p:label="ID" p:required="true" p:cssClasses="col_5">
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
@@ -201,7 +201,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField" p:messageText="" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
-                            <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name" p:required="true">
+                            <bean parent="Uif-InputField" p:label="POPULATION NAME" p:propertyName="seatPoolPopulation.name" p:required="true" p:cssClasses="col_6">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
                                 </property>

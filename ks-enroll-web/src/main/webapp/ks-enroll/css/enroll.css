@@ -47,6 +47,106 @@
     margin: 3px;
 }
 
+/* Applying the CSS Grid Columns */
+
+.col_1
+{
+    min-width: 40px;
+    max-width: 55px;
+    width: 6.25%;
+}
+
+.col_2
+{
+    min-width: 100px;
+    max-width: 130px;
+    width: 12.5%;
+}
+
+.col_3
+{
+    min-width: 160px;
+    max-width: 205px;
+    width: 18.75%;
+}
+
+.col_4
+{
+    min-width: 220px;
+    max-width: 280px;
+    width: 25%;
+}
+
+.col_5
+{
+    min-width: 280px;
+    max-width: 355px;
+    width: 31.25%;
+}
+
+.col_6
+{
+    min-width: 340px;
+    max-width: 430px;
+    width: 37.5%;
+}
+
+.col_7
+{
+    min-width: 400px;
+    max-width: 505px;
+    width: 43.75%;
+}
+
+.col_8
+{
+    min-width: 460px;
+    max-width: 580px;
+    width: 50%;
+}
+
+.col_9
+{
+    min-width: 520px;
+    max-width: 655px;
+    width: 56.25%;
+}
+
+.col_10
+{
+    min-width: 580px;
+    max-width: 730px;
+    width: 62.5%;
+}
+
+.col_11
+{
+    min-width: 640px;
+    max-width: 805px;
+    width: 68.75%;
+}
+
+.col_13
+{
+    min-width: 760px;
+    max-width: 955px;
+    width: 81.25%;
+}
+
+.col_14
+{
+    min-width: 820px;
+    max-width: 1030px;
+    width: 87.5%;
+}
+
+.col_15
+{
+    min-width: 880px;
+    max-width: 1105px;
+    width: 93.75%;
+}
+
 .uif-scheduled-dl {
     color: grey;
 }

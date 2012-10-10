@@ -490,7 +490,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="addLineItems">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" >
+                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" p:cssClasses="col_5">
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
