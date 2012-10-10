@@ -16,7 +16,8 @@
  */
 package org.kuali.student.enrollment.courseoffering.infc;
 
-import org.kuali.student.enrollment.lui.infc.LuiSet;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public interface ColocatedOfferingSet extends LuiSet {
+public interface ColocatedOfferingSet extends IdEntity, HasEffectiveDates {
 
     /**
      * List of identifiers of contained ActivityOfferings. Present for enumerated

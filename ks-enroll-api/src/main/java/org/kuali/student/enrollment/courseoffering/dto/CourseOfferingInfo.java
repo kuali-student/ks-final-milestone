@@ -16,20 +16,21 @@
 
 package org.kuali.student.enrollment.courseoffering.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
+import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
-import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.w3c.dom.Element;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Kuali Student Team (Kamal)
@@ -40,7 +41,9 @@ import org.w3c.dom.Element;
         "termId", "courseCode", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle",
         "creditCnt", "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds",
         "unitsContentOwnerOrgIds",  "maximumEnrollment", 
-        "minimumEnrollment", "jointOfferingIds", "gradingOptionId", "gradingOptionName",
+        "minimumEnrollment",
+        // TODO: "jointOfferingIds",
+        "crossListings", "gradingOptionId", "gradingOptionName",
         "studentRegistrationGradingOptions", "creditOptionName", "creditOptionId",
         "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
         "isEvaluated", "fundingSource", "isFeeAtActivityOffering", "courseNumberInternalSuffix",
@@ -131,8 +134,12 @@ public class CourseOfferingInfo
     @XmlElement
     private String finalExamType;
 
+    // TODO: This is to be removed
+    //@XmlElement
+    //private List<String> jointOfferingIds;
+
     @XmlElement
-    private List<String> jointOfferingIds;
+    private List<CourseCrossListingInfo> crossListings;
 
     @XmlElement
     private String fundingSource;
@@ -211,9 +218,15 @@ public class CourseOfferingInfo
         this.maximumEnrollment = offering.getMaximumEnrollment();
         this.minimumEnrollment = offering.getMinimumEnrollment();
 
-        this.jointOfferingIds = (null != offering.getJointOfferingIds()) ? new ArrayList<String>(
-                offering.getJointOfferingIds()) : null;
 
+        // TODO: Remove
+        //this.jointOfferingIds = (null != offering.getJointOfferingIds()) ? new ArrayList<String>(
+        //        offering.getJointOfferingIds()) : null;
+
+        List<CourseCrossListingInfo> courseCrossListingsList = new ArrayList<CourseCrossListingInfo>();
+        for (CourseCrossListing courseCrossListing : offering.getCrossListings()) {
+            courseCrossListingsList.add(new CourseCrossListingInfo(courseCrossListing));
+        }
 
         this.hasWaitlist = (null != offering.getHasWaitlist()) ? new Boolean(offering.getHasWaitlist()) : null;
 
@@ -473,6 +486,8 @@ public class CourseOfferingInfo
         this.minimumEnrollment = minimumEnrollment;
     }
 
+    // TODO: Remove
+    /*
     @Override
     public List<String> getJointOfferingIds() {
         if (null == this.jointOfferingIds) {
@@ -484,6 +499,16 @@ public class CourseOfferingInfo
 
     public void setJointOfferingIds(List<String> jointOfferingIds) {
         this.jointOfferingIds = jointOfferingIds;
+    }
+    */
+
+    @Override
+    public List<CourseCrossListingInfo> getCrossListings() {
+        return crossListings;
+    }
+
+    public void setCrossListings(List<CourseCrossListingInfo> crossListings) {
+        this.crossListings = crossListings;
     }
 
     @Override

@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.courseoffering.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
 import java.util.List;
 
@@ -184,7 +185,14 @@ public interface CourseOffering extends IdNamelessEntity {
      * @impl Canonical might suggest offerings that can be jointly offered. This
      *       is stored as a luiluirelation of joint type
      */
-    public List<String> getJointOfferingIds();
+    // TODO: Remove
+    // public List<String> getJointOfferingIds();
+
+    /**
+     * The cross listings which this CourseOffering can be offered under.
+     */
+    public List<? extends CourseCrossListing> getCrossListings();
+
 
     /******** Assessment Information ***************/
 

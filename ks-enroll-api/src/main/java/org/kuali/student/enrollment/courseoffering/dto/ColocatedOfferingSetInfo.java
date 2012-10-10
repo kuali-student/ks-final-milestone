@@ -17,8 +17,14 @@
 package org.kuali.student.enrollment.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.infc.ColocatedOfferingSet;
-import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,7 +32,12 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class ColocatedOfferingSetInfo extends LuiSetInfo implements ColocatedOfferingSet {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "ColocatedOfferingSetInfo", propOrder = {
+        "id", "typeKey", "stateKey", "name", "descr",
+        "isMaxEnrollmentShared", "offeringIds", "effectiveDate", "expirationDate",
+        "meta", "attributes"})
+public class ColocatedOfferingSetInfo extends IdEntityInfo implements ColocatedOfferingSet {
 
     //////////////////////////
     // Constants
@@ -38,7 +49,17 @@ public class ColocatedOfferingSetInfo extends LuiSetInfo implements ColocatedOff
     // Data Variables
     ////////////////////////
 
+    @XmlElement
     private Boolean isMaxEnrollmentShared = null;
+
+    @XmlElement
+    private List<String> offeringIds;
+
+    @XmlElement
+    private Date effectiveDate;
+
+    @XmlElement
+    private Date expirationDate;
 
     //////////////////////////
     // Constructors
@@ -52,6 +73,9 @@ public class ColocatedOfferingSetInfo extends LuiSetInfo implements ColocatedOff
         super (colocatedOfferingSet);
         if (colocatedOfferingSet!=null) {
             this.isMaxEnrollmentShared = new Boolean(colocatedOfferingSet.getIsMaxEnrollmentShared());
+            this.offeringIds = new ArrayList<String>(colocatedOfferingSet.getOfferingIds());
+            this.effectiveDate = (null != colocatedOfferingSet.getEffectiveDate()) ? new Date(colocatedOfferingSet.getEffectiveDate().getTime()) : null;
+            this.expirationDate = (null != colocatedOfferingSet.getExpirationDate()) ? new Date(colocatedOfferingSet.getExpirationDate().getTime()) : null;
         }
     }
 
@@ -68,17 +92,29 @@ public class ColocatedOfferingSetInfo extends LuiSetInfo implements ColocatedOff
         isMaxEnrollmentShared = maxEnrollmentShared;
     }
 
-    ////////////////////////
-    // Implementing Methods
-    ////////////////////////
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
     @Override
     public List<String> getOfferingIds() {
-        return getLuiIds();
+        return offeringIds;
     }
 
     public void setOfferingIds(List<String> offeringIds) {
-        setLuiIds(offeringIds);
+        this.offeringIds = offeringIds;
     }
 
 }
