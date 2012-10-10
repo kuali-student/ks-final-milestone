@@ -1,0 +1,93 @@
+INSERT
+INTO
+    KSEN_TYPE
+    (
+        TYPE_KEY,
+        OBJ_ID,
+        NAME,
+        DESCR_PLAIN,
+        DESCR_FORMATTED,
+        EFF_DT,
+        EXPIR_DT,
+        REF_OBJECT_URI,
+        SERVICE_URI,
+        VER_NBR,
+        CREATETIME,
+        CREATEID,
+        UPDATETIME,
+        UPDATEID
+    )
+SELECT
+    REGEXP_REPLACE(TYPE_KEY,'(.*)\.Milestone\.(.*)','\1._milestone_.\2'),
+    OBJ_ID,
+    NAME,
+    DESCR_PLAIN,
+    DESCR_FORMATTED,
+    EFF_DT,
+    EXPIR_DT,
+    REF_OBJECT_URI,
+    SERVICE_URI,
+    VER_NBR,
+    CREATETIME,
+    CREATEID,
+    UPDATETIME,
+    UPDATEID
+FROM
+    KSEN_TYPE
+WHERE
+    KSEN_TYPE.TYPE_KEY LIKE '%.Milestone.%'
+    /
+
+DELETE
+FROM
+    KSEN_TYPE
+WHERE
+    KSEN_TYPE.TYPE_KEY LIKE '%.Milestone.%'
+    /
+
+INSERT
+INTO
+    KSEN_TYPE
+    (
+        TYPE_KEY,
+        OBJ_ID,
+        NAME,
+        DESCR_PLAIN,
+        DESCR_FORMATTED,
+        EFF_DT,
+        EXPIR_DT,
+        REF_OBJECT_URI,
+        SERVICE_URI,
+        VER_NBR,
+        CREATETIME,
+        CREATEID,
+        UPDATETIME,
+        UPDATEID
+    )
+SELECT
+    REGEXP_REPLACE(TYPE_KEY,'(.*)\._milestone_\.(.*)','\1.milestone.\2'),
+    OBJ_ID,
+    NAME,
+    DESCR_PLAIN,
+    DESCR_FORMATTED,
+    EFF_DT,
+    EXPIR_DT,
+    REF_OBJECT_URI,
+    SERVICE_URI,
+    VER_NBR,
+    CREATETIME,
+    CREATEID,
+    UPDATETIME,
+    UPDATEID
+FROM
+    KSEN_TYPE
+WHERE
+    KSEN_TYPE.TYPE_KEY LIKE '%._milestone_.%'
+    /
+
+DELETE
+FROM
+    KSEN_TYPE
+WHERE
+    KSEN_TYPE.TYPE_KEY LIKE '%._milestone_.%'
+    /
