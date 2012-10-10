@@ -30,6 +30,8 @@
         <li><portal:portalLink displayTitle="true" title="Lookup with default action"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupDefaultAction-View&methodToCall=start" /></li>
         --%>
+        <li><portal:portalLink displayTitle="true" title="Lookup Overview"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupOverview-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Collections</strong>
