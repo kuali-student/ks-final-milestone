@@ -151,6 +151,7 @@
                 <entry key="sDom" value="rtip"/>
                 <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
                 <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
             </map>
         </property>
         <property name="items">
