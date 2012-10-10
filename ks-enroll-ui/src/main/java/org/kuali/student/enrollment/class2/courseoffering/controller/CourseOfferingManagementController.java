@@ -216,6 +216,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.setFormatOfferingIdForViewRG(formatOfferingList.get(0).getId());
         //get unassgined AOs (didn't belong to any cluster)
         List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(formatOfferingList.get(0).getId(), theForm);
+
+        for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
+            String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+        }
         theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
 
         //get clusters if any for the 1st FO
@@ -672,6 +680,15 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                                                                                                                       selectedAOCInfo, getContextInfo());
         //update AO list without cluster
         List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(updatedSelectedAOCInfo.getFormatOfferingId(), theForm);
+
+        for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
+            String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+        }
+
         theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
         if(!filteredAOs.isEmpty()){
             theForm.setFormatOfferingName(filteredAOs.get(0).getAoInfo().getFormatOfferingName());
@@ -681,7 +698,16 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<ActivityOfferingWrapper> filteredClusteredAOs = new ArrayList <ActivityOfferingWrapper>();
         List<ActivityOfferingInfo> aosInCluster = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfo.getId(), getContextInfo());
         for (ActivityOfferingInfo aoInfo : aosInCluster) {
-            filteredClusteredAOs.add(getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo));
+            ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
+            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+
+            filteredClusteredAOs.add(aoWrapper);
+
+
         }
         for (int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
             //collect RGs
@@ -814,12 +840,27 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         //collect aoInfo(s) belonging to updatedSelectedAOCInfoFrom, convert them to AOWrapper(s) and store them in filteredClusteredAOsFrom list for updating theForm below
         List<ActivityOfferingInfo> aosInClusterFrom = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfoFrom.getId(), getContextInfo());
         for ( ActivityOfferingInfo aoInfo : aosInClusterFrom) {
-            filteredClusteredAOsFrom.add(getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo));
+            ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
+            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+
+            filteredClusteredAOsFrom.add(aoWrapper);
         }
         //collect aoInfo(s) belonging to updatedSelectedAOCInfoTo, convert them to AOWrapper(s) and store them in filteredClusteredAOsTo list for updating theForm below
         List<ActivityOfferingInfo> aosInClusterTo = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfoTo.getId(), getContextInfo());
         for (ActivityOfferingInfo aoInfo : aosInClusterTo) {
-            filteredClusteredAOsTo.add(getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo));
+            ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
+            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+
+            filteredClusteredAOsTo.add(aoWrapper);
+
         }
 
         for (int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
@@ -949,6 +990,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<ActivityOfferingWrapper> aoWrapperListPerCluster = new ArrayList<ActivityOfferingWrapper>();
         for(ActivityOfferingInfo aoInfo: aoInfoList){
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
+
+            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+
             aoWrapperListPerCluster.add(aoWrapper);
         }
         aoClusterWrapper.setAoWrapperList(aoWrapperListPerCluster);

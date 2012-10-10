@@ -391,6 +391,22 @@ public class ActivityOfferingWrapper implements Serializable{
 
     }
 
+    public void setStartTimeDisplay(String startTimeDisplay, boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.startTimeDisplay)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.startTimeDisplay = this.startTimeDisplay + "<br><span " + cssClass + " >" + startTimeDisplay + "</span>";
+        }else{
+            this.startTimeDisplay = "<span " + cssClass + " >" + startTimeDisplay + "</span>";
+        }
+    }
+
+
     public String getEndTimeDisplay() {
         return endTimeDisplay;
     }
@@ -400,6 +416,21 @@ public class ActivityOfferingWrapper implements Serializable{
             this.endTimeDisplay = this.endTimeDisplay + "<br>" + StringUtils.defaultString(endTimeDisplay);
         }else{
             this.endTimeDisplay = StringUtils.defaultString(endTimeDisplay);
+        }
+    }
+
+    public void setEndTimeDisplay(String endTimeDisplay,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.endTimeDisplay)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.endTimeDisplay = this.endTimeDisplay + "<br><span " + cssClass + " >" + endTimeDisplay + "</span>";
+        }else{
+            this.endTimeDisplay = "<span " + cssClass + " >" + endTimeDisplay + "</span>";
         }
     }
 
@@ -426,6 +457,20 @@ public class ActivityOfferingWrapper implements Serializable{
             this.buildingName = StringUtils.defaultString(buildingName);
         }
     }
+    public void setBuildingName(String buildingName,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.roomName)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.buildingName = this.buildingName + "<br><span " + cssClass + " >" + buildingName + "</span>";
+        }else{
+            this.buildingName = "<span " + cssClass + " >" + buildingName + "</span>";
+        }
+    }
 
     public String getRoomName() {
         return roomName;
@@ -436,6 +481,20 @@ public class ActivityOfferingWrapper implements Serializable{
             this.roomName = this.roomName + "<br>" + StringUtils.defaultString(roomName);
         }else{
             this.roomName = StringUtils.defaultString(roomName);
+        }
+    }
+    public void setRoomName(String roomName,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.roomName)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.roomName = this.roomName + "<br><span " + cssClass + " >" + roomName + "</span>";
+        }else{
+            this.roomName = "<span " + cssClass + " >" + roomName + "</span>";
         }
     }
 
