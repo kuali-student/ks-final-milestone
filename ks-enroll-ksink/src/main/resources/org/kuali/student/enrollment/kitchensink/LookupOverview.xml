@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- The Interesting Bits -->
+
+    <bean parent="Uif-InputField"  id="KS-KitchenSink-LookupOverview-DirectInquiry">
+        <property name="instructionalText"
+                  value="Click the book button to perform an inquiry on TermInfo for ID &quot;19974&quot;"/>
+        <property name="propertyName" value="stringField1"/>
+        <property name="defaultValue" value="19974"/>
+        <property name="inquiry.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <!-- inquiry view doesn't use "viewName" to find the correct inquiry view: -->
+        <property name="inquiry.viewName" value="KS-KitchenSink-TermInfo-InquiryView"/>
+        <property name="inquiry.inquiryParameters" value="stringField1:id"/>
+        <!-- the wordier way to define inquiry.inquiryParameters:
+        <property name="inquiry.inquiryParameters">
+            <map> <entry key="stringField1" value="id"/> </map>
+        </property>
+        -->
+    </bean>
+
+    <!--
+        This view bean defines how the Direct Inquiry will look.  Inquiry and lookup views must
+        have unique dataObjectClassName and viewName keys (viewName = "default" by default).
+    -->
+    <!-- BUG: Direct Inquiry currently doesn't use "viewName" to find inquiry view bean -->
+    <bean id="KS-KitchenSink-TermInfo-InquiryView-Base" parent="KS-KitchenSink-InquiryView-NoHeaderButtons">
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <property name="viewName" value="KS-KitchenSink-TermInfo-InquiryView"/>
+        <!--
+            org.kuali.rice.krad.inquiry.InquirableImpl's retrieveDataObject(..) is called in an inquiry
+            lookup, and should be overridden by the view's helper class
+        -->
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicTermInfoInquirableImpl" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridSection">
+                    <property name="headerText" value="Term Information for ID &quot;@{#dp.id}&quot;"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="name"/>
+                            <bean parent="Uif-DataField" p:propertyName="typeKey"/>
+                            <bean parent="Uif-DataField" p:propertyName="stateKey"/>
+                            <bean parent="Uif-DataField" p:propertyName="startDate"/>
+                            <bean parent="Uif-DataField" p:propertyName="endDate"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-LookupOverview-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Lookups, etc"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Lookup Overview">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        Lookups and Inquiries backed by Business Object searches
+                                        can be used on fields to fill in their values.
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-LookupOverview-Content"/>
+                            <ref bean="KS-KitchenSink-LookupOverview-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-KitchenSink-LookupOverview-Content" parent="KS-KitchenSink-TabSection">-->
+    <bean id="KS-KitchenSink-LookupOverview-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-LookupOverview-Section"/>
+                <!--<ref bean="KS-KitchenSink-LookupOverview-AjaxQuery"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- Example #1 containers -->
+
+    <bean id="KS-KitchenSink-LookupOverview-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-LookupOverview-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-LookupOverview-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Link fields" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-LookupOverview-DirectInquiry"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-LookupOverview-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/LookupOverview.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/LookupOverview.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifFieldDefinitions.xml (Uif-InputField)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Hooking Up Lookups and Inquiries"
+                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5559 "/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Lookup Overview"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-LookupOverview-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

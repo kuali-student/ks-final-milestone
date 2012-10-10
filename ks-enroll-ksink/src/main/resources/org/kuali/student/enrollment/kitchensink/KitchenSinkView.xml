@@ -28,6 +28,21 @@
         <property name="breadcrumbs.render" value="false"/>
     </bean>
 
+    <bean id="KS-KitchenSink-InquiryView-NoHeaderButtons" parent="KSInquiryView">
+        <property name="page">
+            <bean parent="Uif-InquiryPage">
+                <property name="header">
+                    <bean parent="Uif-ReadOnlyPageHeader">
+                        <property name="lowerGroup">
+                            <!-- prevents Expand/Collapse All buttons from showing -->
+                            <null/>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
 
     <!-- Page definitions -->
 
