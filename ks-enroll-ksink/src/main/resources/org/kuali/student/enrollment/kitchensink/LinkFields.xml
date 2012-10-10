@@ -25,15 +25,14 @@
     <!-- The Interesting Bits -->
 
     <bean parent="Uif-LinkField"  id="KS-KitchenSink-Links-Text">
-        <property name="label" value="Uif-LinkField is used for href links"/>
-        <property name="linkText" value="Kuali Website"/>
+        <property name="linkText" value="Kuali Foundation"/>
         <property name="href" value="http://www.kuali.org"/>
         <property name="target" value="_blank"/>
     </bean>
 
     <bean parent="Uif-LinkField"  id="KS-KitchenSink-Links-Text-Lightbox">
-        <property name="label" value="Uif-LinkField can be used with a lightbox"/>
-        <property name="linkText" value="Kuali Website"/>
+        <property name="label" value="This link opens in a lightbox"/>
+        <property name="linkText" value="Kuali Foundation"/>
         <property name="href" value="http://www.kuali.org"/>
         <property name="target" value="_blank"/>
         <property name="lightBox">
@@ -73,7 +72,7 @@
 
     <bean parent="Uif-ActionField"  id="KS-KitchenSink-Links-Image">
         <property name="actionScript" value="window.open('http://www.kuali.org','_blank');"/>
-        <property name="label" value="Uif-ActionField simulating an image link"/>
+        <property name="label" value="ActionField simulating an image link"/>
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="../ks-enroll-ksink/images/kuali_16px.gif"
@@ -108,9 +107,9 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-Links-Content" parent="Uif-TabSection" p:width="500px">-->
-    <bean id="KS-KitchenSink-Links-Content" parent="Uif-VerticalBoxSection"
-          p:header.render="false" p:style="border:solid 1px black;margin-bottom:0;padding:1em 1em 0.5em 1em;">
+    <!--<bean id="KS-KitchenSink-Links-Content" parent="KS-KitchenSink-TabSection">-->
+    <bean id="KS-KitchenSink-Links-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents" p:width="55em">
+        <!--p:style="border:solid 1px black;margin-bottom:0;padding:1em 1em 0.5em 1em;">-->
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-Links-Section"/>

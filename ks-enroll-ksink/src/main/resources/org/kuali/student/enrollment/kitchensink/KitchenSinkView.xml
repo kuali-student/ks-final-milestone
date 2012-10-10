@@ -110,10 +110,11 @@
     <bean id="KS-KitchenSink-Page-Links" parent="Uif-VerticalBoxSection" abstract="true"
           p:style="margin-top:2em;margin-bottom:0;"/>
 
-    <bean id="KS-KitchenSink-VerticalBoxSection-Contents" parent="Uif-VerticalBoxSection" abstract="true"
-          p:width="45em" p:style="border:solid 1px black;margin-bottom:0;padding-left:1em;padding-right:1em"/>
     <bean id="KS-KitchenSink-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true"
           p:style="margin-bottom:0;"/>
+    <bean id="KS-KitchenSink-VerticalBoxSection-Contents" parent="Uif-VerticalBoxSection" abstract="true"
+          p:header.render="false" p:width="45em"
+          p:style="border:solid 1px black;margin-bottom:0;padding:0.5em 1em 0.5em 1em;" />
 
     <bean id="KS-KitchenSink-TabSection" parent="Uif-TabSection" p:style="margin-bottom:0;" p:width="45em"/>
 

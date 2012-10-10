@@ -85,7 +85,7 @@
 
     <!--<bean id="KS-KitchenSink-CollectionsActionImages-Content" parent="KS-KitchenSink-TabSection" p:width="100%">-->
     <bean id="KS-KitchenSink-CollectionActionImages-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
-          p:header.render="false" p:width="99%">
+          p:width="99%">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-CollectionActionImages-Section">

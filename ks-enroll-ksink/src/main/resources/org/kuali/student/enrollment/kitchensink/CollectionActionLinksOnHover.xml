@@ -79,9 +79,9 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-CollectionActionLinksOnHover-Content" parent="Uif-TabSection" p:width="500px">-->
-    <bean id="KS-KitchenSink-CollectionActionLinksOnHover-Content" parent="Uif-VerticalBoxSection"
-          p:header.render="false" p:style="border:solid 1px black;margin-bottom:0;padding:1em 1em 0.5em 1em;">
+    <!--<bean id="KS-KitchenSink-CollectionActionLinksOnHover-Content" parent="KS-KitchenSink-TabSection" width="99%">-->
+    <bean id="KS-KitchenSink-CollectionActionLinksOnHover-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
+          p:width="99%">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionActionLinksOnHover-Section"/>
