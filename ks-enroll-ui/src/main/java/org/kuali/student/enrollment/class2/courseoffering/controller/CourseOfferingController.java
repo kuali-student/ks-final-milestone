@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -203,8 +204,22 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        //Generate Ids
-        optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
+        // if source term differs from target term determine if add suffix or not
+        if (StringUtils.equals(existingCO.getTermId(), createWrapper.getTargetTermCode())) {
+            optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
+        } else {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.like("courseOfferingCode", existingCO.getCourseOfferingCode() + "%"),
+                    PredicateFactory.equalIgnoreCase("atpId", createWrapper.getTargetTermCode())));
+            QueryByCriteria criteria = qbcBuilder.build();
+            List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
+
+            if (courseOfferingIds.size() > 0) {
+                optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
+            }
+        }
+
         SocRolloverResultItemInfo item = getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),
                 createWrapper.getTerm().getId(),
                 optionKeys,

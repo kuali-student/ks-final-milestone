@@ -316,7 +316,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     if(sourceAo.getScheduleId() != null && !sourceAo.getScheduleId().isEmpty()) {
                         _RCO_rolloverScheduleToScheduleRequest(sourceAo, targetAo, context);
                     } else {
-                        _copyScheduleRequest(sourceAo, targetAo, context);
+                        // only copy the RDLs when the source and target are in the same term
+                        if(StringUtils.equals(targetTermId, sourceCo.getTermId())) {
+                            _copyScheduleRequest(sourceAo, targetAo, context);
+                        }
                     }
                 }
                 _RCO_rolloverSeatpools(sourceAo, targetAo, context);
