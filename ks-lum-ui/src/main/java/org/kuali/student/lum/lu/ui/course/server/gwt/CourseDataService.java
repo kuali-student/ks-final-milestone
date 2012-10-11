@@ -15,11 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
@@ -36,160 +31,179 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class CourseDataService extends AbstractDataService {
 
-	final static Logger LOG = Logger.getLogger(CourseDataService.class);
+    final static Logger LOG = Logger.getLogger(CourseDataService.class);
 
-	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
-	
-	protected CourseService courseService;
-	protected CluService cluService;
+    private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 
-	@Override
-	protected Object get(String id, ContextInfo contextInfo) throws Exception {
-		CourseInfo courseInfo = null;
+    protected CourseService courseService;
+    protected CluService cluService;
 
-		try {
-			courseInfo = courseService.getCourse(id, contextInfo);
-		} catch (DoesNotExistException dne) {
-			LOG.info("Course not found for key " + id + ". Course loaded from proposal instead.");
-		}		
-		
-		return courseInfo; 
-	}
+    @Override
+    protected Object get(String id, ContextInfo contextInfo) throws Exception {
+        CourseInfo courseInfo = null;
 
-	@Override
-	protected Object save(Object dto, Map<String, Object> properties, ContextInfo contextInfo) throws Exception {
-		CourseInfo courseInfo = (CourseInfo)dto;
-		
-		//For retire course we don't want to actually save anything
-        if(CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))){
-            if(courseInfo.getVersionInfo()==null){
+        try {
+            courseInfo = courseService.getCourse(id, contextInfo);
+        } catch (DoesNotExistException dne) {
+            LOG.info("Course not found for key " + id + ". Course loaded from proposal instead.");
+        }
+        //Strip the key prefix from the resultValueKeys
+        String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
+        List<ResultValuesGroupInfo> resultValuesGroups = courseInfo.getCreditOptions();
+        for (int j = 0; j < resultValuesGroups.size(); j++) {
+            List<String> resultValueKeys = resultValuesGroups.get(j).getResultValueKeys();
+            List<String> resultValues = new ArrayList<String>(resultValueKeys.size());
+            for (int i = 0; i < resultValueKeys.size(); i++) {
+                if (resultValueKeys.get(i).contains(resultValueKeyPrefix)) {
+                    resultValues.add(resultValueKeys.get(i).replace(resultValueKeyPrefix, ""));
+                } else {
+                    resultValues.add(resultValueKeys.get(i));
+                }
+            }
+            resultValuesGroups.get(j).setResultValueKeys(resultValues);
+        }
+        return courseInfo;
+    }
+
+    @Override
+    protected Object save(Object dto, Map<String, Object> properties, ContextInfo contextInfo) throws Exception {
+        CourseInfo courseInfo = (CourseInfo) dto;
+
+        //For retire course we don't want to actually save anything
+        if (CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals((String) properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))) {
+            if (courseInfo.getVersionInfo() == null) {
                 courseInfo = (CourseInfo) get(courseInfo.getId(), contextInfo);
-            } 
+            }
             String startTerm = courseInfo.getStartTerm();
-            Map<String,String> proposalAttributes = new HashMap<String,String>();
-            if(startTerm!=null) {
+            Map<String, String> proposalAttributes = new HashMap<String, String>();
+            if (startTerm != null) {
                 proposalAttributes.put("prevStartTerm", startTerm);
             }
-            properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);                             
+            properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
             return courseInfo;
         }
-		
-		//Set derived course fields before saving/updating
-		courseInfo = calculateCourseDerivedFields(courseInfo);
-		
-		if(properties!=null&&(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))||
-				CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals((String)properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE)))){
-			//For Modify Course, see if we need to create a new version instead of create
-			if(courseInfo.getId() == null){
-			    
-			    if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId(), contextInfo)){
-	            	String courseIndId = courseInfo.getVersionInfo().getVersionIndId();
-	            	
-	            	//Get the currentCourse from the service
-	            	VersionDisplayInfo versionInfo =  courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
-	            	CourseInfo originalCourseInfo =  courseService.getCourse(versionInfo.getId(), contextInfo);
-	            	
-			    	//Save the start and end terms from the old version and put into filter properties
-			    	String startTerm = originalCourseInfo.getStartTerm();
-			    	String endTerm = originalCourseInfo.getEndTerm();
-			    	Map<String,String> proposalAttributes = new HashMap<String,String>();
-			    	if(startTerm!=null)
-			    		proposalAttributes.put("prevStartTerm",startTerm);
-			    	if(endTerm!=null)
-			    		proposalAttributes.put("prevEndTerm",endTerm);
-			    	
-			    	properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
-			    	
-			        courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment(), contextInfo);
-			    } else {
-			        throw new OperationFailedException("Error creating new version for course, this course is currently under modification.");
-			    }
-			} else {
-				courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
-			}
-		}else{
-			if (courseInfo.getId() == null){
-				courseInfo = courseService.createCourse(courseInfo, contextInfo);
-			} else {
-				courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
-			}
-		}
-		return courseInfo;
-	}
-	
-	
-	@Override
-	protected List<ValidationResultInfo> validate(Object dto, ContextInfo contextInfo) throws Exception {
-		return courseService.validateCourse("OBJECT", (CourseInfo)dto, contextInfo);
-	}
 
-	@Override
-	protected String getDefaultMetaDataState() {
-		return DEFAULT_METADATA_STATE;
-	}
+        //Set derived course fields before saving/updating
+        courseInfo = calculateCourseDerivedFields(courseInfo);
 
-	@Override
-	protected String getDefaultWorkflowDocumentType() {
-		return CLUConstants.PROPOSAL_TYPE_COURSE_CREATE;
-	}
+        if (properties != null && (CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY.equals((String) properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE)) ||
+                CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN.equals((String) properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE)))) {
+            //For Modify Course, see if we need to create a new version instead of create
+            if (courseInfo.getId() == null) {
 
-	@Override
-	protected boolean checkDocumentLevelPermissions() {
-		return true;
-	}
+                if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId(), contextInfo)) {
+                    String courseIndId = courseInfo.getVersionInfo().getVersionIndId();
 
-	@Override
-	protected Class<?> getDtoClass() {
-		return CourseInfo.class;
-	}
+                    //Get the currentCourse from the service
+                    VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
+                    CourseInfo originalCourseInfo = courseService.getCourse(versionInfo.getId(), contextInfo);
 
-	public void setCourseService(CourseService courseService) {
-		this.courseService = courseService;
-	}
+                    //Save the start and end terms from the old version and put into filter properties
+                    String startTerm = originalCourseInfo.getStartTerm();
+                    String endTerm = originalCourseInfo.getEndTerm();
+                    Map<String, String> proposalAttributes = new HashMap<String, String>();
+                    if (startTerm != null)
+                        proposalAttributes.put("prevStartTerm", startTerm);
+                    if (endTerm != null)
+                        proposalAttributes.put("prevEndTerm", endTerm);
 
-	public void setCluService(CluService cluService) {
+                    properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
+
+                    courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment(), contextInfo);
+                } else {
+                    throw new OperationFailedException("Error creating new version for course, this course is currently under modification.");
+                }
+            } else {
+                courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
+            }
+        } else {
+            if (courseInfo.getId() == null) {
+                courseInfo = courseService.createCourse(courseInfo, contextInfo);
+            } else {
+                courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
+            }
+        }
+        return courseInfo;
+    }
+
+
+    @Override
+    protected List<ValidationResultInfo> validate(Object dto, ContextInfo contextInfo) throws Exception {
+        return courseService.validateCourse("OBJECT", (CourseInfo) dto, contextInfo);
+    }
+
+    @Override
+    protected String getDefaultMetaDataState() {
+        return DEFAULT_METADATA_STATE;
+    }
+
+    @Override
+    protected String getDefaultWorkflowDocumentType() {
+        return CLUConstants.PROPOSAL_TYPE_COURSE_CREATE;
+    }
+
+    @Override
+    protected boolean checkDocumentLevelPermissions() {
+        return true;
+    }
+
+    @Override
+    protected Class<?> getDtoClass() {
+        return CourseInfo.class;
+    }
+
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public void setCluService(CluService cluService) {
         this.cluService = cluService;
     }
 
     /**
-	 * This calculates and sets fields on course object that are derived from other course object fields.
-	 */
-	protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo){
-		//Course code is not populated in UI, need to derive them from the subject area and suffix fields
-		if(StringUtils.hasText(courseInfo.getCourseNumberSuffix()) && StringUtils.hasText(courseInfo.getSubjectArea())){
-			courseInfo.setCode(calculateCourseCode(courseInfo.getSubjectArea(),courseInfo.getCourseNumberSuffix()));
-		}
-		
-		//Derive course code for crosslistings
-		for(CourseCrossListingInfo crossListing:courseInfo.getCrossListings()){
-			 if(StringUtils.hasText(crossListing.getCourseNumberSuffix()) && StringUtils.hasText(crossListing.getSubjectArea())){
-				 crossListing.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));         
-			 }
-		}
-		
-		return courseInfo;
-	}
-	
-	/**
-	 * 
-	 * This method calculates code for course and cross listed course.
-	 * 
-	 * @param subjectArea
-	 * @param suffixNumber
-	 * @return
-	 */
-	private String calculateCourseCode(String subjectArea, String suffixNumber) {
-	    return subjectArea + suffixNumber;
-	}
-	
-	public Boolean isLatestVersion(String versionIndId, ContextInfo contextInfo) throws Exception {
-	    VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndId, contextInfo);
+     * This calculates and sets fields on course object that are derived from other course object fields.
+     */
+    protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo) {
+        //Course code is not populated in UI, need to derive them from the subject area and suffix fields
+        if (StringUtils.hasText(courseInfo.getCourseNumberSuffix()) && StringUtils.hasText(courseInfo.getSubjectArea())) {
+            courseInfo.setCode(calculateCourseCode(courseInfo.getSubjectArea(), courseInfo.getCourseNumberSuffix()));
+        }
+
+        //Derive course code for crosslistings
+        for (CourseCrossListingInfo crossListing : courseInfo.getCrossListings()) {
+            if (StringUtils.hasText(crossListing.getCourseNumberSuffix()) && StringUtils.hasText(crossListing.getSubjectArea())) {
+                crossListing.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));
+            }
+        }
+
+        return courseInfo;
+    }
+
+    /**
+     * This method calculates code for course and cross listed course.
+     *
+     * @param subjectArea
+     * @param suffixNumber
+     * @return
+     */
+    private String calculateCourseCode(String subjectArea, String suffixNumber) {
+        return subjectArea + suffixNumber;
+    }
+
+    public Boolean isLatestVersion(String versionIndId, ContextInfo contextInfo) throws Exception {
+        VersionDisplayInfo currentVersion = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndId, contextInfo);
         //Perform a search to see if there are any new versions of the course that are approved, draft, etc.
         //We don't want to version if there are
         SearchRequest request = new SearchRequest("lu.search.isVersionable");
@@ -202,7 +216,7 @@ public class CourseDataService extends AbstractDataService {
         states.add("Superseded");
         request.addParam("lu.queryParam.luOptionalState", states);
         SearchResult result = cluService.search(request);
-        
+
         String resultString = result.getRows().get(0).getCells().get(0).getValue();
         return "0".equals(resultString);
     }

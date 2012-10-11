@@ -462,11 +462,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         for (AttributeInfo attr : course.getAttributes()){
             if (attr.getKey() != null){
                 if (attr.getKey().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)
-                    && "true".equals(attr.getValue()) ){
+                        && "true".equals(attr.getValue()) ){
                     if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
                         course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
                     }
-                	break;
+                    break;
                 }
             }
         }
@@ -652,10 +652,18 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     //Set the id
                     creditOption.setKey(id);
 
+                    //Ensure the resultValueKey has the proper prefix
+                    String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
+                    for(int i = 0; i < resultValues.size(); i++){
+                        if (!resultValues.get(i).contains("kuali.result.value")){ //only add the prefix if this is not a proper key
+                            resultValues.set(i,resultValueKeyPrefix+Float.parseFloat(resultValues.get(i)));
+                        }
+                    }
+
                     //Create a new result component
                     if(id != null && !resultValueGroupIds.contains(id)){
 
-                        //need to make a fixed degree result type component
+                        //Build the new ResultValuesGroup
                         ResultValuesGroupInfo resultValueGroup = new ResultValuesGroupInfo();
                         resultValueGroup.setKey(id);
                         resultValueGroup.setTypeKey(type);
