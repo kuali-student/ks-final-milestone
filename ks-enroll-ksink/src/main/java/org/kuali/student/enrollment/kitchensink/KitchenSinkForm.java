@@ -32,6 +32,9 @@ public class KitchenSinkForm extends UifFormBase {
 
     private String stringField1;
     private String stringField2;
+    private String stringField3;
+    private String stringField4;
+    private String stringField5;
     private Boolean checkboxSelected;
     private List<String> checkboxSelections;
     private List<KitchenSinkFormCollection1> collection;
@@ -67,6 +70,27 @@ public class KitchenSinkForm extends UifFormBase {
     }
     public void setStringField2(String stringField2) {
         this.stringField2 = stringField2;
+    }
+
+    public String getStringField3() {
+        return stringField3;
+    }
+    public void setStringField3(String stringField3) {
+        this.stringField3 = stringField3;
+    }
+
+    public String getStringField4() {
+        return stringField4;
+    }
+    public void setStringField4(String stringField4) {
+        this.stringField4 = stringField4;
+    }
+
+    public String getStringField5() {
+        return stringField5;
+    }
+    public void setStringField5(String stringField5) {
+        this.stringField5 = stringField5;
     }
 
     public Boolean getCheckboxSelected() {

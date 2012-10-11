@@ -24,9 +24,12 @@
 
     <!-- The Interesting Bits -->
 
+    <!-- Direct Inquiry example -->
+
     <bean parent="Uif-InputField"  id="KS-KitchenSink-LookupOverview-DirectInquiry">
+        <property name="label" value="Direct Inquiry"/>
         <property name="instructionalText"
-                  value="Click the book button to perform an inquiry on TermInfo for ID &quot;19974&quot;"/>
+                  value="Click the book button to perform an inquiry on Terms for ID &quot;19974&quot;"/>
         <property name="propertyName" value="stringField1"/>
         <property name="defaultValue" value="19974"/>
         <property name="inquiry.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
@@ -72,6 +75,62 @@
         </property>
     </bean>
 
+    <!-- Ajax Field Query example -->
+
+    <bean parent="Uif-InputField"  id="KS-KitchenSink-LookupOverview-AjaxQuery">
+        <property name="label" value="Ajax Field Query"/>
+        <property name="instructionalText"
+                  value="Displays additional Term info from an ajax call (tab out of field)"/>
+        <property name="propertyName" value="stringField2"/>
+        <property name="defaultValue" value="20001"/>
+        <property name="propertyNamesForAdditionalDisplay" value="stringField3" />
+        <property name="attributeQuery">
+            <bean parent="Uif-AttributeQueryConfig">
+                <!-- method defined in helper, but can also be a static method -->
+                <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                <property name="queryMethodArgumentFieldList" value="stringField2"/>
+                <property name="returnFieldMapping" value="name:stringField3"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Lookup example -->
+
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-Lookup">
+        <property name="propertyName" value="stringField4"/>
+        <property name="label" value="Basic Lookup"/>
+        <property name="instructionalText" value="Click the search button to perform a Term lookup"/>
+        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+        <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+        <property name="quickfinder.fieldConversions">
+            <map>
+                <entry key="name" value="stringField4"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-LookupOverview-LookupView" parent="KSLookupView">
+        <property name="headerText" value="Term Info Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Term Name"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate" p:label="Term Year"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Name" />
+                <bean parent="Uif-DataField" p:propertyName="startDate" />
+                <bean parent="Uif-DataField" p:propertyName="endDate" />
+                <bean parent="Uif-DataField" p:propertyName="typeKey" p:label="Type Key" />
+                <bean parent="Uif-DataField" p:propertyName="stateKey" p:label="State Key" />
+            </list>
+        </property>
+    </bean>
+
 
 
     <!-- just the various containers for the interesting bits -->
@@ -105,7 +164,6 @@
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-LookupOverview-Section"/>
-                <!--<ref bean="KS-KitchenSink-LookupOverview-AjaxQuery"/>-->
             </list>
         </property>
     </bean>
@@ -131,6 +189,8 @@
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-LookupOverview-DirectInquiry"/>
+                <bean parent="KS-KitchenSink-LookupOverview-AjaxQuery" p:style="margin-top:0.5em;"/>
+                <bean parent="KS-KitchenSink-LookupOverview-Lookup" p:style="margin-top:0.5em;"/>
             </list>
         </property>
     </bean>
@@ -156,6 +216,8 @@
                                     <map>
                                         <entry key="UifFieldDefinitions.xml (Uif-InputField)"
                                                value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                        <entry key="UifLookupDefinitions.xml (Uif-LookupView)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifLookupDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -164,6 +226,8 @@
                                     <map>
                                         <entry key="InputField.java"
                                                value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                        <entry key="LookupView.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/view/LookupView.java"/>
                                     </map>
                                 </property>
                             </bean>
@@ -172,6 +236,8 @@
                                     <map>
                                         <entry key="InputField.html"
                                                value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                        <entry key="LookupView.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/view/LookupView.html"/>
                                     </map>
                                 </property>
                             </bean>

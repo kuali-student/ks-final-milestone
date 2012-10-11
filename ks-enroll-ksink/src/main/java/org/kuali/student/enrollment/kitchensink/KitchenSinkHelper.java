@@ -17,13 +17,21 @@
 package org.kuali.student.enrollment.kitchensink;
 
 import org.hsqldb.lib.StringUtil;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.field.LinkField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
+import javax.xml.namespace.QName;
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -31,6 +39,25 @@ import java.text.MessageFormat;
  * @author Kuali Student Team
  */
 public class KitchenSinkHelper extends ViewHelperServiceImpl {
+
+    private AcademicCalendarService academicCalendarService;
+
+
+    public TermInfo termInfoAjaxQuery(String termId) {
+        TermInfo termInfo = new TermInfo();
+        if (!StringUtil.isEmpty(termId)) {
+            try {
+                termInfo = getAcademicCalendarService().getTerm(termId, getContextInfo());
+            }
+            catch (DoesNotExistException e1) {
+                termInfo.setName("Unknown");
+            }
+            catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return termInfo;
+    }
 
     public void delete(int selectedIndex, KitchenSinkForm form) throws Exception{
         form.getCollection().remove(selectedIndex);
@@ -73,6 +100,20 @@ public class KitchenSinkHelper extends ViewHelperServiceImpl {
         GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.deleteLine", String.valueOf(lineIndex));
 
         super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
+    }
+
+
+
+    private AcademicCalendarService getAcademicCalendarService() {
+        if(academicCalendarService == null) {
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acal", "AcademicCalendarService"));
+        }
+        return academicCalendarService;
+    }
+
+    // TODO - where does context come from?
+    private ContextInfo getContextInfo() {
+        return new ContextInfo();
     }
 
 }

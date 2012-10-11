@@ -38,7 +38,7 @@
         <property name="label" value="Term Name"/>
         <property name="instructionalText" value="Click the search button to perform a lookup; search for &quot;Fall 1997&quot; to see default action. [DOESN'T WORK RIGHT NOW]"/>
         <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-        <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+        <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo-Default"/>
         <property name="quickfinder.fieldConversions">
             <map>
                 <entry key="name" value="stringField1"/>
@@ -46,12 +46,19 @@
         </property>
     </bean>
 
+    <!-- KS-KitchenSink-LookupOverview-LookupView defined in LookupOverview.xml -->
+    <bean id="KS-KitchenSink-LookupDefaultAction-LookupView" parent="KS-KitchenSink-LookupOverview-LookupView">
+        <property name="headerText" value="Term Info Lookup With Default Action" />
+        <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo-Default"/>
+        <!--<property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}"/>-->
+    </bean>
+<!--
     <bean id="KS-KitchenSink-LookupDefaultAction-LookupView" parent="KSLookupView">
         <property name="headerText" value="Term Info Lookup With Default Action" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
         <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
-        <!--<property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}"/>-->
+        <!==<property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}"/>==>
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Term Name"/>
@@ -60,18 +67,19 @@
         </property>
         <property name="resultFields">
             <list>
-                <!--
+                <!==
                 <bean parent="Uif-DataField" p:propertyName="id"/>
                 <bean parent="Uif-DataField" p:propertyName="code"/>
-                -->
+                ==>
                 <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Name" />
-                <!--<bean parent="Uif-DataField" p:propertyName="typeKey" />-->
+                <!==<bean parent="Uif-DataField" p:propertyName="typeKey" />==>
                 <bean parent="Uif-DataField" p:propertyName="startDate" />
                 <bean parent="Uif-DataField" p:propertyName="endDate" />
                 <bean parent="Uif-DataField" p:propertyName="stateKey" p:label="State Key" />
             </list>
         </property>
     </bean>
+-->
 
 
 
