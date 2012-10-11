@@ -5742,8 +5742,8 @@
         ST="ACTIVE"
         TYPE="kuali.lu.type.CreditCourseFormatShell.identifier" VER_NBR="65"/>
     <KSLU_CLU_IDENT CD="591e0bbe-c664-48d3-a943-e0a36d280040"
-        ID="B219CCB82EBA4586BF4DBDCA031AE728" LNG_NAME="Lecture/Quiz"
-        OBJ_ID="4F5FF64926D84E3DADB1AE6050856B16" SHRT_NAME="LC/QZ"
+        ID="B219CCB82EBA4586BF4DBDCA031AE728" LNG_NAME="Lecture/Lab"
+        OBJ_ID="4F5FF64926D84E3DADB1AE6050856B16" SHRT_NAME="LC/LB"
         ST="ACTIVE"
         TYPE="kuali.lu.type.CreditCourseFormatShell.identifier" VER_NBR="56"/>
     <KSLU_CLU_IDENT CD="384a76f3-f81d-4411-a527-45963e694168"
@@ -6060,6 +6060,11 @@
         SHRT_NAME="AP English Literature &amp; Composition" ST="Active"
         SUFX_CD="ENG-LIT-COMP"
         TYPE="kuali.lu.type.test.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="FormatShell"
+        ID="a0e7556e-49a4-4d40-90bd-8eb5b1ce7159" LNG_NAME="Lecture"
+        OBJ_ID="96094f2b-2dbf-4d50-96ad-b53a60b54886" SHRT_NAME="LC"
+        ST="ACTIVE"
+        TYPE="kuali.lu.type.CreditCourseFormatShell.identifier" VER_NBR="56"/>
     <KSLU_CLU_IDENT CD="ACT-WRITING" DIVISION="ACT"
         ID="a1180054-8ec8-4cd6-8631-cef71183d02c" LNG_NAME="ACT Writing"
         LVL="kuali.lu.program.level.UnderGraduate"
