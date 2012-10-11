@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
@@ -592,6 +593,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         return Collections.max(rgCodesUsed) + 1;
     }
+
+
+    private boolean _isValidActivityOfferingPermutation(List<String> activityOfferingPermutation) {
+        // TODO: In M6 determine if we always make an RG or not, in particular, for AOs that are
+        // in the suspended or canceled state.
+        return true;
+    }
+
     public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -629,12 +638,26 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
         // Loop through each set of AO Ids and create a reg group.
         for (List<String> activityOfferingPermutation : regGroupAoIds) {
+            if (!_isValidActivityOfferingPermutation(activityOfferingPermutation)) {
+                continue;
+            }
             String regGroupCode = generator.generateRegistrationGroupCode(fo, aoList, null);
             RegistrationGroupInfo rg = _gRGFC_makeRegGroup(regGroupCode, activityOfferingPermutation, fo, cluster.getId());
 
             try {
                 RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(),
                         LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
+                // Now determine if this registration group is in a valid state
+                List<ValidationResultInfo> validations =
+                    coService.validateRegistrationGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
+                            rgInfo.getActivityOfferingClusterId(), rgInfo.getTypeKey(), rgInfo, contextInfo);
+                for (ValidationResultInfo validation: validations) {
+                    if (validation.isError()) {
+                        // If any validation is an error, then make this invalid
+                        coService.updateRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, contextInfo);
+                        break;
+                    }
+                }
             } catch (DataValidationErrorException e) {
                 throw new OperationFailedException("Failed to validate registration group", e);
             } catch (ReadOnlyException e) {

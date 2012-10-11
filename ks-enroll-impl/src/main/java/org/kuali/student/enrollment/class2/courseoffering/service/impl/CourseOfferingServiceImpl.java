@@ -1995,6 +1995,79 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return false;
     }
 
+    private List<ValidationResultInfo> validateTimeSlots(List<List<String>> listOfTimeSlotIds, List<String> aoIds, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+                   OperationFailedException, PermissionDeniedException {
+        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
+        for (int i = 0; i < listOfTimeSlotIds.size() - 1; i++) {
+            for (int j = i + 1; j < listOfTimeSlotIds.size(); j++) {
+
+                if (_checkTimeSlotsOverlap(listOfTimeSlotIds.get(i), listOfTimeSlotIds.get(j), context)) {
+                    ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                    validationResultInfo.setMessage("time conflict between AO: " + aoIds.get(i) + " and AO: " + aoIds.get(j));
+                    validationResultInfos.add(validationResultInfo);
+                    // Find first overlap and exit this function
+                    return validationResultInfos;
+                }
+            }
+        }
+        return validationResultInfos; // Didn't find overlap so return empty list
+    }
+
+    private Object[] _validateRG2(String validationType, String activityOfferingClusterId, String registrationGroupType,
+                                  RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        List<List<String>> listOfTimeSlotIds = new ArrayList<List<String>>();
+        List<Boolean> usedActualScheduleList = new ArrayList<Boolean>();
+
+        List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
+        for (String aoId: aoIds) {
+            ActivityOfferingInfo aoInfo = getActivityOffering(aoId, context);
+            String scheduleId = aoInfo.getScheduleId();
+            boolean needToCheckScheduleRequest = true;
+            if (scheduleId != null) {
+                // Check if there's a schedule with this ID (might not be)
+                ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, context);
+                if (scheduleInfo != null) {
+                    List<ScheduleComponentInfo> scInfos = scheduleInfo.getScheduleComponents();
+                    List<String> timeSlotIds = new ArrayList<String>();
+                    for (ScheduleComponentInfo compInfo: scInfos) {
+                        timeSlotIds.addAll(compInfo.getTimeSlotIds());
+                    }
+                    listOfTimeSlotIds.add(timeSlotIds);
+                    needToCheckScheduleRequest = false;
+                    usedActualScheduleList.add(Boolean.TRUE);  // Use schedule
+                }
+            }
+            if (needToCheckScheduleRequest) {  // Couldn't find a schedule for this AO
+                // See if there's a schedule request to use instead
+                List<ScheduleRequestInfo> scheduleRequestInfos =
+                        getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoId, context);
+                usedActualScheduleList.add(Boolean.FALSE); // Used schedule request or nothing
+                if (scheduleRequestInfos.isEmpty()) {
+                    // Neither a schedule nor a schedule request is found
+                    listOfTimeSlotIds.add(null);  // May not be needed
+                } else {
+                    // Found schedule requests, so extract out time slots
+                    List<String> timeSlotIds = new ArrayList<String>();
+                    for (ScheduleRequestInfo requestInfo: scheduleRequestInfos) {
+                        // For M5, expected to be only one ScheduleRequestComponentInfo
+                        List<ScheduleRequestComponentInfo> scrInfos = requestInfo.getScheduleRequestComponents();
+                        for (ScheduleRequestComponentInfo reqInfo: scrInfos) {
+                            timeSlotIds.addAll(reqInfo.getTimeSlotIds());
+                        }
+                    }
+                    listOfTimeSlotIds.add(timeSlotIds);
+                }
+            }
+        }
+        Object[] result = new Object[3];
+        result[0] = listOfTimeSlotIds;
+        result[1] = usedActualScheduleList;
+        result[2] = aoIds;
+        return result;
+    }
+
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType,
                                                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
@@ -2987,6 +3060,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         //TODO validation and state lifecylce checks
         LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
+        // TODO: Determine if this lui has AO type--throw exception if not
         lui.setStateKey(nextStateKey);
         try{
             luiService.updateLui(lui.getId(), lui, contextInfo);

@@ -59,11 +59,6 @@ public class RegistrationGroupUtil {
                         return super.equals(obj);  // Put something in to satisfy the interface
                     }
                 });
-        if (!rgInfo.getActivityOfferingIds().get(0).startsWith("23b")) {
-            for (int i = 0; i < 10; i++) {
-                System.err.println(" =========================== NO");
-            }
-        }
         System.err.print("");
     }
 
