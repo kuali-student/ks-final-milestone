@@ -334,16 +334,16 @@
 						<display:column sortable="true" title="${delegatorLabel}"
 							sortProperty="delegatorName" class="infocell">
 							<c:choose>
-								<c:when test="${result.delegatorPerson != null}">
+								<c:when test="${result.delegatorPrincipalId != null && result.delegatorName != null}">
                                     <kul:inquiry boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
-                                        keyValues="principalId=${result.delegatorPerson.principalId}"
+                                        keyValues="principalId=${result.delegatorPrincipalId}"
                                         render="true">
-                                          <c:out value="${result.delegatorPerson.name}" />
+                                          <c:out value="${result.delegatorName}" />
                                     </kul:inquiry>
 								</c:when>
-								<c:when test="${result.delegatorGroup != null}">
-                                    <kul:inquiry boClassName="org.kuali.rice.kim.impl.group.GroupBo" keyValues="id=${result.delegatorGroup.id}" render="true">
-                                        <c:out value="${result.delegatorGroup.name}" />
+								<c:when test="${result.delegatorGroupId != null && result.groupName != null}">
+                                    <kul:inquiry boClassName="org.kuali.rice.kim.impl.group.GroupBo" keyValues="id=${result.delegatorGroupId}" render="true">
+                                        <c:out value="${result.groupName}" />
                                     </kul:inquiry>
 								</c:when>
 								<c:otherwise>
