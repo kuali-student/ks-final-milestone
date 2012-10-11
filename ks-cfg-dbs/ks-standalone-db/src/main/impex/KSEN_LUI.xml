@@ -136,7 +136,7 @@
         CREATETIME="20120613164107"
         ID="04784d94-304b-4dc7-90a7-4ce043236362"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="eb7a5a54-4625-4322-a3e1-bab874e78ba2"
         SCHEDULE_ID="SCHED-333" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -323,7 +323,7 @@
         CREATETIME="20120613164107"
         ID="0b52643d-b3f3-44a3-a562-a9f5418e2e43"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="8ec82e04-6f01-4adb-aee6-91d152d372fb"
         SCHEDULE_ID="SCHED-330" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -565,6 +565,15 @@
         SCHEDULE_ID="SCHED-415" UPDATEID="admin"
         UPDATETIME="20120613164230" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="925d0df1-789e-412a-b614-c24356ff5937" CREATEID="admin"
+        CREATETIME="20121011150933"
+        ID="141a4299-be71-4359-96c3-0be094b20f1b"
+        LUI_STATE="kuali.lui.activity.offering.state.offered"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="10"
+        NAME="CHEM317 AO" OBJ_ID="7bb1d48e-0d24-464f-959a-829f75d44199"
+        SCHEDULE_ID="d4f72d6c-3bdc-4042-b848-85bafcf6c305"
+        UPDATEID="admin" UPDATETIME="20121011151226" VER_NBR="2"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="1d102983-5934-40ae-8afb-4cd059de3676" CREATEID="admin"
         CREATETIME="20120613164508"
         ID="143bcb91-fff3-41bb-bbfe-13d9e8c0ed69"
@@ -631,7 +640,7 @@
         CREATETIME="20120613164107"
         ID="1689fd2f-f4a5-4ed3-9317-c0781b1f4db4"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="72829c81-2113-4121-87c0-52a079dc6551"
         SCHEDULE_ID="SCHED-335" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -1181,7 +1190,7 @@
         CREATETIME="20120613164107"
         ID="2d88a21c-3754-4454-b935-b1b75a5d96d7"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="f3919465-23fa-40d0-9d6f-27756617e4ea"
         SCHEDULE_ID="SCHED-349" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -1253,7 +1262,7 @@
         CREATETIME="20120613164108"
         ID="2f010285-4725-4203-81af-9637b74c0d87"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="7d3e9971-39e9-4c91-afad-e31fab65ee85"
         SCHEDULE_ID="SCHED-326" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -2205,7 +2214,7 @@
         CREATETIME="20120613164108"
         ID="553d6a08-5d15-4fcd-b69f-08bbb753ab33"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="75eb8fae-b5b3-46d7-9669-9ce2c321e6fd"
         SCHEDULE_ID="SCHED-344" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -2268,7 +2277,7 @@
         CREATETIME="20120613164108"
         ID="5753778b-239c-43e8-8459-2b9fc127f52f"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="9dea1c43-209e-424e-8ef6-47e4f35233d5"
         SCHEDULE_ID="SCHED-337" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -2349,7 +2358,7 @@
         CREATETIME="20120613164108"
         ID="5a3b2b44-ce20-48da-a420-e70a8901e9cb"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="94755b4a-5352-4233-b169-29b47128ffbb"
         SCHEDULE_ID="SCHED-343" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -2375,7 +2384,7 @@
         CREATETIME="20120613164108"
         ID="5ba10d68-2b34-4389-8e5b-3ab1c76ab77a"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="ef1aedc9-2223-42c8-a7de-981ce6847456"
         SCHEDULE_ID="SCHED-350" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -2432,6 +2441,15 @@
         MAX_SEATS="40" OBJ_ID="7edc077e-be51-4722-8312-b3aa2bfe6d52"
         SCHEDULE_ID="SCHED-279" UPDATEID="admin"
         UPDATETIME="20120613163903" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20122"
+        CLU_ID="925d0df1-789e-412a-b614-c24356ff5937" CREATEID="admin"
+        CREATETIME="20121011150947"
+        ID="5f28970b-ad4b-4674-9ed1-ca55df957983"
+        LUI_STATE="kuali.lui.activity.offering.state.offered"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="10"
+        NAME="CHEM317 AO" OBJ_ID="e89eeed3-ab79-4d6f-b0ed-80405484de9f"
+        SCHEDULE_ID="50a263eb-e2cf-40cd-8a8c-adedfad54c8d"
+        UPDATEID="admin" UPDATETIME="20121011151106" VER_NBR="2"/>
     <KSEN_LUI ATP_ID="20122"
         CLU_ID="ae543624-7a9c-43c8-9297-9811c8a5a3a9" CREATEID="admin"
         CREATETIME="20120613163554"
@@ -2741,7 +2759,7 @@
         CREATETIME="20120613164108"
         ID="6a69c62b-24a3-41bd-b023-aea0f2c45ce9"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="a72e5d6d-613e-4999-9ddd-a7f32ee2506d"
         SCHEDULE_ID="SCHED-353" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -2896,7 +2914,7 @@
         CREATETIME="20120613164107"
         ID="70fc8e0d-ad1d-4da3-a4f4-b897627b0a5e"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="1cb74e16-cba3-44f7-bf72-4337d268a47d"
         SCHEDULE_ID="SCHED-348" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -3056,7 +3074,7 @@
         CREATETIME="20120613164108"
         ID="76a75e29-c52c-437f-a5d8-c7957356eeca"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="f954d33b-b2de-44c6-bdd4-7ede6c282a20"
         SCHEDULE_ID="SCHED-352" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -3396,7 +3414,7 @@
         CREATETIME="20120613164107"
         ID="820ecde4-be09-424f-860a-fb0cc08eaada"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="21d07f1b-cd05-40ae-bc3a-53a7cb07453d"
         SCHEDULE_ID="SCHED-351" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -3887,6 +3905,14 @@
         MAX_SEATS="20" OBJ_ID="d5c161ee-9caa-4902-80c9-a324f84f2e57"
         SCHEDULE_ID="SCHED-312" UPDATEID="admin"
         UPDATETIME="20120613164301" VER_NBR="0"/>
+    <KSEN_LUI ATP_ID="20123"
+        CLU_ID="9dd0f450-7f93-4110-a340-f9f36f86269c" CREATEID="1"
+        CREATETIME="20121011171322"
+        ID="956b41a2-de25-4572-8bd7-fa958522407a"
+        LUI_STATE="kuali.lui.format.offering.state.planned"
+        LUI_TYPE="kuali.lui.type.course.format.offering" NAME="Lecture"
+        OBJ_ID="323f37af-18de-4cfe-8cae-a1b6c1a1031f" UPDATEID="1"
+        UPDATETIME="20121011171322" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
         CLU_ID="c7863119-9d15-49f0-9e14-f44219c7767a" CREATEID="admin"
         CREATETIME="20120613164434"
@@ -4223,7 +4249,7 @@
         CREATETIME="20120613164108"
         ID="a1cb9e94-a1c7-4808-a824-c20b5ddf41cd"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="8f53ff62-994f-4521-bb57-780105a4d641"
         SCHEDULE_ID="SCHED-340" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -4324,7 +4350,7 @@
         CREATETIME="20120613164108"
         ID="a526d263-2a39-4bdd-877e-c39dd17733aa"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="dedea2b1-97ef-4ba5-9e53-781b136abc10"
         SCHEDULE_ID="SCHED-341" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -4841,7 +4867,7 @@
         CREATETIME="20120613164108"
         ID="bb4dedc4-1437-415b-857b-cf6a6314492d"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="a2af15db-4259-4fc9-b208-a0378100a112"
         SCHEDULE_ID="SCHED-346" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -5310,6 +5336,15 @@
         SCHEDULE_ID="SCHED-203" UPDATEID="admin"
         UPDATETIME="20120613164407" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="925d0df1-789e-412a-b614-c24356ff5937" CREATEID="admin"
+        CREATETIME="20121011150951"
+        ID="cd6e5aaf-faf7-4b90-9128-5f2642f35b24"
+        LUI_STATE="kuali.lui.activity.offering.state.offered"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="10"
+        NAME="CHEM317 AO" OBJ_ID="d844155c-7587-46cb-bef6-04cb0744e813"
+        SCHEDULE_ID="5fd898ee-cda0-4089-97b6-57bbcda1f30f"
+        UPDATEID="admin" UPDATETIME="20121011151031" VER_NBR="2"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="c7863119-9d15-49f0-9e14-f44219c7767a" CREATEID="admin"
         CREATETIME="20120613164434"
         ID="cd88d505-3ef6-4cf1-aa8a-c11b71a44e87"
@@ -5350,7 +5385,7 @@
         CREATETIME="20120613164107"
         ID="cebe7ae1-b793-43c1-9cc9-2ff4c7999087"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="db887a20-0d2c-4358-a511-21df1a22b59a"
         SCHEDULE_ID="SCHED-339" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -5484,7 +5519,7 @@
         CREATETIME="20120613164107"
         ID="d51c936f-9542-4b4e-868a-7a05b07bdff1"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="e9535a02-4d8f-4bc7-a2f2-359d2de5509a"
         SCHEDULE_ID="SCHED-336" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -5546,7 +5581,7 @@
         CREATETIME="20120613164107"
         ID="d90ad85b-74c5-484e-a1b6-a0d009f5112d"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="a23495aa-4a15-495a-bc38-a4bfcf60e9c6"
         SCHEDULE_ID="SCHED-342" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -5685,6 +5720,15 @@
         SCHEDULE_ID="SCHED-240" UPDATEID="admin"
         UPDATETIME="20120613164452" VER_NBR="0"/>
     <KSEN_LUI ATP_ID="20122"
+        CLU_ID="925d0df1-789e-412a-b614-c24356ff5937" CREATEID="admin"
+        CREATETIME="20121011150942"
+        ID="dd9e278f-d8ec-4c46-b6cb-e186caff1b64"
+        LUI_STATE="kuali.lui.activity.offering.state.offered"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="10"
+        NAME="CHEM317 AO" OBJ_ID="da3a586f-3c81-49fa-9ae5-2576c6048148"
+        SCHEDULE_ID="6b95b94d-6635-4e05-81ac-91c53e26caaa"
+        UPDATEID="admin" UPDATETIME="20121011151140" VER_NBR="2"/>
+    <KSEN_LUI ATP_ID="20122"
         CLU_ID="aafd5118-f8a7-49eb-9034-c411fd64be99" CREATEID="admin"
         CREATETIME="20120613163903"
         DESCR_FORMATTED="Relationships between literature and other arts, such as painting, photography, architecture, and music, or between literature and other disciplines, such as science. Content varies."
@@ -5750,7 +5794,7 @@
         CREATETIME="20120613164108"
         ID="e1ffc59e-1985-4d7e-87ee-f3b95c8eeec1"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="8e411c92-6651-47f3-bdbe-78eceaa49cd9"
         SCHEDULE_ID="SCHED-334" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -5981,7 +6025,7 @@
         CREATETIME="20120613164107"
         ID="ed4cd24f-106a-47cf-b7ba-bd77860c0706"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="73a3ffa0-68e3-474f-9d41-6ab17ac1b499"
         SCHEDULE_ID="SCHED-345" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -5990,7 +6034,7 @@
         CREATETIME="20120613164107"
         ID="edd58ef2-0973-4a62-bcef-b9c57e162394"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="f6b23beb-161b-4051-8667-6eb4d3b14013"
         SCHEDULE_ID="SCHED-329" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -6109,7 +6153,7 @@
         CREATETIME="20120613164107"
         ID="f12fe047-f16d-41bc-8a9b-4d8bf1e3b92f"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="c7794a09-df74-4e45-b979-0c8b2a215648"
         SCHEDULE_ID="SCHED-347" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -6163,7 +6207,7 @@
         CREATETIME="20120613164107"
         ID="f3218d58-0487-443a-a7a3-346cbe0c1790"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="2ad27f75-4ca3-41e8-b99a-8af6beaa7104"
         SCHEDULE_ID="SCHED-332" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -6181,7 +6225,7 @@
         CREATETIME="20120613164108"
         ID="f3a08c23-4016-45f5-9c72-a5d87c6222f9"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="4b6b5087-8fb8-48cf-a689-9c8bdaa301a9"
         SCHEDULE_ID="SCHED-327" UPDATEID="admin"
         UPDATETIME="20120613164108" VER_NBR="0"/>
@@ -6253,7 +6297,7 @@
         CREATETIME="20120613164107"
         ID="f5fc4d40-60bb-491f-bb21-46ad9b5e3094"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="a7944553-b8be-4e5b-abf6-441eb31fed59"
         SCHEDULE_ID="SCHED-338" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>
@@ -6385,7 +6429,7 @@
         CREATETIME="20120613164107"
         ID="f96f82c4-f71c-4f13-a2f3-5509ddbd1866"
         LUI_STATE="kuali.lui.activity.offering.state.offered"
-        LUI_TYPE="kuali.lui.type.activity.offering.quiz" MAX_SEATS="24"
+        LUI_TYPE="kuali.lui.type.activity.offering.lab" MAX_SEATS="24"
         OBJ_ID="97b59299-27b5-4d4e-a84b-86bffcb13942"
         SCHEDULE_ID="SCHED-328" UPDATEID="admin"
         UPDATETIME="20120613164107" VER_NBR="0"/>

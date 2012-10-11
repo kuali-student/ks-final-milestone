@@ -431,6 +431,15 @@
         LUI_ID="99d2e788-bc46-4242-a0a4-406b4b2b620f"
         OBJ_ID="9fd6e2bd-6ad8-479c-9ce1-9a150a08669c" PERS_ID="A.ERIKL" VER_NBR="0"/>
     <KSEN_LPR COMMIT_PERCT="100" CREATEID="admin"
+        CREATETIME="20121011150947" EFF_DT="20121011151107"
+        ID="1844d2ba-c034-4def-8a2b-5d0773085d17"
+        LPR_STATE="kuali.lpr.state.tentative"
+        LPR_TYPE="kuali.lpr.type.instructor.main"
+        LUI_ID="5f28970b-ad4b-4674-9ed1-ca55df957983"
+        OBJ_ID="bcd5b497-3f41-4bf2-88c5-fd109bc83c12"
+        PERS_ID="A.KIMBERLYD" UPDATEID="admin"
+        UPDATETIME="20121011151106" VER_NBR="2"/>
+    <KSEN_LPR COMMIT_PERCT="100" CREATEID="admin"
         CREATETIME="20120914140446" EFF_DT="20120914140446"
         ID="18bd70c2-dd83-4fec-8433-1c8b4f22ffde"
         LPR_STATE="kuali.lpr.state.tentative"
@@ -824,6 +833,14 @@
         LUI_ID="13c7e3f7-36ae-4ff8-b2be-9e55c1bab025"
         OBJ_ID="f682aff4-a6b8-4404-9a65-c2b9005795fe"
         PERS_ID="B.ALYSSAG" VER_NBR="0"/>
+    <KSEN_LPR COMMIT_PERCT="100" CREATEID="admin"
+        CREATETIME="20121011150933" EFF_DT="20121011151226"
+        ID="34d50611-03cd-4786-8194-d5d9d907898b"
+        LPR_STATE="kuali.lpr.state.tentative"
+        LPR_TYPE="kuali.lpr.type.instructor.main"
+        LUI_ID="141a4299-be71-4359-96c3-0be094b20f1b"
+        OBJ_ID="4e06c76c-32b4-426d-bf14-959d0ec7462a"
+        PERS_ID="B.NICOLEG" UPDATEID="admin" UPDATETIME="20121011151226" VER_NBR="2"/>
     <KSEN_LPR COMMIT_PERCT="100" CREATEID="admin"
         CREATETIME="20120914140446" EFF_DT="20120914140446"
         ID="355392ec-c998-43c2-bf96-dfb7b0c042e5"
@@ -1510,6 +1527,14 @@
         LPR_TYPE="kuali.lpr.type.instructor.main"
         LUI_ID="762f082a-655b-479c-ac37-80b45240b42f"
         OBJ_ID="9948dec1-586d-4b2c-b6ba-19fdcaad1bb5" PERS_ID="A.IRAL" VER_NBR="0"/>
+    <KSEN_LPR COMMIT_PERCT="100" CREATEID="admin"
+        CREATETIME="20121011150942" EFF_DT="20121011151140"
+        ID="6c0d5b9b-9f8a-4eb4-aaae-c5882e88ef22"
+        LPR_STATE="kuali.lpr.state.tentative"
+        LPR_TYPE="kuali.lpr.type.instructor.main"
+        LUI_ID="dd9e278f-d8ec-4c46-b6cb-e186caff1b64"
+        OBJ_ID="6c45d0d6-beb4-4aef-805b-b22d35f101f6"
+        PERS_ID="B.POSADAG" UPDATEID="admin" UPDATETIME="20121011151140" VER_NBR="2"/>
     <KSEN_LPR COMMIT_PERCT="100" CREATEID="admin"
         CREATETIME="20120914140446" EFF_DT="20120914140446"
         ID="6c379843-75ce-434f-b8d5-4c2d7f7b6a99"
@@ -2921,6 +2946,15 @@
         LUI_ID="1d5c31da-d190-4e2e-9697-f475d768273e"
         OBJ_ID="cc805086-3ad7-4eaa-9d8d-f1d0f23947ac"
         PERS_ID="B.MICHELEG" VER_NBR="0"/>
+    <KSEN_LPR COMMIT_PERCT="100" CREATEID="admin"
+        CREATETIME="20121011150951" EFF_DT="20121011151032"
+        ID="cd88ea1a-92bf-451b-a1db-c53edccd5827"
+        LPR_STATE="kuali.lpr.state.tentative"
+        LPR_TYPE="kuali.lpr.type.instructor.main"
+        LUI_ID="cd6e5aaf-faf7-4b90-9128-5f2642f35b24"
+        OBJ_ID="65d83db9-15b5-477d-b255-f6ba92f44135"
+        PERS_ID="B.CYNTHIAP" UPDATEID="admin"
+        UPDATETIME="20121011151031" VER_NBR="2"/>
     <KSEN_LPR COMMIT_PERCT="100" CREATEID="admin"
         CREATETIME="20120914140446" EFF_DT="20120914140446"
         ID="cf3a71a1-108e-4e4f-97e4-2cc14be5ba32"
