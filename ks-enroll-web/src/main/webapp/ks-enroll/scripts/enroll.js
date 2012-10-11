@@ -16,6 +16,36 @@ writeMessagesForPage = function() {
     jQuery(".uif-errorMessageItem > div").show();
 }
 
+function removeSelfFromDropdowns(headerTextNameContainerId) {
+    jQuery('select[name=clusterIdForAOMove]').each(function () {
+        var dropdownId = jQuery(this).attr('id');
+        var lineIndex = dropdownId.indexOf('_line');
+        var controlIndex = dropdownId.indexOf('_control');
+        var postFix = '';
+        if (lineIndex > -1) {
+            if (controlIndex > -1) {
+                postfix = dropdownId.substring(lineIndex, controlIndex);
+            } else {
+                postfix = dropdownId.substring(lineIndex);
+            }
+        }
+        var headerContainer = headerTextNameContainerId + postfix;
+        var headerText = jQuery("#" + headerContainer).find("label").text();
+        var braketIndex = headerText.indexOf('(');
+        if (braketIndex > -1) {
+            headerText = headerText.substring(0, braketIndex);
+        }
+
+        jQuery("#" + dropdownId + " > option").each(function (i) {
+            var optionText = jQuery.trim(jQuery.trim(jQuery(this).text()));
+            headerText = jQuery.trim(headerText);
+            if (headerText == optionText) {
+                jQuery(this).remove();
+            }
+        });
+    });
+}
+
 /*
 function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
     if(jqObject && collectionGroupId){
