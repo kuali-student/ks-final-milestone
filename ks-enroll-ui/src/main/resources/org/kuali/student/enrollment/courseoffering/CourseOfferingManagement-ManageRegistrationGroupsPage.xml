@@ -223,10 +223,10 @@
 
 
     <bean id="KS-ManageRegistrationGroupPage-ClusterForFormat" parent="Uif-HorizontalBoxSection" p:render="@{hasAOCluster}">
-        <property name="headerText" value="Assign selected offerings to" />
+
         <property name="items">
             <list>
-                <bean id="KS-ManageRegistrationGroupPage-ClusterForFormat" parent="Uif-InputField" p:propertyName="clusterIdIdForNewFO"  p:fieldLabel.render="false" >
+                <bean id="KS-ManageRegistrationGroupPage-ClusterForFormat" parent="Uif-InputField" p:propertyName="clusterIdIdForNewFO"  p:label="Assign selected offerings to" p:labelPlacement="TOP" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -234,7 +234,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Assign" p:methodToCall="moveAOToACluster"  p:id="move_ao_button"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Assign" p:methodToCall="moveAOToACluster"  p:id="move_ao_button" p:style="margin-top: 18px;"/>
             </list>
         </property>
     </bean>
@@ -340,7 +340,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createNewCluster"  p:style="margin-top:17px;"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Create Cluster" p:methodToCall="createNewCluster"  p:style="margin-top:18px;"/>
 
             </list>
         </property>
@@ -467,7 +467,7 @@
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Move" p:methodToCall="moveAOBetweenClusters" p:id="move_ao_button" p:valign="BOTTOM" p:align="right" p:style="margin-top:17px;"/>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Move" p:methodToCall="moveAOBetweenClusters" p:id="move_ao_button" p:valign="BOTTOM" p:align="right" p:style="margin-top:18px;"/>
                     </list>
                 </property>
             </bean>

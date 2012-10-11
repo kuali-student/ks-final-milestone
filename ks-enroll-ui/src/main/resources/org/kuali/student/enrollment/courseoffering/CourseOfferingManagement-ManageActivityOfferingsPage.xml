@@ -78,7 +78,7 @@
                                     <bean parent="Uif-TextControl" p:size="3"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addActivityOfferings"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addActivityOfferings" p:style="margin-top: 18px;"/>
                         </list>
                     </property>
                 </bean>
@@ -207,7 +207,7 @@
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingActionsKeyValues"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedAoActions"/>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedAoActions" p:style="margin-top: 18px;"/>
                     </list>
                 </property>
             </bean>
