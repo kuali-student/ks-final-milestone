@@ -407,14 +407,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, theClusterWrapper.getAoWrapperList());
         theClusterWrapper.setRgWrapperList(filteredRGs);
         if (rgInfos.size() > 0) {
-            theClusterWrapper.setRgStatus("All Registration Groups Generated");
+            theClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
             theClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
             theClusterWrapper.setHasAllRegGroups(true);
             // perform max enrollment validation
             _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theClusterWrapper.getAoCluster(), new Integer(selectedClusterIndex).intValue());
             //validate AO time conflict in RG
             List<Integer> rgIndexList = _performRGTimeConflictValidation(theClusterWrapper.getAoCluster(), rgInfos, new Integer(selectedClusterIndex).intValue());
-
         }
 
         //finally, move selected AO from AO table under selected Cluster to the unassigned table
@@ -446,7 +445,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 }
                 theForm.setFilteredUnassignedAOsForSelectedFO(unassignedAOs);
                 //then delete the selected cluster
-//                getCourseOfferingService().deleteActivityOfferingCluster(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
                 getCourseOfferingService().deleteActivityOfferingClusterCascaded(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
                 List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
                 aoClusterWrapperList.remove(selectedCluster);
@@ -474,7 +472,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
         theForm.setFilteredUnassignedAOsForSelectedFO(unassignedAOs);
         //then delete the selected cluster
-//        getCourseOfferingService().deleteActivityOfferingCluster(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
         getCourseOfferingService().deleteActivityOfferingClusterCascaded(selectedCluster.getActivityOfferingClusterId(), getContextInfo());
         List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
         aoClusterWrapperList.remove(selectedCluster);
@@ -549,7 +546,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 List<RegistrationGroupWrapper> rgWrapperListPerCluster = _getRGsForSelectedFO(rgInfos, selectedClusterWrapper.getAoWrapperList());
                 selectedClusterWrapper.setRgWrapperList(rgWrapperListPerCluster);
                 selectedClusterWrapper.setHasAllRegGroups(true);
-                selectedClusterWrapper.setRgStatus("All Registration Groups Generated");
+                selectedClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
                 selectedClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
             }
         } else {
@@ -599,7 +596,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     List<RegistrationGroupWrapper> rgWrapperListPerCluster = _getRGsForSelectedFO(rgInfos, theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgWrapperList(rgWrapperListPerCluster);
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(true);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("All Registration Groups Generated");
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
                 }
             }
@@ -746,7 +743,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(updatedSelectedAOCInfo.getId(), getContextInfo());
                 if (rgInfos.size() > 0) {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("Only Some Registration Groups Generated");
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_SOME_RG_GENERATED);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_PARTIAL);
                 }
             }
@@ -899,7 +896,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 //if there are RGS belonging to updatedSelectedAOCInfoTo - set RG status (logic in RegistrationGroupInfo)
                 if (rgInfos.size() > 0) {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("Only Some Registration Groups Generated");
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_SOME_RG_GENERATED);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_PARTIAL);
                 }
             }
@@ -912,14 +909,14 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 //if there are RGS belonging to updatedSelectedAOCInfoFrom - set RG status (logic in RegistrationGroupInfo)
                 if (rgInfos.size() > 0) {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(true);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("All Registration Groups Generated");
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
                     //update theForm with RGs belonging to updatedSelectedAOCInfoFrom
                     List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgWrapperList(filteredRGs);
                 } else {
                     theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus("No Registration Groups Generated");
+                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_NO_RG_GENERATED);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_NONE);
                 }
             }
@@ -1032,7 +1029,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             rgListPerCluster= _getRGsForSelectedFO(rgInfos, aoWrapperListPerCluster);
         } else {
             aoClusterWrapper.setHasAllRegGroups(false);
-            aoClusterWrapper.setRgStatus("No Registration Groups Generated");
+            aoClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_NO_RG_GENERATED);
             aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_NONE);
         }
         aoClusterWrapper.setRgWrapperList(rgListPerCluster);
@@ -1080,12 +1077,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
         if (generatedPermutations.size() != foundList.size() )  {
-            aoClusterWrapper.setRgStatus("Only Some Registration Groups Generated");
+            aoClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_SOME_RG_GENERATED);
             aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_PARTIAL);
             aoClusterWrapper.setHasAllRegGroups(false);
         }
         else {
-            aoClusterWrapper.setRgStatus("All Registration Groups Generated");
+            aoClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
             aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
             aoClusterWrapper.setHasAllRegGroups(true);
             // perform max enrollment validation
