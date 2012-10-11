@@ -66,6 +66,10 @@
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.max.enrollment.is.estimate"
         ATTR_VALUE="null" ID="01daa423-c5ca-4c5b-9005-98425e7c9819"
         OBJ_ID="f3d0be8f-557b-4753-b1e2-f55f8005c20b" OWNER_ID="af5ea8be-2217-4c29-ae07-6c3948e4073f"/>
+    <KSEN_LUI_ATTR
+        ATTR_KEY="kuali.attribute.course.evaluation.indicator"
+        ATTR_VALUE="false" ID="02147bad-9cf0-41ef-8103-7918b6e2fadc"
+        OBJ_ID="379e4b64-c4a2-4104-a8b9-8ddc37da44f3" OWNER_ID="cd6e5aaf-faf7-4b90-9128-5f2642f35b24"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.wait.list.indicator"
         ATTR_VALUE="false" ID="0288ed00-6b68-4c05-978b-26b59301722e"
         OBJ_ID="77a2717b-01a3-4546-9734-9e98beb64f7c" OWNER_ID="10a5a625-6115-4ce3-aa10-1213b7565868"/>
@@ -405,6 +409,10 @@
         ATTR_KEY="kuali.attribute.course.evaluation.indicator"
         ATTR_VALUE="null" ID="0cc36a99-a189-45fb-84ca-4699fcb903de"
         OBJ_ID="82a27a70-3c2b-46cd-84aa-abbf6c516581" OWNER_ID="34244daa-24ce-41c0-9738-d0baf7503b8e"/>
+    <KSEN_LUI_ATTR
+        ATTR_KEY="kuali.attribute.course.evaluation.indicator"
+        ATTR_VALUE="false" ID="0cc8dcf3-b343-4c1e-a20a-d4ae8dabfd5b"
+        OBJ_ID="e1f2ef81-6ff0-4eac-8277-8fe874a13bdf" OWNER_ID="141a4299-be71-4359-96c3-0be094b20f1b"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.where.fees.attached.flag"
         ATTR_VALUE="false" ID="0d175bcc-ded6-4e60-ac0e-bef6fa32c1ef"
         OBJ_ID="2a2abe56-e38a-4002-b5be-ea5f6a02e4e4" OWNER_ID="fa30d878-856f-4401-9c19-5dcb8dbcab94"/>
@@ -2513,6 +2521,9 @@
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.wait.list.indicator"
         ATTR_VALUE="false" ID="4e079be7-aa7b-44e6-90a2-0c937afa05ff"
         OBJ_ID="66be7a2b-0097-4db8-bdfc-a53ce7c88840" OWNER_ID="92791909-93fd-442c-b7e0-32ceea2bb996"/>
+    <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.max.enrollment.is.estimate"
+        ATTR_VALUE="false" ID="4e32cd21-3eda-4caa-9bc2-d0077c2836ad"
+        OBJ_ID="d590327b-857e-451c-8add-17c8eb548198" OWNER_ID="141a4299-be71-4359-96c3-0be094b20f1b"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.final.exam.indicator"
         ATTR_VALUE="NONE" ID="4e49ca6b-0842-4197-bb8e-391bc85dfe71"
         OBJ_ID="1d09ead0-25c2-4903-824f-6ffcf235cb19" OWNER_ID="55e09de1-5d85-4e15-bb91-982510c0b183"/>
@@ -2786,6 +2797,9 @@
         ATTR_VALUE="kuali.lu.type.activity.Lecture"
         ID="57b12668-868a-4876-a5c3-9d1c65d5997a"
         OBJ_ID="9ba04553-f711-4718-8eed-0acfdf7de16f" OWNER_ID="2bdc4861-dd1e-4de5-ae9a-f900a2d3e0b2"/>
+    <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.max.enrollment.is.estimate"
+        ATTR_VALUE="false" ID="57b9d0ad-2e83-4e7c-b0db-529c64c88be9"
+        OBJ_ID="68943b76-6cb6-4902-8918-3f557704a4f3" OWNER_ID="dd9e278f-d8ec-4c46-b6cb-e186caff1b64"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.max.enrollment.is.estimate"
         ATTR_VALUE="null" ID="57cd271f-c9c7-4758-a3b2-11afe3a76438"
         OBJ_ID="0693522b-a9d2-4e63-99e2-393be8d5ee89" OWNER_ID="0eb3f35e-a183-481f-90e3-fc4b3f66cb92"/>
@@ -4397,6 +4411,10 @@
         ATTR_VALUE="COURSE_OFFERING"
         ID="88210033-5588-4e8f-bcf1-4fc89bc17fc6"
         OBJ_ID="eb970d3c-e2b7-47e4-b8d6-fb18353544cc" OWNER_ID="0c524f05-bd9b-4f5b-a4cc-ca1d38993df7"/>
+    <KSEN_LUI_ATTR
+        ATTR_KEY="kuali.attribute.course.evaluation.indicator"
+        ATTR_VALUE="false" ID="88270ab4-cd75-467f-8bd6-65a044c70914"
+        OBJ_ID="50cf06fd-9eaa-490b-af6c-4972e4b2227e" OWNER_ID="5f28970b-ad4b-4674-9ed1-ca55df957983"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.wait.list.indicator"
         ATTR_VALUE="false" ID="88271e7a-53ad-404d-be3d-16d4fc9c73bb"
         OBJ_ID="a3eba80d-e75a-49f3-9612-6b39e3bec20c" OWNER_ID="17dc5941-bb0d-47e3-85d4-a23b94ee5cbf"/>
@@ -6198,6 +6216,10 @@
         OBJ_ID="75fe8c08-7f89-4217-8c4c-61884d155179" OWNER_ID="68927249-9052-482c-b6e0-2bc6fbe83fdf"/>
     <KSEN_LUI_ATTR
         ATTR_KEY="kuali.attribute.course.evaluation.indicator"
+        ATTR_VALUE="false" ID="c0a39d37-aef3-4c0b-8e82-bec4a13d67dd"
+        OBJ_ID="46a525ba-0461-4c05-adb8-f6c81448c159" OWNER_ID="dd9e278f-d8ec-4c46-b6cb-e186caff1b64"/>
+    <KSEN_LUI_ATTR
+        ATTR_KEY="kuali.attribute.course.evaluation.indicator"
         ATTR_VALUE="null" ID="c0abda95-84a4-4f34-8586-650677fac9ee"
         OBJ_ID="7f5885a4-0cf8-4825-85e7-f7ee264a72d1" OWNER_ID="52db8718-7932-45ad-9a8a-3ce1146a35d7"/>
     <KSEN_LUI_ATTR ATTR_KEY="dummy attr key" ATTR_VALUE="test attribute"
@@ -6872,6 +6894,9 @@
         ATTR_VALUE="true" ID="dbd1f39c-d4e8-43db-9bbf-5a0d78e87be2"
         OBJ_ID="244e7cc4-1405-4e57-a82f-9ae6fca97ab9" OWNER_ID="a4d92456-fdc7-4bb0-8539-d4b51bf1631a"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.max.enrollment.is.estimate"
+        ATTR_VALUE="false" ID="dc1ce53e-1a2e-47bd-aba5-8c09b75266dd"
+        OBJ_ID="474ecb07-65af-471a-b064-6dc8eb06b150" OWNER_ID="5f28970b-ad4b-4674-9ed1-ca55df957983"/>
+    <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.max.enrollment.is.estimate"
         ATTR_VALUE="null" ID="dc599ca9-a113-442c-b4bf-1ca2f07fed2a"
         OBJ_ID="1797dc4e-f860-473a-8c79-1c95c5e04694" OWNER_ID="4a1710f1-8a6b-49ee-a395-d70387cc2793"/>
     <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.wait.list.level.type.key"
@@ -7544,6 +7569,9 @@
         ATTR_KEY="kuali.attribute.course.evaluation.indicator"
         ATTR_VALUE="null" ID="eeffe9e3-4968-4ce8-8751-24dfbe73091c"
         OBJ_ID="dfc06536-026a-4466-b0e0-957219cb2689" OWNER_ID="0f5f0ea9-cae4-40b2-9344-f0a1a422fb47"/>
+    <KSEN_LUI_ATTR ATTR_KEY="kuali.attribute.max.enrollment.is.estimate"
+        ATTR_VALUE="false" ID="ef053cdb-61a1-49ae-b833-e2ef6e32737f"
+        OBJ_ID="04310fb8-3b67-4b03-be35-637eced96b11" OWNER_ID="cd6e5aaf-faf7-4b90-9128-5f2642f35b24"/>
     <KSEN_LUI_ATTR
         ATTR_KEY="kuali.attribute.course.evaluation.indicator"
         ATTR_VALUE="null" ID="ef25cf16-742e-4328-aaea-39e4ea6faace"
