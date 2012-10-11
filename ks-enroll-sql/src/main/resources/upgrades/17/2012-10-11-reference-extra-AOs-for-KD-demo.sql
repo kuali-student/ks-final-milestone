@@ -102,7 +102,8 @@ FROM
     KSEN_LUI_RELATED_LUI_TYPES
 WHERE
     RELATED_LUI_TYPE='kuali.lui.type.activity.offering.quiz'
-AND LUI_ID='e08c6623-4eee-42b5-a7bd-bcf3cb836991'/
+AND LUI_ID='e08c6623-4eee-42b5-a7bd-bcf3cb836991'
+/
 INSERT
 INTO
     KSEN_LUI_RELATED_LUI_TYPES
