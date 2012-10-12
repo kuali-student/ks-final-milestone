@@ -22,6 +22,7 @@
                 <value>ks-enroll-ksink/scripts/kitchensink.js</value>
             </list>
         </property>
+        <property name="onSubmitScript" value="alert('form submit canceled');return false;"/>
     </bean>
 
     <bean id="KS-KitchenSink-FormView-Bare" parent="KS-KitchenSink-FormView" abstract="true">
