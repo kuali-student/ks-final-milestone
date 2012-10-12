@@ -234,7 +234,7 @@ public class MetadataServiceImpl {
                 metadata.setCanUnmask(!fd.isMask());
                 metadata.setCanView(!fd.isHide());
                 metadata.setDynamic(fd.isDynamic());
-                metadata.setLabelKey(fd.getLabelKey());
+                metadata.setLabelKey(fd.getMessageKey());
                 metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));
                 metadata.setDefaultValuePath(fd.getDefaultValuePath());
                 
@@ -398,7 +398,7 @@ public class MetadataServiceImpl {
 
         if (constraint.getValidChars() != null) {
             constraintMetadata.setValidChars(constraint.getValidChars().getValue());
-            constraintMetadata.setValidCharsMessageId(constraint.getValidChars().getLabelKey());
+            constraintMetadata.setValidCharsMessageId(constraint.getValidChars().getMessageKey());
         }
 
         // Case constraints

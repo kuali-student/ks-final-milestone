@@ -362,7 +362,7 @@ public class DictionaryFormatter
 
  private String calcValidChars (ValidCharsConstraint cons)
  {
-  String labelKey = cons.getLabelKey ();
+  String labelKey = cons.getMessageKey();
   if (labelKey == null)
   {
    labelKey = "validation.validChars";

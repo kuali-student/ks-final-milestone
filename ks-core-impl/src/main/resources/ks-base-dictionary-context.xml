@@ -22,11 +22,11 @@
 
     <bean id="alphanumericHyphenPeriod" parent="ValidCharDefinition">
         <property name="value" value="regex:[A-Za-z0-9.\-]*" />
-        <property name="labelKey" value="validation.validChars.alphanumericHyphenPeriod"/>
+        <property name="messageKey" value="validation.validChars.alphanumericHyphenPeriod"/>
     </bean>
     <bean id="digits" parent="ValidCharDefinition">
         <property name="value" value="regex:[0-9]*"/>
-        <property name="labelKey" value="validation.validChars.digits"/>
+        <property name="messageKey" value="validation.validChars.digits"/>
     </bean>
     <bean id="numeric" parent="ValidCharDefinition">
         <!--
@@ -37,33 +37,33 @@
          It does not allow for embedded commas so 200,000 is not valid but 200000 is
         -->
         <property name="value" value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$"/>
-        <property name="labelKey" value="validation.validChars.numeric"/>
+        <property name="messageKey" value="validation.validChars.numeric"/>
     </bean>
     <bean id="numeric.range" parent="ValidCharDefinition">
         <!--
          same as numeric above but allows for a 2nd number separated by a hyphen
         -->
         <property name="value" value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
-        <property name="labelKey" value="validation.validChars.numeric.range"/>
+        <property name="messageKey" value="validation.validChars.numeric.range"/>
     </bean>
     <bean id="positive.numeric.range" parent="ValidCharDefinition">
         <!--
          same as numeric above but allows for a 2nd number separated by a hyphen
         -->
         <property name="value" value="regex:^([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
-        <property name="labelKey" value="validation.validChars.positive.numeric.range"/>
+        <property name="messageKey" value="validation.validChars.positive.numeric.range"/>
     </bean>
     <bean id="gpa4.0" parent="ValidCharDefinition">
         <property name="value" value="regex:[0-4]\.[0-9]"/>
-        <property name="labelKey" value="validation.validChars.gpa9.9"/>
+        <property name="messageKey" value="validation.validChars.gpa9.9"/>
     </bean>
     <bean id="positive.integer" parent="ValidCharDefinition">
         <property name="value" value="regex:[1-9][0-9]*"/>
-        <property name="labelKey" value="validation.validChars.positive.integer"/>
+        <property name="messageKey" value="validation.validChars.positive.integer"/>
     </bean>
     <bean id="relationalOperator" parent="ValidCharDefinition">
         <property name="value" value="regex:\&lt;|=|\&lt;=|\&gt;|\&gt;=|&lt;&gt;"/>
-        <property name="labelKey" value="validation.validChars.relationalOperator"/>
+        <property name="messageKey" value="validation.validChars.relationalOperator"/>
     </bean>
     <bean id="alpha" parent="ValidCharDefinition">
         <property name="value" value="regex:[A-Za-z]*"/>
