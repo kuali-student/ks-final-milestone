@@ -123,7 +123,11 @@ public class ProcessInfoController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        //RICE22M4 form.setValidateDirty(false);
+        if (form.getView() != null){
+            form.getView().setApplyDirtyCheck(false);
+        } else if (form.getPostedView() != null){
+            form.getView().setApplyDirtyCheck(false);
+        }
         GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
         form.setIsSaveSuccess(true);
 
