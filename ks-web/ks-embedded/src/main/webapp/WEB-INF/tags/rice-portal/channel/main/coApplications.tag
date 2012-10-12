@@ -1,6 +1,6 @@
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Course Offering Applications" />
+<channel:portalChannelTop channelTitle="Course Offering Sandbox" />
 <div class="body">
     <strong>Course Offering</strong>
     <ul class="chan">
