@@ -114,6 +114,11 @@
         NMSPC_CD="KS-SYS" OBJ_ID="28F89BDFF2F84DB99845E0E7458C5A17"
         ROLE_ID="10021" ROLE_NM="Completed Adhoc FYI Request Recipient" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
+        DESC_TXT="This role is used for no login guest users."
+        KIM_TYP_ID="1" LAST_UPDT_DT="20121012165847" NMSPC_CD="KUALI"
+        OBJ_ID="CBE093609BC7F885E040720A048323D9" ROLE_ID="101"
+        ROLE_NM="GuestRole" VER_NBR="1"/>
+    <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with that have received an action request for a given document."
         KIM_TYP_ID="42" LAST_UPDT_DT="20081114141017"
         NMSPC_CD="KR-WKFLW" OBJ_ID="5BABFACC4F62A8EEE0404F8189D8770F"
@@ -253,8 +258,8 @@
         ROLE_NM="Initiator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Route Document permission for a given document type."
-        KIM_TYP_ID="139" LAST_UPDT_DT="20121011231927"
-        NMSPC_CD="KR-WKFLW" OBJ_ID="CBD1C1F16439A057E040720A04834BAA"
+        KIM_TYP_ID="139" LAST_UPDT_DT="20121012165845"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="CBE093609BB7F885E040720A048323D9"
         ROLE_ID="936" ROLE_NM="Document Router" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
