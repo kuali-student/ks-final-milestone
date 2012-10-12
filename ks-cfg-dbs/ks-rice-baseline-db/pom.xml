@@ -10,8 +10,8 @@
     <name>KS Rice Baseline Impex</name>
     <description>Kuali Student Rice Baseline Impex</description>
     <properties>
-        <ks.impex.username>KSRICEBASELINE</ks.impex.username>
-        <ks.impex.password>KSRICEBASELINE</ks.impex.password>
+        <ks.impex.username>KSRICEBASELINEKD</ks.impex.username>
+        <ks.impex.password>KSRICEBASELINEKD</ks.impex.password>
     </properties>
     <profiles>
         <profile>
