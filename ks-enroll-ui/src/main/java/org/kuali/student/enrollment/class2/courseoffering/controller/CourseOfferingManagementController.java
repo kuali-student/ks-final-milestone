@@ -43,6 +43,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.permutation.PermutationCounter;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
@@ -917,11 +918,22 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoCluster(updatedSelectedAOCInfoFrom);
                 theForm.getFilteredAOClusterWrapperList().get(i).setAoWrapperList(filteredClusteredAOsFrom);
 
+
                 //if there are RGS belonging to updatedSelectedAOCInfoFrom - set RG status (logic in RegistrationGroupInfo)
                 if (rgInfos.size() > 0) {
-                    theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(true);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
+                    //check if all the RGs have been generated for an AOC
+                    Set<List<String>> missingRegGroupAoSets = new HashSet<List<String>>();
+                    missingRegGroupAoSets = PermutationCounter.computeMissingRegGroupAoIdsInCluster(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos);
+                    if (missingRegGroupAoSets != null && !missingRegGroupAoSets.isEmpty()) {
+                        theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(false);
+                        theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_SOME_RG_GENERATED);
+                        theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_PARTIAL);
+                    } else {
+                        theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(true);
+                        theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
+                        theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
+                    }
+
                     //update theForm with RGs belonging to updatedSelectedAOCInfoFrom
                     List<RegistrationGroupWrapper> filteredRGs = _getRGsForSelectedFO(rgInfos, theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgWrapperList(filteredRGs);
