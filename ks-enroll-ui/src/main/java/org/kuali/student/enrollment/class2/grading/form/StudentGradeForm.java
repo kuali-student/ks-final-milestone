@@ -22,6 +22,8 @@ import org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit;
 import java.util.ArrayList;
 import java.util.List;
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 public class StudentGradeForm extends UifFormBase {
 
     private static final long serialVersionUID = -1054046347823982329L;

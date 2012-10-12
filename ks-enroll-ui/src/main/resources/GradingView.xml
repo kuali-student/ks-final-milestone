@@ -19,6 +19,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+    <!--
+    DEPRECATED... THIS IS CORE SLICE XML, WHICH NEEDS TO BE DELETED.. JUST KEEPING IT AROUND FOR REFERENCE
+    -->
    <bean id="gradingView" parent="KSFormView" p:header.style="border-bottom: 2px solid #000000">
    	  <property name="id" value="GradingView"/>
       <property name="headerText" value="@{title}" />

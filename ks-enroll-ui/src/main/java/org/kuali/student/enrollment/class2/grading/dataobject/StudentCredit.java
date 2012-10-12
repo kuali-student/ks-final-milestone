@@ -16,6 +16,8 @@ package org.kuali.student.enrollment.class2.grading.dataobject;
  * limitations under the License.
  */
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 public class StudentCredit {
 
     private String courseId;

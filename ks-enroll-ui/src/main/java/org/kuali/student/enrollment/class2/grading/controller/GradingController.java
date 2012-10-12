@@ -34,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 @Controller
 @RequestMapping(value = "/grading")
 public class GradingController extends UifControllerBase {

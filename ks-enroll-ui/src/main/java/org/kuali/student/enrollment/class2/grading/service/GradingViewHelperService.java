@@ -25,6 +25,8 @@ import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 
 import java.util.List;
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 public interface GradingViewHelperService extends ViewHelperService{
 
     public void populateGradeOptions(InputField field, GradingForm gradingForm);

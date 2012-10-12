@@ -25,6 +25,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 public class GradingForm extends UifFormBase{
 
     private static final long serialVersionUID = -1054046347823986329L;

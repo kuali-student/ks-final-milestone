@@ -32,6 +32,8 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 public class CourseOfferingForGradingKeyValues extends KeyValuesBase {
 
     @Override

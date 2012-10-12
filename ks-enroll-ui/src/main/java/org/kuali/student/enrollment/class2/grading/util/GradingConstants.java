@@ -16,6 +16,8 @@ package org.kuali.student.enrollment.class2.grading.util;
  * limitations under the License.
  */
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 public class GradingConstants {
 
     public static final String CLOSE_METHOD = "close";

@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 public class GradeStudent implements Serializable {
 
     private String studentId;

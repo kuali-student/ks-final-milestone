@@ -54,6 +54,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+//Core slice classes, just still around for reference.. needs cleanup
+@Deprecated
 public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implements GradingViewHelperService {
 
     private AcademicCalendarService acalService;
