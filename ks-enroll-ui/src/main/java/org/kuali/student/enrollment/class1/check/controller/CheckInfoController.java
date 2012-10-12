@@ -148,7 +148,7 @@ public class CheckInfoController extends UifControllerBase {
         } catch (Exception e) {
             return getUIFModelAndView(form);
         }
-        form.setValidateDirty(false);
+        //RICE22M4 form.setValidateDirty(false);
         GlobalVariables.getMessageMap().putInfo("Check Info", "info.enroll.save.success");
 
         return refresh(form, result, request, response);
@@ -177,7 +177,7 @@ public class CheckInfoController extends UifControllerBase {
             return getUIFModelAndView(createForm);
         }
 
-       createForm.setValidateDirty(false);
+       //createForm.setValidateDirty(false);
        createForm.setStateKey(checkInfo.getStateKey());
        createForm.setCheckInfo(checkInfo);
        return close(createForm, result, request, response);

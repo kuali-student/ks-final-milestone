@@ -458,7 +458,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         //Create/update schedule requests
         createOrUpdateScheduleRequests(activityOfferingWrapper);
 
-        try{
+        try {
 
             //Schedule AO
             StatusInfo statusInfo = getCourseOfferingService().scheduleActivityOffering(activityOfferingWrapper.getId(),getContextInfo());
@@ -715,7 +715,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     protected void loadScheduleActuals(ActivityOfferingWrapper wrapper){
 
-        if(wrapper.getAoInfo().getScheduleId() == null) return;
+        if (wrapper.getAoInfo().getScheduleId() == null) return;
 
         try {
 

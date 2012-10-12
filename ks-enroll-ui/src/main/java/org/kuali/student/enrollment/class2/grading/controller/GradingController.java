@@ -139,7 +139,7 @@ public class GradingController extends UifControllerBase {
             GlobalVariables.getMessageMap().putInfo("firstName", GradingConstants.INFO_GRADE_ROSTER_SAVED);
         }
         // only refreshing page
-        gradingForm.setRenderFullView(false);
+        //RICE22M4 gradingForm.setRenderFullView(false);
 
         return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }

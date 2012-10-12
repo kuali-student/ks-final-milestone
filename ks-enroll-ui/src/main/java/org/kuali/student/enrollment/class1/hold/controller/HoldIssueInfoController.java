@@ -135,7 +135,7 @@ public class HoldIssueInfoController extends UifControllerBase {
 
             return getUIFModelAndView(form);
         }
-        form.setValidateDirty(false);
+        //RICE22M4 form.setValidateDirty(false);
         form.setId(createHoldIssueInfo.getId());
         form.setStateKey(createHoldIssueInfo.getStateKey());
         form.setIsSaveSuccess(true);
@@ -226,7 +226,7 @@ public class HoldIssueInfoController extends UifControllerBase {
             /*e.printStackTrace();
             throw new RuntimeException("Modify Hold failed. ", e);*/
         }
-        form.setValidateDirty(false);
+        //  form.setValidateDirty(false);
         GlobalVariables.getMessageMap().putInfo("Hold Issue Info", "info.enroll.save.success");
         form.setIsSaveSuccess(true);
         return refresh(form, result, request, response);

@@ -11,9 +11,9 @@ import org.kuali.rice.krad.uif.view.View;
 
 import java.util.List;
 
-public class KSCollectionGroupBuilder extends CollectionGroupBuilder{
+public class KSCollectionGroupBuilder extends CollectionGroupBuilder {
 
-    @Override
+    //RICE22M4 @Override
     protected List<Action> initializeLineActions(List<Action> lineActions, View view, Object model,
             CollectionGroup collectionGroup, Object collectionLine, int lineIndex, String actionScript) {
         String lineSuffix = UifConstants.IdSuffixes.LINE + Integer.toString(lineIndex);

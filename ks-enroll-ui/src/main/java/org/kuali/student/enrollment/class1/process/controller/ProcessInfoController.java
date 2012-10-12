@@ -123,7 +123,7 @@ public class ProcessInfoController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        form.setValidateDirty(false);
+        //RICE22M4 form.setValidateDirty(false);
         GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
         form.setIsSaveSuccess(true);
 
@@ -149,7 +149,7 @@ public class ProcessInfoController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        form.setValidateDirty(false);
+        //FIXME  form.setValidateDirty(false);
         GlobalVariables.getMessageMap().putInfo("Process", "info.enroll.save.success");
         form.setIsSaveSuccess(true);
 
