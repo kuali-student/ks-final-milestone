@@ -148,46 +148,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
 
-    @Override
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String activityOfferingClusterId, String registrationGroupTypeKey, RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        FormatOfferingInfo fo = this.getFormatOffering(formatOfferingId, context);
-        if (registrationGroupInfo.getTermId() != null) {
-            if (!registrationGroupInfo.getTermId().equals(fo.getTermId())) {
-                throw new InvalidParameterException(registrationGroupInfo.getTermId() + " term in the registration group does not match the one in the format offering " + fo.getTermId());
-            }
-        }
-        registrationGroupInfo.setTermId(fo.getTermId());
-
-        if (!registrationGroupTypeKey.equals(registrationGroupInfo.getTypeKey())) {
-            throw new InvalidParameterException(registrationGroupTypeKey + " does not match the corresponding value in the object " + registrationGroupInfo.getTypeKey());
-        }
-
-        // get the course offering
-        CourseOfferingInfo coInfo = this.getCourseOffering(registrationGroupInfo.getCourseOfferingId(), context);
-        String coCode = coInfo.getCourseOfferingCode();
-        if (coCode == null) {
-            coCode = "NOCODE";
-        }
-
-        // TODO: Reg group code validation
-        if (registrationGroupInfo.getName() == null) {
-            // name stores the reg group code which is different from registration code
-            throw new DataValidationErrorException("reg group code is null");
-        }
-
-        // copy to the lui
-        LuiInfo lui = registrationGroupTransformer.rg2Lui(registrationGroupInfo, context);
-        try {
-            String cluId = lui.getCluId();
-            String atpId = lui.getAtpId();
-            String typeKey = lui.getTypeKey();
-            lui = luiService.createLui(cluId, atpId, typeKey, lui, context);
-        } catch (Exception ex) {
-            throw new OperationFailedException("unexpected", ex);
-        }
-
-        // build the lui lui relation FO-RG
+    private void _cRG_buildLuiLuiRelationForFormatOfferingRegistrationGroup(LuiInfo lui, String formatOfferingId,
+                                                                            String coCode, ContextInfo context)
+            throws OperationFailedException {
         LuiLuiRelationInfo luiLuiRelFoRg = new LuiLuiRelationInfo();
         luiLuiRelFoRg.setLuiId(formatOfferingId);
         luiLuiRelFoRg.setName("fo-rg-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
@@ -206,9 +169,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
+    }
 
-        // build the lui lui relation RG-AO
-        for (String aoId : registrationGroupInfo.getActivityOfferingIds()) {
+    private void _cRG_buildLuiLuiRelationForRegGroupsAndAos(List<String> aoIds, LuiInfo lui, RegistrationGroupInfo registrationGroupInfo, String coCode, ContextInfo context) throws OperationFailedException {
+        for (String aoId : aoIds) {
             LuiLuiRelationInfo luiLuiRelRgAo = new LuiLuiRelationInfo();
             luiLuiRelRgAo.setLuiId(lui.getId());
             luiLuiRelRgAo.setName("rg-ao-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
@@ -228,6 +192,62 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new OperationFailedException("unexpected", ex);
             }
         }
+    }
+
+
+    private void _cRG_validateCreateRegistrationGroup(RegistrationGroupInfo registrationGroupInfo,
+                                                      String registrationGroupTypeKey,
+                                                      FormatOfferingInfo fo)
+            throws InvalidParameterException, DataValidationErrorException {
+
+        if (!registrationGroupTypeKey.equals(registrationGroupInfo.getTypeKey())) {
+            throw new InvalidParameterException(registrationGroupTypeKey + " does not match the corresponding value in the object " + registrationGroupInfo.getTypeKey());
+        }
+
+        if (registrationGroupInfo.getTermId() != null) {
+            if (!registrationGroupInfo.getTermId().equals(fo.getTermId())) {
+                throw new InvalidParameterException(registrationGroupInfo.getTermId() + " term in the registration group does not match the one in the format offering " + fo.getTermId());
+            }
+        }
+
+        // TODO: Reg group code validation
+        if (registrationGroupInfo.getName() == null) {
+            // name stores the reg group code which is different from registration code
+            throw new DataValidationErrorException("reg group code is null");
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public RegistrationGroupInfo createRegistrationGroup(String formatOfferingId, String activityOfferingClusterId, String registrationGroupTypeKey, RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        FormatOfferingInfo fo = this.getFormatOffering(formatOfferingId, context);
+        _cRG_validateCreateRegistrationGroup(registrationGroupInfo, registrationGroupTypeKey, fo);
+        registrationGroupInfo.setTermId(fo.getTermId());
+
+        // get the course offering
+        CourseOfferingInfo coInfo = this.getCourseOffering(registrationGroupInfo.getCourseOfferingId(), context);
+        String coCode = coInfo.getCourseOfferingCode();
+        if (coCode == null) {
+            coCode = "NOCODE";
+        }
+
+        // copy to the lui
+        LuiInfo lui = registrationGroupTransformer.rg2Lui(registrationGroupInfo, context);
+        try {
+            String cluId = lui.getCluId();
+            String atpId = lui.getAtpId();
+            String typeKey = lui.getTypeKey();
+            lui = luiService.createLui(cluId, atpId, typeKey, lui, context);
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
+
+        // build the lui lui relation FO-RG
+        _cRG_buildLuiLuiRelationForFormatOfferingRegistrationGroup(lui, formatOfferingId, coCode, context);
+
+        // build the lui lui relation RG-AO
+        List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
+        _cRG_buildLuiLuiRelationForRegGroupsAndAos(aoIds, lui, registrationGroupInfo, coCode, context);
 
         // Everything saved to the DB, now return RG sent back by createLui and transformed by transformer back to caller
         RegistrationGroupInfo rgInfo = new RegistrationGroupInfo();
