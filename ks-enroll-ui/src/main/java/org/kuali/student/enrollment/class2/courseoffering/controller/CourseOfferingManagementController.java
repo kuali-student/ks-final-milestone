@@ -223,6 +223,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
             String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
             aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
             aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
             aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
@@ -710,6 +711,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
             String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
             aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
             aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
             aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
@@ -727,6 +729,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         for (ActivityOfferingInfo aoInfo : aosInCluster) {
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
             String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
             aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
             aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
             aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
@@ -869,6 +872,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         for ( ActivityOfferingInfo aoInfo : aosInClusterFrom) {
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
             String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
             aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
             aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
             aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
@@ -881,6 +885,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         for (ActivityOfferingInfo aoInfo : aosInClusterTo) {
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
             String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
             aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
             aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
             aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
@@ -1019,6 +1024,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
 
             String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
             aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
             aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
             aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);

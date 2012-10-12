@@ -446,6 +446,21 @@ public class ActivityOfferingWrapper implements Serializable{
         }
     }
 
+    public void setDaysDisplayName(String daysDisplayName,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.daysDisplayName)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.daysDisplayName = this.daysDisplayName + "<br><span " + cssClass + " >" + daysDisplayName + "</span>";
+        }else{
+            this.daysDisplayName = "<span " + cssClass + " >" + daysDisplayName + "</span>";
+        }
+    }
+
     public String getBuildingName() {
         return buildingName;
     }
@@ -462,7 +477,7 @@ public class ActivityOfferingWrapper implements Serializable{
         if(!StringUtils.isEmpty(dlTypeClass)){
             cssClass = "class=\"" + dlTypeClass + "\"";
         }
-        if(StringUtils.isEmpty(this.roomName)){
+        if(StringUtils.isEmpty(this.buildingName)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
