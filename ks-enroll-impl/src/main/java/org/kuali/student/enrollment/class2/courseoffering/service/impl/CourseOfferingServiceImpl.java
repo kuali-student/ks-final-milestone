@@ -2088,6 +2088,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return result;
     }
 
+    private List<ValidationResultInfo> _vRG_checkTimeConflict(List<String> timeSlotIdsFirst, List<String> timeSlotIdsSecond,
+                                                          List<ValidationResultInfo> validationResultInfos,
+                                                          String aoIdFirst, String aoIdSecond,
+                                                          ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
+                   OperationFailedException, PermissionDeniedException {
+        if (_checkTimeSlotsOverlap(timeSlotIdsFirst, timeSlotIdsSecond, context)) {
+            ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+            validationResultInfo.setMessage("time conflict between AO: " + aoIdFirst + " and AO: " + aoIdSecond);
+            validationResultInfos.add(validationResultInfo);
+            return validationResultInfos;
+        }
+        return null;
+    }
+
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType,
                                                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
@@ -2120,72 +2136,55 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 }
 
                 for (Map.Entry<String, Map<String, List<String>>> entry : aoTimeSlotMap.entrySet()) {
-                    boolean hasTimeSlotAcutal = false, hasTimeSlotRequested = false;
+                    boolean hasTimeSlotActual = false, hasTimeSlotRequested = false;
                     List<String> timeSlotIdsActual = entry.getValue().get("actual");
                     List<String> timeSlotIdsRequested = entry.getValue().get("requested");
 
                     if (timeSlotIdsActual != null && !timeSlotIdsActual.isEmpty()) {
-                        hasTimeSlotAcutal = true;
+                        hasTimeSlotActual = true;
                     }
                     if (timeSlotIdsRequested != null && !timeSlotIdsRequested.isEmpty()) {
                         hasTimeSlotRequested = true;
                     }
 
-                    if (hasTimeSlotAcutal == true || hasTimeSlotRequested == true) {
+                    if (hasTimeSlotActual == true || hasTimeSlotRequested == true) {
                         for (Map.Entry<String, Map<String, List<String>>> innerEntry : aoTimeSlotMap.entrySet()) {
-                            boolean hasTimeSlotAcutalCompared = false, hasTimeSlotRequestedCompared = false;
+                            boolean hasTimeSlotActualCompared = false, hasTimeSlotRequestedCompared = false;
 
                             if (!entry.getKey().equals(innerEntry.getKey())) {
                                 List<String> timeSlotIdsComparedActual = innerEntry.getValue().get("actual");
                                 List<String> timeSlotIdsComparedRequested = innerEntry.getValue().get("requested");
                                 if (timeSlotIdsComparedActual != null && !timeSlotIdsComparedActual.isEmpty()) {
-                                    hasTimeSlotAcutalCompared = true;
+                                    hasTimeSlotActualCompared = true;
                                 }
                                 if (timeSlotIdsComparedRequested != null && !timeSlotIdsComparedRequested.isEmpty()) {
                                     hasTimeSlotRequestedCompared = true;
                                 }
 
-                                if (hasTimeSlotAcutalCompared == true || hasTimeSlotRequestedCompared == true) {
-                                    if (hasTimeSlotAcutal != false  && hasTimeSlotAcutalCompared != false) {
-                                        if (_checkTimeSlotsOverlap(timeSlotIdsActual, timeSlotIdsComparedActual, context)) {
-                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                                            validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
-                                            validationResultInfos.add(validationResultInfo);
-                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
+                                if (hasTimeSlotActualCompared || hasTimeSlotRequestedCompared) {
+                                    List<ValidationResultInfo> resultInfos = null;
+                                    if (hasTimeSlotActual  && hasTimeSlotActualCompared) {
+                                        // both have schedules
+                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsActual, timeSlotIdsComparedActual,
+                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), context);
+                                    } else if (hasTimeSlotActual && !hasTimeSlotActualCompared && hasTimeSlotRequestedCompared) {
+                                        // first has scheduled, compared has schedule request
+                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsActual, timeSlotIdsComparedRequested,
+                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), context);
+                                    } else if (!hasTimeSlotActual && hasTimeSlotRequested && hasTimeSlotActualCompared) {
+                                        // first has schedule request, compared has schedule
+                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsRequested, timeSlotIdsComparedActual,
+                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), context);
+                                    } else if (!hasTimeSlotActual && hasTimeSlotRequested && !hasTimeSlotActualCompared && hasTimeSlotRequestedCompared) {
+                                        // both have schedule requests
+                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsRequested, timeSlotIdsComparedRequested,
+                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), context);
 
-                                            updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
-                                            return validationResultInfos;
-                                        }
-                                    } else if (hasTimeSlotAcutal != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
-                                        if (_checkTimeSlotsOverlap(timeSlotIdsActual, timeSlotIdsComparedRequested, context)) {
-                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                                            validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
-                                            validationResultInfos.add(validationResultInfo);
-                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
+                                    }
 
-                                            updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
-                                            return validationResultInfos;
-                                        }
-                                    } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared != false) {
-                                        if (_checkTimeSlotsOverlap(timeSlotIdsRequested, timeSlotIdsComparedActual, context)) {
-                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                                            validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
-                                            validationResultInfos.add(validationResultInfo);
-                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
-
-                                            updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
-                                            return validationResultInfos;
-                                        }
-                                    } else if (hasTimeSlotAcutal == false && hasTimeSlotRequested != false && hasTimeSlotAcutalCompared == false && hasTimeSlotRequestedCompared != false) {
-                                        if (_checkTimeSlotsOverlap(timeSlotIdsRequested, timeSlotIdsComparedRequested, context)) {
-                                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                                            validationResultInfo.setMessage("time conflict between AO: " + entry.getKey() + " and AO: " + innerEntry.getKey());
-                                            validationResultInfos.add(validationResultInfo);
-                                            registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
-
-                                            updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,context);
-                                            return validationResultInfos;
-                                        }
+                                    if (resultInfos != null) {
+                                        // Found time conflict, so return
+                                        return resultInfos;
                                     }
                                 }
                             }
