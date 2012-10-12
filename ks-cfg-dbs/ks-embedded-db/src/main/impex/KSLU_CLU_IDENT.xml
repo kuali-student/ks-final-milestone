@@ -103,6 +103,11 @@
         OBJ_ID="5ea8166d-34dd-423f-8d9b-210bb714b9e6"
         SHRT_NAME="MARINE ECOLOGY" ST="Superseded" SUFX_CD="473"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="ENGL250" DIVISION="ENGL"
+        ID="02bedd13-be4e-4848-af76-83cccdfbd71a"
+        OBJ_ID="f415e67d-cec2-46d3-877a-193098d10d41" ST="Active"
+        SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="BSCI224" DIVISION="BSCI"
         ID="02d08567-0bb7-4679-a5eb-69ecb3c0eb91"
         LNG_NAME="Animal Diversity" LVL="200"
@@ -115,6 +120,12 @@
         LVL="400" OBJ_ID="ba55cae4-31d5-48ef-90a5-e799238dc56a"
         SHRT_NAME="LIT 17 C 1600-1660" ST="Active" SUFX_CD="412"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST628" DIVISION="WMST"
+        ID="02e7258d-d9ef-45bb-8c52-369c170cb2da"
+        LNG_NAME="Women's Studies Colloquium" LVL="600"
+        OBJ_ID="71fb62aa-590f-4055-9b3b-a451f1399374"
+        SHRT_NAME="WMST COLLOQUIUM" ST="Active" SUFX_CD="628"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="CHEM605" DIVISION="CHEM"
         ID="02ee803c-3e02-4fda-8c42-3b5b86bfd53e"
         LNG_NAME="Chemistry of Coordination Compounds" LVL="600"
@@ -127,6 +138,12 @@
         LVL="200" OBJ_ID="1df0b0b8-eaed-438c-a754-ea680b27b41e"
         SHRT_NAME="LESBIAN GAY BISEX LIT" ST="Superseded" SUFX_CD="265"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="7"/>
+    <KSLU_CLU_IDENT CD="WMST314" DIVISION="WMST"
+        ID="0322e7fd-1bcd-4f89-92bc-2feb63ba8e59"
+        LNG_NAME="Black Women in United States History" LVL="300"
+        OBJ_ID="5613fe11-5cdf-464f-a818-96c9a66e73a2"
+        SHRT_NAME="BLK WOMEN IN US HISTORY" ST="Active" SUFX_CD="314"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS471" DIVISION="PHYS"
         ID="03378c50-35ac-435f-84cc-bdb96dccce5a"
         LNG_NAME="Introduction to Atmospheric and Space Physics"
@@ -251,6 +268,12 @@
         OBJ_ID="f66b98bb-098c-4468-a0f1-a45b238d2cf4"
         SHRT_NAME="STUDIES IN FICTION" ST="Active" SUFX_CD="769"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST458" DIVISION="WMST"
+        ID="05678694-33f0-40e5-ac29-41ed65c5e0ea"
+        LNG_NAME="Literature by Women After 1800" LVL="400"
+        OBJ_ID="e17d87dc-613b-4312-8445-22fed8056dbf"
+        SHRT_NAME="LIT BY WOMEN AFTR 1800" ST="Active" SUFX_CD="458"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="SURVD" ID="057a53ed-6b62-4239-bdb6-aec0de58f5ad"
         LNG_NAME="Survey Methodology (Doctoral)"
         OBJ_ID="0139362d-4eda-42a5-872a-52ceb1d23bc3"
@@ -266,6 +289,12 @@
         OBJ_ID="1086646e-829f-4ad2-864d-d9d8d3ff98ef"
         SHRT_NAME="Persian Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST250" DIVISION="WMST"
+        ID="05a3be2f-c280-4eeb-bae7-f837eea14130"
+        LNG_NAME="Introduction to Women's Studies:  Women, Art and Culture"
+        LVL="200" OBJ_ID="00c3f2dc-699c-48ee-a98b-355cf2f9f396"
+        SHRT_NAME="WOMEN, ART&amp;CULTURE" ST="Superseded" SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="CHEMD" ID="05a55cbc-f72f-4e01-9f87-8a97cba39520"
         LNG_NAME="Chemistry (Doctoral)"
         OBJ_ID="91437891-dc9d-41cf-a542-a90ad4dee0ee"
@@ -433,6 +462,14 @@
         OBJ_ID="51a6a6f4-e0a7-47df-8040-294470dfe871"
         SHRT_NAME="ORGANIC GEOCHEM" ST="Retired" SUFX_CD="721"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="HIST212" DIVISION="HIST"
+        ID="08d56a0f-2deb-494a-8ccb-358344c002fc"
+        OBJ_ID="3a6ab0f7-27d0-4207-a561-75dd51acfc7c" ST="Active"
+        SUFX_CD="212"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
+    <KSLU_CLU_IDENT ID="08d70e6a-222e-4fa4-9031-4df7f3f1a36c"
+        OBJ_ID="0a2488de-8479-45a5-9fbf-ddb5351206c0" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM898" DIVISION="CHEM"
         ID="08db1f2f-7266-45a8-8927-07142ff1f314"
         LNG_NAME="Pre-Candidacy Research" LVL="800"
@@ -451,6 +488,12 @@
         OBJ_ID="da3947ec-1309-4c84-8c5b-222063c46edb"
         SHRT_NAME="Mathematics" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST255" DIVISION="WMST"
+        ID="090e9b5a-c0f1-48db-a53d-97274df8b7f9"
+        LNG_NAME="Introduction to Literature by Women" LVL="200"
+        OBJ_ID="53c3bc49-eaca-4c7e-bf14-04d67ac2cea1"
+        SHRT_NAME="INTRO LIT BY WOMEN" ST="NotApproved" SUFX_CD="255"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="2299W" ID="093102c2-2a38-428c-9c54-d269c273c05c"
         OBJ_ID="5dcf988b-2961-4102-aa52-6b2a22eb3d8b"
         SHRT_NAME="Environmental Sci&amp;Pol-Wildlife Ecology &amp; Mgmt"
@@ -502,6 +545,13 @@
         OBJ_ID="f6e91260-4816-4e95-bafa-c60dcb9a7fa4"
         SHRT_NAME="Music (Voice Performance Option)" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST281" DIVISION="WMST"
+        ID="09b296d1-6618-4a00-8cdb-9d5a4dfd3251"
+        LNG_NAME="Women in German Literature and Society" LVL="200"
+        OBJ_ID="a3a9e8fb-b37c-4fde-af0f-6aaa370a40ba"
+        SHRT_NAME="WOMEN GERM LIT &amp; SOCIETY" ST="Superseded"
+        SUFX_CD="281"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="CHEM386" DIVISION="CHEM"
         ID="09b643c9-a72f-489b-b38e-f8fac119b85d"
         LNG_NAME="Experiential Learning" LVL="300"
@@ -549,12 +599,30 @@
         OBJ_ID="1882a6d5-3e4a-4795-b7e9-2d295179e2fc"
         SHRT_NAME="Environmental Science &amp; Policy-Earth Surface Proc"
         ST="Active" TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST336" DIVISION="WMST"
+        ID="0a6889ed-f2ab-453e-9b97-3fc1f89c66e0"
+        LNG_NAME="Psychology of Women" LVL="300"
+        OBJ_ID="68e78459-61dd-4654-8e10-a8282598775b"
+        SHRT_NAME="PSYCHOLOGY OF WOMEN" ST="Active" SUFX_CD="336"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="WMST360" DIVISION="WMST"
+        ID="0a7a5603-ba74-4b6c-8067-6602cebad7db"
+        LNG_NAME="Caribbean Women" LVL="300"
+        OBJ_ID="f45bdee9-040c-4f36-a81e-bc893cf98b40"
+        SHRT_NAME="CARIBBEAN WOMEN" ST="Active" SUFX_CD="360"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENGL201" DIVISION="ENGL"
         ID="0a85cf43-c6c1-44db-9973-29d45b53ad67"
         LNG_NAME="Western World Literature, Homer to the Renaissance"
         LVL="200" OBJ_ID="3fa78e40-5a38-4b73-9df3-e768c7d1059a"
         SHRT_NAME="WEST WORLD LIT I" ST="Superseded" SUFX_CD="201"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST300" DIVISION="WMST"
+        ID="0a9a9b04-8f08-4383-bf6f-4cd6abf36f9b"
+        LNG_NAME="Feminist Reconceptualizations of Knowledge" LVL="300"
+        OBJ_ID="8da13def-9b0b-4a32-bda5-c3eb5e97214d"
+        SHRT_NAME="FEMINIST RECONCEPT KNOWL" ST="Active" SUFX_CD="300"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENGL604" DIVISION="ENGL"
         ID="0aaa0dc5-d710-4c83-80a7-9fb6cdd15bf5" LNG_NAME="Old English"
         LVL="600" OBJ_ID="6f441e8d-25fa-4465-85f2-ab3086f460da"
@@ -619,6 +687,9 @@
         OBJ_ID="0fd9d338-29cc-4338-b6e5-e2b3c0973444"
         SHRT_NAME="ANIM-PLANT INTERACTIONS" ST="Active" SUFX_CD="494"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT ID="0b8fe427-2ddd-42f6-835b-1efed118d27b"
+        OBJ_ID="a4d13a1d-0baf-4e86-a165-c373b95db595" ST="Retired"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM399" DIVISION="CHEM"
         ID="0b9fb1dc-58f7-40a9-9220-afa866d5844f"
         LNG_NAME="Introduction to Chemical Research" LVL="300"
@@ -875,12 +946,21 @@
         OBJ_ID="33c94e9e-3a03-4cf1-89db-33b49efd9197"
         SHRT_NAME="ELIZ JACOBEAN DRAM" ST="Superseded" SUFX_CD="451"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST481" DIVISION="WMST"
+        ID="0fc04e8c-bf79-41cc-ad51-07324bc8a6d3"
+        LNG_NAME="Femmes Fatales and the Representation of Violence in Literature, Opera and Film"
+        LVL="400" OBJ_ID="eafc1e49-a83f-439a-8ec2-3b6d753af877"
+        SHRT_NAME="FEMMES FATALES" ST="Retired" SUFX_CD="481"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL498" DIVISION="ENGL"
         ID="0fc66e69-05f1-4505-bb4a-a3722aae1387"
         LNG_NAME="Advanced Fiction Workshop" LVL="400"
         OBJ_ID="94b71f4f-4600-4a61-967f-82c12ba26b41"
         SHRT_NAME="ADV FICTION WORKSHOP" ST="Active" SUFX_CD="498"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT ID="0fce77d3-ea54-4791-a5d2-4fee871405c0"
+        OBJ_ID="ba30aa03-1601-486a-8171-210e7cb1ff51" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="04040" ID="0fdadf11-4c0f-41d2-b262-5e602d494a8e"
         OBJ_ID="7b857bb2-8b8e-4dfd-ace3-37f5dd1d17d5"
         SHRT_NAME="Biological Sciences" ST="Active"
@@ -895,6 +975,9 @@
         LNG_NAME="Geology" OBJ_ID="aad28616-f3b5-4ca0-b7ad-8dce9559bd58"
         SHRT_NAME="Geology" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="0feb03f2-463a-4a10-9019-3d63a63f6672"
+        OBJ_ID="638c3c83-7b91-4745-89c0-0538a2d49093" ST="Retired"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BSCI421" DIVISION="BSCI"
         ID="0ff7e49e-4888-4760-bb9a-05f38ab22f54"
         LNG_NAME="Cell Biology" LVL="400"
@@ -1075,6 +1158,13 @@
         OBJ_ID="edfe01ee-fbf0-4725-b9f5-aafeb9c022a0"
         SHRT_NAME="Information Management" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST314" DIVISION="WMST"
+        ID="130d65d6-99ba-4852-9e3b-03e10e734791"
+        LNG_NAME="Black Women in United States History" LVL="300"
+        OBJ_ID="2dd06a54-5a9a-4dde-8c21-ca2b4e713678"
+        SHRT_NAME="BLK WOMEN IN US HISTORY" ST="Superseded"
+        SUFX_CD="314"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="22020" ID="132ef4e6-94f4-4017-bf42-8e275db5d788"
         OBJ_ID="01afdb4a-b440-40ef-b0b9-5a264ca10aa5"
         SHRT_NAME="Anthropology" ST="Active"
@@ -1108,6 +1198,13 @@
         OBJ_ID="c27b815e-62cc-4199-b9d1-76c1eadcf477"
         SHRT_NAME="NUCLEAR PHYSICS" ST="Superseded" SUFX_CD="441"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
+        ID="13c57c2e-7e83-4406-a869-bc832fe11635"
+        LNG_NAME="Women and Society in the Middle East" LVL="400"
+        OBJ_ID="ff3188fe-12f6-497d-ad9d-f2ae8664cdb0"
+        SHRT_NAME="WOMEN &amp; SOCIETY MID EAST" ST="Superseded"
+        SUFX_CD="456"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="1901C" ID="13eea5e1-f258-4bb9-ac30-113452c3b47a"
         OBJ_ID="dab09e23-c946-4f56-bbca-a58964d329de"
         SHRT_NAME="Physical Sciences: Scientific Computation"
@@ -1216,6 +1313,12 @@
         OBJ_ID="7c564e76-5bf2-442f-b1c7-bb9b1c32691b"
         SHRT_NAME="Environmental Sci &amp; Tech: Soil &amp; Watershed Science"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST212" DIVISION="WMST"
+        ID="158b7360-9081-4d0c-836c-b147794cb109"
+        LNG_NAME="Women in Western Europe 1750-Present" LVL="200"
+        OBJ_ID="448cb47e-62d6-4fbd-bad0-b16da4d5976f"
+        SHRT_NAME="WMN EUROPE 1750-PRESENT" ST="Active" SUFX_CD="212"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="EDLPM" ID="1596b1a5-ba82-4841-851f-e773dda422b7"
         LNG_NAME="Education Leadership and Policy Studies (Master's)"
         OBJ_ID="30e29b9e-99ca-46cc-a9e6-ffdf9c78aaf6"
@@ -1515,6 +1618,12 @@
         OBJ_ID="2207a11f-2687-483d-9f5e-1502340a68cc"
         SHRT_NAME="IMMUNOLOGY LABORATORY" ST="Active" SUFX_CD="423"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="WMST420" DIVISION="WMST"
+        ID="1d215620-1cb4-49d0-bbfb-be54e135e933"
+        LNG_NAME="Asian American Women: The Social Construction of Gender"
+        LVL="400" OBJ_ID="39ae6240-5001-4aa5-bc2e-98e1b2e81788"
+        SHRT_NAME="ASIAN AMERICAN WOMEN" ST="Active" SUFX_CD="420"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS578" DIVISION="PHYS"
         ID="1d34c2f0-5a7e-4b11-a96d-8a237fef071c" LNG_NAME="Internship"
         LVL="500" OBJ_ID="1cd1b9ad-83ab-47e7-ba24-42c1eb8cece1"
@@ -1576,6 +1685,12 @@
         OBJ_ID="eb49a734-307e-46c1-a3d4-827f94ceb407"
         SHRT_NAME="ORG REAC MECHANISM" ST="Active" SUFX_CD="641"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="WMST298" DIVISION="WMST"
+        ID="1de4cf85-f059-45a7-982d-093fdf16c19c"
+        LNG_NAME="Special Topics in Women's Studies" LVL="200"
+        OBJ_ID="12ab6013-887e-4c87-919e-a2d50aac4fc0"
+        SHRT_NAME="SPEC TOP IN WMST" ST="Active" SUFX_CD="298"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="BSCI335" DIVISION="BSCI"
         ID="1e27243d-2150-49f4-a621-c0bda380bcc2"
         LNG_NAME="Mammalogy Laboratory" LVL="300"
@@ -1611,6 +1726,12 @@
     <KSLU_CLU_IDENT ID="1f065d50-317e-4221-9a30-9c4e7fdf75b8"
         OBJ_ID="3c39f75f-52fe-4a4e-b5a7-872f3dbc0a50" ST="Active"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST211" DIVISION="WMST"
+        ID="1f1364a6-0990-4f94-9549-8636e44839af"
+        LNG_NAME="Women in America Since 1880" LVL="200"
+        OBJ_ID="a8a96794-81fb-4d3e-bbac-51003ab16296"
+        SHRT_NAME="WM IN AMER SINCE 1880" ST="Superseded" SUFX_CD="211"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="MAITM" ID="1f1dd30d-ad69-4878-ab4c-0b094957aba5"
         LNG_NAME="Master of Mathematics of Advanced Industrial Tech (Master's)"
         OBJ_ID="d7b12fe7-2875-46ae-9fb4-c6bf1a7f1121"
@@ -1679,6 +1800,9 @@
         OBJ_ID="0abae666-9b63-4572-9e2f-5df6e5fc96f2"
         SHRT_NAME="AM NOVEL TO 1910" ST="Superseded" SUFX_CD="440"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT ID="2098929e-1e07-48da-a75c-76c7bf96a25a"
+        OBJ_ID="5794b2c3-f6a2-44db-b0f3-9fe1058eca45" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL181" DIVISION="ENGL"
         ID="20b8f01d-c5fc-4e52-b679-3b61db1b95ea"
         LNG_NAME="English Grammar" LVL="100"
@@ -1783,6 +1907,12 @@
         OBJ_ID="a0c24ac7-98bf-4855-860d-2b788ebd2283"
         SHRT_NAME="ADV COMP: PRELAW" ST="Superseded" SUFX_CD="392"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST708" DIVISION="WMST"
+        ID="22b0dd78-34aa-4464-a141-ca6391766a66"
+        LNG_NAME="Research Seminar in Women's Studies" LVL="700"
+        OBJ_ID="03b9e960-08b6-4325-ad2e-ea9b38bdaa58"
+        SHRT_NAME="RES SEM WOM STUDIES" ST="Active" SUFX_CD="708"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="BIOSM" ID="22b41f72-af18-495b-b981-9945ad8d201e"
         LNG_NAME="MPH: Biostatistics (Master's)"
         OBJ_ID="75cfeadc-2b2b-434c-9760-0b46d639119a"
@@ -1850,10 +1980,23 @@
         OBJ_ID="6e1f1901-15e1-4f1d-9e12-dd531c9234d1"
         SHRT_NAME="AM LIT 1865-PRESNT" ST="Active" SUFX_CD="222"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST386" DIVISION="WMST"
+        ID="23924d5a-7bdb-4194-b386-4569355bb5dc"
+        LNG_NAME="Experiential Learning" LVL="300"
+        OBJ_ID="681c21e9-05f9-435f-8b87-2100d6ff5f72"
+        SHRT_NAME="EXPER LEARNING" ST="Active" SUFX_CD="386"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="CLFSM" ID="23b7b748-7396-4eb7-9a14-5c81f1746af0"
         OBJ_ID="2a4c3c5f-0488-4204-a1f2-4f26474e2cc7"
         SHRT_NAME="Master of Chemical &amp; Life Sciences" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
+        ID="23be2a3a-10fe-4a98-a270-78338f3a84dc"
+        LNG_NAME="Women and Society in the Middle East" LVL="400"
+        OBJ_ID="3acd6cf7-505c-41c9-929d-4e59cc0a8ecb"
+        SHRT_NAME="WOMEN &amp; SOCIETY MID EAST" ST="Active"
+        SUFX_CD="456"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL212" DIVISION="ENGL"
         ID="23e7e9a4-88e8-47a1-99aa-ee427dd8869e"
         LNG_NAME="English Literature From 1800 to the Present" LVL="200"
@@ -1894,6 +2037,12 @@
         OBJ_ID="5b27691f-6562-42a3-8f9e-994afaa53faa"
         SHRT_NAME="Natural Resources Mgmt" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST425" DIVISION="WMST"
+        ID="24948697-d93c-424c-8af5-fffa4faf9e95"
+        LNG_NAME="Gender Roles and Social Institutions" LVL="400"
+        OBJ_ID="f25de574-ce17-4756-861e-2de88af4dd03"
+        SHRT_NAME="GNDR ROLES&amp;SOC INSTIT" ST="Active" SUFX_CD="425"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL242" DIVISION="ENGL"
         ID="24c8cf3c-ae36-4e94-b569-1c9782a3ca41"
         LNG_NAME="Introduction to Non-Fiction Prose" LVL="200"
@@ -2025,6 +2174,12 @@
         OBJ_ID="60ed5308-fcdb-4788-92c9-c54b1b17dd0e"
         SHRT_NAME="Second Language Acquisition" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST618" DIVISION="WMST"
+        ID="270456fd-b502-48a8-a503-0722a4ef988f"
+        LNG_NAME="Feminist Pedagogy" LVL="600"
+        OBJ_ID="a8adcb36-1b89-423d-a686-dc770736ba7b"
+        SHRT_NAME="FEMINIST PEDAGOGY" ST="Active" SUFX_CD="618"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="0841P" ID="27053ba4-5bd4-47e0-a624-2ccb74d4696c"
         LNG_NAME="Secondary Educ: Foreign Languages"
         OBJ_ID="03c19eb3-9dd4-4ddf-ac64-7ae3812bd5a4"
@@ -2075,12 +2230,24 @@
         OBJ_ID="a3557357-e187-4ee0-a133-4412e8db6afc"
         SHRT_NAME="ELECTRODYNAMICS" ST="Active" SUFX_CD="606"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST602" DIVISION="WMST"
+        ID="28090de3-2d5f-4da2-ab68-8d288cb79d0b"
+        LNG_NAME="Approaches to Women's Studies II" LVL="600"
+        OBJ_ID="6d5f0489-2d6d-40fe-a7dc-6cb0da0a949d"
+        SHRT_NAME="APPROACHES TO WMST II" ST="Active" SUFX_CD="602"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="CHEM423" DIVISION="CHEM"
         ID="283f15c0-8fce-4fb1-8aa9-74ea7eeae605"
         LNG_NAME="Organic Quantitative Analysis" LVL="400"
         OBJ_ID="46295591-2259-43e7-8469-5fff8baecb63"
         SHRT_NAME="ORG QUANT ANALY" ST="Retired" SUFX_CD="423"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST498" DIVISION="WMST"
+        ID="284187df-426c-46a8-b990-5f34d77ea23e"
+        LNG_NAME="Advanced Special Topics in Women's Studies" LVL="400"
+        OBJ_ID="25fb93f3-2e3a-429a-b2b0-31b93fa39847"
+        SHRT_NAME="ADV SPEC TOP WMST" ST="Superseded" SUFX_CD="498"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="BSCI486" DIVISION="BSCI"
         ID="2891827e-b067-4ce3-b724-60a8ae9d824c"
         LNG_NAME="Systematic Microbiology" LVL="400"
@@ -2265,6 +2432,12 @@
         OBJ_ID="1d686fe6-082c-45b3-b6a2-336b26fbccc7"
         SHRT_NAME="Education Leadership and Policy - Doctoral"
         ST="Active" TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST313" DIVISION="WMST"
+        ID="2c00fea4-ee80-4d38-a0b5-8d0f39cb0a68"
+        LNG_NAME="Women and Science" LVL="300"
+        OBJ_ID="44006024-2a91-4910-bc69-4a3337cd6f44"
+        SHRT_NAME="WOMEN AND SCIENCE" ST="Superseded" SUFX_CD="313"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL260" DIVISION="ENGL"
         ID="2c04c33e-bca6-44c5-bc33-c0416464c200"
         LNG_NAME="Introduction to Folklore" LVL="200"
@@ -2512,6 +2685,9 @@
         OBJ_ID="de58adc0-b8ab-4ee8-904f-711a6138f17f"
         SHRT_NAME="Fire Protection Engineering" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="306cfc2f-70b6-49e5-a66f-2b5ceadaeb9d"
+        OBJ_ID="68550a92-c9cb-44b1-a2d8-4d1af5bc6f80" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS776" DIVISION="PHYS"
         ID="30787716-0033-4fc3-8706-166d55f274ea"
         LNG_NAME="Advanced Gravitation Theory" LVL="700"
@@ -2590,6 +2766,12 @@
         OBJ_ID="f95c5704-a607-4aed-bc36-8188670a380f"
         SHRT_NAME="Veterinary Medicine" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST709" DIVISION="WMST"
+        ID="32305ba2-3f3a-4ca3-a626-448fbe67141f"
+        LNG_NAME="Directed Independent Reading for Major Field Exam"
+        LVL="700" OBJ_ID="78f898ed-e9d5-46ea-8a75-2e287140401b"
+        SHRT_NAME="RDNG MAJOR FIELD EXAM" ST="Active" SUFX_CD="709"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="BSCI434" DIVISION="BSCI"
         ID="32507a43-ef87-4a23-825b-148935dc400c"
         LNG_NAME="Mammalian Histology" LVL="400"
@@ -2622,6 +2804,12 @@
         OBJ_ID="ec5ebf2c-ff22-40ef-aa70-2ed14db40313"
         SHRT_NAME="Ethnomusicology" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST298" DIVISION="WMST"
+        ID="330cf981-07fe-49c8-927e-637590ef95f9"
+        LNG_NAME="Selected Topics in Womens Studies" LVL="200"
+        OBJ_ID="48d0a6a5-57b0-4f32-b8b0-b77cc8290b6f"
+        SHRT_NAME="SELECTED TOPICS" ST="Superseded" SUFX_CD="298"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="BMBAM" ID="332882ab-f54f-4e5a-a1c6-d056b361a578"
         LNG_NAME="Business and Management (Master's)"
         OBJ_ID="bab70986-bbc9-4656-8e5e-e424b4c413a9"
@@ -2688,6 +2876,12 @@
         OBJ_ID="2d3a8df6-0d57-4586-bd10-6dc1419fc8aa"
         SHRT_NAME="BIOL CONSERV EXTIN" ST="Active" SUFX_CD="363"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="WMST360" DIVISION="WMST"
+        ID="33f75061-25fd-459d-94e1-574282da8da3"
+        LNG_NAME="Caribbean Women" LVL="300"
+        OBJ_ID="84fcdea5-0b91-46e9-b47b-2057036737a0"
+        SHRT_NAME="CARIBBEAN WOMEN" ST="Superseded" SUFX_CD="360"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="EDHDD" ID="33fec5d1-4b36-463e-a7ff-f56b7da17cfc"
         LNG_NAME="Human Development (Doctoral)"
         OBJ_ID="a69734e3-9d0a-4d40-bce5-994e71565d81"
@@ -2722,6 +2916,18 @@
         OBJ_ID="7da4e31c-3b3d-49dd-a14f-daa1b88fc64e"
         SHRT_NAME="EPIDEMIOL&amp;PUB HLTH" ST="Superseded" SUFX_CD="425"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST621" DIVISION="WMST"
+        ID="345a77de-644b-45ba-a3b3-e47a50688441"
+        LNG_NAME="Women's Studies Across the Disciplines" LVL="600"
+        OBJ_ID="f83958eb-466d-4a45-b548-df4b64d035df"
+        SHRT_NAME="WMST ACROSS DISCPL" ST="Superseded" SUFX_CD="621"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST380" DIVISION="WMST"
+        ID="346d52ff-3ff2-416f-b39e-5dcc9a33c933"
+        LNG_NAME="Feminist Analysis of the Workplace" LVL="300"
+        OBJ_ID="7206631c-d7e9-4427-894a-9d421eae183a"
+        SHRT_NAME="FEM ANALYSIS WORKPLACE" ST="Active" SUFX_CD="380"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="22050" ID="3473d7f7-aa7d-4c34-81aa-eeb29bb14e39"
         OBJ_ID="126c3a80-4d4e-4f57-b7e0-9e7bcf906394"
         SHRT_NAME="History" ST="Active"
@@ -2795,6 +3001,13 @@
         OBJ_ID="3e88e32e-df45-4cd4-b9ec-b55497cb152a"
         SHRT_NAME="INTRO TO POETRY" ST="Superseded" SUFX_CD="243"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST496" DIVISION="WMST"
+        ID="366e09e1-612e-44c3-a452-dbd5c22e3c04"
+        LNG_NAME="African-American Women Filmmakers" LVL="400"
+        OBJ_ID="0dff63f1-fe0b-44a8-b045-2fa08c0ba327"
+        SHRT_NAME="AFRO-AMER WMN FILMMAKERS" ST="Superseded"
+        SUFX_CD="496"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="EDPLM" ID="36840e21-27fc-4044-85e2-99b9a3eedaae"
         LNG_NAME="Education Leadership and Policy - Master"
         OBJ_ID="4a492330-916e-403a-8518-92c90c8d6723"
@@ -2855,6 +3068,12 @@
         OBJ_ID="f78c7aef-fed1-4c62-9638-74521364226d"
         SHRT_NAME="Applied Mathematics and Statistics, and Scientific Computation"
         ST="Active" TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST350" DIVISION="WMST"
+        ID="3786aae2-1ea1-4b92-8a31-4b64c6bf46b6"
+        LNG_NAME="Feminist Education Practicum" LVL="300"
+        OBJ_ID="0fb6f029-181f-40ce-9e7b-ba4ad1d5c646"
+        SHRT_NAME="FEMINIST ED PRACTICUM" ST="Superseded" SUFX_CD="350"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="12140" ID="37983e6e-ef5c-4dd8-a1cf-cb4723f95ca4"
         OBJ_ID="6639ed55-db5f-4410-badf-77e15439a1fd"
         SHRT_NAME="Public Health Science" ST="Active"
@@ -2995,6 +3214,12 @@
         OBJ_ID="b96de03b-4814-4d42-9a13-83a0a34f2b2b"
         SHRT_NAME="INTRO TO POETRY" ST="Superseded" SUFX_CD="243"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST325" DIVISION="WMST"
+        ID="3a66b921-0f86-4b7d-9607-ef94ad47cb02"
+        LNG_NAME="The Sociology of Gender" LVL="300"
+        OBJ_ID="a2c6911f-3cb3-4db9-b8e8-f16e2acb8434"
+        SHRT_NAME="SOCIOLOGY OF GENDER" ST="Active" SUFX_CD="325"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="MFAPM" ID="3a784824-9c06-45df-bb0d-3ca0f4fdc769"
         LNG_NAME="Master of Fine Arts in Performance (Master's)"
         OBJ_ID="d0d33d80-8dd4-41df-93c2-b5b392ef6130"
@@ -3099,6 +3324,12 @@
         OBJ_ID="279aa5ca-a280-487a-8ca6-cdbd3632ad0b"
         SHRT_NAME="PLANT BIO LAB" ST="Superseded" SUFX_CD="125"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="WMST493" DIVISION="WMST"
+        ID="3c6f429a-dcab-4f0c-ae44-cc1319324f1a"
+        LNG_NAME="Jewish Women in International Perspective" LVL="400"
+        OBJ_ID="69a61ee2-c72e-43da-9c7d-6f677ebfdabe"
+        SHRT_NAME="JEWISH WOMEN INTRL PERSP" ST="Active" SUFX_CD="493"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="WMST326" DIVISION="WMST"
         ID="3c7a2d51-6d61-4e4d-891c-7ac22dd6a931"
         OBJ_ID="ea9bf31e-da43-4c34-9992-94c302c02e00" ST="Active"
@@ -3113,6 +3344,12 @@
         OBJ_ID="537789e6-ac27-40fd-9326-c6f01452c017"
         SHRT_NAME="Individual Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST386" DIVISION="WMST"
+        ID="3ca2ef72-b4e1-4bc9-b92a-9351d9e9ed97"
+        LNG_NAME="Experiential Learning" LVL="300"
+        OBJ_ID="08cc66bc-0e25-408e-a41d-c149d1994868"
+        SHRT_NAME="EXPER LEARNING" ST="Superseded" SUFX_CD="386"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="SPLAM" ID="3ca5df69-7471-42cc-85bd-7e995cdd486b"
         LNG_NAME="Hearing and Speech Sciences: M.A. (Master's)"
         OBJ_ID="c4ca5c84-546c-43e8-9e07-87ebfa8a76a7"
@@ -3130,6 +3367,12 @@
         OBJ_ID="df8e614a-5f30-4906-8900-a5b29f28e2e2"
         SHRT_NAME="CHAOTIC DYNAMICS" ST="Active" SUFX_CD="715"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST200" DIVISION="WMST"
+        ID="3cedeb39-3efe-4a95-aba9-b2ddfbbf6cfc"
+        LNG_NAME="Introduction to Women's Studies:  Women and Society"
+        LVL="200" OBJ_ID="601769bd-ec0c-46b9-99c4-6417d38e2746"
+        SHRT_NAME="WOMEN &amp; SOCIETY" ST="Superseded" SUFX_CD="200"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="BSCI425" DIVISION="BSCI"
         ID="3d0a3a51-0f50-4514-8bfa-b238a5a7975d"
         LNG_NAME="Epidemiology and Public Health" LVL="400"
@@ -3180,6 +3423,11 @@
         OBJ_ID="ead78531-e007-4261-b8be-47a2d352f633"
         SHRT_NAME="Mathematics" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="ENGL250" DIVISION="ENGL"
+        ID="3ddcdfe2-7e25-44d3-995b-960adb352a6c"
+        OBJ_ID="c071341a-6a87-430a-bdb2-70dda26efbb3" ST="NotApproved"
+        SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="BSCI126" DIVISION="BSCI"
         ID="3dfcde7a-ba88-48e8-b63a-3578fa6e0e8d"
         LNG_NAME="Pollinators in Crisis" LVL="100"
@@ -3247,6 +3495,12 @@
         OBJ_ID="f6369e8b-9357-499d-85d1-2b6baaa09d04"
         SHRT_NAME="BIOL ISS+SCI EVID" ST="Retired" SUFX_CD="301"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST454" DIVISION="WMST"
+        ID="4017b2fa-6ad9-4b4f-8779-74fd9703ab72"
+        LNG_NAME="Women in Africa" LVL="400"
+        OBJ_ID="2f7d4fec-096d-4a6a-be89-ef49bf7e179f"
+        SHRT_NAME="WOMEN IN AFRICA" ST="Active" SUFX_CD="454"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS101" DIVISION="PHYS"
         ID="404ad180-380c-4641-a8c0-869b4b7cbde0"
         LNG_NAME="Contemporary Physics - Revolutions in Physics"
@@ -3503,12 +3757,24 @@
         LVL="600" OBJ_ID="8a0681f1-19e1-4dcc-9d25-65f37a3cc060"
         SHRT_NAME="APP PROF+TECH WRIT" ST="Active" SUFX_CD="612"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST348" DIVISION="WMST"
+        ID="44907820-c9cc-40ce-a3c3-fffe63067661"
+        LNG_NAME="Literary Works by Women" LVL="300"
+        OBJ_ID="432f97be-c1b9-46b2-b1fe-0fa21d72b974"
+        SHRT_NAME="LITERARY WORKS BY WOMEN" ST="Active" SUFX_CD="348"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL272" DIVISION="ENGL"
         ID="44ec3b33-1c20-4731-9352-9467b87a9c60"
         LNG_NAME="Honors World Literature" LVL="200"
         OBJ_ID="bfbee9fe-70da-48c9-a57d-3918b0a1fe2d"
         SHRT_NAME="HONORS WORLD LIT" ST="Superseded" SUFX_CD="272"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST387" DIVISION="WMST"
+        ID="44fa45da-192b-41b0-aa6f-595234e5c683"
+        LNG_NAME="Field Work Analysis" LVL="300"
+        OBJ_ID="08580f6e-2917-4f1c-8e71-29380e76d326"
+        SHRT_NAME="FIELD WORK ANALYS" ST="Retired" SUFX_CD="387"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL789" DIVISION="ENGL"
         ID="450756fb-ad3b-46a9-abfa-53104b639e79"
         LNG_NAME="Form and Theory in Fiction" LVL="700"
@@ -3519,6 +3785,9 @@
         OBJ_ID="a6354da2-0682-4a2a-9a81-11b49def442f"
         SHRT_NAME="Nutrition and Food Science: Nutrition (Doctoral)"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="452cb823-b617-4854-851d-e164b18f9476"
+        OBJ_ID="7bb9394c-7f69-405e-a05b-31a2663af915" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL289" DIVISION="ENGL"
         ID="4542b753-de4c-435d-a3f3-ffdb4cb24414"
         LNG_NAME="Special Topics in English" LVL="200"
@@ -3649,6 +3918,9 @@
         OBJ_ID="55c7147f-9bb2-4483-807f-03895546cd0c"
         SHRT_NAME="BIOL REPROD" ST="Superseded" SUFX_CD="342"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT ID="480bdfb4-8dbc-49fa-8453-56959a6afff6"
+        OBJ_ID="be7193da-93af-4c17-ac42-00b6d3482f99" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BIPHM" ID="48242991-a78e-47a1-b75c-00fc197fb31a"
         OBJ_ID="62aeb602-9ac0-4616-8462-522be765b891"
         SHRT_NAME="Biophysics" ST="Active"
@@ -3670,6 +3942,12 @@
         LVL="200" OBJ_ID="3b4a5bca-7596-46e6-8f01-0c80efc5c16c"
         SHRT_NAME="ELECDYN LIGHT RELA" ST="Superseded" SUFX_CD="263"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST326" DIVISION="WMST"
+        ID="486c020b-28df-4014-a2eb-865cd50ac41f"
+        LNG_NAME="Biology of Reproduction" LVL="300"
+        OBJ_ID="14620b5a-2fed-4946-b2f1-737ba9c23a99"
+        SHRT_NAME="BIOLOGY OF REPRODUCTION" ST="Active" SUFX_CD="326"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="2299I" ID="48b6b8b4-cc2d-482d-a668-de28c8faaa01"
         LNG_NAME="Environmental Science &amp; Policy - Land Use"
         OBJ_ID="eab38304-6376-45c0-ae16-01d7f12868dd"
@@ -3692,6 +3970,9 @@
         OBJ_ID="a62fb7cc-746b-4d81-bc91-5e692c55e903"
         SHRT_NAME="INTRO ENGL LANG" ST="Superseded" SUFX_CD="280"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT ID="49282368-d3b6-4453-9f68-2c7ced0703d5"
+        OBJ_ID="ca414366-849e-4e4a-ad1a-cbb7712f84f8" ST="Retired"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS732" DIVISION="PHYS"
         ID="4966b100-bf71-4123-bf9f-f0d687d70481"
         LNG_NAME="Introduction to Solid State Physics II" LVL="700"
@@ -3723,6 +4004,12 @@
         OBJ_ID="6099be28-7648-46ea-8e73-b67596242e56"
         SHRT_NAME="Animal Sciences: Sciences/Preprofessional"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST200" DIVISION="WMST"
+        ID="49a703e1-b2e6-4fe1-8d13-c97e3241c394"
+        LNG_NAME="Introduction to Women's Studies:  Women and Society"
+        LVL="200" OBJ_ID="fe5e135f-86e5-4227-8ab0-cb80e2c37daa"
+        SHRT_NAME="WOMEN &amp; SOCIETY" ST="Superseded" SUFX_CD="200"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="BSCI463" DIVISION="BSCI"
         ID="49cf9b83-986b-4f59-9522-db65f52c730b"
         LNG_NAME="Laboratory and Field Ecology" LVL="400"
@@ -3774,6 +4061,12 @@
         OBJ_ID="1b4513a6-4efe-4b63-bd29-b4c489e0523f"
         SHRT_NAME="Master of Engineering-Environmental (Master's)"
         ST="Active" TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST420" DIVISION="WMST"
+        ID="4aadf9a1-e501-4aaa-abc5-fa694ab9b295"
+        LNG_NAME="Asian American Women: The Social Construction of Gender"
+        LVL="400" OBJ_ID="3e514a4a-dc39-45d7-b532-8b649022b97b"
+        SHRT_NAME="ASIAN AMERICAN WOMEN" ST="Superseded" SUFX_CD="420"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS301" DIVISION="PHYS"
         ID="4adc3f8c-9494-4778-9090-6a3110e3c053"
         LNG_NAME="Intermediate Theoretical Physics" LVL="300"
@@ -3806,6 +4099,12 @@
         OBJ_ID="9aa8179e-03b2-4b7e-b126-383a5f43db42"
         SHRT_NAME="METHODS STAT PHYS" ST="Active" SUFX_CD="603"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST313" DIVISION="WMST"
+        ID="4b5f8cac-b1b1-4b97-bb2f-afe124996d39"
+        LNG_NAME="Women and Science" LVL="300"
+        OBJ_ID="7852079c-bd39-429c-b57f-666aedf2eeec"
+        SHRT_NAME="WOMEN AND SCIENCE" ST="Superseded" SUFX_CD="313"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BIOED" ID="4b7457a2-6e58-4e1e-8107-7eeea505b42d"
         OBJ_ID="234d6266-388e-43f2-96fb-7569bd878ada"
         SHRT_NAME="Bioengineering" ST="Active"
@@ -3871,11 +4170,20 @@
         OBJ_ID="46390c4e-5d85-4985-bdef-62976e497777"
         SHRT_NAME="Health Administration" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST488" DIVISION="WMST"
+        ID="4c8f4439-58ed-4a0d-928a-5c0e71146486"
+        LNG_NAME="Senior Seminar" LVL="400"
+        OBJ_ID="9850d3e1-7c5e-4969-9d09-8216a25b7a0e"
+        SHRT_NAME="SENIOR SEMINAR" ST="Active" SUFX_CD="488"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ENEEM" ID="4cd43f00-5c71-4726-8551-f1e95059f50d"
         LNG_NAME="ENGR: MS/PhD-Electrical Engineering (Master's)"
         OBJ_ID="36aad5b7-a8ae-48c0-83c0-df82c8519f67"
         SHRT_NAME="Electrical Engineering" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="4cf91f85-e035-44a0-8c07-75a7d26c59cf"
+        OBJ_ID="bf5be9e4-ba07-4b64-8619-f787b50b2645" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS465" DIVISION="PHYS"
         ID="4cfa7510-f8f7-441d-93e0-618db495a0ef"
         LNG_NAME="Modern Optics" LVL="400"
@@ -3978,6 +4286,9 @@
         OBJ_ID="c11b16ed-3cb8-4403-8934-c37254d50fc3"
         SHRT_NAME="MYTHOLOGIES" ST="Superseded" SUFX_CD="277"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="4eb76224-4df2-4a7a-bf06-9567d2f0686e"
+        OBJ_ID="ef68b313-6816-4b89-b98e-1287d1b2a4d6" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS741" DIVISION="PHYS"
         ID="4ebd02db-f1e0-414b-a1bc-4b00c6008b2e"
         LNG_NAME="Nuclear Physics: Survey" LVL="700"
@@ -4055,6 +4366,12 @@
         OBJ_ID="e8caa4c6-5935-4660-8be2-38c456219d36"
         SHRT_NAME="Environmental Science &amp; Policy-Earth Surface Proc"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST471" DIVISION="WMST"
+        ID="4fff62c5-de0f-413f-92b0-fc3c292c4a89"
+        LNG_NAME="Women's Health" LVL="400"
+        OBJ_ID="aae2bc31-79bd-4d7f-8ab3-d6165c1b8145"
+        SHRT_NAME="WOMEN'S HEALTH" ST="Active" SUFX_CD="471"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL280" DIVISION="ENGL"
         ID="500687fa-efae-4979-bac9-6676aa236299"
         LNG_NAME="Introduction to the English Language" LVL="200"
@@ -4077,6 +4394,18 @@
         OBJ_ID="77be6b47-2a5a-4adf-96b1-5d6f93bb4e40"
         SHRT_NAME="Art Education" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST408" DIVISION="WMST"
+        ID="505ef96b-1ae5-4b9d-ba53-1e064e1eadb4"
+        LNG_NAME="Literature by Women Before 1800" LVL="400"
+        OBJ_ID="eec26efd-6074-4706-ab2a-04975282ab47"
+        SHRT_NAME="LIT BY WOMEN BEFORE 1800" ST="Active" SUFX_CD="408"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST499" DIVISION="WMST"
+        ID="5063f538-aad6-485c-9bd1-14dbcf5a1fc2"
+        LNG_NAME="Independent Study" LVL="400"
+        OBJ_ID="65913f24-9464-4e79-8f06-55538cd70171"
+        SHRT_NAME="INDEPENDENT STUDY" ST="Superseded" SUFX_CD="499"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL758" DIVISION="ENGL"
         ID="507c0027-3139-4843-b911-bb25523b486f"
         LNG_NAME="Literary Criticism and Theory" LVL="700"
@@ -4090,6 +4419,9 @@
         SHRT_NAME="ATOMIC &amp; OPT PHYSICS II" ST="Retired"
         SUFX_CD="722"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT ID="50cf14ea-78ce-4d5a-9382-cd9d335bf252"
+        OBJ_ID="cc968db7-355d-4414-87eb-2854caa4d227" ST="Retired"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM121" DIVISION="CHEM"
         ID="50d08bba-5d9a-4ab3-955e-a4b79f2b68dd"
         LNG_NAME="Chemistry in the Modern World" LVL="100"
@@ -4184,6 +4516,12 @@
         OBJ_ID="27ae68c7-c589-4283-afab-878025d9a573"
         SHRT_NAME="Master of Engineering-Sustainable Energy (Master's)"
         ST="Active" TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST263" DIVISION="WMST"
+        ID="51ff9b64-c0c3-47a1-8d33-a0c6124fb076"
+        LNG_NAME="Introduction to Black Women's Studies" LVL="200"
+        OBJ_ID="ab616107-223d-46c7-b0a0-f40e3c5e9b5f"
+        SHRT_NAME="BLACK WOMEN'S STUDIES" ST="Active" SUFX_CD="263"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="EMBAM" ID="520ed3c8-945e-4fbc-93b1-ce8f3b81323e"
         OBJ_ID="0981df24-6c1e-4319-9756-0e41b1cf9eb3"
         SHRT_NAME="Executive MBA" ST="Active"
@@ -4370,6 +4708,12 @@
         OBJ_ID="850adbea-752f-4830-b5b0-89eae041432f"
         SHRT_NAME="Bioengineering, Biological Resources Engineering"
         ST="Active" TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST621" DIVISION="WMST"
+        ID="54fe8961-02e8-46a2-a430-f4bb67f39669"
+        LNG_NAME="Feminist Theories and Women's Movements: Genealogies"
+        LVL="600" OBJ_ID="c87451c1-9544-46c0-ad4a-abeabd080238"
+        SHRT_NAME="FEMINIST THEORIES" ST="Active" SUFX_CD="621"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENGL458" DIVISION="ENGL"
         ID="5502c7f7-e271-4765-b171-6925c82dcaa9"
         LNG_NAME="Literature by Women after 1800" LVL="400"
@@ -4388,6 +4732,15 @@
         OBJ_ID="d4833ec9-6a3b-471c-bc1a-371e75509625"
         SHRT_NAME="SHAKESPEARE-MAJ WKS" ST="Superseded" SUFX_CD="304"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST469" DIVISION="WMST"
+        ID="552e8bd6-0fd8-483a-9295-bad4db93fc1f"
+        LNG_NAME="Study Abroad Special Topics IV" LVL="400"
+        OBJ_ID="93ed2d7a-ded1-42c8-a00d-fac154d26ba8"
+        SHRT_NAME="STDY ABRD SP TPCS IV" ST="Active" SUFX_CD="469"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="553f5e83-e1f3-4a38-acab-c99f8e9bc36f"
+        OBJ_ID="246f6770-0959-4cfd-beb1-71962c67a6df" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BCHMD" ID="555c9a1e-195c-4f82-9922-9c0776df44bb"
         OBJ_ID="79d4a272-6103-4c58-a452-964632003a11"
         SHRT_NAME="Biochemistry" ST="Active"
@@ -4469,6 +4822,12 @@
         OBJ_ID="250a9719-fee9-4b8e-99c0-50f0fd84f0d4"
         SHRT_NAME="MASTERS" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST250" DIVISION="WMST"
+        ID="576c79db-bc46-4718-a7b0-fb3c04b34430"
+        LNG_NAME="Introduction to Women's Studies:  Women, Art and Culture"
+        LVL="200" OBJ_ID="c621b026-438b-4077-9639-8923571f051a"
+        SHRT_NAME="WOMEN, ART &amp; CULTURE" ST="Active" SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="EDCPD" ID="5798c7dd-53b7-492f-83e0-e093a13a2a59"
         LNG_NAME="Counseling and Personnel Services (Doctoral)"
         OBJ_ID="1ade0cf0-1943-441d-8827-da53c9543a0b"
@@ -4599,6 +4958,13 @@
         LVL="400" OBJ_ID="b62f0f6e-25ad-4e40-83da-747a1bb110ab"
         SHRT_NAME="THERMO/STAT MECHAN" ST="Superseded" SUFX_CD="414"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
+        ID="5a0d113d-9830-4c47-8c64-06a08afbf0b5"
+        LNG_NAME="Women and Society in the Middle East" LVL="400"
+        OBJ_ID="a14f881f-5db6-4bfd-9114-be665c4ed8bc"
+        SHRT_NAME="WOMEN &amp; SOCIETY MID EAST" ST="Superseded"
+        SUFX_CD="456"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS798" DIVISION="PHYS"
         ID="5a133fd4-0f77-4163-8661-1300a9f45b71"
         LNG_NAME="Special Problems in Advanced Physics" LVL="700"
@@ -4626,6 +4992,12 @@
         OBJ_ID="a8b05857-d270-4c29-870c-de951686de67"
         SHRT_NAME="Education Leadership, Higher Ed &amp; Internat'l Ed (Doctoral)"
         ST="Active" TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST499" DIVISION="WMST"
+        ID="5adc0fb9-93d6-46af-b4fd-82e1b4007ad1"
+        LNG_NAME="Independent Study" LVL="400"
+        OBJ_ID="2396480d-6688-48d4-bcff-5f1cb68943fc"
+        SHRT_NAME="INDEPENDENT STUDY" ST="Active" SUFX_CD="499"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="BSCI471" DIVISION="BSCI"
         ID="5ae42f76-9c9b-4507-a394-8f9b6e6424d2"
         LNG_NAME="Molecular Evolution" LVL="400"
@@ -4749,6 +5121,9 @@
         LVL="400" OBJ_ID="4dfa4d55-4812-4007-97d6-e00118723ca8"
         SHRT_NAME="MILTON" ST="Superseded" SUFX_CD="414"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="5ceb65f5-3a5f-40ab-9700-fd168a58d771"
+        OBJ_ID="542088cb-dd5f-4e3e-a699-156c5e390a8a" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="EDHDM" ID="5d0b0c79-e837-4bba-8fe5-7754ed2b1c22"
         OBJ_ID="54c5e5be-9dfe-496a-b0ee-9f9888c7969e"
         SHRT_NAME="Human Development Education" ST="Active"
@@ -4842,6 +5217,13 @@
         OBJ_ID="d10b4de0-ad4f-4ba0-8f64-5712c007b857"
         SHRT_NAME="FOLK NARRATIVE" ST="Retired" SUFX_CD="461"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST281" DIVISION="WMST"
+        ID="603ad865-4866-4933-9b52-ea65594f291d"
+        LNG_NAME="Women in German Literature and Society" LVL="200"
+        OBJ_ID="eb22139f-d732-429d-8c79-dfbd94f2503c"
+        SHRT_NAME="WOMEN GERM LIT &amp; SOCIETY" ST="Superseded"
+        SUFX_CD="281"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="15040" ID="6043bbcb-cec1-48dc-b268-d15dab7376fd"
         LNG_NAME="Classical Languages and Literatures"
         OBJ_ID="0bd17309-15a4-45dc-adf5-0d9de527315f"
@@ -4938,6 +5320,12 @@
         OBJ_ID="516e1b77-136f-4f4e-92d6-cc96f308d87b"
         SHRT_NAME="Physical Sciences: ROTC" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST250" DIVISION="WMST"
+        ID="620260bc-64b9-4ff0-9a06-2b1ac064efba"
+        LNG_NAME="Introduction to Women's Studies:  Women, Art and Culture"
+        LVL="200" OBJ_ID="95dbb71a-7f55-41f3-9011-54852d822e3e"
+        SHRT_NAME="WOMEN, ART&amp;CULTURE" ST="Superseded" SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS111" DIVISION="PHYS"
         ID="620e3d4a-9549-42f1-a389-5ee364dc46ed"
         LNG_NAME="Physics in the Modern World" LVL="100"
@@ -5023,6 +5411,12 @@
         LVL="200" OBJ_ID="d43751c6-f6dd-4724-b9fd-a0aa3621d833"
         SHRT_NAME="LGBT LITERATURES" ST="Active" SUFX_CD="265"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="7"/>
+    <KSLU_CLU_IDENT CD="WMST436" DIVISION="WMST"
+        ID="63801e9e-3748-4d6d-a126-09df3737e758"
+        LNG_NAME="The Legal Status of Women" LVL="400"
+        OBJ_ID="e566d5ee-d271-41e9-ad07-a7b4dee250ca"
+        SHRT_NAME="LEGAL STATUS OF WOMEN" ST="Active" SUFX_CD="436"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="08030" ID="6385670f-152a-4436-a523-306517cd285f"
         OBJ_ID="fc088649-7b44-4817-9f5b-dbb59b78c0b1"
         SHRT_NAME="Education-Secondary" ST="Active"
@@ -5168,6 +5562,12 @@
         OBJ_ID="e4e4e160-7150-481f-b376-986c4a9a5712"
         SHRT_NAME="RDNGS IN BIOGRAPHY" ST="Superseded" SUFX_CD="242"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST350" DIVISION="WMST"
+        ID="663f693e-c3fc-496f-99cf-0172276a1231"
+        LNG_NAME="Feminist Pedagogy" LVL="300"
+        OBJ_ID="a5a1de10-1d1c-4b1f-aac7-eba110fa19d0"
+        SHRT_NAME="FEMINIST PEDAGOGY" ST="Active" SUFX_CD="350"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="PHYS142" DIVISION="PHYS"
         ID="664b5c90-04bd-4f09-9377-a70a9fe150b6"
         LNG_NAME="Principles of Physics" LVL="100"
@@ -5460,9 +5860,22 @@
         OBJ_ID="502199b1-0a97-44a9-883a-95c5e32ef630"
         SHRT_NAME="ADV FICTION WORKSHOP" ST="Superseded" SUFX_CD="498"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST314" DIVISION="WMST"
+        ID="6bb913c6-3ba8-49b8-b181-02e6143e63b0"
+        LNG_NAME="Black Women in United States History" LVL="300"
+        OBJ_ID="4565c4c1-4278-4f06-a754-e261f4bfe435"
+        SHRT_NAME="BLK WOMEN IN US HISTORY" ST="Superseded"
+        SUFX_CD="314"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="10080" ID="6bbffce8-3d62-4119-b3d2-6c9600db13af"
         OBJ_ID="c1a6b81b-3f3d-4fc2-ae8f-8bd824a65e6c" SHRT_NAME="Dance"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST444" DIVISION="WMST"
+        ID="6c04093b-fa81-457e-b464-1769e7c896f2"
+        LNG_NAME="Feminist Critical Theory" LVL="400"
+        OBJ_ID="b5f89bd3-8b66-479c-ade9-77ca9595bd83"
+        SHRT_NAME="FEMINIST CRITICAL THEORY" ST="Active" SUFX_CD="444"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CRWRM" ID="6c0f4552-65b1-4ae3-acd5-3439d0e5b887"
         OBJ_ID="4541b14c-006a-496a-a7a9-345d4fd29363"
         SHRT_NAME="Creative Writing" ST="Active"
@@ -5738,6 +6151,12 @@
         OBJ_ID="8775e493-800d-4eaa-a13c-54b7b28a5b82"
         SHRT_NAME="GEN PHYS-SCI TCH I" ST="Retired" SUFX_CD="221"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST611" DIVISION="WMST"
+        ID="718cd7b7-42e2-4c0e-8e45-721c716fca9e"
+        LNG_NAME="Power, Gender, and the Spectrum of Difference"
+        LVL="600" OBJ_ID="d082b04f-6353-4f3e-b78d-4aa917be4b79"
+        SHRT_NAME="POWER GENDER DIFF" ST="Active" SUFX_CD="611"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ENGL273" DIVISION="ENGL"
         ID="71bb3f67-b0be-4742-8d0a-88f7c158085e"
         LNG_NAME="Writing Poetry: A Beginning Workshop" LVL="200"
@@ -5774,6 +6193,12 @@
         OBJ_ID="2cbeba17-7ba8-4115-b962-7b5b98c3d630"
         SHRT_NAME="SP TPCS FILM STUDIES" ST="Active" SUFX_CD="329"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST210" DIVISION="WMST"
+        ID="7265929f-4390-4004-b136-79b010696aae"
+        LNG_NAME="Women in America to 1880" LVL="200"
+        OBJ_ID="68c3be6b-5e1f-467b-b28a-b39865bac706"
+        SHRT_NAME="WOMEN IN AMERICA TO 1880" ST="Active" SUFX_CD="210"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="HISTM" ID="7279d12b-f3ba-4506-92cc-5d5223a81e60"
         LNG_NAME="History (Master's)"
         OBJ_ID="991f4eef-02d1-441a-b49e-67e614228b66"
@@ -5949,6 +6374,12 @@
     <KSLU_CLU_IDENT ID="747ad4c4-af1f-4132-8353-dfe552bde4dd"
         OBJ_ID="042efb63-111f-4ce8-9456-252e53b54fa2" ST="Retired"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST369" DIVISION="WMST"
+        ID="747da1eb-6d29-4c54-a1fc-3f053fb89661"
+        LNG_NAME="Special Topics in Study Abroad III" LVL="300"
+        OBJ_ID="7e5cb48f-6aba-4e44-afe2-610abfb615bc"
+        SHRT_NAME="SP TPCS STDY ABRD III" ST="Active" SUFX_CD="369"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ENGL362" DIVISION="ENGL"
         ID="74a17334-aaad-4ea3-a05e-c73fd1d963e0"
         LNG_NAME="Caribbean Literature in English" LVL="300"
@@ -5961,6 +6392,15 @@
         OBJ_ID="a1288930-60c0-4fa1-8870-53243d1cbd10"
         SHRT_NAME="LIT OF ROMANTIC PD" ST="Superseded" SUFX_CD="421"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="74ba1a26-aa50-48a9-b02f-7bb925fb134d"
+        OBJ_ID="b2ba862d-b44d-4e8a-9ee6-268d87c8c603" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST498" DIVISION="WMST"
+        ID="74bfe519-91a9-4b56-b46d-32b34c3b7abf"
+        LNG_NAME="Special Topics in Women's Studies" LVL="400"
+        OBJ_ID="1d8cfe91-d04d-48fe-b046-66bf7b55acbc"
+        SHRT_NAME="SPEC TOP WMST" ST="Superseded" SUFX_CD="498"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENCHD" ID="74c792f8-b554-4729-978d-97b6a2b8c9aa"
         LNG_NAME="ENGR: MS/PhD-Chemical Engineering (Doctoral)"
         OBJ_ID="79986bff-2261-41d1-bfcb-a6e54e564eac"
@@ -6049,6 +6489,15 @@
         OBJ_ID="817a8689-8ffc-4abf-b4e1-4e24bbe6054c"
         SHRT_NAME="EXPER LEARNING" ST="Active" SUFX_CD="386"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+    <KSLU_CLU_IDENT CD="WMST250" DIVISION="WMST"
+        ID="75f99c4e-c945-4855-bb2e-3e6155f3d475"
+        LNG_NAME="Introduction to Women's Studies:  Women, Art and Culture"
+        LVL="200" OBJ_ID="5f7b2f16-1499-4503-959b-9b589e7fcaf8"
+        SHRT_NAME="WOMEN, ART&amp;CULTURE" ST="Superseded" SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT ID="761540d9-6d47-47ea-b686-af6a0ffdc5ec"
+        OBJ_ID="0a9861a2-259e-4d5b-b290-50166de49ccc" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="MAITM" ID="7631afbc-e752-4085-a5c7-684f7ee8c53c"
         OBJ_ID="5aa33f41-1a83-45c1-b1cf-46d3cd7f6160"
         SHRT_NAME="Mathematics of Advanced Industrial Technology"
@@ -6089,6 +6538,12 @@
         OBJ_ID="fd847031-62ec-4d20-ba92-ef9625e279a7"
         SHRT_NAME="Business and Management" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST457" DIVISION="WMST"
+        ID="77808240-2f77-4eb6-b942-0c174f827299"
+        LNG_NAME="Redefining Gender in the U.S., 1880-1935" LVL="400"
+        OBJ_ID="e3224016-9a18-4e51-a8f8-df0063353837"
+        SHRT_NAME="U.S. GENDER" ST="Active" SUFX_CD="457"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL101" DIVISION="ENGL"
         ID="778f2ff8-a17a-482a-b13b-257172a17ace"
         LNG_NAME="Academic Writing" LVL="100"
@@ -6112,6 +6567,9 @@
         OBJ_ID="ef7a4238-6641-4e62-ae17-fa66db9b7661"
         SHRT_NAME="INTRO FLUID DYNAM" ST="Retired" SUFX_CD="461"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT ID="77e45953-e79f-4047-b27a-3216c369c730"
+        OBJ_ID="ca405b93-c80b-4568-b504-c6a740af3ed9" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM682" DIVISION="CHEM"
         ID="77fc2df0-8bf2-4503-8756-d3787a1a1797"
         LNG_NAME="Reaction Kinetics" LVL="600"
@@ -6278,6 +6736,12 @@
         OBJ_ID="d9d8a5fd-fc44-4b31-ba88-44b2628f2740"
         SHRT_NAME="MAMMALIAN PHYSIOLOGY" ST="Superseded" SUFX_CD="440"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST453" DIVISION="WMST"
+        ID="7af7c341-c45c-4ad1-852e-705d44c5164c"
+        LNG_NAME="Victorian Women in England, France, and the United States"
+        LVL="400" OBJ_ID="35579495-7756-4cd3-a7b4-5f27d1b7590a"
+        SHRT_NAME="VICTORIAN WOMEN" ST="Superseded" SUFX_CD="453"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="1105B" ID="7afb6762-aa0f-40a4-a9bb-a55f2172b6d1"
         OBJ_ID="c9e06712-400c-4468-ba75-471539e8bc42"
         SHRT_NAME="Spanish Language &amp; Literature w/ Business"
@@ -6310,6 +6774,12 @@
         LNG_NAME="Teddy Test 7/17/12"
         OBJ_ID="fd8d98d3-d9d3-4cd3-88da-4515140dcc53"
         SHRT_NAME="TEDDY TEST 7/17/12" ST="draft"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST200" DIVISION="WMST"
+        ID="7b861822-7913-4b03-a177-c18eb3510554"
+        LNG_NAME="Women in Contemporary Society" LVL="200"
+        OBJ_ID="dd2478cd-d98e-43fb-8d78-d8fa9e3c9122"
+        SHRT_NAME="WMN CONTMPRY SOCTY" ST="Superseded" SUFX_CD="200"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL419" DIVISION="ENGL"
         ID="7bb4c937-0288-4946-8614-0dea18dbd8e3"
@@ -6386,6 +6856,12 @@
         OBJ_ID="9200fbc8-d4cb-4be4-b19d-4356643116b7"
         SHRT_NAME="PUBLICATIONS WORKSHOP" ST="Superseded" SUFX_CD="809"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST430" DIVISION="WMST"
+        ID="7d1d2baf-040e-4e17-8eed-786c00c0dc24"
+        LNG_NAME="Gender Issues in Families" LVL="400"
+        OBJ_ID="efe0f66f-0897-4e81-95b2-dee40baa6235"
+        SHRT_NAME="GENDER ISSUE IN FAMILIES" ST="Active" SUFX_CD="430"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS115" DIVISION="PHYS"
         ID="7d5cbb92-6928-431a-8c5c-3343fd2726ee"
         LNG_NAME="Inquiry into Physics" LVL="100"
@@ -6501,6 +6977,12 @@
         LVL="400" OBJ_ID="41991817-3f26-4b7e-a6fc-9060991f0a09"
         SHRT_NAME="ELEC+MAGNETISM" ST="Superseded" SUFX_CD="411"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST211" DIVISION="WMST"
+        ID="7ee2c143-a8d8-4c20-bb63-279beb444d91"
+        LNG_NAME="Women in America Since 1880" LVL="200"
+        OBJ_ID="71ac7863-1faa-4eec-bfc4-4d852ee01025"
+        SHRT_NAME="WM IN AMER SINCE 1880" ST="Superseded" SUFX_CD="211"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM272" DIVISION="CHEM"
         ID="7f071bcf-d4a6-4dd9-a79c-d8d3d02fada1"
         LNG_NAME="General Bioanalytical Chemistry Laboratory" LVL="200"
@@ -6650,6 +7132,13 @@
         OBJ_ID="12529a4f-7f83-4f04-9743-5caf7c0ae733"
         SHRT_NAME="BASIC CONCEPTS I" ST="Retired" SUFX_CD="400"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST430" DIVISION="WMST"
+        ID="819baa15-393a-4451-b4d9-03c76c0d463c"
+        LNG_NAME="Gender Issues in Families" LVL="400"
+        OBJ_ID="a3fb58de-6367-42ba-9537-f933293a8667"
+        SHRT_NAME="GENDER ISSUE IN FAMILIES" ST="Superseded"
+        SUFX_CD="430"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="CHEM703" DIVISION="CHEM"
         ID="81c9c206-048b-4421-9f74-a6fa98b5531c"
         LNG_NAME="Advanced Radiochemistry" LVL="700"
@@ -6827,6 +7316,12 @@
         OBJ_ID="13f57d7d-d965-414e-b5e9-853b70995938"
         SHRT_NAME="Hearing and Speech Sciences" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST496" DIVISION="WMST"
+        ID="84dcca95-922e-4c26-94e7-c63af416fab1"
+        LNG_NAME="African-American Women Filmmakers" LVL="400"
+        OBJ_ID="b71647f5-415d-4a7b-ba04-0f0ec564a1fc"
+        SHRT_NAME="AFRO-AMER WMN FILMMAKERS" ST="Active" SUFX_CD="496"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="CHEM491" DIVISION="CHEM"
         ID="84e1b7f1-30ac-48eb-9574-7dce120d0f57"
         LNG_NAME="Advanced Organic Chemistry Laboratory" LVL="400"
@@ -6892,11 +7387,23 @@
         OBJ_ID="8d74feba-d3d6-4ec8-9c68-4d2f7de4b633"
         SHRT_NAME="MPH: Epidemiology (Master's)" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST400" DIVISION="WMST"
+        ID="858a3347-9084-4619-adcc-bf56a4d91343"
+        LNG_NAME="Theories of Feminism" LVL="400"
+        OBJ_ID="ce5912ef-5204-4eec-831c-62ef43dd25f8"
+        SHRT_NAME="THEORIES FEMINISM" ST="Superseded" SUFX_CD="400"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="1902E" ID="85a19db9-06e7-4fa1-ba03-ff335c195125"
         LNG_NAME="Physics-Education"
         OBJ_ID="6511ffcd-3c58-4282-bee8-118f1197a10d"
         SHRT_NAME="Physics-Education" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST265" DIVISION="WMST"
+        ID="85c0631c-d6e9-4724-abb4-16ba93ff8e05"
+        LNG_NAME="Constructions of Manhood and Womanhood in the Black Community"
+        LVL="200" OBJ_ID="b228a375-a8b9-43b4-808f-48f98dd6c5f0"
+        SHRT_NAME="BLACK MANHD &amp; WOMANHD" ST="Active" SUFX_CD="265"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ENGL221" DIVISION="ENGL"
         ID="85c6ea00-7890-415a-b62b-46ef4ed1bba6"
         LNG_NAME="American Literature: Beginning to 1865" LVL="200"
@@ -7003,6 +7510,11 @@
         OBJ_ID="df0aa0c7-5e80-4205-90c6-b546ff77013c"
         SHRT_NAME="Physical Sciences: Astronomy Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST578" DIVISION="WMST"
+        ID="884d17e9-dcf5-4135-88e0-032c3d82d63e" LNG_NAME="Internship"
+        LVL="500" OBJ_ID="2823d1ec-092c-49b8-88eb-9c7dbcf6f5a0"
+        SHRT_NAME="INTERNSHIP" ST="Active" SUFX_CD="578"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS263" DIVISION="PHYS"
         ID="886be652-71cc-4fab-a7ec-e5edb0206a44"
         LNG_NAME="General Physics: Waves, Relativity and Quantum Physics"
@@ -7119,6 +7631,13 @@
         OBJ_ID="5bdc8181-4983-431c-92fb-d533ee5ba605"
         SHRT_NAME="Geography" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST281" DIVISION="WMST"
+        ID="8aa3e55c-7111-4bd0-b314-14add573e074"
+        LNG_NAME="Women in German Literature and Society" LVL="200"
+        OBJ_ID="57912d46-049b-4ccd-b705-045d82161258"
+        SHRT_NAME="WOMEN GERM LIT &amp; SOCIETY" ST="Active"
+        SUFX_CD="281"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENTSM" ID="8af3c925-54f1-4f4f-b7c6-1965ddee2006"
         LNG_NAME="Telecommunications (Master's)"
         OBJ_ID="ec6d4e4e-2dd3-4021-9c7b-87caa1f99910"
@@ -7152,6 +7671,12 @@
         OBJ_ID="20b1408a-eefc-45e8-8736-de5f8ae8d713"
         SHRT_NAME="Music (Strings Performance Option)" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST255" DIVISION="WMST"
+        ID="8ba30efe-b683-4170-a4be-aaaeda19c266"
+        LNG_NAME="Introduction to Literature by Women" LVL="200"
+        OBJ_ID="52f26d1b-8073-4828-bb28-cbe313582aa6"
+        SHRT_NAME="INTRO LIT BY WOMEN" ST="Superseded" SUFX_CD="255"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BSCI420" DIVISION="BSCI"
         ID="8bbf3939-179e-4166-b770-94b34f37fe16"
         LNG_NAME="Cell Biology Lectures" LVL="400"
@@ -7214,6 +7739,12 @@
         LVL="300" OBJ_ID="bdc8edd6-66d7-40b5-9155-ce10df59ceb7"
         SHRT_NAME="FIELD WORK" ST="Superseded" SUFX_CD="386"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST601" DIVISION="WMST"
+        ID="8cb4d049-c316-4fa0-87da-e7eada903686"
+        LNG_NAME="Advanced Feminist Theory I" LVL="600"
+        OBJ_ID="6e0fa461-0d05-4c77-93d5-928d9d2a4eaf"
+        SHRT_NAME="ADV FEMINIST THEORY I" ST="Superseded" SUFX_CD="601"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL419" DIVISION="ENGL"
         ID="8cbdedf0-90b2-4c4f-8fd5-a0c1250eb4f7"
         LNG_NAME="Major British Writers after 1800" LVL="400"
@@ -7261,6 +7792,12 @@
         OBJ_ID="16bfad11-f295-4b18-97d8-6e352d1bbe5c"
         SHRT_NAME="Biological Sciences" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST313" DIVISION="WMST"
+        ID="8e15a583-0660-4605-a80e-72f97141964d"
+        LNG_NAME="Women and Science" LVL="300"
+        OBJ_ID="2477eff5-2fee-4946-b128-62afce00c746"
+        SHRT_NAME="WOMEN AND SCIENCE" ST="Retired" SUFX_CD="313"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS122" DIVISION="PHYS"
         ID="8e3fea2c-17eb-4381-9cfe-8d685a9c24ff"
         LNG_NAME="Fundamentals of Physics II" LVL="100"
@@ -7328,6 +7865,12 @@
         OBJ_ID="c43474aa-a17e-4cc7-9acd-1dd7bbd36916"
         SHRT_NAME="Biological Sciences" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST619" DIVISION="WMST"
+        ID="8f850d8e-0193-4a6d-964c-a4163f1c4c66"
+        LNG_NAME="Women's Studies Teaching Practicum" LVL="600"
+        OBJ_ID="32162e4f-03e5-4ce4-9c49-0ff30d22d38a"
+        SHRT_NAME="WMST TEACHING PRACTICUM" ST="Active" SUFX_CD="619"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="06010" ID="8fb9fbce-ed52-4852-8611-4b29104cee1a"
         LNG_NAME="Journalism Undecided"
         OBJ_ID="7d4a7720-9c64-4fa4-8f92-029b6014095e"
@@ -7365,6 +7908,12 @@
         OBJ_ID="ee48bb71-0191-466c-826d-ee338ee4e08f"
         SHRT_NAME="Master of Engineering-Sustainable Energy (online)"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST699" DIVISION="WMST"
+        ID="909bec9b-1707-463e-889d-e09df5b2dd89"
+        LNG_NAME="Independent Study" LVL="600"
+        OBJ_ID="58449f11-199d-4ba5-abd6-59c318c205c9"
+        SHRT_NAME="INDEPENDENT STUDY" ST="Active" SUFX_CD="699"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="CHEM132" DIVISION="CHEM"
         ID="90adda06-1811-422c-8a83-9aa220cf3a64"
         LNG_NAME="General Chemistry I Laboratory" LVL="100"
@@ -7477,6 +8026,9 @@
         LVL="200" OBJ_ID="e1d4feb7-959a-4ab4-8979-deb6488f0be3"
         SHRT_NAME="INTERNSHIP" ST="Superseded" SUFX_CD="288"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="932cdd6e-20ca-45b0-bf65-3beb5e98508d"
+        OBJ_ID="51531a87-f535-41e8-b14d-ea2443c747ee" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL233" DIVISION="ENGL"
         ID="9341b201-9767-4b01-ae3b-2c85d3f429a3"
         LNG_NAME="Introduction to Asian American Literature" LVL="200"
@@ -7484,6 +8036,9 @@
         SHRT_NAME="INTRO ASIAN AMERICAN LIT" ST="Superseded"
         SUFX_CD="233"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+    <KSLU_CLU_IDENT ID="934a1758-a931-4c56-9d89-e2f20ad24f49"
+        OBJ_ID="1be043d6-3960-4302-aac8-90fed5b2a52e" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ANTHM" ID="93674b56-6fb5-4d12-a5f9-821caf39b4bd"
         OBJ_ID="93aa3a2e-6954-43a7-908d-6565ee02e746"
         SHRT_NAME="Anthropology" ST="Active"
@@ -7832,12 +8387,24 @@
         OBJ_ID="624b2705-24d5-4015-a307-a673c632c578"
         SHRT_NAME="Government and Politics" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST899" DIVISION="WMST"
+        ID="9a88e6f3-2131-4783-85ac-f255b5308379"
+        LNG_NAME="Doctoral Dissertation Research" LVL="800"
+        OBJ_ID="3b883203-df46-4b1f-9bd1-cdcb4164d51f"
+        SHRT_NAME="DOC DISSERTATN RES" ST="Active" SUFX_CD="899"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS623" DIVISION="PHYS"
         ID="9aa8da39-2a07-4fa5-bedb-fd21d86bfe3b"
         LNG_NAME="Introduction to Quantum Mechanics II" LVL="600"
         OBJ_ID="4a43da68-4321-4436-83b3-eccc927df998"
         SHRT_NAME="INTR QUANT MECH II" ST="Active" SUFX_CD="623"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST211" DIVISION="WMST"
+        ID="9abed9ca-f686-4609-8415-91b941a4af04"
+        LNG_NAME="Women in America Since 1880" LVL="200"
+        OBJ_ID="6ef89faf-23bd-4a46-8309-9a0fa72b7272"
+        SHRT_NAME="WM IN AMER SINCE 1880" ST="Active" SUFX_CD="211"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="0833P" ID="9b215257-752d-49d1-86a2-339c09c47b23"
         LNG_NAME="Secondary Educ: Mathematics"
         OBJ_ID="188e1213-2707-4b96-a6c2-947511b9d5fa"
@@ -7883,6 +8450,12 @@
         LNG_NAME="Methods of Mathematical Physics" LVL="600"
         OBJ_ID="7c9e6f4c-8266-4a53-9fc1-1be732b5d023"
         SHRT_NAME="METHODS MATH PHYS" ST="Active" SUFX_CD="604"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST269" DIVISION="WMST"
+        ID="9bf242d6-2e14-4f4f-b41d-51f8043c2e8f"
+        LNG_NAME="Special Topics in Study Abroad II" LVL="200"
+        OBJ_ID="2669c25d-0b85-4c87-af32-d319114c8c60"
+        SHRT_NAME="SP TPCS STDY ABRD II" ST="Active" SUFX_CD="269"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="BSCI360" DIVISION="BSCI"
         ID="9c1d779a-c959-46f0-a8e3-0b87542a483f"
@@ -7940,6 +8513,12 @@
         OBJ_ID="821ae83a-0a18-490c-be3a-531b73ee6dce"
         SHRT_NAME="INORG ANAL LAB" ST="Superseded" SUFX_CD="227"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST336" DIVISION="WMST"
+        ID="9d181421-51bc-43d8-be91-504b2ed39e1b"
+        LNG_NAME="Psychology of Women" LVL="300"
+        OBJ_ID="02f5e732-2644-4e5d-a97a-29b590e8b46e"
+        SHRT_NAME="PSYCHOLOGY OF WOMEN" ST="Superseded" SUFX_CD="336"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL465" DIVISION="ENGL"
         ID="9d25c213-af29-4658-a38e-54cc2ab3b546"
         LNG_NAME="Urban Folklore" LVL="400"
@@ -7987,6 +8566,12 @@
         OBJ_ID="494e55e4-3339-4613-82a6-ecd3b6edba8b" ST="Superseded"
         SUFX_CD="233"
         TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST491" DIVISION="WMST"
+        ID="9ea2ac33-9d59-4117-ba85-732dc539e30a"
+        LNG_NAME="Judaism and the Construction of Gender" LVL="400"
+        OBJ_ID="b895d27c-77d7-4831-8fc7-14d4dbd497b0"
+        SHRT_NAME="JUDAISM &amp; GENDER" ST="Retired" SUFX_CD="491"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL222" DIVISION="ENGL"
         ID="9ea90a1d-3d3e-4163-8e48-207d34a195e7"
         LNG_NAME="American Literature: 1865 to Present" LVL="200"
@@ -8122,6 +8707,12 @@
         OBJ_ID="606fe56b-fa93-4d7f-a725-18540c5afc9e"
         SHRT_NAME="MED &amp; REN BRIT LIT" ST="Superseded" SUFX_CD="310"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST452" DIVISION="WMST"
+        ID="a138c313-e6b8-4b55-ad4f-5c20ebf90231"
+        LNG_NAME="Women in the Media" LVL="400"
+        OBJ_ID="635b67d9-9686-4948-919f-e9727ddacfc0"
+        SHRT_NAME="WOMEN IN THE MEDIA" ST="Active" SUFX_CD="452"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENGL250" DIVISION="ENGL"
         ID="a147426a-4bea-4e03-a3c9-013e8bb05769"
         LNG_NAME="Reading Women Writing" LVL="200"
@@ -8170,6 +8761,13 @@
         OBJ_ID="9494b4d7-69a2-4187-982e-030f77c3008c"
         SHRT_NAME="Journalism and Public Communication" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST468" DIVISION="WMST"
+        ID="a1b534d2-ee7f-4f8e-892e-274b40542105"
+        LNG_NAME="Selected Topics in Women's History" LVL="400"
+        OBJ_ID="e1b5be96-e8cb-4cbc-b7ff-8323e7c21a02"
+        SHRT_NAME="SEL TOPICS WOMEN HISTORY" ST="Superseded"
+        SUFX_CD="468"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BSCI434" DIVISION="BSCI"
         ID="a1c27a45-a2d4-4e74-adb5-aa4c08db5320"
         LNG_NAME="Mammalian Histology" LVL="400"
@@ -8248,6 +8846,9 @@
         OBJ_ID="1645a477-f96f-491a-aec9-0714f4d3c524"
         SHRT_NAME="Education Policy (Doctoral)" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="a2a365f6-8b37-4117-b107-6b194e519c65"
+        OBJ_ID="944a9404-e99e-40b5-9e0a-1e82fa4abb0c" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL472" DIVISION="ENGL"
         ID="a2a58c21-ee43-4c90-9069-5146e5ac5800"
         LNG_NAME="African-American Literature: 1945 to Present"
@@ -8343,6 +8944,12 @@
         LNG_NAME="Introduction to the Novel" LVL="200"
         OBJ_ID="b382d37f-508a-4a44-9908-128fcfc1bfa5"
         SHRT_NAME="INTRO TO THE NOVEL" ST="Superseded" SUFX_CD="241"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST898" DIVISION="WMST"
+        ID="a40d4119-d709-4b15-9811-fa62463609b6"
+        LNG_NAME="Pre-Candidacy Research" LVL="800"
+        OBJ_ID="375b7b40-bfa7-484d-be1f-100d6a5a8858"
+        SHRT_NAME="PRE-CANDIDACY RESEARCH" ST="Active" SUFX_CD="898"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS422" DIVISION="PHYS"
         ID="a4124c21-47e3-4aad-9842-634f1900059c"
@@ -8495,6 +9102,13 @@
         SHRT_NAME="FILM AS TEXT&amp;CULTRL FORM" ST="Active"
         SUFX_CD="638"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST200" DIVISION="WMST"
+        ID="a7fd3307-dfaf-474e-b0ba-70768297ff80"
+        LNG_NAME="Introduction to Women's Studies" LVL="200"
+        OBJ_ID="5d3ffe9d-ac39-4018-95e4-f6c50d2fabd7"
+        SHRT_NAME="INTRO TO WOMEN'S STUDIES" ST="Superseded"
+        SUFX_CD="200"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL497" DIVISION="ENGL"
         ID="a8761606-da08-4559-9c89-596ca784c041"
         LNG_NAME="Advanced Poetry Workshop" LVL="400"
@@ -8648,6 +9262,12 @@
         SHRT_NAME="PLANT GENE&amp;MOLECULR BIOL" ST="Superseded"
         SUFX_CD="411"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST709" DIVISION="WMST"
+        ID="aba8bb75-c714-43b6-9196-a715a06e76d1"
+        LNG_NAME="Directed Independent for Major Field Exam" LVL="700"
+        OBJ_ID="37f76075-4680-467b-9e7b-867612bfe699"
+        SHRT_NAME="RDNG MAJOR FLD EXAM" ST="Superseded" SUFX_CD="709"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL289" DIVISION="ENGL"
         ID="abb3b10a-9e15-479f-863a-fdd7ed9108b1"
         LNG_NAME="Special Topics in English" LVL="200"
@@ -8700,6 +9320,12 @@
         OBJ_ID="9a73958f-fda4-4635-9581-d3a83edd6a8c"
         SHRT_NAME="BIBLIOGRAPHY + MET" ST="Superseded" SUFX_CD="601"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST200" DIVISION="WMST"
+        ID="ac7a9b67-6892-4664-ba2b-3dcd7b21dac8"
+        LNG_NAME="Introduction to Women's Studies:  Women and Society"
+        LVL="200" OBJ_ID="0be9270d-4fdc-48a8-8f11-00c3ada968df"
+        SHRT_NAME="WOMEN &amp; SOCIETY" ST="Superseded" SUFX_CD="200"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL446" DIVISION="ENGL"
         ID="ac7bdb02-175d-4a80-bc5d-6c0d589382b6"
         LNG_NAME="Post-Modern British and American Poetry" LVL="400"
@@ -8717,6 +9343,13 @@
         OBJ_ID="8e377b05-9a39-43e6-b832-7346958b7d00"
         SHRT_NAME="Physical Sciences: Engineering Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST300" DIVISION="WMST"
+        ID="acaafa67-d431-4ef7-b2f7-5394a31c9dfd"
+        LNG_NAME="Feminist Reconceptualizations of Knowledge" LVL="300"
+        OBJ_ID="fed7d867-5efe-46c7-889e-dd3692a64c27"
+        SHRT_NAME="FEMINIST RECONCEPT KNOW" ST="Superseded"
+        SUFX_CD="300"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL478" DIVISION="ENGL"
         ID="acbfd07a-dea7-4257-b7b2-ebca453f8cd4"
         LNG_NAME="Selected Topics in English and American Literature Before 1800"
@@ -8732,6 +9365,12 @@
         OBJ_ID="00e7d6e2-8be8-44ac-af3c-3c2735269366"
         SHRT_NAME="Theatre" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST602" DIVISION="WMST"
+        ID="acee2075-3ec8-43b3-9827-d2fea6171d74"
+        LNG_NAME="Advanced Feminist Theory II" LVL="600"
+        OBJ_ID="64aae6b1-4f8b-48e1-b8a5-3403aafadba4"
+        SHRT_NAME="ADV FEMINIST THEORY II" ST="Superseded" SUFX_CD="602"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM611" DIVISION="CHEM"
         ID="acf7e932-83c9-4d1b-9a49-433506bd51f4"
         LNG_NAME="Professional Skills for New Graduate Students"
@@ -8821,6 +9460,12 @@
         OBJ_ID="9144be87-1013-4a3e-9625-55962f3088fa"
         SHRT_NAME="Linguistics" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST799" DIVISION="WMST"
+        ID="aebd2ba3-70b8-4c39-8010-d7bfcc4c0b4a"
+        LNG_NAME="Masters Thesis Research" LVL="700"
+        OBJ_ID="dfe4418f-b341-49e0-9cd9-9523ba000abc"
+        SHRT_NAME="MASTERS THESIS RES" ST="Active" SUFX_CD="799"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL688" DIVISION="ENGL"
         ID="aec495c6-0bd0-401b-83de-ae131f00fe00"
         LNG_NAME="Poetry Workshop" LVL="600"
@@ -8903,6 +9548,12 @@
         SHRT_NAME="INTRO:THERM ELEC&amp;MAG" ST="Superseded"
         SUFX_CD="272"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST453" DIVISION="WMST"
+        ID="b07c4c02-846e-411c-ae0b-f00b622b60c7"
+        LNG_NAME="Victorian Women in England, France, and the United States"
+        LVL="400" OBJ_ID="a7ba3717-e4d9-4ec7-8fed-950a3e8e85f7"
+        SHRT_NAME="VICTORIAN WOMEN" ST="Active" SUFX_CD="453"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="BSCI206" DIVISION="BSCI"
         ID="b0ec25bc-a718-4937-8a97-a7ab9b46d8bd"
         LNG_NAME="Chesapeake: A Living Resource" LVL="200"
@@ -8910,6 +9561,12 @@
         SHRT_NAME="CHESAPEAKE:LIVING RESOUR" ST="Superseded"
         SUFX_CD="206"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST255" DIVISION="WMST"
+        ID="b133dc30-90bb-4119-80a4-1b72aa6d7468"
+        LNG_NAME="Reading Women Writing" LVL="200"
+        OBJ_ID="d223bfbb-e4d5-4c56-a7f8-71f78bf5bae1"
+        SHRT_NAME="READING WOMEN WRITING" ST="Active" SUFX_CD="255"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="ENGL280" DIVISION="ENGL"
         ID="b14a5f18-eb52-4e46-a79d-628f243d26f0"
         LNG_NAME="Introduction to the English Language" LVL="200"
@@ -9105,6 +9762,12 @@
         LVL="800" OBJ_ID="10350744-a59a-4d8f-a588-5740b751868e"
         SHRT_NAME="SEM-TH+TYP AMER LT" ST="Active" SUFX_CD="828"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST700" DIVISION="WMST"
+        ID="b4468093-dfa4-4bac-8d5a-0fc7ec4d0dfa"
+        LNG_NAME="Feminist Reconceptualizations" LVL="700"
+        OBJ_ID="da3456e7-e872-45ce-a3cb-3a46d3a6f16e"
+        SHRT_NAME="FEMINIST RECONCEP" ST="Retired" SUFX_CD="700"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS141" DIVISION="PHYS"
         ID="b44a3b56-b6e4-4422-abf0-78e7483bfc6e"
         LNG_NAME="Principles of Physics" LVL="100"
@@ -9152,6 +9815,12 @@
         LNG_NAME="Environmental Science" LVL="200"
         OBJ_ID="2ac284e2-b91d-449c-9b92-a7992f009c01"
         SHRT_NAME="ENVIRONMENTAL SCIENCE" ST="Superseded" SUFX_CD="205"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST601" DIVISION="WMST"
+        ID="b50f10b4-ee71-440d-95be-e576f6a0ffa8"
+        LNG_NAME="Advanced Feminist Theory" LVL="600"
+        OBJ_ID="272e38b8-f89e-4c60-9f04-308e6401b596"
+        SHRT_NAME="ADV FEMINIST THEORY" ST="Superseded" SUFX_CD="601"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="MEEEM" ID="b5144bf6-5730-4cc8-adb5-a3ed5f498077"
         LNG_NAME="Master of Engineering-Sustainable Energy (online)"
@@ -9282,6 +9951,9 @@
         OBJ_ID="edd59230-4be8-49d9-ac64-46ce36190abf"
         SHRT_NAME="Criminology and Criminal Justice" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="b7c5337d-0824-4fbe-8744-12ac0a7fc76b"
+        OBJ_ID="fe28bea4-245f-48fd-9854-d723bc8a8f50" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="10040" ID="b7fe2ac4-cd20-494f-8746-4b98a44feabd"
         OBJ_ID="9311afa8-e6fa-426e-a11e-73c3ca2ffd26"
         SHRT_NAME="Music - Professional Programs" ST="Active"
@@ -9298,10 +9970,19 @@
         OBJ_ID="d9e3278c-75d7-4479-8034-60796e699a41"
         SHRT_NAME="PRIN OF MICROBIOLOGY" ST="Superseded" SUFX_CD="283"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST498" DIVISION="WMST"
+        ID="b819132f-a1d7-4b2d-80b0-b494d281c98b"
+        LNG_NAME="Advanced Special Topics in Women's Studies" LVL="400"
+        OBJ_ID="90482676-e8cd-4ed3-aabc-e1fcd6466988"
+        SHRT_NAME="ADV SP TPC WMST" ST="Active" SUFX_CD="498"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="2299L" ID="b83d285d-2eb7-4625-a2b3-7281f554af55"
         OBJ_ID="704a6da4-a289-45cd-93f9-2209965f6bff"
         SHRT_NAME="Environmental Sci &amp; Pol-Soil, Water &amp; Land Rsrcs"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="b8676355-a1b8-4503-abf8-ac6d5652f8e3"
+        OBJ_ID="04c5cf4d-11bb-4b0e-8292-a4447d2b8a5d" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL201" DIVISION="ENGL"
         ID="b8776d10-bd7e-4581-a0a2-406b08da050e"
         LNG_NAME="World Literature" LVL="200"
@@ -9397,6 +10078,12 @@
         OBJ_ID="7f5a0cd1-3083-4fbe-9687-0d989be7fd06"
         SHRT_NAME="NEURAL SYSTEMS" ST="Active" SUFX_CD="446"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="WMST468" DIVISION="WMST"
+        ID="ba13b1a6-1cbd-4b04-95e4-101bdc16efa6"
+        LNG_NAME="Feminist Cultural Studies" LVL="400"
+        OBJ_ID="362a6fea-932f-4116-89b9-57dfd8260f8d"
+        SHRT_NAME="FEMINIST CULTURL STUDIES" ST="Active" SUFX_CD="468"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENGL202" DIVISION="ENGL"
         ID="ba1f2a3a-62ff-4c65-a1be-6586ff2cf190"
         LNG_NAME="Western World Literature, Renaissance to the Present"
@@ -9483,6 +10170,11 @@
         SHRT_NAME="MECHANICS MIDDLE SCHOOL" ST="Superseded"
         SUFX_CD="505"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="PSYC336" DIVISION="PSYC"
+        ID="bb76e92d-dffa-46c8-99a0-013225d47fb5"
+        OBJ_ID="26a0d817-85e2-4184-ac65-f0ea8a20de60" ST="Active"
+        SUFX_CD="336"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENGL312" DIVISION="ENGL"
         ID="bb787fff-82ba-4c04-9721-d00eeac26658"
         LNG_NAME="Romantic to Modern British Literature" LVL="300"
@@ -9610,6 +10302,12 @@
         OBJ_ID="751f9b3a-2ebb-48b6-ac2c-1aed3d06f8ba"
         SHRT_NAME="INTRO SHAKESPEARE" ST="Superseded" SUFX_CD="205"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST267" DIVISION="WMST"
+        ID="beeb4d3e-2601-4fab-a10a-7b8ddf79485b"
+        LNG_NAME="Introduction to Black Women's Cultural Studies"
+        LVL="200" OBJ_ID="d948b708-2765-4c88-ba60-d9a71007eda5"
+        SHRT_NAME="BLACK WOMEN'S CULTRL STD" ST="Active" SUFX_CD="267"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ENGL809" DIVISION="ENGL"
         ID="beed5cba-b4d4-4dca-b153-0c4d32fa5836"
         LNG_NAME="Publications Workshop" LVL="800"
@@ -9751,6 +10449,12 @@
         OBJ_ID="76d6eef8-e7c1-4fe6-bb08-7da29bbfaf30"
         SHRT_NAME="INTRO PHYSICS:WAVES" ST="Active" SUFX_CD="273"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST298" DIVISION="WMST"
+        ID="c2333d68-7e83-4f15-8d72-9b2cbcdefb8a"
+        LNG_NAME="Selected Topics in Womens Studies" LVL="200"
+        OBJ_ID="1aeef193-7727-480b-baf8-9078b0cde607"
+        SHRT_NAME="SELECTED TOPICS" ST="Superseded" SUFX_CD="298"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL631" DIVISION="ENGL"
         ID="c2443080-eaf5-461e-a08e-12bdd4b5bd9a"
         LNG_NAME="Readings in 20th Century American Literature"
@@ -9794,6 +10498,12 @@
         LNG_NAME="Literature of the Eighteenth Century" LVL="400"
         OBJ_ID="ce204b56-29ad-4bf7-b21f-14cc870bea00"
         SHRT_NAME="LIT OF 18TH CEN" ST="Superseded" SUFX_CD="417"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST241" DIVISION="WMST"
+        ID="c3b08714-a0fd-4049-8f0f-5e197cf69c4f"
+        LNG_NAME="Women Writers of French Expression in Translation"
+        LVL="200" OBJ_ID="f432316c-5086-4e67-8b82-473161c0696c"
+        SHRT_NAME="WMN WRITER FREN IN TRANS" ST="Active" SUFX_CD="241"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="22110" ID="c3eb9513-6fbd-423e-a1f5-175e247533d5"
         OBJ_ID="8dbc50e9-7623-4167-a6b1-76159f12c205"
@@ -9907,6 +10617,12 @@
         OBJ_ID="845eb663-4579-4a76-869d-f5b38f823708"
         SHRT_NAME="PRINCIPLES OF ECOLOGY" ST="Active" SUFX_CD="361"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="WMST601" DIVISION="WMST"
+        ID="c5ac3640-a5ed-4c0d-8a16-ebf6e5e90672"
+        LNG_NAME="Advanced Feminist Theory" LVL="600"
+        OBJ_ID="c672a44b-0a99-4461-a7e0-9de83b8616cb"
+        SHRT_NAME="ADV FEMINIST THEORY" ST="Superseded" SUFX_CD="601"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL448" DIVISION="ENGL"
         ID="c5c9d3c0-c9a7-44fb-9e82-e6d3113862f5"
         LNG_NAME="Literature by Women of Color" LVL="400"
@@ -9938,6 +10654,12 @@
         OBJ_ID="4200da14-bf12-4c8b-8b8a-7d6e66cb5017"
         SHRT_NAME="Epidemiology" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST250" DIVISION="WMST"
+        ID="c6c1dc8e-77f7-45c0-a7b5-63ba10577b65"
+        LNG_NAME="Introduction to Women's Studies:  Women, Art and Culture"
+        LVL="200" OBJ_ID="74e9c2d1-ee74-4407-983c-2e87b18f9f49"
+        SHRT_NAME="WOMEN, ART&amp;CULTURE" ST="Superseded" SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PPCNM" ID="c6c4fb61-e3c8-4408-9200-45d178eb0a6d"
         LNG_NAME="Public Policy/Sustainable Development &amp; Cons Bio (Master's)"
         OBJ_ID="1e19d071-d913-4b42-84cb-f08da106d597"
@@ -9979,6 +10701,12 @@
         OBJ_ID="632c3f54-523f-4980-a7aa-e2987093a7d3"
         SHRT_NAME="Arabic Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST250" DIVISION="WMST"
+        ID="c8188854-a27b-40ed-b144-5240e8fcd0fe"
+        LNG_NAME="Introduction to Women's Studies:  Women, Art and Culture"
+        LVL="200" OBJ_ID="82f0cd84-b2be-4330-b201-047269b02c49"
+        SHRT_NAME="WOMEN, ART&amp;CULTURE" ST="Superseded" SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PMCHM" ID="c89f8ad5-1154-41fe-92e8-a9da95cf1b67"
         LNG_NAME="Master of Engineering-Chemical and Biomolecular (Master's)"
         OBJ_ID="b5bc156f-3c98-4ca0-8216-cd71e84c4142"
@@ -10168,6 +10896,12 @@
         OBJ_ID="c60943de-888e-4b3d-80b9-81d2d5d98a25"
         SHRT_NAME="ROM TO MOD BRIT LIT" ST="Superseded" SUFX_CD="312"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST320" DIVISION="WMST"
+        ID="cbfcaf8c-6ec9-46d6-9fec-b3eabd1d2d14"
+        LNG_NAME="Women in Classical Antiquity" LVL="300"
+        OBJ_ID="af19fed0-f616-42c4-b35c-851ff8b4e355"
+        SHRT_NAME="WOMEN IN CLASS ANTIQUITY" ST="Active" SUFX_CD="320"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS748" DIVISION="PHYS"
         ID="cc1e406d-e95d-4d85-9687-a806ac9e4ca6"
         LNG_NAME="Seminar in Experimental Nuclear Physics" LVL="700"
@@ -10232,6 +10966,13 @@
         SHRT_NAME="ECOL MARSH&amp;DUNE VEGETATN" ST="Active"
         SUFX_CD="362"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+    <KSLU_CLU_IDENT CD="WMST210" DIVISION="WMST"
+        ID="cd322062-65eb-45a8-83fb-35f0a2cd88fe"
+        LNG_NAME="Women in America to 1880" LVL="200"
+        OBJ_ID="d20316b8-d397-44db-a5d2-0e70fb142159"
+        SHRT_NAME="WOMEN IN AMERICA TO 1880" ST="Superseded"
+        SUFX_CD="210"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="AOSC433" DIVISION="AOSC"
         ID="cd59f714-1c5d-4d35-8ae8-d7946a2a196c"
         OBJ_ID="0659d268-6436-4a62-8c65-409178ec5fa9" ST="Active"
@@ -10324,6 +11065,12 @@
         OBJ_ID="a1ede019-ccd1-4909-a6c5-92e57283a9cc"
         SHRT_NAME="BEG POETRY WRKSHP" ST="Superseded" SUFX_CD="297"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST410" DIVISION="WMST"
+        ID="cfbd70f9-5ac0-439e-a69e-2172c3de1268"
+        LNG_NAME="Women of the African Diaspora" LVL="400"
+        OBJ_ID="3f04a260-9e44-4502-8e52-641ccb0822d0"
+        SHRT_NAME="WOMEN AFRICAN DIASPORA" ST="Active" SUFX_CD="410"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="PHYS122" DIVISION="PHYS"
         ID="cfdb4db1-d3ec-4998-9c43-d2e8d095deb3"
         LNG_NAME="Fundamentals of Physics II" LVL="100"
@@ -10350,6 +11097,9 @@
         OBJ_ID="2ab8f0cd-1436-436d-b3f2-3d1133c101d6"
         SHRT_NAME="LAB CHEMISTRY" ST="Superseded" SUFX_CD="122"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT ID="d03281ee-24cc-40f2-b508-e3f89779dfdc"
+        OBJ_ID="8263455a-2131-43af-99fc-06126c70d2a1" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL457" DIVISION="ENGL"
         ID="d04c7d80-36d2-4465-a085-944791027c4b"
         LNG_NAME="The Modern Novel" LVL="400"
@@ -10417,6 +11167,9 @@
         OBJ_ID="806ece44-de4e-4bbb-a506-45ab5e7080df"
         SHRT_NAME="PHYS MUSIC LAB" ST="Superseded" SUFX_CD="103"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="d18e9fab-2103-45fc-b76b-28f4eb5e3b77"
+        OBJ_ID="38f3f516-8694-4170-b744-76458fa0e881" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="SPLAM" ID="d1951d5b-29fb-4453-aa70-f0874e786492"
         OBJ_ID="ea94cf72-ae31-43c8-89e3-9b870e7e9c69"
         SHRT_NAME="Hearing and Speech Sciences" ST="Active"
@@ -10534,6 +11287,12 @@
         OBJ_ID="b52214c1-3de3-42d9-8e72-ab6bb5cf603c"
         SHRT_NAME="GENERAL CHEM II" ST="Superseded" SUFX_CD="113"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST698" DIVISION="WMST"
+        ID="d333ce29-699f-4d62-8926-d97d1a1eccc8"
+        LNG_NAME="Special Topics in Women's Studies" LVL="600"
+        OBJ_ID="a17c897c-7904-4071-87f7-b64f4d2ad9e3"
+        SHRT_NAME="SPEC TPCS WMST" ST="Active" SUFX_CD="698"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="ASTRM" ID="d3340fd6-cffd-4cec-8f25-6f3a6035a12a"
         OBJ_ID="9722eeaa-8122-477f-87bf-b930d29dd09b"
         SHRT_NAME="Astronomy" ST="Active"
@@ -10643,12 +11402,21 @@
         OBJ_ID="cbd51c56-6f7e-4390-b4b9-6f083ee90f85"
         SHRT_NAME="AMERICAN ENGLISH" ST="Superseded" SUFX_CD="483"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="d645444a-30fb-4cd9-b646-564aed632c07"
+        OBJ_ID="3d545c7e-812c-47f9-b40c-78d893ffd33c" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS414" DIVISION="PHYS"
         ID="d6663ff8-6f9e-4a84-8c2e-9610500a9e5d"
         LNG_NAME="Introduction to Thermodynamics and Statistical Mechanics"
         LVL="400" OBJ_ID="b2884234-e416-4265-8a38-36880f65acc9"
         SHRT_NAME="THERMO/STAT MECHAN" ST="Retired" SUFX_CD="414"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST255" DIVISION="WMST"
+        ID="d6897783-cb52-41d5-92fb-d178971531fb"
+        LNG_NAME="Introduction to Literature by Women" LVL="200"
+        OBJ_ID="ad3ce555-6d2a-47a0-9452-74851f8c8e93"
+        SHRT_NAME="INTRO LIT BY WOMEN" ST="Superseded" SUFX_CD="255"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="01010" ID="d68c4443-ccc2-4f68-937f-801892ae7fd6"
         OBJ_ID="412261ab-48f4-40ea-b4e8-35f16dc02ed1"
         SHRT_NAME="Agricultural Science and Technology" ST="Active"
@@ -10662,6 +11430,13 @@
         OBJ_ID="35458411-37f8-44e1-8183-6497cc43b5e6"
         SHRT_NAME="American Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST456" DIVISION="WMST"
+        ID="d6ff900e-aa39-4e48-ad03-7268c69f9470"
+        LNG_NAME="Women and Society in the Middle East" LVL="400"
+        OBJ_ID="47498e23-5381-44a6-9b08-6cde9301fb34"
+        SHRT_NAME="WOMEN &amp; SOCIETY MID EAST" ST="Superseded"
+        SUFX_CD="456"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="02022" ID="d7472626-08bb-415f-8a24-679ca3ee39bd"
         OBJ_ID="086b0b9a-763d-41e0-937b-80758c2a5c7f"
         SHRT_NAME="Architecture" ST="Active"
@@ -10741,6 +11516,12 @@
         OBJ_ID="9379a6e6-637f-473f-88f0-1c90c1367f3a"
         SHRT_NAME="GEN PHYS-SC TCH II" ST="Retired" SUFX_CD="222"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST324" DIVISION="WMST"
+        ID="d9cfd1d6-c9b2-487a-bd31-606eeb51c865"
+        LNG_NAME="Communication and Gender" LVL="300"
+        OBJ_ID="a85ec72f-8882-472d-ae0d-eb8ae9a35e0d"
+        SHRT_NAME="COMMUN &amp; GENDER" ST="Retired" SUFX_CD="324"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ECOND" ID="d9d22a3f-80b3-449d-bd86-05076dac2494"
         LNG_NAME="Economics (Doctoral)"
         OBJ_ID="8bd915e1-2d2d-48ec-ba0f-72df5fd29e15"
@@ -10805,6 +11586,12 @@
         OBJ_ID="855248b7-9514-4e4c-87d5-ffe663f42dd9"
         SHRT_NAME="Couple and Family  Therapy" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST601" DIVISION="WMST"
+        ID="db3b96fd-e9eb-47ad-8089-d89040a3102f"
+        LNG_NAME="Approaches to Women's Studies I" LVL="600"
+        OBJ_ID="c4c75faf-923c-444d-8572-6dda2a8315eb"
+        SHRT_NAME="APPROACHES TO WMST I" ST="Active" SUFX_CD="601"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENGL300" DIVISION="ENGL"
         ID="db3d22f6-864a-4e33-beff-4d75a7f6f951"
         LNG_NAME="Writing about Literature" LVL="300"
@@ -10861,10 +11648,23 @@
         SHRT_NAME="ELECT&amp;MAGNET MID SCHOOL" ST="Retired"
         SUFX_CD="506"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST275" DIVISION="WMST"
+        ID="dc78002f-ad90-4a7a-9828-e0e06a687ca2"
+        LNG_NAME="World Literature by Women" LVL="200"
+        OBJ_ID="bcf151dd-467d-4d46-89de-ef9bbdbf5f70"
+        SHRT_NAME="WORLD LIT BY WOMEN" ST="Active" SUFX_CD="275"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENNUM" ID="dc790e76-742c-4581-9a83-daed6ba85d5b"
         OBJ_ID="de70e428-f941-4d69-a08a-c8e9d1d0912b"
         SHRT_NAME="Nuclear Engineering" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST210" DIVISION="WMST"
+        ID="dc84b8a6-d600-474f-ad9f-a5a5180a1e8d"
+        LNG_NAME="Women in America to 1880" LVL="200"
+        OBJ_ID="21ec9a1d-072a-44ac-9f1e-ee21598c91f7"
+        SHRT_NAME="WOMEN IN AMERICA TO 1880" ST="Superseded"
+        SUFX_CD="210"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL453" DIVISION="ENGL"
         ID="dc8c3b0c-f261-416e-9f77-3fec1647e427"
         LNG_NAME="Literary Criticism" LVL="400"
@@ -10886,6 +11686,12 @@
         LNG_NAME="Folk Narrative" LVL="400"
         OBJ_ID="961e06a8-55b0-41e9-a1c6-49473a4048f8"
         SHRT_NAME="FOLK NARRATIVE" ST="Superseded" SUFX_CD="461"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST492" DIVISION="WMST"
+        ID="dd665cde-869f-4c3f-9e6f-c1cf1e16494a"
+        LNG_NAME="History of the American Sportswoman: Institutions and Issues"
+        LVL="400" OBJ_ID="c6ae46e7-00db-42f1-9505-33d076a6e6a5"
+        SHRT_NAME="HIST OF AMER SPORTWOMAN" ST="Retired" SUFX_CD="492"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS161" DIVISION="PHYS"
         ID="dd92e13a-8f46-499e-aa63-5ac9cf422d88"
@@ -10966,6 +11772,9 @@
         OBJ_ID="80c25eda-eb34-47d1-bb74-b47009c24d99"
         SHRT_NAME="Marketing" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="df0a9829-75c6-4952-9af8-b61d0f48efcf"
+        OBJ_ID="d0e3e55a-bd3b-4bb5-9afd-1aae566b1130" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BSCI430" DIVISION="BSCI"
         ID="df0ab63f-2a45-4c0f-815c-64d3895c10fc"
         LNG_NAME="Developmental Biology" LVL="400"
@@ -10993,6 +11802,12 @@
         OBJ_ID="af94ece2-806a-49a6-8b91-2c968df627b8"
         SHRT_NAME="COMP + LITRY TYPES" ST="Retired" SUFX_CD="292"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST250" DIVISION="WMST"
+        ID="df787e34-6f9a-4217-b758-781c6b1e6b60"
+        LNG_NAME="Women, Art and Culture" LVL="200"
+        OBJ_ID="636e14c7-f636-4395-93d7-d3a454799aaa"
+        SHRT_NAME="WOMEN, ART&amp;CULTURE" ST="Superseded" SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="TOXID" ID="dfad8d1f-6d1e-4630-ac3a-604eb5ccadfc"
         LNG_NAME="Toxicology (Doctoral)"
         OBJ_ID="9bb592c7-0711-49d1-8560-dab2169596bc"
@@ -11029,6 +11844,11 @@
         LNG_NAME="Neurophysiology Lectures" LVL="400"
         OBJ_ID="aca27c5c-77fc-41af-9afc-95dd439c7443"
         SHRT_NAME="NEUROPHYSIOLOGY LECTURES" ST="Retired" SUFX_CD="444"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST386" DIVISION="WMST"
+        ID="e0635d6e-e9fc-40eb-8958-f3f159d438f6" LNG_NAME="Field Work"
+        LVL="300" OBJ_ID="cfcab31c-22b5-4fd7-a9ab-ca6102315595"
+        SHRT_NAME="FIELD WORK" ST="Superseded" SUFX_CD="386"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ENGL263" DIVISION="ENGL"
         ID="e065170e-7bd2-4443-9c62-b2373135dd2e"
@@ -11139,6 +11959,11 @@
         SHRT_NAME="EXPER PHYS I:MECH &amp; HEAT" ST="Active"
         SUFX_CD="275"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+    <KSLU_CLU_IDENT CD="ENGL250" DIVISION="ENGL"
+        ID="e2fc70a5-657b-402a-9437-1f4b3c397538"
+        OBJ_ID="ceb5efa8-9439-4694-8a99-59858f23aae1" ST="Superseded"
+        SUFX_CD="250"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="BSCI454" DIVISION="BSCI"
         ID="e3019082-b05e-4b74-aec3-746d9338ca86"
         LNG_NAME="Neurobiology Laboratory" LVL="400"
@@ -11163,6 +11988,18 @@
         OBJ_ID="360d94e5-284e-43d9-98ae-6e2298339d95"
         SHRT_NAME="INORGANIC CHEM" ST="Active" SUFX_CD="401"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="WMST448" DIVISION="WMST"
+        ID="e3e98c16-9299-4ab9-bc29-409c7ac462f9"
+        LNG_NAME="Literature by Women of Color" LVL="400"
+        OBJ_ID="29f83759-2758-434a-9f93-92b67949326e"
+        SHRT_NAME="LIT BY WOMEN OF COLOR" ST="Active" SUFX_CD="448"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST200" DIVISION="WMST"
+        ID="e3ecc91d-690b-4f8c-9786-444a4ed6e23e"
+        LNG_NAME="Introduction to Women's Studies:  Women and Society"
+        LVL="200" OBJ_ID="8067a9ca-e7bf-4c33-8c6d-e17f0db5ada5"
+        SHRT_NAME="WOMEN &amp; SOCIETY" ST="Active" SUFX_CD="200"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="CHEM147" DIVISION="CHEM"
         ID="e41893cb-9a3f-435c-82e9-8e75453bc1f3"
         LNG_NAME="Principles of Chemistry Laboratory" LVL="100"
@@ -11378,6 +12215,12 @@
         SHRT_NAME="METROLOGY FOR CHEM&amp;BCHM" ST="Active"
         SUFX_CD="626"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+    <KSLU_CLU_IDENT CD="WMST400" DIVISION="WMST"
+        ID="e7e17328-476d-4b0a-acb0-774a51e30f8a"
+        LNG_NAME="Theories of Feminism" LVL="400"
+        OBJ_ID="c786d888-2855-4ae9-8d1e-3498cfd353da"
+        SHRT_NAME="THEORIES FEMINISM" ST="Superseded" SUFX_CD="400"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="ENGL246" DIVISION="ENGL"
         ID="e802fde7-aede-43b1-9c94-72681e687194"
         LNG_NAME="Introduction to the Short Story" LVL="200"
@@ -11418,6 +12261,11 @@
         OBJ_ID="ddeb61a1-889b-4a6a-b1e3-2de2c961eef8"
         SHRT_NAME="SENIOR HONORS PROJECT" ST="Active" SUFX_CD="373"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="JOUR452" DIVISION="JOUR"
+        ID="e8ed4687-8873-43cf-96f8-dd5b9a574432"
+        OBJ_ID="cfd6b97b-1a73-48d9-98fd-d5f55530cd3c" ST="Active"
+        SUFX_CD="452"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="PHYS868" DIVISION="PHYS"
         ID="e90c2e8e-3d7e-4074-bfb2-f81404ea5b41"
         LNG_NAME="Special Topics in Fluid Dynamics" LVL="800"
@@ -11435,6 +12283,9 @@
         OBJ_ID="a871bc86-b87c-479a-9c6e-6d79c342f268"
         SHRT_NAME="Theatre and Performance Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="e925f4c9-0d21-4912-953e-bbc2d0b328ea"
+        OBJ_ID="f8e19c84-2406-43b0-9433-8dca4150c1f2" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="PHYS112" DIVISION="PHYS"
         ID="e955dd92-19d7-4f3f-ad0d-ce5570c01d34"
         LNG_NAME="Physics in the Modern World" LVL="100"
@@ -11451,6 +12302,18 @@
         LNG_NAME="Alternative Traditions" LVL="400"
         OBJ_ID="11cf8581-7f25-489b-bab6-ee45d6af2ca1"
         SHRT_NAME="ALTERNATIVE TRADITIONS" ST="Superseded" SUFX_CD="469"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST498" DIVISION="WMST"
+        ID="e9d6c551-25a9-4720-a882-c0bfd0f3ae57"
+        LNG_NAME="Special Topics in Women's Studies" LVL="400"
+        OBJ_ID="26532768-5499-43c3-99d1-0499fd39958b"
+        SHRT_NAME="SPECIAL TOPICS" ST="Superseded" SUFX_CD="498"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST455" DIVISION="WMST"
+        ID="e9d9eca4-d343-4bd0-85c1-7037f045a10b"
+        LNG_NAME="Women in Medieval Culture and Society" LVL="400"
+        OBJ_ID="73c2aabc-8dae-44bc-9e85-cdf621a81f61"
+        SHRT_NAME="MEDIEVAL WOMEN" ST="Active" SUFX_CD="455"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BPHDD" ID="ea06f70e-084a-4b93-a629-7c504f55b2be"
         LNG_NAME="Business and Management (Doctoral)"
@@ -11502,6 +12365,9 @@
         OBJ_ID="13e8ef0d-454f-4a5c-97d2-efcd5ff39083"
         SHRT_NAME="Materials Science and Engineering" ST="Active"
         TYPE="kuali.lu.type.program.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT ID="eafb0b4d-7104-4e97-af0b-d9784f870c92"
+        OBJ_ID="46e62602-a7f0-45e3-b22b-a0a76d504299" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CMLTD" ID="eb09a429-36f8-4288-9d0a-8d052d365e21"
         LNG_NAME="Comparative Literature (Doctoral)"
         OBJ_ID="1bbbb5b7-ffc0-492e-9c8e-458b829c1c1c"
@@ -11512,6 +12378,12 @@
         LNG_NAME="Principles of Chemistry I" LVL="500"
         OBJ_ID="6f65c63e-53db-44a9-822e-d9145e62dd04"
         SHRT_NAME="PRIN CHEM I" ST="Superseded" SUFX_CD="503"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST494" DIVISION="WMST"
+        ID="eb1f0c70-24df-44bb-8088-f0453dcfcf22"
+        LNG_NAME="Lesbian Communities and Differences" LVL="400"
+        OBJ_ID="5d1a865f-4e6b-486f-a8af-ab7b2f459a16"
+        SHRT_NAME="LESBIAN COMMUNITIES" ST="Active" SUFX_CD="494"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM121" DIVISION="CHEM"
         ID="eb2d7ad3-82ab-40b8-96fc-d13510cc2fe5"
@@ -11531,6 +12403,13 @@
         OBJ_ID="d9697b90-1059-41bf-baf3-af86b848a2da"
         SHRT_NAME="TOPICS IN PROF WRITING" ST="Active" SUFX_CD="398"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST468" DIVISION="WMST"
+        ID="eb52bfa5-ca3e-4156-ab66-4a862bb2fcb4"
+        LNG_NAME="Selected Topics in Women's History" LVL="400"
+        OBJ_ID="0943a4a8-e9f5-45fd-b6e4-c482de58ba08"
+        SHRT_NAME="SEL TOPICS WOMEN HISTORY" ST="Superseded"
+        SUFX_CD="468"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="PHYS503" DIVISION="PHYS"
         ID="eb72be81-a07f-40b9-85c3-fec7172b5155"
         LNG_NAME="Musical Acoustics for the Middle School" LVL="500"
@@ -11564,6 +12443,12 @@
         LNG_NAME="Advanced English Grammar" LVL="400"
         OBJ_ID="6202e24f-90d4-43ba-8f5f-4e44784bd7c8"
         SHRT_NAME="ADV ENGL GRAMMAR" ST="Superseded" SUFX_CD="484"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT CD="WMST466" DIVISION="WMST"
+        ID="ec594726-cf0b-477e-aac4-192c5a33b987"
+        LNG_NAME="Feminist Perspectives on Women in Art" LVL="400"
+        OBJ_ID="04014ac2-1b29-49c8-ac16-b2dd19d33a69"
+        SHRT_NAME="FEM PERSPECT WMN IN ART" ST="Retired" SUFX_CD="466"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="AMSTD" ID="ec68c793-5519-48d6-9c9a-6aea83497254"
         LNG_NAME="American Studies (Doctoral)"
@@ -11766,6 +12651,12 @@
         OBJ_ID="6b2c1423-9661-4df7-9855-341e8cc0409d"
         SHRT_NAME="ADV NUC: THEORY II" ST="Retired" SUFX_CD="843"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST400" DIVISION="WMST"
+        ID="f149a93a-67e2-4ed3-85d7-75c32f3f59a5"
+        LNG_NAME="Theories of Feminism" LVL="400"
+        OBJ_ID="3089e097-e588-4e25-96b0-12d85acef440"
+        SHRT_NAME="THEORIES FEMINISM" ST="Active" SUFX_CD="400"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="PHYS463" DIVISION="PHYS"
         ID="f179f224-e52f-45fe-b64e-b9b33168d5e8"
         LNG_NAME="Introduction to Plasma Physics" LVL="400"
@@ -11834,6 +12725,17 @@
     <KSLU_CLU_IDENT CD="DANCM" ID="f26f53e9-cbd2-4d7f-ad6c-0ddc513e8775"
         OBJ_ID="160aee6b-a809-4217-8ae3-263d87e168fe" SHRT_NAME="Dance"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST200" DIVISION="WMST"
+        ID="f27cadff-ae76-465e-a926-72b54351e3a0"
+        LNG_NAME="Introduction to Women's Studies:  Women and Society"
+        LVL="200" OBJ_ID="68c88192-bac8-44b4-b944-5e6f9cea8a8f"
+        SHRT_NAME="WOMEN &amp; SOCIETY" ST="Superseded" SUFX_CD="200"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+    <KSLU_CLU_IDENT CD="CMLT275" DIVISION="CMLT"
+        ID="f2a8f8f3-c993-4590-b3ef-5489fa2b59dd"
+        OBJ_ID="34757cdb-3dd1-4f5f-bff0-3f9fcb070e49" ST="Active"
+        SUFX_CD="275"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="URPDD" ID="f2b8701d-3c6b-48ec-bae1-e22b4ea0aeb4"
         LNG_NAME="Urban and Regional Planning and Design (Doctoral)"
         OBJ_ID="10cc9a52-928f-476a-b393-cb9d1047136a"
@@ -11899,6 +12801,18 @@
         OBJ_ID="ec8dcc76-9c49-4d7c-bccd-a6765a832d4a"
         SHRT_NAME="M.Prof.Studies: Real Estate Development (Master's)"
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST370" DIVISION="WMST"
+        ID="f4bdae44-2e42-48b2-a853-eb7f475bdc8f"
+        LNG_NAME="Black Feminist Thought" LVL="300"
+        OBJ_ID="99450570-4bb8-4521-a845-65b8a0cce6b2"
+        SHRT_NAME="BLACK FEMINIST THOUGHT" ST="Active" SUFX_CD="370"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST200" DIVISION="WMST"
+        ID="f4f45650-23cd-43ea-8b1f-fdeb6934bffc"
+        LNG_NAME="Introduction to Women's Studies:  Women and Society"
+        LVL="200" OBJ_ID="e2119cf2-f91d-404c-aeb8-c575be71bc53"
+        SHRT_NAME="WOMEN &amp; SOCIETY" ST="Superseded" SUFX_CD="200"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="BSCI497" DIVISION="BSCI"
         ID="f4f6288a-59d4-4471-8ef4-5ca5117e6ede"
         LNG_NAME="Insect Pests of Ornamentals and Turf" LVL="400"
@@ -11969,6 +12883,13 @@
         OBJ_ID="1e1f7829-4c9a-4a40-8088-d3bec22095f5"
         SHRT_NAME="American Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST430" DIVISION="WMST"
+        ID="f601a78d-e821-4128-a214-275691c1194f"
+        LNG_NAME="Gender Issues in Families" LVL="400"
+        OBJ_ID="b1fac16b-3574-4ece-88e3-7aab90f76c73"
+        SHRT_NAME="GENDER ISSUE IN FAMILIES" ST="Superseded"
+        SUFX_CD="430"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM433" DIVISION="CHEM"
         ID="f6179bf9-25d1-486f-881e-5287ce7faae5"
         LNG_NAME="Chemical Synthesis" LVL="400"
@@ -11981,6 +12902,12 @@
         OBJ_ID="068c97b3-d19a-4665-bed9-023e9f42d5cd"
         SHRT_NAME="NOVEL IN AMER TO 1914" ST="Active" SUFX_CD="440"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+    <KSLU_CLU_IDENT CD="WMST490" DIVISION="WMST"
+        ID="f63c1ee8-7075-411c-b216-ba90c5ab5819"
+        LNG_NAME="Feminist Reconceptualizations" LVL="400"
+        OBJ_ID="017f28a8-3ada-411c-b8e9-4d93c5b1ee24"
+        SHRT_NAME="FEM RECONCEPTUALIZATIONS" ST="Retired" SUFX_CD="490"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="BSCI471" DIVISION="BSCI"
         ID="f63c3d8b-6165-458b-9881-f21d37bac684"
         LNG_NAME="Molecular Evolution" LVL="400"
@@ -12233,11 +13160,20 @@
         OBJ_ID="accfbf72-b2ba-4b42-96a0-bc883b1dad7e"
         SHRT_NAME="CONTMPRARY PHYSICS" ST="Superseded" SUFX_CD="101"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="facc3e8f-0086-4079-ad55-6ee15fcd1cf7"
+        OBJ_ID="50eea6c3-c63f-4f81-81e1-516a9edefe31" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="CHEM678" DIVISION="CHEM"
         ID="fada7736-dc59-4b5e-9eca-12e6c5db9815"
         LNG_NAME="Special Topics in Environmental Chemistry" LVL="600"
         OBJ_ID="7c27741e-c336-4b5e-85f8-f821546b1bc0"
         SHRT_NAME="SPC TOP ENVIRN CHEM" ST="Active" SUFX_CD="678"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST351" DIVISION="WMST"
+        ID="fae01db5-90a9-4753-ae2e-fbd6f075ccfc"
+        LNG_NAME="Feminist Education Analysis" LVL="300"
+        OBJ_ID="98385d0c-a3e9-4455-9ad4-de036b2f3c3c"
+        SHRT_NAME="FEMINIST ED ANALYSIS" ST="Retired" SUFX_CD="351"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="0"/>
     <KSLU_CLU_IDENT CD="PHYS374" DIVISION="PHYS"
         ID="fae02957-358d-48ff-8e8a-1b13d5d91b9d"
@@ -12251,6 +13187,9 @@
         OBJ_ID="0abdffd5-5dff-4210-be6a-09c061af4fb3"
         SHRT_NAME="AMERICAN LIT" ST="Superseded" SUFX_CD="313"
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+    <KSLU_CLU_IDENT ID="fb265e4c-8533-47a8-b201-878b68ba71cc"
+        OBJ_ID="c6e56a97-c248-4706-a97e-fafd5171313d" ST="Active"
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="BSCI493" DIVISION="BSCI"
         ID="fb573a30-3765-4edc-942a-b3e51fc93f15"
         LNG_NAME="Medicinal and Poisonous Plants" LVL="400"
@@ -12297,6 +13236,13 @@
         OBJ_ID="56b93d48-f3f5-413f-8a4c-e5e2538317d5"
         SHRT_NAME="Physical Sciences: Astronomy Studies" ST="Active"
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
+    <KSLU_CLU_IDENT CD="WMST493" DIVISION="WMST"
+        ID="fc70ed01-e11b-4ab2-96ed-fca6880144a0"
+        LNG_NAME="Jewish Women in International Perspective" LVL="400"
+        OBJ_ID="3c147784-0393-449d-ab38-bfe99bcae2ae"
+        SHRT_NAME="JEWISH WOMEN INTRL PERSP" ST="Superseded"
+        SUFX_CD="493"
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
     <KSLU_CLU_IDENT CD="ARTHD" ID="fc826ea4-58b0-49f4-9e02-cd33b0f71c1b"
         OBJ_ID="9994575c-e3b9-4d8c-8e79-7419a73e13d0"
         SHRT_NAME="Art History" ST="Active"
