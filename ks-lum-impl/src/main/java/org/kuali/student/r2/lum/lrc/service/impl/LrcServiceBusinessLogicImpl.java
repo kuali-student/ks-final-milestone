@@ -6,6 +6,7 @@ package org.kuali.student.r2.lum.lrc.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
@@ -494,6 +495,22 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         return sb.toString();
     }
 
+    /**
+     * Calculate key to use for the result value
+     * @param resultValueKey the value key
+     * @param scaleKey key used for getting the proper scale.
+     * @param contextInfo context
+     * @return the calculated value
+     */
+    private String calcResultValueFromKeyAndScale(String resultValueKey,
+                                        String scaleKey,
+                                        ContextInfo contextInfo) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(scaleKey.replace(".scale.", ".value."));
+        sb.append(".");
+        return resultValueKey.replace(sb.toString(), "");
+    }
+
     @Override
     public ResultValueInfo getCreateResultValueForScale(String resultValue,
             String scaleKey,
@@ -503,6 +520,9 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
             OperationFailedException,
             PermissionDeniedException {
         String resultValueKey = this.calcResultValueKey(resultValue, scaleKey, contextInfo);
+        if(resultValue.equals(resultValueKey)){
+            resultValue = calcResultValueFromKeyAndScale(resultValue, scaleKey, contextInfo);
+        }
         try {
             ResultValueInfo info = this.getLrcService().getResultValue(resultValueKey, contextInfo);
             return info;
@@ -514,6 +534,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         value.setKey(resultValueKey);
         value.setTypeKey(LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE);
         value.setStateKey(LrcServiceConstants.RESULT_VALUE_STATE_APPROVED);
+        value.setDescr(new RichTextInfo(resultValue,resultValue));
         value.setName(resultValue);
         value.setValue(resultValue);
         try {
