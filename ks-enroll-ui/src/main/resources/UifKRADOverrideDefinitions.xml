@@ -20,23 +20,9 @@
     limitations under the License.
     -->
 
-  <bean id="Uif-KS-CollectionGroupBase-parentBean" abstract="true"
-        class="org.kuali.student.enrollment.uif.container.KSCollectionGroup"
-        parent="Uif-CollectionGroupBase-parentBean">
-  </bean>
-
-  <bean id="Uif-CollectionGroupBase" abstract="true" parent="Uif-KS-CollectionGroupBase-parentBean"/>
-
    <bean id="Uif-KS-NavigationActionLink-parentBean" abstract="true" parent="Uif-NavigationActionLink-parentBean" p:ajaxSubmit="false" p:actionScript="actionInvokeHandler(this);"/>
 
    <bean id="Uif-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean"  abstract="true" />
-
-  <!--<bean id="Uif-GroupValidationMessages" parent="Uif-KSGroupValidationMessages-parentBean"/>
-
-  <bean id="Uif-KSGroupValidationMessages-parentBean" parent="Uif-GroupValidationMessages-parentBean">
-    <property name="displayMessages" value="true"/>
-  </bean>
--->
 
     <bean id="Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
         <property name="items">
