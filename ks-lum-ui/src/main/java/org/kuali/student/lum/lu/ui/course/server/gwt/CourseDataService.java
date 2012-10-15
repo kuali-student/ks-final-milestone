@@ -37,6 +37,7 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,7 @@ public class CourseDataService extends AbstractDataService {
                     resultValues.add(resultValueKeys.get(i));
                 }
             }
+            Collections.sort(resultValues);
             resultValuesGroups.get(j).setResultValueKeys(resultValues);
         }
         return courseInfo;
@@ -134,6 +136,22 @@ public class CourseDataService extends AbstractDataService {
             } else {
                 courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
             }
+        }
+        //Strip the key prefix from the resultValueKeys
+        String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
+        List<ResultValuesGroupInfo> resultValuesGroups = courseInfo.getCreditOptions();
+        for (int j = 0; j < resultValuesGroups.size(); j++) {
+            List<String> resultValueKeys = resultValuesGroups.get(j).getResultValueKeys();
+            List<String> resultValues = new ArrayList<String>(resultValueKeys.size());
+            for (int i = 0; i < resultValueKeys.size(); i++) {
+                if (resultValueKeys.get(i).contains(resultValueKeyPrefix)) {
+                    resultValues.add(resultValueKeys.get(i).replace(resultValueKeyPrefix, ""));
+                } else {
+                    resultValues.add(resultValueKeys.get(i));
+                }
+            }
+            Collections.sort(resultValues);
+            resultValuesGroups.get(j).setResultValueKeys(resultValues);
         }
         return courseInfo;
     }

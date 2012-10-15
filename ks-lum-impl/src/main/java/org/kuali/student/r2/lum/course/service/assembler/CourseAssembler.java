@@ -25,6 +25,7 @@ import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -56,6 +57,7 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
@@ -601,16 +603,17 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     String id = null;
                     String type = null;
                     List<String> resultValues = null;
-                    List<AttributeInfo> attributes = null;
+                    ResultValueRangeInfo resultValueRange = null;
                     //Depending on the type, set the id, type and result values differently
                     if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(creditOption.getTypeKey())){
-                        float fixedCreditValue = Float.parseFloat(creditOption.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE));
+                        float fixedCreditValue = Float.parseFloat(creditOption.getResultValueRange().getMinValue());
                         id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + fixedCreditValue;
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED;
                         resultValues = new ArrayList<String>();
                         resultValues.add(String.valueOf(fixedCreditValue));
-                        attributes = new ArrayList<AttributeInfo>();
-                        attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_FIXED_CREDIT_VALUE, String.valueOf(fixedCreditValue)));
+                        resultValueRange = new ResultValueRangeInfo();
+                        resultValueRange.setMinValue(String.valueOf(fixedCreditValue));
+                        resultValueRange.setMaxValue(String.valueOf(fixedCreditValue));
                     }else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(creditOption.getTypeKey())){
                         Collections.sort(creditOption.getResultValueKeys());
                         StringBuilder sb = new StringBuilder(CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX);
@@ -629,24 +632,21 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                                * If no increment is specified, use 1.0 as the increment. The increment can be specified as a float.
                                */
 
-                        String minCreditValue = creditOption.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE);
-                        String maxCreditValue = creditOption.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE);
-                        String creditValueIncr = creditOption.getAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR);
-                        float minCredits = Float.parseFloat(minCreditValue);
-                        float maxCredits = Float.parseFloat(maxCreditValue);
-
+                        float minCredits = Float.parseFloat(creditOption.getResultValueRange().getMinValue());
+                        float maxCredits = Float.parseFloat(creditOption.getResultValueRange().getMaxValue());
+                        String creditValueIncr = creditOption.getResultValueRange().getIncrement();
                         float increment = (null != creditValueIncr && creditValueIncr.length() > 0 ) ? Float.parseFloat(creditValueIncr) : defaultCreditIncrement ;
 
-                        id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + minCreditValue + "-" + maxCreditValue;
+                        id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + String.valueOf(minCredits) + "-" + String.valueOf(maxCredits);
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
                         resultValues = new ArrayList<String>();
                         for(float i = minCredits; i <= maxCredits; i+=increment){
                             resultValues.add(String.valueOf(i));
                         }
-                        attributes = new ArrayList<AttributeInfo>();
-                        attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, minCreditValue));
-                        attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, maxCreditValue));
-                        attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR, creditValueIncr));
+                        resultValueRange = new ResultValueRangeInfo();
+                        resultValueRange.setMinValue(String.valueOf(minCredits));
+                        resultValueRange.setMaxValue(String.valueOf(maxCredits));
+                        resultValueRange.setIncrement(String.valueOf(increment));
                     }
 
                     //Set the id
@@ -667,10 +667,16 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         ResultValuesGroupInfo resultValueGroup = new ResultValuesGroupInfo();
                         resultValueGroup.setKey(id);
                         resultValueGroup.setTypeKey(type);
-                        resultValueGroup.setStateKey(course.getStateKey());
+                        if (DtoConstants.STATE_DRAFT.equals(course.getStateKey())){
+                            resultValueGroup.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
+                        } else if (DtoConstants.STATE_APPROVED.equals(course.getStateKey())) {
+                            resultValueGroup.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_APPROVED);
+                        } else {
+                            resultValueGroup.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_RETIRED);
+                        }
                         resultValueGroup.setResultScaleKey(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE);
                         resultValueGroup.setResultValueKeys(resultValues);
-                        resultValueGroup.setAttributes(attributes);
+                        resultValueGroup.setResultValueRange(resultValueRange);
                         BaseDTOAssemblyNode<ResultValuesGroupInfo, ResultValuesGroupInfo> node = new BaseDTOAssemblyNode<ResultValuesGroupInfo, ResultValuesGroupInfo>(null);
                         node.setOperation(NodeOperation.CREATE);
                         node.setNodeData(resultValueGroup);

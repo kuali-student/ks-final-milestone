@@ -204,8 +204,10 @@
  </bean>
  <bean id="resultValuesGroupInfo.expirationDate" parent="resultValuesGroupInfo.expirationDate-parent"/>
 
- <bean id="resultValuesGroupInfo.key-parent" abstract="true" parent="baseKualiId">
+ <bean id="resultValuesGroupInfo.key-parent" abstract="true" parent="baseString">
   <property name="name" value="key"/>
+  <property name="minLength" value="1" />
+  <property name="maxLength" value="60" />
  </bean>
  <bean id="resultValuesGroupInfo.key" parent="resultValuesGroupInfo.key-parent"/>
 

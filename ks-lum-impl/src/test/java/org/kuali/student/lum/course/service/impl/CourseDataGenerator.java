@@ -57,9 +57,8 @@ public class CourseDataGenerator {
         testData.getCreditOptions().get(1).getResultValueKeys().set(0, "3");
         testData.getCreditOptions().get(1).getResultValueKeys().set(1, "4");
         for (ResultValuesGroupInfo resultComponent : testData.getCreditOptions()) {
-            resultComponent.getAttributes().add(new AttributeInfo("minCreditValue", "2"));
-            resultComponent.getAttributes().add(new AttributeInfo("maxCreditValue", "5"));
-            resultComponent.getAttributes().add(new AttributeInfo("fixedCreditValue", "11"));
+            resultComponent.getResultValueRange().setMinValue("2");
+            resultComponent.getResultValueRange().setMaxValue("5");
         }
         return testData;
     }

@@ -2140,12 +2140,9 @@
     <ref bean="resultValuesGroupInfo.descr"/>
     <ref bean="resultValuesGroupInfo.resultScaleKey"/>
     <ref bean="resultValuesGroupInfo.resultValueKeys"/>
-    <ref bean="resultValuesGroupInfo.resultValueRange"/>
     <ref bean="resultValuesGroupInfo.effectiveDate"/>
     <ref bean="resultValuesGroupInfo.expirationDate"/>
-    <ref bean="resultValuesGroupInfo.minCreditValue"/>
-    <ref bean="resultValuesGroupInfo.maxCreditValue"/>
-    <ref bean="resultValuesGroupInfo.fixedCreditValue"/>
+    <ref bean="courseInfo.resultValuesGroupInfo.resultValueRange"/>
    </list>
  </property>
 </bean>
@@ -2193,97 +2190,87 @@
  </bean>
  <bean id="resultValuesGroupInfo.credit.multiple-constraint" parent="resultValuesGroupInfo.credit.multiple-constraint-parent" />
  
- <bean id="resultValuesGroupInfo.minCreditValue-parent" parent="baseNumericString" >
-  <property name="name" value="minCreditValue"/>
-  <property name="dynamic" value="true"/>
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="typeKey"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-         <value>kuali.result.values.group.type.range</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <ref bean="resultValuesGroupInfo.credit.fixedAndRange-constraint" />
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>
- </bean>
- <bean id="resultValuesGroupInfo.minCreditValue" parent="resultValuesGroupInfo.minCreditValue-parent" />
- 
- <bean id="resultValuesGroupInfo.maxCreditValue-parent" parent="baseNumericString">
-  <property name="name" value="maxCreditValue"/>
-  <property name="dynamic" value="true"/>
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="typeKey"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-         <value>kuali.result.values.group.type.range</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <ref bean="resultValuesGroupInfo.credit.fixedAndRange-constraint" />
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>
- </bean>
- <bean id="resultValuesGroupInfo.maxCreditValue" parent="resultValuesGroupInfo.maxCreditValue-parent" />
- 
- <bean id="resultValuesGroupInfo.fixedCreditValue-parent" parent="baseNumericString">
-  <property name="name" value="fixedCreditValue"/>
-  <property name="dynamic" value="true"/>
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="typeKey"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-         <value>kuali.result.values.group.type.fixed</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <ref bean="resultValuesGroupInfo.credit.fixedAndRange-constraint" />
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>
- </bean>
- <bean id="resultValuesGroupInfo.fixedCreditValue" parent="resultValuesGroupInfo.fixedCreditValue-parent" />
- 
- <bean id="resultValuesGroupInfo.credit.fixedAndRange-constraint-parent" abstract="true"
-	parent="baseString">
-	<property name="minOccurs" value="1" />
-	<property name="maxOccurs" value="1" />
-	<property name="validChars" ref="numeric" />
- </bean>
- <bean id="resultValuesGroupInfo.credit.fixedAndRange-constraint" parent="resultValuesGroupInfo.credit.fixedAndRange-constraint-parent" />
+    <!-- Result Value Range-->
+    <bean id="courseInfo.creditOptions.ResultValueRangeInfo-parent" abstract="true"
+          parent="org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo-parent">
+        <property name="attributes">
+            <list>
+                <ref bean="resultValueRangeInfo.increment"/>
+                <ref bean="courseInfo.creditOptions.resultValueRangeInfo.minValue"/>
+                <ref bean="courseInfo.creditOptions.resultValueRangeInfo.maxValue"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="courseInfo.creditOptions.ResultValueRangeInfo" parent="courseInfo.creditOptions.ResultValueRangeInfo-parent" />
+
+    <bean id="courseInfo.resultValuesGroupInfo.resultValueRange-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="resultValueRange"/>
+        <property name="dataObjectStructure" ref="courseInfo.creditOptions.ResultValueRangeInfo"/>
+    </bean>
+    <bean id="courseInfo.resultValuesGroupInfo.resultValueRange" parent="courseInfo.resultValuesGroupInfo.resultValueRange-parent"/>
+
+    <bean id="resultValuesGroupInfo.credit.fixedAndRange-constraint-parent" abstract="true"
+          parent="baseString">
+        <property name="minOccurs" value="1" />
+        <property name="maxOccurs" value="1" />
+        <property name="validChars" ref="numeric" />
+    </bean>
+    <bean id="resultValuesGroupInfo.credit.fixedAndRange-constraint" parent="resultValuesGroupInfo.credit.fixedAndRange-constraint-parent" />
+
+    <bean id="courseInfo.creditOptions.resultValueRangeInfo.minValue-parent" abstract="true" parent="baseNumericString">
+        <property name="name" value="minValue"/>
+        <property name="caseConstraint">
+            <bean parent="caseConstraint">
+                <property name="operator" value="EQUALS"/>
+                <property name="fieldPath" value="typeKey"/>
+                <property name="caseSensitive" value="false"/>
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="whenConstraint">
+                            <property name="values">
+                                <list>
+                                    <value>kuali.result.values.group.type.range</value>
+                                    <value>kuali.result.values.group.type.fixed</value>
+                                </list>
+                            </property>
+                            <property name="constraint">
+                                <!--Copy all the properties from above adding minOccurs = 1-->
+                                <ref bean="resultValuesGroupInfo.credit.fixedAndRange-constraint" />
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="courseInfo.creditOptions.resultValueRangeInfo.minValue" parent="courseInfo.creditOptions.resultValueRangeInfo.minValue-parent"/>
+
+    <bean id="courseInfo.creditOptions.resultValueRangeInfo.maxValue-parent" abstract="true" parent="baseNumericString">
+        <property name="name" value="maxValue"/>
+        <property name="caseConstraint">
+            <bean parent="caseConstraint">
+                <property name="operator" value="EQUALS"/>
+                <property name="fieldPath" value="typeKey"/>
+                <property name="caseSensitive" value="false"/>
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="whenConstraint">
+                            <property name="values">
+                                <list>
+                                    <value>kuali.result.values.group.type.range</value>
+                                </list>
+                            </property>
+                            <property name="constraint">
+                                <!--Copy all the properties from above adding minOccurs = 1-->
+                                <ref bean="resultValuesGroupInfo.credit.fixedAndRange-constraint" />
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="courseInfo.creditOptions.resultValueRangeInfo.maxValue" parent="courseInfo.creditOptions.resultValueRangeInfo.maxValue-parent"/>
  
  <!-- VersionInfo-->
  <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">

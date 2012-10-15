@@ -47,6 +47,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -608,19 +609,19 @@ public class TestCourseServiceImpl{
             // Check to see if variable credit with float increment works
             ResultValuesGroupInfo rc1 = new ResultValuesGroupInfo();
             rc1.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
-            List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
-            attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0"));
-            attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0"));
-            attributes.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_CREDIT_VALUE_INCR, "0.5"));
-            rc1.setAttributes(attributes);
+            ResultValueRangeInfo resultValueRangeInfo = new ResultValueRangeInfo();
+            resultValueRangeInfo.setMinValue("1.0");
+            resultValueRangeInfo.setMaxValue("5.0");
+            resultValueRangeInfo.setIncrement("0.5");
+            rc1.setResultValueRange(resultValueRangeInfo);
             
             // Check to see if variable credit with no increments
             ResultValuesGroupInfo rc2 = new ResultValuesGroupInfo();
             rc2.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
-            List<AttributeInfo> attributes2 = new ArrayList<AttributeInfo>();
-            attributes2.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MIN_CREDIT_VALUE, "1.0"));
-            attributes2.add(new AttributeInfo(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_MAX_CREDIT_VALUE, "5.0"));
-            rc2.setAttributes(attributes2);
+            ResultValueRangeInfo resultValueRangeInfo2 = new ResultValueRangeInfo();
+            resultValueRangeInfo2.setMinValue("1.0");
+            resultValueRangeInfo2.setMaxValue("5.0");
+            rc2.setResultValueRange(resultValueRangeInfo2);
             
             // Check to see floating point multiple is accepted
             ResultValuesGroupInfo rc3 = new ResultValuesGroupInfo();
@@ -653,8 +654,8 @@ public class TestCourseServiceImpl{
             
             List<ResultValuesGroupInfo> co = rcInfo.getCreditOptions(); 
             
-            assertEquals(3, co.size()); 
-            
+            assertEquals(3, co.size());
+
             // Check to see if multiple was set properly
             for(ResultValuesGroupInfo rc : co) { 
                 if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(rc.getTypeKey())){
@@ -665,7 +666,7 @@ public class TestCourseServiceImpl{
                 }
                 
                 if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getTypeKey())){
-                    if(3 == rc.getAttributes().size()) {
+                    if("kuali.creditType.credit.degree.1.0-5.0".equals(rc.getKey())) {
                         assertEquals(9, rc.getResultValueKeys().size());
                         assertTrue(rc.getResultValueKeys().contains("kuali.result.value.credit.degree.1.5"));
                     } else {                        
