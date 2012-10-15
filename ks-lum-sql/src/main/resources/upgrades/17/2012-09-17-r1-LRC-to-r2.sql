@@ -19,8 +19,8 @@ WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.fixed' THEN 'kuali.re
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.grade.finalGrade' THEN 'kuali.resultComponentType.grade.finalGrade'
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.multiple' THEN 'kuali.result.values.group.type.multiple'
 END), 
-NVL(RC.STATE, 'state.null'), 
-RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''), 
+(CASE WHEN (UPPER(RC.STATE) like 'ACTIVE' ) THEN 'kuali.result.values.group.state.approved' ELSE RC.STATE END),
+RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''),
        (CASE
           -- WARNING: Case statement should be modified if source data makes use of additional scales
 		      -- WARNING: Do we keep our old type names (eg. type name called resultComponent when concept no longer exists)
@@ -36,8 +36,8 @@ RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''),
           WHEN RC.ID LIKE 'kuali.resultComponent.grade.recitalReview' THEN 'kuali.result.scale.grade.review'
           WHEN RC.ID LIKE 'kuali.resultComponent.grade.satisfactory' THEN 'kuali.result.scale.grade.pnp'
 
-        END),
-       MIN_CREDIT_VALUE, MAX_CREDIT_VALUE, CREDIT_INCREMENT, NVL(RC.EFF_DT,to_date('0001/01/01','YYYY/MM/DD')), RC.EXPIR_DT, RC.VER_NBR, NVL(RC.CREATETIME,to_date('2012/09/17','YYYY/MM/DD')) 
+        END) ,
+       MIN_CREDIT_VALUE, MAX_CREDIT_VALUE, (CASE WHEN (CREDIT_INCREMENT is null AND RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.range') THEN '1.0' ELSE null END), NVL(RC.EFF_DT,to_date('0001/01/01','YYYY/MM/DD')), RC.EXPIR_DT, RC.VER_NBR, NVL(RC.CREATETIME,to_date('2012/09/17','YYYY/MM/DD'))
        , NVL(RC.CREATEID, 'CMLRCUPGRADE'), to_date('2012/09/17','YYYY/MM/DD'), 'CMLRCUPGRADE'
 FROM 
         KSLR_RESCOMP RC
