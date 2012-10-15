@@ -15,25 +15,20 @@
 
 package org.kuali.student.r1.core.statement.naturallanguage.translators;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.junit.*;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.ReqComponentField;
 import org.kuali.student.r1.core.statement.entity.ReqComponentType;
+import org.kuali.student.r1.core.statement.naturallanguage.Context;
 import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageUtil;
-import org.kuali.student.r1.core.statement.naturallanguage.Context;
-import org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.r1.core.statement.naturallanguage.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReqComponentTranslatorTest {
 	
@@ -202,7 +197,8 @@ public class ReqComponentTranslatorTest {
 			Assert.assertNotNull(e.getMessage());
 		}
 	}
-	
+
+/*
 	@Test
 	@Ignore
 	public void testTranslate1_1Of2() throws Exception {
@@ -216,6 +212,7 @@ public class ReqComponentTranslatorTest {
 
 		Assert.assertEquals("Student must have completed MATH 152 or MATH 221", text);
 	}
+*/
 
 	@Test
 	public void testTranslate_TotalCredits() throws Exception {

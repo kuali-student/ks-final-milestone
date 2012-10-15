@@ -15,14 +15,8 @@
 
 package org.kuali.student.r1.core.statement.naturallanguage.translators;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.messagebuilder.MessageBuilder;
 import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
@@ -37,6 +31,11 @@ import org.kuali.student.r1.core.statement.entity.Statement;
 import org.kuali.student.r1.core.statement.naturallanguage.Context;
 import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageUtil;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StatementTranslatorTest {
 
@@ -165,6 +164,7 @@ public class StatementTranslatorTest {
 		translation = englishTranslator.translate(stmt1, "KUALI.RULE");
 		Assert.assertEquals("Student must have completed 1 of MATH 152, MATH 180", translation);
 	}
+/*
 
 	@Test
 	@Ignore
@@ -184,6 +184,7 @@ public class StatementTranslatorTest {
 		Assert.assertEquals("Student must have completed MATH 152 or MATH 180", translation);
 	}
 
+*/
 	@Test
 	public void testTranslateStatementId1() throws Exception {
 		// Rule = R1
