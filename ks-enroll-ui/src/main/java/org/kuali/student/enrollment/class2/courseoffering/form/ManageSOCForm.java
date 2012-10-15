@@ -247,6 +247,11 @@ public class ManageSOCForm extends UifFormBase {
         setTermInfo(null);
         setSocInfo(null);
         statusHistory.clear();
+        setScheduleDuration(StringUtils.EMPTY);
+        setPublishDuration(StringUtils.EMPTY);
+        setSocStatus(StringUtils.EMPTY);
+        setSocPublishingStatus(StringUtils.EMPTY);
+        setSocSchedulingStatus(StringUtils.EMPTY);
     }
 
     public boolean isEnableMSEButton(){
