@@ -413,11 +413,17 @@
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
                                 </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                                </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
                                   p:labelPlacement="TOP" p:required="true" p:render="@{#dp.coInfo.finalExamType eq 'STANDARD'}" p:refreshWhenChangedPropertyNames="#lp.formatId" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER ACTIVITY" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="Alternate exam for this offering" p:render="@{#dp.coInfo.finalExamType eq 'ALTERNATE'}" />

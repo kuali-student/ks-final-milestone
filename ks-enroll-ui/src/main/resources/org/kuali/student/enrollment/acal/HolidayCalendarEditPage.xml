@@ -115,6 +115,9 @@
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                    </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDate"
                       p:label="Start Date" p:required="true">

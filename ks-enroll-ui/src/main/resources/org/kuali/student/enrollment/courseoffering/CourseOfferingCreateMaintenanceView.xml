@@ -233,11 +233,17 @@
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
+                   <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                    </property>
                 </bean>
                <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#lp.formatId"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
+                    </property>
+                   <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
            </list>
