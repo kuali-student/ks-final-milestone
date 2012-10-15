@@ -19,7 +19,7 @@ WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.fixed' THEN 'kuali.re
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.grade.finalGrade' THEN 'kuali.resultComponentType.grade.finalGrade'
 WHEN RC.TYPE LIKE 'kuali.resultComponentType.credit.degree.multiple' THEN 'kuali.result.values.group.type.multiple'
 END), 
-(CASE WHEN (UPPER(RC.STATE) like 'ACTIVE' ) THEN 'kuali.result.values.group.state.approved' ELSE RC.STATE END),
+(CASE WHEN (UPPER(RC.STATE) like 'ACTIVE' ) THEN 'kuali.result.values.group.state.approved' ELSE NVL(RC.STATE,'state.null') END),
 RC.NAME, NVL(RT.PLAIN,RC.NAME), NVL(RT.FORMATTED,''),
        (CASE
           -- WARNING: Case statement should be modified if source data makes use of additional scales
