@@ -17,7 +17,11 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
@@ -25,10 +29,15 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -38,7 +47,6 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -46,7 +54,11 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -55,7 +67,16 @@ import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
 
@@ -72,7 +93,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
 
     private static final String TIME_FORMAT_STRING = "hh:mm a";
-    private static final DateFormat TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT_STRING);
 
     @Override
     public void saveDataObject() {
@@ -170,9 +190,11 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
         timeSlot.setWeekdays(days);
 
+        DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
+
         if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
             try {
-                long time = TIME_FORMAT.parse(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM()).getTime();
+                long time = df.parse(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM()).getTime();
                 TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
                 timeOfDayInfo.setMilliSeconds(time);
                 timeSlot.setStartTime(timeOfDayInfo);
@@ -183,7 +205,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         if (StringUtils.isNotEmpty(scheduleWrapper.getEndTime())) {
             try {
-                long time = TIME_FORMAT.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
+                long time = df.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
                 TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
                 timeOfDayInfo.setMilliSeconds(time);
                 timeSlot.setEndTime(timeOfDayInfo);
@@ -244,35 +266,35 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     private String buildDaysForUI(List<Integer> days){
 
-        String returnValue = StringUtils.EMPTY;
+        StringBuilder returnValue = new StringBuilder();
 
         for (Integer day : days) {
             switch (day){
                 case Calendar.MONDAY:
-                   returnValue = returnValue + "M ";
+                   returnValue.append("M ");
                    break;
                 case Calendar.TUESDAY:
-                    returnValue = returnValue + "T ";
+                    returnValue.append("T ");
                    break;
                 case Calendar.WEDNESDAY:
-                    returnValue = returnValue + "W ";
+                    returnValue.append("W ");
                    break;
                 case Calendar.THURSDAY:
-                    returnValue = returnValue + "H ";
+                    returnValue.append("H ");
                    break;
                 case Calendar.FRIDAY:
-                    returnValue = returnValue + "F ";
+                    returnValue.append("F ");
                    break;
                 case Calendar.SATURDAY:
-                    returnValue = returnValue + "S ";
+                    returnValue.append("S ");
                    break;
                 case Calendar.SUNDAY:
-                    returnValue = returnValue + "U ";
+                    returnValue.append("U ");
                    break;
             }
         }
 
-        return StringUtils.removeEnd(returnValue," ");
+        return StringUtils.removeEnd(returnValue.toString(), " ");
     }
 
     private enum ScheduleInput {
@@ -661,10 +683,12 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     if (!timeSlotInfos.isEmpty()){
                         scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
+                        DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
+
                         Date timeForDisplay = null;
                         if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
                             timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                            String formattedTime = TIME_FORMAT.format(timeForDisplay);
+                            String formattedTime = df.format(timeForDisplay);
                             //Set for read only display purpose in the format hh:mm a
                             scheduleWrapper.setStartTimeUI(formattedTime);
                             //Set only hh:mm for user editable purpose
@@ -674,8 +698,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
                         if(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null) {
                             timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                            String formattedTime = TIME_FORMAT.format(timeForDisplay);
-                            scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
+                            String formattedTime = df.format(timeForDisplay);
+                            scheduleWrapper.setEndTimeUI(df.format(timeForDisplay));
                             //Set for read only display purpose in the format hh:mm a
                             scheduleWrapper.setEndTimeUI(formattedTime);
                             //Set only hh:mm for user editable purpose
@@ -734,15 +758,17 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 if (!timeSlotInfos.isEmpty()){
                     scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
+                    DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
+
                     Date timeForDisplay = null;
                     if (scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null){
                         timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                        scheduleWrapper.setStartTimeUI(TIME_FORMAT.format(timeForDisplay));
+                        scheduleWrapper.setStartTimeUI(df.format(timeForDisplay));
                     }
 
                     if (scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null){
                         timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                        scheduleWrapper.setEndTimeUI(TIME_FORMAT.format(timeForDisplay));
+                        scheduleWrapper.setEndTimeUI(df.format(timeForDisplay));
                     }
 
                     scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));

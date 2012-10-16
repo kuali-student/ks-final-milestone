@@ -18,10 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class //TODO ...

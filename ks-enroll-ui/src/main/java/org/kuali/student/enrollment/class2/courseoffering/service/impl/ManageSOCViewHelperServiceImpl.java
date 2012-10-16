@@ -26,16 +26,18 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
-    final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
 
     private transient AcademicCalendarService acalService;
 
@@ -43,7 +45,6 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
     private transient StateService stateService;
 
     //  Storage for SOC state descriptions.
-    private static Map<String, String> socStateDescriptions = new HashMap<String, String>();
     private static final Long ONE_MINUTE_IN_MILLIS = 1000l * 60l;  // (1000 milliseconds per second * 60 seconds per minute)
     private static final String notStarted = "Not Started";
 
@@ -393,24 +394,15 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
         }
     }
 
-    /**
-     * Gets a SOC state given a SOC state or SOC scheduling state key.
-     * @return The description of a SOC state.
-     */
-     public String getSocStateDescription(String stateKey) {
-        if (socStateDescriptions == null || socStateDescriptions.isEmpty()) {
-            List<StateInfo> allSOCStates;
-            try {
-                allSOCStates = CourseOfferingResourceLoader.loadStateService()
-                        .getStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, ContextUtils.createDefaultContextInfo());
-            } catch (Exception e) {
-                throw new RuntimeException("Call to state service failed.", e);
-            }
-            socStateDescriptions = new HashMap<String, String>();
-            for (StateInfo stateInfo : allSOCStates) {
-                socStateDescriptions.put(stateInfo.getKey(), stateInfo.getName());
-            }
-        }
-        return socStateDescriptions.get(stateKey);
+   /**
+    * Gets a SOC state given a SOC state or SOC scheduling state key.
+    * @return The description of a SOC state.
+    */
+    public String getSocStateDescription(String stateKey) {
+       try {
+           return CourseOfferingResourceLoader.loadStateService().getState(stateKey, ContextUtils.createDefaultContextInfo()).getName();
+       } catch (Exception e) {
+           throw new RuntimeException("Call to state service failed.", e);
+       }
     }
 }

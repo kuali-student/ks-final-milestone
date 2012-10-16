@@ -63,7 +63,7 @@ public class GradingOptionsKeyValues extends UifKeyValuesFinderBase implements S
             form = (CourseOfferingEditWrapper)form1.getDataObject();
         }
 
-        if (form.getCrsGradingOptions() != null) {
+        if (form != null && form.getCrsGradingOptions() != null) {
            for(String crsGradingOption : form.getCrsGradingOptions()) {
                try {
                    ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(crsGradingOption, context);  // gradingOption = LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER || LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL

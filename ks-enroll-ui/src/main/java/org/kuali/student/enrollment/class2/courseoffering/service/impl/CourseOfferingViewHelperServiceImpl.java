@@ -469,6 +469,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             }
             return true;
         } catch (Exception ex) {
+            LOG.warn("Exception in cleanTargetTerm", ex); //TODO is it ok to swallow all exceptions here?
             form.setStatusField("Exception in cleanTargetTerm");
             return false;
         }

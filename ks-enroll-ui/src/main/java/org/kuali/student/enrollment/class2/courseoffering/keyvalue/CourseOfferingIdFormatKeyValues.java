@@ -69,7 +69,7 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
             }
 
             for(FormatInfo format : formats) {
-                keyValues.add(new ConcreteKeyValue(format.getId(), format.getType()));
+                keyValues.add(new ConcreteKeyValue(format.getId(), format.getTypeKey()));
             }
         }
 

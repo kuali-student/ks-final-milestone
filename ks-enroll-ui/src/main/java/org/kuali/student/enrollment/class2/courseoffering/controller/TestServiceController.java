@@ -21,10 +21,6 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestServiceCallForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
-import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,7 +30,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,24 +41,23 @@ import java.util.Map;
 @RequestMapping(value = "/testServiceCall")
 public class TestServiceController extends UifControllerBase {
     private TestServiceCallViewHelperService viewHelperService;
-    private CourseOfferingSetService socService;
-    private CourseOfferingService coService;
-    private TypeService typeService;
-    private StateService stateService;
 
     private static final Logger LOGGER = Logger.getLogger(DiagnoseRolloverController.class);
 
     public static final String PAGE_ID = "pageId";
 
     @Override
-    protected UifFormBase createInitialForm(HttpServletRequest request) {
+    protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
         return new TestServiceCallForm();
     }
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+        if (!(form instanceof TestServiceCallForm)){
+            throw new RuntimeException("Form object passed into start method was not of expected type TestServiceCallForm. Got " + form.getClass().getSimpleName());
+        }
         TestServiceCallForm theForm = (TestServiceCallForm) form;
         Map paramMap = request.getParameterMap();
         if (paramMap.containsKey(PAGE_ID)) {
@@ -76,8 +70,8 @@ public class TestServiceController extends UifControllerBase {
         // return super.start(theForm, result, request, response);
     }
 
-    private ModelAndView _startFirstServiceCall(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                                HttpServletRequest request, HttpServletResponse response) {
+    private ModelAndView _startFirstServiceCall(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         // Doesn't do anything really, but is there for customization
         TestServiceCallForm theForm = (TestServiceCallForm) form;
         LOGGER.info("firstServiceCall");
@@ -85,10 +79,10 @@ public class TestServiceController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=testSocService")
-    public ModelAndView testSocService(@ModelAttribute("KualiForm") TestServiceCallForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView testSocService(@ModelAttribute("KualiForm") TestServiceCallForm form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         TestServiceCallViewHelperService helper = getViewHelperService(form);
-        List<String> socIds = helper.getSocIdsByTerm("20123");
+        helper.getSocIdsByTerm("20123");
         return getUIFModelAndView(form);
     }
 

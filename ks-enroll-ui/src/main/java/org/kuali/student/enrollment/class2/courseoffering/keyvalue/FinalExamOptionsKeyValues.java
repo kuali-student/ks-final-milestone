@@ -78,7 +78,7 @@ public class FinalExamOptionsKeyValues extends UifKeyValuesFinderBase implements
         return this.enumerationManagementService;
     }
 
-    private static class FinalExamComparator implements Comparator {
+    private static class FinalExamComparator implements Comparator, Serializable {
 
         @Override
         public int compare(Object o1, Object o2) {

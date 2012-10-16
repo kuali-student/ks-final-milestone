@@ -37,7 +37,6 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
     private transient CourseOfferingSetService courseOfferingSetService;
 
     public final static String SOC_ROLLOVER_RESULT_ID = "socRolloverResultId";
-    //public final static String SOURCE_COURSE_OFFERING_ID = "sourceCourseOfferingId";
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {

@@ -67,8 +67,11 @@ public class DeleteTargetTermController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+        if (!(form instanceof DeleteTargetTermForm)){
+            throw new RuntimeException("Form object passed into start method was not of expected type DeleteTargetTermForm. Got " + form.getClass().getSimpleName());
+        }
         DeleteTargetTermForm theForm = (DeleteTargetTermForm) form;
         Date date = Calendar.getInstance().getTime();
         LOGGER.error(date.toString() + " ");
@@ -78,12 +81,12 @@ public class DeleteTargetTermController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=goTargetTerm")
-    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") DeleteTargetTermForm form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("In goTargetTerm");
         CourseOfferingViewHelperService helperService = getViewHelperService(form);
-        DeleteTargetTermForm dttForm = (DeleteTargetTermForm) form;
-        List<TermInfo> termInfos = helperService.findTermByTermCode(dttForm.getTargetTermCode());
+
+        List<TermInfo> termInfos = helperService.findTermByTermCode(form.getTargetTermCode());
         if (termInfos == null || termInfos.isEmpty()) {
             // Must have a valid term
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.submit.sourceTerm"); // TODO: Change error
@@ -92,25 +95,25 @@ public class DeleteTargetTermController extends UifControllerBase {
 
         TermInfo termInfo = termInfos.get(0);
         // Fill in form data for target term
-        dttForm.setDisplayedTargetTermId(termInfo.getId());
+        form.setDisplayedTargetTermId(termInfo.getId());
         String startDateStr = helperService.formatDate(termInfo.getStartDate());
         String endDateStr = helperService.formatDate(termInfo.getEndDate());
-        dttForm.setTargetTermStartDate(startDateStr);
-        dttForm.setTargetTermEndDate(endDateStr);
+        form.setTargetTermStartDate(startDateStr);
+        form.setTargetTermEndDate(endDateStr);
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=deleteTargetTerm")
-    public ModelAndView deleteTargetTerm(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
-        DeleteTargetTermForm dttForm = (DeleteTargetTermForm) form;
-        if (dttForm.getTargetTermCode() == null || dttForm.getTargetTermCode().length() == 0) {
+    public ModelAndView deleteTargetTerm(@ModelAttribute("KualiForm") DeleteTargetTermForm form, @SuppressWarnings("unused") BindingResult result,
+                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        if (form.getTargetTermCode() == null || form.getTargetTermCode().length() == 0) {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.submit.sourceTerm");
             return getUIFModelAndView(form);
         }
         // Check for target SOC
         CourseOfferingViewHelperService helperService = getViewHelperService(form);
-        SocInfo mainSoc = helperService.getMainSoc(dttForm.getDisplayedTargetTermId());
+        SocInfo mainSoc = helperService.getMainSoc(form.getDisplayedTargetTermId());
         if (mainSoc == null) {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.delete.targetTerm.noSoc");
             return getUIFModelAndView(form);
@@ -119,7 +122,7 @@ public class DeleteTargetTermController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.delete.targetTerm.notDraftSoc");
             return getUIFModelAndView(form);
         }
-        helperService.deleteTargetTerm(dttForm.getDisplayedTargetTermId(), dttForm);
+        helperService.deleteTargetTerm(form.getDisplayedTargetTermId(), form);
         return getUIFModelAndView(form);
     }
 }

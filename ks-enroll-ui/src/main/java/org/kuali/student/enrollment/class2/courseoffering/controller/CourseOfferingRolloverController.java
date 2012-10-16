@@ -33,15 +33,17 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
-import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -69,7 +71,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private CourseOfferingViewHelperService viewHelperService;
     private CourseOfferingSetService socService;
     private CourseOfferingService coService;
-    private TypeService typeService;
     private StateService stateService;
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
@@ -77,14 +78,17 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public static final String ROLLOVER_CONFIRM_RELEASE = "releaseToDepts";
 
     @Override
-    protected UifFormBase createInitialForm(HttpServletRequest request) {
+    protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
         return new CourseOfferingRolloverManagementForm();
     }
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+        if (!(form instanceof CourseOfferingRolloverManagementForm)){
+            throw new RuntimeException("Form object passed into start method was not of expected type CourseOfferingRolloverManagementForm. Got "+form.getClass().getSimpleName());
+        }
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
         Map paramMap = request.getParameterMap();
         if (paramMap.containsKey("pageId")) {
@@ -101,16 +105,16 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         // return super.start(theForm, result, request, response);
     }
 
-    private ModelAndView _startPerformRollover(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) {
+    private ModelAndView _startPerformRollover(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
         LOGGER.info("startPerformRollover");
         return getUIFModelAndView(theForm);
         // return super.start(theForm, result, request, response);
     }
 
-    private ModelAndView _startRolloverDetails(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) {
+    private ModelAndView _startRolloverDetails(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
         LOGGER.info("startRolloverDetails");
         String rolloverTerm = theForm.getRolloverTargetTermCode();
@@ -126,16 +130,16 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         return getUIFModelAndView(theForm);
     }
 
-    private ModelAndView _startReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) {
+    private ModelAndView _startReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         LOGGER.info("startReleaseToDepts");
         form.computeReleaseToDeptsDisabled();
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=goTargetTerm")
-    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         List<TermInfo> termList = helper.findTermByTermCode(form.getTargetTermCode());
         if (termList != null && termList.size() == 1) {
@@ -172,8 +176,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=goSourceTerm")
-    public ModelAndView goSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView goSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         // validation to check for valid term.
         if (form.getTargetTermCode() == null || form.getTargetTermCode().length() == 0) {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.submit.sourceTerm");
@@ -248,8 +252,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=performRollover")
-    public ModelAndView performRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView performRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         CourseOfferingViewHelperService helper = getViewHelperService(form);
 
         if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
@@ -274,8 +278,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=setUpSourceTerm")
-    public ModelAndView setUpSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView setUpSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         CourseOfferingViewHelperService helper = getViewHelperService(form);
 
         if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
@@ -293,8 +297,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=performReverseRollover")
-    public ModelAndView performReverseRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView performReverseRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
             form.setStatusField("(cleanUp) Source/target term objects appear to be missing");
@@ -468,8 +472,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
     // This method displays rollover result Infos for specific target term.
     @RequestMapping(params = "methodToCall=showRolloverResults")
-    public ModelAndView showRolloverResults(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView showRolloverResults(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         //helper class for courseOfferingSetService
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         //To fetch Term by code which is desirable.
@@ -526,8 +530,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
      * CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml
      */
     @RequestMapping(params = "methodToCall=releaseToDepts")
-    public ModelAndView releaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView releaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("releaseToDepts");
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         boolean accept = form.getAcceptIndicator();
@@ -557,22 +561,22 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=checkApproval")
-    public ModelAndView checkApproval(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView checkApproval(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("checkApproval " + form.getAcceptIndicator());
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=redoRollover")
-    public ModelAndView redoRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView redoRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("redoRollover ");
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=confirmReleaseToDepts")
-    public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("confirmReleaseToDepts ");
         return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
     }
@@ -591,14 +595,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return coService;
-    }
-
-    private TypeService _getTypeService() {
-        if (typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE,
-                    TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return typeService;
     }
 
     private StateService _getStateService() {

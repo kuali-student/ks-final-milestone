@@ -67,8 +67,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private transient SearchService searchService;
 
     @RequestMapping(params = "methodToCall=loadCourseCatalog")
-    public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
+            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject());
         String courseCode = coWrapper.getCatalogCourseCode();
@@ -170,8 +170,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=createFromCatalog")
-    public ModelAndView createFromCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView createFromCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
+            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
@@ -182,8 +182,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=copyExistingCourseOffering")
-    public ModelAndView copyExistingCourseOffering(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView copyExistingCourseOffering(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
+            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         CourseOfferingInfo existingCO = ((ExistingCourseOffering)getSelectedObject(form)).getCourseOfferingInfo();
         CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
@@ -232,8 +232,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=createFromTermOffering")
-    public ModelAndView createFromTermOffering(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView createFromTermOffering(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
+            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setShowCatalogLink(true);

@@ -68,7 +68,6 @@
                                 <inputFile>ActivityOfferingInfoUI.xml</inputFile>
                                 <inputFile>ActivityOfferingWrapper.xml</inputFile>
                                 <inputFile>CourseInfoUI.xml</inputFile>
-                                <inputFile>CourseOfferingInfoUI.xml</inputFile>
                                 <inputFile>CourseOfferingWrapper.xml</inputFile>
                                 <inputFile>AppliedHoldInfo.xml</inputFile>
                                 <inputFile>HoldIssueInfo.xml</inputFile>

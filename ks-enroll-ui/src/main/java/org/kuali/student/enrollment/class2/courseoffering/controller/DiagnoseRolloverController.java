@@ -21,14 +21,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DiagnoseRolloverViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,24 +48,21 @@ import java.util.Map;
 @RequestMapping(value = "/diagnoseRollover")
 public class DiagnoseRolloverController extends UifControllerBase {
     private DiagnoseRolloverViewHelperService viewHelperService;
-    private CourseOfferingSetService socService;
-    private CourseOfferingService coService;
-    private TypeService typeService;
-    private StateService stateService;
 
     private static final Logger LOGGER = Logger.getLogger(DiagnoseRolloverController.class);
-    public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
-    public static final String ROLLOVER_CONFIRM_RELEASE = "releaseToDepts";
 
     @Override
-    protected UifFormBase createInitialForm(HttpServletRequest request) {
+    protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
         return new DiagnoseRolloverForm();
     }
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+        if (!(form instanceof DiagnoseRolloverForm)){
+            throw new RuntimeException("Form object passed into start method was not of expected type DiagnoseRolloverForm. Got " + form.getClass().getSimpleName());
+        }
         DiagnoseRolloverForm theForm = (DiagnoseRolloverForm) form;
         Map paramMap = request.getParameterMap();
         if (paramMap.containsKey("pageId")) {
@@ -81,8 +75,8 @@ public class DiagnoseRolloverController extends UifControllerBase {
         // return super.start(theForm, result, request, response);
     }
 
-    private ModelAndView _startSelectTermForDiagnoseRollover(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                                            HttpServletRequest request, HttpServletResponse response) {
+    private ModelAndView _startSelectTermForDiagnoseRollover(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         // Doesn't do anything really, but is there for customization
         DiagnoseRolloverForm theForm = (DiagnoseRolloverForm) form;
         LOGGER.info("selectTermForDiagnoseRollover");
@@ -90,8 +84,8 @@ public class DiagnoseRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=goTargetTerm")
-    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
         TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
         if (targetTerm == null) {
@@ -112,8 +106,8 @@ public class DiagnoseRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=goSourceCO")
-    public ModelAndView goSourceCO(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView goSourceCO(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
         String sourceTermCode = form.getSourceTermCode();
         TermInfo termInfo = helper.searchTermByTermCode(sourceTermCode);
@@ -159,8 +153,8 @@ public class DiagnoseRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=deleteCoInTargetTerm")
-    public ModelAndView deleteCoInTargetTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView deleteCoInTargetTerm(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, @SuppressWarnings("unused") BindingResult result,
+                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
         TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
         boolean success = helper.deleteCourseOfferingInTerm(form.getCourseOfferingCode(), targetTerm.getId());
@@ -171,10 +165,10 @@ public class DiagnoseRolloverController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=performCoRollover")
-    public ModelAndView performCoRollover(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView performCoRollover(@ModelAttribute("KualiForm") DiagnoseRolloverForm form, @SuppressWarnings("unused") BindingResult result,
+                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         DiagnoseRolloverViewHelperService helper = getViewHelperService(form);
-        TermInfo targetTerm = helper.searchTermByTermCode(form.getTargetTermCode());
+        helper.searchTermByTermCode(form.getTargetTermCode());
         Map<String, Object> keyValues = helper.rolloverCourseOfferingFromSourceTermToTargetTerm(form.getCourseOfferingCode(), form.getSourceTerm().getId(), form.getTargetTerm().getId());
         double diffInSeconds = (Double) keyValues.get(DiagnoseRolloverViewHelperServiceImpl.DURATION_IN_SECONDS);
         form.setRolloverDuration(diffInSeconds  + "s");

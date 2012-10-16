@@ -1,11 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.

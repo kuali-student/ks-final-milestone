@@ -10,7 +10,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCrea
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.List;
 public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
 
     private CourseOfferingService courseOfferingService;
-    private ContextInfo contextInfo;
 
     private final static String EXISTING_CO_CODE_FOUND_ERROR = "That Course Offering Code is already in use.  Please enter a different, unique Course Offering Code for ";
 
