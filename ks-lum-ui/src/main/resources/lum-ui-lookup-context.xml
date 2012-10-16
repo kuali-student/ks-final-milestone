@@ -2485,7 +2485,7 @@
      <property name="hidden" value="false" />
     </bean>
     <bean parent="result">
-     <property name="key" value="lu.resultColumn.luOptionalExpFirstAtp" />
+     <property name="key" value="lu.resultColumn.luOptionalExpFirstAtpDisplay" />
      <property name="name" value="Start Term" />
      <property name="desc" value="Program start term" />
      <property name="dataType" value="STRING" />
