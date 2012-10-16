@@ -748,12 +748,8 @@ public class LRCServiceImpl implements LRCService {
       @Override
     @Transactional(readOnly = true)
     public List<String> searchForResultScaleIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<ResultScaleEntity> results = resultScaleCriteriaLookupService.lookup(ResultScaleEntity.class, criteria);
-        List<String> ids = new ArrayList<String>(results.getResults().size());
-        for (ResultScaleEntity entity : results.getResults()) {
-            ids.add(entity.getId());
-        }
-        return ids;
+        GenericQueryResults<String> results = resultScaleCriteriaLookupService.lookupIds(ResultScaleEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override
@@ -770,12 +766,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForResultValueIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<ResultValueEntity> results = resultValueCriteriaLookupService.lookup(ResultValueEntity.class, criteria);
-        List<String> ids = new ArrayList<String>(results.getResults().size());
-        for (ResultValueEntity entity : results.getResults()) {
-            ids.add(entity.getId());
-        }
-        return ids;
+        GenericQueryResults<String> results = resultValueCriteriaLookupService.lookupIds(ResultValueEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override
@@ -792,12 +784,8 @@ public class LRCServiceImpl implements LRCService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForResultValuesGroupIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<ResultValuesGroupEntity> results = resultValuesGroupCriteriaLookupService.lookup(ResultValuesGroupEntity.class, criteria);
-        List<String> infos = new ArrayList<String>(results.getResults().size());
-        for (ResultValuesGroupEntity entity : results.getResults()) {
-            infos.add(entity.getId());
-        }
-        return infos;
+        GenericQueryResults<String> results = resultValuesGroupCriteriaLookupService.lookupIds(ResultValuesGroupEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override
