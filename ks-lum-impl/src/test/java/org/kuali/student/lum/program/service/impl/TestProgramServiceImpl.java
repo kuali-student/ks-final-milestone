@@ -146,7 +146,7 @@ public class TestProgramServiceImpl {
     }
 
     @Test
-    @Ignore // FIXME
+    @Ignore // FIXME (kscm-711)
     public void testGetProgramRequirementNL() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProgramRequirementInfo progReqInfo = programService.getProgramRequirement("PROGREQ-1", contextInfo);
         assertNotNull(progReqInfo);
@@ -987,7 +987,7 @@ public class TestProgramServiceImpl {
 	}
 
     @Test
-    @Ignore 
+    @Ignore // FIXME (kscm-711)
     public void testDeleteMajorDiscipline() throws IllegalArgumentException, SecurityException, IntrospectionException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchFieldException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
         	MajorDisciplineDataGenerator generator = new MajorDisciplineDataGenerator();
         	MajorDisciplineInfo majorDisciplineInfo = generator.getMajorDisciplineInfoTestData();

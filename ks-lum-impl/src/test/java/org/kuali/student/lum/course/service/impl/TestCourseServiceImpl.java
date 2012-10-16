@@ -862,7 +862,7 @@ public class TestCourseServiceImpl{
 
     @Test
     @Ignore
-    // FIXME
+    // FIXME (kscm-712)
     public void testGetCourseStatement_nl() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         String courseId = "COURSE-STMT-1";
@@ -876,7 +876,7 @@ public class TestCourseServiceImpl{
     }
 
     @Test
-    @Ignore
+    @Ignore   //fixme (kscm-712)
     public void testCreateCourseStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         final String courseId = "COURSE-STMT-1";
 
@@ -987,7 +987,7 @@ public class TestCourseServiceImpl{
 
     @Test
     @Ignore
-    // FIXME need a dictionary that defines StatamentTreeViewInfo
+    // FIXME need a dictionary that defines StatamentTreeViewInfo  (kscm-712)
     public void testValidataCourseStatement() throws Exception {
         final String courseId = "COURSE-STMT-1";
 
@@ -999,7 +999,7 @@ public class TestCourseServiceImpl{
 
     @Test
     @Ignore
-    // FIXME need a dictionary that defines StatamentTreeViewInfo
+    // FIXME need a dictionary that defines StatamentTreeViewInfo (kscm-712)
     public void testValidataCourseStatement_invalidStatement() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         final String courseId = "COURSE-STMT-1";
 
