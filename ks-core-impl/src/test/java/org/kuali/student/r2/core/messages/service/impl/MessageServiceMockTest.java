@@ -15,28 +15,22 @@
 
 package org.kuali.student.r2.core.messages.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.core.messages.service.impl.MessageServiceMock;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -151,26 +145,23 @@ public class MessageServiceMockTest {
     }
     
     @Test
-    @Ignore
-    //This test (copied from service test impl) is updating message key fields in addition to message
+    //This test (copied from service test impl) is adding a new piece of message with key and value
     //Is this the behavior we want?
     public void testUpdateMessage() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException{
         LocaleInfo localeInfo = new LocaleInfo();
         localeInfo.setLocaleLanguage("US");
         
         MessageInfo m = new MessageInfo();
-        m.setGroupName("Course");
+        m.setGroupName("Name");
         m.setLocale(localeInfo);
         m.setKey("Grading");
-        m.setValue("Grading Scale");
-        
-        messageService.updateMessage(localeInfo, "Name", m, contextInfo);
-        MessageInfo result = messageService.getMessage(localeInfo, "Course", "Grading", contextInfo);
-        assertEquals(result.getLocale().getLocaleLanguage(), m.getLocale());
+        m.setValue("Grading Value");
+
+        messageService.updateMessage(localeInfo, "Grading", m, contextInfo);
+        MessageInfo result = messageService.getMessage(localeInfo, "Name", "Grading", contextInfo);
+        assertTrue(StringUtils.equals(result.getLocale().getLocaleLanguage(), m.getLocale().getLocaleLanguage()));
         assertEquals(result.getKey(), m.getKey());
         assertEquals(result.getValue(), m.getValue());
         assertEquals(result.getGroupName(), m.getGroupName());
-        result = messageService.getMessage(localeInfo, "Name", "Last", contextInfo);
-        assertTrue(result == null);
     }
 }

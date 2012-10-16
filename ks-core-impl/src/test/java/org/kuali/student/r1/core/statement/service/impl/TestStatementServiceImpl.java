@@ -15,66 +15,34 @@
 
 package org.kuali.student.r1.core.statement.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-
+import org.kuali.student.common.test.spring.*;
 import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
 import org.kuali.student.r1.common.dto.Idable;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r1.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularReferenceException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.common.test.spring.Dao;
-import org.kuali.student.common.test.spring.Daos;
-import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.r1.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.r1.core.statement.config.context.lu.MockCluInfo;
 import org.kuali.student.r1.core.statement.config.context.lu.MockCluSetInfo;
-import org.kuali.student.r1.core.statement.config.context.lu.CourseListContextImpl;
-import org.kuali.student.r1.core.statement.dto.NlUsageTypeInfo;
-import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.r1.core.statement.dto.RefStatementRelationTypeInfo;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.r1.core.statement.dto.StatementInfo;
-import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r1.core.statement.dto.*;
 import org.kuali.student.r1.core.statement.naturallanguage.ReqComponentFieldTypes;
 import org.kuali.student.r1.core.statement.service.StatementService;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 @Daos({@Dao(value = "org.kuali.student.r1.core.statement.dao.impl.StatementDaoImpl")})
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
@@ -287,11 +255,14 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		return reqComp;
     }
 
+/*
 	@Test
     @Ignore
-    /**
+    */
+/**
      * @deprecated Being moved to ProgramRequirementService
-     */
+     *//*
+
 	public void testTranslateStatementTreeViewToNL_SimpleStatement() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
 		StatementTreeViewInfo statementInfo = new StatementTreeViewInfo();
 		statementInfo.setType("kuali.statement.type.course.academicReadiness.prereq");
@@ -311,6 +282,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertEquals("Student must have completed 1 of MATH 152, MATH 180 or Student must have completed 2 of MATH 152, MATH 221, MATH 180", naturalLanguage);
 	}
 
+*/
 	@Test
     public void testGetNlUsageType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		NlUsageTypeInfo info = statementService.getNlUsageType("KUALI.REQCOMP.EXAMPLE");
@@ -997,11 +969,14 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		fail("StatementService.deleteRefStatementRelation should have thrown a MissingParameterException");
     }
 
+/*
     @Test
-    @Ignore
-    /**
+     @Ignore
+    */
+/**
      * @deprecated Being moved to ProgramRequirementService
-     */
+     *//*
+
     public void testGetStatementTreeView() throws Exception {
         // Tree structure should be
         //                          STMT-TV-1:OR
@@ -1033,9 +1008,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
     @Test
     @Ignore
-    /**
+    */
+/**
      * @deprecated Being moved to ProgramRequirementService
-     */
+     *//*
+
     public void testGetStatementTreeViewForNlUsageType() throws Exception {
         // Tree structure should be:
         //                          STMT-TV-1:OR
@@ -1076,6 +1053,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("Student needs a minimum GPA of 4.0 in MATH 152, MATH 180", subTree2.getReqComponents().get(1).getNaturalLanguageTranslation());
     }
 
+*/
     @Test
     public void testUpdateStatementTreeViewFromEmpty() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, AlreadyExistsException {
         //     After tree is updated
@@ -1200,11 +1178,14 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	subTree1.setDesc(toRichText(subTree1.getDesc().getPlain() + editText)); //" is edited"));
     }
 
+/*
     @Test
-    @Ignore
-    /**
+      @Ignore
+    */
+/**
      * @deprecated Being moved to ProgramRequirementService
-     */
+     *//*
+
     public void testUpdateStatementTreeView() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         // Before tree is updated
         //                          STMT-TV-1:OR
@@ -1241,12 +1222,16 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals("REQCOMP TV TEST1", returnedSubTree2.getReqComponents().get(2).getDesc().getPlain());
         assertEquals("REQCOMP TV TEST2", returnedSubTree2.getReqComponents().get(3).getDesc().getPlain());
     }
+*/
+/*
 
     @Test
     @Ignore
-    /**
+    */
+/**
      * @deprecated Being moved to ProgramRequirementService
-     */
+     *//*
+
     public void testUpdateAndGetStatementTreeView() throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         // Before tree is updated
         //                          STMT-TV-1:OR
@@ -1296,6 +1281,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         assertEquals(updatedSubTree2.getReqComponents().get(5).getDesc().getPlain(), getUpdatedSubTree2.getReqComponents().get(5).getDesc().getPlain());
     }
 
+*/
     private RichTextInfo toRichText(String text) {
         RichTextInfo richTextInfo = new RichTextInfo();
         if (text == null) return null;
