@@ -35,7 +35,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ColocatedOfferingSetInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "isMaxEnrollmentShared", "offeringIds", "effectiveDate", "expirationDate",
+        "isMaxEnrollmentShared", "offeringIds", "effectiveDate", "expirationDate", "maximumEnrollment",
         "meta", "attributes"})
 public class ColocatedOfferingSetInfo extends IdEntityInfo implements ColocatedOfferingSet {
 
