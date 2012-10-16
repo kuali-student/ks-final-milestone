@@ -8,8 +8,7 @@
                            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <bean id="KS-HolidayCalendar-ViewPage" parent="Uif-Page"
-          p:id="holidayCalendarViewPage"
-          p:headerText="@{holidayCalendarInfo.name}">
+          p:id="holidayCalendarViewPage" >
         <property name="header">
             <bean parent="Uif-HeaderTwo">
                 <property name="cssClasses">

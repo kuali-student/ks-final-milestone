@@ -9,7 +9,6 @@
 
     <bean id="KS-HolidayCalendar-CopyPage" parent="Uif-Page"
           p:id="holidayCalendarCopyPage"
-          p:headerText="Create New Holiday Calendar"
           p:disclosure.render="false">
         <property name="header">
             <bean parent="Uif-HeaderTwo">

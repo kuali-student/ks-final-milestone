@@ -9,7 +9,6 @@
 
     <bean id="KS-HolidayCalendar-EditPage" parent="Uif-Page"
           p:id="holidayCalendarEditPage"
-          p:headerText="@{holidayCalendarInfo.name != null? holidayCalendarInfo.name : 'New Holiday Calendar'}"
           p:disclosure.render="false"
           p:header.id="KS-HolidayCalendar-EditPage-header">
         <property name="header">
