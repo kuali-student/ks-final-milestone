@@ -38,6 +38,7 @@ import java.util.Map;
  * @author delyea
  */
 @Ignore
+//FIXME(kscm-713)
 public class BasicPermissionsTest extends StudentStandaloneTestBase {
 
 	protected static final String PERMISSIONS_NAME_OPEN_DOCUMENT = "Open Document";

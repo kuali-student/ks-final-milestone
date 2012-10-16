@@ -24,6 +24,7 @@ import org.kuali.rice.student.StudentStandaloneTestBase;
  *
  */
 @Ignore
+//FIXME(kscm-713)
 public class HierarchyNodeDocumentTest extends StudentStandaloneTestBase {
 
 	@Override
