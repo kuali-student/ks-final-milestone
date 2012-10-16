@@ -42,6 +42,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @Ignore
+//FIXME(ksenroll-3427)
 public class ExecuteAgendaTest extends KSKRMSTestCase {
 //\
 	   static final String NAMESPACE1 = "KRMS_TEST_1";

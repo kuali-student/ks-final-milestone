@@ -42,6 +42,7 @@ import java.util.Map;
 import static junit.framework.Assert.assertNotNull;
 
 @Ignore
+//FIXME(ksenroll-3427)
 public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
 	public TestKRMSAgendasExecution() {
