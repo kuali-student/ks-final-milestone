@@ -2,9 +2,11 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -328,6 +330,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             theForm.setHasAOCluster(true);
             theForm.setPrivateClusterName("");
             theForm.setPublishedClusterName("");
+            theForm.setClusterIdIdForNewFO(emptyCluster.getId());
         }else{
             GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
         }
@@ -649,6 +652,17 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=moveAOToACluster")
     public ModelAndView moveAOToACluster (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        ModelAndView mv = null;
+        if(theForm.getClusterIdIdForNewFO().equals("create-new")){
+            return createNewClusterFromLightBox(theForm, result, request, response);
+        }
+        if(theForm.isRenderedInLightBox()){
+            theForm.setPrivateClusterName(theForm.getPrivateClusterNameForLightBox());
+            theForm.setPublishedClusterName(theForm.getPublishedClusterNameForLightBox());
+            mv = createNewCluster(theForm, result, request, response);
+        }
+
         //get selected AOC info
         if (theForm.getClusterIdIdForNewFO().equals("")){
             GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_SELECTION);
@@ -672,6 +686,12 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
         if (!aoChecked) {
+            if (theForm.isRenderedInLightBox()){
+                if(theForm.getDialogManager().hasDialogBeenDisplayed("createNewClusterDialog")){
+                    theForm.getDialogManager().removeDialog("createNewClusterDialog");
+                }
+                return mv;
+            }
             GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
             return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
         }
@@ -740,6 +760,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
 
+        //clear the dialog
+        if(theForm.getDialogManager().hasDialogBeenDisplayed("createNewClusterDialog")){
+            theForm.getDialogManager().removeDialog("createNewClusterDialog");
+        }
         //return updated form
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }

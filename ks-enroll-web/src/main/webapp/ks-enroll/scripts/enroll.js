@@ -46,6 +46,33 @@ function removeSelfFromDropdowns(headerTextNameContainerId) {
     });
 }
 
+function addDropdownGroup(dropdownId, prepend, groupText, optionList, withinPortal) {
+    if(withinPortal){
+        return;
+    }
+    var dropdown = jQuery("#" + dropdownId);
+    if (dropdown != 'undefined') {
+        if (optionList != 'undefined') {
+            if (prepend) {
+                dropdown.prepend('<optgroup label="' + groupText + '"></optgroup>');
+            }  else{
+                dropdown.append('<optgroup label="' + groupText + '"></optgroup>');
+            }
+            jQuery.each(optionList, function (key, value) {
+                addOption(dropdown, prepend, key, value);
+            });
+        }
+    }
+}
+
+function addOption(dropdown, prepend, key, value){
+    if (prepend) {
+        dropdown.prepend(jQuery('<option>', {key : value}).text(value));
+    }  else{
+        dropdown.append(jQuery('<option>', {value: key}).text(value));
+    }
+}
+
 /*
 function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
     if(jqObject && collectionGroupId){
