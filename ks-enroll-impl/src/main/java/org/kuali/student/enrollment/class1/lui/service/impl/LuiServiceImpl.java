@@ -186,9 +186,7 @@ public class LuiServiceImpl
                OperationFailedException, PermissionDeniedException {
 
         GenericQueryResults<String> results = criteriaLookupService.lookupIds(LuiEntity.class, criteria);
-        List<String> luiIds = results.getResults();
-
-        return luiIds;
+        return results.getResults();
 
     }
 

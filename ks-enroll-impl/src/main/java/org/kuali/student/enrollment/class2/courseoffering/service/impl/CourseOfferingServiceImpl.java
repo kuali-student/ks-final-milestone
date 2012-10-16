@@ -509,11 +509,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         QueryByCriteria criteria = qbcBuilder.build();
 
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
-        List<String> ids = new ArrayList<String>(results.getResults().size());
-        for (LuiEntity lui : results.getResults()) {
-            ids.add(lui.getId());
-        }
+        GenericQueryResults<String> results = criteriaLookupService.lookupIds(LuiEntity.class, criteria);
+        List<String> ids = results.getResults();
         return ids;
     }
 
@@ -2750,8 +2747,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<String> searchForCourseOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, criteria);
-        List<String> courseOfferingIds = results.getResults();
-        return courseOfferingIds;
+        return results.getResults();
     }
 
     @Override
@@ -3267,12 +3263,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForActivityOfferingClusterIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<ActivityOfferingClusterEntity> results = criteriaLookupService.lookup(ActivityOfferingClusterEntity.class, criteria);
-        List<String> ids = new ArrayList<String>(results.getResults().size());
-        for (ActivityOfferingClusterEntity activityOfferingClusterEntity : results.getResults()) {
-            ids.add(activityOfferingClusterEntity.getId());
-        }
-        return ids;
+        GenericQueryResults<String> results = criteriaLookupService.lookupIds(ActivityOfferingClusterEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override
