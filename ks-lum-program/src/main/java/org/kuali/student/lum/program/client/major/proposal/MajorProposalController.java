@@ -317,12 +317,12 @@ public class MajorProposalController extends MajorController implements Workflow
                         String id = (String) ((Data) prop.getValue()).get(ProgramConstants.ID);
                         if (updatedId.equals(id)) {
                             updatedKey = prop.getKey();
-                            Data currentMetaInfo = ((Data) prop.getValue()).get("metaInfo");
+                            Data currentMetaInfo = ((Data) prop.getValue()).get("meta");
                             String latestVersionInd = currentMetaInfo.get("versionInd");
-                            Data newMetaInfo = event.getData().get("metaInfo");
+                            Data newMetaInfo = event.getData().get("meta");
                             if (newMetaInfo == null) {
                                 newMetaInfo = new Data();
-                                event.getData().set("metaInfo", newMetaInfo);
+                                event.getData().set("meta", newMetaInfo);
                             }
                             newMetaInfo.set("versionInd", latestVersionInd);
                             break;

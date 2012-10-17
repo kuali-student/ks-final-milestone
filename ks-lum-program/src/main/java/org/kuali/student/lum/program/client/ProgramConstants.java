@@ -106,7 +106,7 @@ public class ProgramConstants {
 
     //History
     public static final String SCHEDULED_REVIEW_DATE = "nextReviewPeriod";
-    public static final String LAST_UPDATED_DATE = "metaInfo/updateTime";
+    public static final String LAST_UPDATED_DATE = "meta/updateTime";
 
     //Versioning
     public static final String VERSION = "version/sequenceNumber";

@@ -46,7 +46,7 @@ private final static Set<String> properties = new HashSet<String>();
         CLUSETS ("clusets"),
         CLU_SET_RANGE ("clusetRange"),
         CLU_SET_RANGE_VIEW_DETAILS ("cluSetRangeViewDetails"),
-        META_INFO ("metaInfo"),
+        META_INFO ("meta"),
         NAME ("name"),
         STATE ("state"),
         TYPE ("type"),

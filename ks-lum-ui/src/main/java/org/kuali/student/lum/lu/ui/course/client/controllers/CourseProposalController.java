@@ -134,7 +134,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
     protected boolean initialized = false;
 	protected boolean isNew = false;
 
-	private static final String UPDATED_KEY = "metaInfo/updateTime";
+	private static final String UPDATED_KEY = "meta/updateTime";
 	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
     private static final String MSG_GROUP = "course";
 	

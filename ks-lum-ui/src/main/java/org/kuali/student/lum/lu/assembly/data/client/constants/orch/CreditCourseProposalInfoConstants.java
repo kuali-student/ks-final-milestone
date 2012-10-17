@@ -25,7 +25,7 @@ public interface CreditCourseProposalInfoConstants
 	public static final String RATIONALE = "rationale";
 	public static final String REFERENCE_TYPE = "referenceType";
 	public static final String REFERENCES = "references";
-	public static final String META_INFO = "metaInfo";
+	public static final String META_INFO = "meta";
 	public static final String _RUNTIME_DATA = "_runtimeData";
 }
 
