@@ -19,6 +19,15 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 
 public class ManageSocConstants {
 
+    public static final Long ONE_MINUTE_IN_MILLIS = 1000l * 60l;  // (1000 milliseconds per second * 60 seconds per minute)
+
+    public static final String NOT_STARTED_STATUS_UI = "Not Started";
+    public static final String SOC_IN_PROGRESS_PUBLISHING_STATUS_UI = "In Progress";
+    public static final String SOC_COMPLETED_PUBLISHING_STATUS_UI = "Completed";
+
+    /**
+     * These are the confirm dialog bean ids used in Manage SOC view.
+     */
     public static class ConfirmDialogs{
         public static final String MASS_SCHEDULING = "massScheduleConfirmDialog";
         public static final String MASS_PUBLISHLING = "massPublishConfirmDialog";

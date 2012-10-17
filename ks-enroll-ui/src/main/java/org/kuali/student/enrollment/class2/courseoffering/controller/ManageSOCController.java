@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * @author Kuali Student Team
  */
 
 package org.kuali.student.enrollment.class2.courseoffering.controller;
@@ -22,16 +21,13 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.enrollment.main.controller.KSControllerBase;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,29 +40,20 @@ import java.util.List;
 
 /**
  * This class handles all the request for Managing SOC. This handles requests from ManageSOCView for different SOC state
- * changes and scheduling/publishing events
+ * changes and scheduling/publishing events. This controller is mapped to the view defined in <code>ManageSOCView.xml</code>
+ *
+ * @author Kuali Student Team
+ *
  */
 @Controller
 @RequestMapping(value = "/manageSOC")
-public class ManageSOCController extends UifControllerBase {
+public class ManageSOCController extends KSControllerBase {
 
-    final static Logger LOG = Logger.getLogger(ManageSOCController.class);
+    private final static Logger LOG = Logger.getLogger(ManageSOCController.class);
 
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
-        ManageSOCForm form = new ManageSOCForm();
-
-        try {
-            LOG.debug("Loading SOC states");
-            List<StateInfo> allSOCStates = CourseOfferingResourceLoader.loadStateService().getStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, ContextUtils.createDefaultContextInfo());
-            for (StateInfo stateInfo : allSOCStates) {
-                form.getSocStateKeys2Names().put(stateInfo.getKey(), stateInfo.getName());
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return form;
+        return new ManageSOCForm();
     }
 
     @RequestMapping(params = "methodToCall=lockSOC")
@@ -95,7 +82,7 @@ public class ManageSOCController extends UifControllerBase {
                 return getUIFModelAndView(socForm);
             }
 
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) socForm.getView().getViewHelperService();
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
             viewHelper.lockSOC(socForm);
 
             return buildModel(socForm, result, request, response);
@@ -126,7 +113,7 @@ public class ManageSOCController extends UifControllerBase {
 
         if (dialogAnswer) {
             // start send approved activities to scheduler
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) socForm.getView().getViewHelperService();
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
             viewHelper.startMassScheduling(socForm);
             return buildModel(socForm, result, request, response);
         } else {
@@ -134,11 +121,20 @@ public class ManageSOCController extends UifControllerBase {
         }
     }
 
+    /**
+     * This is called when the user enters the term code and hit the Go button.
+     *
+     * @param socForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(params = "methodToCall=buildModel")
     public ModelAndView buildModel(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) socForm.getView().getViewHelperService();
+        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
         socForm.clear();
 
         try {
@@ -186,7 +182,7 @@ public class ManageSOCController extends UifControllerBase {
 
         if (dialogAnswer) {
 
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) socForm.getView().getViewHelperService();
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
             viewHelper.allowSOCFinalEdit(socForm);
 
             return buildModel(socForm, result, request, response);
@@ -219,7 +215,7 @@ public class ManageSOCController extends UifControllerBase {
         socForm.getDialogManager().resetDialogStatus(dialogName);
 
         if (dialogAnswer) {
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) socForm.getView().getViewHelperService();
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
             try {
                 viewHelper.publishSOC(socForm);
             } catch (Exception e) {
@@ -256,7 +252,7 @@ public class ManageSOCController extends UifControllerBase {
         socForm.getDialogManager().resetDialogStatus(dialogName);
 
         if (dialogAnswer) {
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) socForm.getView().getViewHelperService();
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
             viewHelper.closeSOC(socForm);
 
             return buildModel(socForm, result, request, response);

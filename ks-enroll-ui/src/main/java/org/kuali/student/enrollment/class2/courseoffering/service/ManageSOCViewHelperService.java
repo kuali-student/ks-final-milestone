@@ -1,12 +1,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
-import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
+import org.kuali.student.enrollment.main.service.KSViewHelperService;
 
 import java.util.List;
 
-public interface ManageSOCViewHelperService extends ViewHelperService{
+public interface ManageSOCViewHelperService extends KSViewHelperService {
 
     public List<TermInfo> getTermByCode(String termCode) throws Exception;
 
@@ -22,5 +22,4 @@ public interface ManageSOCViewHelperService extends ViewHelperService{
 
     public void startMassScheduling(ManageSOCForm socForm);
 
-    public String getSocStateDescription(String stateKey);
 }

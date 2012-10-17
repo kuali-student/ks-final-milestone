@@ -184,38 +184,6 @@
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
 
-    <!-- currently not being used
-    <bean id="KS-Disclosure-HorizontalCollectionSection" parent="KS-Disclosure-HorizontalCollectionSection-parentBean"/>
-    <bean id="KS-Disclosure-HorizontalCollectionSection-parentBean" parent="Uif-StackedCollectionSection">
-        <property name="layoutManager">
-          <bean parent="Uif-StackedCollectionLayout-WithGridItems">
-            <property name="template" value="/krad/WEB-INF/jsp/templates/layout/stackedList.jsp"/>
-            <property name="lineGroupPrototype">
-              <bean parent="Uif-HorizontalBoxSection">
-                <property name="header">
-                  <bean parent="Uif-HeaderFour"/>
-                </property>
-                <property name="disclosure.renderImage" value="true"/>
-                <property name="disclosure.defaultOpen" value="true"/>
-              </bean>
-            </property>
-            <property name="addLineGroup">
-              <bean parent="Uif-CollectionHorizontalBoxItem">
-                <property name="cssClasses">
-                  <list merge="true">
-                    <value>uif-collectionAddItem</value>
-                  </list>
-                </property>
-              </bean>
-            </property>
-            <property name="subCollectionFieldGroupPrototype">
-              <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="true"/>
-            </property>
-          </bean>
-        </property>
-    </bean>
-    -->
-
     <bean id="KS-HorizontalCollectionSection" parent="KS-HorizontalCollectionSection-parent"/>
     <bean id="KS-HorizontalCollectionSection-parent" parent="Uif-StackedCollectionSection">
         <property name="layoutManager">
