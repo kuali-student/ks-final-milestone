@@ -21,7 +21,6 @@
     <mainChannel:coApplications/>
     <mainChannel:ec1Applications/>
     <mainChannel:wc1Applications/>
-    <mainChannel:ec1Sandbox/>
 <%--<mainChannel:ksR2Applications/>--%>
 </td>
 <td class="content" valign="top">

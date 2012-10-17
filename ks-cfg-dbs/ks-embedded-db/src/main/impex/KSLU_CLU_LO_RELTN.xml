@@ -16,6 +16,20 @@
         OBJ_ID="6472988c-57b3-41bb-9956-60c26c0eae24" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152129" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST301-198001199408"
+        CREATETIME="20120308160311"
+        ID="0065716a-568f-4b74-ad3d-fea4ed07af2e"
+        LO_ID="cb6fda37-32b8-41da-8b0e-ed0554a10528"
+        OBJ_ID="fc45d2cc-d12b-49b8-a333-6330a30a2239" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160311" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST470-198001199108"
+        CREATETIME="20120308160606"
+        ID="02b07800-eece-48d9-b379-1e75ec690b54"
+        LO_ID="293ddb5a-d79d-45e5-92ad-874c5bef1ac0"
+        OBJ_ID="0837495c-f049-4e18-b060-12b6d190b940" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160606" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="2b8546bc-9f4d-423b-999f-532307e9841b"
         CREATETIME="20120308141857"
         ID="02e49875-848f-401d-a56d-c21b70e92454"
@@ -51,6 +65,13 @@
         OBJ_ID="64b6fbca-3d4e-4e6c-baf6-56cd7939e5ba" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151913" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="d41c8f9f-704c-4f61-aa50-8c7f3d0b1765"
+        CREATETIME="20120308160543"
+        ID="06a07f4b-e8e2-402a-bd89-c12dc8393d67"
+        LO_ID="4045772d-3779-43b1-b727-a0e7b82032c4"
+        OBJ_ID="4a4c3120-b97e-4595-99b5-e012df7381a9" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160543" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="c21e9c7d-95ea-4485-92ae-58f4bc3c9adc"
         CREATEID="102838754" CREATETIME="20120403100512"
         ID="06a9aa39-9ff2-4c7e-8070-bc0fbca8f687"
@@ -72,6 +93,13 @@
         OBJ_ID="a6fa8a9d-1967-480c-be6f-66613cf15852" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152004" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="88ce8765-c579-408f-925d-1430c40f8e25"
+        CREATETIME="20120308160541"
+        ID="079e2536-e700-483f-a288-7bc1ba1c4c59"
+        LO_ID="a7472c95-95ce-4f70-bb93-3fbcdd4e4593"
+        OBJ_ID="8f919b91-98c2-4675-9746-77e2dde42fbe" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160541" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="86c94194-062d-4a49-a9d2-ef24de44d860"
         CREATEID="102838754" CREATETIME="20120405135658"
         ID="081e0ad0-8c2b-4b0a-b682-f3603f35eae2"
@@ -79,6 +107,13 @@
         OBJ_ID="d510b1fe-77bd-4d08-a2c8-8c10b9e430ec" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="102838754"
         UPDATETIME="20120405135658" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="5dac01fa-f1c8-4f8d-a6be-70adf6889e2b"
+        CREATETIME="20120308160535"
+        ID="087a9814-5454-4347-ada8-769655706eb0"
+        LO_ID="02899c9f-73f0-4286-b385-b47b2d586781"
+        OBJ_ID="76d34c5b-e739-4d13-8920-5c24b1b7870e" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160535" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="12919ada-0daa-4555-9b6c-2c9722353ce1"
         CREATEID="102150566" CREATETIME="20120403093549"
         ID="08bc1473-e9da-4a41-a3c1-1ab74816ec51"
@@ -149,6 +184,13 @@
         OBJ_ID="b2602592-f662-4db0-b23f-4b34ef9b9d4d" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151954" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="467e2abb-55c5-490f-aec4-fc4df3167e2d"
+        CREATETIME="20120308160117"
+        ID="0d4530ad-c7ae-464b-8e7d-fabac1799681"
+        LO_ID="28480b60-e30c-4e35-8330-9a0280f49722"
+        OBJ_ID="3a373467-27db-4509-8176-fcf2ca14153b" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160117" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="9c179aec-f585-4cac-b748-a5d913623fb7"
         CREATEID="102116265" CREATETIME="20120423162104"
         ID="0d52942f-43a2-49ee-adb5-728922b86fa3"
@@ -177,6 +219,20 @@
         OBJ_ID="2a13a089-1eab-4c1b-aff9-dce647019cf2" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152325" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="cc1fbb7a-84bd-45cc-9c37-0348e9945346"
+        CREATETIME="20120308160449"
+        ID="0e5c6123-dcee-4f92-bb2c-24a76b2c024e"
+        LO_ID="c56daef3-70d4-48fe-aa67-325b1578f80f"
+        OBJ_ID="ad01777c-46d2-41dd-9450-666b43d977da" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160449" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="0696f7af-1ab4-4a3b-85bc-bde8565e92e5"
+        CREATETIME="20120308160516"
+        ID="0e9b6158-851e-423b-bfd4-15d31cb7ad83"
+        LO_ID="fbcd22be-352c-438e-a2bf-24ce9e0c0972"
+        OBJ_ID="9663e73c-2520-4871-8a5f-475e4065c72e" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160516" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL206-201108000000"
         CREATETIME="20120308151846"
         ID="0f0ac865-3e5c-4e85-afd0-b72a2714ac10"
@@ -240,6 +296,13 @@
         OBJ_ID="ccf493d4-c204-4bf6-9817-120abeda8b9c" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152003" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST446-198001199008"
+        CREATETIME="20120308160541"
+        ID="166032e7-4349-4836-872b-c26d7ce7427f"
+        LO_ID="cd05aae1-8741-478c-a229-c2211ae60b5b"
+        OBJ_ID="9fc5fd84-8c15-4584-9254-65a2e0c3bacf" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160541" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL468-199608000000"
         CREATETIME="20120308152353"
         ID="16ddfca5-7a48-4b7a-b549-012db761e127"
@@ -317,6 +380,13 @@
         OBJ_ID="5a86a1c4-54ca-4f52-972e-e8cd432fe378" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="102838754"
         UPDATETIME="20120620142538" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST204-201101000000"
+        CREATETIME="20120308160115"
+        ID="1c0ebcee-010f-4d21-ae6e-7f42b6ddb079"
+        LO_ID="27e1af56-e1ab-483d-b3c1-2df3ccd05c9d"
+        OBJ_ID="cf1167d5-0760-440a-b581-021586c86ece" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160115" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="40a23c92-c865-4a51-a921-0002a891b9dd"
         CREATETIME="20120308151911"
         ID="1c4b296d-f884-4256-a8a0-5fc9492c09b5"
@@ -338,6 +408,13 @@
         OBJ_ID="f6aeff8d-ab22-490c-94b5-bdd2b3f2edfe" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20101210000000" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="0ccf7a20-ca80-4a8d-b176-9f366379e9d6"
+        CREATETIME="20120308160515"
+        ID="1d1245c2-4024-40c6-b0cc-52f1a034bafe"
+        LO_ID="1a3136c1-3e32-43b7-a3a4-d1efb461f216"
+        OBJ_ID="3cd636cb-2e21-4316-8988-42341f7392ae" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160515" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="e8b583c9-e67c-4af5-9436-91233712cd53"
         CREATETIME="20120308151928"
         ID="1d327af2-8c1e-48da-a253-d51b69e748c2"
@@ -478,6 +555,13 @@
         OBJ_ID="98034556-185f-4897-9ab6-be5e1e9e1a65" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151954" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="19d7ea91-c637-47c2-ad65-27dd9e47f817"
+        CREATEID="101754215" CREATETIME="20120409154636"
+        ID="276b2cac-2029-4dd0-bafe-ffde073e865f"
+        LO_ID="af565f00-830b-4cab-a88e-5ae9d875dbb9"
+        OBJ_ID="a8af4ca0-24d4-495c-8357-7f9894543e56" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="101754215"
+        UPDATETIME="20120409154636" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL358-201008000000"
         CREATETIME="20120308152138"
         ID="28e93749-30f8-40cd-ac56-fef6432cc03f"
@@ -485,6 +569,13 @@
         OBJ_ID="1f38b467-d389-472d-b32b-fd8ec3c26f4e" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152138" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="07f91d07-3e57-4aa5-8d8a-c8de8ad6c918"
+        CREATETIME="20120308160445"
+        ID="29c17797-dac2-4314-b90e-ca3acba3ffd7"
+        LO_ID="ea74495a-23b4-4e7e-b4bb-6ce0ddc57dbd"
+        OBJ_ID="c00725a4-7afa-4e66-a22d-a0c8183ae6da" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160445" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="3e9fb023-648b-40eb-86fe-c196bcd50949"
         CREATETIME="20120308151847"
         ID="29d82fab-e82b-46aa-aaf4-2ca48dd919b2"
@@ -569,6 +660,13 @@
         OBJ_ID="6cc67682-3b5f-4c1d-a1fd-4025a9235ab6" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151822" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST401-198001000000"
+        CREATETIME="20120308160444"
+        ID="30b43e49-a4fc-480e-81c3-b9c5c2f6f97e"
+        LO_ID="820e2409-e45d-49ee-b986-fd888b1ad6c8"
+        OBJ_ID="9597e409-e7e9-475e-acf6-a1bd69930524" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160444" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL300-201008000000"
         CREATETIME="20120308152055"
         ID="30c09b79-fa60-43dc-9dc5-54832bd7948d"
@@ -604,6 +702,13 @@
         OBJ_ID="2b205b43-8ead-4d95-b208-8f9e5dc1a426" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151826" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="e782575f-7976-448d-83c7-39d13cf6b5cb"
+        CREATETIME="20120308160614"
+        ID="32c39813-a0e8-44b6-9831-f1f5e2627a34"
+        LO_ID="ed0f7e0a-7daa-4574-8353-47c24eecd74c"
+        OBJ_ID="c819d69a-81a8-409d-ac3a-6ca0fcda3a3e" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160614" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="a95996d6-fca0-4aa4-a941-bfb2f205afd0"
         CREATETIME="20120308151941"
         ID="33504ac1-eece-4ecc-b28e-cf6812000b6b"
@@ -660,6 +765,13 @@
         OBJ_ID="f9a512c1-c9ec-4ec3-bbd8-7fc0fbaf55cf" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151907" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="ceefca60-920c-4211-961c-49d3127e6c01"
+        CREATETIME="20120308160530"
+        ID="373eae2f-4659-4777-8bf1-564020fc9126"
+        LO_ID="71d346c3-4a93-4789-bf79-23f8b864d2b0"
+        OBJ_ID="faf80d16-2948-4369-af6e-d82aa3abcfb5" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160530" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="11d755da-7215-49fd-8f96-9480640d8914"
         CREATETIME="20120308151919"
         ID="3785ee80-d68f-4339-bd85-a7c8afb1dce5"
@@ -716,6 +828,13 @@
         OBJ_ID="94543c27-e3e1-4777-ae16-05d70980a951" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151840" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST476-198001198908"
+        CREATETIME="20120308160613"
+        ID="3c3bbdf2-df8e-4d4b-b91d-731e86b593d0"
+        LO_ID="00e87fa6-312d-4ad4-b065-35219d931867"
+        OBJ_ID="01eb205c-0477-49f6-b3eb-163e33190f38" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160613" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-BSCI283-201101201101"
         CREATETIME="20120308141857"
         ID="3ce12ff8-f16a-4c4f-be41-1c5c0a10f4c8"
@@ -723,6 +842,13 @@
         OBJ_ID="f2e7f32a-2df3-4782-acdd-b4010bfb0905" ST="Retired"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308141857" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="0a5e3413-716a-41bf-b30d-5c03e1f90e31"
+        CREATETIME="20120308160312"
+        ID="3cfbe075-1488-4597-a0f8-f4f319167cff"
+        LO_ID="5f80233e-5bdc-4576-ba39-83a4463abe65"
+        OBJ_ID="88823533-2d10-429c-a412-0a32707140da" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160312" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="c973d9b7-6d75-4c2f-afc7-8c9afd4a1bef"
         CREATETIME="20120308151959"
         ID="3e4b0c7e-b339-49a4-9ff1-63a9ffeaf26a"
@@ -758,6 +884,13 @@
         OBJ_ID="72b3d7af-f894-418d-a621-365e9900558e" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151926" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="bfe48dcd-d8bd-4a2b-9729-99dd2bd9a2f2"
+        CREATETIME="20120308160529"
+        ID="41be3b39-0123-47a9-b0f8-85029ef7e09d"
+        LO_ID="5bcd072b-02b5-4913-b372-6d71fb378535"
+        OBJ_ID="b30fbb59-218d-4345-b0b9-0c38a8f1fe78" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160529" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL329-201008000000"
         CREATETIME="20120308152129"
         ID="42110e98-5d83-4944-a6e2-b4ca5d8408e9"
@@ -800,6 +933,13 @@
         OBJ_ID="b363dd00-67c1-418f-a6f6-c5d0f38f5d41" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151948" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="1a6491f7-d2bd-44f0-a2ed-70e0565fbeac"
+        CREATETIME="20120308160446"
+        ID="4428a1b9-33ab-4ece-b036-983ec0bf0f5a"
+        LO_ID="e81b70be-74c1-45dd-90a5-26311bfa16c0"
+        OBJ_ID="c55e271f-3c76-4842-a250-ec73f34b9c13" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160446" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL234-198001000000"
         CREATETIME="20120308151907"
         ID="44c2acf8-15fd-4fdb-9903-60b7f0a92839"
@@ -814,6 +954,13 @@
         OBJ_ID="3de91522-b5d7-47fa-9388-7f67fa84c40b" ST="Retired"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308141856" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="d41c8f9f-704c-4f61-aa50-8c7f3d0b1765"
+        CREATETIME="20120308160543"
+        ID="45484f77-e017-4865-82a1-4973683a74a6"
+        LO_ID="a67f439f-64c6-49de-b6b5-69b9748f090c"
+        OBJ_ID="be580282-72de-4257-a7f8-139ad545e935" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160543" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="cde07415-fbd3-4e4e-8f07-94f7cbd3da7d"
         CREATEID="103101611" CREATETIME="20120509173651"
         ID="45df5a61-5341-4135-817e-bfdded798ce1"
@@ -877,6 +1024,13 @@
         OBJ_ID="897963a7-c352-4794-8df8-544522d5ff52" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151828" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST436-198001000000"
+        CREATETIME="20120308160533"
+        ID="4b68185a-b19e-41c1-917e-687a0a95425e"
+        LO_ID="9d1003b2-850e-4f23-b162-710e7f80971b"
+        OBJ_ID="1fb7d2bf-afb7-46df-ae03-ea4a13b3883e" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160533" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="fed2ec41-037b-40f1-938d-470946b86266"
         CREATETIME="20120308151836"
         ID="4bb14cb5-20be-4499-9ac8-fd577678e383"
@@ -982,6 +1136,13 @@
         OBJ_ID="52cf5313-9906-43ba-8572-28eae78b872c" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="102838754"
         UPDATETIME="20120403100512" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST205-201008201008"
+        CREATETIME="20120308160116"
+        ID="5488c04e-bb3b-4484-a128-570bfaceaa69"
+        LO_ID="a5ca2dbc-cfc6-42ef-a0d1-84826784172c"
+        OBJ_ID="e442ae44-b99e-4d0f-875b-645a76a2a936" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160116" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="40a23c92-c865-4a51-a921-0002a891b9dd"
         CREATETIME="20120308151911"
         ID="54dcec60-85dd-4659-8716-1e256769f780"
@@ -1024,6 +1185,20 @@
         OBJ_ID="7132840f-6928-4306-99d7-19af0e1df969" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151822" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="84718b85-c6fd-4905-ab55-ddb7322b9866"
+        CREATETIME="20120308160534"
+        ID="56c6b6a6-2fea-4b85-84e8-65772e6a8192"
+        LO_ID="b97d0990-5e7e-48d4-908c-7c05b85fa35f"
+        OBJ_ID="fdf2c579-257f-4863-bfa5-d8bca9cae5ef" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160534" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="0ccf7a20-ca80-4a8d-b176-9f366379e9d6"
+        CREATETIME="20120308160515"
+        ID="578f1a1b-9a19-4892-b428-5fcfea1a362d"
+        LO_ID="096d37b4-bfad-422a-b2bc-9cbd72a143a7"
+        OBJ_ID="956f4ef8-6455-4b9d-b2d8-ea606536c10a" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160515" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL244-198001000000"
         CREATETIME="20120308151949"
         ID="579a9e6b-061e-4d78-a0ae-4cf999064103"
@@ -1045,6 +1220,20 @@
         OBJ_ID="1c754f43-6182-4502-bb81-142e54ee533d" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151942" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="1a6491f7-d2bd-44f0-a2ed-70e0565fbeac"
+        CREATETIME="20120308160446"
+        ID="5834f7c6-f5d2-4605-aacd-a7d2eb9ab37a"
+        LO_ID="c14b50ea-b2e4-4d8c-aa85-c129946b7444"
+        OBJ_ID="bed0a1fd-a34a-401c-9681-228baa620442" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160446" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST401-198001000000"
+        CREATETIME="20120308160444"
+        ID="5869cc9c-7c85-430b-ba5c-6ea602bfeabe"
+        LO_ID="4213f61f-bf20-4089-9a7a-dbb4c1c12ca8"
+        OBJ_ID="c554d2de-a62a-43b9-ac72-9584c4f003f4" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160444" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="3d184a0b-87de-4d60-834e-b2c916800962"
         CREATEID="102838754" CREATETIME="20120523115358"
         ID="58f504bd-3051-49c1-bf1e-ef7bf45f68b8"
@@ -1052,6 +1241,13 @@
         OBJ_ID="a3643aff-4945-45e1-8ce1-daae1167ffe7" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="102838754"
         UPDATETIME="20120523115358" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST447-198001200208"
+        CREATETIME="20120308160542"
+        ID="58fce181-5c3f-4157-8a7e-a2a0d6f52653"
+        LO_ID="4eee8f83-4610-45f0-bad5-87eec8253357"
+        OBJ_ID="eadc88d3-f108-4045-bd0c-c24ef83e12e7" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160542" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="1757a519-a7ac-44ed-9e78-6393dc66f663"
         CREATETIME="20120308151839"
         ID="593528bb-60c2-4e00-b3c1-f236ee13815c"
@@ -1073,6 +1269,13 @@
         OBJ_ID="01fbcd8b-d824-41d3-be0b-b420b0e0330d" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151917" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="07f91d07-3e57-4aa5-8d8a-c8de8ad6c918"
+        CREATETIME="20120308160445"
+        ID="5a42b611-9d4c-4a43-aabb-c1462d14fd49"
+        LO_ID="69838dd8-3123-4206-adbb-65469d60352a"
+        OBJ_ID="0b9b4608-ef83-45ce-9027-7edec84027ec" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160445" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="36538a71-e40c-4ca4-a168-e519f41c0c86"
         CREATETIME="20120308151823"
         ID="5adb2110-2625-44c8-b1d5-b55f4fef2dc6"
@@ -1087,6 +1290,20 @@
         OBJ_ID="a5bb462a-b95f-420f-a75b-11634c2f5ab7" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151836" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST415-198001000000"
+        CREATETIME="20120308160514"
+        ID="5c6082fd-3d34-4ae2-8df2-4898a8f1580c"
+        LO_ID="8c9c5282-0b47-456c-b3cc-e4afecfaddee"
+        OBJ_ID="b64e634f-0b83-45ec-aab1-6437b0f97f99" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160514" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST447-198001200208"
+        CREATETIME="20120308160542"
+        ID="5ca56149-211d-4714-bf79-2f815c5d32fd"
+        LO_ID="a5590f1d-ba8b-4ab1-9d48-c66ee597ad6e"
+        OBJ_ID="cfbc005c-67b9-42f4-956a-c5cbb606a563" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160542" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL206-201108000000"
         CREATETIME="20120308151846"
         ID="5cfe8b17-eb68-44e5-9716-58ffd01bc18e"
@@ -1115,6 +1332,13 @@
         OBJ_ID="a06a7aca-941b-4022-9161-a97e03b0ccaa" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151951" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST416-198001198605"
+        CREATETIME="20120308160516"
+        ID="5e509be6-e9bf-4aea-88f5-6c057dc13bf1"
+        LO_ID="f3e14aeb-c853-4c90-bd8a-44d7a480836b"
+        OBJ_ID="6559786b-4207-4cd9-aab3-1149d4fe123f" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160516" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL449-198001000000"
         CREATETIME="20120308152324"
         ID="5ebf9126-a097-45bf-961b-11c2bde2af41"
@@ -1136,6 +1360,20 @@
         OBJ_ID="d22cb315-8ae7-485f-8739-068a8fd1d96d" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308141857" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST446-198001199008"
+        CREATETIME="20120308160541"
+        ID="5ff6eaf8-479b-4a5a-bc03-d60ab243fc0a"
+        LO_ID="7f3ec1a0-4001-40e9-8c9c-d1720beb9eca"
+        OBJ_ID="6d6b5061-d87f-4d12-abd3-9a0e09c9421d" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160541" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST221-200301200301"
+        CREATETIME="20120308160143"
+        ID="60030515-55db-4bbc-9ae4-edf268b1626e"
+        LO_ID="e0e11ff1-f39b-44d3-95be-025786743d94"
+        OBJ_ID="28ec13e1-fa1b-425b-aaec-be7ad45c0207" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160143" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="88061dd9-e263-41da-a008-7415b2b0dfb5"
         CREATETIME="20120308151954"
         ID="6036fa5d-dc85-4937-94f6-813ce6e3cff9"
@@ -1213,6 +1451,13 @@
         OBJ_ID="89ab8280-83ec-4bf0-80de-02d83c6f8da1" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151911" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="5dac01fa-f1c8-4f8d-a6be-70adf6889e2b"
+        CREATETIME="20120308160535"
+        ID="647eefed-9934-4540-acb5-9f40c663a907"
+        LO_ID="a427efb5-5dac-4200-ba6d-2ecde346f2e0"
+        OBJ_ID="671096a8-be0d-41e4-a6f7-0f5c19b9ca26" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160535" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="88061dd9-e263-41da-a008-7415b2b0dfb5"
         CREATETIME="20120308151954"
         ID="64c4775c-763a-4b4c-a881-799d73caf957"
@@ -1325,6 +1570,13 @@
         OBJ_ID="5facf4ef-0327-4ea8-8182-240b0d434610" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308141844" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST412-198001199008"
+        CREATETIME="20120308160510"
+        ID="703926d9-3a6c-4704-836f-9f2e2c405518"
+        LO_ID="edb11d5b-51ee-4da8-a779-1895665b6cee"
+        OBJ_ID="65218632-4d7b-4453-8b4a-0240c78db626" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160510" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="92c5147d-03f6-4781-9c75-d9cdc87e3fae"
         CREATETIME="20120308151931"
         ID="704e39ac-7ff1-4b61-bfee-7bcbc4b13c31"
@@ -1367,6 +1619,13 @@
         OBJ_ID="304bd563-726d-4df7-a46d-eb6a697343e1" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151919" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="7e0ebac8-17b3-4549-a020-15d8772c0516"
+        CREATETIME="20120308160624"
+        ID="721488cf-07b5-497c-a803-07e8636fe67d"
+        LO_ID="37c6e79d-aaff-48c3-89a8-4a1c675934f6"
+        OBJ_ID="20f1e3c9-9698-49f9-9280-ac1777e28ab4" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160624" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="6950d6b3-6a30-46f6-9861-cc054837ed1f"
         CREATETIME="20120308152354"
         ID="72eba120-665c-45a7-94ba-e46330a75169"
@@ -1374,6 +1633,13 @@
         OBJ_ID="8dcb7fcc-481f-45b6-b70a-52c69424869e" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152354" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST433-198001198305"
+        CREATETIME="20120308160528"
+        ID="731ada89-a7b6-461f-8682-80447d56f80b"
+        LO_ID="64a4f5a1-d1fa-462f-bf23-e91e2684a665"
+        OBJ_ID="e88d0d80-8ebd-4ff5-bcff-646196a5be08" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160528" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="2abb4af6-97f2-49da-91ee-85e352180322"
         CREATETIME="20120308151908"
         ID="74ac76d4-9ae8-41ca-8994-978acf2cb8fe"
@@ -1507,6 +1773,13 @@
         OBJ_ID="6a78b813-67f0-435c-bbb2-38589a5e4616" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="102150566"
         UPDATETIME="20120403093549" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="cc1fbb7a-84bd-45cc-9c37-0348e9945346"
+        CREATETIME="20120308160449"
+        ID="800b28d6-a455-4b13-afa2-725398d48af0"
+        LO_ID="602e3b79-7b1b-449b-8557-80870db96731"
+        OBJ_ID="e35d5e46-f00e-4ad9-b1fe-ba500d7674fa" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160449" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="595ec3e8-5602-4016-8e69-93e9aefc8a5e"
         CREATETIME="20120308151951"
         ID="80220770-bae4-4fef-8969-abe59b5e20ec"
@@ -1598,6 +1871,13 @@
         OBJ_ID="6ba1df35-3ccc-4074-a4df-a24d2057f7bf" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151913" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST486-201008000000"
+        CREATETIME="20120308160625"
+        ID="87ecddad-4793-492a-9a96-e0ad8f9a8fbe"
+        LO_ID="d33ce6b0-dd10-45be-a249-7619ec52fece"
+        OBJ_ID="2d3f44d4-5183-41c5-9604-cbf1f4923d57" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160625" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="53ce3038-248c-4fe4-811e-41430125ca60"
         CREATETIME="20120308151958"
         ID="8826892a-91c6-4324-8831-c8fbfef58893"
@@ -1633,6 +1913,13 @@
         OBJ_ID="be6cdc14-2bd9-434b-8b40-93cc01254df3" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151840" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="84718b85-c6fd-4905-ab55-ddb7322b9866"
+        CREATETIME="20120308160534"
+        ID="8b802b39-8c67-4033-92ff-014352a9ca05"
+        LO_ID="1804a70a-8eed-41a4-bbaf-59ca1aaf9c1b"
+        OBJ_ID="fe203a10-03ca-4061-b155-3ee330c07ddb" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160534" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="85225408-ccd9-4348-8feb-9f3cbd6caeea"
         CREATETIME="20120308151831"
         ID="8cb2be3d-7054-4e2f-a236-eb379ff34abd"
@@ -1717,6 +2004,20 @@
         OBJ_ID="62bde911-847b-4cb8-9ab4-c09fde566a82" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151948" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST484-200401000000"
+        CREATETIME="20120308160623"
+        ID="921d1394-d7d4-404a-a489-836e5e625fce"
+        LO_ID="7d0b0933-9e05-4459-a95f-b7e310c46367"
+        OBJ_ID="5aa5c247-3674-4279-8618-5ebf515b3a8d" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160623" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="1a6491f7-d2bd-44f0-a2ed-70e0565fbeac"
+        CREATETIME="20120308160446"
+        ID="92221d89-dd1f-4533-80fc-3e1067af26d9"
+        LO_ID="c28c789e-cba7-4188-a783-b3264138a022"
+        OBJ_ID="7910aff7-3b02-42b8-9a88-b978f1e50d1a" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160446" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="12919ada-0daa-4555-9b6c-2c9722353ce1"
         CREATEID="102150566" CREATETIME="20120403093549"
         ID="94411158-a2b4-4545-b8f1-795b37e362cf"
@@ -1731,6 +2032,13 @@
         OBJ_ID="060ad02c-448f-48d7-800b-44e4499f2116" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151913" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="d41c8f9f-704c-4f61-aa50-8c7f3d0b1765"
+        CREATETIME="20120308160543"
+        ID="9458841b-0d4c-4955-b77c-fa804682df1d"
+        LO_ID="ab33e7dc-cd2d-421c-8aa3-f35b8c153034"
+        OBJ_ID="59153369-207a-4349-8f40-ed5866bcad83" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160543" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="36538a71-e40c-4ca4-a168-e519f41c0c86"
         CREATETIME="20120308151823"
         ID="94ba0a9d-03c9-4c17-9838-4229be69cab5"
@@ -1745,6 +2053,13 @@
         OBJ_ID="7061bbe8-37a1-411c-9a82-ccf60046d4fb" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151950" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="d0299ada-b58a-4bf4-8627-f179dcd48c3d"
+        CREATETIME="20120308160447"
+        ID="95137e62-488e-4225-bf4c-99cf54aab9f0"
+        LO_ID="144063d1-62d8-4a29-9ed7-b961005c9f5e"
+        OBJ_ID="194bc56e-da65-4d83-88db-9f1e53b660c3" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160447" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="1e105e92-981f-4330-9bfc-829f8f39f75c"
         CREATETIME="20120308151913"
         ID="95437d1d-acf4-4d3a-a714-2fc3be5a678b"
@@ -1780,6 +2095,13 @@
         OBJ_ID="2faa7487-d167-4538-9435-fe38b5434030" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151913" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="c64769dd-cc9b-4903-81c2-bf7c52bf9b5f"
+        CREATETIME="20120308160510"
+        ID="96ce913b-ab77-4b5a-b11d-0cb3673f0ca6"
+        LO_ID="1b248c58-38ca-4034-ae42-eaf40351674f"
+        OBJ_ID="8a48a5d7-bd83-45bf-aacb-0568ed217c9a" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160510" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="40a23c92-c865-4a51-a921-0002a891b9dd"
         CREATETIME="20120308151911"
         ID="972796be-5339-4442-b99b-c99239c15e75"
@@ -2130,6 +2452,13 @@
         OBJ_ID="5a6ff8c5-5eee-4274-8f4b-0008f2b060f8" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151828" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST447-198001200208"
+        CREATETIME="20120308160542"
+        ID="b0a928e1-3f9f-4888-a413-9885eef5589c"
+        LO_ID="133539b6-2211-4239-98ab-0e3deb5fcb94"
+        OBJ_ID="d264bd57-66b6-4c00-b6bd-930e8b792e49" ST="Retired"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160542" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="1757a519-a7ac-44ed-9e78-6393dc66f663"
         CREATETIME="20120308151839"
         ID="b0acbc23-eacd-40c7-944e-8b33e093df08"
@@ -2193,6 +2522,13 @@
         OBJ_ID="3daea07c-f938-4161-854f-4c988d705368" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151839" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="88ce8765-c579-408f-925d-1430c40f8e25"
+        CREATETIME="20120308160542"
+        ID="b4b51e71-4162-47f5-9bc8-69523a34e718"
+        LO_ID="f0a5520c-2c2e-4e01-bff3-41176d9a297c"
+        OBJ_ID="8ec900d7-f4a7-48c4-b73f-6be2169d569b" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160542" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="3d184a0b-87de-4d60-834e-b2c916800962"
         CREATEID="102838754" CREATETIME="20120523115359"
         ID="b500eccd-1d4a-4ff9-8582-6ab2abd2b7e3"
@@ -2347,6 +2683,13 @@
         OBJ_ID="4fb86559-8eba-4f6d-88f9-e1df8bd0b89c" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="102838754"
         UPDATETIME="20120615131201" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="1a8a7ff0-bd3d-4212-b6d5-a1afc535ee15"
+        CREATETIME="20120308160144"
+        ID="bef2d824-c05a-4572-9573-a40c013c96d2"
+        LO_ID="53fe4da2-4360-4ab1-9f78-411a37bc5837"
+        OBJ_ID="264a3fcb-e678-4468-8e75-f7d2e7e32182" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160144" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="e5fa4a94-ac70-47db-9a33-1c5a20b77584"
         CREATETIME="20120308151827"
         ID="c028ed2b-cc1f-41cc-a95b-479d15f7eb4d"
@@ -2396,6 +2739,13 @@
         OBJ_ID="03ab913e-bef7-43f7-bfd9-95e8b2981ec2" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152326" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST204-201101000000"
+        CREATETIME="20120308160116"
+        ID="c4075801-60cd-4a92-928e-fa1d5e95a02d"
+        LO_ID="24cd8b25-c34b-423d-b9d2-15780cf27e37"
+        OBJ_ID="f5c101fe-a064-461e-ab43-2ee245299c67" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160116" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="79cb36dd-96a7-4f9e-8d4b-ef6223cb343a"
         CREATEID="102838754" CREATETIME="20120405142558"
         ID="c48bc2af-4458-4507-bb54-3d36bd9cfc7c"
@@ -2445,6 +2795,13 @@
         OBJ_ID="cd8e850b-2100-4ad3-9967-49067beb3e03" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151919" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="cc1fbb7a-84bd-45cc-9c37-0348e9945346"
+        CREATETIME="20120308160449"
+        ID="c8a4125b-a1fb-47a8-98fe-07f2043d80a2"
+        LO_ID="3c67be1b-1979-410a-8874-cac431a34c70"
+        OBJ_ID="6d1e8a87-23cd-40b9-89ec-b91473eb43a3" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160449" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="9c76e251-61f2-4611-882b-673d756c4327"
         CREATETIME="20120308152326"
         ID="c8d799ba-f7f0-4c68-8208-60af808982fb"
@@ -2452,6 +2809,13 @@
         OBJ_ID="c76776d4-92e7-4ff3-a9d2-188008d38295" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152326" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST415-198001000000"
+        CREATETIME="20120308160514"
+        ID="c971c304-d7e8-49ee-bb9b-87c2da482418"
+        LO_ID="98a3cac3-1744-43f8-9475-1d32001040c0"
+        OBJ_ID="2558ba80-27f0-4ef7-9656-20fc773f88e4" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160514" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="11d755da-7215-49fd-8f96-9480640d8914"
         CREATETIME="20120308151919"
         ID="ca1b5ee2-79a9-45f7-a288-71a6d0e0e71e"
@@ -2529,6 +2893,13 @@
         OBJ_ID="0a71e250-9a00-4fed-a665-d78ac795b328" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151907" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="d0299ada-b58a-4bf4-8627-f179dcd48c3d"
+        CREATETIME="20120308160447"
+        ID="d13cb99c-9f44-4221-a1c9-c765e138c5e0"
+        LO_ID="8beec16a-bac1-4822-bffd-1a18df990c06"
+        OBJ_ID="22282de0-5597-42bc-952c-d14ef1294b02" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160447" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="3d184a0b-87de-4d60-834e-b2c916800962"
         CREATEID="102838754" CREATETIME="20120523115359"
         ID="d1412023-a277-4bfc-a9a6-b5986d80278f"
@@ -2683,6 +3054,13 @@
         OBJ_ID="a8f9b7e7-0b81-4571-a88f-caf9d1849f36" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes" UPDATEID="102116265"
         UPDATETIME="20120423162104" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="d984b4ab-8387-431e-ab99-2a6f94e34224"
+        CREATETIME="20120308160145"
+        ID="e123bb9f-38c6-40bf-8496-e3b15aa2fe29"
+        LO_ID="f7c2b570-29c3-4e06-b4c5-566284c82ee1"
+        OBJ_ID="8e5b021a-3a23-4b66-a0db-2a35abf22905" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160145" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-BSCI283-201101201101"
         CREATETIME="20120308141857"
         ID="e1735097-78ac-414e-a51c-b1bc8191c558"
@@ -2718,6 +3096,13 @@
         OBJ_ID="32f74cfb-cef1-497b-82da-2f3016404285" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151819" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="07f91d07-3e57-4aa5-8d8a-c8de8ad6c918"
+        CREATETIME="20120308160445"
+        ID="e522ab15-e196-4204-8c5e-2dc30f133af6"
+        LO_ID="247c95b1-4fed-498f-9851-2c3440037924"
+        OBJ_ID="91f14e87-3117-40a6-a476-930faa6a30aa" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160445" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="11d755da-7215-49fd-8f96-9480640d8914"
         CREATETIME="20120308151919"
         ID="e68ec118-8c8e-4050-a3eb-fe34bb0922d1"
@@ -2781,6 +3166,13 @@
         OBJ_ID="ed6b827e-83b0-4760-b76d-172a66c671d5" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152001" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST436-198001000000"
+        CREATETIME="20120308160533"
+        ID="e9164420-2498-4605-acc7-e88fef55bba6"
+        LO_ID="7a1e75bf-7d4e-46db-b407-5ce3e41f1350"
+        OBJ_ID="ecc219bf-0ffb-41e0-be29-0f10e952093a" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160533" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="e2abeb88-1314-466e-b205-72090ee1cd84"
         CREATEID="102838754" CREATETIME="20120620142538"
         ID="e95a2036-0b26-43a2-847f-b8f2c5391d40"
@@ -2802,6 +3194,13 @@
         OBJ_ID="f78369ab-dd99-48c3-a6b3-589e35798074" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152325" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST204-201101000000"
+        CREATETIME="20120308160116"
+        ID="eb845725-d00e-458b-9ee8-586d73a2a8ce"
+        LO_ID="940ca406-df5b-4978-b4b4-96ab72f9a4c3"
+        OBJ_ID="2aa2c300-d2fb-43c5-81b7-45b8973d22b2" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160116" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="595ec3e8-5602-4016-8e69-93e9aefc8a5e"
         CREATETIME="20120308151952"
         ID="ec00a5fd-f4d1-41b1-9838-1da225fd8031"
@@ -2886,6 +3285,13 @@
         OBJ_ID="bd124c5f-8f4d-4833-9b16-87e9a518c016" ST="Active"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308152129" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="CLUID-HIST401-198001000000"
+        CREATETIME="20120308160444"
+        ID="efddf9cc-5d19-4c2a-a1c1-da33a5c93937"
+        LO_ID="1c63ea72-7154-4568-bbfa-4f409ff16d4f"
+        OBJ_ID="207dd432-14d4-40da-8b26-af84acdf4c19" ST="Active"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160444" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="CLUID-ENGL201-198001000000"
         CREATETIME="20120308151819"
         ID="efdeacf1-b449-4425-9ebb-009acbd71448"
@@ -3054,6 +3460,13 @@
         OBJ_ID="e2528c1f-3dc6-4cd2-a20f-4d825408995d" ST="Draft"
         TYPE="kuali.lu.lo.relation.type.includes"
         UPDATETIME="20120308151953" VER_NBR="0"/>
+    <KSLU_CLU_LO_RELTN CLU_ID="d0299ada-b58a-4bf4-8627-f179dcd48c3d"
+        CREATETIME="20120308160447"
+        ID="ff5ba51b-83b7-4417-b37c-41639d63f2cc"
+        LO_ID="2d6cda45-2720-4020-abbd-0dd64660f58a"
+        OBJ_ID="94443cff-8617-4ba9-92a0-690d431e77ef" ST="Draft"
+        TYPE="kuali.lu.lo.relation.type.includes"
+        UPDATETIME="20120308160447" VER_NBR="0"/>
     <KSLU_CLU_LO_RELTN CLU_ID="dd411b96-64bb-40f8-b343-d3712b0a8a9e"
         CREATETIME="20120308151917"
         ID="ff665cc0-11fd-4465-b66e-740adef73b67"
