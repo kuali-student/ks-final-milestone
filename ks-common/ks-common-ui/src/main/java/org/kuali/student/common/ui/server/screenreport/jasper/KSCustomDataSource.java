@@ -44,7 +44,7 @@ public class KSCustomDataSource implements JRDataSource {
     public boolean next() throws JRException {
         try {
             property = (Property) iterator.next();
-            if (("metaInfo".equals(property.getKey().toString())) || ("id".equals(property.getKey().toString())) || ("_runtimeData".equals(property.getKey().toString()))) {
+            if (("meta".equals(property.getKey().toString())) || ("id".equals(property.getKey().toString())) || ("_runtimeData".equals(property.getKey().toString()))) {
                 return this.next();
             }
         } catch (NoSuchElementException e) {
