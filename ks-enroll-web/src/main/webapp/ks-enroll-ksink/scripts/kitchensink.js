@@ -4,6 +4,14 @@ var originalSelect;
 //var tempSelect;
 var tempUl;
 
+jQuery(document).ready(function() {
+    // focus on first text or textarea field
+    var fields = jQuery("input[type='text'],textarea");
+    if (fields.length > 0) {
+        fields.get(0).focus();
+    }
+});
+
 function showProps(id, name, props) {
     var propStr = "Properties for:\t" + name + "\n";
     propStr += "KRAD Property   :   HTML Property\n";
