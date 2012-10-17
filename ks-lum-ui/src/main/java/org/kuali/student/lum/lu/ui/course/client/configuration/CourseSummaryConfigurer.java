@@ -658,8 +658,8 @@ public class CourseSummaryConfigurer extends Configurer implements
 
         // Outcomes
         Map<String, ModelWidgetBinding> customBindings = new HashMap<String, ModelWidgetBinding>();
-        ListToTextBinding resultValuesBinding = new ListToTextBinding();
-        customBindings.put("resultValues", resultValuesBinding);
+        ListToTextBinding resultValueKeysBinding = new ListToTextBinding();
+        customBindings.put("resultValueKeys", resultValueKeysBinding);
         String outcomesKey = COURSE + QueryPath.getPathSeparator()
                 + CREDIT_OPTIONS;
         MultiplicityConfiguration outcomesConfig = getMultiplicityConfig(
@@ -669,8 +669,6 @@ public class CourseSummaryConfigurer extends Configurer implements
                         Arrays.asList(
                                 CreditCourseConstants.TYPE,
                                 LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY),
-                        Arrays.asList(CREDIT_OPTION_FIXED_CREDITS,
-                                LUUIConstants.CREDIT_VALUE_LABEL_KEY, OPTIONAL),
                         Arrays.asList(
                                 CREDIT_OPTION_MIN_CREDITS,
                                 LUUIConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY,
@@ -680,7 +678,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                                 LUUIConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY,
                                 OPTIONAL),
                         Arrays.asList(
-                                "resultValues",
+                                "resultValueKeys",
                                 LUUIConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY,
                                 OPTIONAL)), customBindings);
 
@@ -697,13 +695,10 @@ public class CourseSummaryConfigurer extends Configurer implements
                     DataModel column1, DataModel column2) {
                 if (row.getFieldDescriptor1() != null
                         && row.getFieldDescriptor1().getFieldKey()
-                                .contains(CREDIT_OPTIONS)
-                        && row.getFieldDescriptor1().getFieldKey()
-                                .contains("resultValues")) {
-                    String type = row
-                            .getFieldDescriptor1()
-                            .getFieldKey()
-                            .replace("resultValues", CreditCourseConstants.TYPE);
+                        .contains(CREDIT_OPTIONS)
+                        && (row.getFieldDescriptor1().getFieldKey()
+                        .contains("resultValueRange"))) {
+                    String type = "creditOptions/0/typeKey";
                     Object data1 = null;
                     Object data2 = null;
                     if (column1 != null) {
@@ -715,18 +710,19 @@ public class CourseSummaryConfigurer extends Configurer implements
 
                     if (data1 != null && data1 instanceof String) {
                         if (!((String) data1)
-                                .equals("kuali.result.values.group.type.multiple")) {
+                                .equals("kuali.result.values.group.type.range")) {
                             row.setShown(false);
                         }
                     } else if (data2 != null && data2 instanceof String) {
                         if (!((String) data2)
-                                .equals("kuali.result.values.group.type.multiple")) {
+                                .equals("kuali.result.values.group.type.range")) {
                             row.setShown(false);
                         }
                     }
                 }
             }
         });
+        block.addSummaryMultiplicity(outcomesConfig);
 
         // Formats
         MultiplicityConfiguration formatsConfig = getMultiplicityConfig(COURSE
@@ -1065,8 +1061,8 @@ public class CourseSummaryConfigurer extends Configurer implements
                 generateMessageInfo(LUUIConstants.CAMPUS_LOCATION_LABEL_KEY)));
 
         Map<String, ModelWidgetBinding> customBindings = new HashMap<String, ModelWidgetBinding>();
-        ListToTextBinding resultValuesBinding = new ListToTextBinding();
-        customBindings.put("resultValues", resultValuesBinding);
+        ListToTextBinding resultValueKeysBinding = new ListToTextBinding();
+        customBindings.put("resultValueKeys", resultValueKeysBinding);
         String outcomesKey = COURSE + QueryPath.getPathSeparator()
                 + CREDIT_OPTIONS;
         MultiplicityConfiguration outcomesConfig = getMultiplicityConfig(
@@ -1076,8 +1072,6 @@ public class CourseSummaryConfigurer extends Configurer implements
                         Arrays.asList(
                                 CreditCourseConstants.TYPE,
                                 LUUIConstants.LEARNING_RESULT_OUTCOME_TYPE_LABEL_KEY),
-                        Arrays.asList(CREDIT_OPTION_FIXED_CREDITS,
-                                LUUIConstants.CONTACT_HOURS_LABEL_KEY, OPTIONAL),
                         Arrays.asList(
                                 CREDIT_OPTION_MIN_CREDITS,
                                 LUUIConstants.CREDIT_OPTION_MIN_CREDITS_LABEL_KEY,
@@ -1087,7 +1081,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                                 LUUIConstants.CREDIT_OPTION_MAX_CREDITS_LABEL_KEY,
                                 OPTIONAL),
                         Arrays.asList(
-                                "resultValues",
+                                "resultValueKeys",
                                 LUUIConstants.CREDIT_OPTION_FIXED_CREDITS_LABEL_KEY,
                                 OPTIONAL)), customBindings);
 
@@ -1104,13 +1098,10 @@ public class CourseSummaryConfigurer extends Configurer implements
                     DataModel column1, DataModel column2) {
                 if (row.getFieldDescriptor1() != null
                         && row.getFieldDescriptor1().getFieldKey()
-                                .contains(CREDIT_OPTIONS)
-                        && row.getFieldDescriptor1().getFieldKey()
-                                .contains("resultValues")) {
-                    String type = row
-                            .getFieldDescriptor1()
-                            .getFieldKey()
-                            .replace("resultValues", CreditCourseConstants.TYPE);
+                        .contains(CREDIT_OPTIONS)
+                        && (row.getFieldDescriptor1().getFieldKey()
+                        .contains("resultValueRange"))) {
+                    String type = "creditOptions/0/typeKey";
                     Object data1 = null;
                     Object data2 = null;
                     if (column1 != null) {
@@ -1122,18 +1113,19 @@ public class CourseSummaryConfigurer extends Configurer implements
 
                     if (data1 != null && data1 instanceof String) {
                         if (!((String) data1)
-                                .equals("kuali.result.values.group.type.multiple")) {
+                                .equals("kuali.result.values.group.type.range")) {
                             row.setShown(false);
                         }
                     } else if (data2 != null && data2 instanceof String) {
                         if (!((String) data2)
-                                .equals("kuali.result.values.group.type.multiple")) {
+                                .equals("kuali.result.values.group.type.range")) {
                             row.setShown(false);
                         }
                     }
                 }
             }
         });
+        block.addSummaryMultiplicity(outcomesConfig);
 
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + TERMS_OFFERED,
                 generateMessageInfo(LUUIConstants.TERMS_OFFERED_LABEL_KEY)));
@@ -1249,7 +1241,7 @@ public class CourseSummaryConfigurer extends Configurer implements
                                 list = list
                                         + binding.getStringList(model,
                                                 outcomesKey + "/" + number
-                                                        + "/" + "resultValues")
+                                                        + "/" + "resultValueKeys")
                                         + ", ";
                             }
                         }
