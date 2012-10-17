@@ -135,6 +135,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 coWrapper.getExistingTermOfferings().add(co);
             }
 
+            //Enable the create button
+            coWrapper.setEnableCreateButton(true);
         } else {
 
             if (matchingCourses.size() > 1){
@@ -151,6 +153,8 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 }
             }
             coWrapper.clear();
+            coWrapper.setEnableCreateButton(false);
+
             return getUIFModelAndView(form);
         }
 

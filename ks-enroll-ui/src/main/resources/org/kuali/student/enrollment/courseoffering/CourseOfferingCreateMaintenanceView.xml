@@ -71,11 +71,6 @@
                 <value>ks-enroll/css/acal.css</value>
             </list>
         </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/courseOffering.js</value>
-            </list>
-        </property>
         <property name="expressionVariables">
             <map merge="true">
                 <entry key="showCatalogLink" value="document.newMaintainableObject.dataObject.showCatalogLink"/>
@@ -213,8 +208,7 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="addLineActions">
           <list>
-            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
-                  p:actionEvent="addLine" p:onClickScript=" enableCreateOffering(); "/>
+            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add" p:actionEvent="addLine" />
           </list>
         </property>
 		<property name="items">
