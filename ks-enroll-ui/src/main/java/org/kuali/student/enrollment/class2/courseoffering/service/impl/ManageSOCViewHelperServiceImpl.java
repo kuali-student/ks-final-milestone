@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -31,11 +30,7 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implements ManageSOCViewHelperService {
 
@@ -157,16 +152,20 @@ public class ManageSOCViewHelperServiceImpl extends ViewHelperServiceImpl implem
                 if(socInfo.getPublishingStarted() != null)   {
                     startDate =  socInfo.getPublishingStarted();
                 }
-                socForm.setScheduleDuration(getTimeDiffUI(curDate, startDate, true) + "  (in progress)");
+                socForm.setScheduleDuration(getTimeDiffUI(curDate, socInfo.getLastSchedulingRunStarted(), true) + "  (in progress)");
             }
             if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
                 socForm.setScheduleDuration(getTimeDiffUI(socInfo.getLastSchedulingRunCompleted(), socInfo.getLastSchedulingRunStarted(), true));
             }
 
-            if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
-                socForm.setPublishDuration(getTimeDiffUI(socInfo.getPublishingCompleted(), socInfo.getPublishingStarted(), true));
+            if(socInfo.getPublishingStarted() != null) {
+                Date curDate = new Date();
+                if (socInfo.getPublishingCompleted() != null) {
+                    socForm.setPublishDuration(getTimeDiffUI(socInfo.getPublishingCompleted(), socInfo.getPublishingStarted(), true));
+                } else {
+                    socForm.setPublishDuration(getTimeDiffUI(curDate, socInfo.getPublishingStarted(), true)+ "  (in progress)");
+                }
             }
-
         } catch (DoesNotExistException e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,e.getMessage());
         } catch (PermissionDeniedException e) {
