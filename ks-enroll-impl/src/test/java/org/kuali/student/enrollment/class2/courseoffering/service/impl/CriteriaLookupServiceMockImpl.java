@@ -63,4 +63,15 @@ public class CriteriaLookupServiceMockImpl implements CriteriaLookupService,
         return null;
     }
 
+    @Override
+    public <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, String field){
+        return null;
+    }
+
+    @Override
+    public <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, final LookupCustomizer<T> customizer, String field){
+        return null;
+
+    }
+
 }
