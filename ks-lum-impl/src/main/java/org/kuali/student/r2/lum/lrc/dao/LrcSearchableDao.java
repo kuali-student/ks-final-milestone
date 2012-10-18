@@ -15,8 +15,8 @@
 
 package org.kuali.student.r2.lum.lrc.dao;
 
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 
-public class LrcSearchableDao extends AbstractSearchableCrudDaoImpl {
+public class LrcSearchableDao extends AbstractCrudDaoImpl {
 
 }

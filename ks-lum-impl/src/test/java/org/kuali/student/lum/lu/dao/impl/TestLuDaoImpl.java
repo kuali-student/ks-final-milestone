@@ -26,7 +26,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.junit.Test;
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
@@ -50,7 +50,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 	@Test
 	public void testJPQL(){
 		
-		Query query = ((AbstractSearchableCrudDaoImpl)dao).getEm().createQuery(
+		Query query = ((AbstractCrudDaoImpl)dao).getEm().createQuery(
 				"SELECT clu.id, clu.officialIdentifier.code, rel.loId " + 
                 "FROM CluLoRelation rel " + 
                 "JOIN rel.clu clu " +

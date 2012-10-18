@@ -23,7 +23,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.lu.entity.Clu;
@@ -36,7 +36,7 @@ import org.kuali.student.r2.lum.lu.entity.CluSet;
 import org.kuali.student.r2.lum.lu.entity.Lui;
 import org.kuali.student.r2.lum.lu.entity.LuiLuiRelation;
 
-public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
+public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 
 	@PersistenceContext(unitName = "Lu")
 	@Override

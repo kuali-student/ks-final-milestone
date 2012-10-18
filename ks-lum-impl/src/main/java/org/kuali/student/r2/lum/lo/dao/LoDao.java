@@ -18,7 +18,6 @@ package org.kuali.student.r2.lum.lo.dao;
 import java.util.List;
 
 import org.kuali.student.r1.common.dao.CrudDao;
-import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
@@ -28,7 +27,7 @@ import org.kuali.student.r2.lum.lo.entity.LoLoRelation;
 import org.kuali.student.r2.lum.lo.entity.LoCategory;
 import org.kuali.student.r2.lum.lo.entity.LoLoRelation;
 
-public interface LoDao extends CrudDao, SearchableDao  {
+public interface LoDao extends CrudDao {
 	public List<Lo> getLoByIdList(List<String> loIds);
 	public List<Lo> getLosByLoCategory(String loCategoryId);
 	public List<LoCategory> getLoCategories(String loHierarchyKey);

@@ -21,7 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
@@ -35,7 +35,7 @@ import org.kuali.student.r2.lum.lo.entity.LoLoRelation;
  * @author Kuali Student Team
  *
  */
-public class LoDaoImpl extends AbstractSearchableCrudDaoImpl implements LoDao {
+public class LoDaoImpl extends AbstractCrudDaoImpl implements LoDao {
 	@PersistenceContext(unitName = "Lo")
 	@Override
 	public void setEm(EntityManager em) {
