@@ -21,9 +21,20 @@
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	 ">
-	<bean id="searchManager"
-		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl"
+
+    <bean id="entityManager"
+          class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="searchableCrudDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
+    <bean id="searchManager"
+		class="org.kuali.student.r2.common.class1.search.SearchManagerImpl"
 		autowire="byType">
+        <property name="dao" ref="searchableCrudDao"/>
 		<constructor-arg index="0" value="classpath:proposal-search-config.xml" />
 	</bean>
 	

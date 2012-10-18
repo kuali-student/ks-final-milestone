@@ -47,8 +47,8 @@ import org.kuali.student.r1.common.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -113,7 +113,7 @@ public class SearchPanel extends Composite{
 	};
    
     interface SearchParametersWidget {
-        public SearchRequest getSearchRequest();
+        public SearchRequestInfo getSearchRequest();
         public LookupMetadata getLookupMetadata();
         public List<HasSearchParam> getSearchParams();
     }
@@ -321,15 +321,15 @@ public class SearchPanel extends Composite{
         }
 
         @Override
-        public SearchRequest getSearchRequest() {
+        public SearchRequestInfo getSearchRequest() {
             //Create search request and then pass it to the table
             //TODO pass search to the table
-            SearchRequest sr = new SearchRequest();
-            List<SearchParam> params = new ArrayList<SearchParam>();
+            SearchRequestInfo sr = new SearchRequestInfo();
+            List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
             for(CustomLine field: lines){
-                SearchParam param = field.getSearchParam();
+                SearchParamInfo param = field.getSearchParam();
                 //TODO is this check needed here? probably. assuming string here
-                if((param.getValue() != null)){
+                if((param.getValues().get(0) != null)){
                     params.add(param);
                 }
             }
@@ -343,24 +343,24 @@ public class SearchPanel extends Composite{
                 }
 
                 if(metaParam.getWriteAccess() == WriteAccess.NEVER){
-                    SearchParam param = new SearchParam();
+                    SearchParamInfo param = new SearchParamInfo();
                     param.setKey(metaParam.getKey());
                     if(metaParam.getDefaultValueList()==null){
-                        param.setValue(metaParam.getDefaultValueString());
+                        param.getValues().add(metaParam.getDefaultValueString());
                     }else{
-                        param.setValue(metaParam.getDefaultValueList());
+                        param.setValues(metaParam.getDefaultValueList());
                     }
                     params.add(param);
                 }
                 else if(metaParam.getWriteAccess() == WriteAccess.WHEN_NULL){
                     if((metaParam.getDefaultValueString() != null && !metaParam.getDefaultValueString().isEmpty())||
                        (metaParam.getDefaultValueList() != null && !metaParam.getDefaultValueList().isEmpty())){
-                        SearchParam param = new SearchParam();
+                        SearchParamInfo param = new SearchParamInfo();
                         param.setKey(metaParam.getKey());
                         if(metaParam.getDefaultValueList()==null){
-                            param.setValue(metaParam.getDefaultValueString());
+                            param.getValues().add(metaParam.getDefaultValueString());
                         }else{
-                            param.setValue(metaParam.getDefaultValueList());
+                            param.setValues(metaParam.getDefaultValueList());
                         }
                         params.add(param);
                     }
@@ -380,7 +380,7 @@ public class SearchPanel extends Composite{
     }
 
     private interface HasSearchParam{
-        public SearchParam getSearchParam();
+        public SearchParamInfo getSearchParam();
         public String getFieldName();
         public String getSearchText();
     }
@@ -440,7 +440,7 @@ public class SearchPanel extends Composite{
             this.initWidget(layout);
         }
 
-        public SearchParam getSearchParam(){
+        public SearchParamInfo getSearchParam(){
             return SearchPanel.getSearchParam(widget, key);
         }
 
@@ -527,20 +527,20 @@ public class SearchPanel extends Composite{
     	};
 
         @Override
-        public SearchRequest getSearchRequest() {
-            SearchRequest sr = new SearchRequest();
-            List<SearchParam> params = new ArrayList<SearchParam>();
+        public SearchRequestInfo getSearchRequest() {
+            SearchRequestInfo sr = new SearchRequestInfo();
+            List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
             List<HasSearchParam> searchParams = getSearchParams();
 
             //initialize search parameters if user entered values into search criteria fields in UI
             
             for(HasSearchParam field: searchParams){
-                SearchParam param = field.getSearchParam();
+                SearchParamInfo param = field.getSearchParam();
                 //TODO is this null check needed here? probably. assuming string here
                 //TODO make check more robust here/inserting params more robust
                 //do not pass to the search parameters that are empty
                 //FIXME hack - comparison to 'optional' - replace with check against 'optional' field and update related lookup metadata
-                if ((param.getValue() != null) && ((param.getValue().toString().trim().isEmpty() == false) || (param.getKey().toLowerCase().indexOf("optional") == -1))) {
+                if ((param.getValues().get(0) != null) && ((param.getValues().get(0).toString().trim().isEmpty() == false) || (param.getKey().toLowerCase().indexOf("optional") == -1))) {
                     params.add(param);
                 }
             }
@@ -554,24 +554,24 @@ public class SearchPanel extends Composite{
                         GWT.log("Key = " + metaParam.getKey() + " has write access NEVER but has no default value!", null);
                         continue;
                     }
-                    SearchParam param = new SearchParam();
+                    SearchParamInfo param = new SearchParamInfo();
                     param.setKey(metaParam.getKey());
                     if(metaParam.getDefaultValueList()==null){
-                        param.setValue(metaParam.getDefaultValueString());
+                        param.getValues().add(metaParam.getDefaultValueString());
                     }else{
-                        param.setValue(metaParam.getDefaultValueList());
+                        param.setValues(metaParam.getDefaultValueList());
                     }
                     params.add(param);
                 }
                 else if(metaParam.getWriteAccess() == WriteAccess.WHEN_NULL){
                     if((metaParam.getDefaultValueString() != null && !metaParam.getDefaultValueString().isEmpty())||
                        (metaParam.getDefaultValueList() != null && !metaParam.getDefaultValueList().isEmpty())){
-                        SearchParam param = new SearchParam();
+                        SearchParamInfo param = new SearchParamInfo();
                         param.setKey(metaParam.getKey());
                         if(metaParam.getDefaultValueList()==null){
-                            param.setValue(metaParam.getDefaultValueString());
+                            param.getValues().add(metaParam.getDefaultValueString());
                         }else{
-                            param.setValue(metaParam.getDefaultValueList());
+                            param.setValues(metaParam.getDefaultValueList());
                         }
                         params.add(param);
                     }
@@ -598,7 +598,7 @@ public class SearchPanel extends Composite{
         private VerticalFlowPanel panel = new VerticalFlowPanel();
         private String fieldName;    	
 
-        public SearchParam getSearchParam(){
+        public SearchParamInfo getSearchParam(){
             return SearchPanel.getSearchParam(widget, meta.getKey());
         }
 
@@ -652,21 +652,21 @@ public class SearchPanel extends Composite{
         }
     }
 
-    private static SearchParam getSearchParam(final Widget widget, String key){
-        SearchParam param = new SearchParam();
+    private static SearchParamInfo getSearchParam(final Widget widget, String key){
+        SearchParamInfo param = new SearchParamInfo();
         param.setKey(key);
         if(widget instanceof HasText){
-            param.setValue(((HasText) widget).getText());
+            param.getValues().add(((HasText) widget).getText());
         }
         else if(widget instanceof HasValue){
             Object value = ((HasValue) widget).getValue();
             if(value != null){
             //TODO need to handle date and other types here, how they are converted for search, etc
                 if(value instanceof String){
-                    param.setValue((String)value);
+                    param.getValues().add((String)value);
                 }
                 else{
-                    param.setValue(value.toString());
+                    param.getValues().add(value.toString());
                     GWT.log("Fields in search probably(?) shouldnt have values other than string", null);
                 }
             }
@@ -679,10 +679,10 @@ public class SearchPanel extends Composite{
         		pickerValue = suggestBox.getText();
         	}
         	
-            param.setValue(pickerValue);
+            param.getValues().add(pickerValue);
         }
         else {
-            param.setValue("");
+            param.getValues().add("");
         }
 
         return param;
@@ -718,7 +718,7 @@ public class SearchPanel extends Composite{
             String name = field.getFieldName();
             String value = field.getSearchText();
           if(!value.isEmpty()&&value.equals("$$##@@"))
-          	value = field.getSearchParam().getValue().toString().toUpperCase();
+          	value = field.getSearchParam().getValues().get(0).toUpperCase();
             if(!value.isEmpty()){
                 HTMLPanel label = new HTMLPanel(name + ": <b>" + value + "</b>&nbsp;");
                 if (!first) {
@@ -860,7 +860,7 @@ public class SearchPanel extends Composite{
                 actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("select"));
                 resultsSelected = true;
                 
-                SearchRequest sr = getSearchRequest();
+                SearchRequestInfo sr = getSearchRequest();
                 // KSLAB2571 KSCM1326 - adding searchId for better message overriding.
                 String searchId = activeSearchParametersWidget.getLookupMetadata().getId();
                 table.performSearch(searchId, sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey(), activeSearchParametersWidget.getLookupMetadata().getResultDisplayKey(), true);
@@ -870,12 +870,12 @@ public class SearchPanel extends Composite{
 
                 //initialize search parameters if user entered values into search criteria fields in UI
                 for(HasSearchParam field: searchParams){
-                    SearchParam param = field.getSearchParam();
+                    SearchParamInfo param = field.getSearchParam();
                     //TODO is this null check needed here? probably. assuming string here
                     //TODO make check more robust here/inserting params more robust
                     //do not pass to the search parameters that are empty
                     //FIXME hack - comparison to 'optional' - replace with check against 'optional' field and update related lookup metadata
-                    if ((param.getValue() != null) && ((param.getValue().toString().trim().isEmpty() == false) || (param.getKey().toLowerCase().indexOf("optional") == -1))) {
+                    if ((param.getValues().get(0) != null) && ((param.getValues().get(0).trim().isEmpty() == false) || (param.getKey().toLowerCase().indexOf("optional") == -1))) {
                         userCriteria.add(field);
                     }
                 }
@@ -910,7 +910,7 @@ public class SearchPanel extends Composite{
         };
     }
     
-    public SearchRequest getSearchRequest() {
+    public SearchRequestInfo getSearchRequest() {
         if (activeSearchParametersWidget != null) {
             return activeSearchParametersWidget.getSearchRequest();
         }

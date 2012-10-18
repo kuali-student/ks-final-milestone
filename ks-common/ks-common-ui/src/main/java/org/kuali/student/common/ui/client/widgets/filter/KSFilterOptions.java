@@ -19,8 +19,6 @@ import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,6 +26,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 /**
  * This widget can be used to display a list of filter items with a list of options.
@@ -128,11 +128,11 @@ public class KSFilterOptions extends Composite{
    		
     		itemKey = lookup.getId();
     		
-    		SearchRequest sr = SearchUtils.initializeSearchRequest(lookup);
+    		SearchRequestInfo sr = SearchUtils.initializeSearchRequest(lookup);
     		
-    		searchRpcService.search(sr, new KSAsyncCallback<SearchResult>(){
+    		searchRpcService.search(sr, new KSAsyncCallback<SearchResultInfo>(){
 				@Override
-				public void onSuccess(SearchResult result) {
+				public void onSuccess(SearchResultInfo result) {
 					SearchResultListItems items = new SearchResultListItems(result.getRows(), lookup);
 					for (String id:items.getItemIds()){			
 						final KSCheckBox checkbox;

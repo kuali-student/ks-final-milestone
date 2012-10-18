@@ -26,7 +26,6 @@ import org.kuali.student.r1.common.assembly.data.Data.Key;
 import org.kuali.student.r1.common.assembly.helper.PropertyEnum;
 import org.kuali.student.r1.common.assembly.helper.RuntimeDataHelper;
 
-@Deprecated
 public class AssemblerUtils {
 	public enum VersionProperties implements PropertyEnum {
 		TYPENAME("typeName"), ID("id"), VERSION_INDICATOR("versionIndicator");

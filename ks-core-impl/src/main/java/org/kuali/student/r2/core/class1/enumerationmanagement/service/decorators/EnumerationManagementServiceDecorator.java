@@ -3,11 +3,8 @@ package org.kuali.student.r2.core.class1.enumerationmanagement.service.decorator
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -23,6 +20,10 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+
+import javax.jws.WebParam;
 
 public class EnumerationManagementServiceDecorator implements EnumerationManagementService{
 
@@ -83,57 +84,43 @@ public class EnumerationManagementServiceDecorator implements EnumerationManagem
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getSearchTypes(contextInfo);
     }
 
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+
+        return getNextDecorator().getSearchType(searchTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+
+        return getNextDecorator().getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+
+        return getNextDecorator().getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+
+        return getNextDecorator().getSearchResultTypes(contextInfo);
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+
+        return getNextDecorator().getSearchCriteriaTypes(contextInfo);
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-    @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return getNextDecorator().search(searchRequestInfo, contextInfo);
     }
-
-    @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
 }

@@ -21,8 +21,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
-import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -36,12 +35,14 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-
-import javax.jws.WebParam;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 
 /**
  * This is a mock memory based implementation for ATP service
@@ -55,7 +56,7 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     private Map<String, AtpAtpRelationInfo> atpAtpRltnCache = new HashMap<String, AtpAtpRelationInfo>();
     private Map<String, Set<String>> milestonesForAtp = new HashMap<String, Set<String>>();
     private SearchManager searchManager;
-    private SearchDispatcher searchDispatcher;
+    private SearchService searchDispatcher;
 
     
     @Override
@@ -657,65 +658,47 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     }
 
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
-
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchResultTypes(contextInfo);
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
-    }
-
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
-    }
-
-    @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey)
+    public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchTypes();
+    public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchTypes(contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
+    public List<TypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey) throws DoesNotExistException,
+    public List<TypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
     public SearchManager getSearchManager() {
@@ -727,8 +710,8 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     }
 
     @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        return this.searchDispatcher.dispatchSearch(searchRequest);
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.searchDispatcher.search(searchRequest, contextInfo);
     }
 }
 

@@ -20,24 +20,20 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.exceptions.*;
 
-import org.kuali.student.r1.common.search.service.SearchService;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 /**
  * This abstract service delegates search & dictionary operations to the web service being
@@ -87,47 +83,13 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }
 
     /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
-     */
-    @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) {
-        try {
-            return ((SearchService) getService()).getSearchCriteriaType(searchCriteriaTypeKey);
-        } catch (DoesNotExistException e) {
-            LOG.error(e);
-        } catch (InvalidParameterException e) {
-            LOG.error(e);
-        } catch (MissingParameterException e) {
-            LOG.error(e);
-        } catch (OperationFailedException e) {
-            LOG.error(e);
-        }
-        return null;
-    }
-
-    /**
      * @throws OperationFailedException
      * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
      */
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() {
+    public List<TypeInfo> getSearchCriteriaTypes() {
         try {
-            return ((SearchService) getService()).getSearchCriteriaTypes();
-        } catch (OperationFailedException e) {
-            LOG.error(e);
-        }
-        return null;
-    }
-
-    /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
-     */
-    @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) {
-        try {
-            return ((SearchService) getService()).getSearchResultType(searchResultTypeKey);
-        } catch (DoesNotExistException e) {
-            LOG.error(e);
+            return ((SearchService) getService()).getSearchCriteriaTypes(ContextUtils.getContextInfo());
         } catch (InvalidParameterException e) {
             LOG.error(e);
         } catch (MissingParameterException e) {
@@ -143,10 +105,14 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
 
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() {
+    public List<TypeInfo> getSearchResultTypes() {
         try {
-            return ((SearchService) getService()).getSearchResultTypes();
+            return ((SearchService) getService()).getSearchResultTypes(ContextUtils.getContextInfo());
         } catch (OperationFailedException e) {
+            LOG.error(e);
+        } catch (MissingParameterException e) {
+            LOG.error(e);
+        } catch (InvalidParameterException e) {
             LOG.error(e);
         }
         return null;
@@ -157,9 +123,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
 
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey) {
+    public TypeInfo getSearchType(String searchTypeKey) {
         try {
-            return ((SearchService) getService()).getSearchType(searchTypeKey);
+            return ((SearchService) getService()).getSearchType(searchTypeKey, ContextUtils.getContextInfo());
         } catch (DoesNotExistException e) {
             LOG.error(e);
         } catch (InvalidParameterException e) {
@@ -177,9 +143,13 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes() {
+    public List<TypeInfo> getSearchTypes() {
         try {
-            return ((SearchService) getService()).getSearchTypes();
+            return ((SearchService) getService()).getSearchTypes(ContextUtils.getContextInfo());
+        } catch (InvalidParameterException e) {
+            LOG.error(e);
+        } catch (MissingParameterException e) {
+            LOG.error(e);
         } catch (OperationFailedException e) {
             LOG.error(e);
         }
@@ -191,9 +161,13 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) {
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) {
         try {
-            return ((SearchService) getService()).getSearchTypes();
+            return ((SearchService) getService()).getSearchTypes(ContextUtils.getContextInfo());
+        } catch (InvalidParameterException e) {
+            LOG.error(e);
+        } catch (MissingParameterException e) {
+            LOG.error(e);
         } catch (OperationFailedException e) {
             LOG.error(e);
         }
@@ -205,9 +179,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) {
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey) {
         try {
-            return ((SearchService) getService()).getSearchTypesByResult(searchResultTypeKey);
+            return ((SearchService) getService()).getSearchTypesByResult(searchResultTypeKey, ContextUtils.getContextInfo());
         } catch (DoesNotExistException e) {
             LOG.error(e);
         } catch (InvalidParameterException e) {
@@ -225,9 +199,13 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
 
     @Override
-    public SearchResult search(SearchRequest searchRequest) {
+    public SearchResultInfo search(SearchRequestInfo searchRequest) {
         try {
-            return ((SearchService) getService()).search(searchRequest);
+            return ((SearchService) getService()).search(searchRequest, ContextUtils.getContextInfo());
+        } catch (OperationFailedException e) {
+            LOG.error(e);
+        } catch (PermissionDeniedException e) {
+            LOG.error(e);
         } catch (MissingParameterException e) {
             LOG.error(e);
         }

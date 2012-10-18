@@ -18,11 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.r1.common.search.dto.QueryParamInfo;
-import org.kuali.student.r1.common.search.dto.ResultColumnInfo;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.search.dto.*;
 
 public class QuickViewByGivenNameSearchTypeCreator
 {
@@ -78,7 +74,7 @@ public class QuickViewByGivenNameSearchTypeCreator
 
   result.setKey (QuickViewByGivenName.RESULT_TYPE);
   result.setName ("Given Name Search");
-  result.setDesc ("Search using given name and affiliation");
+  result.setDesc("Search using given name and affiliation");
   List<ResultColumnInfo> rcs = new ArrayList ();
   result.setResultColumns (rcs);
 

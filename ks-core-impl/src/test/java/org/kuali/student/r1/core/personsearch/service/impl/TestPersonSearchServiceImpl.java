@@ -18,12 +18,15 @@ package org.kuali.student.r1.core.personsearch.service.impl;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 /**
  * Simple text case to test that the PersonSearchService is available as a web service.
@@ -36,6 +39,7 @@ public class TestPersonSearchServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.r1.core.personsearch.service.impl.PersonSearchServiceImpl")
     public SearchService client;
 
+    private ContextInfo context = new ContextInfo();
 
     @Test
     public void testClient() {
@@ -43,8 +47,8 @@ public class TestPersonSearchServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testCall() throws MissingParameterException {
-        SearchResult result = client.search(new SearchRequest());
+    public void testCall() throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchResultInfo result = client.search(new SearchRequestInfo(), context);
         assertNotNull(result);
     }
 

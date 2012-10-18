@@ -6,7 +6,6 @@ package org.kuali.student.r1.common.assembly.transform;
  * @author Will
  *
  */
-@Deprecated
 public interface TransformFilter {
 	//Generic filter property keys
 	public static final String FILTER_ACTION = "TransformFilter.Operation";

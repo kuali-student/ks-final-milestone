@@ -135,9 +135,15 @@
         </property>
     </bean>
 
+    <bean id="orgSearchableDao"
+          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="orgEntityManager"/>
+    </bean>
+
     <bean id="orgSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
+        <property name="dao" ref="orgSearchableDao"/>
     </bean>
 
     <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -170,21 +176,21 @@
         <property name="em" ref="atpEntityManager" />
     </bean>
 
-    <bean id="atpSearchableDao"
-          class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
-        <property name="em" ref="atpEntityManager"/>
-    </bean>
-
     <bean id="atpServiceImpl"
           class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
-        <property name="searchableDao" ref="atpSearchableDao"/>
+    </bean>
+
+    <bean id="atpSearchableDao"
+          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="atpEntityManager"/>
     </bean>
 
     <bean id="atpSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+        <property name="dao" ref="atpSearchableDao"/>
     </bean>
     
 <!--THIS IS CONFIGURED in ks-enorll-context.xml-->
@@ -242,7 +248,7 @@
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="personServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.r1.common.search.service.SearchService"/>
+                <property name="serviceInterface" value="org.kuali.student.r2.common.search.service.SearchService"/>
                 <property name="localServiceName" value="PersonSearchService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/personsearch" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
@@ -274,10 +280,6 @@
         <property name="em" ref="emEntityManager"/>
     </bean>
 
-    <bean id="emSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:em-search-config.xml" />
-    </bean>
-
     <bean id="emServiceImpl"
           class="org.kuali.student.r2.core.class1.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
         <property name="enumDao" ref="enumDao"/>
@@ -286,9 +288,15 @@
         <property name="searchManager" ref="enumSearchManager" />
     </bean>
 
+    <bean id="enumSearchableDao"
+          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="emEntityManager"/>
+    </bean>
+
     <bean id="enumSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:em-search-config.xml" />
+        <property name="dao" ref="enumSearchableDao"/>
     </bean>
 
     <bean id="ks.exp.enumerationManagementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -327,9 +335,15 @@
         <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
     </bean>
 
+    <bean id="commentSearchableDao"
+          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="commentEntityManager"/>
+    </bean>
+
     <bean id="commentSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:comment-search-config.xml" />
+        <property name="dao" ref="commentSearchableDao"/>
     </bean>
 
     <bean id="commentServiceImpl"
@@ -371,10 +385,16 @@
         <property name="em" ref="statementEntityManager"/>
     </bean>
 
+    <bean id="statementSearchableDao"
+          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="statementEntityManager"/>
+    </bean>
+
     <bean id="statementSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:statement-search-config.xml"/>
+        <property name="dao" ref="statementSearchableDao"/>
     </bean>
 
     <bean id="statementAssembler"
@@ -514,9 +534,15 @@
         <property name="subjectCodeJoinOrgDao" ref="subjectCodeJoinOrgDao"/>
     </bean>
 
+    <bean id="sujectCodeSearchableDao"
+          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="subjectCodeEntityManager"/>
+    </bean>
+
     <bean id="subjectCodeSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:subjectcode-search-config.xml" />
+        <property name="dao" ref="sujectCodeSearchableDao"/>
     </bean>
 
     <bean id="ks.exp.subjectCodeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -558,9 +584,15 @@
         <property name="validatorFactory" ref="coreValidatorFactory"/>
     </bean>
 
+    <bean id="proposalSearchableDao"
+          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="proposalEntityManager"/>
+    </bean>
+
     <bean id="proposalSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:proposal-search-config.xml" />
+        <property name="dao" ref="proposalSearchableDao"/>
     </bean>
 
     <bean id="ks.exp.proposalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -592,8 +624,8 @@
     <bean id="coreValidatorFactory" parent="coreValidatorFactory-parent"/>
 
     <bean id="coreSearchDispatcher"
-          class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
-        <property name="services">
+          class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
             <list>
                 <ref bean="atpServiceClient"/>
             </list>

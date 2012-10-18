@@ -111,14 +111,14 @@
         <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
         <property name="atpCriteriaLookupService" ref="criteriaLookupService"/>
         <property name="searchManager" ref="atpSearchManager"/>
-        <property name="searchableDao" ref="atpSearchableDao"/>
     </bean>
 
     <!-- Default JPA EntityManagerFactory -->
 
     <bean id="atpSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+        <property name="dao" ref="atpSearchableDao"/>
     </bean>
 
     <bean id="atpEnrDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
@@ -129,7 +129,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="atpSearchableDao" class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
+    <bean id="atpSearchableDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
         <property name="em" ref="entityManager"/>
     </bean>
 

@@ -22,11 +22,11 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
 
 public interface SearchManager {
 

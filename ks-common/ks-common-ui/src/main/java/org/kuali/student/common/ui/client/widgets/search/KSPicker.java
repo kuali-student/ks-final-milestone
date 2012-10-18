@@ -54,8 +54,6 @@ import org.kuali.student.r1.common.assembly.data.Data.StringValue;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -76,6 +74,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 public class KSPicker extends Composite implements HasFocusLostCallbacks, HasValueChangeHandlers<String>, HasDataValue, TranslatableValueWidget, HasInputWidget, HasCrossConstraints {
 
@@ -313,12 +313,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         }
     }
 
-    private void populateListWidget(SearchRequest sr){
+    private void populateListWidget(SearchRequestInfo sr){
         
-        cachingSearchService.search(sr, new KSAsyncCallback<SearchResult>(){
+        cachingSearchService.search(sr, new KSAsyncCallback<SearchResultInfo>(){
 
             @Override
-            public void onSuccess(SearchResult results) {
+            public void onSuccess(SearchResultInfo results) {
                 if(results != null){
                     ((KSSelectItemWidgetAbstract)basicWidget.get()).setListItems(new SearchResultListItems(results.getRows(), config.lookupMeta));
                 } else {

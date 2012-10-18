@@ -23,6 +23,8 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -33,14 +35,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
@@ -51,6 +46,8 @@ import org.kuali.student.r1.core.proposal.entity.ProposalReference;
 import org.kuali.student.r1.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.r1.core.proposal.entity.ProposalType;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -358,95 +355,77 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchCriteriaTypes(ContextInfo)
      */
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
     /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchResultTypes(ContextInfo)
      */
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchResultTypes(contextInfo);
     }
 
     /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchType(java.lang.String, ContextInfo)
      */
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
-    }
-
-    /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
-     */
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
-    }
-
-    /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
-     */
-    @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);    
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
     /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypes(ContextInfo)
      */
     @Override
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        return searchManager.getSearchTypes();
+    public List<TypeInfo> getSearchTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchTypes(contextInfo);
     }
 
     /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String,ContextInfo)
      */
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
     /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByResult(java.lang.String,ContextInfo)
      */
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 		if("proposal.search.proposalsForReferenceIds".equals(searchRequest.getSearchKey())){
 			return doSearchProposalsForReferenceIds(searchRequest);
 		}else{
-			return searchManager.search(searchRequest, proposalDao);
+			return searchManager.search(searchRequest, contextInfo);
 		}
 	}
 
-    private SearchResult doSearchProposalsForReferenceIds(
-			SearchRequest searchRequest) {
+    private SearchResultInfo doSearchProposalsForReferenceIds(
+			SearchRequestInfo searchRequest) {
 
     	List<String> referenceIds = null;
-    	for(SearchParam param: searchRequest.getParams()){
+    	for(SearchParamInfo param: searchRequest.getParams()){
     		if("proposal.queryParam.proposalOptionalReferenceIds".equals(param.getKey())){
-    			referenceIds = (List<String>) param.getValue();
+    			referenceIds = param.getValues();
     		}
     	}
     	List<Proposal> proposals = proposalDao.getProposalsByRefernceIds(referenceIds);
-    	SearchResult result = new SearchResult();
+    	SearchResultInfo result = new SearchResultInfo();
     	for(Proposal proposal:proposals){
     		for(ProposalReference reference:proposal.getProposalReference()){
-	    		SearchResultRow row = new SearchResultRow();
+	    		SearchResultRowInfo row = new SearchResultRowInfo();
 	    		row.addCell("proposal.resultColumn.proposalId", proposal.getId());
 	    		row.addCell("proposal.resultColumn.proposalOptionalName", proposal.getName());
 	    		row.addCell("proposal.resultColumn.proposalOptionalReferenceId", reference.getObjectReferenceId());

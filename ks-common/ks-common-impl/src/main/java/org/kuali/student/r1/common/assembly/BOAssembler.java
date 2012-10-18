@@ -38,7 +38,6 @@ import org.kuali.student.r2.common.exceptions.*;
  * @author Kuali Student Team
  * 
  */
-@Deprecated
 public interface BOAssembler<E, T> {
 
 	/**

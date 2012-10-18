@@ -25,12 +25,9 @@ import java.util.Map.Entry;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.r1.common.assembly.transform.IdTranslatorFilter;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -41,12 +38,12 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 
     private IdTranslatorFilter idTranslatorFilter;
 
-    private SearchDispatcher searchDispatcher;
+    private SearchService searchDispatcher;
 
     protected boolean cachingEnabled = false;
 	protected int searchCacheMaxSize = 20;
 	protected int searchCacheMaxAgeSeconds = 90;
-	protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
+	protected Map<String,MaxAgeSoftReference<SearchResultInfo>> searchCache;
 	
     
     public SearchDispatchRpcGwtServlet() {
@@ -61,13 +58,13 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
      * @throws MissingParameterException
      */
     @Override
-    public SearchResult search(SearchRequest searchRequest) {
+    public SearchResultInfo search(SearchRequestInfo searchRequest) {
         try
         {
-            SearchResult searchResult = searchDispatcher.dispatchSearch(searchRequest);
-            List<SearchParam> params = searchRequest.getParams();
+            SearchResultInfo searchResult = searchDispatcher.search(searchRequest, ContextUtils.getContextInfo());
+            List<SearchParamInfo> params = searchRequest.getParams();
             if (params != null && params.size() > 0) {
-                SearchParam firstParam = params.get(0);
+                SearchParamInfo firstParam = params.get(0);
                 if (firstParam.getKey().equals("lu.queryParam.cluVersionIndId")) {//FIXME can this special case be handled after this call?
                     doIdTranslation(searchResult);
                 }
@@ -81,16 +78,16 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
     }
 
     @Override
-    public SearchResult cachingSearch(SearchRequest searchRequest) {
+    public SearchResultInfo cachingSearch(SearchRequestInfo searchRequest) {
         try
         {
             String cacheKey = searchRequest.toString();
             if (cachingEnabled) {
 
                 //Get From Cache
-                MaxAgeSoftReference<SearchResult> ref = searchCache.get(cacheKey);
+                MaxAgeSoftReference<SearchResultInfo> ref = searchCache.get(cacheKey);
                 if (ref != null) {
-                    SearchResult cachedSearchResult = ref.get();
+                    SearchResultInfo cachedSearchResult = ref.get();
                     if (cachedSearchResult != null) {
                         return cachedSearchResult;
                     }
@@ -98,12 +95,12 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
             }
 
             //Perform the actual Search
-            SearchResult searchResult = search(searchRequest);
+            SearchResultInfo searchResult = search(searchRequest);
 
             if (cachingEnabled) {
                 //Store to cache
                 searchCache
-                        .put(cacheKey, new MaxAgeSoftReference<SearchResult>(searchCacheMaxAgeSeconds, searchResult));
+                        .put(cacheKey, new MaxAgeSoftReference<SearchResultInfo>(searchCacheMaxAgeSeconds, searchResult));
             }
 
             return searchResult;
@@ -114,12 +111,12 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
         }
     }
 
-    private void doIdTranslation(SearchResult searchResult) {
-        for (SearchResultRow searchResultRow : searchResult.getRows()) {
-            for (SearchResultCell searchResultCell : searchResultRow.getCells()) {
+    private void doIdTranslation(SearchResultInfo searchResult) {
+        for (SearchResultRowInfo searchResultRow : searchResult.getRows()) {
+            for (SearchResultCellInfo searchResultCell : searchResultRow.getCells()) {
                 String value = searchResultCell.getValue();
                 if (value != null && value.startsWith("kuali.atp")) {
-                    String newValue = idTranslatorFilter.getTranslationForAtp(value);
+                    String newValue = idTranslatorFilter.getTranslationForAtp(value, ContextUtils.getContextInfo());
                     if (newValue != null) {
                         searchResultCell.setValue(newValue);
                     }
@@ -131,11 +128,11 @@ public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-			searchCache = Collections.synchronizedMap( new MaxSizeMap<String,MaxAgeSoftReference<SearchResult>>( searchCacheMaxSize ) );
+			searchCache = Collections.synchronizedMap( new MaxSizeMap<String,MaxAgeSoftReference<SearchResultInfo>>( searchCacheMaxSize ) );
 		}
 	}
     
-    public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+    public void setSearchDispatcher(SearchService searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
     }
 

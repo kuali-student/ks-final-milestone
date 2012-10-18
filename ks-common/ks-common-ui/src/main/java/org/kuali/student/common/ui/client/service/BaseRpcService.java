@@ -18,13 +18,12 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.dto.*;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 /**
  *  A base RPC service interface that exposes dictionary and search interfaces
@@ -42,22 +41,18 @@ public interface BaseRpcService extends RemoteService{
     public ObjectStructure getObjectStructure(String objectTypeKey);    
     
     /* Search Operations */
-    public List<SearchTypeInfo> getSearchTypes();
+    public List<TypeInfo> getSearchTypes();
 
-    public SearchTypeInfo getSearchType(String searchTypeKey);
+    public TypeInfo getSearchType(String searchTypeKey);
 
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey);
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey);
 
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey);
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey);
 
-    public List<SearchResultTypeInfo> getSearchResultTypes();
+    public List<TypeInfo> getSearchResultTypes();
 
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey);
+    public List<TypeInfo> getSearchCriteriaTypes();
 
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes();
-
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey);
-
-    public SearchResult search(SearchRequest searchRequest);
+    public SearchResultInfo search(SearchRequestInfo searchRequest);
 
 }

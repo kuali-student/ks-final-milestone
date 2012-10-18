@@ -6,8 +6,8 @@ import java.util.List;
 import javax.jws.WebParam;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -24,6 +24,8 @@ import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 public class AtpServiceDecorator implements AtpService {
 
@@ -341,49 +343,39 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        return getNextDecorator().getSearchTypes();
+    public List<TypeInfo> getSearchTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return getNextDecorator().getSearchTypes(contextInfo);
     }
 
     @Override
-    public SearchTypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchType(searchTypeKey);
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getSearchType(searchTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchTypesByResult(searchResultTypeKey);
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchTypesByCriteria(searchCriteriaTypeKey);
+    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        return getNextDecorator().getSearchResultTypes();
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return getNextDecorator().getSearchResultTypes(contextInfo);
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchResultType(searchResultTypeKey);
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return getNextDecorator().getSearchCriteriaTypes(contextInfo);
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        return getNextDecorator().getSearchCriteriaTypes();
-    }
-
-    @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchCriteriaType(searchCriteriaTypeKey);
-    }
-
-    @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException {
         try {
-            return getNextDecorator().search(searchRequest);
+            return getNextDecorator().search(searchRequest, contextInfo);
         } catch (OperationFailedException e) {
             throw new MissingParameterException("Not a missing Parameter but an OperationFailedException performing search.  SearchManager doesn't support OperationFailedException on search method: "+e.getMessage()+ " : " + e.getStackTrace().toString());
         }

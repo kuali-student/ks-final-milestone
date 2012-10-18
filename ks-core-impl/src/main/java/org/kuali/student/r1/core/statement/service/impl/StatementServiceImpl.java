@@ -23,11 +23,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
@@ -38,16 +41,13 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.common.validator.Validator;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r1.core.statement.dao.StatementDao;
 import org.kuali.student.r1.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
@@ -69,6 +69,7 @@ import org.kuali.student.r1.core.statement.entity.StatementType;
 import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.r1.core.statement.service.StatementService;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -681,63 +682,52 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(final String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypes(contextInfo);
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
-    }
-
-    @Override
-    public SearchResultTypeInfo getSearchResultType(final String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
-    }
-
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
-    }
-
-    @Override
-    public SearchTypeInfo getSearchType(final String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        return searchManager.getSearchTypes();
-    }
-
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(final String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
-    }
-
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(final String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
-	@Override
-    public SearchResult search(final SearchRequest searchRequest) throws MissingParameterException {
-        checkForMissingParameter(searchRequest, "searchRequest");
-        if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())){
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchResultTypes(contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
+    }
+
+    @Override
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(searchRequestInfo, "searchRequest");
+        if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequestInfo.getSearchKey())){
         	//Special case for dependency analysis.
         	//Parse out query params and execute custom search
         	List<String> cluVersionIndIds = new ArrayList<String>();
         	List<String> cluSetIds = new ArrayList<String>();
-    		for(SearchParam param:searchRequest.getParams()){
+    		for(SearchParamInfo param:searchRequestInfo.getParams()){
     			if("stmt.queryParam.cluSetIds".equals(param.getKey())){
-    				cluSetIds.addAll((List<String>)param.getValue());
+    				cluSetIds.addAll(param.getValues());
     				continue;
     			}else if("stmt.queryParam.cluVersionIndIds".equals(param.getKey())){
-    				cluVersionIndIds.addAll((List<String>)param.getValue());
+    				cluVersionIndIds.addAll(param.getValues());
     			}
     		}
     		if(cluVersionIndIds.isEmpty()){
@@ -749,10 +739,10 @@ public class StatementServiceImpl implements StatementService {
 			return doDependencyAnalysisSearch(cluVersionIndIds,cluSetIds);
         }
         
-        return searchManager.search(searchRequest, statementDao);
+        return searchManager.search(searchRequestInfo, contextInfo);
     }
 
-    private SearchResult doDependencyAnalysisSearch(
+    private SearchResultInfo doDependencyAnalysisSearch(
 			List<String> cluVersionIndIds, List<String> cluSetIds) {
     	//First look up all the statements that have requirement components that reference the 
     	//given cluIds and clusets
@@ -810,7 +800,7 @@ public class StatementServiceImpl implements StatementService {
     		}
     	}
     	
-    	SearchResult searchResult = new SearchResult();
+    	SearchResultInfo searchResult = new SearchResultInfo();
     	
     	//Record each statement's reference id type and reference type as a search result row
     	//Use a hashset of the cell values to remove duplicates
@@ -821,7 +811,7 @@ public class StatementServiceImpl implements StatementService {
     			if(!processed.contains(rowId)){
     				//This row does not exist yet so we can add it to the results.
     				processed.add(rowId);
-	    			SearchResultRow row = new SearchResultRow();
+	    			SearchResultRowInfo row = new SearchResultRowInfo();
 	    			row.addCell("stmt.resultColumn.refObjId",relation.getRefObjectId());
 	    			row.addCell("stmt.resultColumn.rootId",statement.getId());
 	    			row.addCell("stmt.resultColumn.requirementComponentIds",rootToRequirementComponentList.get(statement.getId()));
@@ -1292,4 +1282,5 @@ public class StatementServiceImpl implements StatementService {
 	public void setValidatorFactory(ValidatorFactory validatorFactory)  {
 		this.validatorFactory = validatorFactory;
 	}
+
 }

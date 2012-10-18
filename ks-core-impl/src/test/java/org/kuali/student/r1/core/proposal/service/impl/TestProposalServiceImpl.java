@@ -29,6 +29,7 @@ import java.util.Map;
 import org.junit.Test;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -38,8 +39,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
@@ -48,6 +47,8 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 /**
  * Test the Proposal Service methods
@@ -58,14 +59,17 @@ import org.kuali.student.r1.core.proposal.service.ProposalService;
 @Daos( { @Dao(value = "org.kuali.student.r1.core.proposal.dao.impl.ProposalDaoImpl",testSqlFile="classpath:ks-proposal.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/proposal-persistence.xml")
 public class TestProposalServiceImpl extends AbstractServiceTest {
+
     @Client(value = "org.kuali.student.r1.core.proposal.service.impl.ProposalServiceImpl", additionalContextFile="classpath:proposal-additional-context.xml")
     public ProposalService client;
 
+    private ContextInfo context = new ContextInfo();
+
     @Test
     public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        SearchRequest searchRequest = new SearchRequest();
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("proposal.search.generic");
-    	SearchResult result = client.search(searchRequest);
+    	SearchResultInfo result = client.search(searchRequest, context);
         assertEquals(3,result.getRows().size());
     }
 

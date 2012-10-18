@@ -12,8 +12,9 @@ import org.kuali.student.r1.common.assembly.data.Data.Property;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.util.IdTranslation;
 import org.kuali.student.r1.common.assembly.util.IdTranslator;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
-@Deprecated
 public class IdTranslatorFilter extends AbstractDataFilter {
     final static Logger LOG = Logger.getLogger(IdTranslatorFilter.class);
 
@@ -169,7 +170,7 @@ public class IdTranslatorFilter extends AbstractDataFilter {
         }
     }
 
-    public String getTranslationForAtp(String value) {
-        return idTranslator.getTranslationForAtp(value);
+    public String getTranslationForAtp(String value, ContextInfo contextInfo) {
+        return idTranslator.getTranslationForAtp(value, contextInfo);
     }
 }

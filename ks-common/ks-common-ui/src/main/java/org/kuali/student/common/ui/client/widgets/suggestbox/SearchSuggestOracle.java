@@ -27,12 +27,8 @@ import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SortDirection;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
@@ -51,7 +47,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private String resultDisplayKey;
     private String resultSortKey;
     private SortDirection sortDirection;
-    private List<SearchParam> additionalParams = new ArrayList<SearchParam>();
+    private List<SearchParamInfo> additionalParams = new ArrayList<SearchParamInfo>();
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
     private LookupMetadata lookupMetaData;
@@ -89,14 +85,14 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         	}
         	//Add in any writeaccess never default values to the additional params
         	if(WriteAccess.NEVER.equals(param.getWriteAccess())||param.getDefaultValueString()!=null||param.getDefaultValueList()!=null){
-        		SearchParam searchParam = new SearchParam();
+        		SearchParamInfo searchParam = new SearchParamInfo();
         		searchParam.setKey(param.getKey());
 				if(param.getDefaultValueList()==null){
-					searchParam.setValue(param.getDefaultValueString());
+					searchParam.getValues().add(param.getDefaultValueString());
 				}else{
-					searchParam.setValue(param.getDefaultValueList());
+					searchParam.setValues(param.getDefaultValueList());
 				}
-        		additionalParams.add(searchParam);
+				additionalParams.add(searchParam);
         	}
         }
         if (this.searchTextKey == null) {
@@ -110,7 +106,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         this.sortDirection = lookupMetadata.getSortDirection();
     }
 
-    public void setAdditionalSearchParams(List<SearchParam> params){
+    public void setAdditionalSearchParams(List<SearchParamInfo> params){
         additionalParams = params;
     }
     
@@ -161,15 +157,15 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         }        
     }
     
-    private SearchRequest buildSearchRequest(String query, String searchId) {
-    	SearchRequest sr = new SearchRequest();
+    private SearchRequestInfo buildSearchRequest(String query, String searchId) {
+    	SearchRequestInfo sr = new SearchRequestInfo();
     	sr.setNeededTotalResults(false);
     	sr.setSearchKey(this.searchTypeKey);
     	sr.setSortColumn(this.resultSortKey);
         sr.setSortDirection(this.sortDirection);
 
-		List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam param1 = createParam(this.searchTextKey, query);
+		List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+		SearchParamInfo param1 = createParam(this.searchTextKey, query);
 		searchParams.add(param1);
 		
     	sr.setParams(searchParams);
@@ -179,15 +175,15 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         return sr;
     }
     
-    private SearchRequest buildSearchRequestById(String query, String searchId) {
-    	SearchRequest sr = new SearchRequest();
+    private SearchRequestInfo buildSearchRequestById(String query, String searchId) {
+    	SearchRequestInfo sr = new SearchRequestInfo();
     	sr.setNeededTotalResults(false);
     	sr.setSearchKey(this.searchTypeKey);
     	sr.setSortColumn(this.resultSortKey);
         sr.setSortDirection(this.sortDirection);
 
-		List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam param2 = createParam(this.searchIdKey, searchId);
+		List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+		SearchParamInfo param2 = createParam(this.searchIdKey, searchId);
 		searchParams.add(param2);
 		
     	sr.setParams(searchParams);
@@ -197,8 +193,8 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         return sr;
     }
     
-    private SearchParam createParam(String key, String value) {
-    	SearchParam param = new SearchParam();
+    private SearchParamInfo createParam(String key, String value) {
+    	SearchParamInfo param = new SearchParamInfo();
     	
     	if(key == null) {
 			param.setKey("");
@@ -207,9 +203,9 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
 		}
 
     	if(value == null) {
-			param.setValue("");
+			param.getValues().add("");
 		} else {
-			param.setValue(value);
+			param.getValues().add(value);
 		}
     	
     	return param;
@@ -217,14 +213,14 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
 
     public void sendRequest(final Request request, final Callback callback){
         String query = request.getQuery().trim();
-        SearchRequest searchRequest = buildSearchRequest(query, null);
+        SearchRequestInfo searchRequest = buildSearchRequest(query, null);
         
         //case-sensitive?
         if(query.length() > 0){
-        	searchService.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+        	searchService.search(searchRequest, new KSAsyncCallback<SearchResultInfo>(){
     
                 @Override
-                public void onSuccess(SearchResult results) {
+                public void onSuccess(SearchResultInfo results) {
                     lastSuggestions = createSuggestions(results, request.getLimit());
                     Response response = new Response(lastSuggestions);
                     loading.hide();
@@ -243,19 +239,19 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                 	super.onFailure(caught);
                 }
                 
-                private List<IdableSuggestion> createSuggestions(SearchResult results, int limit){
+                private List<IdableSuggestion> createSuggestions(SearchResultInfo results, int limit){
                     List<IdableSuggestion> suggestionsList = new ArrayList<IdableSuggestion>();
                     String query = request.getQuery();
                     query = query.trim();
                     int count = 0;
                     if(results != null){
-                        for (SearchResultRow r: results.getRows()){
+                        for (SearchResultRowInfo r: results.getRows()){
                             if(count == limit){
                                 break;
                             }
 
                             IdableSuggestion theSuggestion = new IdableSuggestion();
-                            for(SearchResultCell c: r.getCells()){
+                            for(SearchResultCellInfo c: r.getCells()){
                                 if(c.getKey().equals(resultDisplayKey)){
                                     String itemText = c.getValue();
                                     theSuggestion.addAttr(c.getKey(), c.getValue());
@@ -334,15 +330,15 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
 
     @Override
     public void getSuggestionByIdSearch(String id, final org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
-        SearchRequest searchRequest = buildSearchRequestById(null, id);
-        cachingSearchService.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+        SearchRequestInfo searchRequest = buildSearchRequestById(null, id);
+        cachingSearchService.search(searchRequest, new KSAsyncCallback<SearchResultInfo>(){
             @Override
-            public void onSuccess(SearchResult results) {
+            public void onSuccess(SearchResultInfo results) {
                 IdableSuggestion theSuggestion = null;
                 if(results != null && !results.getRows().isEmpty()){
-                	SearchResultRow r = results.getRows().get(0);
+                	SearchResultRowInfo r = results.getRows().get(0);
                     theSuggestion = new IdableSuggestion();
-                    for(SearchResultCell c: r.getCells()){
+                    for(SearchResultCellInfo c: r.getCells()){
                         if(c.getKey().equals(resultDisplayKey)){
                             String itemText = c.getValue();
                             theSuggestion.addAttr(c.getKey(), c.getValue());

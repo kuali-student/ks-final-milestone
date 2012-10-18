@@ -16,9 +16,9 @@ import org.kuali.student.r1.common.assembly.data.Data.StringValue;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SortDirection;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SortDirection;
 
 import com.google.gwt.core.client.GWT;
 
@@ -35,15 +35,15 @@ public class SearchUtils {
 	 * 
 	 */
 	public static class SearchRequestWrapper{
-		SearchRequest searchRequest;
+		SearchRequestInfo searchRequest;
 		HashSet<String> crossConstraints = new HashSet<String>();
 		boolean deferSearch = false;
 		
-		public SearchRequest getSearchRequest() {
+		public SearchRequestInfo getSearchRequest() {
 			return searchRequest;
 		}
 		
-		public void setSearchRequest(SearchRequest searchRequest) {
+		public void setSearchRequest(SearchRequestInfo searchRequest) {
 			this.searchRequest = searchRequest;
 		}
 		
@@ -65,27 +65,27 @@ public class SearchUtils {
 	}
 	
 	/**
-	 * Use this to build a SearchRequest given a LookupMetadata definition. The search
+	 * Use this to build a SearchRequestInfo given a LookupMetadata definition. The search
 	 * request can then be passed into the SearchRpcService to retreive a list of search
 	 * results.
 	 * 
 	 * @param lookup
 	 * @return
 	 */
-	public static SearchRequest initializeSearchRequest(LookupMetadata lookup) {
+	public static SearchRequestInfo initializeSearchRequest(LookupMetadata lookup) {
 		//Initialize the search using the SearchRequestWrapper, but return only the
-		//SearchRequest, since the consumer doesn't care about additional search data 
+		//SearchRequestInfo, since the consumer doesn't care about additional search data
 		SearchRequestWrapper searchRequestWrapper = new SearchRequestWrapper();
 		initializeSearchRequest(lookup, searchRequestWrapper);
 		return searchRequestWrapper.getSearchRequest();
 	}
 
 	/**
-	 * Use this to build a SearchRequest, update search constraints and deferred search options
+	 * Use this to build a SearchRequestInfo, update search constraints and deferred search options
 	 * contained within the SearchRequestWrapper. The wrapper is mostly to accommodate handling 
 	 * of search options required for constraining values that appear in the KSPicker.
 	 * 
-	 * Generally this method should not be called directly if only the SearchRequest is required.  
+	 * Generally this method should not be called directly if only the SearchRequestInfo is required.
 	 * @see SearchUtils#initializeSearchRequest(LookupMetadata)
 	 * 
 	 * @param lookup
@@ -95,8 +95,8 @@ public class SearchUtils {
 
 		HashSet<String> crossConstraints = searchRequestWrapper.getCrossConstraints();
 		
-		SearchRequest sr = new SearchRequest();
-        List<SearchParam> params = new ArrayList<SearchParam>();
+		SearchRequestInfo sr = new SearchRequestInfo();
+        List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
 
         sr.setSearchKey(lookup.getSearchTypeId());
 
@@ -117,7 +117,7 @@ public class SearchUtils {
                     GWT.log("Key = " + metaParam.getKey() + " has write access NEVER but has no default value!", null);
                     continue;
                 }
-                final SearchParam param = new SearchParam();
+                final SearchParamInfo param = new SearchParamInfo();
                 param.setKey(metaParam.getKey());
                 if(metaParam.getFieldPath()!=null){
                 	FieldDescriptor fd = null;
@@ -141,19 +141,19 @@ public class SearchUtils {
             					if(listValue.isEmpty()){
             						listValue.add("");
             					}
-            					param.setValue(listValue);
+            					param.setValues(listValue);
             				}else{
-            					param.setValue(value.get().toString());	
+            					param.getValues().add(value.get().toString());
             				}
             			}else{
-            				param.setValue((String)null);
+            				param.getValues().add((String)null);
             			}                				
                 	}
                 	searchRequestWrapper.setDeferSearch(true);
                 }else if(metaParam.getDefaultValueList()==null){
-                    param.setValue(metaParam.getDefaultValueString());
+                    param.getValues().add(metaParam.getDefaultValueString());
                 }else{
-                    param.setValue(metaParam.getDefaultValueList());
+                    param.setValues(metaParam.getDefaultValueList());
                 }
                 params.add(param);
             }
@@ -161,7 +161,7 @@ public class SearchUtils {
                 if((metaParam.getDefaultValueString() != null && !metaParam.getDefaultValueString().isEmpty())||
                    (metaParam.getDefaultValueList() != null && !metaParam.getDefaultValueList().isEmpty())||
                    (metaParam.getFieldPath() != null && !metaParam.getFieldPath().isEmpty())){
-                    final SearchParam param = new SearchParam();
+                    final SearchParamInfo param = new SearchParamInfo();
                     param.setKey(metaParam.getKey());
                     if(metaParam.getFieldPath()!=null){
                     	FieldDescriptor fd = null;
@@ -176,14 +176,14 @@ public class SearchUtils {
                     	if(fd!=null){
                     		if(fd.getFieldElement().getFieldWidget() instanceof HasDataValue){
                     			Value value = ((HasDataValue)fd.getFieldElement().getFieldWidget()).getValue();
-                    			param.setValue(value==null?null:value.get()==null?null:value.get().toString());
+                    			param.getValues().add(value==null?null:value.get()==null?null:value.get().toString());
                     		}
                     	}
                     	searchRequestWrapper.setDeferSearch(true);
                     }else if(metaParam.getDefaultValueList()==null){
-                        param.setValue(metaParam.getDefaultValueString());
+                        param.getValues().add(metaParam.getDefaultValueString());
                     }else{
-                        param.setValue(metaParam.getDefaultValueList());
+                        param.setValues(metaParam.getDefaultValueList());
                     }
                     params.add(param);
                 }

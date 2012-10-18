@@ -13,35 +13,38 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r1.common.dao.impl;
+package org.kuali.student.r2.common.dao.impl;
 
+import org.apache.log4j.Logger;
+import org.kuali.student.r2.common.search.dto.QueryParamInfo;
+import org.kuali.student.r2.common.search.dto.ResultColumnInfo;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.search.dto.*;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
-import javax.persistence.Query;
+public class SearchableCrudDaoImpl {
+	final Logger LOG = Logger.getLogger(SearchableCrudDaoImpl.class);
 
-import org.apache.log4j.Logger;
-import org.kuali.student.r1.common.dao.SearchableDao;
-import org.kuali.student.r2.common.search.dto.QueryParamInfo;
-import org.kuali.student.r2.common.search.dto.ResultColumnInfo;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r2.common.search.dto.SortDirection;
+    protected EntityManager em;
 
-public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
-		implements SearchableDao {
-	final Logger LOG = Logger.getLogger(AbstractSearchableCrudDaoImpl.class);
+    public SearchableCrudDaoImpl(){
+        super();
+    }
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
 	
 	private static ThreadLocal<DateFormat> df = new ThreadLocal<DateFormat>() {
 		protected DateFormat initialValue() {
@@ -49,8 +52,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 	};
 
-	@Override
-	public SearchResult search(SearchRequest searchRequest,	Map<String, String> queryMap, SearchTypeInfo searchTypeInfo) {
+	public SearchResultInfo search(SearchRequestInfo searchRequest,	Map<String, String> queryMap, SearchTypeInfo searchTypeInfo) {
 		String searchKey = searchRequest.getSearchKey();
 		
 		boolean isNative = false;
@@ -68,13 +70,13 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 		
 		//add in optional
-		List<SearchParam> searchParamsTemp = new ArrayList<SearchParam>(searchRequest.getParams());
+		List<SearchParamInfo> searchParamsTemp = new ArrayList<SearchParamInfo>(searchRequest.getParams());
 		// internalQueryParms is used only internally to know which parameters have to be set in the query
-		List<SearchParam> internalQueryParms = new ArrayList<SearchParam>(searchRequest.getParams());
-		for(SearchParam searchParam : searchParamsTemp){
+		List<SearchParamInfo> internalQueryParms = new ArrayList<SearchParamInfo>(searchRequest.getParams());
+		for(SearchParamInfo searchParam : searchParamsTemp){
 			for(QueryParamInfo queryParam:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
 				// check to see if optional param has any values set.
-				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())&&searchParam.getValue()!=null){
+				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())&&searchParam.getValues().get(0)!=null){
 					if(!optionalQueryString.isEmpty()){
 						optionalQueryString += " AND ";
 					}
@@ -93,7 +95,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					    
 					    if (substitutionType != null && substitutionType.equals("NUMBER_RANGE")) {
 					        String realCondition = condition.substring("!!".length() + substitutionType.length()).trim();
-					        String queryValue = (String)searchParam.getValue();
+					        String queryValue = (String)searchParam.getValues().get(0);
 					        // if the query value is of the form n1 - n2
 					        if (queryValue != null && queryValue.trim().contains("-")) {
 					            StringTokenizer strTokenizer = new StringTokenizer(queryValue.trim(),"-");
@@ -115,7 +117,7 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					    //this parameter is not entered by end user but rather it is set with a default context value	
 					    String dataType = queryParam.getFieldDescriptor().getDataType();
 					    if ((dataType != null) && "boolean".equals(dataType)) {
-					        optionalQueryString += queryMap.get(searchParam.getKey()).replace(":" + searchParam.getKey().replace(".", "_"), searchParam.getValue().toString());
+					        optionalQueryString += queryMap.get(searchParam.getKey()).replace(":" + searchParam.getKey().replace(".", "_"), searchParam.getValues().get(0));
 					        internalQueryParms.remove(searchParam);
 					    } else {					    
 					        optionalQueryString += queryMap.get(searchParam.getKey());
@@ -200,9 +202,9 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 		
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
-		for (SearchParam searchParam : internalQueryParms) {
+		for (SearchParamInfo searchParam : internalQueryParms) {
 			// check to see if optional param has any values set.
-			if (searchParam.getValue() != null) {
+			if (searchParam.getValues().get(0) != null) {
 			    List<QueryParamInfo> queryParams = searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
 			    String paramDataType = null;
 			    if (queryParams != null) {
@@ -214,34 +216,27 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			    }
 			    
                 Object queryParamValue = null;
-			    if ("date".equals(paramDataType) && searchParam.getValue() instanceof String) {
+			    if ("date".equals(paramDataType)) {
 			        try {
-                        queryParamValue = df.get().parse((String)searchParam.getValue());
+                        queryParamValue = df.get().parse((String)searchParam.getValues().get(0));
                     } catch (ParseException e) {
-                        throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
+                        throw new RuntimeException("Failed to parse date value " + searchParam.getValues().get(0),e);
                     }
 			    } if ("long".equals(paramDataType)){
-			    	if(searchParam.getValue() instanceof String) {
-			            try{
-				        	queryParamValue = Long.valueOf((String)searchParam.getValue());
-		                } catch (NumberFormatException e) {
-		                    throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
-		                }
-			    	}else if(searchParam.getValue() instanceof Collection){
-			    		try{
-			    			List<Long> longList = new ArrayList<Long>();
-			    			if(searchParam.getValue()!=null){
-			    				for(String value:(Collection<String>)searchParam.getValue()){
-			    					longList.add(Long.parseLong(value));
-			    				}
+			    	try{
+			    		List<Long> longList = new ArrayList<Long>();
+			    		if(searchParam.getValues()!=null){
+			    			for(String value:searchParam.getValues()){
+			    				longList.add(Long.parseLong(value));
 			    			}
-				        	queryParamValue = longList;
-		                } catch (NumberFormatException e) {
-		                    throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
-		                }
-			    	}
+			    		}
+				      	queryParamValue = longList;
+		            } catch (NumberFormatException e) {
+		                throw new RuntimeException("Failed to parse date value " + searchParam.getValues(),e);
+		            }
+
 			    } else {
-			        queryParamValue = searchParam.getValue();
+			        queryParamValue = searchParam.getValues();
 			    }
 			    //Needed to get around Hibernate not supporting IN(:var) where var is null or an empty collection
 			    if((queryParamValue==null||queryParamValue instanceof Collection && ((Collection<?>)queryParamValue).isEmpty())&&"list".equals(paramDataType)){
@@ -252,9 +247,9 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		}
 
 		// Turn into results
-		List<SearchResultRow> results = convertToResults(query.getResultList(),searchTypeInfo);
+		List<SearchResultRowInfo> results = convertToResults(query.getResultList(),searchTypeInfo);
 
-		SearchResult searchResult = new SearchResult();
+		SearchResultInfo searchResult = new SearchResultInfo();
 		searchResult.setRows(results);
 		searchResult.setSortColumn(searchRequest.getSortColumn());
 		searchResult.setSortDirection(searchRequest.getSortDirection());
@@ -273,8 +268,8 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			}else{
 				countQuery = em.createQuery(countQueryString);
 			}
-			for (SearchParam searchParam : internalQueryParms) {
-				countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValue());
+			for (SearchParamInfo searchParam : internalQueryParms) {
+				countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValues().get(0));
 			}
             Integer totalRecords = 0;
             Object resultObject = countQuery.getSingleResult();
@@ -289,18 +284,18 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		return searchResult;
 	}
 	
-	private List<SearchResultRow> convertToResults(List<?> queryResults,
+	private List<SearchResultRowInfo> convertToResults(List<?> queryResults,
 			SearchTypeInfo searchTypeInfo) {
-		List<SearchResultRow> results = new ArrayList<SearchResultRow>();
+		List<SearchResultRowInfo> results = new ArrayList<SearchResultRowInfo>();
 
 		if(queryResults!=null){
 			//Copy the query results to a Result object
 			for(Object queryResult:queryResults){
-				SearchResultRow result = new SearchResultRow();
+				SearchResultRowInfo result = new SearchResultRowInfo();
 				int i=0;
 				for (ResultColumnInfo resultColumn : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()) {
 			
-					SearchResultCell resultCell = new SearchResultCell();
+					SearchResultCellInfo resultCell = new SearchResultCellInfo();
 					resultCell.setKey(resultColumn.getKey());
 					
 					try {

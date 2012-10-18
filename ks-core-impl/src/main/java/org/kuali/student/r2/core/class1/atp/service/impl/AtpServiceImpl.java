@@ -3,12 +3,8 @@ package org.kuali.student.r2.core.class1.atp.service.impl;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dao.SearchableDao;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -22,6 +18,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -34,6 +31,9 @@ import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -54,7 +54,6 @@ public class AtpServiceImpl implements AtpService {
     private CriteriaLookupService milestoneCriteriaLookupService;
     private CriteriaLookupService atpAtpRelationCriteriaLookupService;
     private SearchManager searchManager;
-    private SearchableDao searchableDao;
 
     public AtpDao getAtpDao() {
         return atpDao;
@@ -112,16 +111,6 @@ public class AtpServiceImpl implements AtpService {
         this.milestoneCriteriaLookupService = milestoneCriteriaLookupService;
     }
 
-    
-
-    public SearchableDao getSearchableDao() {
-        return searchableDao;
-    }
-
-    public void setSearchableDao(SearchableDao searchableDao) {
-        this.searchableDao = searchableDao;
-    }
-
     /**
      * Check for missing parameter and throw localized exception if missing
      *
@@ -137,65 +126,47 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
-
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchResultTypes(contextInfo);
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
-    }
-
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
-    }
-
-    @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey)
+    public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes()
-            throws OperationFailedException {
-        return getSearchManager().getSearchTypes();
+    public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return getSearchManager().getSearchTypes(contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
+    public List<TypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey) throws DoesNotExistException,
+    public List<TypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
     public SearchManager getSearchManager() {
@@ -207,8 +178,8 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        SearchResult searchResult = this.searchManager.search(searchRequest, searchableDao);
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchResultInfo searchResult = this.searchManager.search(searchRequest, contextInfo);
         if (searchRequest.getSearchKey().equals("atp.search.advancedAtpSearch")){
             //TODO: populate the duration en seasonal types.
             /*"atp.resultColumn.atpSeasonalType" />

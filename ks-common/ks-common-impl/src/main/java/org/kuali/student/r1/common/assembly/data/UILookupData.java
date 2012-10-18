@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 import org.kuali.student.r1.common.dictionary.dto.CommonLookup;
-import org.kuali.student.r1.common.search.dto.SortDirection;
+import org.kuali.student.r2.common.search.dto.SortDirection;
 
 @Deprecated
 public class UILookupData extends CommonLookup {

@@ -23,12 +23,13 @@ import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 /**
  * Builds and issues SearchRequests parameterized with the information from LookupMetadata and the provided ID
@@ -36,44 +37,43 @@ import org.kuali.student.r1.common.search.service.SearchDispatcher;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class IdTranslator {
     
     private static final String ENUMERATION = "enumeration";
-	private List<SearchParam> additionalParams = new ArrayList<SearchParam>();
-    private SearchDispatcher searchDispatcher;
+	private List<SearchParamInfo> additionalParams = new ArrayList<SearchParamInfo>();
+    private SearchService searchDispatcher;
     
     final Logger LOG = Logger.getLogger(IdTranslator.class);
 
-    public IdTranslator(SearchDispatcher searchDispatcher) throws AssemblyException {
+    public IdTranslator(SearchService searchDispatcher) throws AssemblyException {
     	this.searchDispatcher = searchDispatcher;
     }
     
-	private SearchRequest buildSearchRequestById(LookupMetadata lookupMetadata, String searchId) {
-    	SearchRequest sr = new SearchRequest();
+	private SearchRequestInfo buildSearchRequestById(LookupMetadata lookupMetadata, String searchId) {
+    	SearchRequestInfo sr = new SearchRequestInfo();
     	sr.setNeededTotalResults(false);
     	
     	sr.setSearchKey(lookupMetadata.getSearchTypeId());
     	sr.setSortColumn(lookupMetadata.getResultSortKey());
 
 
-    	List<SearchParam> searchParams = new ArrayList<SearchParam>();
+    	List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
     	if (lookupMetadata.getSearchParamIdKey() != null) {
     		//FIXME: workaround until orch dict can handle multi part keys on initiallookup defs
     		if (lookupMetadata.getSearchParamIdKey().contains(ENUMERATION)) {
     			for (LookupParamMetadata p : lookupMetadata.getParams()) {
     				if (p.getWriteAccess() != null && p.getWriteAccess().equals(WriteAccess.NEVER) && p.getDefaultValueString() != null) {
-    					SearchParam param = createParam(p.getKey(), p.getDefaultValueString());
+    					SearchParamInfo param = createParam(p.getKey(), p.getDefaultValueString());
     					searchParams.add(param);   							    
     				}
     				else if (p.getWriteAccess() == null || !p.getWriteAccess().equals(WriteAccess.NEVER)){
-    					SearchParam param = createParam(p.getKey(), searchId);
+    					SearchParamInfo param = createParam(p.getKey(), searchId);
     					searchParams.add(param);   								
     				}
     			}
     		}
     		else {
-    			SearchParam param = createParam(lookupMetadata.getSearchParamIdKey(), searchId);
+    			SearchParamInfo param = createParam(lookupMetadata.getSearchParamIdKey(), searchId);
     			searchParams.add(param);	
     		}
 
@@ -90,8 +90,8 @@ public class IdTranslator {
         return sr;
     }
     
-    private SearchParam createParam(String key, String value) {
-    	SearchParam param = new SearchParam();
+    private SearchParamInfo createParam(String key, String value) {
+    	SearchParamInfo param = new SearchParamInfo();
     	
     	if(key == null) {
 			param.setKey("");
@@ -100,28 +100,31 @@ public class IdTranslator {
 		}
 
     	if(value == null) {
-			param.setValue("");
+			param.getValues().add("");
 		} else {
-			param.setValue(value);
+			param.getValues().add(value);
 		}
     	
     	return param;
     }
     
     public IdTranslation getTranslation(LookupMetadata lookupMetadata, String id) throws AssemblyException {
-        SearchRequest searchRequest = buildSearchRequestById(lookupMetadata, id);
-        SearchResult searchResults = null;
-		
-		searchResults = searchDispatcher.dispatchSearch(searchRequest);
-			
-		
+        SearchRequestInfo searchRequest = buildSearchRequestById(lookupMetadata, id);
+        SearchResultInfo searchResults = null;
+
+        try {
+            searchResults = searchDispatcher.search(searchRequest, ContextUtils.getContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         IdTranslation result = null; 
         if(searchResults != null && searchResults.getRows().size() > 0){
         	result = new IdTranslation();
         	result.setId(id);
         	
-        	SearchResultRow r = searchResults.getRows().get(0);
-            for(SearchResultCell c: r.getCells()){
+        	SearchResultRowInfo r = searchResults.getRows().get(0);
+            for(SearchResultCellInfo c: r.getCells()){
                 if(c.getKey().equals(lookupMetadata.getResultDisplayKey())){
                     result.addAttribute(c.getKey(), c.getValue());
                     result.setDisplay(c.getValue());
@@ -134,19 +137,24 @@ public class IdTranslator {
         
     }
 
-    public String getTranslationForAtp(String value) {
-        SearchRequest searchRequest = new SearchRequest();
+    public String getTranslationForAtp(String value, ContextInfo contextInfo) {
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("atp.search.advancedAtpSearch");
-        ArrayList<SearchParam> searchParams = new ArrayList<SearchParam>();
-        SearchParam searchParam = new SearchParam();
+        ArrayList<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+        SearchParamInfo searchParam = new SearchParamInfo();
         searchParam.setKey("atp.advancedAtpSearchParam.atpId");
-        searchParam.setValue(value);
+        searchParam.getValues().add(value);
         searchParams.add(searchParam);
         searchRequest.setParams(searchParams);
-        SearchResult searchResult = searchDispatcher.dispatchSearch(searchRequest);
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = searchDispatcher.search(searchRequest, contextInfo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         if(searchResult!= null){
-            for (SearchResultRow resultRow : searchResult.getRows()) {
-                for (SearchResultCell searchResultCell : resultRow.getCells()) {
+            for (SearchResultRowInfo resultRow : searchResult.getRows()) {
+                for (SearchResultCellInfo searchResultCell : resultRow.getCells()) {
                     if(searchResultCell.getKey().equals("atp.resultColumn.atpDescrPlain")){
                         return searchResultCell.getValue();
                     }

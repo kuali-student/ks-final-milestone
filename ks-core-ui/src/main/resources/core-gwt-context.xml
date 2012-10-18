@@ -66,7 +66,7 @@
 		<property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
 	<bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.search.service.SearchService" />
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.search.service.SearchService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}PersonSearchService" />
     </bean>
         <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
@@ -206,8 +206,8 @@
 		<property name="searchDispatcher" ref="searchDispatcher" />
 		<property name="cachingEnabled" value="true"/>
 	</bean>
-	<bean id="searchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
-		<property name="services">
+	<bean id="searchDispatcher" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+		<property name="searchServices">
 			<list>
 		        <ref bean="orgClient"/>
 		        <ref bean="atpClient"/>

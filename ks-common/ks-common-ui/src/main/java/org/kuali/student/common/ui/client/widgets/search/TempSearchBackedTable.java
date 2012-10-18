@@ -28,10 +28,6 @@ import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBui
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
 import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
@@ -43,6 +39,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 @Deprecated
 public class TempSearchBackedTable extends Composite{
@@ -83,7 +83,7 @@ public class TempSearchBackedTable extends Composite{
         this.redraw();
     }
 
-    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
+    public void performSearch(SearchRequestInfo searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
 
     	initializeTable(listResultMetadata, resultIdKey);
 
@@ -93,7 +93,7 @@ public class TempSearchBackedTable extends Composite{
             pagingScrollTable.setEmptyTableWidget(new Label("Processing Search..."));
         }
 
-		searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+		searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResultInfo>(){
 
 		    @Override
 		    public void handleFailure(Throwable cause) {
@@ -102,13 +102,13 @@ public class TempSearchBackedTable extends Composite{
 		    }
 
 		    @Override
-		    public void onSuccess(SearchResult results) {
+		    public void onSuccess(SearchResultInfo results) {
 
 		    	resultRows.clear();
 		        if(results != null){
-		            for (SearchResultRow r: results.getRows()){
+		            for (SearchResultRowInfo r: results.getRows()){
 		                ResultRow theRow = new ResultRow();
-		                for(SearchResultCell c: r.getCells()){
+		                for(SearchResultCellInfo c: r.getCells()){
 		                    if(c.getKey().equals(resultIdColumnKey)){
 		                        theRow.setId(c.getValue());
 		                    }

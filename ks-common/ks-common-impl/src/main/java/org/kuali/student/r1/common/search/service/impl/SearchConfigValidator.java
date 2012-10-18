@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
 
 @Deprecated
 public class SearchConfigValidator {

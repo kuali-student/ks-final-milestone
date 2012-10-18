@@ -24,9 +24,9 @@ import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
 
 @Deprecated
 public class SearchDispatcherImpl implements SearchDispatcher{

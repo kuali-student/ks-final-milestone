@@ -25,23 +25,35 @@
     http://www.springframework.org/schema/aop
     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 
+    <bean id="entityManager"
+          class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
     <bean id="lumSearchDispatcher"
-          class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
-        <property name="services">
+          class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
             <list>
                 <ref bean="StatementServiceImpl"/>
             </list>
         </property>
     </bean>
+
+    <bean id="searchableCrudDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="entityManager"/>
+    </bean>
+
     <bean id="lumCrossServiceSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.CrossSearchManager">
+          class="org.kuali.student.r2.common.class1.search.CrossSearchManager">
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
+
     <bean id="statementSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0"
                          value="classpath:statement-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+        <property name="dao" ref="searchableCrudDao"/>
     </bean>
 
 

@@ -37,15 +37,15 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
 import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 @Deprecated
 public class SearchResultsTable extends Composite{
@@ -59,7 +59,7 @@ public class SearchResultsTable extends Composite{
     private DefaultTableModel tableModel;
     protected String resultIdColumnKey;
     protected String resultDisplayKey;  
-    protected SearchRequest searchRequest;
+    protected SearchRequestInfo searchRequest;
     private Table table = new Table();
     protected boolean isMultiSelect = true;
     protected boolean withMslable = true;
@@ -161,7 +161,7 @@ public class SearchResultsTable extends Composite{
         layout.add(table);
   }   
     
-    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
+    public void performSearch(SearchRequestInfo searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
         this.searchRequest = searchRequest;
         initializeTable(listResultMetadata, resultIdKey, resultDisplayKey);
         if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
@@ -179,7 +179,7 @@ public class SearchResultsTable extends Composite{
     }
     
     // KSLAB2571 KSCM1326 - Overloaded method to add SerachID to message override hierarchy 
-    public void performSearch(String searchId, SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
+    public void performSearch(String searchId, SearchRequestInfo searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
         this.searchRequest = searchRequest;
         initializeTable(searchId, listResultMetadata, resultIdKey, resultDisplayKey);
         if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
@@ -196,11 +196,11 @@ public class SearchResultsTable extends Composite{
         }
     }
     
-    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, boolean pagedResults){
+    public void performSearch(SearchRequestInfo searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, boolean pagedResults){
         this.performSearch(searchRequest, listResultMetadata, resultIdKey, null, true);
     }    
     
-    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
+    public void performSearch(SearchRequestInfo searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
         this.performSearch(searchRequest, listResultMetadata, resultIdKey, true);
     }    
     
@@ -215,7 +215,7 @@ public class SearchResultsTable extends Composite{
         	searchRequest.setNeededTotalResults(true);
         }
 
-        searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+        searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResultInfo>(){
 
             @Override
             public void handleFailure(Throwable cause) {
@@ -225,13 +225,13 @@ public class SearchResultsTable extends Composite{
             }
 
             @Override
-            public void onSuccess(SearchResult results) {
+            public void onSuccess(SearchResultInfo results) {
             	table.addContent();
             	
                 if(results != null && results.getRows() != null && results.getRows().size() != 0){
-                    for (SearchResultRow r: results.getRows()){
+                    for (SearchResultRowInfo r: results.getRows()){
                         ResultRow theRow = new ResultRow();
-                        for(SearchResultCell c: r.getCells()){
+                        for(SearchResultCellInfo c: r.getCells()){
                             if(c.getKey().equals(resultIdColumnKey)){
                                 theRow.setId(c.getValue());
                             }

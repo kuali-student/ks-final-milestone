@@ -84,7 +84,7 @@
 		<property name="persistenceUnitPostProcessors" ref="postProcessorList" />
 	</bean>
 
-	<bean id="AtomikosTxMgr"
+    <bean id="AtomikosTxMgr"
 		class="com.atomikos.icatch.jta.UserTransactionManager"
 		init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer">
 		<property name="forceShutdown" value="true" />

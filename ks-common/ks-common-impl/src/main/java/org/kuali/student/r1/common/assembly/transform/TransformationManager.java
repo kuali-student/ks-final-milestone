@@ -12,7 +12,6 @@ import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
 
-@Deprecated
 public class TransformationManager {
 	final Logger LOG = Logger.getLogger(TransformationManager.class);
 

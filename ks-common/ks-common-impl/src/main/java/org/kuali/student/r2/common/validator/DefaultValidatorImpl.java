@@ -32,10 +32,10 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.dto.RequiredConstraint;
 import org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r1.common.validator.BeanConstraintDataProvider;
 import org.kuali.student.r1.common.validator.ConstraintDataProvider;
 import org.kuali.student.r1.common.validator.DateParser;
@@ -65,7 +65,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     private MessageService messageService = null;
 
-    private SearchDispatcher searchDispatcher;
+    private SearchService searchDispatcher;
 
     private String messageLocaleKey = "en";
 
@@ -589,7 +589,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
 
         // Create search params based on the param mapping
-        List<SearchParam> params = new ArrayList<SearchParam>();
+        List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
 
         for (CommonLookupParam paramMapping : lookupConstraint.getParams()) {
             // Skip params that are the search param id key
@@ -597,7 +597,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 continue;
             }
 
-            SearchParam param = new SearchParam();
+            SearchParamInfo param = new SearchParamInfo();
 
             param.setKey(paramMapping.getKey());
 
@@ -636,39 +636,39 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 }
 
                 if (fieldValue instanceof String) {
-                    param.setValue((String) fieldValue);
+                    param.getValues().add((String) fieldValue);
                 } else if (fieldValue instanceof List<?>) {
-                    param.setValue((List<String>) fieldValue);
+                    param.setValues((List<String>) fieldValue);
                 }
             } else if (paramMapping.getDefaultValueString() != null) {
-                param.setValue(paramMapping.getDefaultValueString());
+                param.getValues().add(paramMapping.getDefaultValueString());
             } else {
-                param.setValue(paramMapping.getDefaultValueList());
+                param.setValues(paramMapping.getDefaultValueList());
             }
             params.add(param);
         }
 
         if (lookupConstraint.getSearchParamIdKey() != null) {
-            SearchParam param = new SearchParam();
+            SearchParamInfo param = new SearchParamInfo();
             param.setKey(lookupConstraint.getSearchParamIdKey());
             if (value instanceof String) {
-                param.setValue((String) value);
+                param.getValues().add((String) value);
             } else if (value instanceof List<?>) {
-                param.setValue((List<String>) value);
+                param.setValues((List<String>) value);
             }
             params.add(param);
         }
 
-        SearchRequest searchRequest = new SearchRequest();
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setMaxResults(1);
         searchRequest.setStartAt(0);
         searchRequest.setNeededTotalResults(false);
         searchRequest.setSearchKey(lookupConstraint.getSearchTypeId());
         searchRequest.setParams(params);
 
-        SearchResult searchResult = null;
+        SearchResultInfo searchResult = null;
         try {
-            searchResult = searchDispatcher.dispatchSearch(searchRequest);
+            searchResult = searchDispatcher.search(searchRequest, contextInfo);
         } catch (Exception e) {
             LOG.info("Error calling Search", e);
         }
@@ -1100,11 +1100,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         return result;
     }
 
-    public SearchDispatcher getSearchDispatcher() {
+    public SearchService getSearchDispatcher() {
         return searchDispatcher;
     }
 
-    public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+    public void setSearchDispatcher(SearchService searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
     }
 

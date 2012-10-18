@@ -17,13 +17,10 @@ import java.util.Map;
 
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.dto.SortDirection;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 
 public final class QuickViewByGivenName extends PersonSearch implements SearchOperation {
     public static final String SEARCH_TYPE = "person.search.personQuickViewByGivenName";
@@ -50,14 +47,14 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
     final static private String KIM_PERSON_LAST_NAME = "names.lastName";
     
     
-    private List<Person> findPersons(final IdentityService identityService, final SearchRequest searchRequest) {
+    private List<Person> findPersons(final IdentityService identityService, final SearchRequestInfo searchRequest) {
         String nameSearch = null;
         String principalNameSearch = null;
         String affilSearch = null;
         String idSearch = null;
         String excludedUserId = null;
-        for (SearchParam param : searchRequest.getParams()) {
-            String value = (String) param.getValue();
+        for (SearchParamInfo param : searchRequest.getParams()) {
+            String value = (String) param.getValues().get(0);
             if (!value.isEmpty()) {
                 if (value.indexOf("%") == -1 && value.indexOf("*") == -1) {
                     value = "*" + value + "*";
@@ -82,12 +79,12 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
                     }
                 } else if (ID_PARAM.equals(param.getKey())) {
                     if (idSearch != null) {
-                        idSearch += "|" + param.getValue();
+                        idSearch += "|" + param.getValues().get(0);
                     } else {
-                        idSearch = param.getValue().toString();
+                        idSearch = param.getValues().get(0).toString();
                     }
                 } else if (EXCLUDED_USER_ID.equals(param.getKey())) {
-                    excludedUserId = (String) param.getValue();
+                    excludedUserId = (String) param.getValues().get(0);
                 }
             }
         }
@@ -147,8 +144,8 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
     }
 
     @Override
-    public SearchResult search(final IdentityService identityService, final SearchRequest searchRequest) {
-        final SearchResult result = new SearchResult();
+    public SearchResultInfo search(final IdentityService identityService, final SearchRequestInfo searchRequest) {
+        final SearchResultInfo result = new SearchResultInfo();
         searchRequest.setSortDirection(SortDirection.ASC);
         
         List<Person> persons = findPersons(identityService, searchRequest);
@@ -177,30 +174,30 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
                 + searchRequest.getMaxResults() : persons.size();
         for (int i = startAt; (i < persons.size() && i < maxResult); i++) {
             Person person = persons.get(i);
-            final SearchResultRow resultRow = new SearchResultRow();
-            resultRow.setCells(new ArrayList<SearchResultCell>());
+            final SearchResultRowInfo resultRow = new SearchResultRowInfo();
+            resultRow.setCells(new ArrayList<SearchResultCellInfo>());
 
-            SearchResultCell cell = new SearchResultCell();
+            SearchResultCellInfo cell = new SearchResultCellInfo();
             cell.setKey(ENTITY_ID_RESULT);
             cell.setValue(person.getEntityId());
             resultRow.getCells().add(cell);
 
-            cell = new SearchResultCell();
+            cell = new SearchResultCellInfo();
             cell.setKey(PERSON_ID_RESULT);
             cell.setValue(person.getPrincipalId());
             resultRow.getCells().add(cell);
 
-            cell = new SearchResultCell();
+            cell = new SearchResultCellInfo();
             cell.setKey(PRINCIPAL_NAME_RESULT);
             cell.setValue(person.getPrincipalName());
             resultRow.getCells().add(cell);
 
-            cell = new SearchResultCell();
+            cell = new SearchResultCellInfo();
             cell.setKey(GIVEN_NAME_RESULT);
             cell.setValue(person.getName());
             resultRow.getCells().add(cell);
 
-            cell = new SearchResultCell();
+            cell = new SearchResultCellInfo();
             cell.setKey(DISPLAY_NAME_RESULT);
             cell.setValue(person.getName() + " (" + person.getPrincipalName() + ")");
             resultRow.getCells().add(cell);

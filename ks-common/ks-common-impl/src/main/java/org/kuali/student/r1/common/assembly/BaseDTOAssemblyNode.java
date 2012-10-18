@@ -29,7 +29,6 @@ import java.util.List;
  * @author Kuali Student Team
  * 
  */
-@Deprecated
 public class BaseDTOAssemblyNode<E,T> {
 
 	public enum NodeOperation {

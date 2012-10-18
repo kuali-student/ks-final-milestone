@@ -2,6 +2,7 @@ package org.kuali.student.r2.common.validator;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -9,24 +10,17 @@ import org.junit.Test;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
-import org.kuali.student.r1.common.search.service.SearchService;
-import org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl;
+import org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
-import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
+
+import javax.jws.WebParam;
 
 public class TestValidator {
 	DefaultValidatorImpl val = null;
@@ -187,8 +181,10 @@ public class TestValidator {
 		assertEquals(results.get(2).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);		
 		assertEquals(results.get(2).getMessage(), "validation.requiresField");
 
-		SearchDispatcher searchDispatcher = new SearchDispatcherImpl(
-				new MockSearchService());
+        SearchServiceDispatcherImpl searchDispatcher = new SearchServiceDispatcherImpl();
+        List<SearchService> searchServices = new ArrayList<SearchService>();
+        searchServices.add(new MockSearchService());
+        searchDispatcher.setSearchServices(searchServices);
 
 		val.setSearchDispatcher(searchDispatcher);
 		p.getAddress().get(0).setLine1("something");
@@ -216,80 +212,51 @@ public class TestValidator {
 	public class MockSearchService implements SearchService {
 
 		@Override
-		public SearchCriteriaTypeInfo getSearchCriteriaType(
-				String searchCriteriaTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			return null;
-		}
+        public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
-		@Override
-		public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-				throws OperationFailedException {
-			return null;
-		}
+        @Override
+        public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
-		@Override
-		public SearchResultTypeInfo getSearchResultType(
-				String searchResultTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			return null;
-		}
+        @Override
+        public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
-		@Override
-		public List<SearchResultTypeInfo> getSearchResultTypes()
-				throws OperationFailedException {
-			return null;
-		}
+        @Override
+        public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
-		@Override
-		public SearchTypeInfo getSearchType(String searchTypeKey)
-				throws DoesNotExistException, InvalidParameterException,
-				MissingParameterException, OperationFailedException {
-			return null;
-		}
+        @Override
+        public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
-		@Override
-		public List<SearchTypeInfo> getSearchTypes()
-				throws OperationFailedException {
-			return null;
-		}
+        @Override
+        public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
-		@Override
-		public List<SearchTypeInfo> getSearchTypesByCriteria(
-				String searchCriteriaTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			return null;
-		}
-
-		@Override
-		public List<SearchTypeInfo> getSearchTypesByResult(
-				String searchResultTypeKey) throws DoesNotExistException,
-				InvalidParameterException, MissingParameterException,
-				OperationFailedException {
-			return null;
-		}
-
-		@Override
-		public SearchResult search(SearchRequest searchRequest)
-				throws MissingParameterException {
-			if (searchRequest != null
-					&& searchRequest.getParams() != null
-					&& "param1".equals(searchRequest.getParams().get(0)
-							.getKey())
-					&& "line2value".equals(searchRequest.getParams().get(0)
-							.getValue())) {
-				SearchResult result = new SearchResult();
-				SearchResultRow row = new SearchResultRow();
-				result.getRows().add(row);
-				return result;
-			}
-			return null;
-		}
-
-	}
+        @Override
+        public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+            if (searchRequestInfo != null
+                    && searchRequestInfo.getParams() != null
+                    && "param1".equals(searchRequestInfo.getParams().get(0)
+                    .getKey())
+                    && "line2value".equals(searchRequestInfo.getParams().get(0)
+                    .getValues().get(0))) {
+                SearchResultInfo result = new SearchResultInfo();
+                SearchResultRowInfo row = new SearchResultRowInfo();
+                result.getRows().add(row);
+                return result;
+            }
+            return null;
+        }
+    }
 
 	public ConstraintMockPerson buildTestPerson1() {
 		return ValidatorMockObjectGenerator.buildTestPerson1();

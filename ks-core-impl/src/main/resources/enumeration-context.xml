@@ -131,7 +131,7 @@
     </bean>
 
     <bean id="enumSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:em-search-config.xml" />
     </bean>
 

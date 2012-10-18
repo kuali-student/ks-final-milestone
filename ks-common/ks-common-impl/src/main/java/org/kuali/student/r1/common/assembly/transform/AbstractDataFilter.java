@@ -5,7 +5,6 @@ import java.util.Map;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 
-@Deprecated
 public abstract class AbstractDataFilter implements TransformFilter {
 
 	/**

@@ -15,14 +15,13 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 @RemoteServiceRelativePath("rpcservices/SearchRpcService")
 public interface SearchRpcService extends RemoteService {
-	SearchResult search(SearchRequest searchRequest);
-	SearchResult cachingSearch(SearchRequest searchRequest);
+	SearchResultInfo search(SearchRequestInfo searchRequest);
+	SearchResultInfo cachingSearch(SearchRequestInfo searchRequest);
 }

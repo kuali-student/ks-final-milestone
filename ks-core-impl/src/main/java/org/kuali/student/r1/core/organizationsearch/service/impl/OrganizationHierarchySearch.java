@@ -7,13 +7,9 @@ import java.util.Set;
 
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SortDirection;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
 import org.kuali.student.r1.core.organization.entity.Org;
+import org.kuali.student.r2.common.search.dto.*;
 
 /**
  * This is a description of what this class does - pctsw don't forget to fill this in.
@@ -39,10 +35,10 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
     /**
      * This overridden method ...
      * 
-     * @see org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationSearch#search(org.kuali.student.r1.common.search.dto.SearchRequest)
+     * @see org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationSearch#search(org.kuali.student.r1.common.search.dto.SearchRequestInfo)
      */
     @Override
-    public SearchResult search(SearchRequest searchRequest) {
+    public SearchResultInfo search(SearchRequestInfo searchRequest) {
 
         List<String> relatedOrgIds = null;
         List<String> orgTypes = null;
@@ -51,18 +47,18 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
         String sortColumn = searchRequest.getSortColumn();
         SortDirection sortDirection = searchRequest.getSortDirection();
         
-        for (SearchParam param : searchRequest.getParams()) {
+        for (SearchParamInfo param : searchRequest.getParams()) {
             if ("org.queryParam.relatedOrgIds".equals(param.getKey())) {
-                relatedOrgIds = (List<String>) param.getValue();
+                relatedOrgIds = (List<String>) param.getValues();
                 continue;
             } else if ("org.queryParam.optionalOrgTypeList".equals(param.getKey())) {
-                orgTypes = (List<String>) param.getValue();
+                orgTypes = (List<String>) param.getValues();
                 continue;
             } else if ("org.queryParam.optionalRelationType".equals(param.getKey())) {
-                relationTypeKey = (String) param.getValue();
+                relationTypeKey = (String) param.getValues().get(0);
                 continue;
             } else if ("org.queryParam.relOrgOptionalId".equals(param.getKey())) {
-                orgOptionalId = (String) param.getValue();
+                orgOptionalId = (String) param.getValues().get(0);
                 continue;
             }
         }
@@ -76,11 +72,11 @@ public class OrganizationHierarchySearch implements OrganizationSearch {
             }
 
             // Create a search result for the return value
-            SearchResult searchResult = new SearchResult();
+            SearchResultInfo searchResult = new SearchResultInfo();
             searchResult.setSortColumn(sortColumn);
             searchResult.setSortDirection(sortDirection);
             for (Org org : orgs) {
-                SearchResultRow resultRow = new SearchResultRow();
+                SearchResultRowInfo resultRow = new SearchResultRowInfo();
 
                 // Map the result cells
                 resultRow.addCell("org.resultColumn.orgId", org.getId());

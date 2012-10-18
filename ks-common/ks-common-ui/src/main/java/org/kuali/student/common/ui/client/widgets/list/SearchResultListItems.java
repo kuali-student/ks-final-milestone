@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
-import org.kuali.student.r1.common.search.dto.ResultColumnInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.ResultColumnInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 /**
  * This is a ListItems adapter for search results returned by the search service.
@@ -33,7 +33,7 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 public class SearchResultListItems implements ListItems{
 
     private ArrayList<String> attrKeys;
-    private List<SearchResultRow> resultDataMap = new ArrayList<SearchResultRow>();
+    private List<SearchResultRowInfo> resultDataMap = new ArrayList<SearchResultRowInfo>();
     private int attrOffset = 0;
     //default values for attr indexes
     //these are necessary for use in search dispatcher assumed 2 columns min
@@ -50,7 +50,7 @@ public class SearchResultListItems implements ListItems{
 		this.sortAttrNdx = sortAttrNdx;
 	}
 
-	public void setSortAttrNdxFromAttrKey(List<SearchResultRow> results, String sortAttrKey) {
+	public void setSortAttrNdxFromAttrKey(List<SearchResultRowInfo> results, String sortAttrKey) {
 		this.sortAttrNdx = getAttrKeyNdx(results, sortAttrKey);
 	}
 
@@ -62,7 +62,7 @@ public class SearchResultListItems implements ListItems{
 		this.keyAttrNdx = keyAttrNdx;
 	}
 	
-	public void setKeyAttrNdxFromAttrKey(List<SearchResultRow> results, String keyAttrKey) {
+	public void setKeyAttrNdxFromAttrKey(List<SearchResultRowInfo> results, String keyAttrKey) {
 		this.keyAttrNdx = getAttrKeyNdx(results, keyAttrKey);
 	}
 
@@ -74,34 +74,34 @@ public class SearchResultListItems implements ListItems{
 		this.itemTextAttrNdx = itemTextAttrNdx;
 	}
 
-	public void setItemTextAttrNdxFromAttrKey(List<SearchResultRow> results, String itemTextAttrKey) {
+	public void setItemTextAttrNdxFromAttrKey(List<SearchResultRowInfo> results, String itemTextAttrKey) {
 		this.itemTextAttrNdx = getAttrKeyNdx(results, itemTextAttrKey);
 	}
 	
 	public SearchResultListItems(){ 
     }
     
-    private void setAttrNdxs(List<SearchResultRow> results, LookupMetadata lookupMetadata) {
+    private void setAttrNdxs(List<SearchResultRowInfo> results, LookupMetadata lookupMetadata) {
     	
     	setItemTextAttrNdxFromAttrKey(results, lookupMetadata.getResultDisplayKey());
     	setKeyAttrNdxFromAttrKey(results, lookupMetadata.getResultReturnKey());
     	setSortAttrNdxFromAttrKey(results, lookupMetadata.getResultSortKey());        
     }
     
-    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRow> results, LookupMetadata lookupMetadata){
+    public SearchResultListItems(List<ResultColumnInfo> resultColumns, List<SearchResultRowInfo> results, LookupMetadata lookupMetadata){
     	
     	setAttrNdxs(results, lookupMetadata);
     	setResultColumns(resultColumns);
         setResults(results);
     }   
     
-    public SearchResultListItems(List<SearchResultRow> results, LookupMetadata lookupMetadata){
+    public SearchResultListItems(List<SearchResultRowInfo> results, LookupMetadata lookupMetadata){
     
     	setAttrNdxs(results, lookupMetadata);
         setResults(results);
     }
     
-    public SearchResultListItems(List<SearchResultRow> results){
+    public SearchResultListItems(List<SearchResultRowInfo> results){
         
     	setResults(results);
     }
@@ -118,15 +118,15 @@ public class SearchResultListItems implements ListItems{
         attrOffset = 1;
     }
            
-    public void setResults(List<SearchResultRow> results) {          
+    public void setResults(List<SearchResultRowInfo> results) {
         resultDataMap.clear();
 
         if (results != null){            
-            resultDataMap = new ArrayList<SearchResultRow>(results);           
+            resultDataMap = new ArrayList<SearchResultRowInfo>(results);
             
             //Default keys for column attributes
             if (results.size() > 0){
-                SearchResultRow r = results.get(0);
+                SearchResultRowInfo r = results.get(0);
                 if (attrKeys == null){
                     attrKeys = new ArrayList<String>();
                     for (int i=0; i < r.getCells().size(); i ++){
@@ -137,7 +137,7 @@ public class SearchResultListItems implements ListItems{
         }
     }
     
-    private int getAttrKeyNdx(List<SearchResultRow> results, String keyAttrKey) {
+    private int getAttrKeyNdx(List<SearchResultRowInfo> results, String keyAttrKey) {
 
         if (results != null && !results.isEmpty()){
 	        for (int i=0; i < results.get(0).getCells().size(); i++){
@@ -157,7 +157,7 @@ public class SearchResultListItems implements ListItems{
 
     @Override
     public String getItemAttribute(String id, String attrKey) {
-        SearchResultRow r = getListItem(id);
+        SearchResultRowInfo r = getListItem(id);
         
         int attrIndex = attrKeys.indexOf(attrKey);
         if (attrIndex >= 0 && r != null){
@@ -182,7 +182,7 @@ public class SearchResultListItems implements ListItems{
     public List<String> getItemIds() {
         List<String> ids = new ArrayList<String>();
 
-        for (SearchResultRow s:resultDataMap){
+        for (SearchResultRowInfo s:resultDataMap){
             ids.add(s.getCells().get(keyAttrNdx).getValue());
         }
         
@@ -200,8 +200,8 @@ public class SearchResultListItems implements ListItems{
     	return "";
     }
     
-    private SearchResultRow getListItem(String id) {
-        for (SearchResultRow s : resultDataMap) {
+    private SearchResultRowInfo getListItem(String id) {
+        for (SearchResultRowInfo s : resultDataMap) {
             if (s.getCells().get(keyAttrNdx).getValue().equals(id)) {
                 return s;
             }
@@ -211,11 +211,11 @@ public class SearchResultListItems implements ListItems{
     
     /**
      * 
-     * This method returns an unmodifiable view of the SearchResultRow list
+     * This method returns an unmodifiable view of the SearchResultRowInfo list
      * 
      * @return
      */
-    public List<SearchResultRow> getReadOnlyResults() {
+    public List<SearchResultRowInfo> getReadOnlyResults() {
         return Collections.unmodifiableList(resultDataMap);
     }
 }

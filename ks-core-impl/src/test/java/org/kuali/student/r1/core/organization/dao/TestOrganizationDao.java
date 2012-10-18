@@ -30,20 +30,21 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.junit.Test;
+import org.kuali.student.r2.common.class1.search.SearchManagerImpl;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SortDirection;
-import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.r2.common.search.dto.SortDirection;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r1.core.organization.entity.Org;
 import org.kuali.student.r1.core.organization.entity.OrgAttribute;
@@ -55,32 +56,33 @@ import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.r1.core.organization.entity.OrgType;
 import org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationHierarchySearch;
-import org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationSearch;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")
+
+    @Dao(value = "org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")
 	public OrganizationDao dao;
+
+    private ContextInfo context = new ContextInfo();
 	
 	@Test
 	public void testNewSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml");
-
+        SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml", em);
 		
- 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam qpv1 = new SearchParam();
+ 		List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+		SearchParamInfo qpv1 = new SearchParamInfo();
 		qpv1.setKey("org.queryParam.orgType");
-		qpv1.setValue("kuali.org.College");
+		qpv1.getValues().add("kuali.org.College");
 		searchParams.add(qpv1);
 		
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setNeededTotalResults(Boolean.TRUE);
 		searchRequest.setParams(searchParams);
 		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
 		
-		SearchResult result = sm.search(searchRequest, dao);
+		SearchResultInfo result = sm.search(searchRequest, context);
 		assertEquals(6,result.getRows().size());
 		assertEquals(2,result.getRows().get(0).getCells().size());
 		
@@ -88,7 +90,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		searchRequest.setSortDirection(SortDirection.DESC);
 		searchRequest.setSortColumn("org.resultColumn.orgShortName");
 		searchRequest.setStartAt(2);
-		result = sm.search(searchRequest, dao);
+		result = sm.search(searchRequest, context);
 		assertEquals(4,result.getRows().size());
 		assertEquals(2,result.getRows().get(0).getCells().size());
 		
@@ -96,31 +98,32 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("CollegeArtsHum",result.getRows().get(3).getCells().get(1).getValue());
 
 		searchRequest.setSortDirection(SortDirection.ASC);
-		result = sm.search(searchRequest, dao);
+		result = sm.search(searchRequest, context);
 		assertEquals("DistanceEducation",result.getRows().get(3).getCells().get(1).getValue());
 		assertEquals("CollegeEducation",result.getRows().get(0).getCells().get(1).getValue());
 	}
 	
 	@Test
 	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml");
+        SearchManager sm = new SearchManagerImpl("classpath:organization-search-config.xml", em);
 
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
-		SearchParam qpv1 = new SearchParam();
+		List<SearchParamInfo> queryParamValues = new ArrayList<SearchParamInfo>();
+		SearchParamInfo qpv1 = new SearchParamInfo();
 		qpv1.setKey("org.queryParam.orgType");
-		qpv1.setValue("kuali.org.College");
+		qpv1.getValues().add("kuali.org.College");
 		queryParamValues.add(qpv1);
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
 		searchRequest.setParams(queryParamValues);
-		SearchResult result = sm.search(searchRequest, dao);
+		SearchResultInfo result = sm.search(searchRequest, context);
 		assertEquals(6,result.getRows().size());
 		assertEquals(2,result.getRows().get(0).getCells().size());
 
 		qpv1.setKey("org.queryParam.orgId");
-		qpv1.setValue("31");
+        qpv1.setValues(new ArrayList<String>());
+		qpv1.getValues().add("31");
 		searchRequest.setSearchKey("org.search.hierarchiesOrgIsIn");
-		result = sm.search(searchRequest, dao);
+		result = sm.search(searchRequest, context);
 		
 		assertEquals(1, result.getRows().size());
 		assertEquals("kuali.org.hierarchy.Main", result.getRows().get(0).getCells().get(0).getValue());
@@ -486,32 +489,32 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	    OrganizationHierarchySearch search = new OrganizationHierarchySearch();
 	    search.setOrganizationDao(dao);
 	    
-        List<SearchParam> searchParams = new ArrayList<SearchParam>();
-        SearchParam searchParam = new SearchParam();
+        List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+        SearchParamInfo searchParam = new SearchParamInfo();
         searchParam.setKey("org.queryParam.optionalRelationType");
-        searchParam.setValue("kuali.org.Part");
+        searchParam.getValues().add("kuali.org.Part");
         searchParams.add(searchParam);
         
-        searchParam = new SearchParam();
+        searchParam = new SearchParamInfo();
         searchParam.setKey("org.queryParam.relatedOrgIds");
         List<String> values = new ArrayList<String>();
         values.add("51");
         values.add("28");
         values.add("29");
-        searchParam.setValue(values);
+        searchParam.setValues(values);
         searchParams.add(searchParam);
         
-        searchParam = new SearchParam();
+        searchParam = new SearchParamInfo();
         searchParam.setKey("org.queryParam.optionalOrgTypeList");
         values = new ArrayList<String>();
         values.add("kuali.org.College");
-        searchParam.setValue(values);
+        searchParam.setValues(values);
         searchParams.add(searchParam);
         
-        SearchRequest searchRequest = new SearchRequest();
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds");
         searchRequest.setParams(searchParams);
-        SearchResult result = search.search(searchRequest);
+        SearchResultInfo result = search.search(searchRequest);
         assertEquals(2,result.getRows().size());
     }
 }

@@ -3,23 +3,25 @@ package org.kuali.student.r1.core.subjectcode.service.impl;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.student.common.util.DateFormatThread;
 import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r1.core.subjectcode.dao.SubjectCodeDao;
 import org.kuali.student.r1.core.subjectcode.dao.SubjectCodeJoinOrgDao;
 import org.kuali.student.r1.core.subjectcode.model.SubjectCode;
 import org.kuali.student.r1.core.subjectcode.model.SubjectCodeJoinOrg;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.jws.WebService;
@@ -45,67 +47,52 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	protected boolean cachingEnabled = false;
 	protected int searchCacheMaxSize = 20;
 	protected int searchCacheMaxAgeSeconds = 90;
-	protected Cache<String, SearchResult> searchCache;
+	protected Cache<String, SearchResultInfo> searchCache;
 	
 	@Override
-	public List<SearchTypeInfo> getSearchTypes()
-			throws OperationFailedException {
-		return searchManager.getSearchTypes();
+	public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+		return searchManager.getSearchTypes(contextInfo);
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-		return searchManager.getSearchType(searchTypeKey);
+		return searchManager.getSearchType(searchTypeKey, contextInfo);
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+	public List<TypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+	public List<TypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes()
-			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+	public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+		return searchManager.getSearchResultTypes(contextInfo);
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-		return searchManager.getSearchResultType(searchResultTypeKey);
+	public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+		return searchManager.getSearchCriteriaTypes(contextInfo);
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
-	}
-
-	@Override
-	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest)
-			throws MissingParameterException {
+	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo)
+            throws MissingParameterException, PermissionDeniedException, OperationFailedException {
 		String searchKey = searchRequest.getSearchKey();
 		//Check Params
 		if(searchKey==null||searchKey.isEmpty()){
@@ -114,11 +101,11 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		
 		//Get easy access to params
 		Map<String,Object> paramMap = new HashMap<String,Object>();
-		for(SearchParam param:searchRequest.getParams()){
-			paramMap.put(param.getKey(), param.getValue());
+		for(SearchParamInfo param:searchRequest.getParams()){
+			paramMap.put(param.getKey(), param.getValues().get(0));
 		}
 		
-		SearchResult searchResult = null;
+		SearchResultInfo searchResult = null;
 		
     	if(cachingEnabled){
     		//Get From Cache
@@ -133,7 +120,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
     	if("subjectCode.search.subjectCodeGeneric".equals(searchKey)){
 			searchResult = doSubjectCodeGenericSearch(paramMap);
 		}else if("subjectCode.search.orgsForSubjectCode".equals(searchKey)){
-			searchResult = doOrgsForSubjectCodeSearch(paramMap);
+			searchResult = doOrgsForSubjectCodeSearch(paramMap, contextInfo);
 		}
 
 		//Store to Cache
@@ -145,8 +132,8 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		return searchResult;
 	}
 	
-    private SearchResult doOrgsForSubjectCodeSearch(Map<String, Object> paramMap) throws MissingParameterException {
-		SearchResult searchResult = new SearchResult();
+    private SearchResultInfo doOrgsForSubjectCodeSearch(Map<String, Object> paramMap, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+		SearchResultInfo searchResult = new SearchResultInfo();
 		Map<String,Object> queryMap = new HashMap<String,Object>();
 		String codeParam = (String) paramMap.get("subjectCode.queryParam.code");
 		if(codeParam!=null){ 
@@ -159,22 +146,22 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		
 		//Use the BO service to perform the query
 		List<SubjectCodeJoinOrg> subjectCodeJoinOrgs = subjectCodeJoinOrgDao.getBySubjectCodeAndOrgId(codeParam, orgIdParam);
-        Map<String,List<SearchResultRow>> orgIdToRowMapping = new HashMap<String,List<SearchResultRow>> ();
+        Map<String,List<SearchResultRowInfo>> orgIdToRowMapping = new HashMap<String,List<SearchResultRowInfo>> ();
         
         //Create search results from the results of the BO search
 		for(SubjectCodeJoinOrg subjectCodeJoinOrg:subjectCodeJoinOrgs){
 			//Only include active orgs if the search is not looking by org id
 			if(orgIdParam!=null || subjectCodeJoinOrg.isActive()){
-	        	SearchResultRow row = new SearchResultRow();
+	        	SearchResultRowInfo row = new SearchResultRowInfo();
 	        	row.addCell("subjectCode.resultColumn.code", subjectCodeJoinOrg.getSubjectCode().getCode());
 	        	row.addCell("subjectCode.resultColumn.type", subjectCodeJoinOrg.getSubjectCode().getType().getId());
 	        	row.addCell("subjectCode.resultColumn.activeFrom", subjectCodeJoinOrg.getActiveFromDate()==null?null: DateFormatThread.format(new Date(subjectCodeJoinOrg.getActiveFromDate().getTime())));
 	        	row.addCell("subjectCode.resultColumn.activeTo", subjectCodeJoinOrg.getActiveToDate()==null?null:format.format(new Date(subjectCodeJoinOrg.getActiveToDate().getTime())));
 	        	row.addCell("subjectCode.resultColumn.orgId", subjectCodeJoinOrg.getOrgId());
 	        	//Get a mapping of the org id to this row so we can find it later and do all the org id searches in one call
-	        	List<SearchResultRow> rowList = orgIdToRowMapping.get(subjectCodeJoinOrg.getOrgId());
+	        	List<SearchResultRowInfo> rowList = orgIdToRowMapping.get(subjectCodeJoinOrg.getOrgId());
 	        	if(rowList==null){
-	        		rowList = new ArrayList<SearchResultRow>();
+	        		rowList = new ArrayList<SearchResultRowInfo>();
 		        	orgIdToRowMapping.put(subjectCodeJoinOrg.getOrgId(), rowList);
 	        	}
 	        	rowList.add(row);
@@ -187,18 +174,18 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		//Use the org search to Translate the orgIds into Org names and update the holder cells
 		if(!orgIdToRowMapping.isEmpty()){
 			//Perform the Org search
-			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+			SearchRequestInfo orgIdTranslationSearchRequest = new SearchRequestInfo("org.search.generic");
 			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToRowMapping.keySet()));
-			SearchResult orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest);
+			SearchResultInfo orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest, contextInfo);
             			
 			//For each translation, update the result cell with the translated org name
-			for(SearchResultRow row:orgIdTranslationSearchResult.getRows()){
+			for(SearchResultRowInfo row:orgIdTranslationSearchResult.getRows()){
 				//Get Params
 				String orgId = null;
 				String orgShortName = null;
 				String orgLongName = null;
 				String orgType = null; 
-				for(SearchResultCell cell:row.getCells()){
+				for(SearchResultCellInfo cell:row.getCells()){
 					if("org.resultColumn.orgId".equals(cell.getKey())){
 						orgId = cell.getValue();
 					}else if("org.resultColumn.orgShortName".equals(cell.getKey())){
@@ -210,7 +197,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 					}
 				}
 				//Update the rows with the org translation
-				for(SearchResultRow rowToUpdate:orgIdToRowMapping.get(orgId)){
+				for(SearchResultRowInfo rowToUpdate:orgIdToRowMapping.get(orgId)){
 					rowToUpdate.addCell("subjectCode.resultColumn.orgShortName", orgShortName);
 					rowToUpdate.addCell("subjectCode.resultColumn.orgLongName", orgLongName);
 					rowToUpdate.addCell("subjectCode.resultColumn.orgType", orgType);
@@ -220,8 +207,8 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		return searchResult;
 	}
 
-	private SearchResult doSubjectCodeGenericSearch(Map<String, Object> paramMap) {
-		SearchResult searchResult = new SearchResult();
+	private SearchResultInfo doSubjectCodeGenericSearch(Map<String, Object> paramMap) {
+		SearchResultInfo searchResult = new SearchResultInfo();
 		Map<String,String> queryMap = new HashMap<String,String>();
 		String code = (String) paramMap.get("subjectCode.queryParam.code");
 		if(code!=null){ 
@@ -243,7 +230,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		
 		//Convert to a KS search result
         for(SubjectCode subjectCode:subjectCodes){
-        	SearchResultRow row = new SearchResultRow();
+        	SearchResultRowInfo row = new SearchResultRowInfo();
         	row.addCell("subjectCode.resultColumn.id", subjectCode.getId());
         	row.addCell("subjectCode.resultColumn.code", subjectCode.getCode());
         	row.addCell("subjectCode.resultColumn.name", subjectCode.getName());

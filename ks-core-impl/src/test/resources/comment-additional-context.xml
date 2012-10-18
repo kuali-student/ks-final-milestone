@@ -22,7 +22,7 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <bean id="searchManager"
-        class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl"
+        class="org.kuali.student.r2.common.class1.search.SearchManagerImpl"
         autowire="byType">
         <constructor-arg index="0" value="classpath:comment-search-config.xml" />
     </bean>

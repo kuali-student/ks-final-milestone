@@ -17,23 +17,12 @@ package org.kuali.student.r2.core.class1.enumerationmanagement.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.core.statement.entity.RefStatementRelation;
-import org.kuali.student.r1.core.statement.entity.Statement;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -47,6 +36,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumContextValueDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao;
@@ -55,6 +48,8 @@ import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationE
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.springframework.transaction.annotation.Transactional;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 
@@ -232,78 +227,60 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     }
 
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchResultTypes(contextInfo);
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
-    }
-
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
-    }
-
-    @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey)
+    public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchTypes();
+    public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchTypes(contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
+    public List<TypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey) throws DoesNotExistException,
+    public List<TypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
     @Override
-    @Deprecated
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException {
         List<EnumeratedValueEntity> returnvalues = new ArrayList<EnumeratedValueEntity>();
         if(searchRequest.getSearchKey().equals("enumeration.management.search")){
             List<String> enumTypes = null;
             List<String> enumCodes = null;
-            for(SearchParam parm : searchRequest.getParams()){
-                if((parm.getKey().equals("enumeration.queryParam.enumerationType")) && (parm.getValue() != null)){
-                    enumTypes = getParmList(parm);
-                } else if ((parm.getKey().equals("enumeration.queryParam.enumerationCode") && (parm.getValue() != null))){
-                    enumCodes = getParmList(parm);
+            for(SearchParamInfo parm : searchRequest.getParams()){
+                if((parm.getKey().equals("enumeration.queryParam.enumerationType")) && (parm.getValues() != null)){
+                    enumTypes = parm.getValues();
+                } else if ((parm.getKey().equals("enumeration.queryParam.enumerationCode") && (parm.getValues() != null))){
+                    enumCodes = parm.getValues();
                 }
             }
 
@@ -329,11 +306,11 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
             return null;
         }
 
-        SearchResult searchResult = new SearchResult();
+        SearchResultInfo searchResult = new SearchResultInfo();
 
         //Use a hashset of the cell values to remove duplicates
         for(EnumeratedValueEntity enumValue : returnvalues){
-            SearchResultRow row = new SearchResultRow();
+            SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell("enumeration.resultColumn.code", enumValue.getCode());
             row.addCell("enumeration.resultColumn.abbrevValue", enumValue.getAbbrevValue());
             row.addCell("enumeration.resultColumn.value", enumValue.getValue());
@@ -346,21 +323,10 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         return searchResult;
     }
 
-    private List<String> getParmList(SearchParam parm) {
-        List<String> parms = new ArrayList<String>();
-        if (parm.getValue() instanceof String){
-            parms.add((String) parm.getValue());
-        } else {
-            parms.addAll((List<String>) parm.getValue());
-        }
-        return parms;
-    }
-
     /**
      * Check for missing parameter and throw localized exception if missing
      *
      * @param param
-     * @param parameter name
      * @throws MissingParameterException
      */
     private void checkForMissingParameter(Object param, String paramName)

@@ -2,89 +2,53 @@ package org.kuali.student.r1.core.subjectcode.service.impl;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+
+import javax.jws.WebParam;
 
 @Deprecated
 public class MockSubjectCodeServiceImpl implements SubjectCodeService {
 
+
 	@Override
-	public List<SearchTypeInfo> getSearchTypes()
-			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes()
-			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
+    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-			throws OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest)
-			throws MissingParameterException {
-		// TODO Auto-generated method stub
-		return null;
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
 	}
 
 }

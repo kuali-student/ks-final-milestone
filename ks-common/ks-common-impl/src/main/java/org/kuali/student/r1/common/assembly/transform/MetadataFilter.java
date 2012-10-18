@@ -11,7 +11,6 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
  * @author Will
  *
  */
-@Deprecated
 public interface MetadataFilter {
     public static final String METADATA_ID_TYPE		= "MetadataIdType";
     public static final String METADATA_ID_VALUE	= "MetadataIdValue";

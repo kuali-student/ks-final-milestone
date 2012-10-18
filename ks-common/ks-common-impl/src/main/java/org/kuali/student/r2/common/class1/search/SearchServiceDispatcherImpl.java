@@ -26,6 +26,20 @@ public class SearchServiceDispatcherImpl
     private List<SearchService> searchServices;
     private Map<String, SearchService> searchType2ServiceMap = new HashMap<String, SearchService>();
 
+    public SearchServiceDispatcherImpl() {
+        super();
+    }
+
+    public SearchServiceDispatcherImpl(SearchService... services){
+        super();
+        this.searchServices = new ArrayList<SearchService>();
+        if(services!=null){
+            for(SearchService service:services){
+                this.searchServices.add(service);
+            }
+        }
+    }
+
     public List<SearchService> getSearchServices() {
         if (this.searchServices == null) {
             this.searchServices = new ArrayList<SearchService>();
@@ -66,8 +80,10 @@ public class SearchServiceDispatcherImpl
         for (SearchService ss : searchServices) {
             try {
                 TypeInfo type = ss.getSearchType(searchTypeKey, contextInfo);
-                this.searchType2ServiceMap.put(searchTypeKey, ss);
-                return type;
+                if (type != null){
+                    this.searchType2ServiceMap.put(searchTypeKey, ss);
+                    return type;
+                }
             } catch (DoesNotExistException ex) {
                 // continue
             }
