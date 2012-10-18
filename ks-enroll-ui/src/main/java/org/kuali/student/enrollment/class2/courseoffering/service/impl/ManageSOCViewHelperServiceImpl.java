@@ -56,6 +56,11 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     private final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
 
+    private final static String SCHEDULE_IN_PROGRESS = "Scheduling in progress";
+    private final static String IN_PROGRESS = "  (in progress)";
+    private final static String PUBLISHING_IN_PROGRESS = "Publishing in progress";
+
+
     private transient AcademicCalendarService acalService;
     private transient CourseOfferingSetService courseOfferingSetService;
 
@@ -124,7 +129,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         socForm.setScheduleCompleteDate(formatScheduleDate(socInfo.getLastSchedulingRunCompleted()));
 
         if(StringUtils.equals(socForm.getSocSchedulingStatus(), ManageSocConstants.SOC_IN_PROGRESS_PUBLISHING_STATUS_UI)) {
-            socForm.setScheduleCompleteDate("Scheduling in progress");
+            socForm.setScheduleCompleteDate(SCHEDULE_IN_PROGRESS);
         }
 
         socForm.setPublishInitiatedDate(formatScheduleDate(socInfo.getPublishingStarted()));
@@ -140,17 +145,22 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             if(socInfo.getPublishingStarted() != null)   {
                 startDate =  socInfo.getPublishingStarted();
             }
-            socForm.setScheduleDuration(getTimeDiffUI(curDate, startDate, true) + "  (in progress)");
+            socForm.setScheduleDuration(getTimeDiffUI(curDate, socInfo.getLastSchedulingRunStarted(), true) + IN_PROGRESS);
         }
 
         if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
             socForm.setScheduleDuration(getTimeDiffUI(socInfo.getLastSchedulingRunCompleted(), socInfo.getLastSchedulingRunStarted(), true));
         }
 
-        if (socInfo.getPublishingCompleted() != null && socInfo.getPublishingStarted() != null){
-            socForm.setPublishDuration(getTimeDiffUI(socInfo.getPublishingCompleted(), socInfo.getPublishingStarted(), true));
+        if(socInfo.getPublishingStarted() != null) {
+            Date curDate = new Date();
+            if (socInfo.getPublishingCompleted() != null && !StringUtils.equals(PUBLISHING_IN_PROGRESS, socForm.getPublishCompleteDate())) {
+                socForm.setPublishDuration(getTimeDiffUI(socInfo.getPublishingCompleted(), socInfo.getPublishingStarted(), true));
+            } else {
+                socForm.setPublishDuration(getTimeDiffUI(curDate, socInfo.getPublishingStarted(), true)+ IN_PROGRESS);
+                socForm.setPublishCompleteDate(PUBLISHING_IN_PROGRESS);
+            }
         }
-
     }
 
     protected void buildStatusHistory(ManageSOCForm socForm){
