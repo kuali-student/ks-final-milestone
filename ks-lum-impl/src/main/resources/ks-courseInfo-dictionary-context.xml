@@ -1310,12 +1310,12 @@
  </bean>
  <bean id="courseFeeInfo.name" parent="courseFeeInfo.name-parent"/>
  
-    <bean id="courseFeeInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+    <bean id="courseFeeInfo.stateKey-parent" abstract="true" parent="baseKualiState">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="courseFeeInfo.stateKey" parent="courseFeeInfo.stateKey-parent"/>
     
-    <bean id="courseFeeInfo.typeKey-parent" abstract="true" parent="baseKualiStateRequired">
+    <bean id="courseFeeInfo.typeKey-parent" abstract="true" parent="baseKualiType">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="courseFeeInfo.typeKey" parent="courseFeeInfo.typeKey-parent"/>
