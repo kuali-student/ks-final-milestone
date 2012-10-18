@@ -24,4 +24,13 @@
           p:businessObjectService-ref="rice.kim.import.businessObjectService"
           p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService" />
 
+    <bean id="defaultPermissionTypeService" class="org.kuali.rice.kns.kim.permission.PermissionTypeServiceBase"/>
+
+    <bean id="kimPermissionService" class="org.kuali.rice.kim.impl.permission.PermissionServiceImpl"
+          p:businessObjectService-ref="rice.kim.import.businessObjectService"
+          p:criteriaLookupService-ref="rice.kim.import.criteriaLookupService"
+          p:kimTypeInfoService-ref="kimTypeInfoService"
+          p:defaultPermissionTypeService-ref="defaultPermissionTypeService"
+          p:roleService-ref="kimRoleService"/>
+
 </beans>
