@@ -527,6 +527,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                 //build RGWrapperList and set it to selectedClusterWrapper
 
                 String clusterIndex = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+                // perform max enrollment validation
+                _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), selectedClusterWrapper.getAoCluster(), Integer.parseInt(clusterIndex));
+                //validate AO time conflict in RG
                 _performRGTimeConflictValidation(selectedClusterWrapper.getAoCluster(), rgInfos, Integer.parseInt(clusterIndex));
 
                 List<RegistrationGroupWrapper> rgWrapperListPerCluster = _getRGsForSelectedFO(rgInfos, selectedClusterWrapper.getAoWrapperList());
@@ -557,6 +560,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
                 // perform max enrollment validation
                 _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
+                //validate AO time conflict in RG
+                _performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
             }
         }
 
@@ -583,8 +588,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
                 }
+            } else if (rgInfos.size() < 1 ) {
+                GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+i, RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER);
             }
-
             //validate RGs for each cluster and set error msg
             if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
                 // perform max enrollment validation
@@ -750,7 +756,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_PARTIAL);
                 }
             }
-
             //validate RGs for each cluster and set error msg
             if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
                 // perform max enrollment validation
@@ -941,7 +946,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_NONE);
                 }
             }
-
             //validate RGs for each cluster and set error msg
             if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
                 // perform max enrollment validation
@@ -1116,9 +1120,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if (!rgInfosCopy.isEmpty()){
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);
         }
-
     }
-    
+
     private void _performMaxEnrollmentValidation(String formateOfferingId, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
         List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
                 "validation on max enroll totals", formateOfferingId, aoCluster, ContextUtils.createDefaultContextInfo());
