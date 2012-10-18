@@ -37,7 +37,7 @@
                 <property name="rows" value="8"/>
                 <property name="cols" value="40"/>
                 <property name="watermarkText" value="watermark can go here"/>
-                <!--<property name="textExpand" value="true"/>-->
+                <property name="textExpand" value="true"/>
             </bean>
         </property>
     </bean>
