@@ -21,18 +21,15 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.search.dto.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -110,14 +107,14 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             String termYear = Integer.toString(termStart.get(Calendar.YEAR));
 
 
-            SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
+            org.kuali.student.r2.common.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r2.common.search.dto.SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
             searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID,coWrapper.getCourse().getId());
 
             searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
-            SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
+            org.kuali.student.r2.common.search.dto.SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
             List<String> courseOfferingIds = new ArrayList<String>(searchResult.getTotalResults());
-            for (SearchResultRowInfo row : searchResult.getRows()) {
+            for (org.kuali.student.r2.common.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
                  courseOfferingIds.add(row.getCells().get(0).getValue());
             }
 
@@ -321,25 +318,25 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         CourseInfo returnCourseInfo;
         String courseId;
-        List<SearchParam> searchParams = new ArrayList<SearchParam>();
+        List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         List<CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
 
-        SearchParam qpv1 = new SearchParam();
+        SearchParamInfo qpv1 = new SearchParamInfo();
         qpv1.setKey("lu.criteria.code");
-        qpv1.setValue(courseName.toUpperCase());
+        qpv1.getValues().add(courseName.toUpperCase());
         searchParams.add(qpv1);
 
-        SearchRequest searchRequest = new SearchRequest();
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setParams(searchParams);
         searchRequest.setSearchKey("lu.search.cluByCode");
 
         try {
-            SearchResult searchResult = getCluService().search(searchRequest);
+            SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
             if (searchResult.getRows().size() > 0) {
-                for(SearchResultRow row : searchResult.getRows()){
-                    List<SearchResultCell> srCells = row.getCells();
+                for(SearchResultRowInfo row : searchResult.getRows()){
+                    List<SearchResultCellInfo> srCells = row.getCells();
                     if(srCells != null && srCells.size() > 0){
-                        for(SearchResultCell cell : srCells){
+                        for(SearchResultCellInfo cell : srCells){
                             if ("lu.resultColumn.cluId".equals(cell.getKey())) {
                                 courseId = cell.getValue();
                                 returnCourseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());

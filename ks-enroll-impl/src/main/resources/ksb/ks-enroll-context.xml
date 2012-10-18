@@ -180,16 +180,12 @@
             </bean>
         </property>
         <property name="searchManager" ref="atpSearchManager"/>
-        <property name="searchableDao" ref="atpSearchableDao"/>
-    </bean>
-
-    <bean id="atpSearchableDao" class="org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl">
-        <property name="em" ref="atpEntityManager"/>
     </bean>
 
     <bean id="atpSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+        <property name="dao" ref="enrollSearchableDao"/>
     </bean>
 
    <bean id="ks.exp.atpEnrService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -687,8 +683,9 @@
     <property name="em" ref="enrollEntityManager" />
   </bean>
 
-  <bean id="statementSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+  <bean id="statementSearchManager" class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
     <constructor-arg index="0" value="classpath:statement-search-config.xml" />
+    <property name="dao" ref="enrollSearchableDao"/>
   </bean>
 
   <bean id="statementAssembler" class="org.kuali.student.r1.core.statement.service.impl.StatementAssembler">
@@ -1009,8 +1006,9 @@
     </bean>
 
     <bean id="enumSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:em-search-config.xml" />
+        <property name="dao" ref="enrollSearchableDao"/>
     </bean>
 
     <!-- Search service -->
@@ -1092,8 +1090,9 @@
     </bean>
 
     <bean id="orgSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
+        <property name="dao" ref="enrollSearchableDao"/>
     </bean>
 
     <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

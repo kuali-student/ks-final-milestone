@@ -61,7 +61,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
     <bean id="atpSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
 

@@ -161,6 +161,10 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="enrollSearchableDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
     <!-- Enumeration Dao -->
     <bean id="enumDao" class="org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao">
         <property name="em" ref="enrollEntityManager"/>

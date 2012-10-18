@@ -387,7 +387,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
     <bean id="atpSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml"/>
     </bean>
     <bean id="atpServiceImpl"
@@ -574,12 +574,12 @@
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="emSearchManager" class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+    <bean id="emSearchManager" class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:em-search-config.xml"/>
     </bean>
 
     <bean id="orgSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml"/>
     </bean>
 
@@ -591,7 +591,7 @@
     </bean>
 
     <bean id="statementSearchManager"
-          class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl">
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:statement-search-config.xml"/>
     </bean>
 
