@@ -67,8 +67,8 @@ class SideBarDialogManager {
     public void configureView(ModelDefinition modelDefinition, ProgramController controller) {
         if (!viewConfigured) {
             VerticalSection verticalSection = new VerticalSection();
-            verticalSection.addField(new FieldDescriptor(ProgramConstants.SCHEDULED_REVIEW_DATE, new MessageKeyInfo(ProgramMsgConstants.SIDEBAR_FORM_SCHEDULEDREVIEWDATE), modelDefinition.getMetadata(ProgramConstants.SCHEDULED_REVIEW_DATE)));
-            FieldDescriptor reviewDateDescriptor = new FieldDescriptor(ProgramConstants.LAST_REVIEW_DATE, new MessageKeyInfo(ProgramMsgConstants.SIDEBAR_FORM_LASTREVIEWDATE), modelDefinition.getMetadata(ProgramConstants.LAST_REVIEW_DATE));
+            verticalSection.addField(new FieldDescriptor(ProgramConstants.SCHEDULED_REVIEW_DATE, new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, null, null, ProgramMsgConstants.SIDEBAR_FORM_SCHEDULEDREVIEWDATE ), modelDefinition.getMetadata(ProgramConstants.SCHEDULED_REVIEW_DATE)));
+            FieldDescriptor reviewDateDescriptor = new FieldDescriptor(ProgramConstants.LAST_REVIEW_DATE, new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, null, null, ProgramMsgConstants.SIDEBAR_FORM_LASTREVIEWDATE), modelDefinition.getMetadata(ProgramConstants.LAST_REVIEW_DATE));
             reviewDateDescriptor.setWidgetBinding(new DateBinding());
             verticalSection.addField(reviewDateDescriptor);
             dialogView.setLayoutController(controller);
