@@ -150,6 +150,42 @@ public class CriteriaLookupDaoJpaImpl {
         }
     }
 
+    public <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, LookupCustomizer<T> customizer, String field) {
+        if (queryClass == null) {
+            throw new IllegalArgumentException("queryClass is null");
+        }
+
+        if (criteria == null) {
+            throw new IllegalArgumentException("criteria is null");
+        }
+
+        if (customizer == null) {
+            throw new IllegalArgumentException("customizer is null");
+        }
+
+        Criteria parent = new Criteria(queryClass.getName(), false);
+        parent.select(field);
+
+
+        if (criteria.getPredicate() != null) {
+            String display2 = parent.toQuery(org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria.QueryByCriteriaType.SELECT);
+            Predicate predicate = customizer.applyAdditionalTransforms(criteria.getPredicate(), parent);
+
+
+            addPredicate(predicate, parent, parent, customizer);
+        }
+
+        switch (criteria.getCountFlag()) {
+            case ONLY:
+                return (GenericQueryResults<T>) forCountOnly(queryClass, criteria, parent);
+            case NONE:
+                return (GenericQueryResults<T>) forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
+            case INCLUDE:
+                return (GenericQueryResults<T>) forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
+            default: throw new UnsupportedCountFlagException(criteria.getCountFlag());
+        }
+    }
+
     /** gets results where the actual rows are requested. */
     private <T> GenericQueryResults<T> forRowResults(final Class<T> queryClass, final QueryByCriteria criteria, final Criteria jpaCriteria, CountFlag flag, LookupCustomizer.Transform<T, T> transform) {
         final Query jpaQuery = new org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria(entityManager, jpaCriteria).toQuery();
