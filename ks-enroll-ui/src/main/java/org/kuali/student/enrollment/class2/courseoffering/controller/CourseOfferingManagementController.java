@@ -420,12 +420,18 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             theClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
             theClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
             theClusterWrapper.setHasAllRegGroups(true);
-            // perform max enrollment validation
-            _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theClusterWrapper.getAoCluster(), new Integer(selectedClusterIndex).intValue());
-            //validate AO time conflict in RG
-            _performRGTimeConflictValidation(theClusterWrapper.getAoCluster(), rgInfos, new Integer(selectedClusterIndex).intValue());
         }
-
+        for (int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
+            rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId(),
+                                                                                                ContextUtils.createDefaultContextInfo());
+            //validate RGs for each cluster and set error msg
+            if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
+                // perform max enrollment validation
+                _performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
+                //validate AO time conflict in RG
+                _performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
+            }
+        }
         //finally, move selected AO from AO table under selected Cluster to the unassigned table
         theClusterWrapper.getAoWrapperList().remove(selectedAOWrapper);
         theForm.getFilteredUnassignedAOsForSelectedFO().add(selectedAOWrapper);
