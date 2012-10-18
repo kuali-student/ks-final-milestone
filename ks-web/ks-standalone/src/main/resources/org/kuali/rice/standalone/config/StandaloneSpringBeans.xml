@@ -46,10 +46,10 @@
    	<import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
    	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml"/>
 
+    <alias name="jtaUserTransaction" alias="userTransaction"/>
+
     <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
       <property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
-      <!-- TODO: KSENROL-1273: fix serverDataSource when app connects to KSB properly -->
-      <!--<property name="serverDataSource" ref="coreDataSource" />-->
       <property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
       <property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
       <property name="userTransaction" ref="jtaUserTransaction" />
@@ -57,7 +57,6 @@
 
     <bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"/>
 
-    <!-- TODO: KSENROLL-1273: add contexts for core and lum -->
-   	<!--<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>-->
-    <!--<import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>-->
+   	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
+    <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
 </beans>
