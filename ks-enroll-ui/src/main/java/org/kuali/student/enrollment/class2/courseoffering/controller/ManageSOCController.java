@@ -26,7 +26,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
-import org.kuali.student.enrollment.main.controller.KSControllerBase;
+import org.kuali.student.enrollment.uif.controller.KSControllerBase;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -216,14 +216,7 @@ public class ManageSOCController extends KSControllerBase {
 
         if (dialogAnswer) {
             ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
-            try {
-                viewHelper.publishSOC(socForm);
-            } catch (Exception e) {
-                LOG.error("Could not start mass publishing event.", e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Unable to initiate publishing.");
-                return getUIFModelAndView(socForm);
-            }
-
+            viewHelper.publishSOC(socForm);
             return buildModel(socForm, result, request, response);
         } else {
             return getUIFModelAndView(socForm);

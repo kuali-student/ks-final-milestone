@@ -1,7 +1,23 @@
-package org.kuali.student.enrollment.main.controller;
+/**
+ * Copyright 2012 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ */
+package org.kuali.student.enrollment.uif.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -17,8 +33,8 @@ import org.kuali.rice.krad.web.controller.UifControllerHelper;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.uif.view.KSLookupView;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,23 +45,22 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * Created with IntelliJ IDEA.
- * User: swedev
- * Date: 6/19/12
- * Time: 4:11 PM
- * To change this template use File | Settings | File Templates.
+ * This is the base class for the KS Lookup controller which extends from KRAD controller class. This class is intended to
+ * provide common functionalities at the KS level.
+ *
+ * @author Kuali Student Team
  */
-
 @Controller
 @RequestMapping(value = "/lookup")
 public class KSLookupController extends LookupController {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KSLookupController.class);
+    private static final Logger LOG = Logger.getLogger(KSLookupController.class);
 
-   @RequestMapping(params = "methodToCall=start")
+    @RequestMapping(params = "methodToCall=start")
     @Override
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
+
         LookupForm lookupForm = (LookupForm) form;
 
         // if request is not a redirect, determine if we need to redirect for an externalizable object lookup

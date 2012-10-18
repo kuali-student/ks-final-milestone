@@ -13,13 +13,13 @@
  * permissions and limitations under the License.
  *
  */
-package org.kuali.student.enrollment.main.service.impl;
+package org.kuali.student.enrollment.uif.service.impl;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.main.service.KSViewHelperService;
+import org.kuali.student.enrollment.uif.service.KSViewHelperService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -69,7 +69,7 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
      * the runtime exception as cause... So, this can be accessed at the exception resolver to determine the action)
      *
      * @param ex service exception to be handled
-     * @return Runtime exception wrapped in RuntimeException
+     * @return service exception wrapped in a RuntimeException instance
      */
     protected RuntimeException convertServiceExceptionsToUI(Exception ex){
 

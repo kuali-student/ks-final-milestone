@@ -14,7 +14,7 @@
  *
  */
 
-package org.kuali.student.enrollment.main.service;
+package org.kuali.student.enrollment.uif.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;

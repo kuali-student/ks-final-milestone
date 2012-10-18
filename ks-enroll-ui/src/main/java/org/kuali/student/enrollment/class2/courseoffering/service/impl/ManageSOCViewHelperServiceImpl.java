@@ -35,7 +35,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstant
 import org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.main.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -268,7 +268,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      * @param socForm SOC form
      */
     public void lockSOC(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, "Set of Courses has been Locked");
+        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, "Set of Courses has been Locked");
     }
 
     /**
@@ -277,7 +277,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      * @param socForm SOC form
      */
     public void allowSOCFinalEdit(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, "Set of Courses has been opened for Final Edits.");
+        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, "Set of Courses has been opened for Final Edits.");
     }
 
     /**
@@ -292,17 +292,19 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         ContextInfo contextInfo = createContextInfo();
         CourseOfferingSetPublishingHelper mpeHelper = new CourseOfferingSetPublishingHelper();
+
         try {
             //  First state change the SOC to state "publishing"
             getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, contextInfo);
             //  Then kick off the runner.
             mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), contextInfo);
-            reload(socForm, contextInfo);
-            socForm.setSocPublishingStatus(getStateInfo((CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)).getName());
         } catch (Exception e) {
-            LOG.debug("Error publishing soc - " + e.getMessage());
+            LOG.debug("Error publishing SOC - " + e.getMessage());
             throw convertServiceExceptionsToUI(e);
         }
+
+        reload(socForm, contextInfo);
+        socForm.setSocPublishingStatus(getStateInfo((CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY)).getName());
     }
 
     /**
@@ -311,7 +313,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      * @param socForm SOC form
      */
     public void closeSOC(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(),CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY, "Set of Courses has been closed.");
+        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY, "Set of Courses has been closed.");
     }
 
     /**
@@ -352,7 +354,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
     protected String getSocSchedulingStatus(SocInfo info) {
 
         if(StringUtils.isNotBlank(info.getSchedulingStateKey())) {
-            return  getStateInfo(info.getSchedulingStateKey()).getName();
+            return getStateInfo(info.getSchedulingStateKey()).getName();
         }
 
         return ManageSocConstants.NOT_STARTED_STATUS_UI;

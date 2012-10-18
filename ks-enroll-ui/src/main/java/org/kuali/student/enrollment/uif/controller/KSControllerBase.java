@@ -14,7 +14,7 @@
  *
  */
 
-package org.kuali.student.enrollment.main.controller;
+package org.kuali.student.enrollment.uif.controller;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
