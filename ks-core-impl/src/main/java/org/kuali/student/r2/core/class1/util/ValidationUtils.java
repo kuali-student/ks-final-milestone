@@ -92,7 +92,7 @@ public class ValidationUtils {
                 typeService.getType(typeKey, contextInfo);
             }catch (DoesNotExistException ex){
                 ValidationResultInfo validationResult = new ValidationResultInfo();
-                validationResult.setError("Error trying to use Type that is not configured. [" +typeKey+ "] must be configured.");
+                validationResult.setError("Error trying to use Type that is not configured. Make sure the type exists in the database. [" +typeKey+ "] must be configured.");
                 validationResult.setElement(typeKey);
                 errors.add(validationResult);
             }
@@ -120,7 +120,7 @@ public class ValidationUtils {
             typeService.getType(typeKey, contextInfo);
         }catch (DoesNotExistException ex){
             ValidationResultInfo validationResult = new ValidationResultInfo();
-            validationResult.setError("Error trying to use Type that is not configured. [" +typeKey+ "] must be configured.");
+            validationResult.setError("Error trying to use Type that is not configured. Make sure the type exists in the database. [" +typeKey+ "] must be configured.");
             validationResult.setElement(typeKey);
             errors.add(validationResult);
         }
