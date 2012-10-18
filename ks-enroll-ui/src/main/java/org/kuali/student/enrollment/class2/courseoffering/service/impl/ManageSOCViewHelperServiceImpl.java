@@ -177,6 +177,9 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                         throw new RuntimeException(e);
                     }
                 }
+
+                ManageSOCStatusHistory history = new ManageSOCStatusHistory(stateName,info.getKey(),dateUI,date);
+                socForm.getStatusHistory().add(history);
             }
 
             if(socInfo.getPublishingStarted() != null) {
