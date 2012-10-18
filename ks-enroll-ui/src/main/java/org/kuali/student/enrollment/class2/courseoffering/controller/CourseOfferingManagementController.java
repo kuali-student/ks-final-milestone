@@ -220,6 +220,46 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
+    @RequestMapping(params = "methodToCall=filterAOsAndRGsPerFO")
+    public ModelAndView filterAOsAndRGsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        //First cleanup and reset AOCluster list
+        List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
+        theForm.setFilteredAOClusterWrapperList(filteredAOClusterWrapperList);
+
+        // Then update the select Format Offering Name in the form
+        String selectedFOId = theForm.getFormatOfferingIdForViewRG();
+        if (!selectedFOId.isEmpty()){
+            FormatOfferingInfo selectedFO = getCourseOfferingService().getFormatOffering(selectedFOId, ContextUtils.createDefaultContextInfo());
+            theForm.setFormatOfferingName(selectedFO.getName());
+        }
+
+        //get unassgined AOs (didn't belong to any cluster)
+        List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
+        for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
+            String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+        }
+        theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
+
+        //get clusters if any for the selected FO
+        List<ActivityOfferingClusterInfo> aoClusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(selectedFOId, ContextUtils.createDefaultContextInfo());
+        if (aoClusters == null || aoClusters.size()==0){
+            theForm.setHasAOCluster(false);
+        }
+        else {
+            theForm.setHasAOCluster(true);
+            List <ActivityOfferingClusterWrapper> aoClusterWrappers = _convertToAOClusterWrappers(aoClusters, theForm);
+            theForm.setFilteredAOClusterWrapperList(aoClusterWrappers);
+        }
+
+        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+    }
+
     @RequestMapping(params = "methodToCall=manageRegGroups")
     public ModelAndView manageRegGroups(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -496,28 +536,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
-    }
-
-    @RequestMapping(params = "methodToCall=filterAOsAndRGsPerFO")
-    public ModelAndView filterAOsAndRGsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        // first update AOs
-        List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
-        theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
-        if (!filteredAOs.isEmpty()) {
-            theForm.setFormatOfferingName(filteredAOs.get(0).getFormatOffering().getName());
-        }
-
-        // then update RGs
-        List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByFormatOffering(theForm.getFormatOfferingIdForViewRG(), ContextUtils.createDefaultContextInfo());
-        _getRGsForSelectedFO(rgInfos, filteredAOs);
-
-        if(rgInfos != null && rgInfos.size()>0) {
-            getViewHelperService(theForm).validateRegistrationGroupsForFormatOffering(rgInfos, theForm.getFormatOfferingIdForViewRG(), theForm);
-        }
-
-        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
-
     }
 
     @RequestMapping(params = "methodToCall=generateRegGroupsPerCluster")

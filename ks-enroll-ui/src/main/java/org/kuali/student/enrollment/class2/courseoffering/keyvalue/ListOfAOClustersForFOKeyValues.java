@@ -15,6 +15,7 @@
 
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -24,7 +25,10 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOff
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,7 @@ import java.util.List;
  *
  */
 public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase implements Serializable {
+    private transient CourseOfferingService courseOfferingService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -48,9 +53,8 @@ public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase imple
         String formatOfferingId = coForm.getFormatOfferingIdForViewRG();
 
         try {
-            ContextInfo contextInfo = helperService.getContextInfo();
-            CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
-            List<ActivityOfferingClusterInfo> clusterInfos = courseOfferingService.getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            List<ActivityOfferingClusterInfo> clusterInfos = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingId, contextInfo);
             for (ActivityOfferingClusterInfo clusterInfo : clusterInfos) {
                 keyValues.add(new ConcreteKeyValue(clusterInfo.getId(), clusterInfo.getPrivateName()));
             }
@@ -58,6 +62,13 @@ public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase imple
             throw new RuntimeException("Error getting clusters for format offering", e);
         }
         return keyValues;
+    }
+
+    protected CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, "CourseOfferingService"));
+        }
+        return courseOfferingService;
     }
 
 }
