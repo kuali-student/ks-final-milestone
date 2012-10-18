@@ -56,11 +56,6 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     private final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
 
-    private final static String SCHEDULE_IN_PROGRESS = "Scheduling in progress";
-    private final static String IN_PROGRESS = "  (in progress)";
-    private final static String PUBLISHING_IN_PROGRESS = "Publishing in progress";
-
-
     private transient AcademicCalendarService acalService;
     private transient CourseOfferingSetService courseOfferingSetService;
 
@@ -129,7 +124,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         socForm.setScheduleCompleteDate(formatScheduleDate(socInfo.getLastSchedulingRunCompleted()));
 
         if(StringUtils.equals(socForm.getSocSchedulingStatus(), ManageSocConstants.SOC_IN_PROGRESS_PUBLISHING_STATUS_UI)) {
-            socForm.setScheduleCompleteDate(SCHEDULE_IN_PROGRESS);
+            socForm.setScheduleCompleteDate(ManageSocConstants.DISPLAY_SCHEDULE_IN_PROGRESS);
         }
 
         socForm.setPublishInitiatedDate(formatScheduleDate(socInfo.getPublishingStarted()));
@@ -145,7 +140,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             if(socInfo.getPublishingStarted() != null)   {
                 startDate =  socInfo.getPublishingStarted();
             }
-            socForm.setScheduleDuration(getTimeDiffUI(curDate, socInfo.getLastSchedulingRunStarted(), true) + IN_PROGRESS);
+            socForm.setScheduleDuration(getTimeDiffUI(curDate, socInfo.getLastSchedulingRunStarted(), true) + ManageSocConstants.DISPLAY_IN_PROGRESS);
         }
 
         if (socInfo.getLastSchedulingRunCompleted() != null && socInfo.getLastSchedulingRunStarted() != null){
@@ -154,11 +149,11 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         if(socInfo.getPublishingStarted() != null) {
             Date curDate = new Date();
-            if (socInfo.getPublishingCompleted() != null && !StringUtils.equals(PUBLISHING_IN_PROGRESS, socForm.getPublishCompleteDate())) {
+            if (socInfo.getPublishingCompleted() != null && !StringUtils.equals(ManageSocConstants.DISPLAY_PUBLISHING_IN_PROGRESS, socForm.getPublishCompleteDate())) {
                 socForm.setPublishDuration(getTimeDiffUI(socInfo.getPublishingCompleted(), socInfo.getPublishingStarted(), true));
             } else {
-                socForm.setPublishDuration(getTimeDiffUI(curDate, socInfo.getPublishingStarted(), true)+ IN_PROGRESS);
-                socForm.setPublishCompleteDate(PUBLISHING_IN_PROGRESS);
+                socForm.setPublishDuration(getTimeDiffUI(curDate, socInfo.getPublishingStarted(), true)+ ManageSocConstants.DISPLAY_IN_PROGRESS);
+                socForm.setPublishCompleteDate(ManageSocConstants.DISPLAY_PUBLISHING_IN_PROGRESS);
             }
         }
     }

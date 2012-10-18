@@ -35,4 +35,12 @@ public class ManageSocConstants {
         public static final String FINAL_EDITS = "finalEditConfirmDialog";
         public static final String CLOSE_SET = "closeConfirmDialog";
     }
+
+    /**
+     * UI Display constants
+     */
+    public static final  String DISPLAY_SCHEDULE_IN_PROGRESS = "Scheduling in progress";
+    public static final  String DISPLAY_IN_PROGRESS = "  (in progress)";
+    public static final  String DISPLAY_PUBLISHING_IN_PROGRESS = "Publishing in progress";
+
 }
