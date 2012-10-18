@@ -33,19 +33,20 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.common.assembly.old.BaseAssembler;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.search.dto.SearchParamHelper;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
@@ -348,21 +349,21 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         return result;
     }
 
-    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException {
+    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         if(query == null) {
             return null;
         }
-        SearchRequest sr = new SearchRequest();
+        SearchRequestInfo sr = new SearchRequestInfo();
         sr.setSearchKey(query.getSearchTypeKey());
-        sr.setParams(SearchParamHelper.toSearchParams(query.getQueryParamValues()));
+        sr.setParams(query.getQueryParamValues());
 
-        SearchResult result = cluService.search(sr);
+        SearchResultInfo result = cluService.search(sr, ContextUtils.getContextInfo());
 
         List<String> cluIds = new ArrayList<String>();
-        List<SearchResultRow> rows = result.getRows();
-        for(SearchResultRow row : rows) {
-            List<SearchResultCell> cells = row.getCells();
-            for(SearchResultCell cell : cells) {
+        List<SearchResultRowInfo> rows = result.getRows();
+        for(SearchResultRowInfo row : rows) {
+            List<SearchResultCellInfo> cells = row.getCells();
+            for(SearchResultCellInfo cell : cells) {
                 if(cell.getKey().equals("lu.resultColumn.cluId")) {
                     cluIds.add(cell.getValue());
                 }

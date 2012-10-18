@@ -55,11 +55,8 @@ import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView.Picker;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.ModelDefinition;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
@@ -248,19 +245,19 @@ public class DependencyAnalysisView extends ViewComposite{
 		dependencyFilter.reset();
 		
 		//Setup and invoke the dependency analysis search and process the results
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setSearchKey("lu.search.dependencyAnalysis");
 		
-		SearchParam searchParam = new SearchParam();
+		SearchParamInfo searchParam = new SearchParamInfo();
 		searchParam.setKey("lu.queryParam.luOptionalCluId");
-		searchParam.setValue(selectedCourseId);				
+		searchParam.getValues().add(selectedCourseId);
 		searchRequest.getParams().add(searchParam);
 				
-		searchServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+		searchServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResultInfo>(){
 
 			@Override
-			public void onSuccess(SearchResult searchResults) {				
-				for (SearchResultRow searchResultRow : searchResults.getRows ()) {
+			public void onSuccess(SearchResultInfo searchResults) {
+				for (SearchResultRowInfo searchResultRow : searchResults.getRows ()) {
 					
 					//TODO: This should not use hard-coded result columns 
 					String cluCode = "";
@@ -276,7 +273,7 @@ public class DependencyAnalysisView extends ViewComposite{
 					Boolean diffAdminOrg = false;
 					String parentCluId = "";
 					
-					for (SearchResultCell searchResultCell : searchResultRow.getCells ()){
+					for (SearchResultCellInfo searchResultCell : searchResultRow.getCells ()){
 						if (searchResultCell.getKey().equals ("lu.resultColumn.luOptionalCode")) {
 							cluCode = searchResultCell.getValue();	
 						} if (searchResultCell.getKey().equals ("lu.resultColumn.cluId")) {

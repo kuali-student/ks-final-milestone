@@ -5,11 +5,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
@@ -137,50 +135,39 @@ public class StatementDataService implements StatementRpcService{
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypes() {
+	public List<TypeInfo> getSearchTypes() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey) {
+	public TypeInfo getSearchType(String searchTypeKey) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypesByResult(
+	public List<TypeInfo> getSearchTypesByResult(
 			String searchResultTypeKey) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypesByCriteria(
+	public List<TypeInfo> getSearchTypesByCriteria(
 			String searchCriteriaTypeKey) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes() {
+	public List<TypeInfo> getSearchResultTypes() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) {
+	public List<TypeInfo> getSearchCriteriaTypes() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest) {
+	public SearchResultInfo search(SearchRequestInfo searchRequest) {
 		throw new UnsupportedOperationException();
 	}
 }

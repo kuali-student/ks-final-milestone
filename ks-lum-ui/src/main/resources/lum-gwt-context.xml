@@ -864,9 +864,8 @@
         <property name="idTranslatorFilter" ref="idTranslatorFilter"/>
         <property name="cachingEnabled" value="true"/>
     </bean>
-    <bean id="searchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl"
-          init-method="init">
-        <property name="services">
+    <bean id="searchDispatcher" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
             <list>
                 <ref bean="cluClient"/>
                 <ref bean="loClient"/>
@@ -926,7 +925,7 @@
     </bean>
 
     <bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.search.service.SearchService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.search.service.SearchService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}PersonSearchService"/>
     </bean>
 
@@ -973,7 +972,7 @@
     </bean>
 
     <bean id="searchService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.search.service.SearchService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.search.service.SearchService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/search}SearchService"/>
     </bean>
 

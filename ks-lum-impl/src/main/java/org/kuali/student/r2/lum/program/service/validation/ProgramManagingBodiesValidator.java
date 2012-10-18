@@ -9,11 +9,14 @@ import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
 //import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 
@@ -54,22 +57,27 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
     public List<ValidationResultInfo> validateObject(String element, List<String> departmentIds, List<String> collegeIds, ContextInfo contextInfo) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
-        List<String> departmentRelatedCollegeIds = getDepartmentRelatedColleges(departmentIds);
+        try {
+            List<String> departmentRelatedCollegeIds = getDepartmentRelatedColleges(departmentIds, contextInfo);
 
-        if (null != collegeIds) {
-            for (String collegeId : collegeIds) {
-                if (!departmentRelatedCollegeIds.contains(collegeId)) {
-                    validationResults.addAll(getValidationResultInfo(element, collegeId, departmentIds, contextInfo));
+            if (null != collegeIds) {
+                for (String collegeId : collegeIds) {
+                    if (!departmentRelatedCollegeIds.contains(collegeId)) {
+                        validationResults.addAll(getValidationResultInfo(element, collegeId, departmentIds, contextInfo));
+                    }
                 }
             }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve department related colleges", e);
         }
 
         return validationResults;
     }
 
-    private List<String> getDepartmentRelatedColleges(List<String> departmentIds) {
+    private List<String> getDepartmentRelatedColleges(List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<String> departmentRelatedCollegeIds = new ArrayList<String>();
-        SearchRequest searchRequest = new SearchRequest("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds");
+        SearchRequestInfo searchRequest = new SearchRequestInfo("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds");
 
         List<String> orgTypes = new ArrayList<String>();
         orgTypes.add("kuali.org.College");
@@ -78,11 +86,11 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         searchRequest.addParam("org.queryParam.optionalRelationType", "kuali.org.Contain");
         searchRequest.addParam("org.queryParam.relatedOrgIds", departmentIds);
 
-        SearchResult searchResult = getSearchDispatcher().dispatchSearch(searchRequest);
+        SearchResultInfo searchResult = getSearchDispatcher().search(searchRequest, contextInfo);
 
         if (null != searchResult) {
-            for (SearchResultRow row : searchResult.getRows()) {
-                for (SearchResultCell cell : row.getCells()) {
+            for (SearchResultRowInfo row : searchResult.getRows()) {
+                for (SearchResultCellInfo cell : row.getCells()) {
                     if ("org.resultColumn.orgId".equals(cell.getKey())) {
                         departmentRelatedCollegeIds.add(cell.getValue());
                     }
@@ -93,12 +101,12 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         return departmentRelatedCollegeIds;
     }
 
-    private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds, ContextInfo contextInfo) {
+    private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
         String message = getMessage("validation.programManagingBodiesMatch", contextInfo );
-        String collegeName = getCollegeName(collegeId);
-        List<String> departments = getDepartments(departmentIds);
+        String collegeName = getCollegeName(collegeId, contextInfo);
+        List<String> departments = getDepartments(departmentIds, contextInfo);
 
         for (String departmentName : departments) {
             ValidationResultInfo validationResultInfo = new ValidationResultInfo(element);
@@ -109,9 +117,9 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         return validationResults;
     }
 
-    private String getCollegeName(String collegeId) {
+    private String getCollegeName(String collegeId, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         String collegeName = "";
-        SearchRequest searchRequest = new SearchRequest("org.search.generic");
+        SearchRequestInfo searchRequest = new SearchRequestInfo("org.search.generic");
 
         List<String> orgTypes = new ArrayList<String>();
         orgTypes.add("kuali.org.College");
@@ -119,10 +127,10 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         searchRequest.addParam("org.queryParam.orgOptionalType", orgTypes);
         searchRequest.addParam("org.queryParam.orgOptionalId", collegeId);
 
-        SearchResult searchResult = getSearchDispatcher().dispatchSearch(searchRequest);
+        SearchResultInfo searchResult = getSearchDispatcher().search(searchRequest, contextInfo);
         if (null != searchResult) {
-            for (SearchResultRow result : searchResult.getRows()) {
-                for (SearchResultCell resultCell : result.getCells()) {
+            for (SearchResultRowInfo result : searchResult.getRows()) {
+                for (SearchResultCellInfo resultCell : result.getCells()) {
                     if ("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())) {
                         collegeName = resultCell.getValue();
                     }
@@ -133,9 +141,9 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         return collegeName;
     }
 
-    private List<String> getDepartments(List<String> departmentIds) {
+    private List<String> getDepartments(List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<String> departments = new ArrayList<String>();
-        SearchRequest searchRequest = new SearchRequest("org.search.generic");
+        SearchRequestInfo searchRequest = new SearchRequestInfo("org.search.generic");
 
         List<String> orgTypes = new ArrayList<String>();
         orgTypes.add("kuali.org.Department");
@@ -143,11 +151,11 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         searchRequest.addParam("org.queryParam.orgOptionalType", orgTypes);
         searchRequest.addParam("org.queryParam.orgOptionalIds", departmentIds);
 
-        SearchResult searchResult = getSearchDispatcher().dispatchSearch(searchRequest);
+        SearchResultInfo searchResult = getSearchDispatcher().search(searchRequest, contextInfo);
 
         if (null != searchResult) {
-            for (SearchResultRow result : searchResult.getRows()) {
-                for (SearchResultCell resultCell : result.getCells()) {
+            for (SearchResultRowInfo result : searchResult.getRows()) {
+                for (SearchResultCellInfo resultCell : result.getCells()) {
                     if ("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())) {
                         departments.add(resultCell.getValue());
                     }

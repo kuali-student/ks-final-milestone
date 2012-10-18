@@ -18,8 +18,6 @@ import java.util.List;
 
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
@@ -37,6 +35,8 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.AccessWidgetValu
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 public class GradeWidget extends Composite implements AccessWidgetValue, HasDataValue {
 
@@ -124,13 +124,13 @@ public class GradeWidget extends Composite implements AccessWidgetValue, HasData
                 @Override
                 public void exec(Widget widget) {
     
-                    List<SearchResultRow> gradeItems = ((SearchResultListItems) ((KSSelectItemWidgetAbstract)gradeWidget.getInputWidget()).getListItems()).getReadOnlyResults();
+                    List<SearchResultRowInfo> gradeItems = ((SearchResultListItems) ((KSSelectItemWidgetAbstract)gradeWidget.getInputWidget()).getListItems()).getReadOnlyResults();
                     
                     // find the selected row for the grade
-                    SearchResultRow selectedGradeRow = null;
+                    SearchResultRowInfo selectedGradeRow = null;
                     String selectedGradeTypeId = null;
-                    for(SearchResultRow row : gradeItems) {
-                        for(SearchResultCell cell : row.getCells()) {
+                    for(SearchResultRowInfo row : gradeItems) {
+                        for(SearchResultCellInfo cell : row.getCells()) {
                             if(cell.getValue().equals(selectedGradeValue)) {
                                 selectedGradeRow = row;
                             }

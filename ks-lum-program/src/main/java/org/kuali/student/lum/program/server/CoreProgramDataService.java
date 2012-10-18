@@ -6,12 +6,6 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
-import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -19,6 +13,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.search.dto.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
@@ -83,7 +78,7 @@ public class CoreProgramDataService extends AbstractDataService {
     }
 
     private CoreProgramInfo findCurrentCoreProgram() throws MissingParameterException, InvalidParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        	    SearchRequest request = new SearchRequest();
+        	    SearchRequestInfo request = new SearchRequestInfo();
 
         //TODO find a better way to get this search, param and resultcolumn names
         
@@ -91,21 +86,21 @@ public class CoreProgramDataService extends AbstractDataService {
         String coreProgramId = null;
 	    request.setSearchKey("lu.search.mostCurrent.union");
 
-        List<SearchParam> searchParams = new ArrayList<SearchParam>();
-        SearchParam qpv1 = new SearchParam();
+        List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+        SearchParamInfo qpv1 = new SearchParamInfo();
         qpv1.setKey("lu.queryParam.luOptionalType");
-        qpv1.setValue(ProgramClientConstants.CORE_PROGRAM);
+        qpv1.getValues().add(ProgramClientConstants.CORE_PROGRAM);
         searchParams.add(qpv1);
 
         request.setParams(searchParams);
 
-        SearchResult searchResult = null;
-        searchResult = cluService.search(request);
+        SearchResultInfo searchResult = null;
+        searchResult = cluService.search(request, ContextUtils.getContextInfo());
         if (searchResult.getRows().size() > 0) {
-            for(SearchResultRow srrow : searchResult.getRows()){
-                List<SearchResultCell> srCells = srrow.getCells();
+            for(SearchResultRowInfo srrow : searchResult.getRows()){
+                List<SearchResultCellInfo> srCells = srrow.getCells();
                 if(srCells != null && srCells.size() > 0){
-                    for(SearchResultCell srcell : srCells){
+                    for(SearchResultCellInfo srcell : srCells){
                         if (srcell.getKey().equals("lu.resultColumn.cluId")) {
                             coreProgramId = srcell.getValue();
                             break;

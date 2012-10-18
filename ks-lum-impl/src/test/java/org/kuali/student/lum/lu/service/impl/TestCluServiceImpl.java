@@ -21,11 +21,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.*;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -35,7 +32,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -47,12 +43,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
-@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql" /*
-																										 * ,
-																										 * testDataFile
-																										 * =
-																										 * "classpath:test-beans.xml"
-																										 */) })
+@Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql" ) })
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 public class TestCluServiceImpl extends AbstractServiceTest {
 	@Client(value = "org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl", additionalContextFile = "classpath:clu-additional-context.xml")
@@ -1678,29 +1669,29 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ParseException, VersionMismatchException {
-		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>(
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>(
 				0);
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setSearchKey("lu.search.clus");
 		searchRequest.setParams(queryParamValueList);
-		SearchResult clus = client.search(searchRequest);
-		Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
+		SearchResultInfo clus = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
+		Collections.sort(clus.getRows(), new Comparator<SearchResultRowInfo>() {
 			@Override
-            public int compare(SearchResultRow o1, SearchResultRow o2) {
+            public int compare(SearchResultRowInfo o1, SearchResultRowInfo o2) {
 				return o1.getCells().get(0).getValue().compareTo(
 						o2.getCells().get(0).getValue());
 			}
 		});
 		assertNotNull(clus);
 		assertEquals(111, clus.getRows().size());
-		SearchResultRow result = clus.getRows().get(0);
+		SearchResultRowInfo result = clus.getRows().get(0);
 		assertNotNull(result);
 
-		List<SearchResultCell> resultCells = result.getCells();
+		List<SearchResultCellInfo> resultCells = result.getCells();
 		assertNotNull(resultCells);
 		assertEquals(3, resultCells.size());
 
-		SearchResultCell resultCell = resultCells.get(0);
+		SearchResultCellInfo resultCell = resultCells.get(0);
 		assertEquals("lu.resultColumn.cluId", resultCell.getKey());
 		assertEquals("00000000-a389-4fd0-b349-1e649c20fd08", resultCell
 				.getValue());
@@ -1710,20 +1701,46 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals("Advanced Applied Linear Algebra", resultCell.getValue());
 	}
 
+    @Test
+    public void testSearchForClus() throws AlreadyExistsException,
+            DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            ParseException, VersionMismatchException {
+
+        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo typeParm = new SearchParamInfo();
+        typeParm.setKey("lu.queryParam.luOptionalType");
+        typeParm.getValues().add("kuali.lu.type.CreditCourse");
+        queryParamValueList.add(typeParm);
+        SearchParamInfo stateParm = new SearchParamInfo();
+        stateParm.setKey("lu.queryParam.luOptionalState");
+        stateParm.getValues().add("Approved");
+        stateParm.getValues().add("Active");
+        stateParm.getValues().add("Retired");
+        queryParamValueList.add(stateParm);
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("lu.search.current");
+        searchRequest.setParams(queryParamValueList);
+        SearchResultInfo clus = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
+        assertEquals(98, clus.getRows().size());
+    }
+
 	@Test
-	public void testSearchCourseLevelRanges() throws MissingParameterException {
-        List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
-        SearchParam courseLevelsParam = new SearchParam();
+	public void testSearchCourseLevelRanges() throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo courseLevelsParam = new SearchParamInfo();
         courseLevelsParam.setKey("lu.queryParam.luOptionalCrsNoRange");
-        courseLevelsParam.setValue("100 -200");
+        courseLevelsParam.getValues().add("100 -200");
         queryParamValueList.add(courseLevelsParam);
-        SearchRequest searchRequest = new SearchRequest();
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("lu.search.generic");
         searchRequest.setParams(queryParamValueList);
-        SearchResult clus = client.search(searchRequest);
-        Collections.sort(clus.getRows(), new Comparator<SearchResultRow>() {
+        SearchResultInfo clus = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
+        Collections.sort(clus.getRows(), new Comparator<SearchResultRowInfo>() {
             @Override
-            public int compare(SearchResultRow o1, SearchResultRow o2) {
+            public int compare(SearchResultRowInfo o1, SearchResultRowInfo o2) {
                 return o1.getCells().get(0).getValue().compareTo(
                         o2.getCells().get(0).getValue());
             }
@@ -2253,12 +2270,12 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
-		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        SearchParamInfo sp1 = new SearchParamInfo();
+		List<org.kuali.student.r2.common.search.dto.SearchParamInfo> queryParamValueList = new ArrayList<org.kuali.student.r2.common.search.dto.SearchParamInfo>();
+        org.kuali.student.r2.common.search.dto.SearchParamInfo sp1 = new org.kuali.student.r2.common.search.dto.SearchParamInfo();
 		sp1.setKey("lu.queryParam.startsWith.cluCode");
 		sp1.setValues(Arrays.asList("AAST"));
         queryParamValueList.add(sp1);
-        SearchParamInfo sp2 = new SearchParamInfo();
+        org.kuali.student.r2.common.search.dto.SearchParamInfo sp2 = new org.kuali.student.r2.common.search.dto.SearchParamInfo();
 		sp2.setKey("lu.queryParam.cluState");
 		sp2.setValues(Arrays.asList("Active"));
         queryParamValueList.add(sp2);
@@ -2270,7 +2287,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		return query;
 	}
 
-	// KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
+	// KSCM-626 TODO SearchParamInfo mismatch between MembershipInfoQuery and SearchRequestInfo
 	@Test
 	public void testCreateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -2364,7 +2381,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	}
 
-    // KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
+    // KSCM-626 TODO SearchParamInfo mismatch between MembershipInfoQuery and SearchRequestInfo
 	@Test
 	public void testGetDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, UnsupportedActionException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -2474,7 +2491,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		}
 	}
 
-    // KSCM-626 TODO SearchParam mismatch between MembershipInfoQuery and SearchRequest
+    // KSCM-626 TODO SearchParamInfo mismatch between MembershipInfoQuery and SearchRequestInfo
 	@Test
 	public void testUpdateDynamicCluSet() throws ParseException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, UnsupportedActionException, CircularRelationshipException, ReadOnlyException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
@@ -2482,7 +2499,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	    CluSetInfo cluSet1 = createCluSetInfo();
 
 		//Create clu set
-		ArrayList<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+		ArrayList<org.kuali.student.r2.common.search.dto.SearchParamInfo> queryParamValueList = new ArrayList<org.kuali.student.r2.common.search.dto.SearchParamInfo>();
 		MembershipQueryInfo query1 = new MembershipQueryInfo();
 		query1.setSearchTypeKey("lu.search.clus");
 		query1.setQueryParamValues(queryParamValueList);
@@ -2863,13 +2880,13 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		assertEquals(versionDisplayInfo.getId(),cluV3.getId());
 		
 		
-		SearchRequest searchRequest = new SearchRequest();
-		SearchParam param = new SearchParam();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
+		SearchParamInfo param = new SearchParamInfo();
 		param.setKey("lu.queryParam.cluVersionIndId");
-		param.setValue(versionDisplayInfo.getVersionIndId());
+		param.getValues().add(versionDisplayInfo.getVersionIndId());
 		searchRequest.getParams().add(param);
 		searchRequest.setSearchKey("lu.search.clu.versions");
-		SearchResult searchResult = client.search(searchRequest);
+		SearchResultInfo searchResult = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(3,searchResult.getRows().size());
 		
 	}
@@ -3368,68 +3385,68 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 
 	@Test
 	public void testSearchForCluInCluSets() throws Exception {
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setSearchKey("cluset.search.generic");
 
-		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
-        SearchParam searchParam = new SearchParam();
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo searchParam = new SearchParamInfo();
         searchParam.setKey("cluset.queryParam.luOptionalId");
-        searchParam.setValue("CLU-5");
+        searchParam.getValues().add("CLU-5");
         queryParamValueList.add(searchParam);
 
 		searchRequest.setParams(queryParamValueList);
-		SearchResult cluSets = client.search(searchRequest);
+		SearchResultInfo cluSets = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
 
 		Assert.assertEquals(2, cluSets.getRows().size());
 	}
 
 	@Test
 	public void testSearchForCluInCluSets_EmptyResult() throws Exception {
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setSearchKey("cluset.search.generic");
 
-		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
-        SearchParam searchParam = new SearchParam();
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo searchParam = new SearchParamInfo();
         searchParam.setKey("lu.queryParam.luOptionalId");
-        searchParam.setValue("XXX");
+        searchParam.getValues().add("XXX");
         queryParamValueList.add(searchParam);
 
 		searchRequest.setParams(queryParamValueList);
-		SearchResult cluSets = client.search(searchRequest);
+		SearchResultInfo cluSets = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
 
 		Assert.assertEquals(0, cluSets.getRows().size());
 	}
 
 	@Test
 	public void testSearchForCluInCluRelations() throws Exception {
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setSearchKey("lu.search.cluCluRelation");
 
-		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
-        SearchParam searchParam = new SearchParam();
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo searchParam = new SearchParamInfo();
         searchParam.setKey("lu.queryParam.luOptionalId");
-        searchParam.setValue("CLU-1");
+        searchParam.getValues().add("CLU-1");
         queryParamValueList.add(searchParam);
 
 		searchRequest.setParams(queryParamValueList);
-		SearchResult clus = client.search(searchRequest);
+		SearchResultInfo clus = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
 
 		Assert.assertEquals(2, clus.getRows().size());
 	}
 
 	@Test
 	public void testSearchForCluInCluRelations_EmptyResult() throws Exception {
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setSearchKey("lu.search.cluCluRelation");
 
-		List<SearchParam> queryParamValueList = new ArrayList<SearchParam>();
-        SearchParam searchParam = new SearchParam();
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo searchParam = new SearchParamInfo();
         searchParam.setKey("lu.queryParam.luOptionalId");
-        searchParam.setValue("XXX");
+        searchParam.getValues().add("XXX");
         queryParamValueList.add(searchParam);
 
 		searchRequest.setParams(queryParamValueList);
-		SearchResult clus = client.search(searchRequest);
+		SearchResultInfo clus = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
 
 		Assert.assertEquals(0, clus.getRows().size());
 	}

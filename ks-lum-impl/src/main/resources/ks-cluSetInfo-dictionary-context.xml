@@ -127,9 +127,9 @@
  </bean>
  <bean id="membershipQueryInfo.searchTypeKey" parent="membershipQueryInfo.searchTypeKey-parent"/>
 
- <!-- SearchParam-->
+ <!-- SearchParamInfo-->
  <bean id="org.kuali.student.r1.common.search.dto.SearchParam-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.r1.common.search.dto.SearchParam"/>
+  <property name="name" value="org.kuali.student.r1.common.search.dto.SearchParamInfo"/>
   <property name="attributes">
    <list>
     <ref bean="searchParam.key"/>

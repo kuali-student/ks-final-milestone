@@ -1,8 +1,12 @@
 package org.kuali.student.r2.lum.service.search;
 
 import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
@@ -15,7 +19,7 @@ import java.util.List;
  * Time: 11:22 AM
  * To change this template use File | Settings | File Templates.
  */
-public class TypeSearchServiceImpl implements SearchService{
+public class TypeSearchServiceImpl implements SearchService {
 
     private List<TypeSearch> typeSearches;
 
@@ -28,65 +32,56 @@ public class TypeSearchServiceImpl implements SearchService{
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        List<SearchTypeInfo> typeInfos = new ArrayList<SearchTypeInfo>();
+    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
         for(TypeSearch typeSearch : typeSearches){
-            SearchTypeInfo searchTypeInfo = new SearchTypeInfo();
-            searchTypeInfo.setKey(typeSearch.getSearchTypeKey());
-            typeInfos.add(searchTypeInfo);
+            TypeInfo typeInfo = new TypeInfo();
+            typeInfo.setKey(typeSearch.getSearchTypeKey());
+            typeInfos.add(typeInfo);
         }
         return typeInfos;
     }
 
     @Override
-    public SearchTypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        for(TypeSearch typeSearch : typeSearches){
+            if(typeSearch.getSearchTypeKey().equals(searchTypeKey)){
+                TypeInfo typeInfo = new TypeInfo();
+                typeInfo.setKey(typeSearch.getSearchTypeKey());
+                return typeInfo;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         for (TypeSearch typeSearch : typeSearches){
-            if (searchRequest.getSearchKey().equals(typeSearch.getSearchTypeKey())){
+            if (searchRequestInfo.getSearchKey().equals(typeSearch.getSearchTypeKey())){
                 try {
-                    return typeSearch.search(searchRequest);
-                } catch (InvalidParameterException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (DoesNotExistException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (OperationFailedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                } catch (PermissionDeniedException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                    return typeSearch.search(searchRequestInfo, contextInfo);
+                } catch (Exception e) {
+                    throw new OperationFailedException("Search failed for " + typeSearch.getSearchTypeKey(), e);
                 }
             }
         }

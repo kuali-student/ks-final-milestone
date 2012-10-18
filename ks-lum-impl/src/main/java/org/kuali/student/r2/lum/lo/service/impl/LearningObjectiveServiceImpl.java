@@ -25,7 +25,11 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.lum.lo.dao.LoDao;
 import org.kuali.student.r2.lum.lo.entity.Lo;
 import org.kuali.student.r2.lum.lo.entity.LoCategory;
@@ -36,15 +40,6 @@ import org.kuali.student.r2.lum.lo.entity.LoRepository;
 import org.kuali.student.r2.lum.lo.entity.LoType;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -723,43 +718,43 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
      * @throws MissingParameterException,OperationFailedException
      */
     private boolean doesLoCategoryExist(String loRepositoryKey, LoCategoryInfo loCategoryInfo, String loCategoryId,ContextInfo contextInfo)
-            throws MissingParameterException, DataValidationErrorException {
+            throws MissingParameterException, DataValidationErrorException, PermissionDeniedException, OperationFailedException {
     if (loCategoryInfo.getName() == null)
     {
      return false;
     }
         boolean exists = false;
-	    SearchRequest request = new SearchRequest();
+	    SearchRequestInfo request = new SearchRequestInfo();
 	    request.setSearchKey("lo.search.loCategoriesByNameRepoTypeState");
 	    
- 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam qpv1 = new SearchParam();
+ 		List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+		SearchParamInfo qpv1 = new SearchParamInfo();
 		qpv1.setKey("lo.queryParam.loCategoryName");
-		qpv1.setValue(loCategoryInfo.getName().toLowerCase());
+		qpv1.getValues().add(loCategoryInfo.getName().toLowerCase());
 		searchParams.add(qpv1);
-		SearchParam qpv2 = new SearchParam();
+		SearchParamInfo qpv2 = new SearchParamInfo();
 		qpv2.setKey("lo.queryParam.loCategoryRepo");
-		qpv2.setValue(loRepositoryKey);
+		qpv2.getValues().add(loRepositoryKey);
 		searchParams.add(qpv2);
-		SearchParam qpv3 = new SearchParam();
+		SearchParamInfo qpv3 = new SearchParamInfo();
 		qpv3.setKey("lo.queryParam.loCategoryType");
-		qpv3.setValue(loCategoryInfo.getTypeKey());
+		qpv3.getValues().add(loCategoryInfo.getTypeKey());
 		searchParams.add(qpv3);
-		SearchParam qpv4 = new SearchParam();
+		SearchParamInfo qpv4 = new SearchParamInfo();
 		qpv4.setKey("lo.queryParam.loCategoryState");
-		qpv4.setValue(loCategoryInfo.getStateKey());
+		qpv4.getValues().add(loCategoryInfo.getStateKey());
 		searchParams.add(qpv4);
 		
 		request.setParams(searchParams);
 			
-		SearchResult result = search(request );
+		SearchResultInfo result = search(request, contextInfo);
 		
 		if(loCategoryId != null && !loCategoryId.trim().equals("")){
 			if (result.getRows().size() > 0) {
-				for(SearchResultRow srrow : result.getRows()){
-					List<SearchResultCell> srCells = srrow.getCells();
+				for(SearchResultRowInfo srrow : result.getRows()){
+					List<SearchResultCellInfo> srCells = srrow.getCells();
 					if(srCells != null && srCells.size() > 0){
-						for(SearchResultCell srcell : srCells){
+						for(SearchResultCellInfo srcell : srCells){
 							if(!srcell.getValue().equals(loCategoryId)) {
                                 exists = true;
                             }
@@ -787,88 +782,61 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 //    }
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
-	 */
-    @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
-    }
-
-	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
 	 */
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-    throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
-	 */
-    @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
-    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
-	 */
+
+    /* (non-Javadoc)
+      * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
+      */
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes()
-    throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchResultTypes(contextInfo);
     }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
 	 */
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey)
+    public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
-	 */
     @Override
-    public List<SearchTypeInfo> getSearchTypes()
-    throws OperationFailedException {
-        return searchManager.getSearchTypes();
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
+    }
+
+    /* (non-Javadoc)
+      * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
+      */
+    @Override
+    public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchTypes(contextInfo);
     }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
 	 */
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
+    public List<TypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
-    }
-
-	/* (non-Javadoc)
-	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
-	 */
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
 	@Override
@@ -1042,13 +1010,13 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
-	@Override
-	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        checkForMissingParameter(searchRequest, "searchRequest");
-        SearchResult result =  searchManager.search(searchRequest, loDao);
-        if("lo.search.loByCategory".equals(searchRequest.getSearchKey())){
-        	for(SearchParam param:searchRequest.getParams()){
-        		if("lo.queryParam.groupCategories".equals(param.getKey())&&"true".equals(param.getValue())){
+    @Override
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkForMissingParameter(searchRequestInfo, "searchRequest");
+        SearchResultInfo result =  searchManager.search(searchRequestInfo, contextInfo);
+        if("lo.search.loByCategory".equals(searchRequestInfo.getSearchKey())){
+        	for(SearchParamInfo param:searchRequestInfo.getParams()){
+        		if("lo.queryParam.groupCategories".equals(param.getKey())&&"true".equals(param.getValues().get(0))){
         	groupCategories(result);
         		}
         	}
@@ -1058,14 +1026,14 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	//Updates search results grouping category names as a comma delimited list
-	private void groupCategories(SearchResult result) {
-		Map<String,SearchResultCell> idToCellMap = new HashMap<String,SearchResultCell>();
-		for(Iterator<SearchResultRow> iter = result.getRows().iterator();iter.hasNext();){
-			SearchResultRow row = iter.next();
-			SearchResultCell categoryCell = null;
+	private void groupCategories(SearchResultInfo result) {
+		Map<String,SearchResultCellInfo> idToCellMap = new HashMap<String,SearchResultCellInfo>();
+		for(Iterator<SearchResultRowInfo> iter = result.getRows().iterator();iter.hasNext();){
+			SearchResultRowInfo row = iter.next();
+			SearchResultCellInfo categoryCell = null;
 			String loId = null;
 			//Get search result cell values
-			for(SearchResultCell cell:row.getCells()){
+			for(SearchResultCellInfo cell:row.getCells()){
 				if("lo.resultColumn.categoryName".equals(cell.getKey())){
 					categoryCell = cell;
 					break;
@@ -1076,9 +1044,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			//If a row exists with the same loId, append the category to the existing row and remove the current row.
 			if(loId!=null){
 				if(idToCellMap.containsKey(loId)){
-					SearchResultCell cell = idToCellMap.get(loId);
+					SearchResultCellInfo cell = idToCellMap.get(loId);
 					if(cell == null){
-						cell = new SearchResultCell("lo.resultColumn.categoryName","");
+						cell = new SearchResultCellInfo("lo.resultColumn.categoryName","");
 						idToCellMap.put(loId, cell);
 					}
 					if(categoryCell!=null){

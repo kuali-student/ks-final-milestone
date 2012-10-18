@@ -24,11 +24,13 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Test;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -47,10 +49,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
@@ -58,13 +56,9 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
-import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
-import org.kuali.student.r2.lum.clu.dto.FieldInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
 @Daos({@Dao(value = "org.kuali.student.r2.lum.lo.dao.impl.LoDaoImpl", testSqlFile = "classpath:ks-lo.sql")})
@@ -730,20 +724,20 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	@Test
 	public void testSearchForResults() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		String testLoName = "Navigate Wiki";
-		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
-		SearchParam qpv1 = new SearchParam();
+		List<SearchParamInfo> queryParamValues = new ArrayList<SearchParamInfo>();
+		SearchParamInfo qpv1 = new SearchParamInfo();
 		qpv1.setKey("lo.queryParam.loName");
-		qpv1.setValue(testLoName);
+		qpv1.getValues().add(testLoName);
 		queryParamValues.add(qpv1);
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setParams(queryParamValues);
 		searchRequest.setSearchKey("lo.search.loByName");
-		SearchResult result = client.search(searchRequest);
+		SearchResultInfo result = client.search(searchRequest, ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(1,result.getRows().size());
 		
-        List<SearchResultCell> resultCells = result.getRows().get(0).getCells();
+        List<SearchResultCellInfo> resultCells = result.getRows().get(0).getCells();
         assertEquals(2, resultCells.size());
-        SearchResultCell cell = resultCells.get(0);
+        SearchResultCellInfo cell = resultCells.get(0);
         assertEquals("lo.resultColumn.loId", cell.getKey());
         assertEquals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf", cell.getValue());
         cell = resultCells.get(1);

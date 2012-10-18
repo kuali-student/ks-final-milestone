@@ -15,7 +15,7 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.w3c.dom.Document;
@@ -180,7 +180,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
             if (orgsForRouting != null) {
                 for (OrgInfo orgForRouting : orgsForRouting) {
                     if (orgType != null && orgType.equals(orgForRouting.getTypeKey())) {
-                        List<SearchResultRow> results = relatedOrgsFromOrgId(orgForRouting.getId(), getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
+                        List<SearchResultRowInfo> results = relatedOrgsFromOrgId(orgForRouting.getId(), getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
                         returnAttributeSets.addAll(attributeSetFromSearchResult(results, orgIdKey));
                     }
                 }

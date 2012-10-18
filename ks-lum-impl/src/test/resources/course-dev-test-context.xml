@@ -108,8 +108,8 @@
 	
 
 	
-	<bean id="searchDispatcher" class="org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl">
-		<property name="services">
+	<bean id="searchDispatcher" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+		<property name="searchServices">
 			<list>
 				<ref bean="loClient"/>
 				<ref bean="cluClient"/>

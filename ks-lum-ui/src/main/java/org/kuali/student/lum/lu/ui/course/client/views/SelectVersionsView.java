@@ -6,9 +6,9 @@ import java.util.List;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SortDirection;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SortDirection;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -112,12 +112,12 @@ public class SelectVersionsView extends ViewComposite{
 
 	}
 	
-	private SearchRequest generateRequest(LookupMetadata versionSearch){
-    	SearchRequest sr = new SearchRequest();
-        List<SearchParam> params = new ArrayList<SearchParam>();
-        SearchParam param = new SearchParam();
+	private SearchRequestInfo generateRequest(LookupMetadata versionSearch){
+    	SearchRequestInfo sr = new SearchRequestInfo();
+        List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
+        SearchParamInfo param = new SearchParamInfo();
         param.setKey("lu.queryParam.cluVersionIndId");
-        param.setValue(parent.getVersionIndId());
+        param.getValues().add(parent.getVersionIndId());
         params.add(param);
         sr.setSortDirection(SortDirection.DESC);
         sr.setParams(params);

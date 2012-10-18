@@ -833,15 +833,15 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
             /*
                 SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
-                SearchRequest searchRequest = new SearchRequest();
+                SearchRequestInfo searchRequest = new SearchRequestInfo();
                 searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
                 searchRequest.setSortColumn("person.resultColumn.GivenName");
                 searchRequest.setSortDirection(SortDirection.ASC);
-                searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>() {
+                searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResultInfo>() {
 
                     @Override
-                    public void onSuccess(SearchResult result) {
-                        for (SearchResultRow r : result.getRows()) {
+                    public void onSuccess(SearchResultInfo result) {
+                        for (SearchResultRowInfo r : result.getRows()) {
                             people.addItem(r.getCells().get(0).getValue(), r.getCells().get(1).getValue());
                         }
                         us.setListItems(people);

@@ -24,10 +24,20 @@
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	http://www.springframework.org/schema/aop
 	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="entityManager"
+          class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean id="searchableCrudDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="entityManager"/>
+    </bean>
 	
 	<bean id="searchManager"
-		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl"
+		class="org.kuali.student.r2.common.class1.search.SearchManagerImpl"
 		autowire="byType">
+        <property name="dao" ref="searchableCrudDao"/>
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
 
@@ -42,14 +52,14 @@
     </bean>
 
 	<bean id="lumSearchDispatcher" class="org.kuali.student.common.test.mock.MockProxyFactoryBean">
-		<property name="interfaceClass" value="org.kuali.student.r1.common.search.service.SearchDispatcher" />
+		<property name="interfaceClass" value="org.kuali.student.r2.common.search.service.SearchService" />
 		<property name="methodReturnMap">
 			<map>
-				<entry key="dispatchSearch">
-					<bean class="org.kuali.student.r1.common.search.dto.SearchResult">
+				<entry key="search">
+					<bean class="org.kuali.student.r2.common.search.dto.SearchResultInfo">
 						<property name="rows">
 							<list>
-								<bean class="org.kuali.student.r1.common.search.dto.SearchResultRow"/>
+								<bean class="org.kuali.student.r2.common.search.dto.SearchResultRowInfo"/>
 							</list>
 						</property>
 					</bean>

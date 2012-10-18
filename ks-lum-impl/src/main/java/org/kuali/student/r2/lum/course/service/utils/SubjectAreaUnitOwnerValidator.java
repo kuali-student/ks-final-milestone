@@ -9,12 +9,15 @@ import java.util.Stack;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -25,12 +28,12 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
  */
 public class SubjectAreaUnitOwnerValidator extends DefaultValidatorImpl {
 
-	private SearchDispatcher searchDispatcher;
+	private SearchService searchDispatcher;
 	
 	@Override
 	public List<ValidationResultInfo> validateObject(FieldDefinition field,
 			Object o, ObjectStructureDefinition objStructure,
-			Stack<String> elementStack,ContextInfo contextInfo) {
+			Stack<String> elementStack, ContextInfo contextInfo) {
 		
 		List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
@@ -38,19 +41,24 @@ public class SubjectAreaUnitOwnerValidator extends DefaultValidatorImpl {
 			CourseInfo course = (CourseInfo) o;
 			if(course.getSubjectArea()!=null && !course.getUnitsContentOwner().isEmpty()){
 				//Do a search for the orgs allowed under this subject code
-				SearchRequest searchRequest = new SearchRequest("subjectCode.search.orgsForSubjectCode");
+				SearchRequestInfo searchRequest = new SearchRequestInfo("subjectCode.search.orgsForSubjectCode");
 				searchRequest.addParam("subjectCode.queryParam.code", course.getSubjectArea());
-				
-				SearchResult result = searchDispatcher.dispatchSearch(searchRequest);
-				
-				Set<String> orgIds = new HashSet<String>();
+
+                SearchResultInfo result = null;
+                try {
+                    result = searchDispatcher.search(searchRequest, contextInfo);
+                } catch (Exception e) {
+                    throw new RuntimeException("Search Orgs for SubjectCode failed. ", e);
+                }
+
+                Set<String> orgIds = new HashSet<String>();
 				boolean useageAllOf = true;
 
 				if(result!=null){
 					//Parse the search results and get a list of all org ids, and if any of the subject code types was 
 					//useage one of
-					for(SearchResultRow row:result.getRows()){
-						for(SearchResultCell cell:row.getCells()){
+					for(SearchResultRowInfo row:result.getRows()){
+						for(SearchResultCellInfo cell:row.getCells()){
 							if("subjectCode.resultColumn.orgId".equals(cell.getKey())){
 								orgIds.add(cell.getValue());
 							}else if("subjectCode.resultColumn.type".equals(cell.getKey())&&"ks.core.subjectcode.usage.one".equals(cell.getValue())){
@@ -83,7 +91,7 @@ public class SubjectAreaUnitOwnerValidator extends DefaultValidatorImpl {
 		return validationResults;
 	}
 
-	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+	public void setSearchDispatcher(SearchService searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
 	}
 

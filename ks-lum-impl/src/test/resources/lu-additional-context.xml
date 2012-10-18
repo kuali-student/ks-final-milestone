@@ -26,7 +26,7 @@
 	http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
 	
 	<bean id="searchManager"
-		class="org.kuali.student.r1.common.search.service.impl.SearchManagerImpl"
+		class="org.kuali.student.r2.common.class1.search.SearchManagerImpl"
 		autowire="byType">
 		<constructor-arg index="0" value="classpath:lu-search-config.xml" />
 	</bean>
@@ -41,14 +41,14 @@
     </bean>
 
 	<bean id="lumSearchDispatcher" class="org.kuali.student.common.test.mock.MockProxyFactoryBean">
-		<property name="interfaceClass" value="org.kuali.student.r1.common.search.service.SearchDispatcher" />
+		<property name="interfaceClass" value="org.kuali.student.r2.common.search.service.SearchDispatcher" />
 		<property name="methodReturnMap">
 			<map>
-				<entry key="dispatchSearch">
-					<bean class="org.kuali.student.r1.common.search.dto.SearchResult">
+				<entry key="search">
+					<bean class="org.kuali.student.r2.common.search.dto.SearchResultInfo">
 						<property name="rows">
 							<list>
-								<bean class="org.kuali.student.r1.common.search.dto.SearchResultRow"/>
+								<bean class="org.kuali.student.r2.common.search.dto.SearchResultRowInfo"/>
 							</list>
 						</property>
 					</bean>

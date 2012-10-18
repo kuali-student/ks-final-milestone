@@ -5,9 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 public class CluSetRangeModelUtil {
@@ -17,25 +16,25 @@ public class CluSetRangeModelUtil {
     private CluSetRangeModelUtil() {
     }
     
-    public Data toData(SearchRequest searchRequest, String searchRequestId) {
+    public Data toData(SearchRequestInfo searchRequest, String searchRequestId) {
         if (searchRequest == null) {
             return null;
         }
-        List<SearchParam> searchParams = searchRequest.getParams();
+        List<SearchParamInfo> searchParams = searchRequest.getParams();
         CluSetRangeHelper cluSetRangeHelper = CluSetRangeHelper.wrap(new Data());
         cluSetRangeHelper.setId(searchRequestId);
         cluSetRangeHelper.setSearchTypeKey(searchRequest.getSearchKey());
         if (searchParams != null) {
-            for (SearchParam searchParam : searchParams) {
+            for (SearchParamInfo searchParam : searchParams) {
                 QueryParamHelper queryParamHelper = QueryParamHelper.wrap(new Data());
                 queryParamHelper.setValue(null);
                 queryParamHelper.setListValue(null);
                 queryParamHelper.setKey(searchParam.getKey());
 
                 
-                if (searchParam.getValue() != null) {
-                	if (searchParam.getValue().getClass().equals(String.class)) {                		
-                		queryParamHelper.setValue((String)searchParam.getValue());
+                if (searchParam.getValues().get(0) != null) {
+                	if (searchParam.getValues().get(0).getClass().equals(String.class)) {
+                		queryParamHelper.setValue((String)searchParam.getValues().get(0));
                 		if (cluSetRangeHelper.getQueryParams() == null) {
                             cluSetRangeHelper.setQueryParams(new Data());
                         }
@@ -56,12 +55,12 @@ public class CluSetRangeModelUtil {
         if (membershipQueryInfo == null) {
             return null;
         }
-        List<SearchParamInfo> searchParams = membershipQueryInfo.getQueryParamValues();
+        List<org.kuali.student.r2.common.search.dto.SearchParamInfo> searchParams = membershipQueryInfo.getQueryParamValues();
         CluSetRangeHelper cluSetRangeHelper = CluSetRangeHelper.wrap(new Data());
         cluSetRangeHelper.setId(membershipQueryInfo.getId());
         cluSetRangeHelper.setSearchTypeKey(membershipQueryInfo.getSearchTypeKey());
         if (searchParams != null) {
-            for (SearchParamInfo searchParam : searchParams) {
+            for (org.kuali.student.r2.common.search.dto.SearchParamInfo searchParam : searchParams) {
                 QueryParamHelper queryParamHelper = QueryParamHelper.wrap(new Data());
                 queryParamHelper.setValue(searchParam.getValues().get(0));
                 queryParamHelper.setListValue(null);
@@ -76,20 +75,20 @@ public class CluSetRangeModelUtil {
         return cluSetRangeHelper.getData();
     }
     
-//    public SearchRequest toSearchRequest(Data data) {
-//        SearchRequest searchRequest = null;
+//    public SearchRequestInfo toSearchRequest(Data data) {
+//        SearchRequestInfo searchRequest = null;
 //        if (data != null) {
 //            CluSetRangeHelper cluSetRangeHelper = CluSetRangeHelper.wrap(data);
 //            Data queryParamsData = cluSetRangeHelper.getQueryParams();
-//            searchRequest = new SearchRequest();
+//            searchRequest = new SearchRequestInfo();
 //            searchRequest.setSearchKey(cluSetRangeHelper.getSearchTypeKey());
 //            for (Data.Property p : queryParamsData) {
 //                QueryParamHelper queryParamHelper = QueryParamHelper.wrap((Data)p.getValue());
-//                SearchParam searchParam = new SearchParam();
+//                SearchParamInfo searchParam = new SearchParamInfo();
 //                searchParam.setKey(queryParamHelper.getKey());
 //                searchParam.setValue(queryParamHelper.getValue());
 //                if (searchRequest.getParams() == null) {
-//                    searchRequest.setParams(new ArrayList<SearchParam>());
+//                    searchRequest.setParams(new ArrayList<SearchParamInfo>());
 //                }
 //                searchRequest.getParams().add(searchParam);
 //            }
@@ -113,11 +112,11 @@ public class CluSetRangeModelUtil {
             }
             for (Data.Property p : queryParamsData) {
                 QueryParamHelper queryParamHelper = QueryParamHelper.wrap((Data)p.getValue());
-                SearchParamInfo searchParam = new SearchParamInfo();
+                org.kuali.student.r2.common.search.dto.SearchParamInfo searchParam = new org.kuali.student.r2.common.search.dto.SearchParamInfo();
                 searchParam.setKey(queryParamHelper.getKey());
                 searchParam.setValues(Arrays.asList(queryParamHelper.getValue()));
                 if (membershipQueryInfo.getQueryParamValues() == null) {
-                    membershipQueryInfo.setQueryParamValues(new ArrayList<SearchParamInfo>());
+                    membershipQueryInfo.setQueryParamValues(new ArrayList<org.kuali.student.r2.common.search.dto.SearchParamInfo>());
                 }
                 membershipQueryInfo.getQueryParamValues().add(searchParam);
             }

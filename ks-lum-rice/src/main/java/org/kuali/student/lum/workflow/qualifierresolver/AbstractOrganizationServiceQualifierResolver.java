@@ -19,11 +19,9 @@ import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -107,31 +105,32 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
         return organizationIdFieldKey;
     }
 
-    protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-        List<SearchResultRow> results = null;
+    protected List<SearchResultRowInfo> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
+        List<SearchResultRowInfo> results = null;
         if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(3);
-            SearchParam qpRelType = new SearchParam();
+            List<SearchParamInfo> queryParamValues = new ArrayList<SearchParamInfo>(3);
+            SearchParamInfo qpRelType = new SearchParamInfo();
             qpRelType.setKey("org.queryParam.relationType");
-            qpRelType.setValue(relationType);
+            qpRelType.getValues().add(relationType);
             queryParamValues.add(qpRelType);
 
-            SearchParam qpOrgId = new SearchParam();
+            SearchParamInfo qpOrgId = new SearchParamInfo();
             qpOrgId.setKey("org.queryParam.orgId");
-            qpOrgId.setValue(orgId);
+            qpOrgId.getValues().add(orgId);
             queryParamValues.add(qpOrgId);
 
-            SearchParam qpRelOrgType = new SearchParam();
+            SearchParamInfo qpRelOrgType = new SearchParamInfo();
             qpRelOrgType.setKey("org.queryParam.relatedOrgType");
-            qpRelOrgType.setValue(relatedOrgType);
+            qpRelOrgType.getValues().add(relatedOrgType);
             queryParamValues.add(qpRelOrgType);
 
-            SearchRequest searchRequest = new SearchRequest();
+            SearchRequestInfo searchRequest = new SearchRequestInfo();
             searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
             searchRequest.setParams(queryParamValues);
             try {
-                SearchResult result = null;
-                result = getOrganizationService().search(searchRequest);
+                SearchResultInfo result = null;
+                // TODO: Fix the ContextInfo.
+                result = getOrganizationService().search(searchRequest, new ContextInfo());
                 results = result.getRows();
             } catch (Exception e) {
                 LOG.error("Error calling org service");
@@ -144,14 +143,14 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     /*
      *  Add attributes for derived role and adhoc routing participants to the results
      */
-    protected List<Map<String,String>> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
+    protected List<Map<String,String>> attributeSetFromSearchResult(List<SearchResultRowInfo> results, String orgIdKey) {
         List<Map<String,String>> returnAttrSetList = new ArrayList<Map<String,String>>();
         if (results != null) {
-            for (SearchResultRow result : results) {
+            for (SearchResultRowInfo result : results) {
                 Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                 String resolvedOrgId = "";
                 String resolvedOrgShortName = "";
-                for (SearchResultCell resultCell : result.getCells()) {
+                for (SearchResultCellInfo resultCell : result.getCells()) {
                     if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
                         resolvedOrgId = resultCell.getValue();
                     } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {

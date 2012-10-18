@@ -21,7 +21,6 @@ import java.util.Set;
 
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
@@ -29,10 +28,6 @@ import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBui
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
 import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
@@ -42,6 +37,10 @@ import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 public class SearchBackedTable extends Composite {
 
@@ -86,7 +85,7 @@ public class SearchBackedTable extends Composite {
 		this.redraw();
 	}
 	
-	public void performSearch(SearchRequest searchRequest,
+	public void performSearch(SearchRequestInfo searchRequest,
 			List<LookupResultMetadata> listResultMetadata, String resultIdKey,
 			final Callback<Boolean> callback) {
 
@@ -101,18 +100,18 @@ public class SearchBackedTable extends Composite {
 		
 		// Window.alert ("About to invoke asynch search...");
 		searchRpcServiceAsync.search(searchRequest,
-				new KSAsyncCallback<SearchResult>() {
+				new KSAsyncCallback<SearchResultInfo>() {
 
 					@Override
-					public void onSuccess(SearchResult searchResults) {
+					public void onSuccess(SearchResultInfo searchResults) {
 						// Window.alert ("Got back search results...");
 						resultRows.clear();
 						if (searchResults != null) {
-							for (SearchResultRow searchResultRow : searchResults
+							for (SearchResultRowInfo searchResultRow : searchResults
 									.getRows()) {
 								// Window.alert ("adding row");
 								ResultRow resultRow = new ResultRow();
-								for (SearchResultCell searchResultCell : searchResultRow
+								for (SearchResultCellInfo searchResultCell : searchResultRow
 										.getCells()) {
 									if (searchResultCell.getKey().equals(
 											resultIdColumnKey)) {

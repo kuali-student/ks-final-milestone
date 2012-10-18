@@ -31,10 +31,10 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -353,8 +353,8 @@ public class CategoryManagementTable extends Composite {
     	/* KSLAB-2091
     	 * 
     	 * This is the new way to initiate a query for loCategories:
-    	 * 		It is a searchDispatcherAsync call that returns a SearchResult on success;
-    	 * 			the SearchResult has the necessary CategoryType name info.
+    	 * 		It is a searchDispatcherAsync call that returns a SearchResultInfo on success;
+    	 * 			the SearchResultInfo has the necessary CategoryType name info.
     	 * 			Furthermore this is the usual way scenarios similar to Browse Categories are implemented.
     	 * 
     	 * 	[The old way was a loCatRpcServiceAsync call that returned LoCategoryInfos on success;
@@ -365,7 +365,7 @@ public class CategoryManagementTable extends Composite {
     	 * 
     	 * KSLAB-2091	 
     	 */
-    	searchDispatcherAsync.search(new SearchRequest("lo.search.loCategories"), new KSAsyncCallback<SearchResult>() {
+    	searchDispatcherAsync.search(new SearchRequestInfo("lo.search.loCategories"), new KSAsyncCallback<SearchResultInfo>() {
             @Override
             public void handleFailure(Throwable caught) {
                 GWT.log("lo.search.loCategories failed", caught);
@@ -374,7 +374,7 @@ public class CategoryManagementTable extends Composite {
             }
 
 			@Override
-			public void onSuccess(SearchResult results) {
+			public void onSuccess(SearchResultInfo results) {
 				loadTable(results);
                 callback.exec(true);
                 table.displayLoading(false);
@@ -383,7 +383,7 @@ public class CategoryManagementTable extends Composite {
     	//KSLAB-2091
     }
     
-    private void loadTable(SearchResult results) {	/*Additional overload of loadTableto accommodate call from new loadTable(final Callback<Boolean> callback), 
+    private void loadTable(SearchResultInfo results) {	/*Additional overload of loadTableto accommodate call from new loadTable(final Callback<Boolean> callback),
     																											which is directly above [KSLAB-2091]*/
     	
         resultRows.clear();
@@ -392,8 +392,8 @@ public class CategoryManagementTable extends Composite {
         String curCatID = null, curCatNAME= null, curCatTYPEID= null, curCatTYPENAME= null, curCatSTATE=null;
         String curSearchResultCellKEY= null;
         
-        for(SearchResultRow curSearchResultRow: results.getRows()) {
-        	for(SearchResultCell curSearchResultCell: curSearchResultRow.getCells()){	//Extracts necessary fields that will be added to resultRow below.
+        for(SearchResultRowInfo curSearchResultRow: results.getRows()) {
+        	for(SearchResultCellInfo curSearchResultCell: curSearchResultRow.getCells()){	//Extracts necessary fields that will be added to resultRow below.
         		curSearchResultCellKEY= curSearchResultCell.getKey();
         		if(curSearchResultCellKEY.equals("lo.resultColumn.categoryId")){
         			curCatID= curSearchResultCell.getValue();

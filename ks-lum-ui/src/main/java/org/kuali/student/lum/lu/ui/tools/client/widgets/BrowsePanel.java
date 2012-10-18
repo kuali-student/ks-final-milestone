@@ -29,8 +29,8 @@ import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -143,18 +143,18 @@ public class BrowsePanel extends Composite {
 		tablePanel.add(selectButton);
 		tablePanel.setVisible(false);
 
-		SearchRequest searchRequest = new SearchRequest();
-		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
+		List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
 		Map<String, Object> parms = getDefaultParameters();
 		parms.putAll(getParameters());
 		for (Entry<String, Object> entry : parms.entrySet()) {
 			Object value = entry.getValue();
-			SearchParam searchParam = new SearchParam();
+			SearchParamInfo searchParam = new SearchParamInfo();
 			searchParam.setKey(entry.getKey());
 			if (value instanceof String) {
-				searchParam.setValue((String) value);
+				searchParam.getValues().add((String) value);
 			} else {
-				searchParam.setValue((List<String>) value);
+				searchParam.setValues((List<String>) value);
 			}
 			searchParams.add(searchParam);
 		}
@@ -170,7 +170,7 @@ public class BrowsePanel extends Composite {
 		// builder.append (searchParams.size ());
 		// builder.append (" parametrs.");
 		// String comma = "\n";
-		// for (SearchParam param : searchParams)
+		// for (SearchParamInfo param : searchParams)
 		// {
 		// builder.append (comma);
 		// builder.append (param.getKey ());

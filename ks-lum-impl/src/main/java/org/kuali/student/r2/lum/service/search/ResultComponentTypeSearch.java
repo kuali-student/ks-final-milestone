@@ -1,11 +1,13 @@
 package org.kuali.student.r2.lum.service.search;
 
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +34,14 @@ public class ResultComponentTypeSearch extends AbstractTypeSearch {
     }
 
     @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException, InvalidParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
-        String typeKey = this.getParamValueForKey(searchRequest, LRC_QUERYPARAM_ID);
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
+        String typeKey = this.getParamValueForKey(searchRequestInfo, LRC_QUERYPARAM_ID);
         if (typeKey!=null){
-            TypeInfo typeInfo = this.getTypeService().getType(typeKey, this.getContextInfo());
+            TypeInfo typeInfo = this.getTypeService().getType(typeKey, contextInfo);
             return createSearchResultFromTypeInfo(typeInfo, LRC_RESULTCOLUMN_ID, LRC_RESULTCOLUMN_NAME, null);
         } else {
-            List<TypeInfo> typeInfos = this.getTypeService().getTypesByRefObjectUri(LrcServiceConstants.REF_OBJECT_URI_RESULT_VALUES_GROUP, this.getContextInfo());
-            List<String> idList = this.getParamListForKey(searchRequest, LRC_QUERYPARAM_ID_RESTRICTIONLIST);
+            List<TypeInfo> typeInfos = this.getTypeService().getTypesByRefObjectUri(LrcServiceConstants.REF_OBJECT_URI_RESULT_VALUES_GROUP, contextInfo);
+            List<String> idList = this.getParamListForKey(searchRequestInfo, LRC_QUERYPARAM_ID_RESTRICTIONLIST);
             if ((idList != null) && (idList.size() > 0)){
                 List<TypeInfo> restrictedTypes = new ArrayList<TypeInfo>();
                 for (TypeInfo type : typeInfos){

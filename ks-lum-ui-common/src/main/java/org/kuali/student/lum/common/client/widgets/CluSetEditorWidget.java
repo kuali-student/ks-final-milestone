@@ -36,9 +36,8 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.assembly.data.Data.DataValue;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r2.common.search.dto.SearchParamHelper;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.core.client.GWT;
@@ -181,7 +180,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
 //                  ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).setWidgetValue(widget, model, path)
 //                  CluSetHelper cluSetHelper = CluSetHelper.wrap(model.getRoot());
 //                  cluSetHelper.setCluRangeParams(value)
-                    final SearchRequest searchRequest = cluSetRangePicker.getSearchWindow().getSearchRequest();
+                    final SearchRequestInfo searchRequest = cluSetRangePicker.getSearchWindow().getSearchRequest();
                     String selectedSearchKey = searchRequest.getSearchKey();
                     Data searchRequestData = CluSetRangeModelUtil.INSTANCE.toData(searchRequest, null);
                     LookupMetadata lookupMetadata = null;
@@ -350,7 +349,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             KSItemLabel clusetRangeLabel,
             final LookupMetadata lookupMetadata,
             Data searchRequestData,
-            final SearchRequest searchRequest) {
+            final SearchRequestInfo searchRequest) {
         clusetRangeModelHelper.setLookupMetadata(lookupMetadata);
         clusetRangeLabel.setValue(new DataValue(searchRequestData));
         if (showCluRangeDetailsHandlerRegs != null && 
@@ -493,7 +492,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
 
     private static LookupMetadata findLookupMetadataByLookupId(String searchTypeId,
             List<LookupMetadata> lookupMetadatas,
-            List<SearchParam> searchParams) {
+            List<SearchParamInfo> searchParams) {
         LookupMetadata result = null;
         if (lookupMetadatas != null) {
             for (LookupMetadata lookupMetadata : lookupMetadatas) {
@@ -686,7 +685,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             if (membershipQueryInfo != null) {
                 String selectedSearchTypeKey = membershipQueryInfo.getSearchTypeKey();
                 List<LookupMetadata> lookupMDs = new ArrayList<LookupMetadata>();
-                List<SearchParam> searchParams = SearchParamHelper.toSearchParams(membershipQueryInfo.getQueryParamValues());
+                List<SearchParamInfo> searchParams = membershipQueryInfo.getQueryParamValues();
                 lookupMDs.add(rangeEditMetaData.getInitialLookup());
                 LookupMetadata lookupMetadata = findLookupMetadataByLookupId(selectedSearchTypeKey, 
                         lookupMDs, searchParams);
@@ -697,7 +696,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
                             rangeEditMetaData.getAdditionalLookups(), searchParams);
                 }
 
-                SearchRequest searchRequest = new SearchRequest();
+                SearchRequestInfo searchRequest = new SearchRequestInfo();
                 searchRequest.setSearchKey(selectedSearchTypeKey);
 //              if ()
                 searchRequest.setParams(searchParams);

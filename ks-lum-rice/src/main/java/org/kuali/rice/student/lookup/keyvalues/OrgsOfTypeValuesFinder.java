@@ -3,14 +3,10 @@ package org.kuali.rice.student.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SortDirection;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 
@@ -23,18 +19,18 @@ public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 	public static List<KeyValue> findOrgs(String orgType) {
 		List<KeyValue> orgEntities = new ArrayList<KeyValue>();
 
-		SearchRequest searchRequest = new SearchRequest("org.search.generic");
+		SearchRequestInfo searchRequest = new SearchRequestInfo("org.search.generic");
 		searchRequest.addParam("org.queryParam.orgOptionalType",orgType);
 		searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
 		searchRequest.setSortDirection(SortDirection.ASC);
 		try {
-			SearchResult results = null;
-			results = getOrganizationService().search(searchRequest);
+			SearchResultInfo results = null;
+			results = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
 
-			for (SearchResultRow result : results.getRows()) {
+			for (SearchResultRowInfo result : results.getRows()) {
 				String orgId = "";
 				String orgLongName = "";
-				for (SearchResultCell resultCell : result.getCells()) {
+				for (SearchResultCellInfo resultCell : result.getCells()) {
 					if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
 						orgId = resultCell.getValue();
 					} else if("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())){

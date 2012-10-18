@@ -21,8 +21,7 @@
   <inherits name='org.kuali.student.r1.common.Core'/>
   <inherits name='org.kuali.student.r1.common.Core'/>
   <inherits name='org.kuali.student.r2.common.Core'/>
-  <inherits name='org.kuali.student.r1.common.search.Search'/>  
-  
+
   <inherits name='org.kuali.student.r1.lum.lu.typekey.Typekey'/>
   <inherits name='org.kuali.student.r2.core.proposal.Proposal'/>
   <inherits name='org.kuali.student.r1.core.proposal.Proposal'/>

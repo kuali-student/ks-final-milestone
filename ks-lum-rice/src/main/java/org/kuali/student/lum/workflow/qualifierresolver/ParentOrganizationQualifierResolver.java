@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 public class ParentOrganizationQualifierResolver extends
 		AbstractOrganizationServiceQualifierResolver {
@@ -26,7 +26,7 @@ public class ParentOrganizationQualifierResolver extends
         String relatedOrgType = getRelatedOrganizationTypeCode(context);
         
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
-            List<SearchResultRow> results = relatedOrgsFromOrgId(orgId, orgRelationType, relatedOrgType);
+            List<SearchResultRowInfo> results = relatedOrgsFromOrgId(orgId, orgRelationType, relatedOrgType);
             attributeSets.addAll(attributeSetFromSearchResult(results, orgIdKey));
         }
         return attributeSets;

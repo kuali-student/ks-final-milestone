@@ -55,6 +55,6 @@ public class SearchParameter extends BaseEntity{
 
 	@Override
 	public String toString() {
-		return "SearchParam[key=" + key + ", values=" + values + "]";
+		return "SearchParamInfo[key=" + key + ", values=" + values + "]";
 	}
 }

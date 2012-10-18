@@ -10,7 +10,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 /**
  * A QualifierResolver class that will use configuration elements from the Route Node xml configuration to get a list of
@@ -64,7 +64,7 @@ public class CocOrganizationQualifierResolver extends AbstractOrganizationServic
         List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         String orgIdKey = getNodeSpecificOrganizationIdAttributeSetKey(context);
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
-            List<SearchResultRow> results = relatedOrgsFromOrgId(orgId, getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
+            List<SearchResultRowInfo> results = relatedOrgsFromOrgId(orgId, getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
             attributeSets.addAll(attributeSetFromSearchResult(results, orgIdKey));
         }
         return attributeSets;

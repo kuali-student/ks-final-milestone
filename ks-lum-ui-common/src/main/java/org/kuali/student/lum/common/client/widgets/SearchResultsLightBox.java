@@ -4,20 +4,20 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.search.SearchResultsTable;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 
 public class SearchResultsLightBox {
     private KSLightBox lightbox;
     private SearchResultsTable searchResultsTable;
     private KSButton closeButton;
-    private SearchRequest searchRequest;
+    private SearchRequestInfo searchRequest;
     private LookupMetadata lookupMetadata;
     
-    public SearchResultsLightBox(String title, SearchRequest searchRequest, LookupMetadata lookupMetadata) {
+    public SearchResultsLightBox(String title, SearchRequestInfo searchRequest, LookupMetadata lookupMetadata) {
         VerticalPanel contents = new VerticalPanel();
         lightbox = new KSLightBox(title);
         searchResultsTable = new SearchResultsTable();

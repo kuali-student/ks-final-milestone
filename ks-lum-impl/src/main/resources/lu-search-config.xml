@@ -1743,7 +1743,7 @@
                     FROM Clu clu
                     LEFT JOIN clu.officialIdentifier officialIdentifier
                     LEFT JOIN clu.descr cludesc
-                    WHERE (clu.version.currentVersionStart &lt;= CURRENT_DATE AND (clu.version.currentVersionEnd &gt; CURRENT_DATE OR clu.version.currentVersionEnd IS NULL) )
+                    WHERE (clu.version.currentVersionStart &lt;= CURRENT_TIMESTAMP AND (clu.version.currentVersionEnd &gt; CURRENT_TIMESTAMP OR clu.version.currentVersionEnd IS NULL) )
                     </value>
                 </entry>
 		        <entry key="lu.search.generic">

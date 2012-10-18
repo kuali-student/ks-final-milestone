@@ -7,6 +7,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.lum.course.service.impl.CourseServiceUtils;
 import org.kuali.student.r2.lum.program.service.assembler.CoreProgramAssembler;
 import org.kuali.student.r2.lum.program.service.assembler.CredentialProgramAssembler;
@@ -20,12 +26,6 @@ import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -74,6 +74,8 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
 
 public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
@@ -978,74 +980,39 @@ public class ProgramServiceImpl implements ProgramService{
     }
 
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        throw new UnsupportedOperationException("getSearchCriteriaType");
-        //return null;
-    }
-
-    @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-            throws OperationFailedException {
-        throw new UnsupportedOperationException("getSearchCriteriaTypes");
-        //return null;
-    }
-
-    @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("getSearchResultType");
-        //return null;
-    }
-
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes()
-            throws OperationFailedException {
-        throw new UnsupportedOperationException("getSearchResultTypes");
-        //return null;
-    }
-
-    @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("getSearchType");
-        //return null;
-    }
-
-    @Override
-    public List<SearchTypeInfo> getSearchTypes()
-            throws OperationFailedException {
+    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("getSearchTypes");
-        //return null;
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        throw new UnsupportedOperationException("getSearchTypesByCriteria");
-        //return null;
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("getSearchType");
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(
-            String searchResultTypeKeyo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException{
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("getSearchTypesByResult");
-        //return null;
     }
 
-//    @Override
-//    public SearchResult search(SearchRequest searchRequest, SearchableDao dao) throws MissingParameterException {
-//        // TODO Auto-generated method stub
-//        return null;
-//    }
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("getSearchTypesByCriteria");
+    }
+
+    @Override
+    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("getSearchResultTypes");
+    }
+
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("getSearchCriteriaTypes");
+    }
+
+    @Override
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("ProgramService.search");
+    }
 
     /**
      * Check for missing parameter and throw localized exception if missing
@@ -1576,13 +1543,6 @@ public class ProgramServiceImpl implements ProgramService{
 
 	public DocumentService getDocumentService() {
 		return documentService;
-	}
-
-	@Override
-	public SearchResult search(SearchRequest searchRequest
-			) throws MissingParameterException {
-	    throw new UnsupportedOperationException("ProgramService.search");//also unimplemented in trunk
-		//return null;
 	}
 
 	@Override

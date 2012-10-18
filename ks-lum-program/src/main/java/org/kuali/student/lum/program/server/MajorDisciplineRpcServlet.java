@@ -7,12 +7,11 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
@@ -27,7 +26,6 @@ import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
-import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel.requirementState;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
@@ -250,7 +248,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         try {
             //Perform a search to see if there are any new versions of the course that are approved, draft, etc.
             //We don't want to version if there are
-            SearchRequest request = new SearchRequest("lu.search.isVersionable");
+            SearchRequestInfo request = new SearchRequestInfo("lu.search.isVersionable");
             request.addParam("lu.queryParam.versionIndId", versionIndId);
             request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
             List<String> states = new ArrayList<String>();
@@ -259,7 +257,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             states.add("Draft");
             states.add("Superseded");
             request.addParam("lu.queryParam.luOptionalState", states);
-            SearchResult result = cluService.search(request);
+            SearchResultInfo result = cluService.search(request, ContextUtils.getContextInfo());
 
             String resultString = result.getRows().get(0).getCells().get(0).getValue();
             return "0".equals(resultString);

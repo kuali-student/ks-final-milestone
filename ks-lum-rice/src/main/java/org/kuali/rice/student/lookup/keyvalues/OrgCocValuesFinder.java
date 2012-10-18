@@ -19,11 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 public class OrgCocValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
@@ -36,32 +34,32 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
         types.add("kuali.org.Department");
         types.add("kuali.org.Division");
         
-        List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
-        SearchParam qpOrgType = new SearchParam();
+        List<SearchParamInfo> queryParamValues = new ArrayList<SearchParamInfo>(2);
+        SearchParamInfo qpOrgType = new SearchParamInfo();
         qpOrgType.setKey("org.queryParam.relationType");
-        qpOrgType.setValue("kuali.org.CurriculumChild");
+        qpOrgType.getValues().add("kuali.org.CurriculumChild");
         queryParamValues.add(qpOrgType);
         
-        qpOrgType = new SearchParam();
+        qpOrgType = new SearchParamInfo();
         qpOrgType.setKey("org.queryParam.orgTypeList");
-        qpOrgType.setValue(types);
+        qpOrgType.setValues(types);
         queryParamValues.add(qpOrgType);
         
-        qpOrgType = new SearchParam();
+        qpOrgType = new SearchParamInfo();
         qpOrgType.setKey("org.queryParam.relatedOrgType");
-        qpOrgType.setValue("kuali.org.COC");
+        qpOrgType.getValues().add("kuali.org.COC");
         queryParamValues.add(qpOrgType);
 
-        SearchRequest searchRequest = new SearchRequest();
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgTypeAltr");
         searchRequest.setParams(queryParamValues);
         
         try {
-            SearchResult results = getOrganizationService().search(searchRequest);
-            for (SearchResultRow result : results.getRows()) {
+            SearchResultInfo results = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
+            for (SearchResultRowInfo result : results.getRows()) {
                 String orgId = "";
                 String orgShortName = "";
-                for (SearchResultCell resultCell : result.getCells()) {
+                for (SearchResultCellInfo resultCell : result.getCells()) {
                     if ("org.resultColumn.orgId".equals(resultCell
                             .getKey())) {
                         orgId = resultCell.getValue();

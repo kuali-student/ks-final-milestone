@@ -12,11 +12,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -63,7 +59,7 @@ public class CoreCredentialProgramFilter extends AbstractDataFilter {
 
     private Data findCredentialTitles(String coreProgramId) throws MissingParameterException,
             InvalidParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        SearchRequest request = new SearchRequest();
+        SearchRequestInfo request = new SearchRequestInfo();
 
         //TODO find a better way to get search, param and resultcolumn names
 
@@ -71,26 +67,26 @@ public class CoreCredentialProgramFilter extends AbstractDataFilter {
 
         request.setSearchKey("lu.search.luByRelation");
 
-        List<SearchParam> searchParams = new ArrayList<SearchParam>();
-        SearchParam qpv1 = new SearchParam();
+        List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
+        SearchParamInfo qpv1 = new SearchParamInfo();
         qpv1.setKey("lu.queryParam.luOptionalRelatedCluId");
-        qpv1.setValue(coreProgramId);
-        SearchParam qpv2 = new SearchParam();
+        qpv1.getValues().add(coreProgramId);
+        SearchParamInfo qpv2 = new SearchParamInfo();
         qpv1.setKey("lu.queryParam.luOptionalRelationType");
-        qpv1.setValue(ProgramConstants.HAS_CORE_PROGRAM);
+        qpv1.getValues().add(ProgramConstants.HAS_CORE_PROGRAM);
 
         searchParams.add(qpv1);
         searchParams.add(qpv2);
 
         request.setParams(searchParams);
 
-        SearchResult searchResult = null;
-        searchResult = cluService.search(request);
+        SearchResultInfo searchResult = null;
+        searchResult = cluService.search(request, ContextUtils.getContextInfo());
         if (searchResult.getRows().size() > 0) {
-            for (SearchResultRow srrow : searchResult.getRows()) {
-                List<SearchResultCell> srCells = srrow.getCells();
+            for (SearchResultRowInfo srrow : searchResult.getRows()) {
+                List<SearchResultCellInfo> srCells = srrow.getCells();
                 if (srCells != null && srCells.size() > 0) {
-                    for (SearchResultCell srcell : srCells) {
+                    for (SearchResultCellInfo srcell : srCells) {
                         if (srcell.getKey().equals("lu.resultColumn.luOptionalLongName")) {
                             result.add(srcell.getValue());
                         }

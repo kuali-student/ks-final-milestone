@@ -19,17 +19,16 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.common.search.dto.SearchParamHelper;
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -272,21 +271,21 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             result.setCluSets(cluSetInfos);
         }
         if (membershipQueryInfo != null) {
-            SearchRequest searchRequest = new SearchRequest();
+            SearchRequestInfo searchRequest = new SearchRequestInfo();
             searchRequest.setSearchKey(membershipQueryInfo.getSearchTypeKey());
-            searchRequest.setParams(SearchParamHelper.toSearchParams(membershipQueryInfo.getQueryParamValues()));
-            SearchResult searchResult = null;
+            searchRequest.setParams(membershipQueryInfo.getQueryParamValues());
+            SearchResultInfo searchResult = null;
             try {
-                searchResult = cluService.search(searchRequest);
+                searchResult = cluService.search(searchRequest, ContextUtils.getContextInfo());
             } catch (Exception e) {
                 throw new OperationFailedException("Failed to search for clus in clu range", e);
             }
             List<CluInformation> clusInRange = new ArrayList<CluInformation>();
-            List<SearchResultRow> rows = searchResult.getRows();
-            for(SearchResultRow row : rows) {
-                List<SearchResultCell> cells = row.getCells();
+            List<SearchResultRowInfo> rows = searchResult.getRows();
+            for(SearchResultRowInfo row : rows) {
+                List<SearchResultCellInfo> cells = row.getCells();
                 CluInformation cluInformation = new CluInformation();
-                for(SearchResultCell cell : cells) {
+                for(SearchResultCellInfo cell : cells) {
                     if(cell.getKey().equals("lu.resultColumn.cluId")) {
                         cluInformation.setVerIndependentId(cell.getValue());
                     }

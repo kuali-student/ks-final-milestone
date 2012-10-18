@@ -23,13 +23,8 @@ import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.search.dto.CrossSearchTypeInfo;
-import org.kuali.student.r1.common.search.dto.JoinResultMappingInfo;
-import org.kuali.student.r1.common.search.dto.QueryParamInfo;
-import org.kuali.student.r1.common.search.dto.ResultColumnInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.dto.SubSearchInfo;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenNameSearchTypeCreator;
+import org.kuali.student.r2.common.search.dto.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -170,7 +165,7 @@ public class MetadataServiceDictionaryValidator {
 		// check params
 		for (LookupParamMetadata param : lookup.getParams()) {
 			QueryParamInfo qp = findQueryParam(st, param.getKey());
-			if (qp == null && !(st instanceof CrossSearchTypeInfo)) {				
+			if (qp == null && !(st instanceof CrossSearchTypeInfo)) {
 				//Report error for missing query param def, but not for cross searches 
 				//since cross search params may not be defined in same config file
 				errors.add(buildErrorPrefix3(lookup, name, type, lookupType)

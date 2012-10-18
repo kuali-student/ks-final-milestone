@@ -22,9 +22,9 @@ import java.util.Map;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
@@ -192,14 +192,14 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         try
         {
             // Fill the request with the key to identify the search
-            SearchRequest request = new SearchRequest("proposal.search.countForProposals");
+            SearchRequestInfo request = new SearchRequestInfo("proposal.search.countForProposals");
 
             // Add search parms.  In this case, we will use the cluId of the course
             // we are trying to retire
             request.addParam("proposal.queryParam.cluId", courseCluId);
 
             // Perform search and get the result
-            SearchResult result = proposalService.search(request);
+            SearchResultInfo result = proposalService.search(request, ContextUtils.getContextInfo());
             String resultString = result.getRows().get(0).getCells().get(0).getValue();
 
             // If there are no retire proposals enroute or in saved status/
@@ -238,7 +238,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         //We don't want to version if there are
         try
         {
-            SearchRequest request = new SearchRequest("lu.search.isVersionable");
+            SearchRequestInfo request = new SearchRequestInfo("lu.search.isVersionable");
             request.addParam("lu.queryParam.versionIndId", versionIndId);
             request.addParam("lu.queryParam.sequenceNumber", versionSequenceNumber.toString());
             List<String> states = new ArrayList<String>();
@@ -247,7 +247,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
             states.add("Draft");
             states.add("Superseded");
             request.addParam("lu.queryParam.luOptionalState", states);
-            SearchResult result = cluService.search(request);
+            SearchResultInfo result = cluService.search(request, ContextUtils.getContextInfo());
 
             String resultString = result.getRows().get(0).getCells().get(0).getValue();
             return "0".equals(resultString);

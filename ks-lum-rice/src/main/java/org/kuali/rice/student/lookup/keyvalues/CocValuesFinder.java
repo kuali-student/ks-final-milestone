@@ -21,10 +21,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 public abstract class CocValuesFinder extends StudentKeyValuesBase {
 
@@ -39,19 +40,19 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 	public static List<KeyValue> findCocOrgs(String orgType) {
 		List<KeyValue> orgEntities = new ArrayList<KeyValue>();
 
-		SearchRequest searchRequest = new SearchRequest("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
+		SearchRequestInfo searchRequest = new SearchRequestInfo("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
 		searchRequest.addParam("org.queryParam.relationType","kuali.org.CurriculumParent");
 		searchRequest.addParam("org.queryParam.orgType",orgType);
 		searchRequest.addParam("org.queryParam.relatedOrgType","kuali.org.COC");
 
 		try {
-			SearchResult results = null;
-			results = getOrganizationService().search(searchRequest);
-			for (SearchResultRow result : results.getRows()) {
+			SearchResultInfo results = null;
+			results = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
+			for (SearchResultRowInfo result : results.getRows()) {
 				String orgId = "";
 				String orgShortName = "";
 				String orgLongName = "";
-				for (SearchResultCell resultCell : result.getCells()) {
+				for (SearchResultCellInfo resultCell : result.getCells()) {
 					if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
 						orgId = resultCell.getValue();
 					} else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {

@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
@@ -36,16 +37,7 @@ import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r1.common.entity.Version;
 import org.kuali.student.r1.common.entity.VersionEntity;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultCell;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.SearchDispatcher;
-import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -63,9 +55,11 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
-import org.kuali.student.r2.common.search.dto.SearchParamHelper;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
@@ -149,7 +143,7 @@ public class CluServiceImpl implements CluService {
     private LuDao luDao;
     private ValidatorFactory validatorFactory;
     private DictionaryService dictionaryServiceDelegate;
-    private SearchDispatcher searchDispatcher;
+    private SearchService searchDispatcher;
     private SearchManager searchManager;
 
     public void setDictionaryServiceDelegate(
@@ -161,67 +155,37 @@ public class CluServiceImpl implements CluService {
         return dictionaryServiceDelegate;
     }
 
-
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
-
+    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypes(contextInfo);
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
-    }
-
-    @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
-    }
-
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
-    }
-
-    @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes()
-            throws OperationFailedException {
-        return searchManager.getSearchTypes();
-    }
-
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
-    }
-
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchResultTypes(contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
     public SearchManager getSearchManager() {
@@ -764,7 +728,7 @@ public class CluServiceImpl implements CluService {
 
     // *** Sets
     @Override
-    public CluSetInfo getCluSet(String cluSetId, ContextInfo context)
+    public CluSetInfo getCluSet(String cluSetId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -776,7 +740,7 @@ public class CluServiceImpl implements CluService {
             throw new DoesNotExistException(cluSetId, ex);
         }
         CluSetInfo cluSetInfo = CluServiceAssembler.toCluSetInfo(cluSet);
-        setMembershipQuerySearchResult(cluSetInfo);
+        setMembershipQuerySearchResult(cluSetInfo, contextInfo);
         return cluSetInfo;
     }
 
@@ -2410,9 +2374,7 @@ public class CluServiceImpl implements CluService {
 
     @Override
     @Transactional(readOnly = false)
-    public CluSetInfo createCluSet(String cluSetType,
-                                   CluSetInfo cluSetInfo,
-                                   ContextInfo context)
+    public CluSetInfo createCluSet(String cluSetType, CluSetInfo cluSetInfo, ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
@@ -2430,7 +2392,7 @@ public class CluServiceImpl implements CluService {
         try {
             val = validateCluSet("SYSTEM",
                     cluSetInfo.getTypeKey(),
-                    cluSetInfo, context);
+                    cluSetInfo, contextInfo);
         } catch (DoesNotExistException e) {
             throw new DataValidationErrorException("Validation error! " + e.getMessage(), e);
         }
@@ -2438,7 +2400,7 @@ public class CluServiceImpl implements CluService {
             throw new DataValidationErrorException("Validation error!", val);
         }
 
-        List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
+        List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery(), contextInfo);
 
         CluSet cluSet = null;
         try {
@@ -2458,30 +2420,30 @@ public class CluServiceImpl implements CluService {
         return newCluSetInfo;
     }
 
-    private void setMembershipQuerySearchResult(CluSetInfo cluSetInfo) throws MissingParameterException {
+    private void setMembershipQuerySearchResult(CluSetInfo cluSetInfo, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         if (cluSetInfo.getMembershipQuery() == null) {
             return;
         }
-        List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
+        List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery(), contextInfo);
         cluSetInfo.getCluIds().addAll(cluIds);
     }
 
-    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException {
+    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (query == null) {
             return null;
         }
 
-        SearchRequest request = new SearchRequest();
+        SearchRequestInfo request = new SearchRequestInfo();
         request.setSearchKey(query.getSearchTypeKey());
-        request.setParams(SearchParamHelper.toSearchParams(query.getQueryParamValues()));
+        request.setParams(query.getQueryParamValues());
 
-        SearchResult result = search(request);
+        SearchResultInfo result = search(request, contextInfo);
 
         Set<String> cluIds = new HashSet<String>();
-        List<SearchResultRow> rows = result.getRows();
-        for (SearchResultRow row : rows) {
-            List<SearchResultCell> cells = row.getCells();
-            for (SearchResultCell cell : cells) {
+        List<SearchResultRowInfo> rows = result.getRows();
+        for (SearchResultRowInfo row : rows) {
+            List<SearchResultCellInfo> cells = row.getCells();
+            for (SearchResultCellInfo cell : cells) {
                 if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId") && cell.getValue() != null) {
                     cluIds.add(cell.getValue());
                 }
@@ -2505,7 +2467,7 @@ public class CluServiceImpl implements CluService {
 
     @Override
     @Transactional(readOnly = false)
-    public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo, ContextInfo context)
+    public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
@@ -2520,7 +2482,7 @@ public class CluServiceImpl implements CluService {
         List<ValidationResultInfo> val = validateCluSet("SYSTEM",
                 cluSetInfo.getTypeKey(),
                 cluSetInfo,
-                context);
+                contextInfo);
         if (null != val && val.size() > 0) {
             throw new DataValidationErrorException("Validation error!", val);
         }
@@ -2529,7 +2491,7 @@ public class CluServiceImpl implements CluService {
 
         validateCluSet(cluSetInfo);
 
-        List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
+        List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery(), contextInfo);
 
         CluSet cluSet;
         try {
@@ -2576,16 +2538,16 @@ public class CluServiceImpl implements CluService {
 
         // clean up existing wrappers if any
         if (cluSetInfo.getId() != null) {
-            CluSetInfo originalCluSet = getCluSet(cluSetInfo.getId(), context);
+            CluSetInfo originalCluSet = getCluSet(cluSetInfo.getId(), contextInfo);
             List<CluSetInfo> origSubCSs = null;
             List<String> origSubCSIds = originalCluSet.getCluSetIds();
             if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
-                origSubCSs = getCluSetsByIds(origSubCSIds, context);
+                origSubCSs = getCluSetsByIds(origSubCSIds, contextInfo);
             }
             if (origSubCSs != null) {
                 for (CluSetInfo origSubCS : origSubCSs) {
                     if (!origSubCS.getIsReusable()) {
-                        deleteCluSet(origSubCS.getId(), context);
+                        deleteCluSet(origSubCS.getId(), contextInfo);
                     }
                 }
             }
@@ -3116,20 +3078,20 @@ public class CluServiceImpl implements CluService {
         return statusInfo;
     }
 
-    private SearchResult doBrowseProgramSearch() throws MissingParameterException {
+    private SearchResultInfo doBrowseProgramSearch(ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         //This is our main result
-        SearchResult programSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM), luDao);
+        SearchResultInfo programSearchResults = searchManager.search(new SearchRequestInfo(SEARCH_KEY_BROWSE_PROGRAM), contextInfo);
 
         //These variations need to be mapped back to the program search results
-        SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS),
-                luDao);
+        SearchResultInfo variationSearchResults = searchManager.search(new SearchRequestInfo(SEARCH_KEY_BROWSE_VARIATIONS),
+                contextInfo);
 
         //Get a mapping of program id to variation long name mapping:
         Map<String, List<String>> variationMapping = new HashMap<String, List<String>>();
-        for (SearchResultRow row : variationSearchResults.getRows()) {
+        for (SearchResultRowInfo row : variationSearchResults.getRows()) {
             String programId = null;
             String variationLongName = null;
-            for (SearchResultCell cell : row.getCells()) {
+            for (SearchResultCellInfo cell : row.getCells()) {
                 if ("lu.resultColumn.cluId".equals(cell.getKey())) {
                     programId = cell.getValue();
                 } else if ("lu.resultColumn.luOptionalLongName".equals(cell.getKey())) {
@@ -3145,20 +3107,20 @@ public class CluServiceImpl implements CluService {
         }
 
         //The result component types need to be mapped back as well
-        SearchRequest resultComponentSearchRequest = new SearchRequest(SEARCH_KEY_RESULT_COMPONENT);
+        SearchRequestInfo resultComponentSearchRequest = new SearchRequestInfo(SEARCH_KEY_RESULT_COMPONENT);
         resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.type",
                 "kuali.result.values.group.type.fixed");
         resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.resultScaleId",
                 "kuali.result.scale.degree");
 
-        SearchResult resultComponentSearchResults = searchDispatcher.dispatchSearch(resultComponentSearchRequest);
+        SearchResultInfo resultComponentSearchResults = searchDispatcher.search(resultComponentSearchRequest, contextInfo);
 
         //Get a mapping of result type id to result type name:
         Map<String, String> resultComponentMapping = new HashMap<String, String>();
-        for (SearchResultRow row : resultComponentSearchResults.getRows()) {
+        for (SearchResultRowInfo row : resultComponentSearchResults.getRows()) {
             String resultComponentTypeId = null;
             String resultComponentTypeName = null;
-            for (SearchResultCell cell : row.getCells()) {
+            for (SearchResultCellInfo cell : row.getCells()) {
                 if ("lrc.resultColumn.resultComponent.id".equals(cell.getKey())) {
                     resultComponentTypeId = cell.getValue();
                 } else if ("lrc.resultColumn.resultComponent.name".equals(cell.getKey())) {
@@ -3168,26 +3130,26 @@ public class CluServiceImpl implements CluService {
             resultComponentMapping.put(resultComponentTypeId, resultComponentTypeName);
         }
 
-        Map<String, Set<SearchResultCell>> orgIdToCellMapping = new HashMap<String, Set<SearchResultCell>>();
-        Map<String, Set<SearchResultCell>> resultComponentToCellMapping = new HashMap<String, Set<SearchResultCell>>();
-        Map<String, Set<SearchResultCell>> campusToCellMapping = new HashMap<String, Set<SearchResultCell>>();
-        Map<String, SearchResultCell> progIdToOrgCellMapping = new HashMap<String, SearchResultCell>();
-        Map<String, SearchResultCell> progIdToResultComponentCellMapping = new HashMap<String, SearchResultCell>();
-        Map<String, SearchResultCell> progIdToCampusCellMapping = new HashMap<String, SearchResultCell>();
+        Map<String, Set<SearchResultCellInfo>> orgIdToCellMapping = new HashMap<String, Set<SearchResultCellInfo>>();
+        Map<String, Set<SearchResultCellInfo>> resultComponentToCellMapping = new HashMap<String, Set<SearchResultCellInfo>>();
+        Map<String, Set<SearchResultCellInfo>> campusToCellMapping = new HashMap<String, Set<SearchResultCellInfo>>();
+        Map<String, SearchResultCellInfo> progIdToOrgCellMapping = new HashMap<String, SearchResultCellInfo>();
+        Map<String, SearchResultCellInfo> progIdToResultComponentCellMapping = new HashMap<String, SearchResultCellInfo>();
+        Map<String, SearchResultCellInfo> progIdToCampusCellMapping = new HashMap<String, SearchResultCellInfo>();
 
         //We need to reduce the programSearchResults, translating variations, result options, etc and creating a mapping for org id translation
-        for (Iterator<SearchResultRow> rowIter = programSearchResults.getRows().iterator(); rowIter.hasNext();) {
-            SearchResultRow row = rowIter.next();
+        for (Iterator<SearchResultRowInfo> rowIter = programSearchResults.getRows().iterator(); rowIter.hasNext();) {
+            SearchResultRowInfo row = rowIter.next();
             String programId = null;
             String orgId = null;
             String resultComponentName = null;
             String campusCode = null;
-            SearchResultCell orgCell = null;
-            SearchResultCell resultComponentCell = null;
-            SearchResultCell variationCell = null;
-            SearchResultCell campusLocationCell = null;
+            SearchResultCellInfo orgCell = null;
+            SearchResultCellInfo resultComponentCell = null;
+            SearchResultCellInfo variationCell = null;
+            SearchResultCellInfo campusLocationCell = null;
 
-            for (SearchResultCell cell : row.getCells()) {
+            for (SearchResultCellInfo cell : row.getCells()) {
                 if ("lu.resultColumn.cluId".equals(cell.getKey())) {
                     programId = cell.getValue();
                 } else if ("lu.resultColumn.luOptionalAdminOrg".equals(cell.getKey())) {
@@ -3218,27 +3180,27 @@ public class CluServiceImpl implements CluService {
                 }
 
                 //Add the cell to the org id mapping
-                Set<SearchResultCell> orgCells = orgIdToCellMapping.get(orgId);
+                Set<SearchResultCellInfo> orgCells = orgIdToCellMapping.get(orgId);
                 if (orgCells == null) {
-                    orgCells = new HashSet<SearchResultCell>();
+                    orgCells = new HashSet<SearchResultCellInfo>();
                     orgIdToCellMapping.put(orgId, orgCells);
                 }
                 orgCells.add(orgCell);
                 orgCell.setValue(null);
 
                 //Add this to the map
-                Set<SearchResultCell> campusCells = campusToCellMapping.get(campusCode);
+                Set<SearchResultCellInfo> campusCells = campusToCellMapping.get(campusCode);
                 if (campusCells == null) {
-                    campusCells = new HashSet<SearchResultCell>();
+                    campusCells = new HashSet<SearchResultCellInfo>();
                     campusToCellMapping.put(campusCode, campusCells);
                 }
                 campusCells.add(campusLocationCell);
                 campusLocationCell.setValue(null);
 
                 //Add this to the map
-                Set<SearchResultCell> resultCells = resultComponentToCellMapping.get(resultComponentName);
+                Set<SearchResultCellInfo> resultCells = resultComponentToCellMapping.get(resultComponentName);
                 if (resultCells == null) {
-                    resultCells = new HashSet<SearchResultCell>();
+                    resultCells = new HashSet<SearchResultCellInfo>();
                     resultComponentToCellMapping.put(resultComponentName, resultCells);
                 }
                 resultCells.add(resultComponentCell);
@@ -3250,25 +3212,25 @@ public class CluServiceImpl implements CluService {
             } else {
                 //this row already exists so we need to concatenate the result component and add the org id
                 //Get the result component row
-                Set<SearchResultCell> resultCells = resultComponentToCellMapping.get(resultComponentName);
+                Set<SearchResultCellInfo> resultCells = resultComponentToCellMapping.get(resultComponentName);
                 if (resultCells == null) {
-                    resultCells = new HashSet<SearchResultCell>();
+                    resultCells = new HashSet<SearchResultCellInfo>();
                     resultComponentToCellMapping.put(resultComponentName, resultCells);
                 }
                 resultCells.add(progIdToResultComponentCellMapping.get(programId));
 
                 //Add a new mapping to the org cell for this org id
-                Set<SearchResultCell> orgCells = orgIdToCellMapping.get(orgId);
+                Set<SearchResultCellInfo> orgCells = orgIdToCellMapping.get(orgId);
                 if (orgCells == null) {
-                    orgCells = new HashSet<SearchResultCell>();
+                    orgCells = new HashSet<SearchResultCellInfo>();
                     orgIdToCellMapping.put(orgId, orgCells);
                 }
                 orgCells.add(progIdToOrgCellMapping.get(programId));
 
                 //Concatenate the campus location
-                Set<SearchResultCell> campusCells = campusToCellMapping.get(campusCode);
+                Set<SearchResultCellInfo> campusCells = campusToCellMapping.get(campusCode);
                 if (campusCells == null) {
-                    campusCells = new HashSet<SearchResultCell>();
+                    campusCells = new HashSet<SearchResultCellInfo>();
                     campusToCellMapping.put(campusCode, campusCells);
                 }
                 campusCells.add(progIdToCampusCellMapping.get(programId));
@@ -3283,9 +3245,9 @@ public class CluServiceImpl implements CluService {
             Collections.sort(resultComponentNames);
             for (String resultComponentName : resultComponentNames) {
                 //Concatenate resultComponent names in the holder cells
-                Set<SearchResultCell> cells = resultComponentToCellMapping.get(resultComponentName);
+                Set<SearchResultCellInfo> cells = resultComponentToCellMapping.get(resultComponentName);
                 if (cells != null) {
-                    for (SearchResultCell cell : cells) {
+                    for (SearchResultCellInfo cell : cells) {
                         if (cell.getValue() == null) {
                             cell.setValue(resultComponentName);
                         } else {
@@ -3301,9 +3263,9 @@ public class CluServiceImpl implements CluService {
             Collections.sort(campusCodes);
             for (String campusCode : campusCodes) {
                 //Concatenate campus code names in the holder cells
-                Set<SearchResultCell> cells = campusToCellMapping.get(campusCode);
+                Set<SearchResultCellInfo> cells = campusToCellMapping.get(campusCode);
                 if (cells != null) {
-                    for (SearchResultCell cell : cells) {
+                    for (SearchResultCellInfo cell : cells) {
                         if (cell.getValue() == null) {
                             cell.setValue(campusCode);
                         } else {
@@ -3317,19 +3279,19 @@ public class CluServiceImpl implements CluService {
         //Use the org search to Translate the orgIds into Org names and update the holder cells
         if (!orgIdToCellMapping.isEmpty()) {
             //Perform the Org search
-            SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+            SearchRequestInfo orgIdTranslationSearchRequest = new SearchRequestInfo("org.search.generic");
             orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(
                     orgIdToCellMapping.keySet()));
             orgIdTranslationSearchRequest.setSortColumn("org.resultColumn.orgShortName");
-            SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
+            SearchResultInfo orgIdTranslationSearchResult = searchDispatcher.search(orgIdTranslationSearchRequest, contextInfo);
 
             //For each translation, update the result cell with the translated org name
-            for (SearchResultRow row : orgIdTranslationSearchResult.getRows()) {
+            for (SearchResultRowInfo row : orgIdTranslationSearchResult.getRows()) {
 
                 //Get Params
                 String orgId = "";
                 String orgName = "";
-                for (SearchResultCell cell : row.getCells()) {
+                for (SearchResultCellInfo cell : row.getCells()) {
                     if ("org.resultColumn.orgId".equals(cell.getKey())) {
                         orgId = cell.getValue();
                         continue;
@@ -3339,9 +3301,9 @@ public class CluServiceImpl implements CluService {
                 }
 
                 //Concatenate org names in the holder cells
-                Set<SearchResultCell> cells = orgIdToCellMapping.get(orgId);
+                Set<SearchResultCellInfo> cells = orgIdToCellMapping.get(orgId);
                 if (cells != null) {
-                    for (SearchResultCell cell : cells) {
+                    for (SearchResultCellInfo cell : cells) {
                         if (cell.getValue() == null) {
                             cell.setValue(orgName);
                         } else {
@@ -3355,8 +3317,8 @@ public class CluServiceImpl implements CluService {
         return programSearchResults;
     }
 
-    private SearchResult doDependencyAnalysisSearch(String cluId) throws MissingParameterException,
-            DoesNotExistException {
+    private SearchResultInfo doDependencyAnalysisSearch(String cluId, ContextInfo contextInfo) throws MissingParameterException,
+            DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         checkForMissingParameter(cluId, "cluId");
 
@@ -3381,7 +3343,7 @@ public class CluServiceImpl implements CluService {
         if (dynamicCluSets != null) {
             for (CluSet cluSet : dynamicCluSets) {
                 MembershipQueryInfo queryInfo = CluServiceAssembler.toMembershipQueryInfo(cluSet.getMembershipQuery());
-                List<String> memberCluVersionIndIds = getMembershipQuerySearchResult(queryInfo);
+                List<String> memberCluVersionIndIds = getMembershipQuerySearchResult(queryInfo, contextInfo);
                 if (memberCluVersionIndIds != null) {
                     for (String cluVersionIndId : cluVersionIndIds) {
                         if (memberCluVersionIndIds.contains(cluVersionIndId)) {
@@ -3398,23 +3360,23 @@ public class CluServiceImpl implements CluService {
         //Now we have the clu id and the list of clusets that the id appears in,
         //We need to do a statement service search to see what statements use these as
         //dependencies
-        SearchRequest statementSearchRequest = new SearchRequest("stmt.search.dependencyAnalysis");
+        SearchRequestInfo statementSearchRequest = new SearchRequestInfo("stmt.search.dependencyAnalysis");
 
         statementSearchRequest.addParam("stmt.queryParam.cluSetIds", new ArrayList<String>(cluSetMap.keySet()));
         statementSearchRequest.addParam("stmt.queryParam.cluVersionIndIds", cluVersionIndIds);
 
-        SearchResult statementSearchResult = searchDispatcher.dispatchSearch(statementSearchRequest);
+        SearchResultInfo statementSearchResult = searchDispatcher.search(statementSearchRequest, contextInfo);
 
         //Create a search result for the return value
-        SearchResult searchResult = new SearchResult();
+        SearchResultInfo searchResult = new SearchResultInfo();
 
-        Map<String, List<SearchResultCell>> orgIdToCellMapping = new HashMap<String, List<SearchResultCell>>();
+        Map<String, List<SearchResultCellInfo>> orgIdToCellMapping = new HashMap<String, List<SearchResultCellInfo>>();
 
         //Now we need to take the statement ids and find the clus that relate to them
         //We will also transform the search result from the statement search result to
         //the dependency analysis search result
         Set<String> processed = new HashSet<String>();
-        for (SearchResultRow stmtRow : statementSearchResult.getRows()) {
+        for (SearchResultRowInfo stmtRow : statementSearchResult.getRows()) {
 
             //Determine result column values
             String refObjId = null;
@@ -3423,7 +3385,7 @@ public class CluServiceImpl implements CluService {
             String rootId = null;
             String requirementComponentIds = null;
 
-            for (SearchResultCell stmtCell : stmtRow.getCells()) {
+            for (SearchResultCellInfo stmtCell : stmtRow.getCells()) {
                 if ("stmt.resultColumn.refObjId".equals(stmtCell.getKey())) {
                     refObjId = stmtCell.getValue();
                     continue;
@@ -3467,7 +3429,7 @@ public class CluServiceImpl implements CluService {
 
                 processed.add(rowId);
 
-                SearchResultRow resultRow = new SearchResultRow();
+                SearchResultRowInfo resultRow = new SearchResultRowInfo();
 
                 //Map the result cells
                 resultRow.addCell("lu.resultColumn.cluId", clu.getId());
@@ -3482,12 +3444,12 @@ public class CluServiceImpl implements CluService {
                         requirementComponentIds);
 
                 //Make a holder cell for the org names, to be populated later
-                SearchResultCell orgIdsCell = new SearchResultCell("lu.resultColumn.luOptionalOversightCommitteeIds",
+                SearchResultCellInfo orgIdsCell = new SearchResultCellInfo("lu.resultColumn.luOptionalOversightCommitteeIds",
                         null);
                 resultRow.getCells().add(orgIdsCell);
 
                 //Make a holder cell for the org ids, to be populated later
-                SearchResultCell orgNamesCell = new SearchResultCell(
+                SearchResultCellInfo orgNamesCell = new SearchResultCellInfo(
                         "lu.resultColumn.luOptionalOversightCommitteeNames", null);
                 resultRow.getCells().add(orgNamesCell);
 
@@ -3500,9 +3462,9 @@ public class CluServiceImpl implements CluService {
                             "kuali.adminOrg.type.CurriculumOversightUnit".equals(adminOrg.getType())) {
 
                         //Add the cell to the mapping for that perticular org id
-                        List<SearchResultCell> cells = orgIdToCellMapping.get(adminOrg.getOrgId());
+                        List<SearchResultCellInfo> cells = orgIdToCellMapping.get(adminOrg.getOrgId());
                         if (cells == null) {
-                            cells = new ArrayList<SearchResultCell>();
+                            cells = new ArrayList<SearchResultCellInfo>();
                             orgIdToCellMapping.put(adminOrg.getOrgId(), cells);
                         }
                         cells.add(orgNamesCell);
@@ -3532,18 +3494,18 @@ public class CluServiceImpl implements CluService {
         //Use the org search to Translate the orgIds into Org names and update the holder cells
         if (!orgIdToCellMapping.isEmpty()) {
             //Perform the Org search
-            SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+            SearchRequestInfo orgIdTranslationSearchRequest = new SearchRequestInfo("org.search.generic");
             orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(
                     orgIdToCellMapping.keySet()));
-            SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
+            SearchResultInfo orgIdTranslationSearchResult = searchDispatcher.search(orgIdTranslationSearchRequest, contextInfo);
 
             //For each translation, update the result cell with the translated org name
-            for (SearchResultRow row : orgIdTranslationSearchResult.getRows()) {
+            for (SearchResultRowInfo row : orgIdTranslationSearchResult.getRows()) {
 
                 //Get Params
                 String orgId = "";
                 String orgName = "";
-                for (SearchResultCell cell : row.getCells()) {
+                for (SearchResultCellInfo cell : row.getCells()) {
                     if ("org.resultColumn.orgId".equals(cell.getKey())) {
                         orgId = cell.getValue();
                         continue;
@@ -3553,9 +3515,9 @@ public class CluServiceImpl implements CluService {
                 }
 
                 //Concatenate org names in the holder cells
-                List<SearchResultCell> cells = orgIdToCellMapping.get(orgId);
+                List<SearchResultCellInfo> cells = orgIdToCellMapping.get(orgId);
                 if (cells != null) {
-                    for (SearchResultCell cell : cells) {
+                    for (SearchResultCellInfo cell : cells) {
                         if (cell.getValue() == null) {
                             cell.setValue(orgName);
                         } else {
@@ -3570,7 +3532,7 @@ public class CluServiceImpl implements CluService {
         for (CluSet cluSet : cluSetMap.values()) {
             if (!"AdHock".equals(cluSet.getName())) {
 
-                SearchResultRow resultRow = new SearchResultRow();
+                SearchResultRowInfo resultRow = new SearchResultRowInfo();
 
                 resultRow.addCell("lu.resultColumn.cluId", cluSet.getId());
                 resultRow.addCell("lu.resultColumn.luOptionalShortName", cluSet.getName());
@@ -3587,7 +3549,7 @@ public class CluServiceImpl implements CluService {
         if (joints != null) {
             for (Clu clu : joints) {
 
-                SearchResultRow resultRow = new SearchResultRow();
+                SearchResultRowInfo resultRow = new SearchResultRowInfo();
 
                 resultRow.addCell("lu.resultColumn.cluId", clu.getId());
                 resultRow.addCell("lu.resultColumn.luOptionalCode", clu.getOfficialIdentifier().getCode());
@@ -3603,7 +3565,7 @@ public class CluServiceImpl implements CluService {
         //Lookup cross-listings and add to the results
         for (CluIdentifier altId : triggerClu.getAlternateIdentifiers()) {
             if ("kuali.lu.type.CreditCourse.identifier.crosslisting".equals(altId.getType())) {
-                SearchResultRow resultRow = new SearchResultRow();
+                SearchResultRowInfo resultRow = new SearchResultRowInfo();
 
                 resultRow.addCell("lu.resultColumn.luOptionalCode", altId.getCode());
                 resultRow.addCell("lu.resultColumn.luOptionalShortName", altId.getShortName());
@@ -3621,7 +3583,7 @@ public class CluServiceImpl implements CluService {
         return searchResult;
     }
 
-    public class SearchResultRowComparator implements Comparator<SearchResultRow> {
+    public class SearchResultRowComparator implements Comparator<SearchResultRowInfo> {
         private String sortColumn;
 
         SearchResultRowComparator(String sortColumn) {
@@ -3630,16 +3592,16 @@ public class CluServiceImpl implements CluService {
         }
 
         @Override
-        public int compare(SearchResultRow o1, SearchResultRow o2) {
+        public int compare(SearchResultRowInfo o1, SearchResultRowInfo o2) {
             String o1SortValue = null;
             String o2SortValue = null;
-            for (SearchResultCell cell : o1.getCells()) {
+            for (SearchResultCellInfo cell : o1.getCells()) {
                 if (sortColumn.equals(cell.getKey())) {
                     o1SortValue = cell.getValue();
                     break;
                 }
             }
-            for (SearchResultCell cell : o2.getCells()) {
+            for (SearchResultCellInfo cell : o2.getCells()) {
                 if (sortColumn.equals(cell.getKey())) {
                     o2SortValue = cell.getValue();
                     break;
@@ -3659,20 +3621,20 @@ public class CluServiceImpl implements CluService {
 
     }
 
-    private SearchResult doSearchProposalsByCourseCode(String courseCode) throws MissingParameterException{
+    private SearchResultInfo doSearchProposalsByCourseCode(String courseCode, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         if(courseCode==null||courseCode.isEmpty()){
-            return new SearchResult();
+            return new SearchResultInfo();
         }
         //First do a search of courses with said code
-        SearchRequest sr = new SearchRequest("lu.search.mostCurrent.union");
+        SearchRequestInfo sr = new SearchRequestInfo("lu.search.mostCurrent.union");
         sr.addParam("lu.queryParam.luOptionalCode", courseCode);
         sr.addParam("lu.queryParam.luOptionalType","kuali.lu.type.CreditCourse");
-        SearchResult results = search(sr);
+        SearchResultInfo results = search(sr, contextInfo);
         Map<String,String> cluIdToCodeMap = new HashMap<String,String>();
-        for(SearchResultRow row:results.getRows()){
+        for(SearchResultRowInfo row:results.getRows()){
             String cluId = null;
             String code = null;
-            for(SearchResultCell cell:row.getCells()){
+            for(SearchResultCellInfo cell:row.getCells()){
                 if("lu.resultColumn.cluId".equals(cell.getKey())){
                     cluId = cell.getValue();
                 }else if("lu.resultColumn.luOptionalCode".equals(cell.getKey())){
@@ -3686,14 +3648,14 @@ public class CluServiceImpl implements CluService {
         }
 
         //Do a search for proposals that refer to the clu ids we found
-        sr = new SearchRequest("proposal.search.proposalsForReferenceIds");
+        sr = new SearchRequestInfo("proposal.search.proposalsForReferenceIds");
         sr.addParam("proposal.queryParam.proposalOptionalReferenceIds", new ArrayList<String>(cluIdToCodeMap.keySet()));
-        results = searchDispatcher.dispatchSearch(sr);
-        for(SearchResultRow row:results.getRows()){
+        results = searchDispatcher.search(sr, contextInfo);
+        for(SearchResultRowInfo row:results.getRows()){
             String cluId = null;
-            SearchResultCell proposalNameCell = null;
+            SearchResultCellInfo proposalNameCell = null;
 
-            for(SearchResultCell cell:row.getCells()){
+            for(SearchResultCellInfo cell:row.getCells()){
                 if("proposal.resultColumn.proposalOptionalName".equals(cell.getKey())){
                     proposalNameCell = cell;
                     cell.setKey("lu.resultColumn.proposalOptionalName");
@@ -3717,19 +3679,19 @@ public class CluServiceImpl implements CluService {
      * @return
      * @throws MissingParameterException
      */
-    private SearchResult doBrowseVersionsSearch(SearchRequest searchRequest) throws MissingParameterException {
-        SearchResult searchResult = searchManager.search(searchRequest, luDao);
+    private SearchResultInfo doBrowseVersionsSearch(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchResultInfo searchResult = searchManager.search(searchRequest, contextInfo);
 
-        Map<String,List<SearchResultCell>> atpIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
+        Map<String,List<SearchResultCellInfo>> atpIdToCellMapping = new HashMap<String,List<SearchResultCellInfo>>();
 
-        for(SearchResultRow row:searchResult.getRows()){
-            for(SearchResultCell cell:row.getCells()){
+        for(SearchResultRowInfo row:searchResult.getRows()){
+            for(SearchResultCellInfo cell:row.getCells()){
                 if(cell.getValue()!=null &&
                         ("lu.resultColumn.luOptionalExpFirstAtpDisplay".equals(cell.getKey()) ||
                                 "lu.resultColumn.luOptionalLastAtpDisplay".equals(cell.getKey()))) {
-                    List<SearchResultCell> cells = atpIdToCellMapping.get(cell.getValue());
+                    List<SearchResultCellInfo> cells = atpIdToCellMapping.get(cell.getValue());
                     if(cells==null){
-                        cells = new ArrayList<SearchResultCell>();
+                        cells = new ArrayList<SearchResultCellInfo>();
                         atpIdToCellMapping.put(cell.getValue(), cells);
                     }
                     cells.add(cell);
@@ -3738,13 +3700,13 @@ public class CluServiceImpl implements CluService {
         }
         //Now do an atp search to translate ids to names
 
-        SearchRequest atpSearchRequest = new SearchRequest("atp.search.advancedAtpSearch");
+        SearchRequestInfo atpSearchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
         atpSearchRequest.addParam("atp.advancedAtpSearchParam.optionalAtpIds", new ArrayList<String>(atpIdToCellMapping.keySet()));
-        SearchResult atpSearchResults = searchDispatcher.dispatchSearch(atpSearchRequest);
-        for(SearchResultRow row:atpSearchResults.getRows()){
+        SearchResultInfo atpSearchResults = searchDispatcher.search(atpSearchRequest, contextInfo);
+        for(SearchResultRowInfo row:atpSearchResults.getRows()){
             String atpId = null;
             String atpName = null;
-            for(SearchResultCell cell:row.getCells()){
+            for(SearchResultCellInfo cell:row.getCells()){
                 if("atp.resultColumn.atpId".equals(cell.getKey())){
                     atpId = cell.getValue();
                 }else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
@@ -3752,7 +3714,7 @@ public class CluServiceImpl implements CluService {
                 }
             }
             if(atpId!=null && atpIdToCellMapping.get(atpId)!=null){
-                for(SearchResultCell cell : atpIdToCellMapping.get(atpId)){
+                for(SearchResultCellInfo cell : atpIdToCellMapping.get(atpId)){
                     cell.setValue(atpName);
                 }
             }
@@ -3767,21 +3729,21 @@ public class CluServiceImpl implements CluService {
      * @return
      * @throws MissingParameterException
      */
-    private SearchResult doResultComponentTypesForCluSearch(SearchRequest cluSearchRequest) throws MissingParameterException {
+    private SearchResultInfo doResultComponentTypesForCluSearch(SearchRequestInfo cluSearchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
 
-        SearchResult searchResult = searchManager.search(cluSearchRequest, luDao);
+        SearchResultInfo searchResult = searchManager.search(cluSearchRequest, contextInfo);
 
         //Get the result Component Ids using a search
-        Map<String,List<SearchResultRow>> rcIdToRowMapping = new HashMap<String,List<SearchResultRow>>();
+        Map<String,List<SearchResultRowInfo>> rcIdToRowMapping = new HashMap<String,List<SearchResultRowInfo>>();
 
         //Get a mapping of ids to translate
-        for(SearchResultRow row:searchResult.getRows()){
-            for(SearchResultCell cell:row.getCells()){
+        for(SearchResultRowInfo row:searchResult.getRows()){
+            for(SearchResultCellInfo cell:row.getCells()){
                 if(cell.getValue()!=null &&
                         "lu.resultColumn.resultComponentId".equals(cell.getKey())) {
-                    List<SearchResultRow> rows = rcIdToRowMapping.get(cell.getValue());
+                    List<SearchResultRowInfo> rows = rcIdToRowMapping.get(cell.getValue());
                     if(rows==null){
-                        rows = new ArrayList<SearchResultRow>();
+                        rows = new ArrayList<SearchResultRowInfo>();
                         rcIdToRowMapping.put(cell.getValue(), rows);
                     }
                     rows.add(row);
@@ -3790,15 +3752,15 @@ public class CluServiceImpl implements CluService {
         }
 
         //Get the LRC names to match the ids
-        SearchRequest lrcSearchRequest = new SearchRequest(SEARCH_KEY_RESULT_COMPONENT);
+        SearchRequestInfo lrcSearchRequest = new SearchRequestInfo(SEARCH_KEY_RESULT_COMPONENT);
         lrcSearchRequest.addParam("lrc.queryParam.resultComponent.idRestrictionList", new ArrayList<String>(rcIdToRowMapping.keySet()));
-        SearchResult lrcSearchResults = searchDispatcher.dispatchSearch(lrcSearchRequest);
+        SearchResultInfo lrcSearchResults = searchDispatcher.search(lrcSearchRequest, contextInfo);
 
         //map the names back to the original search results
-        for(SearchResultRow row:lrcSearchResults.getRows()){
+        for(SearchResultRowInfo row:lrcSearchResults.getRows()){
             String lrcId = null;
             String lrcName = null;
-            for(SearchResultCell cell:row.getCells()){
+            for(SearchResultCellInfo cell:row.getCells()){
                 if("lrc.resultColumn.resultComponent.id".equals(cell.getKey())){
                     lrcId = cell.getValue();
                 }else if("lrc.resultColumn.resultComponent.name".equals(cell.getKey())){
@@ -3806,7 +3768,7 @@ public class CluServiceImpl implements CluService {
                 }
             }
             if(lrcId!=null && rcIdToRowMapping.get(lrcId)!=null){
-                for(SearchResultRow resultRow : rcIdToRowMapping.get(lrcId)){
+                for(SearchResultRowInfo resultRow : rcIdToRowMapping.get(lrcId)){
                     resultRow.addCell("lu.resultColumn.resultComponentName",lrcName);
                 }
             }
@@ -3815,50 +3777,49 @@ public class CluServiceImpl implements CluService {
         return searchResult;
     }
 
-
     @Override
     @Transactional(readOnly=true)
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         checkForMissingParameter(searchRequest, "searchRequest");
 
         if (SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())) {
             String cluId = null;
-            for (SearchParam param : searchRequest.getParams()) {
+            for (SearchParamInfo param : searchRequest.getParams()) {
                 if ("lu.queryParam.luOptionalCluId".equals(param.getKey())) {
-                    cluId = (String) param.getValue();
+                    cluId = (String) param.getValues().get(0);
                     break;
                 }
             }
             try {
-                return doDependencyAnalysisSearch(cluId);
+                return doDependencyAnalysisSearch(cluId, contextInfo);
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("Error performing search");//FIXME should be more checked service exceptions thrown
             }
         } else if (SEARCH_KEY_BROWSE_PROGRAM.equals(searchRequest.getSearchKey())) {
-            return doBrowseProgramSearch();
+            return doBrowseProgramSearch(contextInfo);
         }else if(SEARCH_KEY_PROPOSALS_BY_COURSE_CODE.equals(searchRequest.getSearchKey())){
             String courseCode = null;
-            for(SearchParam param:searchRequest.getParams()){
+            for(SearchParamInfo param:searchRequest.getParams()){
                 if("lu.queryParam.luOptionalCode".equals(param.getKey())){
-                    courseCode = (String)param.getValue();
+                    courseCode = (String)param.getValues().get(0);
                     break;
                 }
             }
-            return doSearchProposalsByCourseCode(courseCode);
+            return doSearchProposalsByCourseCode(courseCode, contextInfo);
         }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequest.getSearchKey())){
-            return doBrowseVersionsSearch(searchRequest);
+            return doBrowseVersionsSearch(searchRequest, contextInfo);
         }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
-            return doResultComponentTypesForCluSearch(searchRequest);
+            return doResultComponentTypesForCluSearch(searchRequest, contextInfo);
         }else if(SEARCH_KEY_CLUSET_SEARCH_GENERIC.equals(searchRequest.getSearchKey())){
             //If any clu specific params are set, use a search key that has the clu defined in the JPQL
-            for(SearchParam param:searchRequest.getParams()){
+            for(SearchParamInfo param:searchRequest.getParams()){
                 if(param.getKey().contains("queryParam.luOptional")){
                     searchRequest.setSearchKey(SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS);
                     break;
                 }
             }
         }
-        return searchManager.search(searchRequest, luDao);
+        return searchManager.search(searchRequest, contextInfo);
 
 
     }
@@ -3978,7 +3939,7 @@ public class CluServiceImpl implements CluService {
         return versionInfos;
     }
 
-    public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+    public void setSearchDispatcher(SearchService searchDispatcher) {
         this.searchDispatcher = searchDispatcher;
     }
 

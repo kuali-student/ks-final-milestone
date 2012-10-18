@@ -1,9 +1,9 @@
 package org.kuali.student.r2.lum.service.search;
 
-import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -30,29 +30,25 @@ public abstract class AbstractTypeSearch implements TypeSearch{
         this.typeService = typeService;
     }
 
-    protected ContextInfo getContextInfo(){
-        return new ContextInfo();
-    }
-
-    protected String getParamValueForKey(SearchRequest searchRequest, String key){
-        for(SearchParam param : searchRequest.getParams()){
+    protected String getParamValueForKey(SearchRequestInfo searchRequest, String key){
+        for(SearchParamInfo param : searchRequest.getParams()){
             if (param.getKey().equals(key)){
-                return (String) param.getValue();
+                return (String) param.getValues().get(0);
             }
         }
         return null;
     }
 
-    protected List<String> getParamListForKey(SearchRequest searchRequest, String key){
-        for(SearchParam param : searchRequest.getParams()){
+    protected List<String> getParamListForKey(SearchRequestInfo searchRequest, String key){
+        for(SearchParamInfo param : searchRequest.getParams()){
             if (param.getKey().equals(key)){
-                return (List<String>) param.getValue();
+                return param.getValues();
             }
         }
         return null;
     }
 
-    protected SearchResult createSearchResultFromTypeInfo(TypeInfo typeInfo, String idKey, String nameKey, String descKey){
+    protected SearchResultInfo createSearchResultFromTypeInfo(TypeInfo typeInfo, String idKey, String nameKey, String descKey){
 
         List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
         typeInfos.add(typeInfo);
@@ -60,9 +56,9 @@ public abstract class AbstractTypeSearch implements TypeSearch{
         return this.createSearchResultFromTypeInfo(typeInfos, idKey, nameKey, descKey);
     }
 
-    protected SearchResult createSearchResultFromTypeInfo(List<TypeInfo> typeInfos, String idKey, String nameKey, String descKey){
+    protected SearchResultInfo createSearchResultFromTypeInfo(List<TypeInfo> typeInfos, String idKey, String nameKey, String descKey){
 
-        SearchResult searchResult = new SearchResult();
+        SearchResultInfo searchResult = new SearchResultInfo();
         for (TypeInfo typeInfo : typeInfos){
             searchResult.getRows().add(this.createSearchResultRowFromTypeInfo(typeInfo, idKey, nameKey, descKey));
         }
@@ -70,12 +66,12 @@ public abstract class AbstractTypeSearch implements TypeSearch{
         return searchResult;
     }
 
-    protected SearchResultRow createSearchResultRowFromTypeInfo(TypeInfo typeInfo, String idKey, String nameKey, String descKey){
+    protected SearchResultRowInfo createSearchResultRowFromTypeInfo(TypeInfo typeInfo, String idKey, String nameKey, String descKey){
         if (typeInfo==null){
             return null;
         }
 
-        SearchResultRow row = new SearchResultRow();
+        SearchResultRowInfo row = new SearchResultRowInfo();
         row.addCell(idKey, typeInfo.getKey());
         row.addCell(nameKey, typeInfo.getName());
         if (descKey != null){
