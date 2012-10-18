@@ -76,19 +76,26 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
         if (LOG.isEnabledFor(Level.ERROR)){
             LOG.error(ex);
         }
+         //Commented for now... once service throws MPE/IPE(KSENROLL-3446), needs to rework.
+        /*StringBuilder refinedErrorMessage = new StringBuilder();
+        refinedErrorMessage.append(ex.getMessage());
+        refinedErrorMessage.append("[Caused at ");
+        refinedErrorMessage.append(ex.getStackTrace()[0].getClass().getSimpleName() + ".");
+        refinedErrorMessage.append(ex.getStackTrace()[0].getMethodName() + "()");
+        refinedErrorMessage.append(ex.getStackTrace()[0].getLineNumber() + "]");*/
 
         if (ex instanceof DoesNotExistException){
-            return new RuntimeException("Entry not found for the requested data",ex);
+            return new RuntimeException("Does Not Exists - " + ex.getMessage(),ex);
         } else if (ex instanceof InvalidParameterException){
             return new RuntimeException("Invalid parameter - " + ex.getMessage(),ex);
         } else if (ex instanceof MissingParameterException){
             return new RuntimeException("Missing parameter - " + ex.getMessage(),ex);
         } else if (ex instanceof OperationFailedException){
-            return new RuntimeException("StateService.getState() operation Failed - " + ex.getMessage(),ex);
+            return new RuntimeException("Operation Failed - " + ex.getMessage(),ex);
         } else if (ex instanceof PermissionDeniedException){
-            return new RuntimeException("You dont have permission to access the service",ex);
+            return new RuntimeException("Permission Denied - " + ex.getMessage(),ex);
         } else {
-            throw new RuntimeException("KSViewHelperServiceImpl.convertServiceExceptionsToUI() doesn't support this exception " + ex.getClass().getSimpleName(),ex);
+            throw new IllegalArgumentException("KSViewHelperServiceImpl.convertServiceExceptionsToUI() doesn't support this exception " + ex.getClass().getSimpleName(),ex);
         }
     }
 }
