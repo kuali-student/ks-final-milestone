@@ -22,7 +22,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.core.statement.dao.StatementDao;
 import org.kuali.student.r1.core.statement.entity.RefStatementRelation;
@@ -30,7 +30,7 @@ import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.Statement;
 
 @Deprecated
-public class StatementDaoImpl extends AbstractSearchableCrudDaoImpl implements StatementDao {
+public class StatementDaoImpl extends AbstractCrudDaoImpl implements StatementDao {
 
 	@PersistenceContext(unitName = "Statement")
 	@Override

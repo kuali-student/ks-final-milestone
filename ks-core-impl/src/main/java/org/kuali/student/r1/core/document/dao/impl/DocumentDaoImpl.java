@@ -24,7 +24,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.core.document.dao.DocumentDao;
 import org.kuali.student.r1.core.document.entity.Document;
@@ -37,7 +37,7 @@ import org.kuali.student.r1.core.document.entity.RefDocRelation;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
 @Deprecated
-public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements DocumentDao {
+public class DocumentDaoImpl extends AbstractCrudDaoImpl implements DocumentDao {
     
     final Logger logger = Logger.getLogger(DocumentDaoImpl.class);
     

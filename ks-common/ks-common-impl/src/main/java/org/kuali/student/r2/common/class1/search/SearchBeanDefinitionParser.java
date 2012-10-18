@@ -17,8 +17,6 @@ package org.kuali.student.r2.common.class1.search;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.search.dto.*;
 import org.kuali.student.r2.common.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.r2.common.search.dto.QueryParamInfo;
@@ -54,7 +52,7 @@ public class SearchBeanDefinitionParser extends
 			return QueryParamInfo.class;
 		}
 		if (element.getLocalName().equals("searchType")) {
-			return TypeInfo.class;
+			return SearchTypeInfo.class;
 		}
 		if (element.getLocalName().equals("resultColumn")) {
 			return ResultColumnInfo.class;

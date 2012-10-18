@@ -20,7 +20,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
-import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 

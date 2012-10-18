@@ -22,7 +22,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r1.core.comment.dao.CommentDao;
 import org.kuali.student.r1.core.comment.entity.Comment;
 import org.kuali.student.r1.core.comment.entity.CommentType;
@@ -36,7 +36,7 @@ import org.kuali.student.r1.core.comment.entity.Tag;
  *
  */
 @Deprecated
-public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements CommentDao {
+public class CommentDaoImpl extends AbstractCrudDaoImpl implements CommentDao {
     @PersistenceContext(unitName = "Comment")
     @Override
     public void setEm(EntityManager em) {

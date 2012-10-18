@@ -6,7 +6,7 @@
 
 package org.kuali.student.r1.core.organization.dao.impl;
 
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r1.core.organization.entity.Org;
@@ -24,7 +24,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-public class OrganizationDaoImpl extends AbstractSearchableCrudDaoImpl implements OrganizationDao {
+public class OrganizationDaoImpl extends AbstractCrudDaoImpl implements OrganizationDao {
 
     @PersistenceContext(unitName = "Organization")
     @Override

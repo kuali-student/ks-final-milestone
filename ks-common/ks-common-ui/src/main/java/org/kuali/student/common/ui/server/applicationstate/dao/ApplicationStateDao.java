@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
 import org.kuali.student.r1.common.dao.CrudDao;
-import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
@@ -28,7 +27,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
  * This data access interface stores the GUI (page, section, widget, etc.) 
  * application states as key value pairs in a database.
  */
-public interface ApplicationStateDao extends CrudDao, SearchableDao {
+public interface ApplicationStateDao extends CrudDao {
 
 	/**
 	 * Gets a list of application states by 

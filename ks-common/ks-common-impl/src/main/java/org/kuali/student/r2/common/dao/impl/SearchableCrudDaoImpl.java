@@ -76,7 +76,8 @@ public class SearchableCrudDaoImpl {
 		for(SearchParamInfo searchParam : searchParamsTemp){
 			for(QueryParamInfo queryParam:searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams()){
 				// check to see if optional param has any values set.
-				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())&&searchParam.getValues().get(0)!=null){
+				if(queryParam.isOptional()&&queryParam.getKey().equals(searchParam.getKey())
+                        &&searchParam.getValues()!=null&&searchParam.getValues().size()>0&&searchParam.getValues().get(0)!=null){
 					if(!optionalQueryString.isEmpty()){
 						optionalQueryString += " AND ";
 					}
@@ -204,7 +205,9 @@ public class SearchableCrudDaoImpl {
 		//replace all the "." notation with "_" since the "."s in the ids of the queries will cause problems with the jpql  
 		for (SearchParamInfo searchParam : internalQueryParms) {
 			// check to see if optional param has any values set.
-			if (searchParam.getValues().get(0) != null) {
+			if (searchParam.getValues() != null &&
+                    searchParam.getValues().size() > 0 &&
+                    searchParam.getValues().get(0) != null) {
 			    List<QueryParamInfo> queryParams = searchTypeInfo.getSearchCriteriaTypeInfo().getQueryParams();
 			    String paramDataType = null;
 			    if (queryParams != null) {

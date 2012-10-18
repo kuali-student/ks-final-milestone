@@ -18,7 +18,6 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.r1.common.search.dto.*;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;

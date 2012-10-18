@@ -1,6 +1,5 @@
 package org.kuali.student.r2.common.search;
 
-import org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.r2.common.class1.search.CrossSearchManager;
 import org.kuali.student.r2.common.class1.search.SearchManagerImpl;
 import org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl;

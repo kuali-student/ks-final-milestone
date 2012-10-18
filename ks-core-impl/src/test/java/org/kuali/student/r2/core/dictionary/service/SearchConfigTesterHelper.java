@@ -12,11 +12,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.r2.common.class1.search.SearchConfigFormatter;
+import org.kuali.student.r2.common.class1.search.SearchConfigValidator;
 import org.kuali.student.r2.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.service.impl.SearchConfigFormatter;
-import org.kuali.student.r1.common.search.service.impl.SearchConfigValidator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

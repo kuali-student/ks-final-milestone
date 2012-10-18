@@ -18,7 +18,6 @@ package org.kuali.student.r1.core.comment.dao;
 import java.util.List;
 
 import org.kuali.student.r1.common.dao.CrudDao;
-import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r1.core.comment.entity.Comment;
 import org.kuali.student.r1.core.comment.entity.CommentType;
 import org.kuali.student.r1.core.comment.entity.Reference;
@@ -31,7 +30,7 @@ import org.kuali.student.r1.core.comment.entity.Tag;
  *
  */
 @Deprecated
-public interface CommentDao extends CrudDao, SearchableDao {
+public interface CommentDao extends CrudDao {
     public Comment getComment(String referenceId, String referenceTypeKey);
     public List<Comment> getComments(String referenceId, String referenceTypeKey);
     public List<Comment> getCommentsByRefId(String referenceId);

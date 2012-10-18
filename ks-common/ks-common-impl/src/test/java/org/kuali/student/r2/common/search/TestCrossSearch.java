@@ -7,7 +7,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
 
 import static org.junit.Assert.assertNotNull;
 

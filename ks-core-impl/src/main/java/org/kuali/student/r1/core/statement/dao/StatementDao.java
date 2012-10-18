@@ -18,14 +18,13 @@ package org.kuali.student.r1.core.statement.dao;
 import java.util.List;
 
 import org.kuali.student.r1.common.dao.CrudDao;
-import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.core.statement.entity.RefStatementRelation;
 import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.Statement;
 
 @Deprecated
-public interface StatementDao extends CrudDao, SearchableDao {
+public interface StatementDao extends CrudDao {
 
     public List<ReqComponent> getReqComponents(List<String> reqComponentIdList);
     public List<Statement> getStatements(List<String> statementIdList);

@@ -13,7 +13,6 @@ import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.common.validator.old.Validator;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
 import org.kuali.student.r1.core.organization.entity.Org;

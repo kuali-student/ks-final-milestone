@@ -16,13 +16,12 @@
 package org.kuali.student.r1.core.organization.dao;
 
 import org.kuali.student.r1.common.dao.CrudDao;
-import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r1.core.organization.entity.*;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 
 import java.util.List;
 
-public interface OrganizationDao extends CrudDao, SearchableDao {
+public interface OrganizationDao extends CrudDao {
 
     public List<OrgPersonRelation> getAllOrgPersonRelationsByPerson(String personId);
     public List<OrgPersonRelation> getAllOrgPersonRelationsByOrg(String orgId);

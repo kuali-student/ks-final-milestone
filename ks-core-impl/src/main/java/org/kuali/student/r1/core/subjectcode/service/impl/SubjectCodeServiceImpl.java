@@ -6,7 +6,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
 import org.kuali.student.common.util.DateFormatThread;
-import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.core.subjectcode.dao.SubjectCodeDao;
 import org.kuali.student.r1.core.subjectcode.dao.SubjectCodeJoinOrgDao;
 import org.kuali.student.r1.core.subjectcode.model.SubjectCode;
@@ -18,10 +17,8 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.search.service.SearchManager;
-import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.service.SearchService;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.jws.WebService;

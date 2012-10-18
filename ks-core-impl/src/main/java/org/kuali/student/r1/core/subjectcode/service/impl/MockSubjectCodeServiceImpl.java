@@ -2,7 +2,6 @@ package org.kuali.student.r1.core.subjectcode.service.impl;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;

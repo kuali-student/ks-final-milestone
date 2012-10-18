@@ -22,7 +22,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
 import org.kuali.student.r1.core.proposal.entity.Proposal;
@@ -38,7 +38,7 @@ import org.kuali.student.r1.core.proposal.entity.ProposalType;
  *
  */
 @Deprecated
-public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements ProposalDao {
+public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao {
     @PersistenceContext(unitName = "Proposal")
     @Override
     public void setEm(EntityManager em) {

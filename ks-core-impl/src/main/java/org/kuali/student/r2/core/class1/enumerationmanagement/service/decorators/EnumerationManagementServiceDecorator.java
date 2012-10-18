@@ -3,7 +3,6 @@ package org.kuali.student.r2.core.class1.enumerationmanagement.service.decorator
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
