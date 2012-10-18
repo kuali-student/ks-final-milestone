@@ -12,6 +12,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkHelper"/>
         <property name="header.render" value="false"/>
         <property name="footer.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
         <property name="additionalCssFiles">
             <list merge="true">
                 <value>ks-enroll-ksink/css/kitchensink.css</value>

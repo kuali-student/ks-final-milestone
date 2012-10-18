@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.kitchensink;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -42,6 +43,7 @@ public class KitchenSinkForm extends UifFormBase {
     private List<String> multiSelections;
     private String radioButtonSelection;
     private String dropdownSelection;
+    private Date dateField;
 
     private List<UITestObject> list1 = new ArrayList<UITestObject>();
     private List<UITestObject> list3 = new ArrayList<UITestObject>();
@@ -186,4 +188,12 @@ public class KitchenSinkForm extends UifFormBase {
     public void setDropdownSelection(String dropdownSelection) {
         this.dropdownSelection = dropdownSelection;
     }
+
+    public Date getDateField() {
+        return dateField;
+    }
+    public void setDateField(Date dateField) {
+        this.dateField = dateField;
+    }
+
 }
