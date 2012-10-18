@@ -205,6 +205,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionOptions.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionRowSelection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionStacked.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/DateField.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LinkFields.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupSuggest.xml</value>
                 <!--
