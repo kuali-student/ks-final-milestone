@@ -1089,7 +1089,7 @@
 					<property name="optional" value="true" />
 					<property name="defaultValueList">
 						<list>
-							<value>kuali.atp.type.AY</value>
+							<value>kuali.atp.type.AcademicCalendar</value>
 						</list>
 					</property>
 				</bean>
