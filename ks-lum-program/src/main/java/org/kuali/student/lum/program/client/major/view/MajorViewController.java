@@ -91,6 +91,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
                 
                 // If modify is selected
                 if (actionType == ActionType.MODIFY) {
+                    actionBox.setSelectedIndex(0);//reset the action droplist to default option
                     processModifyActionType(viewContext);
                 }
                 // If retire is selected
