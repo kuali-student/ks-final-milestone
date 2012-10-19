@@ -286,8 +286,8 @@
         </property>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewClusterFromLightBox"-->
-                      <!--p:id="create_new_cluster_button" p:render="@{!withinPortal}"/>-->
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewClusterFromLightBox"
+                      p:id="create_new_cluster_button" p:render="@{!withinPortal}"/>
                 <ref bean="KS-ManageRegistrationGroupsPage-CreateNewClusterSection"/>
                 <ref bean="KS-ManageRegistrationGroupPage-ClusterCollection"/>
             </list>
