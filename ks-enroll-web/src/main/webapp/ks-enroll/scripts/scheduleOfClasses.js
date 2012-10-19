@@ -26,7 +26,15 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
         // Temporal solution to display 2 AO lists simultaneously.
         var displayCoId = jQuery('span[id=displayCoId]').text().trim();
         var displayCoIdAdd = jQuery('span[id=displayCoIdAdd]').text().trim();
-        ajaxSubmitForm(controllerMethod, updateTable, {courseOfferingId:courseOfferingId, displayCoId:displayCoId, displayCoIdAdd:displayCoIdAdd}, jQuery('#' + courseOfferingId), null, "update-page");
+
+        var kradRequest = new KradRequest();
+
+        kradRequest.methodToCall = controllerMethod;
+        kradRequest.additionalData = {courseOfferingId:courseOfferingId, displayCoId:displayCoId, displayCoIdAdd:displayCoIdAdd};
+        kradRequest.successCallback = updateTable;
+        kradRequest.elementToBlock = jQuery('#' + courseOfferingId);
+        kradRequest.ajaxReturnType = 'update-page';
+        kradRequest.send();
     }
 
     function updateTable() {
