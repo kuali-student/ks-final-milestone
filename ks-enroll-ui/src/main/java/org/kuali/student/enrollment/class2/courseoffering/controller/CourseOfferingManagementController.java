@@ -393,8 +393,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if (hasDialogBeenAnswered("renameClusterDialog", theForm)) {
             boolean wantToRename = getBooleanDialogResponse("renameClusterDialog", theForm, request, response);
             if(wantToRename){
-                if (_isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRename())){
-                    selectedClusterWrapper = theForm.getSelectedCluster();
+                selectedClusterWrapper = theForm.getSelectedCluster();
+                if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRename()) || _isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRename())){
                     ActivityOfferingClusterInfo  aoCluster = selectedClusterWrapper.getAoCluster();
                     aoCluster.setName(theForm.getPublishedClusterNameForRename());
                     aoCluster.setPrivateName(theForm.getPrivateClusterNameForRename());

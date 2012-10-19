@@ -303,6 +303,19 @@
         </property>
     </bean>
 
+    <bean id="KS-ManageRegistrationGroupPage-LightboxPropsText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="display: none">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{#line.aoCluster.privateName}" p:renderColon="false">
+                    <property name="id"  value="privateName"/>
+                </bean>
+                <bean parent="Uif-Label" p:labelText="@{#line.aoCluster.Name}" p:renderColon="false">
+                    <property name="id"  value="publishedName"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-ManageRegistrationGroupPage-ClusterCollection" parent="KS-HorizontalCollectionSection"
           p:renderAddLine="false"  p:renderLineActions="false" p:onDocumentReadyScript="removeSelfFromDropdowns('KS-ManageRegistrationGroupPage-ClusterHeaderText');">
         <property name="disclosure.render" value="false"/>
@@ -316,6 +329,7 @@
 
         <property name="items">
             <list>
+                <ref bean="KS-ManageRegistrationGroupPage-LightboxPropsText"/>
                 <ref bean="KS-ManageRegistrationGroupPage-ClusterHeaderText"/>
                 <ref bean="KS-ManageRegistrationGroupPage-StateAndActionLinks"/>
             </list>
@@ -369,7 +383,7 @@
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightbox('registrationGroupsPerCluster_line@{#index}', '@{#ConfigProperties['application.url']}');"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasAllRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:render="@{!withinPortal}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:render="@{!withinPortal}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:successCallback="populateLightboxForm('KS-ManageRegistrationGroupPage-ClusterHeaderText', {'privateClusterNameForRename' : 'privateName_line@{#index}', 'publishedClusterNameForRename' : 'publishedName_line@{#index}'});"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!withinPortal}"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteACluster" p:actionLabel="Delete" p:render="@{withinPortal}"
                                 p:preSubmitCall="confirmDeletionResponse('This action is not reversible. Are you sure you want to continue?')"
@@ -606,6 +620,8 @@
                         <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>
                     </property>
                 </bean>
+                <!--<bean parent="Uif-DataField"  p:propertyName="privateClusterNameForRename" p:label="Private Name" p:defaultValue="@{selectedCluster.aoCluster.privateName}" p:labelPlacement="TOP" p:render="true">-->
+                <!--</bean>-->
                 <bean parent="Uif-InputField"  p:propertyName="publishedClusterNameForRename" p:label="Published Name" p:labelPlacement="TOP"  p:render="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:minLength="5" p:maxLength="20"/>

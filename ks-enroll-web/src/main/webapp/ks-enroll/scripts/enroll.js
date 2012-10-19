@@ -73,6 +73,15 @@ function addOption(dropdown, prepend, key, value){
     }
 }
 
+function populateLightboxForm(propertyContainerId, defaultPropertyValues){
+//    var lightboxForm = jQuery("#" + "kualiLightboxForm");
+    jQuery.each(defaultPropertyValues, function (lightboxPropId, kualiPropId) {
+        var lightboxInput = jQuery("#kualiLightboxForm :input[name='" + lightboxPropId + "']");
+        var kualiProp = jQuery("#" + kualiPropId);
+        lightboxInput.val(kualiProp.text());
+    });
+}
+
 /*
 function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
     if(jqObject && collectionGroupId){
