@@ -354,8 +354,18 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     checkRequiredScheduleInput(scheduleWrapper.getStartTimeAMPM(), ScheduleInput.START_TIME_AMPM);
                 }
 
+                //If am/pm selected, then time is required
+                if (StringUtils.isNotEmpty(scheduleWrapper.getStartTimeAMPM())) {
+                    checkRequiredScheduleInput(scheduleWrapper.getStartTime(), ScheduleInput.START_TIME);
+                }
+
                 if(StringUtils.isNotEmpty(scheduleWrapper.getEndTime())) {
                     checkRequiredScheduleInput(scheduleWrapper.getEndTimeAMPM(), ScheduleInput.END_TIME_AMPM);
+                }
+
+                //If am/pm selected, then time is required
+                if(StringUtils.isNotEmpty(scheduleWrapper.getEndTimeAMPM())) {
+                    checkRequiredScheduleInput(scheduleWrapper.getEndTime(), ScheduleInput.END_TIME);
                 }
             }
         }
