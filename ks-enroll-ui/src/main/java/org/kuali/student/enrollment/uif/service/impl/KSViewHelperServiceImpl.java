@@ -37,10 +37,23 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
 
     private final static Logger LOG = Logger.getLogger(KSViewHelperServiceImpl.class);
 
+    /**
+     * This method creates a new context, which is needed for the service call.  This is to create
+     * <code>ContextInfo</code> with the following information - current logged in user, current local
+     * date and locale information
+     *
+     * @return a new ContextInfo
+     */
     public ContextInfo createContextInfo(){
         return ContextUtils.createDefaultContextInfo();
     }
 
+    /**
+     * This method gets the <code>StateInfo</code> for a given state key
+     *
+     * @param stateKey
+     * @return StateInfo for the given state key
+     */
     public StateInfo getStateInfo(String stateKey){
         StateService stateService = CourseOfferingResourceLoader.loadStateService();
         try {
@@ -51,6 +64,12 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
 
     }
 
+    /**
+     * This method gets the <code>TypeInfo</code> for a given type key
+     *
+     * @param typeKey
+     * @return TypeInfo for the given type key
+     */
     public TypeInfo getTypeInfo(String typeKey){
         TypeService typeService = CourseOfferingResourceLoader.loadTypeService();
         try {
