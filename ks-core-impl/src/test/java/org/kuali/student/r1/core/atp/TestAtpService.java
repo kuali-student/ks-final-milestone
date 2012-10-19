@@ -15,40 +15,47 @@
 
 package org.kuali.student.r1.core.atp;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import org.junit.Ignore;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Dao;
-import org.kuali.student.common.test.spring.Daos;
-import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import javax.annotation.Resource;
+import java.util.Date;
 
-@Ignore
-@Daos( { @Dao(value = "org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
-@PersistenceFileLocation("classpath:META-INF/atp-core-persistence.xml")
-public class TestAtpService extends AbstractServiceTest {
-//	final Logger LOG = Logger.getLogger(TestAtpService.class);
-//
-//	@Client(value = "org.kuali.student.r1.core.atp.service.impl.AtpServiceImpl", additionalContextFile="classpath:atp-additional-context.xml")
-//	public AtpService atpService;
-//    @Client(value = "org.kuali.student.r2.common.type.service.TypeServiceImpl", additionalContextFile="classpath:atp-additional-context.xml")
-//    public TypeService typeService;
-//
-//	public static final String atpType_fallSemester = "atp.atpType.fallSemester";
-//	public static final String milestoneType_lastDateToDrop = "atp.milestoneType.lastDateToDrop";
-//	public static final String dateRangeType_finals = "atp.dateRangeType.finals";
-//	public static final String atpAttribute_notes = "atp.attribute.notes";
-//	public static final String dateRangeAttribute_notes = "atp.dateRangeAttribute.notes";
-//	public static final String milestoneAttribute_notes = "atp.milestoneAttribute.notes";
-//	public static final String atp_fall2008Semester = "atp.fall2008Semester";
-//	public static final String milestone_lastDateToDropFall2008 = "atp.milestone.lastDateToDropFall2008";
-//	public static final String dateRange_finalsFall2008 = "atp.dateRange.finalsFall2008";
-//
-//	public static final String atp_2009FallSemester = "atp.2009FallSemester";
-//
-//	@Test
+import static org.junit.Assert.*;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:atp-additional-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
+@Transactional
+public class TestAtpService {
+	final Logger LOG = Logger.getLogger(TestAtpService.class);
+
+    @Resource(name = "atpEnrService" )
+    public AtpService atpService;
+    @Resource(name = "typeServiceImpl" )
+    public TypeService typeService;
+
+	public static final String milestoneAttribute_notes = "atp.milestoneAttribute.notes";
+	public static final String atp_fall2008Semester = "atp.fall2008Semester";
+
+    public static String principalId = "123";
+
+
+    //	@Test
 //	public void TestFinds() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, ParseException{
 //
 //		Calendar cal = Calendar.getInstance();
@@ -98,152 +105,146 @@ public class TestAtpService extends AbstractServiceTest {
 //		assertEquals(1,milestoneTypesForAtpType.size());
 //	}
 //
-//	@Test
-//	public void TestCreateUpdateDelete(){
-//		//Make an ATP
-//		AtpInfo atpInfo = new AtpInfo();
-//		atpInfo.setDesc(new RichTextInfo());
-//		atpInfo.getDesc().setFormatted("Atp for fall 2008 semester");
-//		atpInfo.getDesc().setPlain("Atp for fall 2008 semester");
-//		atpInfo.setName("Fall 2008 Semester");
-//		atpInfo.setStartDate(new Date());
-//		atpInfo.setEndDate(new Date());
-//
-//		Date stDate = atpInfo.getStartDate();
-//		Date enDate = atpInfo.getEndDate();
-//
-//		atpInfo.setState("new");
-//
-//		atpInfo.getAttributes().put(atpAttribute_notes, "Notes for the Fall 2008 Semester");
-//
-//		AtpInfo createdAtp=null;
-//		try {
-//			createdAtp = atpService.createAtp(atpType_fallSemester, atp_fall2008Semester, atpInfo);
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//
-//		assertTrue(stDate.equals(createdAtp.getStartDate()));
-//		assertTrue(enDate.equals(createdAtp.getEndDate()));
-//
-//		//Make a DateRange
-//		DateRangeInfo dateRangeInfo=new DateRangeInfo();
-//		dateRangeInfo.setDesc(new RichTextInfo());
-//		dateRangeInfo.getDesc().setFormatted("Date Range for fall 2008 semester finals");
-//		dateRangeInfo.setName("Finals Fall 2008 Semester");
-//		dateRangeInfo.setStartDate(new Date());
-//		dateRangeInfo.setEndDate(new Date());
-//		dateRangeInfo.setState("new");
-//		dateRangeInfo.setAtpId(atp_fall2008Semester);
-//		dateRangeInfo.setType(dateRangeType_finals);
-//
-//		dateRangeInfo.getAttributes().put(dateRangeAttribute_notes, "Notes for the Finals date range Fall 2008 Semester");
-//
-//		DateRangeInfo createdDateRange=null;
-//		try {
-//			createdDateRange = atpService.addDateRange(atp_fall2008Semester, dateRange_finalsFall2008, dateRangeInfo);
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//
-//		//Make a Milestone
-//		MilestoneInfo milestoneInfo=new MilestoneInfo();
-//		milestoneInfo.setDesc(new RichTextInfo());
-//		milestoneInfo.getDesc().setFormatted("Milestone for fall 2008 semester last day to drop");
-//		milestoneInfo.setName("Last Day to Drop Fall 2008 Semester");
-//		milestoneInfo.setMilestoneDate(new Date());
-//		milestoneInfo.setState("new");
-//		milestoneInfo.setAtpId(atp_fall2008Semester);
-//		milestoneInfo.setType(milestoneType_lastDateToDrop);
-//
-//		milestoneInfo.getAttributes().put(milestoneAttribute_notes, "Notes for the Last Day to Drop Fall 2008 Semester");
-//
-//		MilestoneInfo createdMilestone=null;
-//		try {
-//			createdMilestone = atpService.addMilestone(atp_fall2008Semester, milestone_lastDateToDropFall2008, milestoneInfo);
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//
-//		//Do some updates
-//
-//		//Update Atp
-//		createdAtp.getDesc().setFormatted("Updated Atp for the Fall 2008 Semester");
-//		try {
-//			assertEquals("0",createdAtp.getMetaInfo().getVersionInd());
-//			AtpInfo updatedAtp = atpService.updateAtp(atp_fall2008Semester, createdAtp);
-//			assertEquals("1",updatedAtp.getMetaInfo().getVersionInd());
-//			assertEquals("Updated Atp for the Fall 2008 Semester", updatedAtp.getDesc().getFormatted());
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//
-//		//now try to update again with the same version
-//		try {
-//			atpService.updateAtp(atp_fall2008Semester, createdAtp);
-//			fail("AtpService.updateAtp() should have thrown VersionMismatchException");
-//		} catch (VersionMismatchException vme) {
-//			// what we expect
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//
-//		//Update Date Range
-//		createdDateRange.getDesc().setFormatted("Updated DateRange for the Finals date range Fall 2008 Semester");
-//		try {
-//			assertEquals("0",createdDateRange.getMetaInfo().getVersionInd());
-//			DateRangeInfo updatedDateRange = atpService.updateDateRange(dateRange_finalsFall2008, createdDateRange);
-//			assertEquals("1",updatedDateRange.getMetaInfo().getVersionInd());
-//			assertEquals("Updated DateRange for the Finals date range Fall 2008 Semester", updatedDateRange.getDesc().getFormatted());
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//
-//		//Updating with the old version again should fail
-//		try {
-//			atpService.updateDateRange(dateRange_finalsFall2008, createdDateRange);
-//			fail("AtpService.updateDateRange() should have thrown VersionMismatchException");
-//		} catch (VersionMismatchException vme) {
-//			// what we expect
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//
-//		//Update Milestone
-//		createdMilestone.getDesc().setFormatted("Updated Milestone for fall 2008 semester last day to drop");
-//		try {
-//			assertEquals("0",createdMilestone.getMetaInfo().getVersionInd());
-//			MilestoneInfo updatedMilestone = atpService.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
-//			assertEquals("1",updatedMilestone.getMetaInfo().getVersionInd());
-//			assertEquals("Updated Milestone for fall 2008 semester last day to drop", updatedMilestone.getDesc().getFormatted());
-//		} catch (Exception e) {
-//			LOG.error(e);
-//		}
-//
-//		//Try to update again should fail
-//		try {
-//			atpService.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
-//			fail("AtpService.updateDateRange() should have thrown VersionMismatchException");
-//		} catch (VersionMismatchException vme) {
-//			// what we expect
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//
-//		//Do some deletes that should cascade
-//		try {
-//			atpService.deleteAtp(atp_fall2008Semester);
-//		} catch (Exception e) {
-//			LOG.error(e);
-//			fail();
-//		}
-//	}
+	@Test
+	public void TestCreateGetUpdateDelete(){
+		//Make an ATP
+		AtpInfo atpInfo = new AtpInfo();
+        ContextInfo context = new ContextInfo();
+
+        context.setPrincipalId(principalId);
+        context.setCurrentDate(new Date());
+
+        atpInfo.setName("Winter 2008 Semester");
+		atpInfo.setStartDate(new Date());
+		atpInfo.setEndDate(new Date());
+        atpInfo.setId("2008WINTER");
+        atpInfo.setDescr(new RichTextHelper().fromPlain("Winter 2008 Semester"));
+        atpInfo.setCode("20122");
+		Date stDate = atpInfo.getStartDate();
+		Date enDate = atpInfo.getEndDate();
+
+		atpInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+
+		AtpInfo createdAtp=null;
+		try {
+			createdAtp = atpService.createAtp(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, atpInfo, context);
+		} catch (Exception e) {
+			LOG.error(e);
+            fail();
+		}
+
+		assertTrue(stDate.equals(createdAtp.getStartDate()));
+		assertTrue(enDate.equals(createdAtp.getEndDate()));
+
+		//Get Atp
+		try {
+            createdAtp = atpService.getAtp(atpInfo.getId(), context);
+		} catch (Exception e) {
+			LOG.error(e);
+            fail();
+		}
+
+        assertNotNull(createdAtp);
+        assertTrue(stDate.equals(createdAtp.getStartDate()));
+        assertTrue(enDate.equals(createdAtp.getEndDate()));
+
+		//Update Atp
+        assertTrue(StringUtils.equals("0", createdAtp.getMeta().getVersionInd()));
+        createdAtp.setName("Spring 2009 Semester");
+        try {
+			AtpInfo updatedAtp = atpService.updateAtp(createdAtp.getId(), createdAtp, context);
+            assertTrue(StringUtils.equals(createdAtp.getName(),updatedAtp.getName()));
+            assertTrue(StringUtils.equals(createdAtp.getDescr().getPlain(), updatedAtp.getDescr().getPlain()));
+		} catch (Exception e) {
+			LOG.error(e);
+            fail();
+		}
+
+		//Update Date Range
+        createdAtp.getDescr().setFormatted("Updated DateRange for the Finals date range Fall 2008 Semester");
+        Date sDate = new Date();
+        Date eDate = new Date();
+
+        sDate.setTime(1350000000);
+        eDate.setTime(1360000000);
+        createdAtp.setStartDate(sDate);
+        createdAtp.setEndDate(eDate);
+
+        try {
+            AtpInfo updatedAtp = atpService.updateAtp(createdAtp.getId(), createdAtp, context);
+            assertTrue(StringUtils.equals(createdAtp.getName(),updatedAtp.getName()));
+            assertTrue(StringUtils.equals(createdAtp.getDescr().getPlain(), updatedAtp.getDescr().getPlain()));
+            assertTrue(updatedAtp.getStartDate().getTime() == sDate.getTime());
+            assertTrue(updatedAtp.getEndDate().getTime() == eDate.getTime());
+        } catch (Exception e) {
+			LOG.error(e);
+            fail();
+		}
+
+		//Create a Milestone
+		MilestoneInfo milestoneInfo=new MilestoneInfo();
+		milestoneInfo.setName("Last Day to Drop Fall 2008 Semester");
+        milestoneInfo.setStartDate(sDate);
+        milestoneInfo.setEndDate(eDate);
+		milestoneInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+		milestoneInfo.setId(atp_fall2008Semester);
+		milestoneInfo.setTypeKey(AtpServiceConstants.SEASON_FALL_SPRING_TYPE_KEY);
+        milestoneInfo.setDescr(new RichTextHelper().fromPlain("Milestone for fall 2008 semester last day to drop"));
+		milestoneInfo.setAttributeValue(milestoneAttribute_notes, "Notes for the Last Day to Drop Fall 2008 Semester");
+        milestoneInfo.setIsDateRange(true);
+
+		MilestoneInfo createdMilestone=null;
+		try {
+			createdMilestone = atpService.createMilestone(milestoneInfo.getTypeKey(), milestoneInfo, context);
+            assertNotNull(createdMilestone);
+            assertTrue(StringUtils.equals(milestoneInfo.getDescr().getPlain(), createdMilestone.getDescr().getPlain()));
+            assertTrue(createdMilestone.getIsDateRange ());
+            assertTrue(createdMilestone.getStartDate().getTime() == sDate.getTime());
+            assertTrue(createdMilestone.getEndDate().getTime() == eDate.getTime());
+        } catch (Exception e) {
+			LOG.error(e);
+            fail();
+		}
+
+		//Update Milestone
+        Date upStart = new Date();
+        Date upEnd =  new Date();
+        upStart.setTime(1330000000L);
+        upEnd.setTime(1340000000L);
+		createdMilestone.setDescr(new RichTextHelper().fromPlain("Updated Milestone for fall 2008 semester last day to drop"));
+        createdMilestone.setStartDate(upStart);
+        createdMilestone.setEndDate(upEnd);
+		try {
+			MilestoneInfo updatedMilestone = atpService.updateMilestone(createdMilestone.getId(), createdMilestone, context);
+			assertNotNull(updatedMilestone);
+            assertTrue(updatedMilestone.getStartDate().getTime() == upStart.getTime());
+            assertTrue(updatedMilestone.getEndDate().getTime() == upEnd.getTime());
+            assertTrue(StringUtils.equals(updatedMilestone.getDescr().getPlain(), createdMilestone.getDescr().getPlain()));
+        } catch (Exception e) {
+			LOG.error(e);
+            fail();
+		}
+
+		//Try to update again
+        createdMilestone.setIsDateRange(false);
+		try {
+			MilestoneInfo updatedMilestone = atpService.updateMilestone(createdMilestone.getId(), createdMilestone, context);
+            assertNotNull(updatedMilestone);
+            assertTrue(updatedMilestone.getStartDate().getTime() == upStart.getTime());
+            assertNull(updatedMilestone.getEndDate());
+        } catch (Exception e) {
+			LOG.error(e);
+			fail();
+		}
+
+		//Do some deletes that should cascade
+		try {
+            StatusInfo statusInfo = atpService.deleteAtp(createdAtp.getId(), context);
+            assertNotNull(statusInfo);
+            assertTrue(statusInfo.getIsSuccess());
+		} catch (Exception e) {
+			LOG.error(e);
+			fail();
+		}
+	}
 }
