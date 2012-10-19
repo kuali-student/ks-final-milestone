@@ -1166,6 +1166,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                         "validation on AO time conflict check in a RG", aoCluster.getId(), registrationGroupInfo.getTypeKey(), registrationGroupInfo, ContextUtils.createDefaultContextInfo());
 
                 if (validationResultInfoList.get(0).isError())  {
+                    getCourseOfferingService().updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,ContextUtils.createDefaultContextInfo());
                     rgIndexList.add(rgIndex);
                 }
 
