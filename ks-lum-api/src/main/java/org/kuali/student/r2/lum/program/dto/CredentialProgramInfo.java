@@ -58,7 +58,6 @@ import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
     "resultOptions",
     "programLevel",
     "coreProgramIds",
-    "versionInfo",
     "meta",
     "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
@@ -83,10 +82,7 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
- 
-    @XmlElement
-    private VersionInfo versionInfo;
-    
+     
     public CredentialProgramInfo() {
     }
     
@@ -157,11 +153,6 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
     public void setResultOptions(List<String> resultOptions) {
         this.resultOptions = resultOptions;
     }
-
-  
-	public VersionInfo getVersionInfo(ContextInfo contextInfo) {
-    	return versionInfo;
-	}
 
     //KSCM-313 Should be removed, see https://wiki.kuali.org/display/STUDENT/R1+to+R2+Change+Log 
     @Override

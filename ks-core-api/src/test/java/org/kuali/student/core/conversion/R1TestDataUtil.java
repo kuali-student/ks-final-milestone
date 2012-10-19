@@ -40,7 +40,7 @@ public class R1TestDataUtil {
         return r1MetaInfo;
     }
 
-    public static VersionInfo getVersionInfoData() {
+    public static VersionInfo getVersionData() {
         VersionInfo r1VersionInfo = new VersionInfo();
         r1VersionInfo.setVersionIndId("R1 Version Ind Id");
         r1VersionInfo.setVersionedFromId("R1 Versioned From Id");

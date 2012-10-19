@@ -85,7 +85,7 @@ this in.
 				<ref bean="CourseInfo.primaryInstructor"/>
 				<ref bean="CourseInfo.feeJustification"/>
 				<ref bean="CourseInfo.expenditure"/>
-				<ref bean="CourseInfo.versionInfo"/>
+				<ref bean="CourseInfo.version"/>
 				<ref bean="CourseInfo.meta"/>
 			</list>
 		</property>
@@ -1049,8 +1049,8 @@ The last academic time period that this Course would be effective.
 		<property name="name" value="expirationDate"/>
 	</bean>
 
-	<bean id="CourseInfo.versionInfo-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="versionInfo"/>
+	<bean id="CourseInfo.version-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="version"/>
 		<property name="shortLabel" value="Version Info"/>
 		<property name="summary">
 			<value>
@@ -1066,7 +1066,7 @@ Version of this course
 		<property name="required" value="false"/>
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
-				<property name="name" value="versionInfo"/>
+				<property name="name" value="version"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
 				<property name="objectLabel" value="Version"/>
 				<property name="objectDescription">
@@ -1077,12 +1077,12 @@ Version of this course
 
 				<property name="attributes">
 					<list>
-						<ref bean="CourseInfo.versionInfo.versionIndId"/>
-						<ref bean="CourseInfo.versionInfo.sequenceNumber"/>
-						<ref bean="CourseInfo.versionInfo.currentVersionStart"/>
-						<ref bean="CourseInfo.versionInfo.currentVersionEnd"/>
-						<ref bean="CourseInfo.versionInfo.versionComment"/>
-						<ref bean="CourseInfo.versionInfo.versionedFromId"/>
+						<ref bean="CourseInfo.version.versionIndId"/>
+						<ref bean="CourseInfo.version.sequenceNumber"/>
+						<ref bean="CourseInfo.version.currentVersionStart"/>
+						<ref bean="CourseInfo.version.currentVersionEnd"/>
+						<ref bean="CourseInfo.version.versionComment"/>
+						<ref bean="CourseInfo.version.versionedFromId"/>
 					</list>
 				</property>
 
@@ -1099,7 +1099,7 @@ Version of this course
 		</property>
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.versionIndId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseInfo.version.versionIndId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="versionIndId"/>
 		<property name="shortLabel" value="Version Ind Id"/>
 		<property name="summary">
@@ -1121,7 +1121,7 @@ Version independent Id that remains the same across all versions
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
+	<bean id="CourseInfo.version.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
 		<property name="name" value="sequenceNumber"/>
 		<property name="shortLabel" value="Sequence Number"/>
 		<property name="summary">
@@ -1143,7 +1143,7 @@ The sequence number of the version
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.currentVersionStart-generated" abstract="true" parent="BaseKuali.start">
+	<bean id="CourseInfo.version.currentVersionStart-generated" abstract="true" parent="BaseKuali.start">
 		<property name="name" value="currentVersionStart"/>
 		<property name="shortLabel" value="Current Version Start"/>
 		<property name="summary">
@@ -1160,7 +1160,7 @@ The date and time this version became current.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.currentVersionEnd-generated" abstract="true" parent="BaseKuali.end">
+	<bean id="CourseInfo.version.currentVersionEnd-generated" abstract="true" parent="BaseKuali.end">
 		<property name="name" value="currentVersionEnd"/>
 		<property name="shortLabel" value="Current Version End"/>
 		<property name="summary">
@@ -1177,7 +1177,7 @@ The date and time when this version stopped being current.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.versionComment-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseInfo.version.versionComment-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="versionComment"/>
 		<property name="shortLabel" value="Version Comment"/>
 		<property name="summary">
@@ -1194,7 +1194,7 @@ Comments associated with the version
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.versionedFromId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseInfo.version.versionedFromId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="versionedFromId"/>
 		<property name="shortLabel" value="Versioned From Id"/>
 		<property name="summary">

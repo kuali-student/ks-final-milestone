@@ -80,7 +80,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
         "endTerm",
         "effectiveDate",
         "expirationDate",
-        "versionInfo",
+        "version",
         "meta",
         "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
@@ -150,7 +150,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     @XmlElement
     private Date expirationDate;
     @XmlElement
-    private VersionInfo versionInfo;
+    private VersionInfo version;
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
@@ -274,7 +274,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
                     ? new ArrayList<String>(courseInfo.getUnitsContentOwner())
                     : new ArrayList<String>();
 
-            this.versionInfo = new VersionInfo(courseInfo.getVersionInfo());
+            this.version = new VersionInfo(courseInfo.getVersion());
 
         }
     }
@@ -611,11 +611,11 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     }
 
     @Override
-    public VersionInfo getVersionInfo() {
-        return versionInfo;
+    public VersionInfo getVersion() {
+        return version;
     }
 
-    public void setVersionInfo(VersionInfo versionInfo) {
-        this.versionInfo = versionInfo;
+    public void setVersion(VersionInfo version) {
+        this.version = version;
     }
 }

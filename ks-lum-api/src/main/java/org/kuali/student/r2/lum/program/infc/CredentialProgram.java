@@ -21,7 +21,7 @@ public interface CredentialProgram extends CommonWithCredentialProgram {
     public List<String> getCoreProgramIds();
 
     /**
-     * A code that indicates whether this is Graduate, Undergraduage etc
+     * A code that indicates whether this is Graduate, Undergraduate etc
      * 
      * @name Program Level
      */

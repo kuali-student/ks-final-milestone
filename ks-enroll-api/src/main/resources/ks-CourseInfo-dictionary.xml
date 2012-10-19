@@ -297,38 +297,38 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.versionInfo" parent="CourseInfo.versionInfo-parent"/>
-	<bean id="CourseInfo.versionInfo-parent" abstract="true" parent="CourseInfo.versionInfo-generated">
+	<bean id="CourseInfo.version" parent="CourseInfo.version-parent"/>
+	<bean id="CourseInfo.version-parent" abstract="true" parent="CourseInfo.version-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.versionIndId" parent="CourseInfo.versionInfo.versionIndId-parent"/>
-	<bean id="CourseInfo.versionInfo.versionIndId-parent" abstract="true" parent="CourseInfo.versionInfo.versionIndId-generated">
+	<bean id="CourseInfo.version.versionIndId" parent="CourseInfo.version.versionIndId-parent"/>
+	<bean id="CourseInfo.version.versionIndId-parent" abstract="true" parent="CourseInfo.version.versionIndId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.sequenceNumber" parent="CourseInfo.versionInfo.sequenceNumber-parent"/>
-	<bean id="CourseInfo.versionInfo.sequenceNumber-parent" abstract="true" parent="CourseInfo.versionInfo.sequenceNumber-generated">
+	<bean id="CourseInfo.version.sequenceNumber" parent="CourseInfo.version.sequenceNumber-parent"/>
+	<bean id="CourseInfo.version.sequenceNumber-parent" abstract="true" parent="CourseInfo.version.sequenceNumber-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.currentVersionStart" parent="CourseInfo.versionInfo.currentVersionStart-parent"/>
-	<bean id="CourseInfo.versionInfo.currentVersionStart-parent" abstract="true" parent="CourseInfo.versionInfo.currentVersionStart-generated">
+	<bean id="CourseInfo.version.currentVersionStart" parent="CourseInfo.version.currentVersionStart-parent"/>
+	<bean id="CourseInfo.version.currentVersionStart-parent" abstract="true" parent="CourseInfo.version.currentVersionStart-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.currentVersionEnd" parent="CourseInfo.versionInfo.currentVersionEnd-parent"/>
-	<bean id="CourseInfo.versionInfo.currentVersionEnd-parent" abstract="true" parent="CourseInfo.versionInfo.currentVersionEnd-generated">
+	<bean id="CourseInfo.version.currentVersionEnd" parent="CourseInfo.version.currentVersionEnd-parent"/>
+	<bean id="CourseInfo.version.currentVersionEnd-parent" abstract="true" parent="CourseInfo.version.currentVersionEnd-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.versionComment" parent="CourseInfo.versionInfo.versionComment-parent"/>
-	<bean id="CourseInfo.versionInfo.versionComment-parent" abstract="true" parent="CourseInfo.versionInfo.versionComment-generated">
+	<bean id="CourseInfo.version.versionComment" parent="CourseInfo.version.versionComment-parent"/>
+	<bean id="CourseInfo.version.versionComment-parent" abstract="true" parent="CourseInfo.version.versionComment-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseInfo.versionInfo.versionedFromId" parent="CourseInfo.versionInfo.versionedFromId-parent"/>
-	<bean id="CourseInfo.versionInfo.versionedFromId-parent" abstract="true" parent="CourseInfo.versionInfo.versionedFromId-generated">
+	<bean id="CourseInfo.version.versionedFromId" parent="CourseInfo.version.versionedFromId-parent"/>
+	<bean id="CourseInfo.version.versionedFromId-parent" abstract="true" parent="CourseInfo.version.versionedFromId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

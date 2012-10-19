@@ -96,7 +96,7 @@ permissions and limitations under the License.
 				<ref bean="CluInfo.stdDuration"/>
 				<ref bean="CluInfo.feeInfo"/>
 				<ref bean="CluInfo.accountingInfo"/>
-				<ref bean="CluInfo.versionInfo"/>
+				<ref bean="CluInfo.version"/>
 				<ref bean="CluInfo.meta"/>
 			</list>
 		</property>
@@ -1464,8 +1464,8 @@ List of Affiliated Orgs
 		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo"/>
 	</bean>
 
-	<bean id="CluInfo.versionInfo-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="versionInfo"/>
+	<bean id="CluInfo.version-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="version"/>
 		<property name="shortLabel" value="Version Info"/>
 		<property name="summary">
 			<value>
@@ -1481,7 +1481,7 @@ Version information associated with this CLU
 		<property name="required" value="false"/>
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
-				<property name="name" value="versionInfo"/>
+				<property name="name" value="version"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
 				<property name="objectLabel" value="Version Info"/>
 				<property name="objectDescription">
@@ -1492,12 +1492,12 @@ Version information associated with this CLU
 
 				<property name="attributes">
 					<list>
-						<ref bean="CluInfo.versionInfo.versionIndId"/>
-						<ref bean="CluInfo.versionInfo.sequenceNumber"/>
-						<ref bean="CluInfo.versionInfo.currentVersionStart"/>
-						<ref bean="CluInfo.versionInfo.currentVersionEnd"/>
-						<ref bean="CluInfo.versionInfo.versionComment"/>
-						<ref bean="CluInfo.versionInfo.versionedFromId"/>
+						<ref bean="CluInfo.version.versionIndId"/>
+						<ref bean="CluInfo.version.sequenceNumber"/>
+						<ref bean="CluInfo.version.currentVersionStart"/>
+						<ref bean="CluInfo.version.currentVersionEnd"/>
+						<ref bean="CluInfo.version.versionComment"/>
+						<ref bean="CluInfo.version.versionedFromId"/>
 					</list>
 				</property>
 
@@ -1514,7 +1514,7 @@ Version information associated with this CLU
 		</property>
 	</bean>
 
-	<bean id="CluInfo.versionInfo.versionIndId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CluInfo.version.versionIndId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="versionIndId"/>
 		<property name="shortLabel" value="Version Ind Id"/>
 		<property name="summary">
@@ -1536,7 +1536,7 @@ Version independent Id that remains the same across all versions
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CluInfo.versionInfo.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
+	<bean id="CluInfo.version.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
 		<property name="name" value="sequenceNumber"/>
 		<property name="shortLabel" value="Sequence Number"/>
 		<property name="summary">
@@ -1558,7 +1558,7 @@ The sequence number of the version
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CluInfo.versionInfo.currentVersionStart-generated" abstract="true" parent="BaseKuali.start">
+	<bean id="CluInfo.version.currentVersionStart-generated" abstract="true" parent="BaseKuali.start">
 		<property name="name" value="currentVersionStart"/>
 		<property name="shortLabel" value="Current Version Start"/>
 		<property name="summary">
@@ -1575,7 +1575,7 @@ The date and time this version became current.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CluInfo.versionInfo.currentVersionEnd-generated" abstract="true" parent="BaseKuali.end">
+	<bean id="CluInfo.version.currentVersionEnd-generated" abstract="true" parent="BaseKuali.end">
 		<property name="name" value="currentVersionEnd"/>
 		<property name="shortLabel" value="Current Version End"/>
 		<property name="summary">
@@ -1592,7 +1592,7 @@ The date and time when this version stopped being current.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CluInfo.versionInfo.versionComment-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CluInfo.version.versionComment-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="versionComment"/>
 		<property name="shortLabel" value="Version Comment"/>
 		<property name="summary">
@@ -1609,7 +1609,7 @@ Comments associated with the version
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CluInfo.versionInfo.versionedFromId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CluInfo.version.versionedFromId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="versionedFromId"/>
 		<property name="shortLabel" value="Versioned From Id"/>
 		<property name="summary">

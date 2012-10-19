@@ -216,9 +216,9 @@ public interface Clu extends IdNamelessEntity, HasEffectiveDates {
     /**
      * Version information associated with this CLU
      *
-     * @name Version Info
+     * @name Version
      */
-    public Version getVersionInfo();
+    public Version getVersion();
 
     /**
      * The expected first academic time period that this clu would be effective.

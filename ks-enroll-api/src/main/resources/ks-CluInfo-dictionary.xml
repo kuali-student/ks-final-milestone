@@ -408,38 +408,38 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CluInfo.versionInfo" parent="CluInfo.versionInfo-parent"/>
-	<bean id="CluInfo.versionInfo-parent" abstract="true" parent="CluInfo.versionInfo-generated">
+	<bean id="CluInfo.version" parent="CluInfo.version-parent"/>
+	<bean id="CluInfo.version-parent" abstract="true" parent="CluInfo.version-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CluInfo.versionInfo.versionIndId" parent="CluInfo.versionInfo.versionIndId-parent"/>
-	<bean id="CluInfo.versionInfo.versionIndId-parent" abstract="true" parent="CluInfo.versionInfo.versionIndId-generated">
+	<bean id="CluInfo.version.versionIndId" parent="CluInfo.version.versionIndId-parent"/>
+	<bean id="CluInfo.version.versionIndId-parent" abstract="true" parent="CluInfo.version.versionIndId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CluInfo.versionInfo.sequenceNumber" parent="CluInfo.versionInfo.sequenceNumber-parent"/>
-	<bean id="CluInfo.versionInfo.sequenceNumber-parent" abstract="true" parent="CluInfo.versionInfo.sequenceNumber-generated">
+	<bean id="CluInfo.version.sequenceNumber" parent="CluInfo.version.sequenceNumber-parent"/>
+	<bean id="CluInfo.version.sequenceNumber-parent" abstract="true" parent="CluInfo.version.sequenceNumber-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CluInfo.versionInfo.currentVersionStart" parent="CluInfo.versionInfo.currentVersionStart-parent"/>
-	<bean id="CluInfo.versionInfo.currentVersionStart-parent" abstract="true" parent="CluInfo.versionInfo.currentVersionStart-generated">
+	<bean id="CluInfo.version.currentVersionStart" parent="CluInfo.version.currentVersionStart-parent"/>
+	<bean id="CluInfo.version.currentVersionStart-parent" abstract="true" parent="CluInfo.version.currentVersionStart-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CluInfo.versionInfo.currentVersionEnd" parent="CluInfo.versionInfo.currentVersionEnd-parent"/>
-	<bean id="CluInfo.versionInfo.currentVersionEnd-parent" abstract="true" parent="CluInfo.versionInfo.currentVersionEnd-generated">
+	<bean id="CluInfo.version.currentVersionEnd" parent="CluInfo.version.currentVersionEnd-parent"/>
+	<bean id="CluInfo.version.currentVersionEnd-parent" abstract="true" parent="CluInfo.version.currentVersionEnd-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CluInfo.versionInfo.versionComment" parent="CluInfo.versionInfo.versionComment-parent"/>
-	<bean id="CluInfo.versionInfo.versionComment-parent" abstract="true" parent="CluInfo.versionInfo.versionComment-generated">
+	<bean id="CluInfo.version.versionComment" parent="CluInfo.version.versionComment-parent"/>
+	<bean id="CluInfo.version.versionComment-parent" abstract="true" parent="CluInfo.version.versionComment-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CluInfo.versionInfo.versionedFromId" parent="CluInfo.versionInfo.versionedFromId-parent"/>
-	<bean id="CluInfo.versionInfo.versionedFromId-parent" abstract="true" parent="CluInfo.versionInfo.versionedFromId-generated">
+	<bean id="CluInfo.version.versionedFromId" parent="CluInfo.version.versionedFromId-parent"/>
+	<bean id="CluInfo.version.versionedFromId-parent" abstract="true" parent="CluInfo.version.versionedFromId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

@@ -66,7 +66,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
     "isHazardousForDisabledStudents",
     "feeInfo",
     "accountingInfo",
-    "versionInfo",
+    "version",
     "effectiveDate",
     "expirationDate",
     "meta",
@@ -127,7 +127,7 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     @XmlElement
     private CluAccountingInfo accountingInfo;
     @XmlElement
-    private VersionInfo versionInfo;
+    private VersionInfo version;
     @XmlElement
     private Date effectiveDate;
     @XmlElement
@@ -185,7 +185,7 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
             this.isHazardousForDisabledStudents = clu.getIsHazardousForDisabledStudents();
             this.feeInfo = (null != clu.getFeeInfo()) ? new CluFeeInfo(clu.getFeeInfo()) : null;
             this.accountingInfo = (null != clu.getAccountingInfo()) ? new CluAccountingInfo(clu.getAccountingInfo()) : null;
-            this.versionInfo = (null != clu.getVersionInfo()) ? new VersionInfo(clu.getVersionInfo()) : null;
+            this.version = (null != clu.getVersion()) ? new VersionInfo(clu.getVersion()) : null;
             this.effectiveDate = (null != clu.getEffectiveDate()) ? new Date(clu.getEffectiveDate().getTime()) : null;
             this.expirationDate = (null != clu.getExpirationDate()) ? new Date(clu.getExpirationDate().getTime()) : null;
         }
@@ -420,12 +420,12 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     }
 
     @Override
-    public VersionInfo getVersionInfo() {
-        return versionInfo;
+    public VersionInfo getVersion() {
+        return version;
     }
 
-    public void setVersionInfo(VersionInfo versionInfo) {
-        this.versionInfo = versionInfo;
+    public void setVersion(VersionInfo version) {
+        this.version = version;
     }
 
     @Override
