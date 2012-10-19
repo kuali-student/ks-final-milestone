@@ -21,7 +21,7 @@
   <ul class="chan">
     <li><a href="${ConfigProperties.ks.home.MainEntryPoint}">Kuali Student Home</a></li>
     <li><a href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
-    <li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>
+    <!--<li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>      -->
   </ul>
   <ul class="chan">
     <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment Home</a></li>
