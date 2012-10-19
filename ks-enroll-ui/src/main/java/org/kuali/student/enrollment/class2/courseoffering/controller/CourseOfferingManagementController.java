@@ -683,14 +683,19 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView moveAOToACluster (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        ModelAndView mv = null;
         if(theForm.getClusterIdIdForNewFO().equals("create-new")){
+            theForm.setSelectCreateNewFromDropDown(true);
             return createNewClusterFromLightBox(theForm, result, request, response);
         }
-        if(theForm.isRenderedInLightBox()){
-            theForm.setPrivateClusterName(theForm.getPrivateClusterNameForLightBox());
-            theForm.setPublishedClusterName(theForm.getPublishedClusterNameForLightBox());
-            mv = createNewCluster(theForm, result, request, response);
+        if (theForm.isSelectCreateNewFromDropDown()){
+            //In the previous step, if a user has selected "Create New... " from the drop-down list,
+            // the Dialog lightbox has been popped up, the user has input something and then
+            // clicked either "Create" or "Cancel" button in the Dialog. The Dialog will be closed,
+            // the process will come back to hit this method. Now we need to reset SelectCreateNewFromDropDown
+            // boolean to false before invoking createNewClusterFromLightBox method to handle the true work
+            // -- validate if the cluster's name is unique and then create one in DB
+            theForm.setSelectCreateNewFromDropDown(false);
+            return createNewClusterFromLightBox(theForm, result, request, response);
         }
 
         //get selected AOC info
@@ -716,12 +721,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
         if (!aoChecked) {
-            if (theForm.isRenderedInLightBox()){
-                if(theForm.getDialogManager().hasDialogBeenDisplayed("createNewClusterDialog")){
-                    theForm.getDialogManager().removeDialog("createNewClusterDialog");
-                }
-                return mv;
-            }
             GlobalVariables.getMessageMap().putError("AOCselectionError", RegistrationGroupConstants.MSG_ERROR_INVALID_AO_SELECTION);
             return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
         }
@@ -789,10 +788,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             }
         }
 
-        //clear the dialog
-        if(theForm.getDialogManager().hasDialogBeenDisplayed("createNewClusterDialog")){
-            theForm.getDialogManager().removeDialog("createNewClusterDialog");
-        }
         //return updated form
         return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
     }

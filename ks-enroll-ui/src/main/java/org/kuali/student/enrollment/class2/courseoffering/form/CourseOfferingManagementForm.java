@@ -30,12 +30,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private List<CourseOfferingEditWrapper> courseOfferingEditWrapperList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
-    //For View Registration Groups
+    //For Manage Registration Groups
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO;
     private List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList;
     private boolean hasAOCluster;
+    private boolean selectCreateNewFromDropDown = false;
     private String privateClusterName;
     private String publishedClusterName;
     private String privateClusterNameForLightBox;
@@ -74,6 +75,7 @@ public class CourseOfferingManagementForm extends UifFormBase {
         setCourseOfferingCopyWrapper(null);
         hasAOCluster = false;
         withinPortal = true;
+        selectCreateNewFromDropDown = false;
     }
 
     public String getTermCode(){
@@ -396,5 +398,13 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setWithinPortal(boolean withinPortal) {
         this.withinPortal = withinPortal;
+    }
+
+    public boolean isSelectCreateNewFromDropDown() {
+        return selectCreateNewFromDropDown;
+    }
+
+    public void setSelectCreateNewFromDropDown(boolean selectCreateNewFromDropDown) {
+        this.selectCreateNewFromDropDown = selectCreateNewFromDropDown;
     }
 }
