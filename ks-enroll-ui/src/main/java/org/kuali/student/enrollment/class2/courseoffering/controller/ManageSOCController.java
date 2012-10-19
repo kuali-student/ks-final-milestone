@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -36,7 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  * This class handles all the request for Managing SOC. This handles requests from ManageSOCView for different SOC state
@@ -78,7 +76,7 @@ public class ManageSOCController extends KSControllerBase {
             }
 
             if (!StringUtils.equals(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, socForm.getSocInfo().getStateKey())) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "SOC should be in open state to lock");
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_STATUS_FOR_LOCK);
                 return getUIFModelAndView(socForm);
             }
 
@@ -98,7 +96,7 @@ public class ManageSOCController extends KSControllerBase {
                                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         if (!StringUtils.equals(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, socForm.getSocInfo().getStateKey())) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "SOC should be in LOCKED state!");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_STATUS_FOR_SCHEDULE);
             return getUIFModelAndView(socForm);
         }
 
@@ -137,21 +135,8 @@ public class ManageSOCController extends KSControllerBase {
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
         socForm.clear();
 
-        try {
-            List<TermInfo> terms = viewHelper.getTermByCode(socForm.getTermCode());
-            if (terms.size() > 1) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Multiple entries found for the term code");
-                return getUIFModelAndView(socForm);
-            }
-            if (terms.isEmpty()) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Term not found");
-                return getUIFModelAndView(socForm);
-            }
-            socForm.setTermInfo(terms.get(0));
-        } catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
-            LOG.error("Error building model.", e);
-        }
+        TermInfo term = viewHelper.getTermByCode(socForm.getTermCode());
+        socForm.setTermInfo(term);
 
         viewHelper.buildModel(socForm);
 
@@ -167,7 +152,7 @@ public class ManageSOCController extends KSControllerBase {
         }
 
         if (!StringUtils.equals(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_COMPLETED, socForm.getSocInfo().getSchedulingStateKey())) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "SOC scheduling should be completed for final edits");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_STATUS_FOR_FINALEDIT);
             return getUIFModelAndView(socForm);
         }
 
@@ -201,7 +186,7 @@ public class ManageSOCController extends KSControllerBase {
         }
 
         if (!StringUtils.equals(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, socForm.getSocInfo().getStateKey())) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "SOC should be at Final Edit for publish");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_STATUS_FOR_PUBLISH);
             return getUIFModelAndView(socForm);
         }
 
@@ -231,7 +216,7 @@ public class ManageSOCController extends KSControllerBase {
         }
 
         if (!StringUtils.equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY, socForm.getSocInfo().getStateKey())) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, " SOC should be at Publish state to close");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_STATUS_FOR_CLOSE);
             return getUIFModelAndView(socForm);
         }
 

@@ -21,7 +21,6 @@ import org.apache.commons.lang.time.DurationFormatUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -59,16 +58,34 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
     private transient AcademicCalendarService acalService;
     private transient CourseOfferingSetService courseOfferingSetService;
 
-    public List<TermInfo> getTermByCode(String termCode) throws Exception {
+    public TermInfo getTermByCode(String termCode) {
 
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        try{
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
 
-        qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
+            qbcBuilder.setPredicates(PredicateFactory.equal(CourseOfferingConstants.ATP_CODE, termCode));
 
-        QueryByCriteria criteria = qbcBuilder.build();
+            QueryByCriteria criteria = qbcBuilder.build();
 
-        AcademicCalendarService acalService = getAcalService();
-        return acalService.searchForTerms(criteria, createContextInfo());
+            AcademicCalendarService acalService = getAcalService();
+            List<TermInfo> terms = acalService.searchForTerms(criteria, createContextInfo());
+            if (terms.size() > 1) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_MULTIPLE_TERMS);
+                return null;
+            }
+            if (terms.isEmpty()) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);
+                return null;
+            }
+            return terms.get(0);
+        }catch (Exception e){
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Error getting term for the code - " + termCode);
+
+            }
+            convertServiceExceptionsToUI(e);
+        }
+        return null;
     }
 
     /**
@@ -83,32 +100,39 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      */
     public void buildModel(ManageSOCForm socForm){
 
-        LOG.info("Building Manage SOC model for the term " + socForm.getTermCode());
+        if (LOG.isInfoEnabled()){
+            LOG.info("Building Manage SOC model for the term " + socForm.getTermCode());
+        }
 
         List<String> socIds = null;
 
         try {
             socIds = getCourseOfferingSetService().getSocIdsByTerm(socForm.getTermInfo().getId(), createContextInfo());
         } catch (Exception e){
-            LOG.debug("Getting SOCs for the term " + socForm.getTermCode() + " results in service error");
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Getting SOCs for the term " + socForm.getTermCode() + " results in service error");
+            }
             throw convertServiceExceptionsToUI(e);
         }
 
         if (socIds.isEmpty()){
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "SOC does not exist for this term");
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
             socForm.clear();
             return;
         }
 
         if (socIds.size() > 1){   //Handle multiple soc when it is implemented (Not for M5)
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Should not have multiple SOCs for a term (Not yet implemented departmental soc)");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_MULTIPLE_SOCS);
+            return;
         }
 
         SocInfo socInfo;
         try {
             socInfo = getCourseOfferingSetService().getSoc(socIds.get(0), createContextInfo());
         } catch (Exception e){
-            LOG.debug("Error getting the soc [id=" + socIds.get(0) + "]");
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Error getting the soc [id=" + socIds.get(0) + "]");
+            }
             throw convertServiceExceptionsToUI(e);
         }
 
@@ -160,7 +184,9 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     protected void buildStatusHistory(ManageSOCForm socForm){
 
-        LOG.info("Building Status history model");
+        if (LOG.isInfoEnabled()){
+            LOG.info("Building Status history model");
+        }
 
         SocInfo socInfo = socForm.getSocInfo();
         String stateName;
@@ -255,6 +281,11 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      *  @return formatted date String (hh:mm)
      */
     protected String getTimeDiffUI(Date dateOne, Date dateTwo, boolean roundUpMinute) {
+
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Get time difference between " + dateOne + " and " + dateTwo + " with roundUpMinute=" + roundUpMinute);
+        }
+
         Long millisDuration = dateOne.getTime() - dateTwo.getTime();
         if (roundUpMinute) {
             // check the difference between the two dates as milliseconds, and round up to the nearest minute
@@ -266,7 +297,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             }
         }
 
-        return DurationFormatUtils.formatDuration(millisDuration, "HH:mm", true);
+        return DurationFormatUtils.formatDuration(millisDuration, ManageSocConstants.SCHEDULE_DURATION_TIME_FORMAT, true);
     }
 
     /**
@@ -276,7 +307,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      * @param socForm SOC form
      */
     public void lockSOC(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, "Set of Courses has been Locked");
+        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, ManageSocConstants.MessageKeys.INFO_SOC_LOCKED);
     }
 
     /**
@@ -285,7 +316,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      * @param socForm SOC form
      */
     public void allowSOCFinalEdit(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, "Set of Courses has been opened for Final Edits.");
+        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, ManageSocConstants.MessageKeys.INFO_FINAL_EDITS);
     }
 
     /**
@@ -296,7 +327,9 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      */
     public void publishSOC(ManageSOCForm socForm) {
 
-        LOG.info("Publishing SOC");
+        if (LOG.isInfoEnabled()){
+            LOG.info("Publishing SOC for the term - " + socForm.getTermCode());
+        }
 
         ContextInfo contextInfo = createContextInfo();
         CourseOfferingSetPublishingHelper mpeHelper = new CourseOfferingSetPublishingHelper();
@@ -307,7 +340,9 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             //  Then kick off the runner.
             mpeHelper.startMassPublishingEvent(socForm.getSocInfo().getId(), new ArrayList<String>(), contextInfo);
         } catch (Exception e) {
-            LOG.debug("Error publishing SOC - " + e.getMessage());
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Error publishing SOC - " + e.getMessage());
+            }
             throw convertServiceExceptionsToUI(e);
         }
 
@@ -321,7 +356,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      * @param socForm SOC form
      */
     public void closeSOC(ManageSOCForm socForm){
-        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY, "Set of Courses has been closed.");
+        changeSOCState(socForm.getSocInfo(), CourseOfferingSetServiceConstants.CLOSED_SOC_STATE_KEY, ManageSocConstants.MessageKeys.INFO_CLOSED);
     }
 
     /**
@@ -333,27 +368,31 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      */
     public void changeSOCState(SocInfo socInfo,String stateKey,String message){
 
-        LOG.info("Changing SOC state to " + stateKey);
+        if (LOG.isInfoEnabled()){
+            LOG.info("Changing SOC state to " + stateKey);
+        }
 
         try {
             StatusInfo status = getCourseOfferingSetService().updateSocState(socInfo.getId(), stateKey, createContextInfo());
 
             if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, message);
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, message);
                 //Once state changed, disable the Lock button.
                 socInfo.setStateKey(stateKey);
             }else{
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "SOC status change fails - " + status.getMessage());
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, ManageSocConstants.MessageKeys.ERROR_STATUS_CHANGE_FAILED,status.getMessage());
             }
         } catch (Exception e) {
-            LOG.debug("Error Changing SOC State - " + e.getMessage());
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Error Changing SOC State - " + e.getMessage());
+            }
             throw convertServiceExceptionsToUI(e);
         }
     }
 
     protected String formatScheduleDate(Date date){
         if (date != null){
-           DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy hh:mm a");
+           DateFormat dateFormat = new SimpleDateFormat(ManageSocConstants.SCHEDULE_DATE_FORMAT);
            return dateFormat.format(date);
         }
         return StringUtils.EMPTY;
@@ -372,6 +411,10 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         ContextInfo contextInfo = createContextInfo();
 
+        if (LOG.isInfoEnabled()){
+            LOG.info("Mass scheduling method called.");
+        }
+
         try {
             //  First state change the SOC to state "inprogress".
             getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(),CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, contextInfo);
@@ -381,16 +424,19 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             StatusInfo status = getCourseOfferingSetService().startScheduleSoc(socForm.getSocInfo().getId(), optionKeys, contextInfo);
 
             if (status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Approved activities were successfully sent to Scheduler.");
-                reload(socForm, contextInfo);
-                socForm.setSocSchedulingStatus(getStateInfo(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS).getName());
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, ManageSocConstants.MessageKeys.INFO_SEND_TO_SCHEDULER);
             } else {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Error locking SOC");
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, ManageSocConstants.MessageKeys.ERROR_SEND_TO_SCHEDULER,status.getMessage());
             }
         } catch (Exception e) {
-            LOG.debug("Error starting Mass Scheduler - " + e.getMessage());
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Error starting Mass Scheduler - " + e.getMessage());
+            }
             throw convertServiceExceptionsToUI(e);
         }
+
+        reload(socForm, contextInfo);
+        socForm.setSocSchedulingStatus(getStateInfo(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS).getName());
     }
 
     protected String getSocPublishingStatus(SocInfo info) {
@@ -408,12 +454,18 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     private void reload(ManageSOCForm socForm, ContextInfo contextInfo)  {
 
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Reloading the form");
+        }
+
         SocInfo socInfo;
 
         try {
             socInfo = getCourseOfferingSetService().getSoc(socForm.getSocInfo().getId(), contextInfo);
         } catch (Exception e) {
-            LOG.debug("Error getting SOC - " + e.getMessage());
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Error getting SOC - " + e.getMessage());
+            }
             throw convertServiceExceptionsToUI(e);
         }
 

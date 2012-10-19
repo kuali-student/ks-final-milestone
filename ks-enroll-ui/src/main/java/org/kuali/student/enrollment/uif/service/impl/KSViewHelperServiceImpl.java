@@ -95,7 +95,9 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
         } else if (ex instanceof PermissionDeniedException){
             return new RuntimeException("Permission Denied - " + ex.getMessage(),ex);
         } else {
-            throw new IllegalArgumentException("KSViewHelperServiceImpl.convertServiceExceptionsToUI() doesn't support this exception " + ex.getClass().getSimpleName(),ex);
+//            throw new IllegalArgumentException("KSViewHelperServiceImpl.convertServiceExceptionsToUI() doesn't support this exception " + ex.getClass().getSimpleName(),ex);
+            return new RuntimeException(ex.getMessage(),ex);
         }
     }
+
 }

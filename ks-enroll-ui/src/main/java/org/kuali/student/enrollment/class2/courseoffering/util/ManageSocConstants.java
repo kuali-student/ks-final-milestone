@@ -25,6 +25,9 @@ public class ManageSocConstants {
     public static final String SOC_IN_PROGRESS_PUBLISHING_STATUS_UI = "In Progress";
     public static final String SOC_COMPLETED_PUBLISHING_STATUS_UI = "Completed";
 
+    public static final String SCHEDULE_DATE_FORMAT = "MM-dd-yyyy hh:mm a";
+    public static final String SCHEDULE_DURATION_TIME_FORMAT = "HH:mm";
+
     /**
      * These are the confirm dialog bean ids used in Manage SOC view.
      */
@@ -42,5 +45,33 @@ public class ManageSocConstants {
     public static final  String DISPLAY_SCHEDULE_IN_PROGRESS = "Scheduling in progress";
     public static final  String DISPLAY_IN_PROGRESS = "  (in progress)";
     public static final  String DISPLAY_PUBLISHING_IN_PROGRESS = "Publishing in progress";
+
+
+    /**
+     * Info/Error/Warn message keys goes here
+     */
+    public static class MessageKeys {
+
+        //Info keys here
+        public static final String INFO_SOC_LOCKED = "info.managesoc.locked";
+        public static final String INFO_FINAL_EDITS = "info.managesoc.finaledit";
+        public static final String INFO_CLOSED = "info.managesoc.closed";
+        public static final String INFO_SEND_TO_SCHEDULER = "info.managesoc.send.to.scheduler";
+
+        //Error keys here
+        public static final String ERROR_SOC_NOT_EXISTS = "error.mangesoc.soc.notexits";
+        public static final String ERROR_MULTIPLE_SOCS = "error.mangesoc.multiple.soc";
+        public static final String ERROR_STATUS_CHANGE_FAILED = "error.managesoc.statuschange.failed";
+        public static final String ERROR_SEND_TO_SCHEDULER = "error.managesoc.send.to.scheduler.failed";
+        public static final String ERROR_INVALID_STATUS_FOR_LOCK = "error.managesoc.invalid.status.for.lock";
+        public static final String ERROR_INVALID_STATUS_FOR_SCHEDULE = "error.managesoc.invalid.status.for.schedule";
+        public static final String ERROR_MULTIPLE_TERMS = "error.managesoc.multiple.terms";
+        public static final String ERROR_INVALID_TERM = "error.managesoc.term.not.found";
+        public static final String ERROR_INVALID_STATUS_FOR_FINALEDIT = "error.managesoc.invalid.status.for.finaledit";
+        public static final String ERROR_INVALID_STATUS_FOR_PUBLISH = "error.managesoc.invalid.status.for.publish";
+        public static final String ERROR_INVALID_STATUS_FOR_CLOSE = "error.managesoc.invalid.status.for.close";
+
+        //Warn keys here
+    }
 
 }

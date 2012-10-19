@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ManageSOCViewHelperService extends KSViewHelperService {
 
-    public List<TermInfo> getTermByCode(String termCode) throws Exception;
+    public TermInfo getTermByCode(String termCode);
 
     public void buildModel(ManageSOCForm socForm);
 
