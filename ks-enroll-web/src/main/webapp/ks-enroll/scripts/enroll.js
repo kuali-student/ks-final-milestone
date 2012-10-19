@@ -44,6 +44,7 @@ function removeSelfFromDropdowns(headerTextNameContainerId) {
             }
         });
     });
+    toggleAssignButton();
 }
 
 function addDropdownGroup(dropdownId, prepend, groupText, optionList, withinPortal) {
@@ -80,6 +81,16 @@ function populateLightboxForm(propertyContainerId, defaultPropertyValues){
         var kualiProp = jQuery("#" + kualiPropId);
         lightboxInput.val(kualiProp.text());
     });
+}
+
+function toggleAssignButton(){
+    var table = jQuery('#KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection').find('table');
+    var checkedCheckboxesCount = jQuery(table).find('input:checkbox:checked').length;
+    if(checkedCheckboxesCount > 0){
+        jQuery("#move_ao_button").removeAttr("disabled");
+    }else{
+        jQuery("#move_ao_button").attr("disabled", "disabled");
+    }
 }
 
 /*
