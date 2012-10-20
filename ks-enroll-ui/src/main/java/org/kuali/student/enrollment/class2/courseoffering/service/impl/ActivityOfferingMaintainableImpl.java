@@ -387,8 +387,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         if(!GlobalVariables.getMessageMap().hasErrors()) {
             // validate the weekdays
             if (StringUtils.isNotEmpty(scheduleWrapper.getDays())) {
-                List<Integer> parsedWeekdays = SchedulingServiceUtil.weekdaysString2WeekdaysList(scheduleWrapper.getDays());
-                if(parsedWeekdays.isEmpty() || scheduleWrapper.getDays().trim().length() > parsedWeekdays.size()) {
+                String scheduleDays = StringUtils.upperCase(scheduleWrapper.getDays());
+                List<Integer> parsedWeekdays = SchedulingServiceUtil.weekdaysString2WeekdaysList(scheduleDays);
+                if(parsedWeekdays.isEmpty() || scheduleDays.trim().length() > parsedWeekdays.size()) {
                     addErrorMessage(ScheduleInput.WEEKDAYS, "Day characters are invalid");
                 }
             }
@@ -485,10 +486,30 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
+    private boolean deleteScheduleRequest(ActivityOfferingWrapper wrapper){
+        StatusInfo statusInfo;
+        try{
+            statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),getContextInfo());
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        if (!statusInfo.getIsSuccess()){
+            throw new RuntimeException("Error deleting the schedule request - " + statusInfo.getMessage());
+        } else {
+            return statusInfo.getIsSuccess();
+        }
+    }
+
     public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper){
 
-        //Create/update schedule requests
-        createOrUpdateScheduleRequests(activityOfferingWrapper);
+        if (activityOfferingWrapper.getRequestedScheduleComponents().isEmpty()){
+            //If there are no schedule components, it's not needed to have the request
+            deleteScheduleRequest(activityOfferingWrapper);
+        } else {
+            //Create/update schedule requests
+            createOrUpdateScheduleRequests(activityOfferingWrapper);
+        }
 
         try {
 
