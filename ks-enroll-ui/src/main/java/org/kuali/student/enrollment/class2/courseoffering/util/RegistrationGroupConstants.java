@@ -15,8 +15,10 @@ public class RegistrationGroupConstants {
     public static final String MSG_ERROR_INVALID_AO_SELECTION ="error.enroll.rg.invalid.aoselection";
     public static final String MSG_WARNING_MAX_ENROLLMENT="error.enroll.rg.max.enrollment";
     public static final String MSG_WARNING_AO_TIMECONFLICT="error.enroll.rg.ao.timeconflict";
+    public static final String MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL ="error.enroll.rg.cluster.private.name.is.null";
 
     public static final String RGSTATUS_ALL_RG_GENERATED = "All Registration Groups Generated";
     public static final String RGSTATUS_SOME_RG_GENERATED = "Only Some Registration Groups Generated";
     public static final String RGSTATUS_NO_RG_GENERATED ="No Registration Groups Generated";
+
 }

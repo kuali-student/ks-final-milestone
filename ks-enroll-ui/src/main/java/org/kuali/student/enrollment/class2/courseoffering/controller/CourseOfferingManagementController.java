@@ -311,6 +311,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             boolean createNewCluster = getBooleanDialogResponse("createNewClusterDialog", theForm, request, response);
             if(createNewCluster){
                 String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
+                if (theForm.getPrivateClusterNameForLightBox() == null || theForm.getPrivateClusterNameForLightBox().isEmpty()) {
+                    GlobalVariables.getMessageMap().putError("privateClusterNameForLightBox", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+                    GlobalVariables.getMessageMap().putErrorForSectionId("hasClusterCondition",
+                                                    RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+                    theForm.getDialogManager().removeDialog("createNewClusterDialog");
+                    return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+                }
                 if (_isClusterUnique(formatOfferingId, theForm.getPrivateClusterNameForLightBox())){
                     //build a new empty cluster
                     ActivityOfferingClusterInfo emptyCluster = _buildEmptyAOCluster(formatOfferingId,
@@ -391,9 +398,21 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             return showDialog("renameClusterDialog", theForm, request, response);
         }
         if (hasDialogBeenAnswered("renameClusterDialog", theForm)) {
+            //set clusterIndex for selected/from cluster
+            int clusterIndex;
+            String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+            clusterIndex = Integer.parseInt(StringUtils.substringBetween(selectedCollectionPath,"filteredAOClusterWrapperList[","]"));
+
             boolean wantToRename = getBooleanDialogResponse("renameClusterDialog", theForm, request, response);
             if(wantToRename){
                 selectedClusterWrapper = theForm.getSelectedCluster();
+                if (theForm.getPrivateClusterNameForRename() == null || theForm.getPrivateClusterNameForRename().isEmpty()) {
+                    GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+                    GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+clusterIndex,
+                            RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
+                    theForm.getDialogManager().removeDialog("renameClusterDialog");
+                    return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
+                }
                 if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRename()) || _isClusterUnique(theForm.getFormatOfferingIdForViewRG(), theForm.getPrivateClusterNameForRename())){
                     ActivityOfferingClusterInfo  aoCluster = selectedClusterWrapper.getAoCluster();
                     aoCluster.setName(theForm.getPublishedClusterNameForRename());

@@ -277,6 +277,7 @@
     </bean>
 
     <bean id="KS-ManageRegistrationGroupPage-HasClusterCondition" parent="Uif-VerticalBoxSection" p:render="@{hasAOCluster}">
+        <property name="id" value="hasClusterCondition"/>
         <property name="headerText" value="Activity Offering Clusters" />
         <property name="disclosure.render" value="false"/>
         <property name="header.cssClasses">
