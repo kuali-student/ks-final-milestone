@@ -20,7 +20,11 @@
 	<mainChannel:ksApplications/>
 </td>
 <td class="content" valign="top">
+    <mainChannel:wc1Applications/>
+    <mainChannel:coApplications/>
+    <mainChannel:ec1Applications/>
     <mainChannel:ksMaintenance />
+
 </td>
 <td class="content" valign="top">
 	<mainChannel:workflow />
