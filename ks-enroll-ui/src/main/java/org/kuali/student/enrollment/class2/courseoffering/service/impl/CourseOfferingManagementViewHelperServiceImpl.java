@@ -502,6 +502,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         if(displayInstructor != null) {
             aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
         }
+        //for multiple instructor display
+        aoWrapper.setInstructorDisplayNames(aoInfo.getInstructors());
 
         //This section is to display either schedule request or actuals. If actuals available, display that instead of request
         if (StringUtils.isNotBlank(aoInfo.getScheduleId())){

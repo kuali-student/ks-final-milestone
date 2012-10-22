@@ -142,9 +142,9 @@
                       p:label="BUILDING"
                       p:messageText="@{#line.roomName}" />
 
-                <bean parent="Uif-DataField"
+                <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
-                      p:propertyName="firstInstructorDisplayName"/>
+                      p:messageText="@{#line.instructorDisplayNames}" />
             </list>
         </property>
     </bean>
@@ -220,9 +220,13 @@
                       p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
 
-                <bean parent="Uif-DataField"
+                <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
-                      p:propertyName="firstInstructorDisplayName"/>
+                      p:messageText="@{#line.instructorDisplayNames}" />
+
+                <!--<bean parent="Uif-DataField"
+                      p:label="INSTRUCTOR"
+                      p:propertyName="instructorDisplayNames"/>-->
             </list>
         </property>
     </bean>
@@ -473,9 +477,9 @@
                       p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
 
-                <bean parent="Uif-DataField"
+                <bean parent="Uif-MessageField"
                       p:label="INSTRUCTOR"
-                      p:propertyName="firstInstructorDisplayName"/>
+                      p:messageText="@{#line.instructorDisplayNames}" />
             </list>
         </property>
 

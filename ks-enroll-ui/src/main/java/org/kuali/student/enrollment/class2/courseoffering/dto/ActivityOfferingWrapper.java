@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
@@ -44,6 +45,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private String instructorNameHighestPercentEffort = "";
 
     private String firstInstructorDisplayName;
+    private String instructorDisplayNames;
 
     private String courseOfferingCode = "";
 
@@ -406,6 +408,27 @@ public class ActivityOfferingWrapper implements Serializable{
         }
     }
 
+    public String getInstructorDisplayNames() {
+        return instructorDisplayNames;
+    }
+
+    public void setInstructorDisplayNames(String instructorDisplayNames) {
+        this.instructorDisplayNames = instructorDisplayNames;
+    }
+
+    public void setInstructorDisplayNames(List<OfferingInstructorInfo> instructors) {
+        if (instructors != null && instructors.size()>1) {
+            for (OfferingInstructorInfo instructor : instructors) {
+                if (this.instructorDisplayNames == null || this.instructorDisplayNames.isEmpty()) {
+                    this.instructorDisplayNames = instructors.get(0).getPersonName();
+                } else {
+                    this.instructorDisplayNames = this.instructorDisplayNames + "<br>"  + instructor.getPersonName();
+                }
+            }
+        } else if (instructors != null && instructors.size()==1) {
+            this.instructorDisplayNames = instructors.get(0).getPersonName();
+        }
+    }
 
     public String getEndTimeDisplay() {
         return endTimeDisplay;
