@@ -33,11 +33,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides utility functions for Registration group management to the application
  *
  * @author Kuali Student Team
  */
 public class RegistrationGroupUtil {
+
     public static void orderActivityOfferingIdsInRegistrationGroup(RegistrationGroupInfo rgInfo,
                                                                    final Map<String, String> aoIdsToAoTypes) {
 
@@ -59,7 +60,6 @@ public class RegistrationGroupUtil {
                         return super.equals(obj);  // Put something in to satisfy the interface
                     }
                 });
-        System.err.print("");
     }
 
     public static Map<String, String> createAoIdsToAoTypesMap(List<String> aoIds,
