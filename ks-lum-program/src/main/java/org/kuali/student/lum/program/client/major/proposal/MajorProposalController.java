@@ -615,7 +615,7 @@ public class MajorProposalController extends MajorController implements Workflow
         Data versionData = new Data();
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
-        data.set(new Data.StringKey("versionInfo"), versionData);
+        data.set(new Data.StringKey("version"), versionData);
 
         programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
