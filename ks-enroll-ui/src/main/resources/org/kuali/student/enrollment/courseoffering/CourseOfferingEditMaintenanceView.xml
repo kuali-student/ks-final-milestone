@@ -218,18 +218,26 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
-                <bean parent="Uif-HorizontalBoxSubSection">
+                <bean parent="Uif-VerticalBoxSubSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="course.code" p:label="Course Offering Code" p:fieldLabel.renderColon="false" p:labelPlacement="TOP" />
-                            <bean parent="Uif-InputField" p:propertyName="coInfo.courseNumberSuffix" p:label="Change Suffix" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="5" />
+                            <bean parent="Uif-Label" p:labelText="Course Offering Code" p:renderColon="false"/>
+                            <bean parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="course.code" p:showLabel="false"
+                                              p:readOnly="true" />
+                                        <bean parent="Uif-InputField" p:propertyName="coInfo.courseNumberSuffix" p:showLabel="false" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="5" />
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
                     </property>
-                </bean>
+                </bean>        
                 <ref bean="KS-GradingAndRegOptions"/>
             </list>
         </property>
