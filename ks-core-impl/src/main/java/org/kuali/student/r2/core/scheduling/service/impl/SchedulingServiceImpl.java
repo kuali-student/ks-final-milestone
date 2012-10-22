@@ -166,6 +166,12 @@ public class SchedulingServiceImpl implements SchedulingService {
             throw new InvalidParameterException(scheduleTypeKey + " does not match the type in the info object " + scheduleInfo.getTypeKey());
         }
 
+        for(ScheduleComponentInfo sci: scheduleInfo.getScheduleComponents()){
+            if(sci.getIsTBA()==null){
+                sci.setIsTBA(false);
+            }
+        }
+
         ScheduleEntity scheduleEntity = new ScheduleEntity(scheduleInfo);
         scheduleEntity.setScheduleType(scheduleTypeKey); // a bit redundant (constructor handles this)
         scheduleEntity.setEntityCreated(contextInfo);
