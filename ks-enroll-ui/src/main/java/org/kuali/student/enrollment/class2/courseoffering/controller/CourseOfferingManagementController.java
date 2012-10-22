@@ -223,9 +223,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     @RequestMapping(params = "methodToCall=filterAOsAndRGsPerFO")
     public ModelAndView filterAOsAndRGsPerFO (@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        //First cleanup and reset AOCluster list
+        //First cleanup and reset AOCluster list and filteredUnassignedAOsForSelectedFO
         List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         theForm.setFilteredAOClusterWrapperList(filteredAOClusterWrapperList);
+        List<ActivityOfferingWrapper> filteredAOs = new ArrayList<ActivityOfferingWrapper>();
+        theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
 
         // Then update the select Format Offering Name in the form
         String selectedFOId = theForm.getFormatOfferingIdForViewRG();
@@ -235,7 +237,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         //get unassgined AOs (didn't belong to any cluster)
-        List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
+        filteredAOs = getAOsWithoutClusterForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
         for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
             String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
             aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
