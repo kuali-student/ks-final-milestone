@@ -46,7 +46,7 @@
     </bean>
     <bean id="lrcContext" class="org.kuali.student.r2.lum.statement.config.context.LrcContextImpl">
         <property name="lrcService" ref="lrcServiceImpl"/>
-        <property name="typeService" ref="typeServiceImpl"/>
+        <property name="typeService" ref="typeService"/>
     </bean>
     <bean id="gpaContext" class="org.kuali.student.r2.lum.statement.config.context.GpaContextImpl">
     </bean>
@@ -57,7 +57,7 @@
     </bean>
     <bean id="atpContext" class="org.kuali.student.r2.lum.statement.config.context.AtpContextImpl">
         <property name="atpService" ref="atpServiceImpl" />
-        <property name="typeService" ref="typeServiceImpl"/>
+        <property name="typeService" ref="typeService"/>
     </bean>
 
     <bean id="contextRegistryReqComponent"
