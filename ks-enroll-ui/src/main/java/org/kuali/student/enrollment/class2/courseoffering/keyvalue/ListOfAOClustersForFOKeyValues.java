@@ -21,7 +21,9 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.RegistrationGroupManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -45,12 +47,12 @@ public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase imple
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
-        CourseOfferingManagementViewHelperServiceImpl helperService = ((CourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
+        RegistrationGroupManagementForm rgForm = (RegistrationGroupManagementForm) model;
+//        RegistrationGroupManagementViewHelperServiceImpl helperService = ((RegistrationGroupManagementViewHelperServiceImpl)rgForm.getView().getViewHelperService());
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "Select activity offering cluster..."));
-        String formatOfferingId = coForm.getFormatOfferingIdForViewRG();
+        String formatOfferingId = rgForm.getFormatOfferingIdForViewRG();
 
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();

@@ -63,18 +63,18 @@ import java.util.Locale;
 import java.util.Map;
 
 
-public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
+public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
 
     private AcademicCalendarService acalService = null;
     private CourseOfferingService coService = null;
 
     private CourseService courseService;
-    private TypeService typeService;
-    private StateService stateService;
+//    private TypeService typeService;
+//    private StateService stateService;
     private LRCService lrcService;
-    private SchedulingService schedulingService;
-    private RoomService roomService;
+//    private SchedulingService schedulingService;
+//    private RoomService roomService;
 
 
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
@@ -483,125 +483,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);
         }
     }
-    
-    public ActivityOfferingWrapper convertAOInfoToWrapper(ActivityOfferingInfo aoInfo) throws Exception{
 
-        ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
-
-        StateInfo state = getStateService().getState(aoInfo.getStateKey(), getContextInfo());
-        aoWrapper.setStateName(state.getName());
-
-        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), getContextInfo());
-        aoWrapper.setTypeName(typeInfo.getName());
-
-        FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), getContextInfo());
-        aoWrapper.setFormatOffering(fo);
-
-        OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
-
-        if(displayInstructor != null) {
-            aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
-        }
-        //for multiple instructor display
-        aoWrapper.setInstructorDisplayNames(aoInfo.getInstructors());
-
-        //This section is to display either schedule request or actuals. If actuals available, display that instead of request
-        if (StringUtils.isNotBlank(aoInfo.getScheduleId())){
-            //FIXME: Use display object once we get the TBA with ScheduleComponentDisplay
-            /*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),getContextInfo());
-            if (!displayInfo.getScheduleComponentDisplays().isEmpty()){
-                ScheduleComponentDisplay componentDisplay = displayInfo.getScheduleComponentDisplays().get(0);
-                updateScheduleToAOWrapperForDisplay(aoWrapper,Boolean.FALSE,componentDisplay.getRoom(),componentDisplay.getTimeSlots().get(0));
-
-            }*/
-
-            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(),getContextInfo());
-
-            if (!scheduleInfo.getScheduleComponents().isEmpty()){
-
-                boolean appendScheduleRowDisplay = false;
-
-                for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
-
-                    String roomId = scheduleComponentInfo.getRoomId();
-                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0),getContextInfo());
-
-                    updateScheduleToAOWrapperForDisplay(aoWrapper,scheduleComponentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
-
-                    if (!appendScheduleRowDisplay){
-                        appendScheduleRowDisplay = true;
-                    }
-                }
-
-            }
-
-        }else{
-
-            List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), getContextInfo());
-
-            if (!scheduleRequestInfoList.isEmpty()){
-
-                boolean appendScheduleRowDisplay = false;
-
-                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfoList.get(0).getScheduleRequestComponents()) {
-                    String roomId = componentInfo.getRoomIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getRoomIds().get(0);
-                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(componentInfo.getTimeSlotIds().get(0),getContextInfo());
-
-                    updateScheduleToAOWrapperForDisplay(aoWrapper,componentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
-
-                    if (!appendScheduleRowDisplay){
-                        appendScheduleRowDisplay = true;
-                    }
-                }
-            }
-
-        }
-
-        return aoWrapper;
-    }
-
-    private void updateScheduleToAOWrapperForDisplay(ActivityOfferingWrapper aoWrapper, Boolean isTBA,String roomId,TimeSlotInfo timeSlot,boolean append) throws Exception{
-         RoomInfo roomInfo = null;
-         if (StringUtils.isNotBlank(roomId)){
-            roomInfo = getRoomService().getRoom(roomId, getContextInfo());
-         }
-         updateScheduleToAOWrapperForDisplay(aoWrapper,isTBA,roomInfo,timeSlot,append);
-    }
-
-    private void updateScheduleToAOWrapperForDisplay(ActivityOfferingWrapper aoWrapper, Boolean isTBA, RoomInfo roomInfo,TimeSlotInfo timeSlot,boolean append) throws Exception{
-
-        Calendar calendar = new  GregorianCalendar();
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
-
-        aoWrapper.setTbaDisplayName(isTBA,append);
-
-        if (timeSlot != null) {
-
-            TimeOfDayInfo startTime = timeSlot.getStartTime();
-            TimeOfDayInfo endTime = timeSlot.getEndTime();
-            List<Integer> days = timeSlot.getWeekdays();
-
-            if (startTime != null && startTime.getMilliSeconds() != null) {
-                calendar.setTimeInMillis(startTime.getMilliSeconds());
-                aoWrapper.setStartTimeDisplay(format.format(calendar.getTime()),append);
-            }
-
-            if (endTime != null && endTime.getMilliSeconds() != null) {
-                calendar.setTimeInMillis(endTime.getMilliSeconds());
-                aoWrapper.setEndTimeDisplay(format.format(calendar.getTime()),append);
-            }
-
-            if (days != null && days.size() > 0) {
-                aoWrapper.setDaysDisplayName(getDays(days),append);
-            }
-        }
-
-        if (roomInfo != null && StringUtils.isNotBlank(roomInfo.getBuildingId())) {
-            BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
-            aoWrapper.setBuildingName(buildingInfo.getName(),append);
-            aoWrapper.setRoomName(roomInfo.getRoomCode(),append);
-        }
-    }
 
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
@@ -641,19 +523,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return courseService;
     }
 
-    public TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = CourseOfferingResourceLoader.loadTypeService();
-        }
-        return this.typeService;
-    }
-
-    public StateService getStateService() {
-        if(stateService == null) {
-            stateService = CourseOfferingResourceLoader.loadStateService();
-        }
-        return stateService;
-    }
 
     protected LRCService getLrcService() {
         if(lrcService == null) {
@@ -662,19 +531,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
         return this.lrcService;
     }
 
-    public SchedulingService getSchedulingService() {
-         if(schedulingService == null)  {
-             schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
-         }
-         return schedulingService;
-    }
 
-    public RoomService getRoomService(){
-        if (roomService == null){
-            roomService = CourseOfferingResourceLoader.loadRoomService();
-        }
-        return roomService;
-    }
 
     private Map<String, List<String>> constructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {
         Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
@@ -716,45 +573,4 @@ public class CourseOfferingManagementViewHelperServiceImpl extends ViewHelperSer
     }
 
 
-    private String convertIntoDays(int day) {
-        String dayOfWeek;
-        switch (day) {
-            case 1:
-                dayOfWeek = SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 2:
-                dayOfWeek = SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 3:
-                dayOfWeek = SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 4:
-                dayOfWeek = SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 5:
-                dayOfWeek = SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 6:
-                dayOfWeek = SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE;
-                break;
-            case 7:
-                dayOfWeek = SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE;
-                break;
-            default:
-                dayOfWeek = StringUtils.EMPTY;
-        }
-        // TODO implement TBA when service stores it.
-        return dayOfWeek;
-    }
-
-    private String getDays(List<Integer> intList) {
-
-        StringBuilder sb = new StringBuilder();
-        if(intList == null) return sb.toString();
-
-        for(Integer d : intList) {
-            sb.append(convertIntoDays(d));
-        }
-        return sb.toString();
-    }
 }

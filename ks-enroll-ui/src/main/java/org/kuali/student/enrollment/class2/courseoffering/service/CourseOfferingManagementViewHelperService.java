@@ -11,7 +11,7 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 
 import java.util.List;
 
-public interface CourseOfferingManagementViewHelperService extends ViewHelperService{
+public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_ViewHelperService{
     /**
      *
      * @param termCode Each institution uses a code to represent a term.  At UW, the code appears to be three letters
@@ -38,6 +38,6 @@ public interface CourseOfferingManagementViewHelperService extends ViewHelperSer
     public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo);
     
     public void validateRegistrationGroupsForFormatOffering (List<RegistrationGroupInfo> rgInfos, String formatOfferingId, CourseOfferingManagementForm form) throws Exception;
-
-    public ActivityOfferingWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao) throws Exception;
+    //rg
+//    public ActivityOfferingWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao) throws Exception;
 }

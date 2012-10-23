@@ -21,4 +21,7 @@ public class RegistrationGroupConstants {
     public static final String RGSTATUS_SOME_RG_GENERATED = "Only Some Registration Groups Generated";
     public static final String RGSTATUS_NO_RG_GENERATED ="No Registration Groups Generated";
 
+    public static final String RG_CONTROLLER_PATH = "registrationGroupManagement";
+    public static final String RG_VIEW = "manageRegistrationGroupsView";
+
 }
