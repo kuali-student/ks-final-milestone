@@ -57,22 +57,6 @@
                 <value>classpath:ks-BuildingInfo-dictionary.xml</value>
                 <value>classpath:ks-RoomInfo-dictionary.xml</value>
 
-                <!--
-				<value>classpath:AcademicCalendarInfoUI.xml</value>
-				<value>classpath:TermInfoUI.xml</value>
-				<value>classpath:KeyDateInfoUI.xml</value>
-				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>
-  			    <value>classpath:TermWrapperMaintenance.xml</value> 
-  			    <value>classpath:CourseInfoUI.xml</value>
-				<value>classpath:GradingView.xml</value>
-                <value>classpath:StudentGradeView.xml</value>
-                <value>classpath:RegistrationGroupInfoUI.xml</value>
-                <value>classpath:ActivityOfferingInfoUI.xml</value>
-                <value>classpath:CourseOfferingWrapper.xml</value>
-                <value>classpath:RegistrationGroupWrapper.xml</value>
-                <value>classpath:ActivityOfferingWrapper.xml</value>
-                <value>classpath:MeetingScheduleWrapper.xml</value>  -->
-
                 <!-- Acal -->
                 <value>classpath:org/kuali/student/enrollment/main/EnrollmentHomeView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchView.xml</value>
