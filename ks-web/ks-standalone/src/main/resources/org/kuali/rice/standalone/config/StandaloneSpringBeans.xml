@@ -57,6 +57,9 @@
 
     <bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"/>
 
+    <import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+
+    <import resource="classpath:ks-transaction-context.xml"/>
    	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
 </beans>
