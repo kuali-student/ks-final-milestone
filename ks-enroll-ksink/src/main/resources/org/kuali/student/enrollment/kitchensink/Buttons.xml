@@ -353,7 +353,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="UifElementDefinitions.xml (Uif-PrimaryActionButton)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifElementDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M4/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifElementDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -361,7 +361,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Action.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M3/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/element/Action.java"/>
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M4/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/element/Action.java"/>
                                     </map>
                                 </property>
                             </bean>
