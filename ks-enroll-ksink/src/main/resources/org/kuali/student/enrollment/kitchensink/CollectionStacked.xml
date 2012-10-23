@@ -124,7 +124,7 @@
     </bean>
 
     <bean id="KS-KitchenSink-CollectionStacked-Section" parent="KS-KitchenSink-VerticalBoxSection"
-          p:headerText="Collection Column Sorting" p:header.render="false" p:width="99%">
+          p:headerText="Collection Column Sorting" p:header.render="false" p:width="98%">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionStacked"/>

@@ -85,7 +85,7 @@
 
     <!--<bean id="KS-KitchenSink-CollectionsActionImages-Content" parent="KS-KitchenSink-TabSection" p:width="100%">-->
     <bean id="KS-KitchenSink-CollectionActionImages-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
-          p:width="99%">
+          p:width="98%">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-CollectionActionImages-Section">
@@ -119,7 +119,7 @@
     </bean>
 
     <bean id="KS-KitchenSink-CollectionActionImages-Section" parent="KS-KitchenSink-VerticalBoxSection"
-          p:headerText="Collection Action Image Buttons" p:header.render="false" p:width="99%">
+          p:headerText="Collection Action Image Buttons" p:header.render="false" p:width="98%">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionActionImages"/>

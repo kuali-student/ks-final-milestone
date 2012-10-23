@@ -83,9 +83,9 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-CollectionColumnSorting-Content" parent="KS-KitchenSink-TabSection" p:width="99%">-->
+    <!--<bean id="KS-KitchenSink-CollectionColumnSorting-Content" parent="KS-KitchenSink-TabSection" p:width="98%">-->
     <bean id="KS-KitchenSink-CollectionColumnSorting-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
-          p:width="99%">
+          p:width="98%">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-CollectionColumnSorting-Section">
@@ -122,7 +122,7 @@
     </bean>
 
     <bean id="KS-KitchenSink-CollectionColumnSorting-Section" parent="KS-KitchenSink-VerticalBoxSection"
-          p:headerText="Collection Column Sorting" p:header.render="false" p:width="99%">
+          p:headerText="Collection Column Sorting" p:header.render="false" p:width="98%">
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-CollectionColumnSorting"/>
