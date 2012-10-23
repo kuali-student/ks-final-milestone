@@ -1,13 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
-import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 
 import java.util.List;
 
@@ -36,8 +33,5 @@ public interface CourseOfferingManagementViewHelperService extends CO_AO_RG_View
     public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers) throws Exception;
 
     public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo);
-    
-    public void validateRegistrationGroupsForFormatOffering (List<RegistrationGroupInfo> rgInfos, String formatOfferingId, CourseOfferingManagementForm form) throws Exception;
-    //rg
-//    public ActivityOfferingWrapper convertAOInfoToWrapper(ActivityOfferingInfo ao) throws Exception;
+
 }

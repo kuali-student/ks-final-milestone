@@ -8,15 +8,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: huangb
- * Date: 10/23/12
- * Time: 10:42 AM
- * To change this template use File | Settings | File Templates.
- */
 public class RegistrationGroupManagementForm extends UifFormBase {
-    //For Manage Registration Groups
     private CourseOfferingInfo theCourseOffering;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;

@@ -23,7 +23,11 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -33,13 +37,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by IntelliJ IDEA.
- * User: huangb
- * Date: 10/23/12
- * Time: 11:03 AM
- * To change this template use File | Settings | File Templates.
- */
 public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceImpl implements CO_AO_RG_ViewHelperService{
 
     protected CourseService courseService;

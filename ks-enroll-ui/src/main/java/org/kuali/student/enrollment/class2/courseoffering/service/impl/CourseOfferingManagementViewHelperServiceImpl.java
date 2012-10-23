@@ -4,7 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -19,30 +18,14 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomInfo;
-import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -51,17 +34,11 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-
 
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
@@ -70,11 +47,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private CourseOfferingService coService = null;
 
     private CourseService courseService;
-//    private TypeService typeService;
-//    private StateService stateService;
     private LRCService lrcService;
-//    private SchedulingService schedulingService;
-//    private RoomService roomService;
 
 
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
@@ -444,47 +417,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
     }
 
-    //TODO: do we still need this method? need code review, refactor, and clean up
-    /*
-     * For Manage Registration Group page
-     */
-    public void validateRegistrationGroupsForFormatOffering (List<RegistrationGroupInfo> rgInfos,
-                                                             String formatOfferingId,
-                                                             CourseOfferingManagementForm form) throws Exception {
-        List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByFormatOffering(
-                formatOfferingId, getContextInfo());
-
-        Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap =
-                constructActivityOfferingTypeToAvailableActivityOfferingMap(aoList);
-
-        List<List<String>> generatedPermutations = new ArrayList<List<String>>();
-        List<List<String>> foundList = new ArrayList<List<String>>();
-
-        PermutationUtils.generatePermutations(new ArrayList<String>(
-                activityOfferingTypeToAvailableActivityOfferingMap.keySet()),
-                new ArrayList<String>(),
-                activityOfferingTypeToAvailableActivityOfferingMap,
-                generatedPermutations);
-
-        
-        for (List<String> activityOfferingPermutation : generatedPermutations) {
-              for (RegistrationGroupInfo rgInfo : rgInfos){
-                  if (hasGeneratedRegGroup(activityOfferingPermutation,rgInfo)){
-                      rgInfos.remove(rgInfo);
-                      foundList.add(activityOfferingPermutation);
-                      break;
-                  }
-              }
-        }
-        if (generatedPermutations.size() != foundList.size() )  {
-            GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_MISSING_REGGROUPS);
-        }
-        if (!rgInfos.isEmpty()){
-            GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerFormatSection", CourseOfferingConstants.REGISTRATIONGROUP_INVALID_REGGROUPS);
-        }
-    }
-
-
     private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
@@ -530,47 +462,4 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
         return this.lrcService;
     }
-
-
-
-    private Map<String, List<String>> constructActivityOfferingTypeToAvailableActivityOfferingMap(List<ActivityOfferingInfo> aoList) {
-        Map<String, List<String>> activityOfferingTypeToAvailableActivityOfferingMap = new HashMap<String, List<String>>();
-
-        for (ActivityOfferingInfo info : aoList) {
-            String activityType = info.getTypeKey();
-            List<String> activityList = activityOfferingTypeToAvailableActivityOfferingMap
-                    .get(activityType);
-
-            if (activityList == null) {
-                activityList = new ArrayList<String>();
-                activityOfferingTypeToAvailableActivityOfferingMap.put(
-                        activityType, activityList);
-            }
-
-            activityList.add(info.getId());
-
-        }
-        return activityOfferingTypeToAvailableActivityOfferingMap;
-    }
-    
-    private boolean hasGeneratedRegGroup(List<String>activityOfferingPermutation, RegistrationGroupInfo rgInfo){
-        boolean isMatched = true;
-        List<String> aoIds = rgInfo.getActivityOfferingIds();
-        List<String> foundList = new ArrayList<String>();
-        for (String activityOfferingPermutationItem : activityOfferingPermutation){
-            for (String aoId: aoIds){
-                if (activityOfferingPermutationItem.equals(aoId)){
-                    aoIds.remove(aoId);
-                    foundList.add(activityOfferingPermutationItem);
-                    break;
-                }
-            }
-        }
-        if (activityOfferingPermutation.size() != foundList.size() ||!aoIds.isEmpty()  )  {
-            isMatched = false;
-        }
-        return isMatched;        
-    }
-
-
 }

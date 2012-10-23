@@ -6,7 +6,6 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.RegistrationGroupManagementViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -25,15 +24,12 @@ public class FormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implemen
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         RegistrationGroupManagementForm rgForm = (RegistrationGroupManagementForm) model;
-//        RegistrationGroupManagementViewHelperServiceImpl helperService = ((RegistrationGroupManagementViewHelperServiceImpl)rgForm.getView().getViewHelperService());
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         CourseOfferingInfo selectedCourseOffering = rgForm.getTheCourseOffering();
 
         try {
             String courseOfferingId = selectedCourseOffering.getId();
-//            ContextInfo contextInfo = helperService.getContextInfo();
-//            CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             List<FormatOfferingInfo> formatOfferingInfos =
                     getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
