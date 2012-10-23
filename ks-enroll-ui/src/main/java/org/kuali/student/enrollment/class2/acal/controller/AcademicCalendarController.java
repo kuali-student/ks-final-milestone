@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.acal.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -25,13 +26,13 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -44,7 +45,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.*;
-import org.apache.log4j.Logger;
 
 /**
  * This controller handles all the request from Academic calendar UI.
@@ -302,6 +302,8 @@ public class AcademicCalendarController extends UifControllerBase {
         Properties urlParameters = new  Properties();
         urlParameters.put("viewId", CalendarConstants.ENROLLMENT_HOME_VIEW);
         urlParameters.put("methodToCall", KRADConstants.START_METHOD);
+        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+
         return performRedirect(acalForm, request.getRequestURL().toString(), urlParameters);
     }
 

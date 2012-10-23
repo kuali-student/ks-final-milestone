@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.acal.controller;
 
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -343,6 +344,8 @@ public class HolidayCalendarController extends UifControllerBase {
         Properties urlParameters = new  Properties();
         urlParameters.put("viewId", CalendarConstants.ENROLLMENT_HOME_VIEW);
         urlParameters.put("methodToCall", "start");
+        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+
         return performRedirect(hcForm, request.getRequestURL().toString(), urlParameters);
     }
 
