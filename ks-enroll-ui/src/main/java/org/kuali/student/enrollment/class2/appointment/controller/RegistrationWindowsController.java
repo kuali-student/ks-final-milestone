@@ -211,13 +211,13 @@ public class RegistrationWindowsController extends UifControllerBase {
 
                 //Get feedback to the user6
                 if(status.getIsSuccess()){
-                    GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                    GlobalVariables.getMessageMap().addGrowlMessage( "",
                             AppointmentConstants.APPOINTMENT_MSG_INFO_ASSIGNED,window.getAppointmentWindowInfo().getName(), status.getMessage(), String.valueOf(slots.size()));
                     //Update window state
                     window.getAppointmentWindowInfo().setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY);
                 }else{
                     //There was an error
-                    GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                    GlobalVariables.getMessageMap().addGrowlMessage( "",
                             AppointmentConstants.APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS, status.getMessage());
                 }
             }
@@ -234,15 +234,13 @@ public class RegistrationWindowsController extends UifControllerBase {
             //Delete the appointment slots and appointments for this window
             StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindowCascading(window.getAppointmentWindowInfo().getId(), new ContextInfo());
             if(status.getIsSuccess()){
-                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentConstants.APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS);
+                GlobalVariables.getMessageMap().addGrowlMessage( "", AppointmentConstants.APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS);
 
                 //Update window state back to draft
                 window.getAppointmentWindowInfo().setStateKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY);
             }else{
                 //There was an error
-                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
+                GlobalVariables.getMessageMap().addGrowlMessage( "", AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
             }
         }
 
@@ -262,16 +260,20 @@ public class RegistrationWindowsController extends UifControllerBase {
                     StatusInfo status = getAppointmentService().deleteAppointmentSlotsByWindowCascading(window.getAppointmentWindowInfo().getId(), new ContextInfo());
                     if(status.getIsSuccess()){
                         getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
-                        return super.deleteLine(uifForm, result, request, response);
+                        ModelAndView modelAndView = super.deleteLine(uifForm, result, request, response);
+                        GlobalVariables.getMessageMap().addGrowlMessage("", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED, window.getWindowName());
+                        return modelAndView;
                     }else{
                         //There was an error
-                        GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
+                        GlobalVariables.getMessageMap().addGrowlMessage("",
                                 AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE, status.getMessage());
                         return getUIFModelAndView(uifForm);
                     }
                 }else {
                     getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
-                    return super.deleteLine(uifForm, result, request, response);
+                    ModelAndView modelAndView = super.deleteLine(uifForm, result, request, response);
+                    GlobalVariables.getMessageMap().addGrowlMessage( "", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED, window.getWindowName());
+                    return modelAndView;
                 }
             }else {
                 //TODO: log window == null message

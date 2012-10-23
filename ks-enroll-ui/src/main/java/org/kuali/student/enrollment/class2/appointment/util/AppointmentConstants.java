@@ -31,6 +31,7 @@ public class AppointmentConstants {
     //Message keys
     public static final String APPOINTMENT_MSG_INFO_SAVED ="info.enroll.appointment.saved";
     public static final String APPOINTMENT_MSG_INFO_ASSIGNED ="info.enroll.appointment.assigned";
+    public static final String APPOINTMENT_MSG_INFO_DELETED ="info.enroll.appointment.windowDeleted";
     public static final String APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS = "error.enroll.appointment.tooManyStudents";
     public static final String APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS = "info.enroll.appointment.breakAppointmentsSuccess";
     public static final String APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE = "error.enroll.appointment.breakAppointmentsFailure";

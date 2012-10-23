@@ -294,8 +294,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             }
             //Add a success message
             if (isApptWindowSaved)
-                GlobalVariables.getMessageMap().putInfo( KRADConstants.GLOBAL_MESSAGES,
-                        AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
+                GlobalVariables.getMessageMap().addGrowlMessage( "", AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
         }
         return allWindowsSaved;
     }
@@ -332,8 +331,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     //need to persist the window that has passed the validation to DB
                     saveApptWindow((AppointmentWindowWrapper)addLine);
                     //Add a success message
-                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES,
-                            AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
+                    GlobalVariables.getMessageMap().addGrowlMessage("", AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
                 } catch (Exception e) {
                     LOG.error("Fail to create a window.",e);
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL);
