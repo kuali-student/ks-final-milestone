@@ -34,6 +34,16 @@
         <property name="page">
             <bean parent="Uif-Page"/>
         </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/acal.css</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
