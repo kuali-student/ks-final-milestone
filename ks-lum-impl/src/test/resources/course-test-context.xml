@@ -365,7 +365,7 @@
 	</bean>
 
 	<!-- Statement Service Config -->
-	<import resource="classpath:statement-context.xml"/>
+	<!--import resource="classpath:statement-context.xml"/-->
 
 <!-- 	<bean id="statementEntityManagerFactory" parent="defaultEntityManagerFactory"> -->
 <!-- 		<property name="persistenceUnitName" value="Statement"/> -->
@@ -401,7 +401,7 @@
 		<property name="statementDao" ref="statementDao" />
         <property name="searchManager" ref="statementSearchManager" />
         <property name="dictionaryServiceDelegate" ref="dictionaryService" />
-        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" />
+        <!--property name="naturalLanguageTranslator" ref="naturalLanguageTranslator" /-->
         <property name="statementAssembler" ref="statementAssembler"/>
 		<property name="validatorFactory" ref="validatorFactory"/>
 	</bean>
