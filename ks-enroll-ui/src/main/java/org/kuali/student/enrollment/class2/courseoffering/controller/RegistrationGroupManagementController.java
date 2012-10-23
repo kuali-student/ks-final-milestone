@@ -9,7 +9,6 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
@@ -19,7 +18,13 @@ import org.kuali.student.enrollment.class2.courseoffering.service.util.Registrat
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.class1.type.service.TypeService;
@@ -31,8 +36,6 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,23 +46,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: huangb
- * Date: 10/23/12
- * Time: 10:29 AM
- * To change this template use File | Settings | File Templates.
- */
 @Controller
 @RequestMapping(value = "/registrationGroupManagement")
 public class RegistrationGroupManagementController extends UifControllerBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementController.class);
-    private LRCService lrcService;
-    private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
     private StateService stateService;
     private RegistrationGroupManagementViewHelperService viewHelperService;
-    private OrganizationService organizationService;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -124,51 +117,11 @@ public class RegistrationGroupManagementController extends UifControllerBase {
                 theForm.setFilteredAOClusterWrapperList(aoClusterWrappers);
             }
         }catch (Exception e){
-            //TODO
+            LOG.error("Got exception when loading 'Manage Registration Groups'", e);
         }
         return super.start(theForm, result, request, response);
     }
-/*
-    @RequestMapping(params = "methodToCall=manageRegGroups")
-    public ModelAndView manageRegGroups(@ModelAttribute("KualiForm") RegistrationGroupManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        //First cleanup and reset AOCluster list
-        List<ActivityOfferingClusterWrapper> filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
-        theForm.setFilteredAOClusterWrapperList(filteredAOClusterWrapperList);
 
-        String courseOfferingId = theForm.getTheCourseOffering().getId();
-        List<FormatOfferingInfo> formatOfferingList =
-                getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
-        theForm.setFormatOfferingName(formatOfferingList.get(0).getName());
-        theForm.setFormatOfferingIdForViewRG(formatOfferingList.get(0).getId());
-        //get unassgined AOs (didn't belong to any cluster)
-        List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(formatOfferingList.get(0).getId(), theForm);
-
-        for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
-            String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
-            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
-            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
-            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
-        }
-        theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
-
-        //get clusters if any for the 1st FO
-        List<ActivityOfferingClusterInfo> aoClusters = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOfferingList.get(0).getId(), ContextUtils.createDefaultContextInfo());
-        if (aoClusters == null || aoClusters.size()==0){
-            theForm.setHasAOCluster(false);
-        }
-        else {
-            theForm.setHasAOCluster(true);
-            List <ActivityOfferingClusterWrapper> aoClusterWrappers = _convertToAOClusterWrappers(aoClusters, theForm);
-            theForm.setFilteredAOClusterWrapperList(aoClusterWrappers);
-        }
-
-        return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
-
-    }
-*/
     @RequestMapping(params = "methodToCall=filterAOsAndRGsPerFO")
     public ModelAndView filterAOsAndRGsPerFO (@ModelAttribute("KualiForm") RegistrationGroupManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -1258,10 +1211,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         QueryByCriteria criteria = qbcBuilder.build();
 
         List<ActivityOfferingClusterInfo> aoClusterList = getCourseOfferingService().searchForActivityOfferingClusters(criteria, ContextUtils.createDefaultContextInfo());
-        if (aoClusterList.size()>0)
-            return false;
-        else
-            return true;
+        return aoClusterList.size() <= 0;
     }
 
     private Object _getSelectedObject(RegistrationGroupManagementForm theForm, String actionLink){
@@ -1281,7 +1231,8 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         }
 
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
-        Object selectedObject = ((List<Object>) collection).get(selectedLineIndex);
+        Object selectedObject;
+        selectedObject = ((List<Object>) collection).get(selectedLineIndex);
 
         return selectedObject;
     }

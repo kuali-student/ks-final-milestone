@@ -54,11 +54,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
@@ -119,7 +116,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm);
     }
 
-    /**
+    /*
      * Method used to
      *  1) search to get TermInfo based on termCode. Only accept one valid TermInfo. If find more than one TermInfo or
      *  don't find any termInfo, log and report an error message.
@@ -416,7 +413,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
-    /**
+    /*
      * Method used to copy activityOffering
      */
     @RequestMapping(params = "methodToCall=copyAO")
@@ -435,9 +432,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(form);
     }
 
-    /**
+    /*
      * Method used to delete a list of selected Draft activity Offerings
-     **/
+     */
     @RequestMapping(params = "methodToCall=cancelDeleteAOs")
     public ModelAndView cancelDeleteAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -445,10 +442,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
-    /**
+    /*
      * Method used to delete a list of selected Draft activity Offerings
-     **/
-
+     */
     @RequestMapping(params = "methodToCall=deleteSelectedAoList")
     public ModelAndView deleteSelectedAoList(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -477,7 +473,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
-    /**
+    /*
      * Method used to confirm delete AOs
      */
     @RequestMapping(params = "methodToCall=deleteCoConfirmation")
@@ -534,9 +530,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE);
     }
 
-    /**
+    /*
      * Method used to delete a Course Offering with all Draft activity Offerings
-     **/
+     */
     @RequestMapping(params = "methodToCall=deleteCo")
     public ModelAndView deleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) {
         CourseOfferingInfo  theCourseOffering = theForm.getTheCourseOffering();
@@ -577,9 +573,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
-    /**
+    /*
      * Method used to delete a Course Offering with all Draft activity Offerings
-     **/
+     */
     @RequestMapping(params = "methodToCall=cancelDeleteCo")
     public ModelAndView cancelDeleteCo(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) {
         CourseOfferingInfo  theCourseOffering = theForm.getTheCourseOffering();
@@ -608,7 +604,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
-    /**
+    /*
      * Method used to edit a selected CO or AO
      */
     @RequestMapping(params = "methodToCall=edit")
@@ -637,7 +633,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
-    /**
+    /*
      *  Determine if any AOs were check-boxed.
      *  @return True if any AOs where selected. Otherwise, false.
      */
@@ -653,7 +649,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return bIsSelected;
     }
 
-    /**
+    /*
      * Method used to pick the selected AO actions
      */
     @RequestMapping(params = "methodToCall=selectedAoActions")
@@ -682,7 +678,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
 
-     /**
+    /*
      *  Determine if any COs were check-boxed.
      *  @return True if any COs where selected. Otherwise, false.
      */
@@ -716,7 +712,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
     }
 
-    /**
+    /*
      * Method used to confirm delete AOs
      */
     @RequestMapping(params = "methodToCall=confirmDelete")
@@ -783,7 +779,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm, CourseOfferingConstants.AO_DELETE_CONFIRM_PAGE);
     }
 
-    /**
+    /*
      * Method used to view a CO or an AO
      */
     @RequestMapping(params = "methodToCall=view")
@@ -849,7 +845,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return getUIFModelAndView(theForm);
     }
 
-    /**
+    /*
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
      * Code (04a screen)
      */
@@ -863,7 +859,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         return super.performRedirect(theForm,controllerPath, urlParameters);
     }
 
-    /**
+    /*
      * Method used to invoke the Edit CO screen from Manage Course Offering screen while search input is Course Offering
      * Code (04a screen)
      */
@@ -903,7 +899,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
-        Object selectedObject = ((List<Object>) collection).get(selectedLineIndex);
+        Object selectedObject;
+        selectedObject = ((List<Object>) collection).get(selectedLineIndex);
 
         return selectedObject;
     }
