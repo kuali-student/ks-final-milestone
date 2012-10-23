@@ -24,7 +24,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ks-krms-test-context-mock.xml"})
-@Ignore
+@Ignore //KSENROLL-3486 - All the tests in this package org.kuali.student.krms.termresolver are related to this jira
 public class TestAdminOrgNumberTermResolver {
 	private KrmsTypeResolver typeResolver;
 

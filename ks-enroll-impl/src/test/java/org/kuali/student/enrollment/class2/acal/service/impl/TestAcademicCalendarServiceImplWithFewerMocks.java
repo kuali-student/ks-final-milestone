@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:acal-test-with-fewer-mocks-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-@Ignore
+@Ignore //KSENROLL-3480
 public class TestAcademicCalendarServiceImplWithFewerMocks extends TestAcademicCalendarServiceImplWithMocks {
 
 }

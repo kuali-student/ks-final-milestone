@@ -647,7 +647,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     }
 
     @Test
-    @Ignore
+    @Ignore //KSENROLL-3482
     // TODO fix KSENROLL-2671, add back validation decorator and this will work again
     public void testDeleteFormatOffering() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, DoesNotExistException {
 
@@ -684,7 +684,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    @Ignore
+    @Ignore //KSENROLL-3482
     // TODO fix KSENROLL-2671, add back validation decorator and this will work again
     public void testDeleteActivityOffering() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, DoesNotExistException {
 
@@ -735,7 +735,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    @Ignore
+    @Ignore //KSENROLL-3482
     // TODO fix KSENROLL-2671, add back validation decorator and this will work again
     public void testDeleteCourseOffering() throws AlreadyExistsException,
             DoesNotExistException, DataValidationErrorException,
@@ -792,7 +792,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     }
 
     @Test
-    @Ignore // TODO: update cascade to deal with AOC's instead of Reg Groups.
+    @Ignore //KSENROLL-3482// TODO: update cascade to deal with AOC's instead of Reg Groups.
     public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 
         boolean dependantObjects = false;
@@ -958,7 +958,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    @Ignore
+    @Ignore  //KSENROLL-3485
     public void testUpdateRegistrationGroup() throws InvalidParameterException,
             DataValidationErrorException, MissingParameterException,
             DoesNotExistException, VersionMismatchException,

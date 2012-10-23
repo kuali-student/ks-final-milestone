@@ -267,7 +267,8 @@ public class TestAppointmentServiceImpl {
         return diff;
     }
     @Test
-    @Ignore //Ignoring for now since this could randomly break CI unit testing depending on outside factors.
+    @Ignore //KSENROLL-3487
+    // Ignoring for now since this could randomly break CI unit testing depending on outside factors.
     public void testMaxSlotGenerationTiming() {
         // This tests auto-slot generation for max case without end date
         before();
