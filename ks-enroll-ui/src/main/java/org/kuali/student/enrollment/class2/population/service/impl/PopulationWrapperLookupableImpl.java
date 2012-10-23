@@ -78,7 +78,7 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
      * Builds a QueryByCriteria based on the KRAD field values passed in.
      * Performs fuzzy searching on the keyword field against the name and description fields on PopulationEntity
      *
-     * @param fieldValues
+     * @param fieldValues map of field names and values
      * @return a criteria query
      */
     private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){

@@ -112,6 +112,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
 
         try {
             ContextInfo context = ContextUtils.getContextInfo();
+            //copy data to wrapper
             wrapper.setPopulationInfo(getPopulationService().getPopulation(populationId, context));
             wrapper.setPopulationRuleInfo(getPopulationService().getPopulationRuleForPopulation(populationId, context));
             wrapper.setOperationType(wrapper.getPopulationRuleInfo().getTypeKey());

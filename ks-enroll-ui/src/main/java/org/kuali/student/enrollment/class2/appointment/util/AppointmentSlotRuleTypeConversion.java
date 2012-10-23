@@ -31,10 +31,9 @@ import java.util.List;
  */
 public class AppointmentSlotRuleTypeConversion {
 
-    public static int SECOND_IN_MILLIS = 1000;
-    public static int MINUTE_IN_SECS =  60;
-    public static int HOUR_IN_MINUTES = 60;
-    public static String DELIMITER = ";";
+    public final static int SECOND_IN_MILLIS = 1000;
+    public final static int MINUTE_IN_SECS =  60;
+    public final static String DELIMITER = ";";
 
     //Converting appt. rule type code to object
     // Ex: 1,3,4;{mins};{mins};kuali.type.duration.minutes;15;kuali.type.duration.minutes;0
@@ -104,21 +103,15 @@ public class AppointmentSlotRuleTypeConversion {
         }
         return info;
     }
-    
-    private static Long convertToMilliSecs(String time_in_mins){
-        Long time_in_millis = 0L;
-            time_in_millis = Long.parseLong(time_in_mins) *  MINUTE_IN_SECS * SECOND_IN_MILLIS;
 
-        return time_in_millis;
+    private static Long convertToMilliSecs(String time_in_mins) {
+        Long timeInMillis = Long.parseLong(time_in_mins) * MINUTE_IN_SECS * SECOND_IN_MILLIS;
+        return timeInMillis;
     }
 
-    private static String convertToMins(Long milliSecs){
-        String time_in_mins = "";
-
-            int temp =  (int)(milliSecs/(SECOND_IN_MILLIS * MINUTE_IN_SECS));
-            time_in_mins = String.valueOf(temp);
-
-        return time_in_mins;
+    private static String convertToMins(Long milliSecs) {
+        int temp = (int) (milliSecs / (SECOND_IN_MILLIS * MINUTE_IN_SECS));
+        return  String.valueOf(temp);
     }
 
 }

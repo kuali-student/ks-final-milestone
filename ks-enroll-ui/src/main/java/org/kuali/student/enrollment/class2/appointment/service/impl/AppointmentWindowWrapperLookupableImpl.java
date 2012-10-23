@@ -46,15 +46,17 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
   
-        List<AppointmentWindowWrapper> windowWrapperList = new ArrayList<AppointmentWindowWrapper>();
+        List<AppointmentWindowWrapper> windowWrapperList;
         String termTypeKey = fieldValues.get(TERM_TYPE_KEY);
         String termYear = fieldValues.get(TERM_YEAR_KEY);
         try{
             List<KeyDateInfo> periods = _searchPeriods(termTypeKey, termYear);
-            if(periods == null || periods.isEmpty())
+            if(periods == null || periods.isEmpty()){
                 return null;
+            }
             windowWrapperList = _loadWindows(periods);
         }catch (Exception e){
+            LOG.warn("Error calling _loadWindows", e);
             return null;
         }
         
@@ -82,13 +84,11 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
         List<TermInfo> terms = academicCalendarService.searchForTerms(criteria, null);
 
         //Check for exceptions
-        if(terms == null){
-            return null; //Nothing found and null
-        }
-        if(terms.isEmpty()){
+        if (terms == null || terms.isEmpty()){
             return null; //Nothing found
         }
-        if(terms.size()>1){
+
+        if (terms.size() > 1) {
             LOG.error("Too many terms!");
         }
 
@@ -96,7 +96,7 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
 
         //Get the milestones and filter out anything that is not registration period
         List<KeyDateInfo> keyDates = academicCalendarService.getKeyDatesForTerm(term.getId(), null);
-        if(keyDates != null){
+        if (keyDates != null) {
 
             //Get the valid period types
             List<TypeTypeRelationInfo> milestoneTypeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.appt.regperiods","kuali.type.type.relation.type.group",new ContextInfo());

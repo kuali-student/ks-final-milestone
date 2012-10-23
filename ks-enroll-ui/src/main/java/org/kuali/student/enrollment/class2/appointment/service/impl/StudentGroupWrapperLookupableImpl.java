@@ -54,13 +54,8 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
         qBuilder.setPredicates();
         // create predicates for search parameters
         for(String key : fieldValues.keySet()){
-            if(key.equalsIgnoreCase("name")){
-                Predicate grpName = like(key,fieldValues.get(key));
-                pList.add(grpName);
-            } else{
-                Predicate words = like(key,fieldValues.get(key));
-                pList.add(words);
-            }
+            Predicate words = like(key,fieldValues.get(key));
+            pList.add(words);
         }
         if (!pList.isEmpty()){
             Predicate[] preds = new Predicate[pList.size()];

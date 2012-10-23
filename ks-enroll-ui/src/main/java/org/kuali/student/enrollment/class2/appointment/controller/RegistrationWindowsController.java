@@ -5,10 +5,8 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -19,13 +17,18 @@ import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentSlotRuleTypeConversion;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.springframework.stereotype.Controller;
@@ -40,7 +43,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class manages UI actions for registration windows
@@ -52,8 +58,6 @@ import java.util.*;
 @RequestMapping(value = "/registrationWindows")
 public class RegistrationWindowsController extends UifControllerBase {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RegistrationWindowsController.class);
-
     private AppointmentViewHelperService viewHelperService;
     
     private AcademicCalendarService acalService;
@@ -63,14 +67,19 @@ public class RegistrationWindowsController extends UifControllerBase {
     private PopulationService populationService;
 
     @Override
-    protected UifFormBase createInitialForm(HttpServletRequest request) {
+    protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
         return new RegistrationWindowsManagementForm();
     }
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+        
+        if(!(form instanceof RegistrationWindowsManagementForm)){
+            throw new IllegalArgumentException("Expected RegistrationWindowsManagementForm, got " + form.getClass().getSimpleName());
+        }
+        
         RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)form;
         String termId = request.getParameter("termId");
 
@@ -90,8 +99,8 @@ public class RegistrationWindowsController extends UifControllerBase {
      * Method used to search term
      */
     @RequestMapping(params = "methodToCall=searchForTerm")
-    public ModelAndView searchForTerm(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm searchForm, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView searchForTerm(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm searchForm, @SuppressWarnings("unused") BindingResult result,
+                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         String termType = searchForm.getTermType();
         String termYear = searchForm.getTermYear();
 
@@ -105,8 +114,8 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=show")
-    public ModelAndView show(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView show(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         if (!form.isShowAddWindows()){
             form.setShowAddWindows(true);
@@ -184,8 +193,8 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=save")
-    public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView save(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         //Loop through the form's appointment windows and create/update them using the appointmentService
         getViewHelperService(form).saveWindows(form);
@@ -194,8 +203,8 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=assignStudents")
-    public ModelAndView assignStudents(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView assignStudents(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, @SuppressWarnings("unused") BindingResult result,
+                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         ///First save selected window
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Assign Students");
@@ -226,8 +235,8 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=breakAppointments")
-    public ModelAndView breakAppointments(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView breakAppointments(@ModelAttribute("KualiForm") RegistrationWindowsManagementForm uifForm, @SuppressWarnings("unused") BindingResult result,
+                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Break Appointments");
         if(window!=null){
@@ -248,7 +257,7 @@ public class RegistrationWindowsController extends UifControllerBase {
     }
 
     @Override
-    public ModelAndView deleteLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView deleteLine(@ModelAttribute("KualiForm") UifFormBase uifForm, @SuppressWarnings("unused") BindingResult result, @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         RegistrationWindowsManagementForm theForm = (RegistrationWindowsManagementForm)uifForm;
         try{

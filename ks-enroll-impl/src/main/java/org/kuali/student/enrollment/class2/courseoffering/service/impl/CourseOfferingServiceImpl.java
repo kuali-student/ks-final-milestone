@@ -2,15 +2,12 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
-import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
-import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity;
@@ -20,8 +17,24 @@ import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefiniti
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.*;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingDisplayTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingDisplayTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.OfferingInstructorTransformer;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer;
+import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -31,9 +44,24 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -41,7 +69,6 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -60,7 +87,16 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
@@ -74,7 +110,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private StateService stateService;
     private LprService lprService;
     private CourseOfferingServiceBusinessLogic businessLogic;
-    private TermAssembler termAssembler = null;
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
     private SeatPoolDefinitionDao seatPoolDefinitionDao;
@@ -84,10 +119,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private LRCService lrcService;
     private CriteriaLookupService criteriaLookupService;
     private RoomService roomService;
-
-    public CourseOfferingServiceBusinessLogic getBusinessLogic() {
-        return businessLogic;
-    }
 
     public void setBusinessLogic(CourseOfferingServiceBusinessLogic businessLogic) {
         this.businessLogic = businessLogic;
@@ -171,7 +202,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-    private void _cRG_buildLuiLuiRelationForRegGroupsAndAos(List<String> aoIds, LuiInfo lui, RegistrationGroupInfo registrationGroupInfo, String coCode, ContextInfo context) throws OperationFailedException {
+    private void _cRG_buildLuiLuiRelationForRegGroupsAndAos(List<String> aoIds, LuiInfo lui, String coCode, ContextInfo context) throws OperationFailedException {
         for (String aoId : aoIds) {
             LuiLuiRelationInfo luiLuiRelRgAo = new LuiLuiRelationInfo();
             luiLuiRelRgAo.setLuiId(lui.getId());
@@ -187,7 +218,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             luiLuiRelRgAo.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
             luiLuiRelRgAo.setEffectiveDate(new Date());
             try {
-                luiLuiRelRgAo = luiService.createLuiLuiRelation(luiLuiRelRgAo.getLuiId(), luiLuiRelRgAo.getRelatedLuiId(), luiLuiRelRgAo.getTypeKey(), luiLuiRelRgAo, context);
+                luiService.createLuiLuiRelation(luiLuiRelRgAo.getLuiId(), luiLuiRelRgAo.getRelatedLuiId(), luiLuiRelRgAo.getTypeKey(), luiLuiRelRgAo, context);
             } catch (Exception ex) {
                 throw new OperationFailedException("unexpected", ex);
             }
@@ -247,10 +278,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // build the lui lui relation RG-AO
         List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
-        _cRG_buildLuiLuiRelationForRegGroupsAndAos(aoIds, lui, registrationGroupInfo, coCode, context);
+        _cRG_buildLuiLuiRelationForRegGroupsAndAos(aoIds, lui, coCode, context);
 
         // Everything saved to the DB, now return RG sent back by createLui and transformed by transformer back to caller
-        RegistrationGroupInfo rgInfo = new RegistrationGroupInfo();
+        RegistrationGroupInfo rgInfo;
         rgInfo = registrationGroupTransformer.lui2Rg(lui, context);
         rgInfo.setCourseOfferingId(coInfo.getId());
         rgInfo.setRegistrationCode(registrationGroupInfo.getRegistrationCode());
@@ -265,12 +296,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return roomService;
     }
 
+    @SuppressWarnings("unused")
     public void setRoomService(RoomService roomService) {
         this.roomService = roomService;
-    }
-
-    public CriteriaLookupService getCriteriaLookupService() {
-        return criteriaLookupService;
     }
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
@@ -309,10 +337,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.acalService = acalService;
     }
 
-    public RegistrationGroupAssembler getRgAssembler() {
-        return registrationGroupAssembler;
-    }
-
     public void setRgAssembler(RegistrationGroupAssembler rgAssembler) {
         this.registrationGroupAssembler = rgAssembler;
     }
@@ -333,16 +357,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.lprService = lprService;
     }
 
-    public SeatPoolDefinitionDao getSeatPoolDefinitionDao() {
-        return seatPoolDefinitionDao;
-    }
-
     public void setSeatPoolDefinitionDao(SeatPoolDefinitionDao seatPoolDefinitionDao) {
         this.seatPoolDefinitionDao = seatPoolDefinitionDao;
-    }
-
-    public ActivityOfferingClusterDao getActivityOfferingClusterDao() {
-        return activityOfferingClusterDao;
     }
 
     public void setActivityOfferingClusterDao(ActivityOfferingClusterDao activityOfferingClusterDao) {
@@ -554,28 +570,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new OperationFailedException("not implemented");
     }
 
-    //TODO This method does not override anything why is it here?
-    @Transactional(readOnly = true)
-    public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termKey, String unitOwnerId,
-                                                                      ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
-    }
-
-    //TODO This method does not override anything why is it here?
-    @Transactional(readOnly = true)
-    public List<CourseOfferingInfo> getCourseOfferingsBySoc(String s, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
-    }
-
-    //TODO This method does not override anything why is it here?
-    @Transactional(readOnly = true)
-    public List<CourseOfferingInfo> getPublishedCourseOfferingsBySoc(String s, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("not implemented");
-    }
-
     @Override
     @Transactional(readOnly = true)
     public List<String> getValidCanonicalCourseToCourseOfferingOptionKeys(ContextInfo context) throws InvalidParameterException,
@@ -593,7 +587,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultItemInfo rolloverCourseOffering(String sourceCourseOfferingId, String targetTermId, List<String> optionKeys, ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            DoesNotExistException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return this.businessLogic.rolloverCourseOffering(sourceCourseOfferingId, targetTermId, optionKeys, context);
     }
@@ -746,78 +740,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             VersionMismatchException {
         return this.businessLogic.updateCourseOfferingFromCanonical(courseOfferingId, optionKeys, context);
-    }
-
-    private void _processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
-
-        List<String> currrentInstructors = lprService.getPersonIdsByLuiAndTypeAndState(courseOfferingId, LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY,
-                LprServiceConstants.ASSIGNED_STATE_KEY, context);
-
-
-        if (instructors != null && !instructors.isEmpty()) {
-            for (OfferingInstructorInfo instructor : instructors) {
-                try {
-                    if (currrentInstructors.contains(instructor.getPersonId())) {
-                        LprInfo existingLpr = _getLpr(instructor.getPersonId(), courseOfferingId, context);
-                        if (existingLpr != null) {
-                            if (instructor.getPercentageEffort() != null) {
-                                existingLpr.setCommitmentPercent("" + instructor.getPercentageEffort());
-                            } else {
-                                existingLpr.setCommitmentPercent(null);
-                            }
-                            lprService.updateLpr(existingLpr.getId(), existingLpr, context);
-                            currrentInstructors.remove(instructor.getPersonId());
-                        }
-                    } else {
-                        lprService.createLpr(instructor.getPersonId(), courseOfferingId, instructor.getTypeKey(), _getNewLpr(instructor, courseOfferingId), context);
-                    }
-                } catch (ReadOnlyException e) {
-                    throw new OperationFailedException();
-                }
-            }
-        }
-
-        if (currrentInstructors != null && currrentInstructors.size() > 0) {
-            if (atpId != null) {
-                for (String instructorId : currrentInstructors) {
-                    LprInfo lpr = _getLpr(instructorId, courseOfferingId, context);
-                    if (lpr != null) {
-                        lprService.deleteLpr(lpr.getId(), context);
-                    }
-                }
-            }
-        }
-    }
-
-    private LprInfo _getNewLpr(OfferingInstructorInfo instructor, String courseOfferingId) {
-        LprInfo lpr = new LprInfo();
-        lpr.setPersonId(instructor.getPersonId());
-        if (instructor.getPercentageEffort() != null) {
-            lpr.setCommitmentPercent("" + instructor.getPercentageEffort());
-        } else {
-            lpr.setCommitmentPercent(null);
-        }
-        lpr.setId(UUIDHelper.genStringUUID());
-        lpr.setLuiId(courseOfferingId);
-        lpr.setTypeKey(instructor.getTypeKey());
-        lpr.setStateKey(instructor.getStateKey());
-        return lpr;
-    }
-
-    private LprInfo _getLpr(String instructor, String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        LprInfo lpr = null;
-        List<LprInfo> lprs = lprService.getLprsByPersonAndLui(instructor, courseOfferingId, context);
-
-        if (lprs != null && !lprs.isEmpty()) {
-            for (LprInfo lpri : lprs) {
-                if (lpri.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
-                    lpr = lpri;
-                }
-            }
-        }
-        return lpr;
     }
 
     @Override
@@ -1600,7 +1522,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             schedule.setAtpId(aoInfo.getTermId());
 
             // persist the new schedule
-            ScheduleInfo persistedSchedule = null;
+            ScheduleInfo persistedSchedule;
             try {
                 persistedSchedule = schedulingService.createSchedule(schedule.getTypeKey(), schedule, contextInfo);
             } catch (Exception e) {
@@ -1804,18 +1726,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return businessLogic.generateRegistrationGroupsForCluster(activityOfferingClusterId, contextInfo);
     }
 
-    private String _getTermKeyByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        String termId = null;
-
-        LuiInfo co = luiService.getLui(courseOfferingId, context);
-        if (co != null) {
-            termId = co.getAtpId();
-        }
-
-        return termId;
-    }
-
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public RegistrationGroupInfo updateRegistrationGroup(String registrationGroupId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
@@ -2012,26 +1922,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return false;
     }
 
-    private List<ValidationResultInfo> validateTimeSlots(List<List<String>> listOfTimeSlotIds, List<String> aoIds, ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-                   OperationFailedException, PermissionDeniedException {
-        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
-        for (int i = 0; i < listOfTimeSlotIds.size() - 1; i++) {
-            for (int j = i + 1; j < listOfTimeSlotIds.size(); j++) {
-
-                if (_checkTimeSlotsOverlap(listOfTimeSlotIds.get(i), listOfTimeSlotIds.get(j), context)) {
-                    ValidationResultInfo validationResultInfo = new ValidationResultInfo();
-                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                    validationResultInfo.setMessage("time conflict between AO: " + aoIds.get(i) + " and AO: " + aoIds.get(j));
-                    validationResultInfos.add(validationResultInfo);
-                    // Find first overlap and exit this function
-                    return validationResultInfos;
-                }
-            }
-        }
-        return validationResultInfos; // Didn't find overlap so return empty list
-    }
-
+    @SuppressWarnings("unused")
+    //TODO This code is an example of refactoring validateRG, please delete when it replaces validateRG or is no longer needed
     private Object[] _validateRG2(String validationType, String activityOfferingClusterId, String registrationGroupType,
                                   RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<List<String>> listOfTimeSlotIds = new ArrayList<List<String>>();
@@ -2230,7 +2122,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (clusterInfo.getActivityOfferingSets() == null) {
             return aoTypeSet;
         }
-        int count = 0;
+
         // Check that each AO set has a non-null type and no two sets have the same AO type
         for (ActivityOfferingSetInfo setInfo: clusterInfo.getActivityOfferingSets()) {
             String aoType = setInfo.getActivityOfferingType();
@@ -2372,50 +2264,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 setInfos.add(setInfo);
             }
         }
-    }
-
-    //validate each AO type has at least one AO in an FO. Right now, this validation may not be necessary because each AOC in an FO contains all the possible AO types that the FO has
-    public  List<ValidationResultInfo> validateActivityOfferingForFormatOffering (String formatOfferingId, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-
-        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
-        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
-        FormatOfferingInfo fo = getFormatOffering(formatOfferingId, contextInfo);
-        for (String aoTypeKey : fo.getActivityOfferingTypeKeys()) {
-            Map<String, String> fieldValues = new HashMap<String, String>();
-            fieldValues.put("aoTypeKey", aoTypeKey);
-            QueryByCriteria qbc = _buildQueryByCriteria(fieldValues);
-            List<ActivityOfferingInfo> activityOfferingInfos = searchForActivityOfferings(qbc, contextInfo);
-
-            if (activityOfferingInfos == null || activityOfferingInfos.isEmpty()) {
-                validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
-                validationResultInfos.add(validationResultInfo);
-                return validationResultInfos;
-            }
-        }
-
-        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
-        validationResultInfos.add(validationResultInfo);
-        return validationResultInfos;
-
-    }
-
-    private QueryByCriteria _buildQueryByCriteria(Map<String, String> fieldValues){
-        String aoTypeKey = fieldValues.get("aoTypeKey");
-
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        if (StringUtils.isNotBlank(aoTypeKey)) {
-            predicates.add(PredicateFactory.equal("typeKey", aoTypeKey));
-
-        }
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-        QueryByCriteria qbc = qbcBuilder.build();
-
-        return qbc;
     }
 
     @Override
@@ -2676,7 +2524,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
-            ReadOnlyException, ReadOnlyException, VersionMismatchException {
+            ReadOnlyException, VersionMismatchException {
         SeatPoolDefinitionEntity seatPoolDefinitionEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId);
         if (null != seatPoolDefinitionEntity) {
             seatPoolDefinitionEntity.fromDto(seatPoolDefinitionInfo);
@@ -2734,13 +2582,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
      *
      * Please look in CourseOfferingCriteriaTransformer for a complete list of available mappings.
      *
-     * @param criteria    the search criteria
-     * @param context
-     * @return
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
      */
     @Override
     @Transactional(readOnly = true)
@@ -2907,16 +2748,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return atpService;
     }
 
-    public CourseOfferingTransformer getCourseOfferingTransformer() {
-        return courseOfferingTransformer;
-    }
-
     public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
         this.courseOfferingTransformer = courseOfferingTransformer;
-    }
-
-    public RegistrationGroupTransformer getRegistrationGroupTransformer() {
-        return registrationGroupTransformer;
     }
 
     public void setRegistrationGroupTransformer(RegistrationGroupTransformer registrationGroupTransformer) {
@@ -2930,19 +2763,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public void setOfferingCodeGenerator(CourseOfferingCodeGenerator offeringCodeGenerator) {
         this.offeringCodeGenerator = offeringCodeGenerator;
     }
-
-
-    public TermAssembler getTermAssembler() {
-        if (termAssembler == null) {
-            setTermAssembler(new TermAssembler());
-        }
-        return termAssembler;
-    }
-
-    public void setTermAssembler(TermAssembler termAssembler) {
-        this.termAssembler = termAssembler;
-    }
-
 
     @Override
     @Transactional(readOnly = true)

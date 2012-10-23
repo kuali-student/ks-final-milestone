@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 public class PopulationController extends MaintenanceDocumentController {
 
     @RequestMapping(params = "methodToCall=createByRule")
-    public ModelAndView createByRule(@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView createByRule(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
+                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         PopulationWrapper wrapper = (PopulationWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
@@ -33,8 +33,8 @@ public class PopulationController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=createByCombiningPopulations")
-    public ModelAndView createByCombiningPopulations (@ModelAttribute("KualiForm") MaintenanceForm form, BindingResult result,
-                                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView createByCombiningPopulations (@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
+                                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         PopulationWrapper wrapper = (PopulationWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setCreateByRule(false);
         wrapper.setEnableCreateButton(false);
