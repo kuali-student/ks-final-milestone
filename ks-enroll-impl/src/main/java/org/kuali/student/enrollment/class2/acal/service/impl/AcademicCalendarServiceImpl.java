@@ -1994,7 +1994,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             for (HolidayInfo holiday : holidaysForTerm) {
                 if (!holiday.getIsInstructionalDay()) {
                     currentDate = new DateMidnight(holiday.getStartDate().getTime());
-                    stopDate = new DateMidnight(holiday.getEndDate().getTime());
+                    //NPE check end date and set stop to start date if null
+                    if (holiday.getEndDate() != null) {
+                        stopDate = new DateMidnight(holiday.getEndDate().getTime());
+                    } else {
+                        stopDate = currentDate;
+                    }
                     while (currentDate.compareTo(stopDate) <= 0) {
                         if ((_dateIsInstructional(currentDate))
                                 &&  ( ! nonInstructionalHolidayDates.contains(currentDate))) {
