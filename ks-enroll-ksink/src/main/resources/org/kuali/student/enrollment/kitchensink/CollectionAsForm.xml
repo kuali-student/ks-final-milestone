@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright 2006-2011 The Kuali Foundation
+  ~ Copyright 2005-2012 The Kuali Foundation
   ~
   ~ Licensed under the Educational Community License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -41,13 +41,13 @@
                                     KitchenSinkController.addLineCollectionAsForm().
                                 -->
                                 <property name="methodToCall" value="addLineCollectionAsForm"/>
-                                <property name="actionLabel" value="Add Row"/>
+                                <property name="actionLabel" value="Add"/>
                             </bean>
                         </list>
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton-Small">
+                            <bean parent="Uif-PrimaryActionButton-Small">
                                 <!--
                                     Default method is UifControllerBase.saveLine(..) which in turn calls the helper's
                                     processCollectionSaveLine(..) method.  If non-standard validation or database
@@ -56,7 +56,7 @@
                                     see KitchenSinkHelper.processCollectionSaveLine().
                                 -->
                                 <property name="methodToCall" value="saveLine"/>
-                                <property name="actionLabel" value="Save Row"/>
+                                <property name="actionLabel" value="Save"/>
                             </bean>
                             <bean parent="Uif-KsKrad-Button-ImageOnly">
                                 <!-- Uif-KsKrad-Button-ImageOnly defined in UifKradExtensionDefinitions.xml -->
