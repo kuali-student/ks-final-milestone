@@ -56,8 +56,6 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
     private CourseOfferingSetService socService = null;
     private CourseService courseService = null;
 
-    private static final Logger LOG = Logger.getLogger(DiagnoseRolloverViewHelperServiceImpl.class);
-
     public static final String COURSE_OFFERING_KEY = "courseOffering";
     public static final String START_ROLLOVER_DATE = "startRolloverDate";
     public static final String FINISH_ROLLOVER_DATE = "finishRolloverDate";
@@ -129,7 +127,7 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
             return false;
         }
         CourseOfferingInfo coInfo = coList.get(0);
-        StatusInfo statusInfo = null;
+        StatusInfo statusInfo;
         try {
             statusInfo = coService.deleteCourseOfferingCascaded(coInfo.getId(), new ContextInfo());
         } catch (Exception e) {

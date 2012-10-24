@@ -1,9 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -28,7 +25,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilit
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -61,7 +57,6 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
-import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
@@ -82,10 +77,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     private transient CourseOfferingService courseOfferingService;
     private transient CourseOfferingSetService courseOfferingSetService;
-    private transient ContextInfo contextInfo;
     private transient TypeService typeService;
     private transient StateService stateService;
-    private transient CourseService courseService;
     private transient AcademicCalendarService academicCalendarService;
     private transient SchedulingService schedulingService;
     private transient RoomService roomService;
@@ -97,12 +90,15 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     @Override
     public void saveDataObject() {
         if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
 
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
 
-            seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), getContextInfo());
+            seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
             if (activityOfferingWrapper.isSchedulesRevised()){
                 processRevisedSchedules(activityOfferingWrapper);
@@ -114,7 +110,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
 
             try {
-                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), getContextInfo());
+                ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -124,6 +120,8 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
     private void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper) {
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         //For revise, schedule  request should be already there.. but for some ref data, it's missing..
         if (wrapper.getScheduleRequestInfo() == null){
@@ -151,7 +149,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         if (StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())){
 
             try{
-                ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,wrapper.getScheduleRequestInfo(),getContextInfo());
+                ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,wrapper.getScheduleRequestInfo(), contextInfo);
                 wrapper.setScheduleRequestInfo(createdScheduleRequestInfo);
             } catch (Exception e){
                 throw new RuntimeException(e);
@@ -160,7 +158,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         } else {
 
             try{
-               ScheduleRequestInfo updatedScheduleRequestInfo = getSchedulingService().updateScheduleRequest(wrapper.getScheduleRequestInfo().getId(),wrapper.getScheduleRequestInfo(),getContextInfo());
+               ScheduleRequestInfo updatedScheduleRequestInfo = getSchedulingService().updateScheduleRequest(wrapper.getScheduleRequestInfo().getId(),wrapper.getScheduleRequestInfo(), contextInfo);
                wrapper.setScheduleRequestInfo(updatedScheduleRequestInfo);
             } catch (Exception e){
                 throw new RuntimeException(e);
@@ -215,7 +213,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         try {
-            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot,getContextInfo());
+            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot, ContextUtils.createDefaultContextInfo());
             componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -403,8 +401,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                         addErrorMessage(ScheduleInput.BUILDING, "A Facility code is required if a room code is entered");
                     }
                 } else {
+                    ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
                     // if a building code exists, validate the building code and populate the building info
-                    List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(), getContextInfo());
+                    List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(), contextInfo);
                     if (buildings.isEmpty()) {
                         addErrorMessage(ScheduleInput.BUILDING, "Facility code was invalid");
                     } else {
@@ -413,7 +413,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
                     // if a building code exists and a room code exists, validate the room code and populate the room info
                     if (StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
-                        List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(), scheduleWrapper.getRoomCode(), getContextInfo());
+                        List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(), scheduleWrapper.getRoomCode(), contextInfo);
                         if (rooms.isEmpty()) {
                             addErrorMessage(ScheduleInput.ROOM, "Room code was invalid");
                         } else {
@@ -489,7 +489,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     private boolean deleteScheduleRequest(ActivityOfferingWrapper wrapper){
         StatusInfo statusInfo;
         try{
-            statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),getContextInfo());
+            statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(), ContextUtils.createDefaultContextInfo());
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -513,18 +513,20 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         try {
 
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
             //Schedule AO
-            StatusInfo statusInfo = getCourseOfferingService().scheduleActivityOffering(activityOfferingWrapper.getId(),getContextInfo());
+            StatusInfo statusInfo = getCourseOfferingService().scheduleActivityOffering(activityOfferingWrapper.getId(), contextInfo);
 
             if (!statusInfo.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,statusInfo.getMessage());
                 return;
             }
 
-            ActivityOfferingInfo latestAO = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(),getContextInfo());
+            ActivityOfferingInfo latestAO = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
             //This will change the AO/FO/CO state and gets the updated AO
-            latestAO = CourseOfferingServiceStateHelper.updateScheduledActivityOffering(latestAO,getCourseOfferingService(),getCourseOfferingSetService(),getContextInfo());
+            latestAO = CourseOfferingServiceStateHelper.updateScheduledActivityOffering(latestAO,getCourseOfferingService(),getCourseOfferingSetService(), contextInfo);
 
             //Copy only certain fields to the existing DTO to avoid unnecessary overwriting to the user modifications
             activityOfferingWrapper.getAoInfo().setStateKey(latestAO.getStateKey());
@@ -540,45 +542,19 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
     }
 
-    private  List<SeatPoolDefinitionInfo> getSeatPoolDeleteList(List<SeatPoolDefinitionInfo> newList, List<SeatPoolDefinitionInfo> oldList){
-        List<SeatPoolDefinitionInfo> deleteList = new ArrayList<SeatPoolDefinitionInfo>();
-        // loop through old list, add items that don't exist in new list to ret list
-
-        if(oldList == null) return deleteList;
-        else{
-            for(SeatPoolDefinitionInfo oldPool : oldList){
-                if(newList == null){
-                   deleteList.add(oldPool);
-                } else {
-                    if(!seatPoolListContains(newList, oldPool.getId())){
-                        deleteList.add(oldPool);
-                    }
-                }
-            }
-        }
-        return deleteList;
-    }
-
-    private boolean seatPoolListContains(List<SeatPoolDefinitionInfo> poolList, String poolId){
-        for(SeatPoolDefinitionInfo pool : poolList){
-            if(poolId != null && poolId.equalsIgnoreCase(pool.getId())){
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         try {
-            ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID),getContextInfo());
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+            ActivityOfferingInfo info = getCourseOfferingService().getActivityOffering(dataObjectKeys.get(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID), contextInfo);
             ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(info);
 
             //get the course offering
-            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(info.getCourseOfferingId(), getContextInfo());
+            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(info.getCourseOfferingId(), contextInfo);
 
             // get the format offering
-            FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), getContextInfo());
+            FormatOfferingInfo formatOfferingInfo = getCourseOfferingService().getFormatOffering(info.getFormatOfferingId(), contextInfo);
             wrapper.setFormatOffering(formatOfferingInfo);
 
             // Added for WaitList Tanveer 06/27/2012
@@ -597,7 +573,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             }
 
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
-            TermInfo term = getAcademicCalendarService().getTerm(info.getTermId(), getContextInfo());
+            TermInfo term = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
@@ -613,7 +589,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             wrapper.setCredits(sCredits);
             //wrapper.setAbbreviatedActivityCode(info.getActivityCode().toUpperCase().substring(0,3));
             wrapper.setActivityCode(info.getActivityCode());
-            wrapper.setAbbreviatedCourseType(getTypeService().getType(info.getTypeKey(), getContextInfo()).getName().toUpperCase().substring(0,3));
+            wrapper.setAbbreviatedCourseType(getTypeService().getType(info.getTypeKey(), contextInfo).getName().toUpperCase().substring(0, 3));
 
             //process instructor effort
             assembleInstructorWrapper(info.getInstructors(), wrapper);
@@ -625,13 +601,13 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             document.getNewMaintainableObject().setDataObject(wrapper);
             document.getOldMaintainableObject().setDataObject(wrapper);
             document.getDocumentHeader().setDocumentDescription("Edit AO - " + info.getActivityCode());
-            StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+            StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), contextInfo);
             wrapper.setStateName(state.getName());
-            TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
+            TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), contextInfo);
             wrapper.setTypeName(typeInfo.getName());
 
             // Get/Set SeatPools
-            List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(info.getId(), getContextInfo());
+            List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(info.getId(), contextInfo);
 
             //Sort the seatpools by priority order
             Collections.sort(seatPoolDefinitionInfoList, new Comparator<SeatPoolDefinitionInfo>() {
@@ -646,7 +622,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             for(SeatPoolDefinitionInfo seatPoolDefinitionInfo :  seatPoolDefinitionInfoList){
                 SeatPoolWrapper spWrapper = new SeatPoolWrapper();
 
-                PopulationInfo pInfo = getPopulationService().getPopulation(seatPoolDefinitionInfo.getPopulationId(), getContextInfo());
+                PopulationInfo pInfo = getPopulationService().getPopulation(seatPoolDefinitionInfo.getPopulationId(), contextInfo);
                 spWrapper.setSeatPoolPopulation(pInfo);
                 spWrapper.setSeatPool(seatPoolDefinitionInfo);
                 spWrapper.setId(seatPoolDefinitionInfo.getId());
@@ -693,7 +669,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     protected void loadScheduleRequests(ActivityOfferingWrapper wrapper){
 
         try {
-            List<ScheduleRequestInfo> requestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,wrapper.getId(),getContextInfo());
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+            List<ScheduleRequestInfo> requestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,wrapper.getId(), contextInfo);
 
             if (requestInfos.size() > 1){  // For M5, we should have only one Schedule Request
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Multiple schedule requests not supported in M5 implementation");
@@ -709,14 +687,14 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                     ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
                     scheduleWrapper.setTba(componentInfo.getIsTBA());
 
-                    List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(),getContextInfo());
+                    List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), contextInfo);
 
                     if (!timeSlotInfos.isEmpty()){
                         scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
                         DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
 
-                        Date timeForDisplay = null;
+                        Date timeForDisplay;
                         if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
                             timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
                             String formattedTime = df.format(timeForDisplay);
@@ -745,7 +723,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
                     if (!componentInfo.getRoomIds().isEmpty()){
 
-                        RoomInfo room = getRoomService().getRoom(componentInfo.getRoomIds().get(0),getContextInfo());
+                        RoomInfo room = getRoomService().getRoom(componentInfo.getRoomIds().get(0), contextInfo);
 
                         scheduleWrapper.setRoom(room);
                         scheduleWrapper.setRoomCode(room.getRoomCode());
@@ -754,7 +732,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                             scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
                         }
 
-                        BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(),getContextInfo());
+                        BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(), contextInfo);
                         scheduleWrapper.setBuilding(buildingInfo);
                         scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
                         scheduleWrapper.setBuildingId(room.getBuildingId());
@@ -774,7 +752,9 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         try {
 
-            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(wrapper.getAoInfo().getScheduleId(),getContextInfo());
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(wrapper.getAoInfo().getScheduleId(), contextInfo);
             wrapper.setScheduleInfo(scheduleInfo);
 
             //Clear Actuals first (it may be having old ones before schedules revised)
@@ -784,14 +764,14 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                 ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
                 scheduleWrapper.setTba(componentInfo.getIsTBA());
 
-                List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(),getContextInfo());
+                List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), contextInfo);
 
                 if (!timeSlotInfos.isEmpty()){
                     scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
                     DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
 
-                    Date timeForDisplay = null;
+                    Date timeForDisplay;
                     if (scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null){
                         timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
                         scheduleWrapper.setStartTimeUI(df.format(timeForDisplay));
@@ -808,7 +788,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
                 if (StringUtils.isNotBlank(componentInfo.getRoomId())){
 
-                    RoomInfo room = getRoomService().getRoom(componentInfo.getRoomId(),getContextInfo());
+                    RoomInfo room = getRoomService().getRoom(componentInfo.getRoomId(), contextInfo);
 
                     scheduleWrapper.setRoom(room);
                     scheduleWrapper.setRoomCode(room.getRoomCode());
@@ -817,7 +797,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
                         scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
                     }
 
-                    BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(),getContextInfo());
+                    BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(), contextInfo);
                     scheduleWrapper.setBuilding(buildingInfo);
                     scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
                 }
@@ -850,20 +830,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
 
         return spRet;
-    }
-
-    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
-        String aoId = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID);
-
-        List<Predicate> predicates = new ArrayList<Predicate>();
-        if (StringUtils.isNotBlank(aoId)) {
-            predicates.add(PredicateFactory.equalIgnoreCase("id", aoId));
-        }
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-
-        return qbcBuilder.build();
     }
 
     private String getTermDisplayString(String termId, TermInfo term) {
@@ -912,7 +878,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
 
         if(StringUtils.isBlank(instructorInfo.getStateKey())) {
             try {
-                StateInfo state = getStateService().getState(LprServiceConstants.TENTATIVE_STATE_KEY, getContextInfo());
+                StateInfo state = getStateService().getState(LprServiceConstants.TENTATIVE_STATE_KEY, ContextUtils.createDefaultContextInfo());
                 instructorInfo.setStateKey(state.getKey());
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -927,7 +893,7 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)document.getNewMaintainableObject().getDataObject();
         document.getDocumentHeader().setDocumentDescription("Activity Offering");
         try {
-            StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+            StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), ContextUtils.createDefaultContextInfo());
             wrapper.setStateName(state.getName());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -1044,14 +1010,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         }
     }
 
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = ContextBuilder.loadContextInfo();
-        }
-
-        return contextInfo;
-    }
-
     public TypeService getTypeService() {
         if(typeService == null) {
             typeService = CourseOfferingResourceLoader.loadTypeService();
@@ -1078,14 +1036,6 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
             courseOfferingSetService = CourseOfferingResourceLoader.loadCourseOfferingSetService();
         }
         return courseOfferingSetService;
-    }
-
-    private CourseService getCourseService() {
-        if(courseService == null) {
-            courseService = CourseOfferingResourceLoader.loadCourseService();
-        }
-
-        return courseService;
     }
 
     private AcademicCalendarService getAcademicCalendarService() {

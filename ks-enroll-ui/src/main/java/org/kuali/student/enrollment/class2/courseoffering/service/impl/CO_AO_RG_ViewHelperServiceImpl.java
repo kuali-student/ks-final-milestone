@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -14,8 +13,8 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
@@ -35,7 +34,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceImpl implements CO_AO_RG_ViewHelperService{
 
@@ -49,13 +47,15 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
 
         ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
 
-        StateInfo state = getStateService().getState(aoInfo.getStateKey(), getContextInfo());
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        StateInfo state = getStateService().getState(aoInfo.getStateKey(), contextInfo);
         aoWrapper.setStateName(state.getName());
 
-        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), getContextInfo());
+        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
         aoWrapper.setTypeName(typeInfo.getName());
 
-        FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), getContextInfo());
+        FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
         aoWrapper.setFormatOffering(fo);
 
         OfferingInstructorInfo displayInstructor = ViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
@@ -69,14 +69,14 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
         //This section is to display either schedule request or actuals. If actuals available, display that instead of request
         if (StringUtils.isNotBlank(aoInfo.getScheduleId())){
             //FIXME: Use display object once we get the TBA with ScheduleComponentDisplay
-            /*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),getContextInfo());
+            /*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),contextInfo);
             if (!displayInfo.getScheduleComponentDisplays().isEmpty()){
                 ScheduleComponentDisplay componentDisplay = displayInfo.getScheduleComponentDisplays().get(0);
                 updateScheduleToAOWrapperForDisplay(aoWrapper,Boolean.FALSE,componentDisplay.getRoom(),componentDisplay.getTimeSlots().get(0));
 
             }*/
 
-            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(),getContextInfo());
+            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(),contextInfo);
 
             if (!scheduleInfo.getScheduleComponents().isEmpty()){
 
@@ -85,7 +85,7 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
                 for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
 
                     String roomId = scheduleComponentInfo.getRoomId();
-                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0),getContextInfo());
+                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0),contextInfo);
 
                     updateScheduleToAOWrapperForDisplay(aoWrapper,scheduleComponentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
 
@@ -98,7 +98,7 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
 
         }else{
 
-            List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), getContextInfo());
+            List<ScheduleRequestInfo> scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), contextInfo);
 
             if (!scheduleRequestInfoList.isEmpty()){
 
@@ -106,7 +106,7 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
 
                 for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfoList.get(0).getScheduleRequestComponents()) {
                     String roomId = componentInfo.getRoomIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getRoomIds().get(0);
-                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(componentInfo.getTimeSlotIds().get(0),getContextInfo());
+                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(componentInfo.getTimeSlotIds().get(0),contextInfo);
 
                     updateScheduleToAOWrapperForDisplay(aoWrapper,componentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
 
@@ -124,7 +124,7 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
     private void updateScheduleToAOWrapperForDisplay(ActivityOfferingWrapper aoWrapper, Boolean isTBA,String roomId,TimeSlotInfo timeSlot,boolean append) throws Exception{
         RoomInfo roomInfo = null;
         if (StringUtils.isNotBlank(roomId)){
-            roomInfo = getRoomService().getRoom(roomId, getContextInfo());
+            roomInfo = getRoomService().getRoom(roomId, ContextUtils.createDefaultContextInfo());
         }
         updateScheduleToAOWrapperForDisplay(aoWrapper,isTBA,roomInfo,timeSlot,append);
     }
@@ -158,7 +158,7 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
         }
 
         if (roomInfo != null && StringUtils.isNotBlank(roomInfo.getBuildingId())) {
-            BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), getContextInfo());
+            BuildingInfo buildingInfo = getRoomService().getBuilding(roomInfo.getBuildingId(), ContextUtils.createDefaultContextInfo());
             aoWrapper.setBuildingName(buildingInfo.getName(),append);
             aoWrapper.setRoomName(roomInfo.getRoomCode(),append);
         }
@@ -237,17 +237,5 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
         }
         return roomService;
     }
-
-    public ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-        return contextInfo;
-    }
-
 
 }

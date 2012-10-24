@@ -104,7 +104,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             LOG.info("Building Manage SOC model for the term " + socForm.getTermCode());
         }
 
-        List<String> socIds = null;
+        List<String> socIds;
 
         try {
             socIds = getCourseOfferingSetService().getSocIdsByTerm(socForm.getTermInfo().getId(), createContextInfo());
@@ -156,14 +156,11 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         if(StringUtils.equals(socForm.getSocSchedulingStatus(), ManageSocConstants.SOC_IN_PROGRESS_PUBLISHING_STATUS_UI)) {
             Date curDate = new Date();
-            Date startDate = new Date();
 
             if(socInfo.getLastSchedulingRunCompleted() != null)  {
                 curDate = socInfo.getLastSchedulingRunCompleted();
             }
-            if(socInfo.getPublishingStarted() != null)   {
-                startDate =  socInfo.getPublishingStarted();
-            }
+
             socForm.setScheduleDuration(getTimeDiffUI(curDate, socInfo.getLastSchedulingRunStarted(), true) + ManageSocConstants.DISPLAY_IN_PROGRESS);
         }
 

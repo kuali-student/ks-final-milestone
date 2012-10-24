@@ -21,7 +21,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_ViewHelperServiceImpl implements CourseOfferingManagementViewHelperService{
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingManagementViewHelperServiceImpl.class);
@@ -65,15 +64,17 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     public void loadCourseOfferingsByTermAndSubjectCode (String termId, String subjectCode, CourseOfferingManagementForm form) throws Exception{
-        List<String> courseOfferingIds = _getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectCode, getContextInfo());
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        List<String> courseOfferingIds = _getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectCode, contextInfo);
 
         if(courseOfferingIds.size()>0){
-            List<CourseOfferingInfo>   courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,getContextInfo());
+            List<CourseOfferingInfo>   courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,contextInfo);
             form.getCourseOfferingEditWrapperList().clear();
             for(CourseOfferingInfo coInfo: courseOfferingList){
                 CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
                 courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
-                StateInfo state = getStateService().getState(coInfo.getStateKey(),getContextInfo());
+                StateInfo state = getStateService().getState(coInfo.getStateKey(),contextInfo);
                 courseOfferingEditWrapper.setStateName(state.getName());
                 form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
             }
@@ -85,21 +86,23 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception {
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
         // Building a query
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.like("courseOfferingCode", courseCode + "%"),
                 PredicateFactory.equalIgnoreCase("atpId", termId)));
         QueryByCriteria criteria = qbcBuilder.build();
-        List<String> courseOfferingIds = _getCourseOfferingService().searchForCourseOfferingIds(criteria, getContextInfo());
+        List<String> courseOfferingIds = _getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
         if(courseOfferingIds.size() > 0){
-            List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,getContextInfo());
+            List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,contextInfo);
             form.getCourseOfferingEditWrapperList().clear();
             for(CourseOfferingInfo coInfo: courseOfferingList){
                 CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
                 courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
-                StateInfo state = getStateService().getState(coInfo.getStateKey(),getContextInfo());
+                StateInfo state = getStateService().getState(coInfo.getStateKey(),contextInfo);
                 courseOfferingEditWrapper.setStateName(state.getName());
                 form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
             }
@@ -113,7 +116,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private String getGradingOption(String gradingOptionId) throws Exception {
           String gradingOption = "";
           if(StringUtils.isNotBlank(gradingOptionId)){
-              ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, getContextInfo());
+              ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, ContextUtils.createDefaultContextInfo());
               if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
                  gradingOption = rvg.getName();
               }
@@ -168,8 +171,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     public void loadPreviousAndNextCourseOffering(CourseOfferingManagementForm form, CourseOfferingInfo courseOfferingInfo){
         try{
-            List<String> coIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(courseOfferingInfo.getTermId(),courseOfferingInfo.getSubjectArea(),getContextInfo());
-            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(coIds,getContextInfo());
+            List<String> coIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(courseOfferingInfo.getTermId(),courseOfferingInfo.getSubjectArea(), ContextUtils.createDefaultContextInfo());
+            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(coIds, ContextUtils.createDefaultContextInfo());
 
             Collections.sort(courseOfferingInfos, new Comparator<CourseOfferingInfo>() {
                 @Override
@@ -211,9 +214,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         CourseInfo course;
         CourseOfferingInfo courseOffering = form.getTheCourseOffering();
 
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
         // Get the format object for the id selected
         try {
-            course = getCourseService().getCourse(courseOffering.getCourseId(), getContextInfo());
+            course = getCourseService().getCourse(courseOffering.getCourseId(), contextInfo);
             for (FormatInfo f : course.getFormats()) {
                 if(f.getId().equals(formatId)) {
                     format = f;
@@ -227,7 +232,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         // find the format offering object for the selected format
         FormatOfferingInfo formatOfferingInfo = null;
         try {
-            List<FormatOfferingInfo> courseOfferingFOs = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOffering.getId(), getContextInfo());
+            List<FormatOfferingInfo> courseOfferingFOs = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOffering.getId(), contextInfo);
             for(FormatOfferingInfo fo : courseOfferingFOs) {
                 if (fo.getFormatId().equals(formatId)) {
                     formatOfferingInfo = fo;
@@ -250,7 +255,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         // Get the matching activity offering type for the selected activity
         TypeInfo activityOfferingType;
         try {
-            List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getTypeKey(), getContextInfo());
+            List<TypeInfo> types = getTypeService().getAllowedTypesForType(activity.getTypeKey(), contextInfo);
             // only one AO type should be mapped to each Activity type
             if(types.size() > 1) {
                 throw new RuntimeException("More than one allowed type is matched to activity type of: " + activity.getTypeKey());
@@ -269,11 +274,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             aoInfo.setCourseOfferingId(courseOffering.getId());
             aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
             try {
-                ActivityOfferingInfo activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, getContextInfo());
+                ActivityOfferingInfo activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, contextInfo);
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
-                StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), getContextInfo());
+                StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), contextInfo);
                 wrapper.setStateName(state.getName());
-                TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), getContextInfo());
+                TypeInfo typeInfo = getTypeService().getType(wrapper.getAoInfo().getTypeKey(), contextInfo);
                 wrapper.setTypeName(typeInfo.getName());
                 form.getActivityWrapperList().add(wrapper);
             } catch (Exception e) {
@@ -288,7 +293,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         List<ActivityOfferingWrapper> activityOfferingWrapperList;
 
         try {
-            activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, getContextInfo());
+            activityOfferingInfoList =_getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
             activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
 
             for (ActivityOfferingInfo info : activityOfferingInfoList) {
@@ -308,8 +313,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      * @throws Exception
      */
     public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList, CourseOfferingInfo courseOfferingInfo, String selectedAction) throws Exception {
-        StateInfo draftState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, getContextInfo());
-        StateInfo approvedState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, getContextInfo());
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        StateInfo draftState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
+        StateInfo approvedState = getStateService().getState(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
 
         boolean hasBadStateWarning = false, hasStateChangedAO = false, isDraftAction = false;
         String messageKeyWarn, messageKeyError;
@@ -332,7 +338,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                         wrapper.setStateName(draftState.getName());
-                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
+                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),contextInfo);
                         wrapper.setAoInfo(updatedAO);
                         if ( ! hasStateChangedAO) hasStateChangedAO = true;
                     } else {
@@ -343,7 +349,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, wrapper.getAoInfo().getStateKey())) {
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
                         wrapper.setStateName(approvedState.getName());
-                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),getContextInfo());
+                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),contextInfo);
                         wrapper.setAoInfo(updatedAO);
                         if ( ! hasStateChangedAO) hasStateChangedAO = true;
                     } else {
@@ -353,7 +359,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             }
         }
         //  Check for changes to states in the related COs and FOs
-        ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(courseOfferingInfo, getContextInfo());
+        ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(courseOfferingInfo, contextInfo);
 
         //  Set feedback message.
         if ( ! hasStateChangedAO) {
@@ -383,9 +389,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      */
     public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers, boolean checkedOnly) throws Exception {
         boolean hasAOWarning = false, hasStateChangedAO = false;
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         for (CourseOfferingEditWrapper coWrapper : coWrappers) {
             if (coWrapper.getIsChecked() || ! checkedOnly) {
-                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),getContextInfo());
+                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),contextInfo);
                 if (activityOfferingInfos.size() == 0) {
                     if ( ! hasAOWarning) hasAOWarning = true;
                     continue;
@@ -397,14 +404,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                         //  Flag if any AOs can be state changed. This affects the error message whi.
                         if ( ! hasStateChangedAO) hasStateChangedAO = true;
                         activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
-                        getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo,getContextInfo());
+                        getCourseOfferingService().updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo,contextInfo);
                     } else {
                         //  Flag if any AOs are not in a valid state for approval.
                         if ( ! hasAOWarning) hasAOWarning = true;
                     }
                 }
                 // check for changes to states in CO and related FOs
-                ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coWrapper.getCoInfo(), getContextInfo());
+                ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coWrapper.getCoInfo(), contextInfo);
             }
         }
         //  Set feedback messages.
@@ -423,17 +430,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return coService;
-    }
-
-    public ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-        return contextInfo;
     }
 
     private AcademicCalendarService _getAcalService() {

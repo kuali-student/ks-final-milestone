@@ -34,7 +34,8 @@ import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class //TODO Fill this in
+ * //TODO Is this class still needed? can we move things like this to a separate package?
  *
  * @author Kuali Student Team
  */

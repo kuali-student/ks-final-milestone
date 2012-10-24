@@ -17,10 +17,9 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public class ActivityOfferingInquirableImpl extends InquirableImpl {
     @Override
     public ActivityOfferingInfo retrieveDataObject(Map<String, String> parameters) {
         try {
-            ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), getContextInfo());
+            ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(parameters.get(ActivityOfferingConstants.ACTIVITYOFFERING_ID), ContextUtils.createDefaultContextInfo());
             return activityOfferingInfo;
         } catch (Exception e) {
            throw new RuntimeException(e);
@@ -43,9 +42,5 @@ public class ActivityOfferingInquirableImpl extends InquirableImpl {
 
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
-    }
-
-    public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo();
     }
 }

@@ -178,34 +178,6 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         }
     }
 
-    private List<CourseOfferingInfo> _getCourseOfferingsByTerm(String termId) {
-        CourseOfferingSetService socService = _getSocService();
-        try {
-            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
-            SocInfo soc = null;
-            if (socIds != null && socIds.size() > 0) {
-                soc = socService.getSoc(socIds.get(0), new ContextInfo());
-            }
-            List<String> coIds = socService.getCourseOfferingIdsBySoc(soc.getId(), new ContextInfo());
-            List<CourseOfferingInfo> coInfos = new ArrayList<CourseOfferingInfo>();
-            for (String id: coIds) {
-                CourseOfferingInfo coInfo = coService.getCourseOffering(id, new ContextInfo());
-                coInfos.add(coInfo);
-            }
-            return coInfos;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private void _deleteCourseOfferingById(String coId) {
-        CourseOfferingService coService = _getCourseOfferingService();
-        try {
-            coService.deleteCourseOffering(coId, new ContextInfo());
-        } catch (Exception e) {
-        }
-    }
-
     @Override
     public SocInfo createSocCoFoAoForTerm(String termId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingInfo coOffering;
@@ -235,37 +207,6 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             return result;
         } catch (Exception e) {
             return null;
-        }
-    }
-
-    private String _deleteSocAndCourseOfferingsByTerm(String termId, String termCode) {
-        CourseOfferingSetService socService = _getSocService();
-        CourseOfferingService coService = _getCourseOfferingService();
-        String mesg = "";
-        try {
-            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
-            if (socIds == null || socIds.isEmpty()) {
-                mesg = "NO_SOC";
-            } 
-            // String socId = socIds.get(0);
-            // TODO: Ideally, use socService.getCourseOfferingsBySoc()
-            List<String> coIds = coService.getCourseOfferingIdsByTerm(termId, Boolean.FALSE, new ContextInfo());
-            if (coIds.size() > 3) {
-                return "MANYCOS";
-            } else {
-                // TODO: Currently, deleteCourseOfferingsByTerm is not implemented in SOC service
-                for (String coId: coIds) {
-                    coService.deleteCourseOffering(coId, new ContextInfo());
-                }
-                if (!mesg.equals("NO_SOC")) {
-                    String socId = socIds.get(0);
-                    socService.deleteSoc(socId, new ContextInfo());
-                }
-            }
-            return mesg;
-        } catch (Exception e) {
-            LOG.error("Error deleting course offering", e);
-            return e.getMessage();
         }
     }
 
@@ -472,21 +413,6 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
             LOG.warn("Exception in cleanTargetTerm", ex); //TODO is it ok to swallow all exceptions here?
             form.setStatusField("Exception in cleanTargetTerm");
             return false;
-        }
-    }
-
-    private List<SocInfo> _getSocsByTerm(String termId) {
-        CourseOfferingSetService socService = _getSocService();
-        try {
-            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
-            List<SocInfo> socInfos = new ArrayList<SocInfo>();
-            for (String id: socIds) {
-                SocInfo info = socService.getSoc(id, new ContextInfo());
-                socInfos.add(info);
-            }
-            return socInfos;
-        } catch (Exception e) {
-            return null;
         }
     }
 

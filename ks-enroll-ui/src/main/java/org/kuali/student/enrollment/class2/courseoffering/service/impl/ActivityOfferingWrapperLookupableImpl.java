@@ -24,10 +24,9 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +46,7 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
         try {
             if(hasCriteria(fieldValues)){
                 QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
-                List<ActivityOfferingInfo> activityOfferings = getCourseOfferingService().searchForActivityOfferings(qbc, getContextInfo());
+                List<ActivityOfferingInfo> activityOfferings = getCourseOfferingService().searchForActivityOfferings(qbc, ContextUtils.createDefaultContextInfo());
                 for (ActivityOfferingInfo activityOffering : activityOfferings) {
                     ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOffering);
                     activityOfferingWrappers.add(wrapper);
@@ -81,9 +80,5 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
 
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
-    }
-
-    public ContextInfo getContextInfo() {
-        return ContextBuilder.loadContextInfo();
     }
 }
