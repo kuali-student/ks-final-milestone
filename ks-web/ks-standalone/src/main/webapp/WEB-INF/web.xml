@@ -38,6 +38,17 @@
     </context-param>
 
     <filter>
+        <filter-name>HideWebInfFilter</filter-name>
+        <filter-class>org.kuali.rice.krad.web.filter.HideWebInfFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>HideWebInfFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
@@ -76,7 +87,18 @@
     <servlet>
    	 	<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
    	 	<servlet-class>org.kuali.student.common.ui.server.gwt.ExportDocumentDownload</servlet-class>  
-   	 </servlet>  
+   	 </servlet>
+
+    <servlet>
+        <servlet-name>ks-krad</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ks-krad</servlet-name>
+        <url-pattern>/kr-krad/*</url-pattern>
+    </servlet-mapping>
    	 
    	 <servlet-mapping>  
    	 		<servlet-name>ExportDownloadHTTPServlet</servlet-name>  
@@ -132,5 +154,9 @@
 
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
     </listener>
 </web-app>
