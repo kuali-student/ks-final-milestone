@@ -141,6 +141,18 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveForm")
+    public ModelAndView saveForm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        //
+        // Code goes here to edit form and exit if any errors exist
+        //
+        // Code goes here to save form to database
+        //
+        GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.saveForm");
+        return getUIFModelAndView(form);
+    }
+
     List<DisplayScheduleMockData> displayScheduleList = DisplayScheduleMockData.mockTestData();
 
 }

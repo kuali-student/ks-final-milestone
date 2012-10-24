@@ -54,8 +54,10 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton-Small">
-                                <property name="methodToCall" value="save"/>
+                                <!-- method saveForm() defined in KitchenSinkController.java: -->
+                                <property name="methodToCall" value="saveForm"/>
                                 <property name="actionLabel" value="Save Changes"/>
+                                <property name="loadingMessageText" value="Saving..."/>
                             </bean>
                             <!-- not implemented right now
                             <bean parent="Uif-ActionLink">
@@ -93,16 +95,16 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-CollectionInForm-Content" parent="KS-KitchenSink-TabSection" p:width="99%">-->
+    <!--<bean id="KS-KitchenSink-CollectionInForm-Content" parent="KS-KitchenSink-TabSection" p:width="98%">-->
     <bean id="KS-KitchenSink-CollectionInForm-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
-          p:width="99%">
+          p:width="98%">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-CollectionInForm-Section">
                     <property name="items">
                         <list merge="true">
                             <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="Description goes here when finished."/>
+                                  p:messageText="This example shows how to customize the save method to add validation and/or update the form data in the database."/>
                         </list>
                     </property>
                 </bean>
