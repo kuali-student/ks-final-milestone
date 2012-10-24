@@ -386,6 +386,27 @@ public class TypeServiceMockImpl implements TypeService, MockService {
             createTypeTypeRelationInfo(keydateGroupType, type);
         }
 
+        //Instructional Keydates grouping
+        Set<TypeInfo> inskeydateGroup = new HashSet<TypeInfo>();
+        TypeInfo inskeydateGroupType = createTypeInfo("kuali.milestone.type.group.instructional", "Group for instructional key dates", "Group for instructional key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
+        inskeydateGroup.add(getType("kuali.atp.milestone.AdvanceRegistrationPeriod"));
+        inskeydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod"));
+        inskeydateGroup.add(getType("kuali.atp.milestone.RegistrationBeginsTransfer"));
+        inskeydateGroup.add(getType("kuali.atp.milestone.DropDeadlineWithoutRecord"));
+        for (TypeInfo type : keydateGroup) {
+            createTypeTypeRelationInfo(inskeydateGroupType, type);
+        }
+
+        //kuali.milestone.type.group.registration
+        //registration Keydates grouping
+        Set<TypeInfo> regkeydateGroup = new HashSet<TypeInfo>();
+        TypeInfo regkeydateGroupType = createTypeInfo("kuali.milestone.type.group.registration", "Group for registration key dates", "Group for registration key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
+        regkeydateGroup.add(getType("kuali.atp.milestone.FinalExamPeriod"));
+        regkeydateGroup.add(getType("kuali.atp.milestone.GradesDue"));
+        for (TypeInfo type : keydateGroup) {
+            createTypeTypeRelationInfo(regkeydateGroupType, type);
+        }
+
         //curriculum grouping
         Set<TypeInfo> curriculumGroup = new HashSet<TypeInfo>();
         TypeInfo curriculumGroupType = createTypeInfo("kuali.milestone.type.group.curriculum", "Curriculum", "Curriculum", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);

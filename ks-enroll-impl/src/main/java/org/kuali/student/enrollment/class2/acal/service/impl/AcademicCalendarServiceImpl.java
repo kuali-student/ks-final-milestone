@@ -388,28 +388,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<TypeInfo> getTermTypes(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        List<TypeTypeRelationInfo> relations = null;
-        try {
-            relations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException(e.getMessage(), e);
-        }
-
-        if (relations != null) {
-            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
-            for (TypeTypeRelationInfo rel : relations) {
-                try {
-                    results.add(typeService.getType(rel.getRelatedTypeKey(), context));
-                } catch (DoesNotExistException e) {
-                    throw new OperationFailedException(e.getMessage(), e);
-                }
-            }
-
-            return results;
-        }
-
-        return null;
+        return getTypesForGroupType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, context);
     }
 
     @Override
@@ -1208,6 +1187,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return holidayInfos;
     }
 
+    private boolean checkTypeForAcademicCalendar(String typeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+         if (typeKey.equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY))
+             return true;
+         else
+             return false;
+     }
+
+    private boolean checkTypeForHolidayCalendar(String typeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+         if (typeKey.equals(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY))
+             return true;
+         else
+             return false;
+    }
+
     private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> types = getTermTypes(context);
         return checkTypeInTypes(typeKey, types);
@@ -1216,6 +1209,47 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private boolean checkTypeForHolidayType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> types = getHolidayTypes(context);
         return checkTypeInTypes(typeKey, types);
+    }
+
+    private boolean checkTypeForAcalEventType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+           List<TypeInfo> types = getAcalEventTypes(context);
+           return checkTypeInTypes(typeKey, types);
+    }
+
+   private boolean checkTypeForKeydateType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+           List<TypeInfo> types = getKeyDateTypes(context);
+           return checkTypeInTypes(typeKey, types);
+   }
+
+    private List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        List<TypeTypeRelationInfo> relations = null;
+
+        try {
+            relations = typeService.getTypeTypeRelationsByOwnerAndType(groupTypeKey,
+                    TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+
+        if (relations != null) {
+            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
+            for (TypeTypeRelationInfo rel : relations) {
+                try {
+                    results.add(typeService.getType(rel.getRelatedTypeKey(), contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                } catch (PermissionDeniedException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                }
+            }
+
+            return results;
+        }
+
+        return null;
     }
 
     private boolean checkTypeInTypes(String typeKey, List<TypeInfo> types) {
@@ -1437,8 +1471,19 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<TypeInfo> getKeyDateTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+       List<TypeInfo> kdTypes = new ArrayList<TypeInfo>();
+       List<TypeInfo> instructionalKDs = getTypesForGroupType("kuali.milestone.type.group.instructional", contextInfo);
+       if (instructionalKDs != null && !instructionalKDs.isEmpty()) {
+           kdTypes.addAll(instructionalKDs);
+       }
+
+       List<TypeInfo> registrationKDs = getTypesForGroupType("kuali.milestone.type.group.registration", contextInfo);
+       if (registrationKDs != null && !registrationKDs.isEmpty()) {
+           kdTypes.addAll(registrationKDs);
+       }
+
+       return kdTypes;
+
     }
 
     @Override
@@ -1526,32 +1571,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<TypeInfo> getAcalEventTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        List<TypeTypeRelationInfo> relations = null;
-
-        try {
-            //MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
-            //TYPE_TYPE_RELATION_GROUP_TYPE_KEY = "kuali.type.type.relation.type.group";
-            relations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY,
-                    TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException(e.getMessage(), e);
-        }
-
-        if (relations != null) {
-            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
-            for (TypeTypeRelationInfo rel : relations) {
-                try {
-                    results.add(typeService.getType(rel.getRelatedTypeKey(), contextInfo));
-                } catch (DoesNotExistException e) {
-                    throw new OperationFailedException(e.getMessage(), e);
-                }
-            }
-
-            return results;
-        }
-
-        return null;
+        return getTypesForGroupType(AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY, contextInfo);
     }
 
     @Override
@@ -1754,29 +1774,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<TypeInfo> getHolidayTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<TypeTypeRelationInfo> relations = null;
-
-        try {
-            relations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY,
-                    TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException(e.getMessage(), e);
-        }
-
-        if (relations != null) {
-            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
-            for (TypeTypeRelationInfo rel : relations) {
-                try {
-                    results.add(typeService.getType(rel.getRelatedTypeKey(), contextInfo));
-                } catch (DoesNotExistException e) {
-                    throw new OperationFailedException(e.getMessage(), e);
-                }
-            }
-
-            return results;
-        }
-
-        return null;
+        return getTypesForGroupType(AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY, contextInfo);
     }
 
     @Override
