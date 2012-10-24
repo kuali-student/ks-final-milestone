@@ -207,7 +207,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         urlParameters.put(UifParameters.VIEW_ID, RegistrationGroupConstants.RG_VIEW);
         urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 //        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
-        urlParameters.put("withinPortal", theForm.isWithinPortal());
+        urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(theForm.isWithinPortal()));
         String controllerPath = RegistrationGroupConstants.RG_CONTROLLER_PATH;
         return super.performRedirect(theForm,controllerPath, urlParameters);
 
