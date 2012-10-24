@@ -58,6 +58,13 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <dependentWarIncludes>krad/**,WEB-INF/krad-base-servlet.xml</dependentWarIncludes>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -111,6 +118,17 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-sts</artifactId>
             <version>${ks.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-web</artifactId>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-web</artifactId>
+            <type>pom</type>
         </dependency>
         <!--  Sources for GWT Compile -->
         <dependency>
