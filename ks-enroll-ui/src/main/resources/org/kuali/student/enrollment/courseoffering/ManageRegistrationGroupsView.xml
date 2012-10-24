@@ -75,7 +75,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="generateAllRegGroups" p:actionLabel="Generate All Registration Groups" p:id="generate_all_button"/>
+                            <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="generateAllRegGroups" p:actionLabel="Generate All Registration Groups" p:id="generate_all_button" p:render="@{hasAOCluster}"/>
                         </list>
                     </property>
                 </bean>
