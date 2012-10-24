@@ -72,7 +72,6 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
         props.put(CalendarConstants.CALENDAR_ID,acal.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
         props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-        props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
 
         if (StringUtils.equals(methodToCall,CalendarConstants.AC_COPY_METHOD)){
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE);
@@ -95,7 +94,6 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
         props.put(CalendarConstants.CALENDAR_ID, hcInfo.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
         props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
-        props.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
 
         if (StringUtils.equals(methodToCall,CalendarConstants.HC_COPY_METHOD)){
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_COPYPAGE);
