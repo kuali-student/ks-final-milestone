@@ -88,6 +88,11 @@
             <version>${ks.core.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-ui</artifactId>
+            <version>${ks.enroll.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-hibernate</artifactId>
             <version>${ks.core.version}</version>
@@ -208,6 +213,10 @@
         <dependency>
             <groupId>net.sf.jsr107cache</groupId>
             <artifactId>jsr107cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
         </dependency>
     </dependencies>
 </project>
