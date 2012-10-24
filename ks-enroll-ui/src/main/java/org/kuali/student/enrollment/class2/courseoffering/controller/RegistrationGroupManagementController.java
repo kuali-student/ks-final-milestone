@@ -168,6 +168,8 @@ public class RegistrationGroupManagementController extends UifControllerBase {
     public ModelAndView createNewClusterFromLightBox(@ModelAttribute("KualiForm") RegistrationGroupManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         if (!hasDialogBeenDisplayed("createNewClusterDialog", theForm)){
+            //Set the focus in the lightbox
+            theForm.setFocusId("privateClusterNameForLightBox_control");
             // redirect back to client to display lightbox
             return showDialog("createNewClusterDialog", theForm, request, response);
         }
