@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class FormatsForCreateAOKeyValues extends UifKeyValuesFinderBase implemen
 
         try {
             String courseOfferingId = selectedCourseOffering.getId();
-            ContextInfo contextInfo = helperService.getContextInfo();
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             CourseOfferingService courseOfferingService = helperService.getCourseOfferingService();
             List<FormatOfferingInfo> formatOfferingInfos =
                 courseOfferingService.getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
