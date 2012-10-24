@@ -63,12 +63,30 @@ public class ActivityOfferingDisplayWrapper {
         this.startTimeDisplay = startTimeDisplay;
     }
 
+    public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay) {
+        if (appendForDisplay && this.startTimeDisplay!=null){
+            this.startTimeDisplay = this.startTimeDisplay + "<br>" + StringUtils.defaultString(startTimeDisplay);
+        }else{
+            this.startTimeDisplay = StringUtils.defaultString(startTimeDisplay);
+        }
+
+    }
+
     public String getEndTimeDisplay() {
         return endTimeDisplay;
     }
 
     public void setEndTimeDisplay(String endTimeDisplay) {
         this.endTimeDisplay = endTimeDisplay;
+    }
+
+    public void setEndTimeDisplay(String endTimeDisplay,boolean appendForDisplay) {
+        if (appendForDisplay && this.endTimeDisplay!=null){
+            this.endTimeDisplay = this.endTimeDisplay + "<br>" + StringUtils.defaultString(endTimeDisplay);
+        }else{
+            this.endTimeDisplay = StringUtils.defaultString(endTimeDisplay);
+        }
+
     }
 
     public String getDaysDisplayName() {
@@ -79,6 +97,15 @@ public class ActivityOfferingDisplayWrapper {
         this.daysDisplayName = daysDisplayName;
     }
 
+    public void setDaysDisplayName(String daysDisplayName,boolean appendForDisplay) {
+        if (appendForDisplay && this.daysDisplayName!=null){
+            this.daysDisplayName = this.daysDisplayName + "<br>" + StringUtils.defaultString(daysDisplayName);
+        }else{
+            this.daysDisplayName = StringUtils.defaultString(daysDisplayName);
+        }
+
+    }
+
     public String getBuildingName() {
         return buildingName;
     }
@@ -87,12 +114,30 @@ public class ActivityOfferingDisplayWrapper {
         this.buildingName = buildingName;
     }
 
+    public void setBuildingName(String buildingName,boolean appendForDisplay) {
+        if (appendForDisplay && this.buildingName!=null){
+            this.buildingName = this.buildingName + "<br>" + StringUtils.defaultString(buildingName);
+        }else{
+            this.buildingName = StringUtils.defaultString(buildingName);
+        }
+
+    }
+
     public String getRoomName() {
         return roomName;
     }
 
     public void setRoomName(String roomName) {
         this.roomName = roomName;
+    }
+
+    public void setRoomName(String roomName,boolean appendForDisplay) {
+        if (appendForDisplay && this.roomName!=null){
+            this.roomName = this.roomName + "<br>" + StringUtils.defaultString(roomName);
+        }else{
+            this.roomName = StringUtils.defaultString(roomName);
+        }
+
     }
 
     public String getTbaDisplayName() {

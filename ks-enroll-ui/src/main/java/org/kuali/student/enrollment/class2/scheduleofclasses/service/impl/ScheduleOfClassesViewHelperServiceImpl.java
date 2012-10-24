@@ -46,6 +46,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -222,22 +223,26 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
                 if(aoDisplayInfo.getScheduleDisplay()!=null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
                     //TODO handle TBA state
-                    ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
-                    if(scheduleComponentDisplay.getBuilding() != null){
-                        aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode());
-                    }
-                    if(scheduleComponentDisplay.getRoom() != null){
-                        aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode());
-                    }
-                    if(!scheduleComponentDisplay.getTimeSlots().isEmpty()){
-                        if(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null){
-                            aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()));
+                    //ScheduleComponentDisplay scheduleComponentDisplay = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().get(0);
+                    List<ScheduleComponentDisplayInfo> scheduleComponentDisplays = (List<ScheduleComponentDisplayInfo>) aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays();
+                    for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleComponentDisplays) {
+                        if(scheduleComponentDisplay.getBuilding() != null){
+                            aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
                         }
-                        if(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null){
-                            aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()));
+                        if(scheduleComponentDisplay.getRoom() != null){
+                            aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
                         }
-                        aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()));
+                        if(!scheduleComponentDisplay.getTimeSlots().isEmpty()){
+                            if(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null){
+                                aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()), true);
+                            }
+                            if(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null){
+                                aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()), true);
+                            }
+                            aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()), true);
+                        }
                     }
+
                 }
 
                 aoDisplayWrapperList.add(aoDisplayWrapper);
