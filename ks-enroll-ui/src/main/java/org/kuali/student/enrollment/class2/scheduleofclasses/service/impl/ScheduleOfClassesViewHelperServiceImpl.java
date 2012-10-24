@@ -158,7 +158,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         // Search ID based on organizationName
         if (organizationId == null || organizationId.isEmpty()) {
             QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-            qBuilder.setPredicates(PredicateFactory.equal("longName", organizationName));
+            qBuilder.setPredicates(PredicateFactory.equalIgnoreCase("longName", organizationName));
             QueryByCriteria query = qBuilder.build();
             OrganizationService organizationService = getOrganizationService();
             List<String> orgIDs = organizationService.searchForOrgIds(query, ContextUtils.createDefaultContextInfo());
