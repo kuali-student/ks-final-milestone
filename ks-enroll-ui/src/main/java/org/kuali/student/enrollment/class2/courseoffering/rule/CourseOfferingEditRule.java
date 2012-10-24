@@ -48,9 +48,20 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
 
         if (document.getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
-            CourseOfferingEditWrapper coWrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
+            CourseOfferingEditWrapper newCOWrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
+            CourseOfferingEditWrapper oldCOWrapper = (CourseOfferingEditWrapper)document.getOldMaintainableObject().getDataObject();
 
-             validateDuplicateSuffix(coWrapper);
+            // Only perform validateDuplicateSuffix check when CO code suffix part is changed, the code itself is readOnly and can't be modified at all.
+            // also notice a problem: the suffix of a CO from OldMaintainableObject (the DB reference dataset) could be null
+            // while even we didn't modify suffix in edit CO page, the suffix value in NewMaintainableObject became an empty string
+            String newSuffix = newCOWrapper.getCoInfo().getCourseNumberSuffix(); 
+            String oldSuffix = oldCOWrapper.getCoInfo().getCourseNumberSuffix();
+            if ((oldSuffix == null || oldSuffix.isEmpty()) && 
+                (newSuffix == null || newSuffix.isEmpty())) {
+                return valid;
+            }else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
+                validateDuplicateSuffix(newCOWrapper);
+            }
         }
 
         return valid;
@@ -60,6 +71,7 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
     protected boolean validateDuplicateSuffix(CourseOfferingEditWrapper coWrapper){
         // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
         String newCoCode = (coWrapper.getCourse().getCode().toUpperCase()) + coWrapper.getCoInfo().getCourseNumberSuffix();
+
         try {
             List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getCoInfo().getTermId(), ContextUtils.createDefaultContextInfo());
             for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
