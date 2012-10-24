@@ -362,6 +362,9 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         typeArrays.add(new String[]{"kuali.atp.milestone.FinalExamPeriod", "Final Exam Period", "Final Exam Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
         typeArrays.add(new String[]{"kuali.atp.milestone.GradesDue", "Grades Due", "Grades Due", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
         typeArrays.add(new String[]{"kuali.atp.milestone.InstructionalPeriod", "Instructional Period", "Instructional Period", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{"kuali.atp.milestone.FinancialAidCensus", "FinancialAid Census", "FinancialAid Census", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{"kuali.atp.milestone.CourseSelectionPeriodEnd", "CourseSelectionPeriodEnd", "CourseSelectionPeriodEnd", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
+        typeArrays.add(new String[]{"kuali.atp.milestone.DropDate", "DropDate", "DropDate",  AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
 
         //curriculum
         typeArrays.add(new String[]{"kuali.atp.milestone.CoordinatorsKickoffMeeting", "Coordinators Kickoff Meeting", "Coordinators Kickoff Meeting", AtpServiceConstants.REF_OBJECT_URI_MILESTONE});
@@ -388,22 +391,27 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
         //Instructional Keydates grouping
         Set<TypeInfo> inskeydateGroup = new HashSet<TypeInfo>();
-        TypeInfo inskeydateGroupType = createTypeInfo("kuali.milestone.type.group.instructional", "Group for instructional key dates", "Group for instructional key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
+        TypeInfo inskeydateGroupType = createTypeInfo("kuali.milestone.type.group.registration", "Group for instructional key dates", "Group for instructional key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
         inskeydateGroup.add(getType("kuali.atp.milestone.AdvanceRegistrationPeriod"));
         inskeydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod"));
         inskeydateGroup.add(getType("kuali.atp.milestone.RegistrationBeginsTransfer"));
         inskeydateGroup.add(getType("kuali.atp.milestone.DropDeadlineWithoutRecord"));
-        for (TypeInfo type : keydateGroup) {
+        for (TypeInfo type : inskeydateGroup) {
             createTypeTypeRelationInfo(inskeydateGroupType, type);
         }
 
         //kuali.milestone.type.group.registration
         //registration Keydates grouping
         Set<TypeInfo> regkeydateGroup = new HashSet<TypeInfo>();
-        TypeInfo regkeydateGroupType = createTypeInfo("kuali.milestone.type.group.registration", "Group for registration key dates", "Group for registration key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
+        TypeInfo regkeydateGroupType = createTypeInfo("kuali.milestone.type.group.instructional", "Group for registration key dates", "Group for registration key dates", AtpServiceConstants.REF_OBJECT_URI_MILESTONE);
         regkeydateGroup.add(getType("kuali.atp.milestone.FinalExamPeriod"));
         regkeydateGroup.add(getType("kuali.atp.milestone.GradesDue"));
-        for (TypeInfo type : keydateGroup) {
+        regkeydateGroup.add(getType("kuali.atp.milestone.FinancialAidCensus"));
+        regkeydateGroup.add(getType("kuali.atp.milestone.Commencement"));
+        regkeydateGroup.add(getType("kuali.atp.milestone.CourseSelectionPeriodEnd"));
+        regkeydateGroup.add(getType("kuali.atp.milestone.DropDate"));
+        regkeydateGroup.add(getType("kuali.atp.milestone.InstructionalPeriod"));
+        for (TypeInfo type : regkeydateGroup) {
             createTypeTypeRelationInfo(regkeydateGroupType, type);
         }
 
@@ -487,6 +495,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.24", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.DropDeadlineWithoutRecord", "6", "Fall can have drop deadline"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.25", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.FinalExamPeriod", "6", "Fall can have a final exam period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.26", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.GradesDue", "7", "Fall can have a grading period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.27", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.FinancialAidCensus", "7", "Fall can have a financialaid"});
         // key dates for winter
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.30", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.AdvanceRegistrationPeriod", "1", "Winter can have an advanced reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.31", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.InstructionalPeriod", "2", "Winter can have an instructional period"});
@@ -495,7 +504,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.34", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.DropDeadlineWithoutRecord", "6", "Winter can have drop deadline"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.35", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.FinalExamPeriod", "6", "Winter can have a final exam period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.36", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Winter", "kuali.atp.milestone.GradesDue", "7", "Winter can have a grading period"});
-
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.37", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.milestone.FinancialAidCensus", "7", "Fall can have a financialaid"});
         // key dates for spring
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.40", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.AdvanceRegistrationPeriod", "1", "Spring can have an advanced reg period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.41", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.milestone.InstructionalPeriod", "2", "Spring can have an instructional period"});

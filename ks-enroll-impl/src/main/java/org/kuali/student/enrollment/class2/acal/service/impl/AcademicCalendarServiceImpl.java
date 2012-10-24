@@ -319,6 +319,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional(readOnly = false)
     public HolidayCalendarInfo createHolidayCalendar(String holidayCalendarTypeKey, HolidayCalendarInfo holidayCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if(!checkTypeForHolidayCalendar(holidayCalendarInfo.getTypeKey())){
+            throw new InvalidParameterException("HolidayCalendar type " + holidayCalendarInfo.getTypeKey() + " not right");
+        }
 
         AtpInfo atpInfo;
         try {
@@ -1532,32 +1535,36 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         KeyDateInfo newKeyDateInfo = null;
         MilestoneInfo milestoneInfo = null;
 
-        try {
-            milestoneInfo = keyDateAssembler.disassemble(keyDateInfo, contextInfo);
-        } catch (AssemblyException e) {
-            throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
-        }
-
-        if (milestoneInfo != null) {
-            if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
-                milestoneInfo.setTypeKey(keyDateTypeKey);
-            }
-            MilestoneInfo newMilestone = null;
+        if(checkTypeForKeydateType(keyDateTypeKey, contextInfo)){
             try {
-                newMilestone = atpService.createMilestone(keyDateTypeKey, milestoneInfo, contextInfo);
-                newKeyDateInfo = keyDateAssembler.assemble(newMilestone, contextInfo);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Error creating milestone", e);
+                milestoneInfo = keyDateAssembler.disassemble(keyDateInfo, contextInfo);
             } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+                throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
             }
 
-            try {
-                atpService.addMilestoneToAtp(newMilestone.getId(), termId, contextInfo);
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("Error creating ATP-Milestone relation", e);
-            }
+            if (milestoneInfo != null) {
+                if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
+                    milestoneInfo.setTypeKey(keyDateTypeKey);
+                }
+                MilestoneInfo newMilestone = null;
+                try {
+                    newMilestone = atpService.createMilestone(keyDateTypeKey, milestoneInfo, contextInfo);
+                    newKeyDateInfo = keyDateAssembler.assemble(newMilestone, contextInfo);
+                } catch (ReadOnlyException e) {
+                    throw new OperationFailedException("Error creating milestone", e);
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+                }
 
+                try {
+                    atpService.addMilestoneToAtp(newMilestone.getId(), termId, contextInfo);
+                } catch (AlreadyExistsException e) {
+                    throw new OperationFailedException("Error creating ATP-Milestone relation", e);
+                }
+
+            }
+        } else {
+            throw new InvalidParameterException("Keydate type not found: '" + keyDateTypeKey + "'");
         }
 
         return newKeyDateInfo;
@@ -1712,23 +1719,26 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional(readOnly = false)
     public AcalEventInfo createAcalEvent(String academicCalendarId, String acalEventTypeKey, AcalEventInfo acalEventInfo, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            if(checkTypeForAcalEventType(acalEventTypeKey, contextInfo)){
+                try {
+                    MilestoneInfo milestoneInfo = acalEventAssembler.disassemble(acalEventInfo, contextInfo);
+                    if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
+                        milestoneInfo.setTypeKey(acalEventTypeKey);
+                    }
 
-        try {
-            MilestoneInfo milestoneInfo = acalEventAssembler.disassemble(acalEventInfo, contextInfo);
-            if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
-                milestoneInfo.setTypeKey(acalEventTypeKey);
+                    MilestoneInfo newMilestone = atpService.createMilestone(acalEventTypeKey, milestoneInfo, contextInfo);
+
+                    atpService.addMilestoneToAtp(newMilestone.getId(), academicCalendarId, contextInfo);
+                    return acalEventAssembler.assemble(newMilestone, contextInfo);
+
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("Error disassembling AcalEvent", e);
+                } catch (AlreadyExistsException e) {
+                    throw new OperationFailedException("Error associating AcalEvent with AcademicCalendar", e);
+                }
+            } else {
+                throw new InvalidParameterException("AcalEvent type not found: '" + acalEventTypeKey + "'");
             }
-
-            MilestoneInfo newMilestone = atpService.createMilestone(acalEventTypeKey, milestoneInfo, contextInfo);
-
-            atpService.addMilestoneToAtp(newMilestone.getId(), academicCalendarId, contextInfo);
-            return acalEventAssembler.assemble(newMilestone, contextInfo);
-
-        } catch (AssemblyException e) {
-            throw new OperationFailedException("Error disassembling AcalEvent", e);
-        } catch (AlreadyExistsException e) {
-            throw new OperationFailedException("Error associating AcalEvent with AcademicCalendar", e);
-        }
 
     }
 
@@ -1906,32 +1916,36 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         HolidayInfo newHolidayInfo = null;
         MilestoneInfo milestoneInfo = null;
 
-        try {
-            milestoneInfo = holidayAssembler.disassemble(holidayInfo, contextInfo);
-        } catch (AssemblyException e) {
-            throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
-        }
-
-        if (milestoneInfo != null) {
-            if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
-                milestoneInfo.setTypeKey(holidayTypeKey);
-            }
-            MilestoneInfo newMilestone = null;
+        if(checkTypeForHolidayType(holidayTypeKey, contextInfo)){
             try {
-                newMilestone = atpService.createMilestone(holidayTypeKey, milestoneInfo, contextInfo);
-                newHolidayInfo = holidayAssembler.assemble(newMilestone, contextInfo);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Error creating milestone", e);
+                milestoneInfo = holidayAssembler.disassemble(holidayInfo, contextInfo);
             } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+                throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
             }
 
-            try {
-                atpService.addMilestoneToAtp(newMilestone.getId(), holidayCalendarId, contextInfo);
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("Error creating ATP-Milestone relation", e);
-            }
+            if (milestoneInfo != null) {
+                if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
+                    milestoneInfo.setTypeKey(holidayTypeKey);
+                }
+                MilestoneInfo newMilestone = null;
+                try {
+                    newMilestone = atpService.createMilestone(holidayTypeKey, milestoneInfo, contextInfo);
+                    newHolidayInfo = holidayAssembler.assemble(newMilestone, contextInfo);
+                } catch (ReadOnlyException e) {
+                    throw new OperationFailedException("Error creating milestone", e);
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+                }
 
+                try {
+                    atpService.addMilestoneToAtp(newMilestone.getId(), holidayCalendarId, contextInfo);
+                } catch (AlreadyExistsException e) {
+                    throw new OperationFailedException("Error creating ATP-Milestone relation", e);
+                }
+
+            }
+        } else {
+            throw new InvalidParameterException("Holiday type not found: '" + holidayTypeKey + "'");
         }
 
         return newHolidayInfo;

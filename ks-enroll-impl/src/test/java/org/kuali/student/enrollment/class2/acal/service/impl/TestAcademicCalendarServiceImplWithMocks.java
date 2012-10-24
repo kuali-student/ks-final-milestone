@@ -771,7 +771,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         KeyDateInfo orig = new KeyDateInfo();
         orig.setName("test name");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
-        orig.setTypeKey(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY);
+        orig.setTypeKey(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY);
         orig.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         orig.setStartDate(new Date());
         orig.setEndDate(new Date(new Date().getTime() + 100000));
