@@ -26,6 +26,7 @@
         <property name="propertyName" value="collection"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection1"/>
+        <!-- ways to change the addLine look
         <property name="layoutManager.addLineGroup.header.style" value="padding:0.5em;background-color:#bbb;"/>
         <property name="layoutManager.addLineGroup.header.headerTagStyle" value="font-weight:bold;"/>
         <property name="addLineLabel">
@@ -33,6 +34,7 @@
                 <property name="labelText" value="Add a new record"/>
             </bean>
         </property>
+        -->
         <property name="items">
             <list>
                 <bean parent="Uif-DataField">
