@@ -84,7 +84,7 @@ function populateLightboxForm(propertyContainerId, defaultPropertyValues){
 }
 
 function toggleAssignButton(){
-    var table = jQuery('#KS-ManageRegistrationGroupsPage-UnassignedActivityOfferingsPerFormatSection').find('table');
+    var table = jQuery("#KS-ManageRegistrationGroups-UnassignedActivityOfferingsPerFormatSection").find("table");
     var checkedCheckboxesCount = jQuery(table).find('input:checkbox:checked').length;
     if(checkedCheckboxesCount > 0){
         jQuery("#move_ao_button").removeAttr("disabled");
