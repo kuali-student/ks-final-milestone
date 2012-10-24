@@ -18,20 +18,20 @@
         ID="14" SORT_ORDER="3"
         STMT_TYPE_ID="kuali.statement.type.program" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibilityPrereq"
-        ID="2" SORT_ORDER="2"
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.studentEligibility"
+        ID="2" SORT_ORDER="5"
+        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
+    <KSST_STMT_TYP_JN_STMT_TYP
+        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.prereq"
+        ID="3" SORT_ORDER="2"
         STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
         CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.coreq"
-        ID="3" SORT_ORDER="3"
+        ID="4" SORT_ORDER="3"
         STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
         CHLD_STMT_TYPE_ID="kuali.statement.type.course.recommendedPreparation"
-        ID="4" SORT_ORDER="4"
-        STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
-    <KSST_STMT_TYP_JN_STMT_TYP
-        CHLD_STMT_TYPE_ID="kuali.statement.type.course.academicReadiness.antireq"
-        ID="5" SORT_ORDER="5"
+        ID="5" SORT_ORDER="4"
         STMT_TYPE_ID="kuali.statement.type.course.enrollmentEligibility" VER_NBR="0"/>
     <KSST_STMT_TYP_JN_STMT_TYP
         CHLD_STMT_TYPE_ID="kuali.statement.type.course.creditConstraints"

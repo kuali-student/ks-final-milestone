@@ -1224,6 +1224,18 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.type.Summer" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120821000000"
+        DESCR_FORMATTED="1st Summer Session"
+        DESCR_PLAIN="1st Summer Session" EFF_DT="20000101000000"
+        NAME="Summer 1" OBJ_ID="903E7055A6AA4BA3B9E696ED38C5AD9F"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.Summer1" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120821000000"
+        DESCR_FORMATTED="2nd Summer Session"
+        DESCR_PLAIN="2nd Summer Session" EFF_DT="20000101000000"
+        NAME="Summer 2" OBJ_ID="87AAB22EA1E34938BFEC4ADE03131557"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        TYPE_KEY="kuali.atp.type.Summer2" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="CMATPUPGRADE" CREATETIME="20120912000000"
         DESCR_FORMATTED="Summer Evening" DESCR_PLAIN="Summer Evening"
         EFF_DT="20000101000000" NAME="Summer Eve"
@@ -2034,6 +2046,20 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/lrc/LrcService"
         TYPE_KEY="kuali.resultComponentType.certificate" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120821000000"
+        DESCR_FORMATTED="This records a single fixed number of credits that are awarded if the student passes the course."
+        DESCR_PLAIN="This records a single fixed number of credits that are awarded if the student passes the course."
+        EFF_DT="20000101000000" NAME="Fixed"
+        OBJ_ID="7AECF0492B24496CA7FCDA083095E917"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo"
+        TYPE_KEY="kuali.resultComponentType.credit.degree.fixed" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120821000000"
+        DESCR_FORMATTED="This records a range of number of credits that can be awarded for this course."
+        DESCR_PLAIN="This records a range of number of credits that can be awarded for this course."
+        EFF_DT="20000101000000" NAME="Variable"
+        OBJ_ID="E3822A13EC1A42AF9305EEE1B3224FAB"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo"
+        TYPE_KEY="kuali.resultComponentType.credit.degree.range" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="CMLRCUPGRADE" CREATETIME="20120917000000"
         DESCR_FORMATTED="This records a degree is awarded if the student completes the program"
         DESCR_PLAIN="This records a degree is awarded if the student completes the program"
