@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+        Controller Class: HolidayCalendarController.java
+        View Helper Class: HolidayCalendarViewHelperServiceInquirableImpl.java
+        View Helper Class: HolidayCalendarWrapperInquiryViewHelperServiceImpl.java
+        UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html
+
+        This view has three subviews: KS-HolidayCalendar-CopyPage, KS-HolidayCalendar-EditPage, and
+        KS-HolidayCalendar-ViewPage and all the required beans are defined by the three subviews.
+    -->
 
     <bean id="KS-HolidayCalendar-FlowView" parent="KSFormView">
         <property name="id" value="holidayCalendarFlowView"/>

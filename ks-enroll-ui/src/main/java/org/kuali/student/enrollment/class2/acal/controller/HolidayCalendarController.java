@@ -46,9 +46,11 @@ import java.util.*;
 
 
 /**
- * This class implement controller for HolidayCalendar
+ * This class handles all the requests for Managing HolidayCalendar, such as, view, edit, copy, delete, etc. This controller is mapped to the view defined in <code>HolidayCalendarFlowView.xml</code>
+ * and its subviews <code>HolidayCalendarEditPage.xml</code>, <code>HolidayCalendarCopyPage.xml</code>, and <code>HolidayCalendarViewPage.xml</code>
  *
  * @author Kuali Student Team
+ *
  */
 
 @Controller
@@ -132,6 +134,16 @@ public class HolidayCalendarController extends UifControllerBase {
         return (newHoliday.getTypeKey().equals(sourceHoliday.getTypeKey()));
     }
 
+    /**
+     * This is starting page before we enter any Holiday management activities.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -155,7 +167,17 @@ public class HolidayCalendarController extends UifControllerBase {
 
         return super.start(form, result, request, response);
     }
-    
+
+    /**
+     * This is called when the user clicked on Create Holiday Calendar link.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=startNew")
     public ModelAndView startNew( @ModelAttribute("KualiForm") HolidayCalendarForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
@@ -334,9 +356,16 @@ public class HolidayCalendarController extends UifControllerBase {
                 CalendarConstants.UPDATE_SAVE);
     }
 
-     /**
-     * Method used to delete HC
+    /**
+     * This is called when the user clicked on  Delete Draft in the  holidayCalendarCopyPage.
+     *
+     * @param hcForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
      */
+
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {

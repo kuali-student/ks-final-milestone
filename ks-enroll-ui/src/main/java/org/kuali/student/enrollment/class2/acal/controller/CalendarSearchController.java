@@ -51,9 +51,12 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * This class //TODO ...
+ * This class handles all the request for Searching Holiday calender, Academic Calendars and Academic terms.
+ * This handles requests from CalendarSearchView for different calendars and terms.
+ * This controller is mapped to the view defined in <code>CalendarSearchView.xml</code>
  *
  * @author Kuali Student Team
+ *
  */
 
 @Controller
@@ -108,9 +111,16 @@ public class CalendarSearchController  extends UifControllerBase {
        return getUIFModelAndView(searchForm, null);
     }
 
-     /**
-     * Method used to view the atp
+    /**
+     * This is called when the user clicked on Search button in the Calendar Search page.
+     *
+     * @param searchForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
      */
+
     @RequestMapping(params = "methodToCall=view")
     public ModelAndView view(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -134,8 +144,14 @@ public class CalendarSearchController  extends UifControllerBase {
          return super.performRedirect(searchForm,controllerPath, urlParameters);
     }
 
-     /**
-     * Method used to edit the atp
+    /**
+     * This is called when the user clicked on Edit button in the Calendar Search page.
+     *
+     * @param searchForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
      */
     @RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
@@ -163,8 +179,14 @@ public class CalendarSearchController  extends UifControllerBase {
 
     }
 
-     /**
-     * Method used to copy the atp
+    /**
+     * This is called when the user clicked on Copy button in the Calendar Search page.
+     *
+     * @param searchForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
      */
     @RequestMapping(params = "methodToCall=copy")
     public ModelAndView copy(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
@@ -189,8 +211,14 @@ public class CalendarSearchController  extends UifControllerBase {
 
     }
 
-     /**
-     * Method used to delete the atp
+    /**
+     * This is called when the user clicked on Delete button in the Calendar Search page.
+     *
+     * @param searchForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
      */
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
