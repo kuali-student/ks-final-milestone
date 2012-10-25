@@ -1,7 +1,7 @@
 /* used by ks-enroll-ksink */
 
 // Allow cross-domain scripting from wiki.kuali.org to work, hopefully:
-if (document.domain != "localhost") document.domain = "kuali.org";
+//if (document.domain != "localhost") document.domain = "kuali.org";
 
 var originalSelect;
 //var tempSelect;
