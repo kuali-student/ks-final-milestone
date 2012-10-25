@@ -28,13 +28,9 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.*;
@@ -42,15 +38,19 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.enrollment.class2.acal.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.common.class1.type.service.TypeService;
+import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
@@ -74,116 +74,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     private Map<String, List<TypeInfo>> typesByGroupTypeMap = new HashMap<String, List<TypeInfo>>();
 
 
-    public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
-
-        //Save holiday calendar
-        HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
-        if (StringUtils.isBlank(hcInfo.getStateKey())){
-            hcInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-        }
-        hcInfo.setTypeKey(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
-        hcInfo.setDescr(CommonUtils.buildDesc("no description"));
-
-        if (StringUtils.isBlank(hcInfo.getId())){
-            HolidayCalendarInfo createdHCal = getAcalService().createHolidayCalendar(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY, hcInfo, getContextInfo());
-            createdHCal = getAcalService().getHolidayCalendar(createdHCal.getId(),getContextInfo());
-            hcForm.setHolidayCalendarInfo(createdHCal);
-        }else{
-            HolidayCalendarInfo updatedHCal = getAcalService().updateHolidayCalendar(hcInfo.getId(), hcInfo, getContextInfo());
-            updatedHCal = getAcalService().getHolidayCalendar(updatedHCal.getId(),getContextInfo());
-            hcForm.setHolidayCalendarInfo(updatedHCal);
-        }
-
-        //Save holidays
-        List<HolidayWrapper> holidays = hcForm.getHolidays();
-        // save list of new holiday IDs here:
-        List<String> newHolidayIdList = new ArrayList<String>(holidays.size());
-
-        HolidayInfo holidayInfo, storedHolidayInfo;
-        for (HolidayWrapper holidayWrapper : holidays){
-
-            holidayInfo = holidayWrapper.getHolidayInfo();
-            holidayWrapper.setTypeName(getHolidayTypeName(holidayWrapper.getTypeKey()));
-            holidayInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-            holidayInfo.setDescr(CommonUtils.buildDesc("no description"));
-            holidayInfo.setIsAllDay(holidayWrapper.isAllDay());
-            holidayInfo.setIsInstructionalDay(holidayWrapper.isInstructional());
-            holidayInfo.setStartDate(holidayWrapper.getStartDate());
-            holidayInfo.setName(holidayWrapper.getTypeName());
-            holidayInfo.setStartDate(getStartDateWithUpdatedTime(holidayWrapper,true));
-            setHolidayEndDate(holidayWrapper);
-
-            if (StringUtils.isBlank(holidayInfo.getId())){
-                storedHolidayInfo = getAcalService().createHoliday(hcForm.getHolidayCalendarInfo().getId(), holidayWrapper.getTypeKey(), holidayInfo, getContextInfo());
-            }else{
-                storedHolidayInfo = getAcalService().updateHoliday(holidayInfo.getId(),holidayInfo, getContextInfo());
-            }
-            holidayWrapper.setHolidayInfo(storedHolidayInfo);
-            newHolidayIdList.add(storedHolidayInfo.getId());
-        }
-
-        if ( ! StringUtils.isBlank(hcInfo.getId())) { // calendar already exists
-            // remove all old holidays that are not contained in the list of new holidays
-            List<HolidayInfo> oldHolidayList =
-                    getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
-            for (HolidayInfo oldHoliday : oldHolidayList) {
-                if ( ! newHolidayIdList.contains(oldHoliday.getId())) {
-                    getAcalService().deleteHoliday(oldHoliday.getId(), getContextInfo());
-                }
-            }
-        }
-    }
-
-    public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception{
-        HolidayCalendarInfo retrievedHc = getAcalService().getHolidayCalendar(hcId, getContextInfo());
-        return retrievedHc;
-    }
-
-    public HolidayCalendarInfo getNewestHolidayCalendar() throws Exception {
-        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        List<HolidayCalendarInfo> holidayCalendarInfoList =
-                getAcalService().getHolidayCalendarsByStartYear(currentYear, getContextInfo());
-        if ((null == holidayCalendarInfoList) || holidayCalendarInfoList.isEmpty()) {
-            holidayCalendarInfoList =
-                    getAcalService().getHolidayCalendarsByStartYear((currentYear - 1), getContextInfo());
-        }
-
-        if ((null == holidayCalendarInfoList) || (holidayCalendarInfoList.size() == 0)) {
-            return null;
-        }
-        else {
-            //TODO - if > 1 result, find calendar with latest end date?
-            return holidayCalendarInfoList.get(holidayCalendarInfoList.size() - 1);
-        }
-    }
-
-    public List<HolidayWrapper> getHolidayWrappersForHolidayCalendar(String holidayCalendarId) throws Exception {
-        List<HolidayInfo> holidayInfos =
-                getAcalService().getHolidaysForHolidayCalendar(holidayCalendarId, getContextInfo());
-        return assembleHolidays(holidayInfos);
-    }
-
-    private List<HolidayWrapper> assembleHolidays (List<HolidayInfo> holidayInfos) throws Exception{
-        List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
-        if (holidayInfos != null && !holidayInfos.isEmpty()){
-            for (HolidayInfo holidayInfo : holidayInfos) {
-                HolidayWrapper holiday = assembleHoliday(holidayInfo);
-                holidays.add(holiday);
-            }
-        }
-
-        return holidays;
-    }
-
-    private HolidayWrapper assembleHoliday(HolidayInfo holidayInfo) throws Exception{
-        HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
-//        holiday.setHolidayInfo(holidayInfo);
-        holiday.setTypeName(getHolidayTypeName(holidayInfo.getTypeKey()));
-//        CommonUtils.assembleTimeSet(holiday, holidayInfo.getStartDate(), holidayInfo.getEndDate());
-
-        return holiday;
-    }
-
     public String getHolidayTypeName(String holidayTypeKey) throws Exception {
         TypeInfo typeInfo = getAcalService().getHolidayType(holidayTypeKey, getContextInfo());
         return typeInfo.getName();
@@ -201,43 +91,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     public void deleteHolidayCalendar(String holidayCalendarId) throws Exception{
         //delete hc
         getAcalService().deleteHolidayCalendar(holidayCalendarId, getContextInfo());
-    }
-
-    public void populateHolidayTypes(InputField field, HolidayCalendarForm hcForm){
-
-        boolean isAddLine = BooleanUtils.toBoolean((Boolean)field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
-        if (!isAddLine) {
-            return;
-        }
-
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        List<String> alreadyAddedTypes = new ArrayList<String>();
-
-        for (HolidayWrapper holidayWrapper : hcForm.getHolidays()) {
-             alreadyAddedTypes.add(holidayWrapper.getTypeKey());
-        }
-
-        //Hard code "Select holiday type"
-        ConcreteKeyValue topKeyValue = new ConcreteKeyValue();
-        topKeyValue.setKey("");
-        topKeyValue.setValue("Select holiday type");
-        keyValues.add(topKeyValue);
-
-        try {
-            List<TypeInfo> types = getHolidayTypes();
-            for (TypeInfo type : types) {
-                if (!alreadyAddedTypes.contains(type.getKey())){
-                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                    keyValue.setKey(type.getKey());
-                    keyValue.setValue(type.getName());
-                    keyValues.add(keyValue);
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        ((SelectControl) field.getControl()).setOptions(keyValues);
     }
 
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
@@ -316,49 +169,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
         return events;
     }
-
-    public List<HolidayCalendarWrapper> loadHolidayCalendars(AcademicCalendarInfo acalInfo) throws Exception {
-        List<HolidayCalendarWrapper> holidayCalendarWrapperList = new ArrayList<HolidayCalendarWrapper>();
-        List<String> hcIds = acalInfo.getHolidayCalendarIds();
-        if (hcIds != null && !hcIds.isEmpty()){
-            for (String hcId : hcIds){
-                HolidayCalendarWrapper holidayCalendarWrapper =  getHolidayCalendarWrapper (hcId);
-                holidayCalendarWrapperList.add(holidayCalendarWrapper);
-            }
-        }
-        return holidayCalendarWrapperList;
-    }
-
-    private HolidayCalendarWrapper getHolidayCalendarWrapper(String hcId){
-        ContextInfo context = getContextInfo();
-
-        HolidayCalendarWrapper holidayCalendarWrapper = new HolidayCalendarWrapper();
-        List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
-        try{
-            //need to retrieve HolidayCalendarInfo and all Holidays to form the HolidayCalendarWrapper.
-            HolidayCalendarInfo holidayCalendarInfo = getAcalService().getHolidayCalendar(hcId, context);
-            holidayCalendarWrapper.setHolidayCalendarInfo(holidayCalendarInfo);
-            holidayCalendarWrapper.setId(holidayCalendarInfo.getId());
-            holidayCalendarWrapper.setAdminOrgName(getAdminOrgNameById(holidayCalendarInfo.getAdminOrgId()));
-            StateInfo hcState = getAcalService().getHolidayCalendarState(holidayCalendarInfo.getStateKey(), context);
-            holidayCalendarWrapper.setStateName(hcState.getName());
-
-                List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(holidayCalendarInfo.getId(), context);
-                for(HolidayInfo holidayInfo : holidayInfoList){
-                    HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
-                    TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), context);
-                    holiday.setTypeName(typeInfo.getName());
-                    holidays.add(holiday);
-                }
-                holidayCalendarWrapper.setHolidays(holidays);
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
-
-        return holidayCalendarWrapper;
-
-    }
-
 
     public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception{
         AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event);
@@ -505,58 +315,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
-    public void validateHolidayCalendar(HolidayCalendarForm hcForm){
-        HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
-
-        if (!isValidHcalName(hcInfo)){
-            GlobalVariables.getMessageMap().putError("holidayCalendarInfo.name", "error.enroll.calendar.duplicateName");
-        }
-
-        if (!CommonUtils.isValidDateRange(hcInfo.getStartDate(),hcInfo.getEndDate())){
-            GlobalVariables.getMessageMap().putErrorForSectionId("KS-HolidayCalendar-MetaSection",
-                    "error.enroll.daterange.invalid", "Calendar",
-                    CommonUtils.formatDate(hcInfo.getStartDate()), CommonUtils.formatDate(hcInfo.getEndDate()));
-        }
-
-        //Validate Events
-        int index = -1;
-        for (HolidayWrapper holiday : hcForm.getHolidays()) {
-            ++index;
-
-            if (!CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getStartDate()) ||
-                !CommonUtils.isDateWithinRange(hcInfo.getStartDate(),hcInfo.getEndDate(),holiday.getEndDate())){
-                GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection",
-                        "error.enroll.holiday.dateNotInHcal", holiday.getTypeName());
-            }
-
-            // NOTE: next 2 edits not needed if KRAD validation is working properly
-            /*if (holiday.isDateRange() && (null == holiday.getEndDate())) {
-                // KRAD 2.0 bug where endDate not filled but gets prior value anyway; gets past endDate edit
-                GlobalVariables.getMessageMap().putErrorForSectionId( "holidays["+index+"].endDate",
-                        CalendarConstants.MSG_ERROR_DATE_END_REQUIRED, holiday.getTypeName());
-            }*/
-            if (!holiday.isAllDay()) { // time fields are enabled and can be filled in
-                if (!StringUtils.isEmpty(holiday.getStartTime()) && StringUtils.isEmpty(holiday.getStartTimeAmPm())) {
-                    GlobalVariables.getMessageMap().putError( "holidays["+index+"].startTimeAmPm",
-                            CalendarConstants.MSG_ERROR_TIME_START_AMPM_REQUIRED, holiday.getTypeName());
-                }
-                if (!StringUtils.isEmpty(holiday.getEndTime()) && StringUtils.isEmpty(holiday.getEndTimeAmPm())) {
-                    GlobalVariables.getMessageMap().putError( "holidays["+index+"].endTimeAmPm",
-                            CalendarConstants.MSG_ERROR_TIME_END_AMPM_REQUIRED, holiday.getTypeName());
-                }
-            }
-        }
-
-    }
-
-    public void populateHolidayCalendarDefaults(HolidayCalendarForm hcForm){
-
-        for (HolidayWrapper holidayWrapper : hcForm.getHolidays()) {
-            holidayWrapper.getHolidayInfo().setStartDate(getStartDateWithUpdatedTime(holidayWrapper,false));
-            setHolidayEndDate(holidayWrapper);
-        }
-    }
-
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm){
 
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
@@ -632,39 +390,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 }
             }
 
-            return valid;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private boolean isValidHcalName(HolidayCalendarInfo hcal){
-
-        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        List<Predicate> pList = new ArrayList<Predicate>();
-        Predicate p = equal("atpType",AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
-        pList.add(p);
-
-        p = equalIgnoreCase("name", hcal.getName());
-        pList.add(p);
-
-        Predicate[] preds = new Predicate[pList.size()];
-        pList.toArray(preds);
-        qBuilder.setPredicates(and(preds));
-
-        try {
-            List<HolidayCalendarInfo> hcals = getAcalService().searchForHolidayCalendars(qBuilder.build(), getContextInfo());
-            boolean valid = hcals.isEmpty();
-            //Make sure it's not the same Hcal which is being edited by the user
-            if (!valid && StringUtils.isNotBlank(hcal.getId())){
-                for (HolidayCalendarInfo hc : hcals) {
-                    if (!StringUtils.equals(hc.getId(),hcal.getId())){
-                        valid = false;
-                        break;
-                    }
-                    valid = true;
-                }
-            }
             return valid;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -880,18 +605,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
-    private void setHolidayEndDate(HolidayWrapper holidayWrapper) {
-        if (holidayWrapper.isAllDay()) {
-            holidayWrapper.getHolidayInfo().setIsDateRange(holidayWrapper.isDateRange());
-        }
-        else {
-            // dateRange in db is true if end date OR end time != start date/time
-            holidayWrapper.getHolidayInfo().setIsDateRange(true);
-        }
-        Date endDateToInfo = timeSetWrapperEndDate(holidayWrapper);
-        holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
-    }
-
     private void setEventEndDate(AcalEventWrapper eventWrapper) {
         if (eventWrapper.isAllDay()) {
             eventWrapper.getAcalEventInfo().setIsDateRange(eventWrapper.isDateRange());
@@ -1044,7 +757,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 if (!StringUtils.isEmpty(holidayCalendarId)) {
                     HolidayCalendarInfo hcInfo = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
                     inputLine.setHolidayCalendarInfo(hcInfo);
-                    inputLine.setAdminOrgName(getAdminOrgNameById(hcInfo.getAdminOrgId()));
+                    inputLine.setAdminOrgName(CommonUtils.getAdminOrgNameById(hcInfo.getAdminOrgId()));
                     StateInfo hcState = getAcalService().getHolidayCalendarState(hcInfo.getStateKey(), getContextInfo());
                     inputLine.setStateName(hcState.getName());
                     List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
@@ -1203,26 +916,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             contextInfo.setLocale(localeInfo);
         }
         return contextInfo;
-    }
-
-    private String getAdminOrgNameById(String id){
-        //TODO: hard-coded for now, going to call OrgService
-        String adminOrgName = null;
-        Map<String, String> allHcOrgs = new HashMap<String, String>();
-        allHcOrgs.put("102", "Registrar's Office");
-
-        if(allHcOrgs.containsKey(id)){
-            adminOrgName = allHcOrgs.get(id);
-        }
-
-        return adminOrgName;
-    }
-
-    public List<TypeInfo> getHolidayTypes() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        if(holidayTypes == null) {
-            holidayTypes = Collections.unmodifiableList(getAcalService().getHolidayTypes(getContextInfo()));
-        }
-        return holidayTypes;
     }
 
     public List<TypeInfo> getTypesForGroupType(String groupTypeKey) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {

@@ -25,13 +25,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
-import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.enrollment.class2.acal.service.HolidayCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -494,11 +494,11 @@ public class HolidayCalendarController extends UifControllerBase {
         return adminOrgName;
     }
 
-    private AcademicCalendarViewHelperService getHolidayCalendarFormHelper(HolidayCalendarForm hcForm) {
+    private HolidayCalendarViewHelperService getHolidayCalendarFormHelper(HolidayCalendarForm hcForm) {
         if (hcForm.getView() != null && hcForm.getView().getViewHelperServiceClass() != null){
-            return (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
+            return (HolidayCalendarViewHelperService)hcForm.getView().getViewHelperService();
         } else {
-            return (AcademicCalendarViewHelperService)hcForm.getPostedView().getViewHelperService();
+            return (HolidayCalendarViewHelperService)hcForm.getPostedView().getViewHelperService();
         }
     }
 

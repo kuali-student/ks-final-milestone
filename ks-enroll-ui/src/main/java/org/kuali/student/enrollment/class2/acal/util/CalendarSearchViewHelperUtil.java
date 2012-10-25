@@ -3,12 +3,17 @@ package org.kuali.student.enrollment.class2.acal.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -117,5 +122,45 @@ public class CalendarSearchViewHelperUtil {
         return qBuilder;
     }
 
+    public static HolidayCalendarWrapper getHolidayCalendarWrapper(String hcId, AcademicCalendarService acalService, ContextInfo context){
+
+        HolidayCalendarWrapper holidayCalendarWrapper = new HolidayCalendarWrapper();
+        List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
+        try{
+            //need to retrieve HolidayCalendarInfo and all Holidays to form the HolidayCalendarWrapper.
+            HolidayCalendarInfo holidayCalendarInfo = acalService.getHolidayCalendar(hcId, context);
+            holidayCalendarWrapper.setHolidayCalendarInfo(holidayCalendarInfo);
+            holidayCalendarWrapper.setId(holidayCalendarInfo.getId());
+            holidayCalendarWrapper.setAdminOrgName(CommonUtils.getAdminOrgNameById(holidayCalendarInfo.getAdminOrgId()));
+            StateInfo hcState = acalService.getHolidayCalendarState(holidayCalendarInfo.getStateKey(), context);
+            holidayCalendarWrapper.setStateName(hcState.getName());
+
+            List<HolidayInfo> holidayInfoList = acalService.getHolidaysForHolidayCalendar(holidayCalendarInfo.getId(), context);
+            for(HolidayInfo holidayInfo : holidayInfoList){
+                HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
+                TypeInfo typeInfo = acalService.getHolidayType(holidayInfo.getTypeKey(), context);
+                holiday.setTypeName(typeInfo.getName());
+                holidays.add(holiday);
+            }
+            holidayCalendarWrapper.setHolidays(holidays);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        return holidayCalendarWrapper;
+
+    }
+
+    public static List<HolidayCalendarWrapper> loadHolidayCalendars(AcademicCalendarInfo acalInfo, AcademicCalendarService acalService, ContextInfo context) throws Exception {
+        List<HolidayCalendarWrapper> holidayCalendarWrapperList = new ArrayList<HolidayCalendarWrapper>();
+        List<String> hcIds = acalInfo.getHolidayCalendarIds();
+        if (hcIds != null && !hcIds.isEmpty()){
+            for (String hcId : hcIds){
+                HolidayCalendarWrapper holidayCalendarWrapper = CalendarSearchViewHelperUtil.getHolidayCalendarWrapper(hcId,acalService, context);
+                holidayCalendarWrapperList.add(holidayCalendarWrapper);
+            }
+        }
+        return holidayCalendarWrapperList;
+    }
 
 }

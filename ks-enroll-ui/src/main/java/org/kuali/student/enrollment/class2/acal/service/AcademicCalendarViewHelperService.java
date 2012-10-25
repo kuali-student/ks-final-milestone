@@ -3,12 +3,12 @@ package org.kuali.student.enrollment.class2.acal.service;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.*;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import java.util.List;
@@ -20,25 +20,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface AcademicCalendarViewHelperService extends ViewHelperService {
-
-    //HC
-    public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
-
-    public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception;
-
-    public HolidayCalendarInfo getNewestHolidayCalendar() throws Exception;
-
-    public List<HolidayWrapper> getHolidayWrappersForHolidayCalendar(String holidayCalendarId) throws Exception;
-
-    public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception;
-
-    public String getHolidayTypeName(String holidayTypeKey) throws Exception;
-
-    public String getHolidayCalendarState(String holidayCalendarStateKey) throws Exception;
-
-    public void deleteHolidayCalendar(String holidayCalendarId) throws Exception;
-
-    public void populateHolidayTypes(InputField field, HolidayCalendarForm hcForm);
 
     //Acal
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
@@ -56,8 +37,6 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
 
     public void deleteEvent(String eventId) throws Exception;
-
-    public List<HolidayCalendarWrapper> loadHolidayCalendars (AcademicCalendarInfo acalInfo) throws Exception;
 
     //Terms
     public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial) throws Exception;
@@ -82,11 +61,7 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void validateAcademicCalendar(AcademicCalendarForm acalForm);
 
-    public void validateHolidayCalendar(HolidayCalendarForm hcForm);
-
     public void validateTerm(List<AcademicTermWrapper> termWrapper,int termToValidateIndex,AcademicCalendarInfo acal);
-
-    public void populateHolidayCalendarDefaults(HolidayCalendarForm hcForm);
 
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm);
 

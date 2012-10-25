@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.enrollment.class2.acal.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.enrollment.uif.controller.KSControllerBase;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -547,7 +548,7 @@ public class AcademicCalendarController extends KSControllerBase {
         List<AcademicTermWrapper> termWrappers = viewHelperService.populateTermWrappers(acalId, false);
         acalForm.setTermWrapperList(termWrappers);
         
-        List<HolidayCalendarWrapper> holidayCalendarWrapperList = viewHelperService.loadHolidayCalendars(acalInfo);
+        List<HolidayCalendarWrapper> holidayCalendarWrapperList = CalendarSearchViewHelperUtil.loadHolidayCalendars(acalInfo, getAcalService(), viewHelperService.getContextInfo());
         acalForm.setHolidayCalendarList(holidayCalendarWrapperList);
 
         //Calculate instructional days (if HC exists)

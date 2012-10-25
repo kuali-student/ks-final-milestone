@@ -23,6 +23,8 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -143,6 +145,19 @@ public class CommonUtils {
         }
 
         return dateTime.toDate();
+    }
+
+    public static String getAdminOrgNameById(String id){
+        //TODO: hard-coded for now, going to call OrgService
+        String adminOrgName = null;
+        Map<String, String> allHcOrgs = new HashMap<String, String>();
+        allHcOrgs.put("102", "Registrar's Office");
+
+        if(allHcOrgs.containsKey(id)){
+            adminOrgName = allHcOrgs.get(id);
+        }
+
+        return adminOrgName;
     }
 
 }
