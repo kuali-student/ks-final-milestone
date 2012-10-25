@@ -122,7 +122,11 @@
                 <bean parent="Uif-MessageField"
                       p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
-                <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" />
+                <!--<bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" /> -->
+                <bean parent="Uif-MessageField"
+                      p:label="INSTRUCTOR"
+                      p:messageText="@{#line.instructorDisplayNames}" />
+
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoDisplayInfo.maximumEnrollment" />
                 <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}"/>
             </list>
@@ -165,7 +169,10 @@
                 <bean parent="Uif-MessageField"
                       p:label="ROOM"
                       p:messageText="@{#line.roomName}" />
-                <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" />
+                <!--<bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" /> -->
+                <bean parent="Uif-MessageField"
+                      p:label="INSTRUCTOR"
+                      p:messageText="@{#line.instructorDisplayNames}" />
                 <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoDisplayInfo.maximumEnrollment" />
                 <bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}"/>
             </list>

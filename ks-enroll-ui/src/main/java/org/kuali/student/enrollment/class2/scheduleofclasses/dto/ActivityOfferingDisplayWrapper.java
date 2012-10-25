@@ -34,6 +34,7 @@ public class ActivityOfferingDisplayWrapper {
     private String buildingName;
     private String roomName;
     private String tbaDisplayName;
+    private String instructorDisplayNames;
 
     public ActivityOfferingDisplayWrapper(){
         aoDisplayInfo = new ActivityOfferingDisplayInfo();
@@ -136,6 +137,23 @@ public class ActivityOfferingDisplayWrapper {
             this.roomName = this.roomName + "<br>" + StringUtils.defaultString(roomName);
         }else{
             this.roomName = StringUtils.defaultString(roomName);
+        }
+
+    }
+
+    public String getInstructorDisplayNames() {
+        return instructorDisplayNames;
+    }
+
+    public void setInstructorDisplayNames(String instructorDisplayNames) {
+        this.instructorDisplayNames = instructorDisplayNames;
+    }
+
+    public void setInstructorDisplayNames(String instructorDisplayNames,boolean appendForDisplay) {
+        if (appendForDisplay && this.instructorDisplayNames!=null){
+            this.instructorDisplayNames = this.instructorDisplayNames + "<br>" + StringUtils.defaultString(instructorDisplayNames);
+        }else{
+            this.instructorDisplayNames = StringUtils.defaultString(instructorDisplayNames);
         }
 
     }

@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfC
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -243,6 +244,14 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                         }
                     }
 
+                }
+
+                //set instructors display
+                List<OfferingInstructorInfo> instructorInfos = aoDisplayInfo.getInstructors();
+                if (instructorInfos != null) {
+                    for (OfferingInstructorInfo offeringInstructorInfo : aoDisplayInfo.getInstructors()) {
+                        aoDisplayWrapper.setInstructorDisplayNames(offeringInstructorInfo.getPersonName(), true);
+                    }
                 }
 
                 aoDisplayWrapperList.add(aoDisplayWrapper);
