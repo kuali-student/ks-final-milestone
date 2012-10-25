@@ -19,8 +19,12 @@ package org.kuali.student.enrollment.class1.lui.service.impl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
+import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
@@ -31,7 +35,6 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.FeeInfo;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -44,7 +47,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:lui-test-context.xml"})
@@ -198,6 +205,31 @@ public class TestLuiServiceImpl {
             e.printStackTrace();
             fail(e.getMessage());
         }
+    }
+
+    @Test
+    public void testGenericLookup() throws Exception {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.like("80", "maxSeats"));
+        QueryByCriteria criteria = qbcBuilder.build();
+        try{
+            LuiService ls = getLuiService();
+            ArrayList<String> fields = new ArrayList<String>();
+            fields.add("name");
+            GenericQueryResults<List<String>> results = ((LuiServiceImpl) ls).getCriteriaLookupService().genericLookup(LuiEntity.class, criteria, fields);
+            for(List<String> listString: results.getResults()){
+                assertTrue(listString.size()==1);
+            }
+            fields.add("luiType");
+            results = ((LuiServiceImpl) ls).getCriteriaLookupService().genericLookup(LuiEntity.class, criteria, fields);
+            for(List<String> listString: results.getResults()){
+                assertTrue(listString.size()==2);
+            }
+        }   catch (Exception e){
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+
     }
 
     @Test
