@@ -104,7 +104,7 @@ public class CourseStateChangeServiceImpl {
 	protected CourseInfo getCurrentVersionOfCourse(CourseInfo course,ContextInfo contextInfo)
 			throws Exception {
 		// Get version independent id of course
-		String verIndId = course.getVersionInfo().getVersionIndId();
+		String verIndId = course.getVersion().getVersionIndId();
 
 		// Get id of current version of course given the versionindependen id
 		VersionDisplayInfo curVerDisplayInfo = courseService.getCurrentVersion(
@@ -149,7 +149,7 @@ public class CourseStateChangeServiceImpl {
 		// if already current, will throw error if you try to make the current
 		// version the current version.
 		boolean isCurrent = thisVerCourse.getId().equals(currVerCourse.getId());
-		if(!makeCurrent || !isCurrent || !thisVerCourse.getVersionInfo().getSequenceNumber().equals(1)){
+		if(!makeCurrent || !isCurrent || !thisVerCourse.getVersion().getSequenceNumber().equals(1)){
 			makeCurrent &= !isCurrent;
 		}
 
@@ -185,11 +185,11 @@ public class CourseStateChangeServiceImpl {
 
 			List<VersionDisplayInfo> versions =  courseService.getVersions(
 				CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
-						.getVersionInfo().getVersionIndId(), contextInfo);
+						.getVersion().getVersionIndId(), contextInfo);
 			Long startSeq = new Long(1);
 
 			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {
-				startSeq = currVerCourse.getVersionInfo().getSequenceNumber() + 1;
+				startSeq = currVerCourse.getVersion().getSequenceNumber() + 1;
 			}
 
 			for (VersionDisplayInfo versionInfo : versions) {

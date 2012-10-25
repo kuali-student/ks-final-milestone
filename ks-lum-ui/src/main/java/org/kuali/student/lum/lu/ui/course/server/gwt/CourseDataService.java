@@ -86,7 +86,7 @@ public class CourseDataService extends AbstractDataService {
 
         //For retire course we don't want to actually save anything
         if (CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE.equals((String) properties.get(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE))) {
-            if (courseInfo.getVersionInfo() == null) {
+            if (courseInfo.getVersion() == null) {
                 courseInfo = (CourseInfo) get(courseInfo.getId(), contextInfo);
             }
             String startTerm = courseInfo.getStartTerm();
@@ -106,8 +106,8 @@ public class CourseDataService extends AbstractDataService {
             //For Modify Course, see if we need to create a new version instead of create
             if (courseInfo.getId() == null) {
 
-                if (isLatestVersion(courseInfo.getVersionInfo().getVersionIndId(), contextInfo)) {
-                    String courseIndId = courseInfo.getVersionInfo().getVersionIndId();
+                if (isLatestVersion(courseInfo.getVersion().getVersionIndId(), contextInfo)) {
+                    String courseIndId = courseInfo.getVersion().getVersionIndId();
 
                     //Get the currentCourse from the service
                     VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseIndId, contextInfo);
@@ -124,7 +124,7 @@ public class CourseDataService extends AbstractDataService {
 
                     properties.put(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES, proposalAttributes);
 
-                    courseInfo = courseService.createNewCourseVersion(courseInfo.getVersionInfo().getVersionIndId(), courseInfo.getVersionInfo().getVersionComment(), contextInfo);
+                    courseInfo = courseService.createNewCourseVersion(courseInfo.getVersion().getVersionIndId(), courseInfo.getVersion().getVersionComment(), contextInfo);
                 } else {
                     throw new OperationFailedException("Error creating new version for course, this course is currently under modification.");
                 }

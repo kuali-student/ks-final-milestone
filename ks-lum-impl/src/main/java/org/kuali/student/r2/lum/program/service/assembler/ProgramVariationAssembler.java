@@ -79,7 +79,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         pvInfo.setCampusLocations(baseDTO.getCampusLocations());
         pvInfo.setEffectiveDate(baseDTO.getEffectiveDate());
         pvInfo.setDescr(baseDTO.getDescr());
-        pvInfo.setVersion(baseDTO.getVersionInfo());
+        pvInfo.setVersion(baseDTO.getVersion());
 
         return pvInfo;
     }
@@ -134,7 +134,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         clu.setCampusLocations(businessDTO.getCampusLocations());
         clu.setEffectiveDate(businessDTO.getEffectiveDate());
         clu.setDescr(businessDTO.getDescr());
-        clu.setVersionInfo(businessDTO.getVersion());
+        clu.setVersion(businessDTO.getVersion());
         
 		// Add the Clu to the result
 		result.setNodeData(clu);

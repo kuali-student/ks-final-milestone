@@ -72,7 +72,7 @@ public interface CreditCourseConstants
 	public static final String LAST_TERM_OFFERED = "lastTermOffered";
 	public static final String LAST_PUBLICATION_YEAR = "lastPublicationYear";
 	public static final String SPECIAL_CIRCUMSTANCES = "specialCircumstances";	
-	public static final String VERSION_INFO = "versionInfo";
+	public static final String VERSION_INFO = "version";
 	public static final String VERSION_CURRENT_VERSION_START = "currentVersionStart";
 	public static final String VERSION_CURRENT_VERSION_END = "currentVersionEnd";
 	public static final String VERSION_SEQ_NUMBER = "sequenceNumber";

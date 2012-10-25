@@ -135,7 +135,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	protected boolean isNew = false;
 
 	private static final String UPDATED_KEY = "meta/updateTime";
-	private static final String VERSION_KEY  = "versionInfo/versionedFromId";
+	private static final String VERSION_KEY  = "version/versionedFromId";
     private static final String MSG_GROUP = "course";
 	
 	protected String currentDocType = CLUConstants.PROPOSAL_TYPE_COURSE_CREATE;
@@ -667,7 +667,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
         Data versionData = new Data();
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), versionComment);
-        data.set(new Data.StringKey("versionInfo"), versionData);
+        data.set(new Data.StringKey("version"), versionData);
         
         cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {

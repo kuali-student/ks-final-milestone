@@ -269,11 +269,11 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
             getCourseService().updateCourse(courseInfo.getId(), courseInfo, ContextUtils.getContextInfo());
             
             //For a newly approved course (w/no prior active versions), make the new course the current version.
-            if (DtoConstants.STATE_ACTIVE.equals(courseState) && courseInfo.getVersionInfo().getCurrentVersionStart() == null){
+            if (DtoConstants.STATE_ACTIVE.equals(courseState) && courseInfo.getVersion().getCurrentVersionStart() == null){
             	// TODO: set states of other approved courses to superseded                
                 
             	// if current version's state is not active then we can set this course as the active course
-            	//if (!DtoConstants.STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersionInfo().getVersionIndId()).getId()).getState())) { 
+            	//if (!DtoConstants.STATE_ACTIVE.equals(getCourseService().getCourse(getCourseService().getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, courseInfo.getVersion().getVersionIndId()).getId()).getState())) { 
             		getCourseService().setCurrentCourseVersion(courseInfo.getId(), null, ContextUtils.getContextInfo());
             	//}
             }

@@ -1192,7 +1192,7 @@ public class CluServiceImpl implements CluService {
                 "officialIdentifier", "alternateIdentifiers", "descr",
                 "luCodes", "primaryInstructor", "instructors", "stdDuration",
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-                "meta", "versionInfo", "intensity",
+                "meta", "version", "intensity",
                 "campusLocations", "accreditations",
                 "adminOrgs", "canCreateLui", "hasEarlyDropDeadline", ""});
 
@@ -1538,7 +1538,7 @@ public class CluServiceImpl implements CluService {
                 "officialIdentifier", "alternateIdentifiers", "descr",
                 "luCodes", "primaryInstructor", "instructors", "stdDuration",
                 "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
-                "meta", "versionInfo", "intensity",
+                "meta", "version", "intensity",
                 "campusLocations", "accreditations",
                 "adminOrgs", "canCreateLui", "hasEarlyDropDeadline",
                 "hazardousForDisabledStudents", "enrollable", ""});

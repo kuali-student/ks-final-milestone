@@ -2866,17 +2866,17 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 		}catch(Exception e){}
 		
 		CluInfo justMadeCurrentClu = client.getClu(cluV1.getId(), contextInfo);
-		assertTrue(justMadeCurrentClu.getVersionInfo().getCurrentVersionStart().compareTo(new Date())<1);
-		VersionDisplayInfo versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, justMadeCurrentClu.getVersionInfo().getVersionIndId(), contextInfo);
+		assertTrue(justMadeCurrentClu.getVersion().getCurrentVersionStart().compareTo(new Date())<1);
+		VersionDisplayInfo versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, justMadeCurrentClu.getVersion().getVersionIndId(), contextInfo);
 		//Try to make a new versions from the current version
-		CluInfo cluV2 = client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"CommentA", contextInfo);
-		CluInfo cluV3 = client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"CommentB", contextInfo);
-		versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId(), contextInfo);
+		CluInfo cluV2 = client.createNewCluVersion(cluV1.getVersion().getVersionIndId(),"CommentA", contextInfo);
+		CluInfo cluV3 = client.createNewCluVersion(cluV1.getVersion().getVersionIndId(),"CommentB", contextInfo);
+		versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersion().getVersionIndId(), contextInfo);
 		assertEquals(cluV1.getId(),versionDisplayInfo.getId());
-		assertEquals(cluV1.getVersionInfo().getVersionIndId(),cluV2.getVersionInfo().getVersionIndId());
-		assertEquals(cluV1.getVersionInfo().getVersionIndId(),cluV3.getVersionInfo().getVersionIndId());
+		assertEquals(cluV1.getVersion().getVersionIndId(),cluV2.getVersion().getVersionIndId());
+		assertEquals(cluV1.getVersion().getVersionIndId(),cluV3.getVersion().getVersionIndId());
 		client.setCurrentCluVersion(cluV3.getId(), null, contextInfo);
-		versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersionInfo().getVersionIndId(), contextInfo);
+		versionDisplayInfo = client.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluV1.getVersion().getVersionIndId(), contextInfo);
 		assertEquals(versionDisplayInfo.getId(),cluV3.getId());
 		
 		

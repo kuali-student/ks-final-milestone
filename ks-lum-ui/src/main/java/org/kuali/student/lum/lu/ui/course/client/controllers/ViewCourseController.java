@@ -342,7 +342,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     }
     
     public String getVersionIndId() {
-        return (String)cluModel.get("versionInfo/versionIndId");
+        return (String)cluModel.get("version/versionIndId");
     }
 
     public void setCourseId(String courseId) {

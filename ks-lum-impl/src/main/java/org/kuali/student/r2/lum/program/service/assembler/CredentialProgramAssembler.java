@@ -44,7 +44,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         }
         cpInfo.setTypeKey(baseDTO.getTypeKey());
         cpInfo.setDescr(baseDTO.getDescr());
-        cpInfo.setVersion(baseDTO.getVersionInfo());
+        cpInfo.setVersion(baseDTO.getVersion());
 
         programAssemblerUtils.assembleBasics(baseDTO, (ProgramCommonAssembly) cpInfo, contextInfo);
         programAssemblerUtils.assembleIdentifiers(baseDTO, (ProgramIdentifierAssembly) cpInfo);

@@ -380,7 +380,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                                         @Override
                                         public void onSuccess(CluInfo cluInfo) {
-                                            courseWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
+                                            courseWidget.setLabelContent(cluInfo.getVersion().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
                                     });
                                 }
@@ -417,7 +417,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                                         @Override
                                         public void onSuccess(CluInfo cluInfo) {
-                                            programWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
+                                            programWidget.setLabelContent(cluInfo.getVersion().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
                                     });
                                 }

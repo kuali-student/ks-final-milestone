@@ -199,7 +199,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         course.setSubjectArea(clu.getOfficialIdentifier().getDivision());
         course.setTranscriptTitle(clu.getOfficialIdentifier().getShortName());
         course.setMeta(clu.getMeta());
-        course.setVersionInfo(clu.getVersionInfo());
+        course.setVersion(clu.getVersion());
 
 
         //Special topics code
@@ -436,7 +436,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         clu.setLastAtp(course.getEndTerm());
 
         clu.setMeta(course.getMeta());
-        clu.setVersionInfo(course.getVersionInfo());
+        clu.setVersion(course.getVersion());
 
         // Add the Clu to the result
         result.setNodeData(clu);

@@ -330,7 +330,7 @@ public class CourseAdminController extends CourseProposalController{
 						//ONLY when in edit mode. This way it doesn't attempt to retrieve non-existent "Course Info" section;
 						//only the "Summary" section has been configured in non-edit mode.
 						if (model.getDefinition().getMetadata().isCanEdit()){
-							String versionedFromId = model.get("versionInfo/versionedFromId");
+							String versionedFromId = model.get("version/versionedFromId");
 							if(versionedFromId!=null && !versionedFromId.isEmpty()){
 								//Add the required field 
 								//See why the required for next state is not set

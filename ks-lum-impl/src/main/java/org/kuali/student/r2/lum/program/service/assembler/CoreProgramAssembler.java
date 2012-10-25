@@ -71,7 +71,7 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) cpInfo, contextInfo);
 
         cpInfo.setDescr(baseDTO.getDescr());
-        cpInfo.setVersion(baseDTO.getVersionInfo());
+        cpInfo.setVersion(baseDTO.getVersion());
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);

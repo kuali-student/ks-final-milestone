@@ -808,7 +808,7 @@ public class TestCourseServiceImpl{
 
         CourseInfo newCourse = null;
         try {
-            newCourse = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version", contextInfo);
+            newCourse = courseService.createNewCourseVersion(createdCourse.getVersion().getVersionIndId(), "test make a new version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
@@ -825,7 +825,7 @@ public class TestCourseServiceImpl{
         CourseInfo newVersion = null;
         
         try {
-            newVersion = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test make a new version for statements", contextInfo);
+            newVersion = courseService.createNewCourseVersion(createdCourse.getVersion().getVersionIndId(), "test make a new version for statements", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -1244,16 +1244,16 @@ public class TestCourseServiceImpl{
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
         try {
-            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version", contextInfo);
+            courseService.createNewCourseVersion(createdCourse.getVersion().getVersionIndId(), "test getting version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
         }
         
-        VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), contextInfo);
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersion().getVersionIndId(), contextInfo);
         
         assertNotNull(versionInfo);
-        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
+        assertEquals(createdCourse.getVersion().getSequenceNumber(),versionInfo.getSequenceNumber());
     }
     
     @Test
@@ -1262,16 +1262,16 @@ public class TestCourseServiceImpl{
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
-        VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), contextInfo);
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersion().getVersionIndId(), contextInfo);
         
         assertNotNull(versionInfo);
-        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
+        assertEquals(createdCourse.getVersion().getSequenceNumber(),versionInfo.getSequenceNumber());
         
         
         // make a second version of the course, set it to be the current version a month in the future, and ensure that getting today's version gets the one that was created first
         CourseInfo cInfo2 = null;
         try {
-            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date", contextInfo);
+            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersion().getVersionIndId(), "test getting version by date", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
@@ -1284,10 +1284,10 @@ public class TestCourseServiceImpl{
         courseService.setCurrentCourseVersion(cInfo2.getId(), cal.getTime(), contextInfo);
         
         // make sure when we get the current version for today, it still returns the first one created
-        versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, cInfo2.getVersionInfo().getVersionIndId(),contextInfo);
+        versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, cInfo2.getVersion().getVersionIndId(),contextInfo);
         
         assertNotNull(versionInfo);
-        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(), versionInfo.getSequenceNumber());
+        assertEquals(createdCourse.getVersion().getSequenceNumber(), versionInfo.getSequenceNumber());
     }
     
     @Test
@@ -1297,18 +1297,18 @@ public class TestCourseServiceImpl{
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
-        List<VersionDisplayInfo> versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), contextInfo);
+        List<VersionDisplayInfo> versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersion().getVersionIndId(), contextInfo);
         
         assertEquals(1, versions.size());
         
         try {
-            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version", contextInfo);
+            courseService.createNewCourseVersion(createdCourse.getVersion().getVersionIndId(), "test getting version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
         }
         
-        versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), contextInfo);
+        versions = courseService.getVersions(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersion().getVersionIndId(), contextInfo);
         
         assertEquals(2, versions.size());
     }
@@ -1321,15 +1321,15 @@ public class TestCourseServiceImpl{
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
         try {
-            courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version", contextInfo);
+            courseService.createNewCourseVersion(createdCourse.getVersion().getVersionIndId(), "test getting version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
         }
         
-       // VersionDisplayInfo firstVersion = courseService.getFirstVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId());
+       // VersionDisplayInfo firstVersion = courseService.getFirstVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersion().getVersionIndId());
         
-        //assertEquals(firstVersion.getSequenceNumber(), createdCourse.getVersionInfo().getSequenceNumber());
+        //assertEquals(firstVersion.getSequenceNumber(), createdCourse.getVersion().getSequenceNumber());
     }
     
    @Test
@@ -1341,15 +1341,15 @@ public class TestCourseServiceImpl{
 
         CourseInfo version2 = null;
         try {
-            version2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version", contextInfo);
+            version2 = courseService.createNewCourseVersion(createdCourse.getVersion().getVersionIndId(), "test getting version", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
         }
         
-        //VersionDisplayInfo secondVersion = courseService.getVersionBySequenceNumber(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), version2.getVersionInfo().getSequenceNumber());
+        //VersionDisplayInfo secondVersion = courseService.getVersionBySequenceNumber(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersion().getVersionIndId(), version2.getVersion().getSequenceNumber());
         
-        //assertEquals(secondVersion.getSequenceNumber(), version2.getVersionInfo().getSequenceNumber());
+        //assertEquals(secondVersion.getSequenceNumber(), version2.getVersion().getSequenceNumber());
     }
     
     @Test
@@ -1358,16 +1358,16 @@ public class TestCourseServiceImpl{
         CourseInfo cInfo = generator.getCourseTestData();
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
 
-        VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), contextInfo);
+        VersionDisplayInfo versionInfo = courseService.getCurrentVersion(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersion().getVersionIndId(), contextInfo);
         
         assertNotNull(versionInfo);
-        assertEquals(createdCourse.getVersionInfo().getSequenceNumber(),versionInfo.getSequenceNumber());
+        assertEquals(createdCourse.getVersion().getSequenceNumber(),versionInfo.getSequenceNumber());
         
         
         // make a second version of the course, set it to be the current version a month in the future, and ensure that getting today's version gets the one that was created first
         CourseInfo cInfo2 = null;
         try {
-            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersionInfo().getVersionIndId(), "test getting version by date", contextInfo);
+            cInfo2 = courseService.createNewCourseVersion(createdCourse.getVersion().getVersionIndId(), "test getting version by date", contextInfo);
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
@@ -1387,7 +1387,7 @@ public class TestCourseServiceImpl{
         rangeInstance.add(Calendar.DATE, 2);
         Date tomorrow = rangeInstance.getTime();
         
-        //List<VersionDisplayInfo> versions = courseService.getVersionsInDateRange(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersionInfo().getVersionIndId(), yesterday, tomorrow);
+        //List<VersionDisplayInfo> versions = courseService.getVersionsInDateRange(CourseServiceConstants.COURSE_NAMESPACE_URI, createdCourse.getVersion().getVersionIndId(), yesterday, tomorrow);
         
         //assertEquals(1, versions.size());
     }

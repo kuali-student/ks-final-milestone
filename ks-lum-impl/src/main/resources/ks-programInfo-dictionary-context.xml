@@ -63,7 +63,7 @@
 				<ref bean="majorDisciplineInfo.stateKey" />
 				<ref bean="majorDisciplineInfo.id" />
 
-				<ref bean="majorDisciplineInfo.versionInfo" />
+				<ref bean="majorDisciplineInfo.version" />
 
 				<!-- Dynamic Attributes -->
 				<ref bean="majorDisciplineInfo.lastReviewDate" />
@@ -2340,19 +2340,19 @@
 	</bean>
 	<bean id="majorDisciplineInfo.id" parent="majorDisciplineInfo.id-parent" />
 
-	<bean id="majorDisciplineInfo.versionInfo-parent" abstract="true"
+	<bean id="majorDisciplineInfo.version-parent" abstract="true"
 		parent="baseComplex">
 		<property name="name" value="version" />
 		<property name="dataObjectStructure"
 			ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo" />
 	</bean>
-	<bean id="majorDisciplineInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />
-	<bean id="coreProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />
-	<bean id="commonWithCoreProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />
-	<bean id="commonWithCredentialProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />
-	<bean id="commonWithProgramVariationInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />
-	<bean id="credentialProgramInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />
-	<bean id="programVariationInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent" />
+	<bean id="majorDisciplineInfo.version" parent="majorDisciplineInfo.version-parent" />
+	<bean id="coreProgramInfo.version" parent="majorDisciplineInfo.version-parent" />
+	<bean id="commonWithCoreProgramInfo.version" parent="majorDisciplineInfo.version-parent" />
+	<bean id="commonWithCredentialProgramInfo.version" parent="majorDisciplineInfo.version-parent" />
+	<bean id="commonWithProgramVariationInfo.version" parent="majorDisciplineInfo.version-parent" />
+	<bean id="credentialProgramInfo.version" parent="majorDisciplineInfo.version-parent" />
+	<bean id="programVariationInfo.version" parent="majorDisciplineInfo.version-parent" />
 	<!-- begin ProgramVariationInfo -->
 	<!-- ProgramVariationInfo -->
 	<bean
@@ -2404,7 +2404,7 @@
 				<ref bean="programVariationInfo.durationNotes" />
 				<ref bean="programVariationInfo.coreFaculties" />
 				<ref bean="programVariationInfo.endInstAdmitTerm" />
-				<ref bean="programVariationInfo.versionInfo" />
+				<ref bean="programVariationInfo.version" />
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -3678,7 +3678,7 @@
 				<ref bean="coreProgramInfo.unitsContentOwner" />
 				<ref bean="coreProgramInfo.unitsStudentOversight" />
 				<ref bean="coreProgramInfo.universityClassification" />
-				<ref bean="coreProgramInfo.versionInfo" />
+				<ref bean="coreProgramInfo.version" />
 				<ref bean="coreProgramInfo.searchProgramVersions" />
 			</list>
 		</property>
@@ -3861,7 +3861,7 @@
 				<ref bean="credentialProgramInfo.unitsContentOwner" />
 				<ref bean="credentialProgramInfo.unitsStudentOversight" />
 				<ref bean="credentialProgramInfo.universityClassification" />
-				<ref bean="credentialProgramInfo.versionInfo" />
+				<ref bean="credentialProgramInfo.version" />
 				<ref bean="credentialProgramInfo.typeKey" />
 
 				<ref bean="credentialProgramInfo.searchProgramVersions" />
@@ -4253,7 +4253,7 @@
 				<ref bean="commonWithCoreProgramInfo.universityClassification" />
 				<ref bean="commonWithCoreProgramInfo.programRequirements" />
 				<ref bean="commonWithCoreProgramInfo.endTerm" />
-				<ref bean="commonWithCoreProgramInfo.versionInfo" />
+				<ref bean="commonWithCoreProgramInfo.version" />
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -4429,7 +4429,7 @@
 				<ref bean="commonWithCredentialProgramInfo.universityClassification" />
 				<ref bean="commonWithCredentialProgramInfo.programRequirements" />
 				<ref bean="commonWithCredentialProgramInfo.endTerm" />
-				<ref bean="commonWithCoreProgramInfo.versionInfo" />
+				<ref bean="commonWithCoreProgramInfo.version" />
 			</list>
 		</property>
 		<property name="hasMetaData" value="true" />
@@ -4611,7 +4611,7 @@
 				<ref bean="commonWithProgramVariationInfo.stdDuration" />
 				<ref bean="commonWithProgramVariationInfo.unitsFinancialControl" />
 				<ref bean="commonWithProgramVariationInfo.unitsFinancialResources" />
-				<ref bean="commonWithProgramVariationInfo.versionInfo" />
+				<ref bean="commonWithProgramVariationInfo.version" />
 
 			</list>
 		</property>

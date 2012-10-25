@@ -53,7 +53,7 @@
     <ref bean="courseInfo.variations" />
     <ref bean="courseInfo.pilotCourse" />
     <ref bean="courseInfo.specialTopicsCourse" />
-    <ref bean="courseInfo.versionInfo" />
+    <ref bean="courseInfo.version" />
 
     <!-- Dynamic Attributes -->
     <ref bean="courseInfo.finalExamStatus" />
@@ -1267,11 +1267,11 @@
  </bean>
  <bean id="courseInfo.typeKey" parent="courseInfo.typeKey-parent" />
 
- <bean id="courseInfo.versionInfo-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="versionInfo"/>
+ <bean id="courseInfo.version-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="version"/>
   <property name="dataObjectStructure" ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
  </bean>
- <bean id="courseInfo.versionInfo" parent="courseInfo.versionInfo-parent"/>
+ <bean id="courseInfo.version" parent="courseInfo.version-parent"/>
 
  <bean id="courseInfo.variations-parent" abstract="true" parent="cluInfo.alternateIdentifiers-parent">
   <property name="name" value="variations" />
@@ -2277,46 +2277,46 @@
   <property name="name" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="versionInfo.currentVersionEnd"/>
-    <ref bean="versionInfo.currentVersionStart"/>
-    <ref bean="versionInfo.sequenceNumber"/>
-    <ref bean="versionInfo.versionComment"/>
-    <ref bean="versionInfo.versionIndId"/>
-    <ref bean="versionInfo.versionedFromId"/>
+    <ref bean="version.currentVersionEnd"/>
+    <ref bean="version.currentVersionStart"/>
+    <ref bean="version.sequenceNumber"/>
+    <ref bean="version.versionComment"/>
+    <ref bean="version.versionIndId"/>
+    <ref bean="version.versionedFromId"/>
    </list>
   </property>
  </bean>
  <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent"/>
 
- <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
+ <bean id="version.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>
  </bean>
- <bean id="versionInfo.currentVersionEnd" parent="versionInfo.currentVersionEnd-parent"/>
+ <bean id="version.currentVersionEnd" parent="version.currentVersionEnd-parent"/>
 
- <bean id="versionInfo.currentVersionStart-parent" abstract="true" parent="baseDate">
+ <bean id="version.currentVersionStart-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionStart"/>
  </bean>
- <bean id="versionInfo.currentVersionStart" parent="versionInfo.currentVersionStart-parent"/>
+ <bean id="version.currentVersionStart" parent="version.currentVersionStart-parent"/>
 
- <bean id="versionInfo.sequenceNumber-parent" abstract="true" parent="baseLong">
+ <bean id="version.sequenceNumber-parent" abstract="true" parent="baseLong">
   <property name="name" value="sequenceNumber"/>
  </bean>
- <bean id="versionInfo.sequenceNumber" parent="versionInfo.sequenceNumber-parent"/>
+ <bean id="version.sequenceNumber" parent="version.sequenceNumber-parent"/>
 
- <bean id="versionInfo.versionComment-parent" abstract="true" parent="baseString">
+ <bean id="version.versionComment-parent" abstract="true" parent="baseString">
   <property name="name" value="versionComment"/>
  </bean>
- <bean id="versionInfo.versionComment" parent="versionInfo.versionComment-parent"/>
+ <bean id="version.versionComment" parent="version.versionComment-parent"/>
 
- <bean id="versionInfo.versionIndId-parent" abstract="true" parent="baseString">
+ <bean id="version.versionIndId-parent" abstract="true" parent="baseString">
   <property name="name" value="versionIndId"/>
  </bean>
- <bean id="versionInfo.versionIndId" parent="versionInfo.versionIndId-parent"/>
+ <bean id="version.versionIndId" parent="version.versionIndId-parent"/>
 
- <bean id="versionInfo.versionedFromId-parent" abstract="true" parent="baseString">
+ <bean id="version.versionedFromId-parent" abstract="true" parent="baseString">
   <property name="name" value="versionedFromId"/>
  </bean>
- <bean id="versionInfo.versionedFromId" parent="versionInfo.versionedFromId-parent"/>
+ <bean id="version.versionedFromId" parent="version.versionedFromId-parent"/>
 
 
  <!-- activity TimeAmountInfo-->

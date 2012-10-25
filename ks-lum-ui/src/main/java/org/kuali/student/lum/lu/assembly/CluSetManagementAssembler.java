@@ -387,11 +387,11 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 result.setApprovedClus(new Data());
                 for (CluInfo cluInfo : cluInfos) {
                     if (cluInfo.getStateKey().equals("Active")) {
-                        result.getApprovedClus().add(cluInfo.getVersionInfo().getVersionIndId());
+                        result.getApprovedClus().add(cluInfo.getVersion().getVersionIndId());
                     } else {
-                        result.getProposedClus().add(cluInfo.getVersionInfo().getVersionIndId());
+                        result.getProposedClus().add(cluInfo.getVersion().getVersionIndId());
                     }
-                    result.getAllClus().add(cluInfo.getVersionInfo().getVersionIndId());
+                    result.getAllClus().add(cluInfo.getVersion().getVersionIndId());
                 }
             }
             if (cluSetInfo.getCluSetIds() != null && !cluSetInfo.getCluSetIds().isEmpty()) {

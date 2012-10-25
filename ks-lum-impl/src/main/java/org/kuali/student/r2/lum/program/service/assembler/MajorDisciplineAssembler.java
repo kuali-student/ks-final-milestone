@@ -75,7 +75,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         mdInfo.setAccreditingAgencies(baseDTO.getAccreditations());
         mdInfo.setEffectiveDate(baseDTO.getEffectiveDate());
         mdInfo.setDescr(baseDTO.getDescr());
-        mdInfo.setVersion(baseDTO.getVersionInfo());
+        mdInfo.setVersion(baseDTO.getVersion());
         mdInfo.setNextReviewPeriod(baseDTO.getNextReviewPeriod());
 
         if (!shallowBuild) {

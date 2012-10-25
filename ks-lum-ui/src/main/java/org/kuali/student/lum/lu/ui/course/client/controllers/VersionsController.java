@@ -153,13 +153,13 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
 	        		cluModel1.setDefinition(definition);
 	        		cluModel1.setRoot(result);
 	        		if(courseId.equals(currentVersionId)){
-	        			String name = "Version " + cluModel1.get("versionInfo/sequenceNumber") + " (current version)";
+	        			String name = "Version " + cluModel1.get("version/sequenceNumber") + " (current version)";
 	        			cluModel1.setModelName(name);
 	        			view.setName(name);
 	        			view.showWarningMessage(false);
 	        		}
 	        		else{
-	        			String name = "Version " + cluModel1.get("versionInfo/sequenceNumber");
+	        			String name = "Version " + cluModel1.get("version/sequenceNumber");
 	        			cluModel1.setModelName(name);
 	        			view.setName(name);
 	        			view.showWarningMessage(true);
@@ -181,10 +181,10 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
 	        		cluModel2.setDefinition(definition);
 	        		cluModel2.setRoot(result);
 	        		if(courseId.equals(currentVersionId)){
-	        			cluModel2.setModelName("Version " + cluModel2.get("versionInfo/sequenceNumber") + " (current version)");
+	        			cluModel2.setModelName("Version " + cluModel2.get("version/sequenceNumber") + " (current version)");
 	        		}
 	        		else{
-	        			cluModel2.setModelName("Version " + cluModel2.get("versionInfo/sequenceNumber"));
+	        			cluModel2.setModelName("Version " + cluModel2.get("version/sequenceNumber"));
 	        		}
 
 	 	            reqDataModel2.retrieveStatementTypes(cluModel2.<String>get("id"), new Callback<Boolean>() {

@@ -40,7 +40,7 @@
                 <ref bean="cluInfo.stdDuration"/>
                 <ref bean="cluInfo.studySubjectArea"/>
                 <ref bean="cluInfo.typeKey"/>
-                <ref bean="cluInfo.versionInfo"/>
+                <ref bean="cluInfo.version"/>
             </list>
         </property>
         <property name="hasMetaData" value="true"/>
@@ -883,12 +883,12 @@
         <property name="name" value="stateKey"></property>
     </bean>
 
-    <bean id="cluInfo.versionInfo-parent" abstract="true" parent="baseComplex">
-        <property name="name" value="versionInfo"/>
+    <bean id="cluInfo.version-parent" abstract="true" parent="baseComplex">
+        <property name="name" value="version"/>
 
         <property name="dataObjectStructure" ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
     </bean>
-    <bean id="cluInfo.versionInfo" parent="cluInfo.versionInfo-parent"/>
+    <bean id="cluInfo.version" parent="cluInfo.version-parent"/>
 
     <!-- CluCluRelationInfo-->
     <bean id="org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo-parent"
