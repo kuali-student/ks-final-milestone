@@ -126,7 +126,7 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
         addReadOnlyField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + PROPOSED_END_TERM, generateMessageInfo(LUUIConstants.PROPOSED_END_TERM_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + PROPOSED_LAST_TERM_OFFERED, generateMessageInfo(LUUIConstants.PROPOSED_LAST_TERM_OFFERED_LABEL_KEY));
-        addField(section, PROPOSAL_PATH + "/" + PROPOSED_LAST_COURSE_CATALOG_YEAR, generateMessageInfo(LUUIConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR_LABEL_KEY));
+        addField(section, "" + "/" + LAST_PUBLICATION_YEAR, generateMessageInfo(LUUIConstants.PROPOSED_LAST_COURSE_CATALOG_YEAR_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + OTHER_COMMENTS, generateMessageInfo(LUUIConstants.OTHER_COMMENTS_LABEL_KEY));
         
         return section;
