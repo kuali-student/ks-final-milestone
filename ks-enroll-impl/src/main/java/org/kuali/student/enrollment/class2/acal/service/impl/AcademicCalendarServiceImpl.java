@@ -1219,9 +1219,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
            return checkTypeInTypes(typeKey, types);
     }
 
-   private boolean checkTypeForKeydateType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-           List<TypeInfo> types = getKeyDateTypes(context);
-           return checkTypeInTypes(typeKey, types);
+   private boolean checkTypeForKeydateType(String kdtypeKey, String termType, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+       List<TypeInfo> kdTypes = new ArrayList<TypeInfo>();
+       List<TypeInfo> kdGroupTypes = getKeyDateTypesForTermType(termType, context);
+
+       if(kdGroupTypes != null && !kdGroupTypes.isEmpty()){
+           for(TypeInfo type : kdGroupTypes){
+            List<TypeInfo> kdtype = getTypesForGroupType(type.getKey(), context);
+               if(kdtype != null && !kdtype.isEmpty()){
+                kdTypes.addAll(kdtype);
+               }
+           }
+       }
+
+       return checkTypeInTypes(kdtypeKey, kdTypes);
    }
 
     private List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
@@ -1535,7 +1546,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         KeyDateInfo newKeyDateInfo = null;
         MilestoneInfo milestoneInfo = null;
 
-        if(checkTypeForKeydateType(keyDateTypeKey, contextInfo)){
+        AtpInfo atp = atpService.getAtp(termId, contextInfo);
+
+        if(checkTypeForKeydateType(keyDateTypeKey, atp.getTypeKey(), contextInfo)){
             try {
                 milestoneInfo = keyDateAssembler.disassemble(keyDateInfo, contextInfo);
             } catch (AssemblyException e) {

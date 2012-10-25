@@ -683,7 +683,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getMeta().getUpdateId(), info.getMeta().getUpdateId());
         assertEquals(orig.getMeta().getUpdateTime(), info.getMeta().getUpdateTime());
 
-        this.testCRUDKeyDate(principalId);
+        this.testCRUDKeyDate(orig.getId());
 
         // test adding term to acal
         orig = info;

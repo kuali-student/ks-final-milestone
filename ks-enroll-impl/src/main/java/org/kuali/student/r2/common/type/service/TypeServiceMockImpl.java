@@ -523,7 +523,9 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.55", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.FinalExamPeriod", "6", "Summer can have a final exam period"});
         allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.56", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.milestone.GradesDue", "7", "Summer can have a grading period"});
 
-
+        //keydates group
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.60", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.milestone.type.group.instructional", "1", "Summer can have a final exam period"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.61", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.milestone.type.group.registration", "2", "Summer can have a grading period"});
 
 
         for (String[] allowedArray : allowedArrays) {
