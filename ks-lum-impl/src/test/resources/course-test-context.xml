@@ -146,8 +146,8 @@
                 <value>classpath:ks-statement-tree.sql</value>
                 <value>classpath:ks-statement-data.sql</value>
                 <value>classpath:ks-course.sql</value>
-                <value>classpath:ks-org.sql</value>
-                <value>classpath:ks-atp.sql</value>
+                <!--value>classpath:ks-org.sql</value>
+                <value>classpath:ks-atp.sql</value-->
               </list>
             </entry>
            <!--
@@ -179,13 +179,13 @@
 		<aop:aspect id="dataAccessToBusinessException"
 			ref="mapExceptionAdvisor">
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.lum.lu.service.*.*(..))"
+				pointcut="execution(* org.kuali.student.r2.lum.clu.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.lum.lrc.service.*.*(..))"
+				pointcut="execution(* org.kuali.student.r2.lum.lrc.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 			<aop:after-throwing
-				pointcut="execution(* org.kuali.student.lum.lo.service.*.*(..))"
+				pointcut="execution(* org.kuali.student.r2.lum.lo.service.*.*(..))"
 				method="afterThrowing" throwing="ex" />
 		</aop:aspect>
 	</aop:config>
