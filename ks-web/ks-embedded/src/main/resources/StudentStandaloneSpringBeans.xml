@@ -16,9 +16,9 @@
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
@@ -27,21 +27,21 @@
 
     <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 
-    <bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
-        <property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
-        <property name="kualiModuleService" ref="kualiModuleService" />
-    </bean>
+	<bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+		<property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
+	</bean>
 
-    <bean id="studentRiceModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
-        <property name="namespaceCode" value="KS-SYS" />
-        <property name="initializeDataDictionary" value="true" />
-        <property name="dataDictionaryPackages">
-            <list>
+	<bean id="studentRiceModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+		<property name="namespaceCode" value="KS-SYS" />
+		<property name="initializeDataDictionary" value="true" />
+		<property name="dataDictionaryPackages">
+			<list>
                 <!-- rice and basic ks xmls -->
-                <value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
                 <value>classpath:UifKradExtensionDefinitions.xml</value>
-                <value>classpath:UifKSDefinitions.xml</value>
+				<value>classpath:UifKSDefinitions.xml</value>
                 <value>classpath:UifUtils.xml</value>
                 <value>classpath:ks-ActivityOfferingInfo-dictionary.xml</value>
                 <value>classpath:ks-CourseOfferingInfo-dictionary.xml</value>
@@ -66,7 +66,7 @@
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarCopyPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarWrapperLookupAndInquiryView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarFlowView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarCopyPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarEditPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicTermPage.xml</value>
@@ -149,7 +149,7 @@
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoCreateView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoView.xml</value>
-
+                
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/type/TypeInfoAdminLookupView.xml</value>
@@ -208,65 +208,65 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionTL.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionSL.xml</value>
             </list>
+		</property>
+		<property name="packagePrefixes">
+			<list>
+				<value>org.kuali.rice.student.</value>
+				<value>org.kuali.student.enrollment.</value>				
+			</list>
+		</property>
+	</bean>
+
+<!-- KNS POC configuration starts -->
+<!-- 
+    <bean id="courseUpdateModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+        <property name="namespaceCode" value="KNS-POC"/>
+        <property name="initializeDataDictionary" value="true"/>
+        <property name="dataDictionaryPackages">
+            <list>
+ 
+              <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseUpdate.xml</value>
+              <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseUpdateMaintenanceDocument.xml</value> 
+              <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseTransient.xml</value> 
+              <value>classpath:org/kuali/rice/student/uif/CourseUpdateLookup.xml</value> 
+              
+              <value>classpath:AcademicCalendarView-old.xml</value>
+
+              
+               <value>classpath:org/kuali/rice/student/datadictionary/CourseInfoDto.xml</value>
+
+           </list>
         </property>
+ 
+        <property name="databaseRepositoryFilePaths">
+            <list>
+				<value>ojb-course.xml</value>
+            </list>
+        </property>
+
         <property name="packagePrefixes">
             <list>
-                <value>org.kuali.rice.student.</value>
-                <value>org.kuali.student.enrollment.</value>
+                <value>org.kuali.rice.student</value>
+                <value>org.kuali.rice.student.bo</value>
+                <value>org.kuali.student.enrollment.acal</value>
+                <value>org.kuali.student.enrollment.classII.acal</value>
             </list>
         </property>
     </bean>
 
-    <!-- KNS POC configuration starts -->
-    <!--
-      <bean id="courseUpdateModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
-          <property name="namespaceCode" value="KNS-POC"/>
-          <property name="initializeDataDictionary" value="true"/>
-          <property name="dataDictionaryPackages">
-              <list>
-
-                <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseUpdate.xml</value>
-                <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseUpdateMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/rice/student/bo/datadictionary/CourseTransient.xml</value>
-                <value>classpath:org/kuali/rice/student/uif/CourseUpdateLookup.xml</value>
-
-                <value>classpath:AcademicCalendarView.xml</value>
-
-
-                 <value>classpath:org/kuali/rice/student/datadictionary/CourseInfoDto.xml</value>
-
-             </list>
-          </property>
-
-          <property name="databaseRepositoryFilePaths">
-              <list>
-                  <value>ojb-course.xml</value>
-              </list>
-          </property>
-
-          <property name="packagePrefixes">
-              <list>
-                  <value>org.kuali.rice.student</value>
-                  <value>org.kuali.rice.student.bo</value>
-                  <value>org.kuali.student.enrollment.acal</value>
-                  <value>org.kuali.student.enrollment.classII.acal</value>
-              </list>
-          </property>
-      </bean>
-
-      <bean id="courseUpdateModuleService" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
-          <property name="moduleConfiguration" ref="courseUpdateModuleConfiguration" />
-      </bean>
-
-
-      <bean id="courseTransientLookupHelperService" class="org.kuali.rice.student.lookup.CourseTransientLookupableHelperServiceImpl" scope="prototype"/>
-      <bean id="courseTransientLookupable" class = "org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
-          <property name="lookupableHelperService">
-              <ref bean="courseTransientLookupHelperService"/>
-          </property>
-      </bean>
-    -->
-    <!-- KNS POC configuration ends -->
+    <bean id="courseUpdateModuleService" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="courseUpdateModuleConfiguration" />
+    </bean>
+  
+ 
+    <bean id="courseTransientLookupHelperService" class="org.kuali.rice.student.lookup.CourseTransientLookupableHelperServiceImpl" scope="prototype"/>
+    <bean id="courseTransientLookupable" class = "org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="prototype">
+    	<property name="lookupableHelperService">
+    		<ref bean="courseTransientLookupHelperService"/>
+    	</property>
+    </bean>
+  -->
+<!-- KNS POC configuration ends -->
 
     <!-- TODO: RICE-R2.0 UPGRADE - M7 did not have the DocumentService running.
     2.0 should have them, so remove the next 2 beans -->
@@ -287,30 +287,30 @@
     </bean>
 
 
-    <!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
-    <bean id="ksOrgAdminRoleTypeService"
-          class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
-        <property name="includedOrgPersonRelationTypes">
-            <list>
-                <value>kuali.org.PersonRelation.Chair</value>
-            </list>
-        </property>
-        <!--<property name="orgService" ref="orgClient"/>-->
-    </bean>
+	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
+	<bean id="ksOrgAdminRoleTypeService"
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
+		<property name="includedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.Chair</value>
+			</list>
+		</property>
+		<!--<property name="orgService" ref="orgClient"/>-->
+	</bean>
 
-    <!-- Org Derived role (anyone that's related to this org -->
-    <bean id="ksOrgCommitteeRoleTypeService"
-          class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
-        <property name="excludedOrgPersonRelationTypes">
-            <list>
-                <value>kuali.org.PersonRelation.Chair</value>
-            </list>
-        </property>
-        <!--<property name="orgService" ref="orgClient"/>-->
-    </bean>
+	<!-- Org Derived role (anyone that's related to this org -->
+	<bean id="ksOrgCommitteeRoleTypeService"
+		class="org.kuali.student.lum.kim.role.type.OrgDerivedRoleTypeServiceImpl">
+		<property name="excludedOrgPersonRelationTypes">
+			<list>
+				<value>kuali.org.PersonRelation.Chair</value>
+			</list>
+		</property>
+		<!--<property name="orgService" ref="orgClient"/>-->
+	</bean>
 
-    <!-- impl for Rice Authentication Service  -->
-    <bean id="ksRiceAuthenticationService" class="org.kuali.student.security.KSRiceAuthenticationServiceImpl"/>
+	<!-- impl for Rice Authentication Service  -->
+	<bean id="ksRiceAuthenticationService" class="org.kuali.student.security.KSRiceAuthenticationServiceImpl"/>
 
     <!-- Action Request Derived role (type - Non Adhoc) (status - ACTIVE) -->
     <bean id="ksNonAdhocActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSNonAdhocActionRequestDerivedRoleTypeServiceImpl"/>
@@ -324,25 +324,25 @@
     <!-- Action Request Derived role (type = Adhoc) (status - DONE) -->
     <bean id="ksAdhocDoneActionRequestDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSAdhocDoneActionRequestDerivedRoleTypeServiceImpl"/>
 
-    <!-- Route Log Derived role -->
-    <bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSRouteLogDerivedRoleTypeServiceImpl">
+	<!-- Route Log Derived role -->
+	<bean id="ksRouteLogDerivedRoleTypeServiceImpl" class="org.kuali.student.lum.kim.role.type.KSRouteLogDerivedRoleTypeServiceImpl">
         <property name="checkFutureRequests" value="false" />
-    </bean>
+	</bean>
 
-    <bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
-        <property name="permissionTemplateNamespace" value="KS-SYS" />
-        <property name="permissionTemplateName" value="Comment on Document" />
-    </bean>
+	<bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
+	    <property name="permissionTemplateNamespace" value="KS-SYS" />
+	    <property name="permissionTemplateName" value="Comment on Document" />
+	</bean>
 
     <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
         <property name="permissionTemplateNamespace" value="KS-SYS" />
         <property name="permissionTemplateName" value="Edit Document" />
     </bean>
-
+    
     <!-- Organization Hierarchy Role Type -->
     <bean id="ksOrganizationHierarchyRoleTypeService" class="org.kuali.student.lum.kim.role.type.OrganizationHierarchyRoleTypeService"/>
 
     <!-- Use our own custom xml parser which also parses passwords -->
-    <bean id="enUserXmlService" class="org.kuali.rice.student.kew.xml.KSUserXmlServiceImpl" />
+   	<bean id="enUserXmlService" class="org.kuali.rice.student.kew.xml.KSUserXmlServiceImpl" />
 
 </beans>

@@ -227,6 +227,14 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.AdmissionsApplicationDueEarlyCycle" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="AdvancedRegistrationPeriod"
+        DESCR_PLAIN="AdvancedRegistrationPeriod" EFF_DT="20121024191132"
+        NAME="AdvancedRegistrationPeriod"
+        OBJ_ID="6FCEFCB59DEA43D18A3726A1F3071A98"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.AdvancedRegistrationPeriod" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="CMMSTONEUPGRADE" CREATETIME="20120912000000"
         DESCR_FORMATTED="Alumni Day" DESCR_PLAIN="Alumni Day"
         EFF_DT="20000101000000" NAME="Alumni Day"
@@ -331,6 +339,13 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.DropDeadlineWithoutRecord" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="ElectionDay" DESCR_PLAIN="ElectionDay"
+        EFF_DT="20121024191132" NAME="ElectionDay"
+        OBJ_ID="79C3703E98E34AB8AE432508D0944EC6"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.ElectionDay" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Dates between which Final Exams are held"
         DESCR_PLAIN="Dates between which Final Exams are held"
@@ -346,6 +361,14 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.FinancialAidCensus" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="FreshmenRegistration"
+        DESCR_PLAIN="FreshmenRegistration" EFF_DT="20121024191132"
+        NAME="FreshmenRegistration"
+        OBJ_ID="C7A49AB20B1F419D84C9D3A341A14149"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.FreshmenRegistration" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="CMMSTONEUPGRADE" CREATETIME="20120912000000"
         DESCR_FORMATTED="Bills Generation Date"
         DESCR_PLAIN="Bills Generation Date" EFF_DT="20000101000000"
@@ -353,6 +376,13 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.GenerateBills" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="GoodFriday" DESCR_PLAIN="GoodFriday"
+        EFF_DT="20121024191132" NAME="GoodFriday"
+        OBJ_ID="6BBE807EBB564571B3949C31DBF04860"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.GoodFriday" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="CMMSTONEUPGRADE" CREATETIME="20120912000000"
         DESCR_FORMATTED="Grades Due " DESCR_PLAIN="Grades Due "
         EFF_DT="20000101000000" NAME="Grades Due"
@@ -399,6 +429,14 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.InstructionalPeriod" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="JuniorRegistration"
+        DESCR_PLAIN="JuniorRegistration" EFF_DT="20121024191132"
+        NAME="JuniorRegistration"
+        OBJ_ID="4DA04C7DC3C54329B9A8C38FC3FD8F81"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.JuniorRegistration" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         NAME="Labor Day"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
@@ -420,6 +458,13 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.LeaveofAbsenseBegin" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="MLKDay" DESCR_PLAIN="MLKDay"
+        EFF_DT="20121024191132" NAME="MLKDay"
+        OBJ_ID="941575F3E8F1409D93C38C10F34FD957"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.MLKDay" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         NAME="Martin Luther King Day observed"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
@@ -477,6 +522,14 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.NewStudentConvocation" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="NewStudentOrientation"
+        DESCR_PLAIN="NewStudentOrientation" EFF_DT="20121024191132"
+        NAME="NewStudentOrientation"
+        OBJ_ID="3B4D4900A69043D08466C4D091E88B1A"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.NewStudentOrientation" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         NAME="New Year's Day"
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
@@ -579,6 +632,14 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.RegistrationBegins" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="RegistrationBeginsForMBA"
+        DESCR_PLAIN="RegistrationBeginsForMBA" EFF_DT="20121024191132"
+        NAME="RegistrationBeginsForMBA"
+        OBJ_ID="12CCBFA9BD4143B6A5F2DAA7BA0DA4CB"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.RegistrationBeginsForMBA" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="CMMSTONEUPGRADE" CREATETIME="20120912000000"
         DESCR_FORMATTED="Registration for non-degree seeking students"
         DESCR_PLAIN="Registration for non-degree seeking students"
@@ -663,6 +724,36 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.RoomSchedulingBegin" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="RoshHashanah" DESCR_PLAIN="RoshHashanah"
+        EFF_DT="20121024191132" NAME="RoshHashanah"
+        OBJ_ID="FC2026744F3841B5A19286FD49E9DB7B"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.RoshHashanah" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="SeniorRegistration"
+        DESCR_PLAIN="SeniorRegistration" EFF_DT="20121024191132"
+        NAME="SeniorRegistration"
+        OBJ_ID="D3375D735D434940BAB4CD76DDA1D075"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.SeniorRegistration" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="SophomoreRegistration"
+        DESCR_PLAIN="SophomoreRegistration" EFF_DT="20121024191132"
+        NAME="SophomoreRegistration"
+        OBJ_ID="3D345E36F378432B83096BBF7DC67FAF"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.SophomoreRegistration" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="SpringBreak" DESCR_PLAIN="SpringBreak"
+        EFF_DT="20121024191132" NAME="SpringBreak"
+        OBJ_ID="E736B5C32B744CEBA7A840E699563324"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.SpringBreak" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="CMMSTONEUPGRADE" CREATETIME="20120912000000"
         DESCR_FORMATTED="Spring Break Begins"
         DESCR_PLAIN="Spring Break Begins" EFF_DT="20000101000000"
@@ -729,6 +820,14 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.atp.milestone.firstdayofclasses" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="UMDATPLOADJOB" CREATETIME="20121024191132"
+        DESCR_FORMATTED="lastdayofclasses"
+        DESCR_PLAIN="lastdayofclasses" EFF_DT="20121024191132"
+        NAME="lastdayofclasses"
+        OBJ_ID="2D56AC48BB1A48C58A1D3A3867D8D383"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/MilestoneInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
+        TYPE_KEY="kuali.atp.milestone.lastdayofclasses" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120801000000"
         DESCR_FORMATTED="Last Day of Registration"
         DESCR_PLAIN="Last Day of Registration"

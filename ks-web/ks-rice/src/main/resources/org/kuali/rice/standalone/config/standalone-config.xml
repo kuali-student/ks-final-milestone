@@ -105,4 +105,7 @@
 		
 	<!-- Set all services to /services instead of /remoting -->
 	<param name="serviceServletUrl">${application.url}/services/</param>
+
+    <param name="rice.portal.allowed.regex">^(${ks.application.url}|${application.url})(/.*|)</param>
+
 </config>

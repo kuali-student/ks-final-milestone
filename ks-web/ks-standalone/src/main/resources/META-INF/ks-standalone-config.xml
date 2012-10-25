@@ -106,8 +106,7 @@
     <param name="keystore.password">r1c3pw</param>
 
     <!-- run modes -->
-    <param name="kim.mode">EMBEDDED</param>
-    <param name="kew.mode">EMBEDDED</param>
+    <param name="ksb.mode">THIN</param>
 
     <!-- additional config files -->
     <!--
