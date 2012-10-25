@@ -169,4 +169,8 @@
     <listener>
         <listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
     </listener>
+
+    <listener>
+        <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+    </listener>
 </web-app>
