@@ -101,6 +101,18 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=collectionTerm")
+    public ModelAndView collectionTerm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) {
+
+        List<KitchenSinkFormCollection1> collectionList = new ArrayList<KitchenSinkFormCollection1>();
+        collectionList.add(new KitchenSinkFormCollection1("Fall 1997", "kuali.atp.type.Fall", "1997-09-01"));
+        collectionList.add(new KitchenSinkFormCollection1("Winter 2000", "kuali.atp.type.Winter", "2000-01-01"));
+        form.setCollection(collectionList);
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLineCollectionAsForm")
     public ModelAndView addLineCollectionAsForm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) {

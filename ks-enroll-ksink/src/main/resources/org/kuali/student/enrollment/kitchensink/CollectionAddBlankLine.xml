@@ -22,43 +22,69 @@
 
     <!-- The Interesting Bits -->
 
-    <bean id="KS-KitchenSink-CollectionInForm" parent="KS-KitchenSink-VerticalBoxSection">
+    <bean id="KS-KitchenSink-CollectionAddBlankLine" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <!-- KS-KitchenSink-Collection-Base is in KitchenSinkView.xml; parent="Uif-TableCollectionSection" -->
                 <bean parent="KS-KitchenSink-Collection-Base">
+                    <property name="renderAddBlankLineButton" value="true" />
+                    <property name="addLinePlacement" value="BOTTOM" />
+                    <property name="layoutManager.cssClasses" value=""/>
                     <property name="layoutManager.richTable.render" value="false" />
-                    <property name="addLineActions">
+                    <property name="layoutManager.actionFieldPrototype.label" value=""/>
+                    <property name="items">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton-Small">
-                                <property name="methodToCall" value="addLine"/>
-                                <property name="actionLabel" value="Add"/>
+                            <bean parent="Uif-InputField">
+                                <property name="propertyName" value="name"/>
+                                <property name="label" value="Term Name"/>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+                                <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="name" value="name"/>
+                                        <entry key="typeKey" value="description"/>
+                                    </map>
+                                </property>
+                                <property name="quickfinder.quickfinderAction">
+                                    <bean parent="Uif-ActionLink">
+                                        <property name="methodToCall" value="performLookup"/>
+                                        <property name="actionLabel" value="Advanced Select"/>
+                                        <property name="style" value="display:block"/>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField">
+                                <property name="propertyName" value="description"/>
+                                <property name="label" value="Type Key"/>
                             </bean>
                         </list>
                     </property>
-                </bean>
-
-                <!--
-                    Uif-FooterBase should normally appear in the "footer" property of the
-                    Page component, but it can be moved around when desired...
-                -->
-                <bean parent="Uif-FooterBase" p:style="margin-bottom:0;">
-                    <property name="items">
+                    <property name="lineActions">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton-Small">
-                                <!-- method saveForm() defined in KitchenSinkController.java: -->
-                                <property name="methodToCall" value="saveForm"/>
-                                <property name="actionLabel" value="Save Changes"/>
-                                <property name="loadingMessageText" value="Saving..."/>
-                            </bean>
-                            <!-- not implemented right now
                             <bean parent="Uif-ActionLink">
-                                <property name="methodToCall" value="clearForm"/>
-                                <property name="actionLabel" value="Clear Changes"/>
-                                <property name="preSubmitCall" value="confirm('Are you sure you want to clear your changes?')"/>
+                                <property name="methodToCall" value="deleteLine"/>
+                                <property name="loadingMessageText" value="Removing line..."/>
+                                <property name="skipInTabOrder" value="true"/>
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image">
+                                        <property name="source" value="../ks-enroll-ksink/images/delete.png"/>
+                                    </bean>
+                                </property>
                             </bean>
-                            -->
                         </list>
+                    </property>
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-SecondaryActionButton-Small">
+                            <property name="methodToCall" value="addBlankLine"/>
+                            <property name="actionEvent" value="addBlankLine"/>
+                            <property name="id" value="uif-addBlankLine"/>
+                            <property name="actionLabel" value="Add another item"/>
+                            <property name="actionImagePlacement" value="LEFT"/>
+                            <property name="actionImage">
+                                <bean parent="Uif-Image" p:source="../ks-enroll-ksink/images/plus_15px.png"/>
+                            </property>
+                            <property name="style" value="margin-top:5px;"/>
+                        </bean>
                     </property>
                 </bean>
             </list>
@@ -69,17 +95,17 @@
 
     <!-- just the various containers for the interesting bits -->
 
-    <bean id="KS-KitchenSink-CollectionInForm-View" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-CollectionAddBlankLine-View" parent="KS-KitchenSink-FormView">
         <property name="headerText" value="Collections"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-Page" p:headerText="Collection In Form">
+                <bean parent="KS-KitchenSink-Page" p:headerText="Collection with Add Blank Line">
                     <property name="items">
                         <list>
                             <bean parent="KS-KitchenSink-Page-Summary"
                                   p:messageText="Lists of data objects."/>
-                            <ref bean="KS-KitchenSink-CollectionInForm-Content"/>
-                            <ref bean="KS-KitchenSink-CollectionInForm-Links"/>
+                            <ref bean="KS-KitchenSink-CollectionAddBlankLine-Content"/>
+                            <ref bean="KS-KitchenSink-CollectionAddBlankLine-Links"/>
                         </list>
                     </property>
                 </bean>
@@ -87,16 +113,16 @@
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-CollectionInForm-Content" parent="KS-KitchenSink-TabSection" p:width="98%">-->
-    <bean id="KS-KitchenSink-CollectionInForm-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents"
-          p:width="98%">
+    <!--<bean id="KS-KitchenSink-CollectionAddBlankLine-Content" parent="KS-KitchenSink-TabSection" p:width="98%">-->
+    <bean id="KS-KitchenSink-CollectionAddBlankLine-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-CollectionInForm-Section">
+                <bean parent="KS-KitchenSink-CollectionAddBlankLine-Section">
                     <property name="items">
                         <list merge="true">
                             <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="This example shows how to customize the save method to add validation and/or update the form data in the database."/>
+                                  p:messageText="This example shows how to use various addBlankLine properties to change the way a new collection row/item is added; it replaces the default addLine row with a button which adds a blank line. Also, the quickfinder's default magnifying glass icon is replaced by the text &quot;Advanced Select&quot; underneath the field, and the default table collection css has been removed."
+                                  p:style="margin-top:15px;"/>
                         </list>
                     </property>
                 </bean>
@@ -104,14 +130,14 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionInForm-View-Bare" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-CollectionAddBlankLine-View-Bare" parent="KS-KitchenSink-FormView">
         <property name="breadcrumbs.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
                     <property name="items">
                         <list>
-                            <ref bean="KS-KitchenSink-CollectionInForm-Section"/>
+                            <ref bean="KS-KitchenSink-CollectionAddBlankLine-Section"/>
                         </list>
                     </property>
                 </bean>
@@ -119,18 +145,18 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionInForm-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="Collection In Form" p:header.render="false">
+    <bean id="KS-KitchenSink-CollectionAddBlankLine-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Collection with Add Blank Line" p:header.render="false">
         <property name="items">
             <list>
-                <ref bean="KS-KitchenSink-CollectionInForm"/>
+                <ref bean="KS-KitchenSink-CollectionAddBlankLine"/>
             </list>
         </property>
     </bean>
 
     <!-- Links -->
 
-    <bean id="KS-KitchenSink-CollectionInForm-Links" parent="KS-KitchenSink-Page-Links">
+    <bean id="KS-KitchenSink-CollectionAddBlankLine-Links" parent="KS-KitchenSink-Page-Links">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-FooterLinkSection">
@@ -139,8 +165,8 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionInForm.xml"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionInForm.xml"/>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionAddBlankLink.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/CollectionAddBlankLine.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -179,8 +205,8 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="Collection In Form"
-                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionInForm-View-Bare&amp;methodToCall=collection"/>
+                                        <entry key="Collection with Add Blank Line"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionAddBlankLine-View-Bare&amp;methodToCall=collectionTerm"/>
                                     </map>
                                 </property>
                             </bean>

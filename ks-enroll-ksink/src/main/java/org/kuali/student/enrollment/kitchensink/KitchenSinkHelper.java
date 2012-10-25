@@ -112,8 +112,11 @@ public class KitchenSinkHelper extends ViewHelperServiceImpl {
         //
         // Code goes here to save existing collection line to database...
         //
-        GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.saveLine", String.valueOf(lineIndex));
 
+        if (view.getId().startsWith("KS-KitchenSink-CollectionAsForm-View")) {
+            // only set growl for the Collection As Form example
+            GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.saveLine", String.valueOf(lineIndex));
+        }
         super.processCollectionSaveLine(view, model, collectionPath, lineIndex);
     }
 
@@ -122,8 +125,11 @@ public class KitchenSinkHelper extends ViewHelperServiceImpl {
         //
         // Code goes here to delete existing collection line from database...
         //
-        GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.deleteLine", String.valueOf(lineIndex));
 
+        if (view.getId().startsWith("KS-KitchenSink-CollectionAsForm-View")) {
+            // only set growl for the Collection As Form example
+            GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.deleteLine", String.valueOf(lineIndex));
+        }
         super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
     }
 

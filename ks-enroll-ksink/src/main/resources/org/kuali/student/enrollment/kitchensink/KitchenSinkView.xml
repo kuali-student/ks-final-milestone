@@ -65,6 +65,14 @@
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink">
+                    <property name="methodToCall" value="deleteLine"/>
+                    <property name="actionLabel" value="delete"/>
+                </bean>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField">
