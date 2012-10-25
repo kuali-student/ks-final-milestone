@@ -97,9 +97,7 @@ public class CriteriaLookupDaoJpaImpl {
         final Criteria parent = new Criteria(queryClass.getName());
 
         if (criteria.getPredicate() != null) {
-
             Predicate predicate = customizer.applyAdditionalTransforms(criteria.getPredicate(), parent);
-
             addPredicate(predicate, parent, parent, customizer);
         }
 
@@ -114,6 +112,7 @@ public class CriteriaLookupDaoJpaImpl {
         }
     }
 
+    //Provides lookup for Id of an Entity Object
     public <T> GenericQueryResults<String> lookupIds(final Class<T> queryClass, final QueryByCriteria criteria, LookupCustomizer<T> customizer) {
         if (queryClass == null) {
             throw new IllegalArgumentException("queryClass is null");
@@ -127,15 +126,13 @@ public class CriteriaLookupDaoJpaImpl {
             throw new IllegalArgumentException("customizer is null");
         }
 
+        //Create a criteria which doesn't automatically include a Select alias, add a Select for Id
         Criteria parent = new Criteria(queryClass.getName(), false);
         parent.select("id");
 
 
         if (criteria.getPredicate() != null) {
-            String display2 = parent.toQuery(org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria.QueryByCriteriaType.SELECT);
             Predicate predicate = customizer.applyAdditionalTransforms(criteria.getPredicate(), parent);
-
-
             addPredicate(predicate, parent, parent, customizer);
         }
 
@@ -150,7 +147,8 @@ public class CriteriaLookupDaoJpaImpl {
         }
     }
 
-    public <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, LookupCustomizer<T> customizer, String field) {
+    //Provides a lookup for any field(s) of an Entity Class.
+    public <T> GenericQueryResults<List<String>> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, LookupCustomizer<T> customizer, List<String> fields) {
         if (queryClass == null) {
             throw new IllegalArgumentException("queryClass is null");
         }
@@ -163,25 +161,25 @@ public class CriteriaLookupDaoJpaImpl {
             throw new IllegalArgumentException("customizer is null");
         }
 
+        //Create a criteria which doesn't automatically include a Select alias, add a Select for desired field(s)
         Criteria parent = new Criteria(queryClass.getName(), false);
-        parent.select(field);
+        for(String field: fields){
+            parent.select(field);
+        }
 
 
         if (criteria.getPredicate() != null) {
-            String display2 = parent.toQuery(org.kuali.rice.core.framework.persistence.jpa.criteria.QueryByCriteria.QueryByCriteriaType.SELECT);
             Predicate predicate = customizer.applyAdditionalTransforms(criteria.getPredicate(), parent);
-
-
             addPredicate(predicate, parent, parent, customizer);
         }
 
         switch (criteria.getCountFlag()) {
             case ONLY:
-                return (GenericQueryResults<T>) forCountOnly(queryClass, criteria, parent);
+                return  (GenericQueryResults<List<String>>) forCountOnly(queryClass, criteria, parent);
             case NONE:
-                return (GenericQueryResults<T>) forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
+                return  (GenericQueryResults<List<String>>) forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
             case INCLUDE:
-                return (GenericQueryResults<T>) forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
+                return  (GenericQueryResults<List<String>>) forRowResults(queryClass, criteria, parent, criteria.getCountFlag(), customizer.getResultTransform());
             default: throw new UnsupportedCountFlagException(criteria.getCountFlag());
         }
     }

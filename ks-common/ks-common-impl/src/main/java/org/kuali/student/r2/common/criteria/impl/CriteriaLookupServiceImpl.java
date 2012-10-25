@@ -1,12 +1,12 @@
 package org.kuali.student.r2.common.criteria.impl;
 
-import java.util.List;
-
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.criteria.LookupCustomizer;
 import org.kuali.student.r2.common.criteria.LookupCustomizer.PredicateTransform;
+
+import java.util.List;
 
 public class CriteriaLookupServiceImpl implements CriteriaLookupService {
 
@@ -73,20 +73,20 @@ public class CriteriaLookupServiceImpl implements CriteriaLookupService {
     }
 
     @Override
-    public <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, String field){
+    public <T> GenericQueryResults<List<String>> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, List<String> fields){
         LookupCustomizer.Builder<T> lc = LookupCustomizer.Builder.create();
         lc.setPredicateTransforms(this.getPredicateTransforms());
         lc.setAdditionalTransforms(this.getAdditionalTransforms());
 
-        return criteriaLookupDao.genericLookup(queryClass, criteria, lc.build(), field);
+        return criteriaLookupDao.genericLookup(queryClass, criteria, lc.build(), fields);
     }
 
     @Override
-    public <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, final LookupCustomizer<T> customizer, String field){
+    public <T> GenericQueryResults<List<String>> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, final LookupCustomizer<T> customizer, List<String> fields){
         customizer.getAdditionalTransforms().addAll(this.getAdditionalTransforms());
         customizer.getPredicateTransforms().addAll(this.getPredicateTransforms());
 
-        return criteriaLookupDao.genericLookup(queryClass, criteria, customizer, field);
+        return criteriaLookupDao.genericLookup(queryClass, criteria, customizer, fields);
 
     }
 
