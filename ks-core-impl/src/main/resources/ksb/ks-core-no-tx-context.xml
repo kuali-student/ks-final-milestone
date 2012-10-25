@@ -486,6 +486,73 @@
         </property>
     </bean>
 
+    <!-- Core R2 state service -->
+
+    <bean id="stateEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Type"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/state-persistence.xml"/>
+        <property name="dataSource" ref="coreDataSource"/>
+    </bean>
+
+    <bean id="stateEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="typeEntityManagerFactory"/>
+    </bean>
+
+    <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
+        <property name="em" ref="stateEntityManager"/>
+    </bean>
+
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
+        <property name="stateDao" ref="stateDao" />
+        <property name="lifecycleDao" ref="lifecycleDao" />
+        <property name="stateCriteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="false">
+                        <bean parent="keyword2LikeTransform">
+                            <property name="likeAttributes">
+                                <!--                            Also scan the key and the lifecyle key when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value>
+                                    <value>lifecycleKey</value>
+                                </list>
+                            </property>
+                        </bean>
+                        <ref bean="key2IdTransform"/>
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/>
+                        <ref bean="attributeTransform"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lifecycleCriteriaLookupService">
+            <bean parent="defaultCriteriaLookupService">
+                <property name="predicateTransforms">
+                    <list merge="false">
+                        <bean parent="keyword2LikeTransform">
+                            <property name="likeAttributes">
+                                <!--                            Also scan the key and the refObjectUri when doing a keyword search-->
+                                <list merge="true">
+                                    <value>key</value>
+                                    <value>refObjectUri</value>
+                                </list>
+                            </property>
+                        </bean>
+                        <ref bean="key2IdTransform"/>
+                        <ref bean="descrTransform"/>
+                        <ref bean="metaTransform"/>
+                        <ref bean="attributeTransform"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
+        <property name="nextDecorator" ref="stateService" />
+    </bean>
+
     <!-- Kim identity service atpService -->
     <bean id="coreIdentityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService"/>
