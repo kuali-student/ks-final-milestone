@@ -28,6 +28,8 @@ public class RegistrationGroupManagementForm extends UifFormBase {
 
     private boolean withinPortal = true;
 
+    private int selectedClusterIndex;
+
     //This is used to handle DialogGroup/Lightbox action within collection.
     //It only works within the lifecycle of each Dialog.
     private ActivityOfferingClusterWrapper selectedCluster;
@@ -174,5 +176,13 @@ public class RegistrationGroupManagementForm extends UifFormBase {
 
     public void setWithinPortal(boolean withinPortal) {
         this.withinPortal = withinPortal;
+    }
+
+    public int getSelectedClusterIndex() {
+        return selectedClusterIndex;
+    }
+
+    public void setSelectedClusterIndex(int selectedClusterIndex) {
+        this.selectedClusterIndex = selectedClusterIndex;
     }
 }

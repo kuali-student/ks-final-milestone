@@ -263,21 +263,20 @@ public class RegistrationGroupManagementController extends UifControllerBase {
             theForm.setSelectedCluster(selectedClusterWrapper);
             theForm.setPrivateClusterNameForRename(selectedClusterWrapper.getAoCluster().getPrivateName());
             theForm.setPublishedClusterNameForRename(selectedClusterWrapper.getAoCluster().getName());
+
+            //set clusterIndex for selected/from cluster
+            String selectedClusterIndex = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+            theForm.setSelectedClusterIndex(Integer.parseInt(selectedClusterIndex));
             // redirect back to client to display lightbox
             return showDialog("renameClusterDialog", theForm, request, response);
         }
         if (hasDialogBeenAnswered("renameClusterDialog", theForm)) {
-            //set clusterIndex for selected/from cluster
-            int clusterIndex;
-            String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-            clusterIndex = Integer.parseInt(StringUtils.substringBetween(selectedCollectionPath, "filteredAOClusterWrapperList[", "]"));
-
             boolean wantToRename = getBooleanDialogResponse("renameClusterDialog", theForm, request, response);
             if(wantToRename){
                 selectedClusterWrapper = theForm.getSelectedCluster();
                 if (theForm.getPrivateClusterNameForRename() == null || theForm.getPrivateClusterNameForRename().isEmpty()) {
                     GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
-                    GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+clusterIndex,
+                    GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+theForm.getSelectedClusterIndex(),
                             RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
                     theForm.getDialogManager().removeDialog("renameClusterDialog");
                     return getUIFModelAndView(theForm, CourseOfferingConstants.REG_GROUP_PAGE);
