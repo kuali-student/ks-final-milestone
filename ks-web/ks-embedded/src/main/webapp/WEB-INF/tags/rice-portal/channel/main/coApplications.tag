@@ -11,7 +11,7 @@
         <li><portal:portalLink displayTitle="true" title="Delete Target Term" url="${ConfigProperties.application.url}/kr-krad/deleteTargetTerm?viewId=deleteTargetTermView&pageId=selectTargetTermToDelete&methodToCall=start"/></li>
         <li><portal:portalLink displayTitle="true" title="Release to Departments" url="${ConfigProperties.application.url}/kr-krad/courseOfferingRollover?viewId=courseOfferingRolloverManagementView&pageId=releaseToDepts&methodToCall=start"/></li>
         <br>
-        <li><a class="portal_link" target="_blank" href="${ConfigProperties.ks.application.url}/kr-krad/registrationGroupManagement?viewId=manageRegistrationGroupsView&coInfo.id=b62cf549-ba85-4f85-9679-51155eeff8ae&methodToCall=start&withinPortal=false">Manage Registration Group (seperate form)</a></li>
+        <li><a class="portal_link" target="_blank" href="${ConfigProperties.application.url}/kr-krad/registrationGroupManagement?viewId=manageRegistrationGroupsView&coInfo.id=b62cf549-ba85-4f85-9679-51155eeff8ae&methodToCall=start&withinPortal=false">Manage Registration Group (seperate form)</a></li>
 
     </ul>
     <strong>Basic DTO Lookup and Inquiry</strong>

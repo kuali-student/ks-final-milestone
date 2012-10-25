@@ -19,18 +19,18 @@
 <div class="body">
     <strong>Calendar Search</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Calendar Search" url="${ConfigProperties.ks.application.url}/kr-krad/calendarSearch?viewId=calendarSearchView&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Calendar Search" url="${ConfigProperties.application.url}/kr-krad/calendarSearch?viewId=calendarSearchView&methodToCall=start" /></li>
     </ul>
     <strong>Holiday Calendar</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Create Holiday Calendar" url="${ConfigProperties.ks.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarEditPage&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Holiday Calendar Lookup and Inquiry " url="${ConfigProperties.ks.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper&returnLocation=${ConfigProperties.ks.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Holiday Calendar Search (dev link)" url="${ConfigProperties.ks.application.url}/kr-krad/calendarSearch?viewId=calendarSearchView&methodToCall=start&calendarSearchType=HolidayCalendar" /></li>
+        <li><portal:portalLink displayTitle="true" title="Create Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarEditPage&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Holiday Calendar Lookup and Inquiry " url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Holiday Calendar Search (dev link)" url="${ConfigProperties.application.url}/kr-krad/calendarSearch?viewId=calendarSearchView&methodToCall=start&calendarSearchType=HolidayCalendar" /></li>
     </ul>
     <strong>Academic Calendar</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Create Academic Calendar" url="${ConfigProperties.ks.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarEditPage&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Copy Academic Calendar" url="${ConfigProperties.ks.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarCopyPage&methodToCall=startNew" /></li>
+        <li><portal:portalLink displayTitle="true" title="Create Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarEditPage&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Copy Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarCopyPage&methodToCall=startNew" /></li>
     </ul>
 </div>
 <channel:portalChannelBottom />
