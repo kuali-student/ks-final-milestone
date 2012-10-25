@@ -93,21 +93,10 @@ public class ActivityOfferingDisplayTransformer {
         List<OfferingInstructorInfo> instructorInfos = aoInfo.getInstructors();
         if (instructorInfos != null && !instructorInfos.isEmpty()) {
             // Find instructor with largest percentage effort
-            OfferingInstructorInfo mainInstructor = instructorInfos.get(0);
-            Float mainPercentageEffort = mainInstructor.getPercentageEffort();
-            for (int i = 1; i < instructorInfos.size(); i++) {
-                OfferingInstructorInfo compare = instructorInfos.get(i);
-                Float comparePercentageEffort = compare.getPercentageEffort();
-                if (comparePercentageEffort != null &&
-                        (mainPercentageEffort == null || comparePercentageEffort > mainPercentageEffort)) {
-                    // This is the new main instructor
-                    mainInstructor = compare;
-                    mainPercentageEffort = comparePercentageEffort;
-                }
-            }
-            displayInfo.setInstructorId(mainInstructor.getId());
-            displayInfo.setInstructorName(mainInstructor.getPersonName());
+           displayInfo.setInstructors(instructorInfos);
         }
+        else
+        	displayInfo.setInstructors(null);
 
         // isHonorsOffering, maximumEnrollment
         displayInfo.setIsHonorsOffering(aoInfo.getIsHonorsOffering());

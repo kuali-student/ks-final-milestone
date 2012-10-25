@@ -1565,11 +1565,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         info.setFormatOfferingId(ao.getFormatOfferingId());
         info.setFormatOfferingName(ao.getFormatOfferingName());
         info.setActivityOfferingCode(ao.getActivityCode());
-        for (OfferingInstructorInfo instr : ao.getInstructors()) {
-            info.setInstructorId(instr.getPersonId());
-            info.setInstructorName(instr.getPersonName());
-            break;
-        }
+       
+        info.setInstructors(ao.getInstructors());
+        
         info.setIsHonorsOffering(ao.getIsHonorsOffering());
         info.setMaximumEnrollment(ao.getMaximumEnrollment());
         if (ao.getScheduleId() != null) {
