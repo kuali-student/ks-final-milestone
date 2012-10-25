@@ -22,6 +22,8 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import java.util.Date;
 
 /**
+ * This is a wrapper for the Holiday info object.
+ *
  * @author Kuali Student Team
  */
 public class HolidayWrapper extends TimeSetWrapper implements Comparable<HolidayWrapper> {

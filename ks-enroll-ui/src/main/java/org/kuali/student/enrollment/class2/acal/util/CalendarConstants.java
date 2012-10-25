@@ -66,9 +66,6 @@ public class CalendarConstants {
     public static final String ACAL_INFO_TAB = "info";
     public static final String ACAL_TERM_TAB = "term";
 
-    public static final String KEY_DATE_GROUP_TYPE_REGISTRATION_PERIOD = "kuali.milestone.type.group.keydate";
-    public static final String KEY_DATE_GROUP_TYPE_CURRICULUM = "kuali.milestone.type.group.curriculum";
-
     public static final String DEFAULT_END_TIME = "11:59";
     public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
     public static final String DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
@@ -82,6 +79,7 @@ public class CalendarConstants {
     public static final String MSG_INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
     public static final String MSG_INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
     public static final String MSG_INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
+    public static final String MSG_ERROR_DELETING = "error.enroll.search.delete.failed";
     public static final String MSG_ERROR_DATE_END_REQUIRED = "error.enroll.date.end.required";
     public static final String MSG_ERROR_HOLIDAY_CALENDAR_DATE = "error.enroll.holidaycalendar.invalidDates";
     public static final String MSG_ERROR_HOLIDAY_DATE = "error.enroll.holiday.invalidDates";

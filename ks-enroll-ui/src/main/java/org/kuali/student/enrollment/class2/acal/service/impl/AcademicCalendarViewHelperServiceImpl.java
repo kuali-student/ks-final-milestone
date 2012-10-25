@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -38,14 +39,12 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.class2.acal.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
@@ -60,11 +59,13 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
 
 /**
- * This class implement ViewHelperServiceImpl for  all AcademicCalendar views
+ * This is the helper class for AcademicCalendar Controller
  *
  * @author Kuali Student Team
  */
 public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceImpl implements AcademicCalendarViewHelperService {
+
+    private final static Logger LOG = Logger.getLogger(AcademicCalendarViewHelperServiceImpl.class);
 
     private AcademicCalendarService acalService;
     private ContextInfo contextInfo;
@@ -73,24 +74,213 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     private List<TypeInfo> holidayTypes;
     private Map<String, List<TypeInfo>> typesByGroupTypeMap = new HashMap<String, List<TypeInfo>>();
 
+    /**
+     * This method builds an academic calendar for ui processing. Basically, it builds the wrappers
+     * around acal,events,terms,holidays,keydates etc.
+     *
+     * @param acalId
+     * @param acalForm
+     */
+    public void populateAcademicCalendar(String acalId, AcademicCalendarForm acalForm){
 
-    public String getHolidayTypeName(String holidayTypeKey) throws Exception {
-        TypeInfo typeInfo = getAcalService().getHolidayType(holidayTypeKey, getContextInfo());
-        return typeInfo.getName();
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Loading Academic calendar for the id " + acalId);
+        }
+
+        try{
+
+            ContextInfo contextInfo = createContextInfo();
+
+            AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId,createContextInfo());
+
+            acalForm.setAcademicCalendarInfo(acalInfo);
+            acalForm.setAdminOrgName(getAdminOrgNameById(acalInfo.getAdminOrgId()));
+            acalForm.setNewCalendar(false);
+            acalForm.setOfficialCalendar(StringUtils.equals(acalInfo.getStateKey(),AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
+
+            //Events
+            List<AcalEventWrapper> events = populateEventWrappers(acalInfo.getId());
+            acalForm.setEvents(events);
+
+            //Terms (which in turn builds keydate groups and keydates)
+            List<AcademicTermWrapper> termWrappers = populateTermWrappers(acalId, false);
+            acalForm.setTermWrapperList(termWrappers);
+
+            //Holiday calendars associated with acal.
+            List<HolidayCalendarWrapper> holidayCalendarWrapperList = populateHolidayCalendars(acalInfo.getHolidayCalendarIds(), contextInfo);
+            acalForm.setHolidayCalendarList(holidayCalendarWrapperList);
+
+            //Calculate instructional days (if HC exists)
+            if (acalForm.getHolidayCalendarList() != null && !acalForm.getHolidayCalendarList().isEmpty()) {
+                populateInstructionalDays(acalForm.getTermWrapperList());
+            }
+
+        }catch(Exception e){
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Error loading academic calendar [id=" + acalId + "] - " + e.getMessage());
+            }
+            throw convertServiceExceptionsToUI(e);
+        }
+
     }
 
-    public void deleteHoliday(int selectedIndex,HolidayCalendarForm hcForm) throws Exception{
-        hcForm.getHolidays().remove(selectedIndex);
+    /**
+     * Builds the wrappers for all the holiday calendars associated with acal.
+     *
+     * @param holidayCalendarIds
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
+    private List<HolidayCalendarWrapper> populateHolidayCalendars(List<String> holidayCalendarIds, ContextInfo contextInfo) throws Exception {
+
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Loading all the holiday calendars associated with the Acal");
+        }
+
+        List<HolidayCalendarWrapper> holidayCalendarWrapperList = new ArrayList<HolidayCalendarWrapper>();
+
+        for (String hcId : holidayCalendarIds){
+
+            HolidayCalendarWrapper holidayCalendarWrapper = new HolidayCalendarWrapper();
+            List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
+
+            //need to retrieve HolidayCalendarInfo and all Holidays to form the HolidayCalendarWrapper.
+            HolidayCalendarInfo holidayCalendarInfo = getAcalService().getHolidayCalendar(hcId, contextInfo);
+            holidayCalendarWrapper.setHolidayCalendarInfo(holidayCalendarInfo);
+            holidayCalendarWrapper.setId(holidayCalendarInfo.getId());
+            holidayCalendarWrapper.setAdminOrgName(CommonUtils.getAdminOrgNameById(holidayCalendarInfo.getAdminOrgId()));
+            StateInfo hcState = getAcalService().getHolidayCalendarState(holidayCalendarInfo.getStateKey(), contextInfo);
+            holidayCalendarWrapper.setStateName(hcState.getName());
+
+            List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(holidayCalendarInfo.getId(), contextInfo);
+            for(HolidayInfo holidayInfo : holidayInfoList){
+                HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
+                TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), contextInfo);
+                holiday.setTypeName(typeInfo.getName());
+                holidays.add(holiday);
+            }
+
+            holidayCalendarWrapper.setHolidays(holidays);
+            holidayCalendarWrapperList.add(holidayCalendarWrapper);
+        }
+
+        return holidayCalendarWrapperList;
+
     }
 
-    public String getHolidayCalendarState(String holidayCalendarStateKey) throws Exception{
-        StateInfo hcState = getAcalService().getHolidayCalendarState(holidayCalendarStateKey, getContextInfo());
-        return hcState.getName();
+    /**
+     * Builds the wrapper for Events
+     *
+     * @param acalId
+     * @return
+     * @throws Exception
+     */
+    public List<AcalEventWrapper> populateEventWrappers(String acalId) throws Exception {
+
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Loading all the holiday calendars associated with the Acal");
+        }
+
+        List<AcalEventInfo> eventInfos = getAcalService().getAcalEventsForAcademicCalendar(acalId, createContextInfo());
+        List<AcalEventWrapper> events = new ArrayList<AcalEventWrapper>();
+
+        for (AcalEventInfo eventInfo: eventInfos) {
+            AcalEventWrapper event  = new AcalEventWrapper(eventInfo,false);
+            TypeInfo type = getTypeInfo(event.getEventTypeKey());
+            event.setEventTypeName(type.getName());
+            events.add(event);
+        }
+
+        return events;
     }
 
-    public void deleteHolidayCalendar(String holidayCalendarId) throws Exception{
-        //delete hc
-        getAcalService().deleteHolidayCalendar(holidayCalendarId, getContextInfo());
+    /**
+     * Builds wrappers around the terms
+     *
+     * @param acalId
+     * @param isCopy
+     * @return
+     */
+    public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy){
+
+        List<AcademicTermWrapper> termWrappers = new ArrayList<AcademicTermWrapper>();
+
+        try {
+            List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, createContextInfo());
+            for (TermInfo termInfo : termInfos) {
+                AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy);
+                termWrappers.add(termWrapper);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return termWrappers;
+    }
+
+    public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy) throws Exception {
+
+        TypeInfo type = getAcalService().getTermType(termInfo.getTypeKey(),createContextInfo());
+
+        AcademicTermWrapper termWrapper = new AcademicTermWrapper(termInfo,isCopy);
+        termWrapper.setTypeInfo(type);
+        termWrapper.setTermNameForUI(type.getName());
+        if (isCopy){
+            termWrapper.setName(type.getName());
+        }
+
+        //Populate keydates
+        List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(termInfo.getId(),createContextInfo());
+        List<TypeInfo> keyDateTypes = getTypeService().getAllowedTypesForType(termInfo.getTypeKey(),createContextInfo());
+
+        Map<String,KeyDatesGroupWrapper> keyDateGroup = new HashMap<String,KeyDatesGroupWrapper>();
+
+        for (KeyDateInfo keyDateInfo : keydateList) {
+            KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo,isCopy);
+            type = getTypeService().getType(keyDateInfo.getTypeKey(),createContextInfo());
+            keyDateWrapper.setTypeInfo(type);
+            keyDateWrapper.setKeyDateNameUI(type.getName());
+
+            addKeyDateGroup(keyDateTypes,keyDateWrapper,keyDateGroup);
+        }
+
+        for (KeyDatesGroupWrapper group : keyDateGroup.values()) {
+            if (!group.getKeydates().isEmpty()){
+                termWrapper.getKeyDatesGroupWrappers().add(group);
+            }
+        }
+
+        return termWrapper;
+    }
+
+    /**
+     * Adds a keydate to a proper group.
+     *
+     * @param keyDateTypes
+     * @param keyDateWrapper
+     * @param keyDateGroup
+     */
+    private void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
+        for (TypeInfo keyDateType : keyDateTypes) {
+            try {
+                // TODO
+                List<TypeInfo> allowedTypes = getTypesForGroupType(keyDateType.getKey());
+                for (TypeInfo allowedType : allowedTypes) {
+                    if (StringUtils.equals(allowedType.getKey(),keyDateWrapper.getKeyDateType())){
+                        KeyDatesGroupWrapper keyDatesGroup = keyDateGroup.get(keyDateType.getKey());
+                        if (keyDatesGroup == null){
+                            keyDatesGroup = new KeyDatesGroupWrapper(keyDateType.getKey(),keyDateType.getName());
+                            keyDateGroup.put(keyDateType.getKey(),keyDatesGroup);
+                        }
+                        keyDatesGroup.getKeydates().add(keyDateWrapper);
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
@@ -100,21 +290,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         RichTextInfo rti = new RichTextInfo();
         rti.setPlain(acalInfo.getName());
         acalInfo.setDescr(rti);
-        AcademicCalendarInfo newAcal = getAcalService().createAcademicCalendar(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY, acalInfo, getContextInfo());
+        AcademicCalendarInfo newAcal = getAcalService().createAcademicCalendar(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY, acalInfo, createContextInfo());
         return newAcal;
-    }
-
-    public void deleteAcademicCalendar(String academicCalendarId) throws Exception {
-        getAcalService().deleteAcademicCalendar(academicCalendarId, getContextInfo());
     }
 
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         List<AcademicCalendarInfo> academicCalendarInfoList =
-                getAcalService().getAcademicCalendarsByStartYear(currentYear, getContextInfo());
+                getAcalService().getAcademicCalendarsByStartYear(currentYear, createContextInfo());
         if ((null == academicCalendarInfoList) || academicCalendarInfoList.isEmpty()) {
             academicCalendarInfoList =
-                    getAcalService().getAcademicCalendarsByStartYear((currentYear - 1), getContextInfo());
+                    getAcalService().getAcademicCalendarsByStartYear((currentYear - 1), createContextInfo());
         }
 
         if ((null == academicCalendarInfoList) || (academicCalendarInfoList.size() == 0)) {
@@ -135,7 +321,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
            }
 
            // 1. copy over events
-           List<AcalEventInfo> orgEventInfoList= getAcalService().getAcalEventsForAcademicCalendar(orgAcalInfo.getId(), getContextInfo());
+           List<AcalEventInfo> orgEventInfoList= getAcalService().getAcalEventsForAcademicCalendar(orgAcalInfo.getId(), createContextInfo());
            List<AcalEventWrapper> newEventList = new ArrayList<AcalEventWrapper>();
            for (AcalEventInfo orgEventInfo : orgEventInfoList){
                AcalEventWrapper newEvent= new AcalEventWrapper(orgEventInfo,true);
@@ -155,38 +341,23 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
-    public List<AcalEventWrapper> populateEventWrappers(AcademicCalendarForm acalForm) throws Exception {
-
-        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
-        List<AcalEventInfo> eventInfos = getAcalService().getAcalEventsForAcademicCalendar(acalInfo.getId(), getContextInfo());
-        List<AcalEventWrapper> events = new ArrayList<AcalEventWrapper>();
-
-        for (AcalEventInfo eventInfo: eventInfos) {
-            AcalEventWrapper event  = new AcalEventWrapper(eventInfo,false);
-            TypeInfo type = getTypeInfo(event.getEventTypeKey());
-            event.setEventTypeName(type.getName());
-            events.add(event);
-        }
-        return events;
-    }
-
     public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception{
         AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event);
-        AcalEventInfo createdEventInfo = getAcalService().createAcalEvent(acalId, eventInfo.getTypeKey(), eventInfo, getContextInfo());
+        AcalEventInfo createdEventInfo = getAcalService().createAcalEvent(acalId, eventInfo.getTypeKey(), eventInfo, createContextInfo());
         event.setAcalEventInfo(createdEventInfo);
         return event;
     }
 
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception {
         AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event);
-        getAcalService().updateAcalEvent(eventId, eventInfo, getContextInfo());
-        AcalEventInfo updatedEventInfo = getAcalService().getAcalEvent(eventId, getContextInfo());
+        getAcalService().updateAcalEvent(eventId, eventInfo, createContextInfo());
+        AcalEventInfo updatedEventInfo = getAcalService().getAcalEvent(eventId, createContextInfo());
         event.setAcalEventInfo(updatedEventInfo);
         return event;
     }
 
     public void deleteEvent(String eventId) throws Exception {
-        getAcalService().deleteAcalEvent(eventId, getContextInfo());
+        getAcalService().deleteAcalEvent(eventId, createContextInfo());
     }
 
     private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper) throws Exception{
@@ -205,58 +376,54 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     }
 
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (model instanceof AcademicCalendarForm){
-            if (addLine instanceof HolidayCalendarWrapper) {
-                AcademicCalendarForm form = (AcademicCalendarForm) model;
-                for (HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()) {
-                    String holidayCalendarId = holidayCalendarWrapper.getId();
-                    if (StringUtils.equals(holidayCalendarWrapper.getId(), ((HolidayCalendarWrapper) addLine).getId())) {
-                        GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",
-                                CalendarConstants.MSG_ERROR_DUPLICATE_HCAL,
-                                holidayCalendarWrapper.getHolidayCalendarInfo().getName());
-                        return false;
-                    }
-                }
-            } else if (addLine instanceof KeyDatesGroupWrapper) {
-                KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
-                if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+
+        if (addLine instanceof HolidayCalendarWrapper) {
+            AcademicCalendarForm form = (AcademicCalendarForm) model;
+            for (HolidayCalendarWrapper holidayCalendarWrapper : form.getHolidayCalendarList()) {
+                String holidayCalendarId = holidayCalendarWrapper.getId();
+                if (StringUtils.equals(holidayCalendarWrapper.getId(), ((HolidayCalendarWrapper) addLine).getId())) {
+                    GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",
+                            CalendarConstants.MSG_ERROR_DUPLICATE_HCAL,
+                            holidayCalendarWrapper.getHolidayCalendarInfo().getName());
                     return false;
                 }
             }
-            else if (addLine instanceof KeyDateWrapper) {
-                KeyDateWrapper keydate = (KeyDateWrapper)addLine;
-                if(StringUtils.isEmpty(keydate.getKeyDateType())) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates",
-                            CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
-                    return false;
-                }
-                if (!isValidTimeSetWrapper(keydate, keydate.getKeyDateNameUI(), collectionGroup.getAddLineBindingInfo().getBindingPath())) {
-                    return false;
-                }
-            }
-            else if (addLine instanceof AcalEventWrapper) {
-                AcalEventWrapper eventWrapper = (AcalEventWrapper)addLine;
-                if (!isValidTimeSetWrapper(eventWrapper, eventWrapper.getEventTypeName(),
-                        "newCollectionLines['events']")) {
-                    return false;
-                }
+        } else if (addLine instanceof KeyDatesGroupWrapper) {
+            KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
+            if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
+                GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+                return false;
             }
         }
-        else
-        if (model instanceof HolidayCalendarForm) {
-            if (addLine instanceof HolidayWrapper) {
-                HolidayWrapper holidayWrapper = (HolidayWrapper)addLine;
-                if (!isValidTimeSetWrapper(holidayWrapper, holidayWrapper.getTypeName(),
-                        "newCollectionLines['holidays']")) {
-                    return false;
-                }
+        else if (addLine instanceof KeyDateWrapper) {
+            KeyDateWrapper keydate = (KeyDateWrapper)addLine;
+            if(StringUtils.isEmpty(keydate.getKeyDateType())) {
+                GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates",
+                        CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+                return false;
+            }
+            if (!isValidTimeSetWrapper(keydate, keydate.getKeyDateNameUI(), collectionGroup.getAddLineBindingInfo().getBindingPath())) {
+                return false;
+            }
+        }
+        else if (addLine instanceof AcalEventWrapper) {
+            AcalEventWrapper eventWrapper = (AcalEventWrapper)addLine;
+            if (!isValidTimeSetWrapper(eventWrapper, eventWrapper.getEventTypeName(),
+                    "newCollectionLines['events']")) {
+                return false;
             }
         }
 
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
 
+    /**
+     * This method is being called by KRAD to populate keydate types drop down. There would be no reference
+     * for this method in the code as it has it's reference at the AcademicTermPage.xml page
+     *
+     * @param field
+     * @param acalForm
+     */
     public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm) {
 
         boolean isAddLine = BooleanUtils.toBoolean((Boolean)field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
@@ -287,6 +454,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
+    /**
+     * This method is being called by KRAD to populate keydate group types drop down. There would be no reference
+     * for this method in the code as it has it's reference at the AcademicTermPage.xml page
+     *
+     * @param field
+     * @param acalForm
+     */
     public void populateKeyDateGroupTypes(InputField field, AcademicCalendarForm acalForm) {
 
         boolean isAddLine = BooleanUtils.toBoolean((Boolean)field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
@@ -301,7 +475,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         AcademicTermWrapper termWrapper = ObjectPropertyUtils.getPropertyValue(acalForm,collectionGroup.getBindingInfo().getBindByNamePrefix());
 
         try {
-            List<TypeInfo> keyDateGroupTypes = getAcalService().getKeyDateTypesForTermType(termWrapper.getTermType(),getContextInfo());
+            List<TypeInfo> keyDateGroupTypes = getAcalService().getKeyDateTypesForTermType(termWrapper.getTermType(),createContextInfo());
             for (TypeInfo keyDateGroupType : keyDateGroupTypes) {
                 if (!termWrapper.isKeyDateGroupExists(keyDateGroupType.getKey())){
                     keyValues.add(new ConcreteKeyValue(keyDateGroupType.getKey(),keyDateGroupType.getName()));
@@ -315,6 +489,15 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
+    /**
+     * This method is called during calendar save. As there is inconsistency between ui and the services handling
+     * the allday and daterange, this method is like an adapter to convert the ui data to the data needed by services.
+     *
+     * In Services, it handles date range as point in time
+     * More info at https://wiki.kuali.org/display/STUDENT/Storing+and+Querying+Milestone+Dates
+     *
+     * @param acalForm
+     */
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm){
 
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
@@ -332,6 +515,11 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
+    /**
+     * Validates Academic Calendar
+     *
+     * @param acalForm
+     */
     public void validateAcademicCalendar(AcademicCalendarForm acalForm){
 
         AcademicCalendarInfo acal = acalForm.getAcademicCalendarInfo();
@@ -357,10 +545,18 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         //Validate Terms and keydates
-        validateTerms(acalForm.getTermWrapperList(),acal);
+        for (int index=0; index < acalForm.getTermWrapperList().size(); index++) {
+            validateTerm(acalForm.getTermWrapperList(),index,acal);
+        }
 
     }
 
+    /**
+     * Make sure the user entered Acal name doesnt duplicate with the existing ones
+     *
+     * @param acal
+     * @return
+     */
     private boolean isValidAcalName(AcademicCalendarInfo acal){
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
@@ -377,7 +573,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         qBuilder.setPredicates(and(preds));
 
         try {
-            List<AcademicCalendarInfo> acals = getAcalService().searchForAcademicCalendars(qBuilder.build(),getContextInfo());
+            List<AcademicCalendarInfo> acals = getAcalService().searchForAcademicCalendars(qBuilder.build(),createContextInfo());
             boolean valid = acals.isEmpty();
             //Make sure it's not the same Acal which is being edited by the user
             if (!valid && StringUtils.isNotBlank(acal.getId())){
@@ -423,12 +619,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return isValid;
     }
 
-    private void validateTerms(List<AcademicTermWrapper> termWrapper,AcademicCalendarInfo acal) {
-        for (int index=0; index < termWrapper.size(); index++) {
-            validateTerm(termWrapper,index,acal);
-        }
-    }
-
+    /**
+     * Validates the term at the given index
+     *
+     * @param termWrapper list of terms in an academic calendar
+     * @param termToValidateIndex index of the term to be validated
+     * @param acal ACal dto needed to compare the start and end date
+     */
     public void validateTerm(List<AcademicTermWrapper> termWrapper,int termToValidateIndex,AcademicCalendarInfo acal) {
 
         AcademicTermWrapper termWrapperToValidate = termWrapper.get(termToValidateIndex);
@@ -469,6 +666,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
+    /**
+     * Calculates and populates the instructional days for all the terms in a collection
+     *
+     * @param termWrapperList
+     * @throws Exception
+     */
     public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList)
     throws Exception {
          for (AcademicTermWrapper termWrapper : termWrapperList) {
@@ -476,6 +679,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
+    /**
+     * Calculates and populates the instructional days for a term
+     *
+     * @param termWrapper
+     * @throws Exception
+     */
     public void populateInstructionalDays(AcademicTermWrapper termWrapper)
     throws Exception {
         if (termWrapper.getKeyDatesGroupWrappers() != null){
@@ -484,7 +693,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                      for (KeyDateWrapper keydate : keyDatesGroupWrapper.getKeydates()) {
                          if (StringUtils.equals(keydate.getKeyDateType(),AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY) &&
                              termWrapper.getTermInfo() != null && StringUtils.isNotBlank(termWrapper.getTermInfo().getId())){
-                             int instructionalDays = getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),getContextInfo());
+                             int instructionalDays = getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),createContextInfo());
                              termWrapper.setInstructionalDays(instructionalDays);
                              break;
                          }
@@ -508,21 +717,14 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return qbc;
     }
 
-    public List<TermInfo> getTermsByTypeAndCode(String type, String code)throws Exception {
-
-        List<TermInfo> termInfoList = new ArrayList<TermInfo>();
-
-        QueryByCriteria qbc = buildQueryByCriteriaForTerm(type, code);
-
-        List<TermInfo> terms = getAcalService().searchForTerms(qbc, getContextInfo());
-        for (TermInfo term : terms) {
-            termInfoList.add(term);
-        }
-
-        return termInfoList;
-
-    }
-
+    /**
+     * Saves the term
+     *
+     * @param termWrapper wrapper around terminfo
+     * @param acalId acal id
+     * @param isOfficial whether the term is official or not sothat state can be changed
+     * @throws Exception
+     */
     public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial) throws Exception {
 
         TermInfo term = termWrapper.getTermInfo();
@@ -537,16 +739,16 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         if (termWrapper.isNew()){
-            TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,getContextInfo());
-            termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),getContextInfo()));
-            getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),getContextInfo());
+            TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
+            termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
+            getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),createContextInfo());
         } else {
-            TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,getContextInfo());
-            termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),getContextInfo()));
+            TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,createContextInfo());
+            termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),createContextInfo()));
         }
 
         for (KeyDateWrapper keyDateWrapper : termWrapper.getKeyDatesToDeleteOnSave()) {
-            getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),getContextInfo());
+            getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),createContextInfo());
         }
 
         //Keydates
@@ -570,11 +772,11 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     setKeyDateEndDate(keyDateWrapper);
 
                     if (keyDateWrapper.isNew()){
-                        KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,getContextInfo());
-                        keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(newKeyDate.getId(),getContextInfo()));
+                        KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,createContextInfo());
+                        keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(newKeyDate.getId(),createContextInfo()));
                     } else {
-                        KeyDateInfo updatedKeyDate = getAcalService().updateKeyDate(keyDate.getId(), keyDate, getContextInfo());
-                        keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(updatedKeyDate.getId(),getContextInfo()));
+                        KeyDateInfo updatedKeyDate = getAcalService().updateKeyDate(keyDate.getId(), keyDate, createContextInfo());
+                        keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(updatedKeyDate.getId(),createContextInfo()));
                     }
                 }
             }
@@ -672,19 +874,19 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return endDateToInfo;
     }
 
-    public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex, String acalId) throws Exception{
+    /*public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex, String acalId) throws Exception{
         AcademicTermWrapper termWrapper = termWrapperList.get(selectedIndex);
         if (StringUtils.isNotBlank(termWrapper.getTermInfo().getId())){
             if (termWrapper.getKeyDatesGroupWrappers() != null){
                 for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
                     for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
                         if (StringUtils.isNotBlank(keyDateWrapper.getKeyDateInfo().getId())){
-                            getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),getContextInfo());
+                            getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),createContextInfo());
                         }
                     }
                 }
             }
-            getAcalService().deleteTerm(termWrapper.getTermInfo().getId(), getContextInfo());
+            getAcalService().deleteTerm(termWrapper.getTermInfo().getId(), createContextInfo());
         }
         termWrapperList.remove(selectedIndex);
     }
@@ -698,12 +900,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             termWrapper.getKeyDatesGroupWrappers().remove(keydateGroup);
         }
 
-    }
+    }*/
 
     public void deleteKeyDate(KeyDatesGroupWrapper keyDatesGroup,int selectedIndex) throws Exception{
         KeyDateWrapper keydate = keyDatesGroup.getKeydates().get(selectedIndex);
         if (StringUtils.isNotBlank(keydate.getKeyDateInfo().getId())){
-            getAcalService().deleteKeyDate(keydate.getKeyDateInfo().getId(),getContextInfo());
+            getAcalService().deleteKeyDate(keydate.getKeyDateInfo().getId(),createContextInfo());
         }
         keyDatesGroup.getKeydates().remove(selectedIndex);
     }
@@ -712,7 +914,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         if (addLine instanceof AcademicTermWrapper){
             AcademicTermWrapper newLine = (AcademicTermWrapper)addLine;
             try {
-                TypeInfo termType = getAcalService().getTermType(((AcademicTermWrapper) addLine).getTermType(),getContextInfo());
+                TypeInfo termType = getAcalService().getTermType(((AcademicTermWrapper) addLine).getTermType(),createContextInfo());
 
                 newLine.setTermNameForUI(termType.getName());
                 SimpleDateFormat simpleDateformat=new SimpleDateFormat("yyyy");
@@ -737,7 +939,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             try {
                 System.out.println("HC id =" +inputLine.getId());
 
-                HolidayCalendarInfo exists = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
+                HolidayCalendarInfo exists = getAcalService().getHolidayCalendar(inputLine.getId(), createContextInfo());
 
                 inputLine.setName(exists.getName());
                 inputLine.setId(exists.getId());
@@ -755,15 +957,15 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             try {
                 String holidayCalendarId = inputLine.getId();
                 if (!StringUtils.isEmpty(holidayCalendarId)) {
-                    HolidayCalendarInfo hcInfo = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
+                    HolidayCalendarInfo hcInfo = getAcalService().getHolidayCalendar(inputLine.getId(), createContextInfo());
                     inputLine.setHolidayCalendarInfo(hcInfo);
                     inputLine.setAdminOrgName(CommonUtils.getAdminOrgNameById(hcInfo.getAdminOrgId()));
-                    StateInfo hcState = getAcalService().getHolidayCalendarState(hcInfo.getStateKey(), getContextInfo());
+                    StateInfo hcState = getAcalService().getHolidayCalendarState(hcInfo.getStateKey(), createContextInfo());
                     inputLine.setStateName(hcState.getName());
-                    List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
+                    List<HolidayInfo> holidayInfoList = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), createContextInfo());
                     for(HolidayInfo holidayInfo : holidayInfoList){
                         HolidayWrapper holiday = new HolidayWrapper(holidayInfo);
-                        TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), getContextInfo());
+                        TypeInfo typeInfo = getAcalService().getHolidayType(holidayInfo.getTypeKey(), createContextInfo());
                         holiday.setTypeName(typeInfo.getName());
                         holidays.add(holiday);
                     }
@@ -776,7 +978,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }else if (addLine instanceof AcalEventWrapper){
             AcalEventWrapper acalEventWrapper = (AcalEventWrapper)addLine;
             try {
-                TypeInfo type = getTypeService().getType(acalEventWrapper.getEventTypeKey(), getContextInfo());
+                TypeInfo type = getTypeService().getType(acalEventWrapper.getEventTypeKey(), createContextInfo());
                 acalEventWrapper.setEventTypeName(type.getName());
             }catch (Exception e) {
                 throw new RuntimeException(e);
@@ -788,7 +990,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             try {
                 if(StringUtils.isNotEmpty(keydate.getKeyDateType())) {
-                    TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),getContextInfo());
+                    TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),createContextInfo());
                     keydate.setKeyDateNameUI(type.getName());
                     keydate.setTypeInfo(type);
                     if (!CommonUtils.isValidDateRange(keydate.getStartDate(),keydate.getEndDate())){
@@ -801,7 +1003,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         } else if (addLine instanceof HolidayWrapper){
             HolidayWrapper holiday = (HolidayWrapper)addLine;
             try {
-                holiday.setTypeName(getHolidayTypeName(holiday.getTypeKey()));
+                holiday.setTypeName(getTypeInfo(holiday.getTypeKey()).getName());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -813,84 +1015,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
-    public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy){
-
-        List<AcademicTermWrapper> termWrappers = new ArrayList<AcademicTermWrapper>();
-
-        try {
-            List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, getContextInfo());
-            for (TermInfo termInfo : termInfos) {
-                AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy);
-                termWrappers.add(termWrapper);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        return termWrappers;
-    }
-
-    public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy){
-        try{
-
-            TypeInfo type = getAcalService().getTermType(termInfo.getTypeKey(),getContextInfo());
-
-            AcademicTermWrapper termWrapper = new AcademicTermWrapper(termInfo,isCopy);
-            termWrapper.setTypeInfo(type);
-            termWrapper.setTermNameForUI(type.getName());
-            if (isCopy){
-                termWrapper.setName(type.getName());
-            }
-
-            //Populate keydates
-            List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(termInfo.getId(),getContextInfo());
-            List<TypeInfo> keyDateTypes = getTypeService().getAllowedTypesForType(termInfo.getTypeKey(),getContextInfo());
-
-            Map<String,KeyDatesGroupWrapper> keyDateGroup = new HashMap<String,KeyDatesGroupWrapper>();
-
-            for (KeyDateInfo keyDateInfo : keydateList) {
-                KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo,isCopy);
-                type = getTypeService().getType(keyDateInfo.getTypeKey(),getContextInfo());
-                keyDateWrapper.setTypeInfo(type);
-                keyDateWrapper.setKeyDateNameUI(type.getName());
-
-                addKeyDateGroup(keyDateTypes,keyDateWrapper,keyDateGroup);
-            }
-
-            for (KeyDatesGroupWrapper group : keyDateGroup.values()) {
-                if (!group.getKeydates().isEmpty()){
-                    termWrapper.getKeyDatesGroupWrappers().add(group);
-                }
-            }
-
-            return termWrapper;
-        }catch(Exception e){
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
-        for (TypeInfo keyDateType : keyDateTypes) {
-            try {
-                // TODO
-                List<TypeInfo> allowedTypes = getTypesForGroupType(keyDateType.getKey());
-                for (TypeInfo allowedType : allowedTypes) {
-                    if (StringUtils.equals(allowedType.getKey(),keyDateWrapper.getKeyDateType())){
-                        KeyDatesGroupWrapper keyDatesGroup = keyDateGroup.get(keyDateType.getKey());
-                        if (keyDatesGroup == null){
-                            keyDatesGroup = new KeyDatesGroupWrapper(keyDateType.getKey(),keyDateType.getName());
-                            keyDateGroup.put(keyDateType.getKey(),keyDatesGroup);
-                        }
-                        keyDatesGroup.getKeydates().add(keyDateWrapper);
-                        break;
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
     public AcademicCalendarService getAcalService() {
            if(acalService == null) {
              acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -899,32 +1023,33 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     }
 
     public TypeService getTypeService() {
-           if(typeService == null) {
+        if(typeService == null) {
              typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
-    }
-
-    public ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            contextInfo = new ContextInfo();
-            contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-            LocaleInfo localeInfo = new LocaleInfo();
-            localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-            localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-            contextInfo.setLocale(localeInfo);
-        }
-        return contextInfo;
     }
 
     public List<TypeInfo> getTypesForGroupType(String groupTypeKey) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         List<TypeInfo> types = typesByGroupTypeMap.get(groupTypeKey);
         if(types == null) {
-            types = Collections.unmodifiableList(getTypeService().getTypesForGroupType(groupTypeKey, getContextInfo()));
+            types = Collections.unmodifiableList(getTypeService().getTypesForGroupType(groupTypeKey, createContextInfo()));
             typesByGroupTypeMap.put(groupTypeKey, types);
         }
         return types;
+    }
+
+    protected String getAdminOrgNameById(String id){
+        //TODO: hard-coded for now, going to call OrgService
+        String adminOrgName = null;
+        Map<String, String> allAcalOrgs = new HashMap<String, String>();
+        allAcalOrgs.put("102", "Registrar's Office");
+        allAcalOrgs.put("34", "Medical School");
+
+        if(allAcalOrgs.containsKey(id)){
+            adminOrgName = allAcalOrgs.get(id);
+        }
+
+        return adminOrgName;
     }
 }

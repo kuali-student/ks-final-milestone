@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * This class //TODO ...
+ * This is the base class for all the wrappers deals with start/end times and all day and date range flags
  *
  * @author Kuali Student Team
  */

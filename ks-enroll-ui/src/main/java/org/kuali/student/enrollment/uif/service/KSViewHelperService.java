@@ -29,4 +29,6 @@ public interface KSViewHelperService extends ViewHelperService{
 
     public TypeInfo getTypeInfo(String typeKey);
 
+    public RuntimeException convertServiceExceptionsToUI(Exception ex);
+
 }

@@ -33,7 +33,6 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-
 public class AcademicCalendarForm extends UifFormBase {
 
     private AcademicCalendarInfo academicCalendarInfo;
@@ -68,10 +67,19 @@ public class AcademicCalendarForm extends UifFormBase {
         termsToDeleteOnSave = new ArrayList<AcademicTermWrapper>();
     }
 
+    /**
+     *
+     * @return the acal which is currently in use at the view
+     */
     public AcademicCalendarInfo getAcademicCalendarInfo() {
         return academicCalendarInfo;
     }
 
+    /**
+     * New Acal or editing an existing acal object
+     *
+     * @param academicCalendarInfo
+     */
     public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
         this.academicCalendarInfo = academicCalendarInfo;
     }
@@ -281,17 +289,5 @@ public class AcademicCalendarForm extends UifFormBase {
         setTermWrapperList(new ArrayList<AcademicTermWrapper>());
         setNewCalendar(false);
     }
-
-    /*public AcademicCalendarViewHelperService getViewHelperService(){
-        if (getView() != null && getView().getViewHelperServiceClass() != null){
-            return (AcademicCalendarViewHelperService)getView().getViewHelperService();
-        }else{
-            return (AcademicCalendarViewHelperService)getPostedView().getViewHelperService();
-        }
-    }
-
-    public ContextInfo getContextInfo(){
-        return getViewHelperService().getContextInfo();
-    }*/
 
 }

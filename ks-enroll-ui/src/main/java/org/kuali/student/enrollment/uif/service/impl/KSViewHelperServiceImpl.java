@@ -90,7 +90,7 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
      * @param ex service exception to be handled
      * @return service exception wrapped in a RuntimeException instance
      */
-    protected RuntimeException convertServiceExceptionsToUI(Exception ex){
+    public RuntimeException convertServiceExceptionsToUI(Exception ex){
 
         if (LOG.isEnabledFor(Level.ERROR)){
             LOG.error(ex);
