@@ -204,6 +204,9 @@ public class RegistrationGroupManagementController extends UifControllerBase {
                     theForm.setHasAOCluster(true);
                     theForm.setPrivateClusterNameForLightBox("");
                     theForm.setPublishedClusterNameForLightBox("");
+                    if(theForm.isSelectCreateNewFromDropDown()){
+                        theForm.setClusterIdIdForNewFO(emptyCluster.getId());
+                    }
                 }else {
                     GlobalVariables.getMessageMap().putError("privateClusterNameForLightBox", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
                 }
@@ -572,6 +575,8 @@ public class RegistrationGroupManagementController extends UifControllerBase {
             theForm.setSelectCreateNewFromDropDown(true);
             return createNewClusterFromLightBox(theForm, result, request, response);
         }
+//        theForm.getDialogManager().resetDialogStatus("createNewClusterDialog");
+//        theForm.getDialogManager().removeDialog("createNewClusterDialog");
         if (theForm.isSelectCreateNewFromDropDown()){
             //In the previous step, if a user has selected "Create New... " from the drop-down list,
             // the Dialog lightbox has been popped up, the user has input something and then
@@ -579,8 +584,10 @@ public class RegistrationGroupManagementController extends UifControllerBase {
             // the process will come back to hit this method. Now we need to reset SelectCreateNewFromDropDown
             // boolean to false before invoking createNewClusterFromLightBox method to handle the true work
             // -- validate if the cluster's name is unique and then create one in DB
+            theForm.setPrivateClusterName(theForm.getPrivateClusterNameForLightBox());
+            theForm.setPublishedClusterName(theForm.getPublishedClusterNameForLightBox());
+            createNewClusterFromLightBox(theForm, result, request, response);
             theForm.setSelectCreateNewFromDropDown(false);
-            return createNewClusterFromLightBox(theForm, result, request, response);
         }
 
         //get selected AOC info
@@ -673,6 +680,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
             }
         }
 
+        theForm.setClusterIdIdForNewFO("");
         //return updated form
         return getUIFModelAndView(theForm);
     }
