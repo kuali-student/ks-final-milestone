@@ -92,7 +92,7 @@ public class R1CourseServiceHelper {
             throws DoesNotExistException, OperationFailedException {
         List<CourseInfo> list = new ArrayList<CourseInfo>();
         CourseInfo sourceCourse = this.getCourse(courseId);
-        String versionIndCourseId = sourceCourse.getVersionInfo().getVersionIndId();
+        String versionIndCourseId = sourceCourse.getVersion().getVersionIndId();
         TermInfo targetTerm;
         try {
             targetTerm = acalService.getTerm(targetTermId, context);

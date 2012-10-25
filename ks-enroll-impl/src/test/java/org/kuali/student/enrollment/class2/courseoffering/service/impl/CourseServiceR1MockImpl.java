@@ -54,7 +54,7 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
         version.setVersionComment("initial version");
         version.setVersionIndId(courseInfo.getId() + "ind");
         version.setVersionedFromId(courseInfo.getId());
-        courseInfo.setVersionInfo(version);
+        courseInfo.setVersion(version);
         courses.put(courseInfo.getId(), courseInfo);
         return courseInfo;
     }
@@ -194,8 +194,8 @@ public class CourseServiceR1MockImpl implements CourseService, MockService {
         List<VersionDisplayInfo> list = new ArrayList<VersionDisplayInfo> ();
         for (CourseInfo info : this.courses.values()) {
             // the refObjectid is the VERSION INDEPENDENT ID See LuDaoImpl from CM
-            if (refObjectId.equals(info.getVersionInfo().getVersionIndId())) {
-                VersionInfo vi = info.getVersionInfo();
+            if (refObjectId.equals(info.getVersion().getVersionIndId())) {
+                VersionInfo vi = info.getVersion();
                 VersionDisplayInfo vd = new VersionDisplayInfo ();
                 vd.setId(info.getId());
                 vd.setRefObjectUri(CluServiceConstants.CLU_NAMESPACE_URI);
