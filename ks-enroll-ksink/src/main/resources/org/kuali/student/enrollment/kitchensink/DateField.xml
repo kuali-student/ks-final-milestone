@@ -24,8 +24,8 @@
 
     <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-DateField-Example1">
         <property name="propertyName" value="dateField"/>
-        <property name="label" value="Field Label"/>
-        <property name="instructionalText" value="Instructional text can go here"/>
+        <property name="label" value="Date Field"/>
+        <property name="instructionalText" value="Please select a date"/>
         <property name="constraintText" value="Constraint text can go here"/>
         <property name="helpSummary" value="Additional help or information for this field can go here."/>
         <property name="control">
