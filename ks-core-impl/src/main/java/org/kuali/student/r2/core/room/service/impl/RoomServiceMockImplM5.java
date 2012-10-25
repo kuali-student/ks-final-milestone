@@ -21,15 +21,28 @@ import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A mock implementation of RoomService for M5.
@@ -45,6 +58,8 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
     private Map<String, RoomInfo> roomMap = new LinkedHashMap<String, RoomInfo>();
     private Map<String, BuildingInfo> buildingMap = new LinkedHashMap<String, BuildingInfo>();
     private Map<String, RoomResponsibleOrgInfo> roomResponsibleOrgMap = new LinkedHashMap<String, RoomResponsibleOrgInfo>();
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoomServiceMockImplM5.class);
 
     ///////////////////////////////////
     // IMPLEMENTING METHODS
@@ -66,7 +81,19 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
             ,PermissionDeniedException
     {
         if (!this.roomMap.containsKey(roomId)) {
-            throw new DoesNotExistException(roomId);
+            //TODO Temporary patch.
+            // This exception is crashing the AO screen and we can't do QA
+            // The room data will not be in the system because this is a mock service using a map,
+            // so when we export the data the rooms are not written to the impex
+            LOG.warn("Room id does not exist:"+roomId);
+            RoomInfo r = new RoomInfo();
+            r.setDescr(new RichTextInfo("FAKE_DESC_NOT_IMPL", "FAKE_DESC_NOT_IMPL"));
+            r.setFloor("FAKE_FLOOR");
+            r.setId("FAKE_ID");
+            r.setName("FAKE_NAME_NOT_IMPL");
+
+            return new RoomInfo(r);
+            //Used to do this-> throw new DoesNotExistException(roomId);
         }
         return new RoomInfo(this.roomMap.get (roomId));
     }
