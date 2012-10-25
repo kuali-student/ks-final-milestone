@@ -63,8 +63,14 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
         if(displayInstructor != null) {
             aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
         }
+
         //for multiple instructor display
-        aoWrapper.setInstructorDisplayNames(aoInfo.getInstructors());
+        List<OfferingInstructorInfo> instructorInfos = aoInfo.getInstructors();
+        if (instructorInfos != null) {
+            for (OfferingInstructorInfo offeringInstructorInfo : instructorInfos) {
+                aoWrapper.setInstructorDisplayNames(offeringInstructorInfo.getPersonName(), true);
+            }
+        }
 
         //This section is to display either schedule request or actuals. If actuals available, display that instead of request
         if (StringUtils.isNotBlank(aoInfo.getScheduleId())){

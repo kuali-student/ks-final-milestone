@@ -416,18 +416,13 @@ public class ActivityOfferingWrapper implements Serializable{
         this.instructorDisplayNames = instructorDisplayNames;
     }
 
-    public void setInstructorDisplayNames(List<OfferingInstructorInfo> instructors) {
-        if (instructors != null && instructors.size()>1) {
-            for (OfferingInstructorInfo instructor : instructors) {
-                if (this.instructorDisplayNames == null || this.instructorDisplayNames.isEmpty()) {
-                    this.instructorDisplayNames = instructors.get(0).getPersonName();
-                } else {
-                    this.instructorDisplayNames = this.instructorDisplayNames + "<br>"  + instructor.getPersonName();
-                }
-            }
-        } else if (instructors != null && instructors.size()==1) {
-            this.instructorDisplayNames = instructors.get(0).getPersonName();
+    public void setInstructorDisplayNames(String instructorDisplayNames,boolean appendForDisplay) {
+        if (appendForDisplay && this.instructorDisplayNames!=null){
+            this.instructorDisplayNames = this.instructorDisplayNames + "<br>" + StringUtils.defaultString(instructorDisplayNames);
+        }else{
+            this.instructorDisplayNames = StringUtils.defaultString(instructorDisplayNames);
         }
+
     }
 
     public String getEndTimeDisplay() {
