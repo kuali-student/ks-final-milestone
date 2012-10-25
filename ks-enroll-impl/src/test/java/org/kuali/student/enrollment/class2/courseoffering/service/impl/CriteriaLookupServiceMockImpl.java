@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.criteria.LookupCustomizer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -64,12 +65,12 @@ public class CriteriaLookupServiceMockImpl implements CriteriaLookupService,
     }
 
     @Override
-    public <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, String field){
+    public <T> GenericQueryResults<List<String>> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, List<String> fields){
         return null;
     }
 
     @Override
-    public <T> GenericQueryResults<T> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, final LookupCustomizer<T> customizer, String field){
+    public <T> GenericQueryResults<List<String>> genericLookup(final Class<T> queryClass, final QueryByCriteria criteria, final LookupCustomizer<T> customizer, List<String> fields){
         return null;
 
     }
