@@ -145,7 +145,7 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
             	controller.requestModel(new ModelRequestCallback<DataModel>(){
 					public void onModelReady(DataModel model) {
 						//Only display if this is a modification
-						String versionedFromId = model.get("versionInfo/versionedFromId");
+						String versionedFromId = model.get("version/versionedFromId");
 						if(versionedFromId!=null && !versionedFromId.isEmpty()){
 							//Add the previous start term since we need it as a widget so it can act as a cross field constraint
 							workflowUtilities.addApproveDialogField("", "startTerm",  generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_STARTTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(), true, true);

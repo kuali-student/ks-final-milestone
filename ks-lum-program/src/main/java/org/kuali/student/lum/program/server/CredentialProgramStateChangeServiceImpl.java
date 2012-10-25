@@ -113,16 +113,16 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 		// higher than previous active program
 
 		List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI,
-		selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
+		selectedVersion.getVersion().getVersionIndId(),ContextUtils.getContextInfo());
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
-			startSeq = currentVersion.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber() + 1;
+			startSeq = currentVersion.getVersion().getSequenceNumber() + 1;
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
 			boolean isVersionNewerThanCurrentVersion = versionInfo.getSequenceNumber() >= startSeq;
-			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber());  
+			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersion().getSequenceNumber());
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
 				CredentialProgramInfo otherProgram = programService.getCredentialProgram(versionInfo.getId(),ContextUtils.getContextInfo());
@@ -138,12 +138,12 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 	/**
 	 * Get the current version of program given the selected version of program
 	 * 
-	 * @param verIndId
+	 * @param credentialProgramInfo
 	 */
 	protected CredentialProgramInfo getCurrentVersion(CredentialProgramInfo credentialProgramInfo)
 			throws Exception {
 		// Get version independent id of program
-		String verIndId = credentialProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId();
+		String verIndId = credentialProgramInfo.getVersion().getVersionIndId();
 
 		// Get id of current version of program given the version independent id
 		VersionDisplayInfo curVerDisplayInfo = programService.getCurrentVersion( ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
@@ -198,10 +198,10 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
-        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, credentialProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
+        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, credentialProgramInfo.getVersion().getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(credentialProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber())) {
+        if (!currentVersion.getSequenceNumber().equals(credentialProgramInfo.getVersion().getSequenceNumber())) {
             programService.setCurrentCredentialProgramVersion(credentialProgramInfo.getId(), null,ContextUtils.getContextInfo());
         }
     }

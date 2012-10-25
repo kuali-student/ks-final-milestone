@@ -55,8 +55,8 @@ public class CredentialProgramDataService extends AbstractDataService {
     protected Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception {
         if (dto instanceof CredentialProgramInfo) {
             CredentialProgramInfo cpInfo = (CredentialProgramInfo) dto;
-            if (cpInfo.getId() == null && cpInfo.getVersionInfo(ContextUtils.getContextInfo()) != null) {
-            	String credentialVersionIndId = cpInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId();
+            if (cpInfo.getId() == null && cpInfo.getVersion() != null) {
+            	String credentialVersionIndId = cpInfo.getVersion().getVersionIndId();
             	cpInfo = programService.createNewCredentialProgramVersion(credentialVersionIndId, "New credential program version", ContextUtils.getContextInfo());
             } else if (cpInfo.getId() == null) {
                 cpInfo = programService.createCredentialProgram(cpInfo.getId(), cpInfo, ContextUtils.getContextInfo());

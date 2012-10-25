@@ -253,7 +253,7 @@ public class CredentialEditController extends CredentialController {
         Data versionData = new Data();
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), "Credential Program Version");
-        data.set(new Data.StringKey("versionInfo"), versionData);
+        data.set(new Data.StringKey("version"), versionData);
 
         programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
