@@ -53,9 +53,11 @@
                             (trial-n-error shows that using 'aoColumns' breaks sorting)
                             Here, the 3rd column (description) is marked as unsortable.
                             -->
+                        <!--
                         <entry key="aoColumnDefs"
                                value="[ {'aTargets':[2], 'bSortable':false}
                                     ]"/>
+                        -->
                     </map>
                 </property>
             </bean>

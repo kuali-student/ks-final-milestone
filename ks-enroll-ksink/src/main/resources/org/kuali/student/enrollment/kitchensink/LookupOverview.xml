@@ -24,21 +24,148 @@
 
     <!-- The Interesting Bits -->
 
+    <bean id="KS-KitchenSink-LookupOverview-View-Base" parent="KS-KitchenSink-FormView">
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <!-- restrict the height of the auto-complete menu: -->
+                <value>ks-krad/css/ks-krad-lookupSuggest.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Suggest (Auto-Complete) example -->
+
+    <!-- in 2.2.0-M4 see ConfigurationTestView-Quickfinder.xml for Suggest examples -->
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-Suggest">
+        <property name="propertyName" value="stringField1"/>
+        <property name="label" value="Suggest Field"/>
+        <property name="instructionalText" value="Start typing a last name to begin a Person search (try &quot;AV&quot;)"/>
+        <property name="suggest">
+            <bean parent="Uif-Suggest">
+                <property name="render" value="true"/>
+                <!-- sourcePropertyName is the Person property displayed in the resulting suggest menu -->
+                <property name="sourcePropertyName" value="name"/>
+                <property name="templateOptions" value="minLength:2,delay:0"/>
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig">
+                        <property name="queryMethodToCall" value="getPersonsForSuggest"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Advanced Select lookup example -->
+
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-Lookup">
+        <property name="propertyName" value="stringField2"/>
+        <property name="label" value="Basic Lookup"/>
+        <property name="instructionalText" value="Use the &quot;Advanced Select&quot; link to perform a Term lookup"/>
+        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+        <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+        <property name="quickfinder.fieldConversions">
+            <map>
+                <entry key="name" value="stringField2"/>
+            </map>
+        </property>
+        <!-- quickfinderAction overrides default magnifying glass button -->
+        <property name="quickfinder.quickfinderAction">
+            <bean parent="Uif-ActionLink">
+                <property name="methodToCall" value="performLookup"/>
+                <property name="actionLabel" value="Advanced Select"/>
+                <property name="style" value="display:block"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-LookupOverview-LookupView" parent="KSLookupView">
+        <property name="headerText" value="Term Info Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Term Name"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate" p:label="Term Year"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Name" />
+                <bean parent="Uif-DataField" p:propertyName="startDate" />
+                <bean parent="Uif-DataField" p:propertyName="endDate" />
+                <bean parent="Uif-DataField" p:propertyName="typeKey" p:label="Type Key" />
+                <bean parent="Uif-DataField" p:propertyName="stateKey" p:label="State Key" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- Date Picker example -->
+
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-DateField">
+        <property name="propertyName" value="dateField"/>
+        <property name="label" value="Date Picker"/>
+        <property name="instructionalText" value="Please select a date"/>
+        <property name="control">
+            <bean parent="Uif-DateControl">
+                <property name="watermarkText" value="mm/dd/yyyy"/>
+                <!-- jQuery datepicker documentation: http://jqueryui.com/datepicker/ -->
+                <property name="datePicker.templateOptions">
+                    <map>
+                        <entry key="showOn" value="both"/>
+                        <entry key="buttonImageOnly" value="true"/>
+                        <entry key="showAnim" value="fadeIn"/>
+                        <entry key="showButtonPanel" value="false"/>
+                        <entry key="changeMonth" value="false"/>
+                        <entry key="changeYear" value="true"/>
+                        <entry key="numberOfMonths" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint" />
+        </property>
+    </bean>
+
+    <!-- Ajax Field Query example -->
+
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-AjaxQuery">
+        <property name="label" value="Ajax Field Query"/>
+        <property name="instructionalText"
+                  value="Displays additional Term info from an ajax call (tab out of field)"/>
+        <property name="propertyName" value="stringField3"/>
+        <property name="defaultValue" value="20001"/>
+        <property name="propertyNamesForAdditionalDisplay" value="stringField4" />
+        <property name="attributeQuery">
+            <bean parent="Uif-AttributeQueryConfig">
+                <!-- method defined in helper, but can also be a static method -->
+                <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                <property name="queryMethodArgumentFieldList" value="stringField3"/>
+                <!--
+                <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+                <property name="queryFieldMapping" value="stringField3:id"/>
+                -->
+                <property name="returnFieldMapping" value="name:stringField4"/>
+            </bean>
+        </property>
+    </bean>
+
     <!-- Direct Inquiry example -->
 
     <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-DirectInquiry">
         <property name="label" value="Direct Inquiry"/>
         <property name="instructionalText"
                   value="Click the book button to perform an inquiry on Terms for ID &quot;19974&quot;"/>
-        <property name="propertyName" value="stringField1"/>
+        <property name="propertyName" value="stringField5"/>
         <property name="defaultValue" value="19974"/>
         <property name="inquiry.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
         <!-- inquiry view doesn't use "viewName" to find the correct inquiry view: -->
         <property name="inquiry.viewName" value="KS-KitchenSink-TermInfo-InquiryView"/>
-        <property name="inquiry.inquiryParameters" value="stringField1:id"/>
+        <property name="inquiry.inquiryParameters" value="stringField5:id"/>
         <!-- the wordier way to define inquiry.inquiryParameters:
         <property name="inquiry.inquiryParameters">
-            <map> <entry key="stringField1" value="id"/> </map>
+            <map> <entry key="stringField5" value="id"/> </map>
         </property>
         -->
     </bean>
@@ -75,67 +202,11 @@
         </property>
     </bean>
 
-    <!-- Ajax Field Query example -->
-
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-AjaxQuery">
-        <property name="label" value="Ajax Field Query"/>
-        <property name="instructionalText"
-                  value="Displays additional Term info from an ajax call (tab out of field)"/>
-        <property name="propertyName" value="stringField2"/>
-        <property name="defaultValue" value="20001"/>
-        <property name="propertyNamesForAdditionalDisplay" value="stringField3" />
-        <property name="attributeQuery">
-            <bean parent="Uif-AttributeQueryConfig">
-                <!-- method defined in helper, but can also be a static method -->
-                <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
-                <property name="queryMethodArgumentFieldList" value="stringField2"/>
-                <property name="returnFieldMapping" value="name:stringField3"/>
-            </bean>
-        </property>
-    </bean>
-
-    <!-- Lookup example -->
-
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupOverview-Lookup">
-        <property name="propertyName" value="stringField4"/>
-        <property name="label" value="Basic Lookup"/>
-        <property name="instructionalText" value="Click the search button to perform a Term lookup"/>
-        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-        <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
-        <property name="quickfinder.fieldConversions">
-            <map>
-                <entry key="name" value="stringField4"/>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="KS-KitchenSink-LookupOverview-LookupView" parent="KSLookupView">
-        <property name="headerText" value="Term Info Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
-        <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
-        <property name="criteriaFields">
-            <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Term Name"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate" p:label="Term Year"/>
-            </list>
-        </property>
-        <property name="resultFields">
-            <list>
-                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Name" />
-                <bean parent="Uif-DataField" p:propertyName="startDate" />
-                <bean parent="Uif-DataField" p:propertyName="endDate" />
-                <bean parent="Uif-DataField" p:propertyName="typeKey" p:label="Type Key" />
-                <bean parent="Uif-DataField" p:propertyName="stateKey" p:label="State Key" />
-            </list>
-        </property>
-    </bean>
-
 
 
     <!-- just the various containers for the interesting bits -->
 
-    <bean id="KS-KitchenSink-LookupOverview-View" parent="KS-KitchenSink-FormView">
+    <bean id="KS-KitchenSink-LookupOverview-View" parent="KS-KitchenSink-LookupOverview-View-Base">
         <property name="headerText" value="Lookups, etc"/>
         <property name="items">
             <list>
@@ -170,7 +241,8 @@
 
     <!-- Example #1 containers -->
 
-    <bean id="KS-KitchenSink-LookupOverview-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+    <bean id="KS-KitchenSink-LookupOverview-View-Bare" parent="KS-KitchenSink-LookupOverview-View-Base">
+        <property name="breadcrumbs.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
@@ -188,9 +260,11 @@
           p:headerText="Link fields" p:header.render="false">
         <property name="items">
             <list>
-                <ref bean="KS-KitchenSink-LookupOverview-DirectInquiry"/>
-                <bean parent="KS-KitchenSink-LookupOverview-AjaxQuery" p:style="margin-top:0.5em;"/>
+                <ref bean="KS-KitchenSink-LookupOverview-Suggest"/>
                 <bean parent="KS-KitchenSink-LookupOverview-Lookup" p:style="margin-top:0.5em;"/>
+                <bean parent="KS-KitchenSink-LookupOverview-DateField" p:style="margin-top:0.5em;"/>
+                <bean parent="KS-KitchenSink-LookupOverview-AjaxQuery" p:style="margin-top:0.5em;"/>
+                <bean parent="KS-KitchenSink-LookupOverview-DirectInquiry" p:style="margin-top:0.5em;"/>
             </list>
         </property>
     </bean>

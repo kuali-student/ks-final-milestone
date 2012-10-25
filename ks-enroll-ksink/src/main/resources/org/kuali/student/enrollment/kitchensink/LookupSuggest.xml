@@ -35,13 +35,13 @@
     <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupSuggest">
         <property name="propertyName" value="stringField1"/>
         <property name="label" value="Suggest Field"/>
-        <property name="instructionalText" value="Start typing a last name to begin a Person search"/>
+        <property name="instructionalText" value="Start typing a last name to begin a Person search (try &quot;AV&quot;)"/>
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
                 <!-- sourcePropertyName is the Person property displayed in the resulting suggest menu -->
                 <property name="sourcePropertyName" value="name"/>
-                <property name="templateOptions" value="minLength:1,delay:0"/>
+                <property name="templateOptions" value="minLength:2,delay:0"/>
                 <property name="suggestQuery">
                     <bean parent="Uif-AttributeQueryConfig">
                         <property name="queryMethodToCall" value="getPersonsForSuggest"/>
