@@ -249,7 +249,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 //set instructors display
                 List<OfferingInstructorInfo> instructorInfos = aoDisplayInfo.getInstructors();
                 if (instructorInfos != null) {
-                    for (OfferingInstructorInfo offeringInstructorInfo : aoDisplayInfo.getInstructors()) {
+                    for (OfferingInstructorInfo offeringInstructorInfo : instructorInfos) {
                         aoDisplayWrapper.setInstructorDisplayNames(offeringInstructorInfo.getPersonName(), true);
                     }
                 }
