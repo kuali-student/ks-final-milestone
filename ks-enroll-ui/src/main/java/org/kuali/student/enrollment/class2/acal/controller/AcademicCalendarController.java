@@ -24,14 +24,15 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
+import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.enrollment.uif.controller.KSControllerBase;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
@@ -54,7 +55,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping(value = "/academicCalendar")
-public class AcademicCalendarController extends UifControllerBase {
+public class AcademicCalendarController extends KSControllerBase {
 
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(AcademicCalendarController.class);
 
@@ -68,7 +69,7 @@ public class AcademicCalendarController extends UifControllerBase {
     /**
      * This GET method loads an academic calendar based on the parameters passed into the request.
      *
-     * These are the supported request parameters
+     * These are the supported request parameters (specific to Acal)
      * 1. id - Academic Calendar Id to load in to UI
      * 2. readOnlyView - If true, sets the view as read only
      * 3. selectTab - can be 'info' or 'term'
@@ -125,7 +126,7 @@ public class AcademicCalendarController extends UifControllerBase {
                                   HttpServletRequest request, HttpServletResponse response) {
 
         try {
-            AcademicCalendarInfo acalInfo = acalForm.getViewHelperService().getLatestAcademicCalendar();
+            AcademicCalendarInfo acalInfo = getAcalViewHelperService(acalForm).getLatestAcademicCalendar();
             acalForm.setOrgAcalInfo(acalInfo);
         }
         catch (Exception x) {
@@ -168,7 +169,7 @@ public class AcademicCalendarController extends UifControllerBase {
             if (CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE.equals(pageId)) {
 
                 try {
-                    acalInfo= getAcalService().getAcademicCalendar(acalId, acalForm.getContextInfo());
+                    acalInfo= getAcalService().getAcademicCalendar(acalId, getAcalViewHelperService(acalForm).getContextInfo());
                     acalForm.setOrgAcalInfo(acalInfo);
 
                 } catch (Exception ex) {
@@ -214,7 +215,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView copy( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         try {
-           acalForm.getViewHelperService().copyToCreateAcademicCalendar(acalForm);
+           getAcalViewHelperService(acalForm).copyToCreateAcademicCalendar(acalForm);
         }catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -295,7 +296,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView delete(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        acalForm.getViewHelperService().deleteAcademicCalendar(acalForm.getAcademicCalendarInfo().getId());
+        getAcalViewHelperService(acalForm).deleteAcademicCalendar(acalForm.getAcademicCalendarInfo().getId());
 
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS, acalForm.getAcademicCalendarInfo().getName());
 
@@ -328,16 +329,18 @@ public class AcademicCalendarController extends UifControllerBase {
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
 
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
+
         if (termWrapper.isNew()){
            academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
         }else{
             try {
-                TermInfo termInfo = getAcalService().getTerm(termWrapper.getTermInfo().getId(), academicCalendarForm.getContextInfo());
-                AcademicTermWrapper termWrapperFromDB = academicCalendarForm.getViewHelperService().populateTermWrapper(termInfo, false);
+                TermInfo termInfo = getAcalService().getTerm(termWrapper.getTermInfo().getId(), viewHelperService.getContextInfo());
+                AcademicTermWrapper termWrapperFromDB = viewHelperService.populateTermWrapper(termInfo, false);
                 academicCalendarForm.getTermWrapperList().set(selectedLineIndex,termWrapperFromDB);
 
                try{
-                    academicCalendarForm.getViewHelperService().populateInstructionalDays(termWrapperFromDB);
+                    viewHelperService.populateInstructionalDays(termWrapperFromDB);
                 }catch(Exception e){
                     //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
                     e.printStackTrace();
@@ -370,8 +373,9 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
 
-        academicCalendarForm.getViewHelperService().validateTerm(academicCalendarForm.getTermWrapperList(),selectedLineIndex,academicCalendarForm.getAcademicCalendarInfo());
+        viewHelperService.validateTerm(academicCalendarForm.getTermWrapperList(), selectedLineIndex, academicCalendarForm.getAcademicCalendarInfo());
 
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
            return getUIFModelAndView(academicCalendarForm);
@@ -380,7 +384,7 @@ public class AcademicCalendarController extends UifControllerBase {
         try{
             boolean alreadyOfficial = StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,academicCalendarForm.getAcademicCalendarInfo().getStateKey());
             String messageText = alreadyOfficial ? "info.enroll.term.saved" : "info.enroll.term.official";
-            academicCalendarForm.getViewHelperService().saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(),true);
+            viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), true);
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, messageText, termWrapper.getTermNameForUI());
             // GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.official",termWrapper.getTermNameForUI());
         }catch (Exception e){
@@ -388,7 +392,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
        try{
-            academicCalendarForm.getViewHelperService().populateInstructionalDays(termWrapper);
+            viewHelperService.populateInstructionalDays(termWrapper);
         }catch(Exception e){
             //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
             e.printStackTrace();
@@ -528,25 +532,27 @@ public class AcademicCalendarController extends UifControllerBase {
 
     private void loadAcademicCalendar(String acalId, AcademicCalendarForm acalForm) throws Exception {
 
-        AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId,acalForm.getContextInfo());
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
+
+        AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId,viewHelperService.getContextInfo());
 
         acalForm.setAcademicCalendarInfo(acalInfo);
         acalForm.setAdminOrgName(getAdminOrgNameById(acalInfo.getAdminOrgId()));
         acalForm.setNewCalendar(false);
         acalForm.setOfficialCalendar(StringUtils.equals(acalInfo.getStateKey(),AtpServiceConstants.ATP_OFFICIAL_STATE_KEY));
 
-        List<AcalEventWrapper> events = acalForm.getViewHelperService().populateEventWrappers(acalForm);
+        List<AcalEventWrapper> events = viewHelperService.populateEventWrappers(acalForm);
         acalForm.setEvents(events);
 
-        List<AcademicTermWrapper> termWrappers = acalForm.getViewHelperService().populateTermWrappers(acalId, false);
+        List<AcademicTermWrapper> termWrappers = viewHelperService.populateTermWrappers(acalId, false);
         acalForm.setTermWrapperList(termWrappers);
         
-        List<HolidayCalendarWrapper> holidayCalendarWrapperList = acalForm.getViewHelperService().loadHolidayCalendars(acalInfo);
+        List<HolidayCalendarWrapper> holidayCalendarWrapperList = viewHelperService.loadHolidayCalendars(acalInfo);
         acalForm.setHolidayCalendarList(holidayCalendarWrapperList);
 
         //Calculate instructional days (if HC exists)
         if (acalForm.getHolidayCalendarList() != null && !acalForm.getHolidayCalendarList().isEmpty()) {
-            acalForm.getViewHelperService().populateInstructionalDays(acalForm.getTermWrapperList());
+            viewHelperService.populateInstructionalDays(acalForm.getTermWrapperList());
         }
 
     }
@@ -572,12 +578,13 @@ public class AcademicCalendarController extends UifControllerBase {
     private ModelAndView saveAcademicCalendar(AcademicCalendarForm academicCalendarForm, String keyToDisplayOnSave, boolean isOfficial) {
 
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
 
         // Populate default times
-        academicCalendarForm.getViewHelperService().populateAcademicCalendarDefaults(academicCalendarForm);
+        viewHelperService.populateAcademicCalendarDefaults(academicCalendarForm);
 
         // Validate Acal
-        academicCalendarForm.getViewHelperService().validateAcademicCalendar(academicCalendarForm);
+        viewHelperService.validateAcademicCalendar(academicCalendarForm);
         if (GlobalVariables.getMessageMap().getErrorCount() > 0){
             return getUIFModelAndView(academicCalendarForm);
         }
@@ -590,8 +597,8 @@ public class AcademicCalendarController extends UifControllerBase {
                 if (isOfficial) {
                     academicCalendarInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);
                 }
-                AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, academicCalendarForm.getContextInfo());
-                academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), academicCalendarForm.getContextInfo()));
+                AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, viewHelperService.getContextInfo());
+                academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.getContextInfo()));
 
                 // 2. update acalEvents if any
                 List<AcalEventWrapper> events = academicCalendarForm.getEvents();
@@ -600,8 +607,8 @@ public class AcademicCalendarController extends UifControllerBase {
                 AcademicCalendarInfo acalInfo = null;
                 // 1. create  a new acalInfo with a list of HC Ids
                 processHolidayCalendars(academicCalendarForm);
-                acalInfo = academicCalendarForm.getViewHelperService().createAcademicCalendar(academicCalendarForm);
-                academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), academicCalendarForm.getContextInfo()));
+                acalInfo = viewHelperService.createAcademicCalendar(academicCalendarForm);
+                academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.getContextInfo()));
                 // 2. create new events if any
                 createEvents(acalInfo.getId(), academicCalendarForm);
             }
@@ -615,7 +622,7 @@ public class AcademicCalendarController extends UifControllerBase {
         for (AcademicTermWrapper termWrapper : academicCalendarForm.getTermsToDeleteOnSave()){
             String termId = termWrapper.getTermInfo().getId();
             try {
-                getAcalService().deleteTerm(termId, academicCalendarForm.getContextInfo());
+                getAcalService().deleteTerm(termId, viewHelperService.getContextInfo());
             } catch(Exception e) {
                 LOG.error(String.format("Unable to delete term [%s].", termId), e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MSG_ERROR_ACAL_SAVE_FAILED);
@@ -628,7 +635,7 @@ public class AcademicCalendarController extends UifControllerBase {
         // Save Term and keydates
         for (AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
             try {
-                academicCalendarForm.getViewHelperService().saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), false);
+                viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), false);
             } catch(Exception e) {
                 LOG.error(String.format("Unable to save term [%s].", termWrapper.getName()), e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MSG_ERROR_ACAL_SAVE_TERM_SAVE_FAILED,
@@ -639,7 +646,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         // Calculate instructional days (if HC exists)
         try {
-            academicCalendarForm.getViewHelperService().populateInstructionalDays(academicCalendarForm.getTermWrapperList());
+            viewHelperService.populateInstructionalDays(academicCalendarForm.getTermWrapperList());
         } catch(Exception e) {
             //FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
             e.printStackTrace();
@@ -674,10 +681,12 @@ public class AcademicCalendarController extends UifControllerBase {
     private void createEvents(String acalId, AcademicCalendarForm acalForm) throws Exception {
         List<AcalEventWrapper> events = acalForm.getEvents();
 
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
+
         if(events != null && !events.isEmpty()){
             List<AcalEventWrapper> createdEvents = new ArrayList<AcalEventWrapper>();
             for (AcalEventWrapper event : events){
-                createdEvents.add(acalForm.getViewHelperService().createEvent(acalId, event));
+                createdEvents.add(viewHelperService.createEvent(acalId, event));
             }
             acalForm.setEvents(createdEvents);
         }
@@ -690,17 +699,18 @@ public class AcademicCalendarController extends UifControllerBase {
     private void processEvents(AcademicCalendarForm acalForm, List<AcalEventWrapper> events, String acalId)throws Exception{
         List<AcalEventWrapper> updatedEvents = new ArrayList<AcalEventWrapper>();
         List<String> currentEventIds = getExistingEventIds(acalForm);
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
         if(events != null && !events.isEmpty()){
             for(AcalEventWrapper event : events){
                 if(currentEventIds.contains(event.getAcalEventInfo().getId())){
                     //update event
-                    AcalEventWrapper updatedEvent = acalForm.getViewHelperService().updateEvent(event.getAcalEventInfo().getId(), event);
+                    AcalEventWrapper updatedEvent = viewHelperService.updateEvent(event.getAcalEventInfo().getId(), event);
                     updatedEvents.add(updatedEvent);
                     currentEventIds.remove(event.getAcalEventInfo().getId());
                 }
                 else {
                     //create a new event
-                    AcalEventWrapper createdEvent = acalForm.getViewHelperService().createEvent(acalId, event);
+                    AcalEventWrapper createdEvent = viewHelperService.createEvent(acalId, event);
                     updatedEvents.add(createdEvent);
                 }
             }
@@ -711,14 +721,15 @@ public class AcademicCalendarController extends UifControllerBase {
         if (currentEventIds != null && currentEventIds.size() > 0){
             for(String eventId: currentEventIds){
                 //TODO: delete completely from db, when "deleted" state is available, update the event with state ="deleted"
-                acalForm.getViewHelperService().deleteEvent(eventId);
+                viewHelperService.deleteEvent(eventId);
             }
         }
 
     }
 
     private List<String> getExistingEventIds(AcademicCalendarForm acalForm) throws Exception{
-        List<AcalEventWrapper> events = acalForm.getViewHelperService().populateEventWrappers(acalForm);
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
+        List<AcalEventWrapper> events = viewHelperService.populateEventWrappers(acalForm);
         List<String> eventIds = new ArrayList<String>();
 
         if(events != null && !events.isEmpty()){
@@ -737,5 +748,9 @@ public class AcademicCalendarController extends UifControllerBase {
         return this.acalService;
     }
 
+    protected AcademicCalendarViewHelperService getAcalViewHelperService(AcademicCalendarForm acalForm){
+        AcademicCalendarViewHelperService viewHelperService = (AcademicCalendarViewHelperService)getViewHelperService(acalForm);
+        return viewHelperService;
+    }
 
 }

@@ -66,7 +66,7 @@
         <property name="headerText" value="Information" />
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="@{updateTimeString}" p:cssClasses="font-light12"/>
+                <bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>
                 <ref bean="KS-AcademicCalendar-MetaSubSection"/>
                 <ref bean="KS-AcademicCalendar-EventSubSection"/>
                 <ref bean="KS-AcademicCalendar-HolidaySubSection"/>
@@ -232,25 +232,6 @@
 		</property>
 	</bean>
 
-    <!--<bean id="KS-AcademicCalendar-HolidaySubSection" parent="Uif-VerticalBoxGroup">
-        <property name="style" value="margin-bottom:0;"/>
-        <property name="items">
-            <list>
-                &lt;!&ndash;<ref bean="KS-AcademicCalendar-HolidaySubSection-NotFound" />&ndash;&gt;
-                <ref bean="KS-AcademicCalendar-HolidaySubSection" />
-            </list>
-        </property>
-    </bean>-->
-    <!--<bean id="KS-AcademicCalendar-HolidaySubSection-NotFound" parent="Uif-VerticalBoxSubSection">
-        <property name="headerText" value="Holidays" />
-        <property name="render" value="@{#form.holidayCalendarList.empty}"/>
-        <property name="style" value="margin-bottom:0;"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="No Holiday Calendar available"/>
-            </list>
-        </property>
-    </bean>-->
     <bean id="KS-AcademicCalendar-HolidaySubSection" parent="KS-Disclosure-HorizontalCollectionSubSection">
         <property name="id" value="acal-holidays" />
         <property name="headerText" value="Holidays" />
@@ -259,7 +240,6 @@
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarHeading}"/>
-<!--        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.holidayCalendarInfo.name}"/> -->
         <property name="layoutManager.lineGroupPrototype.footer.render" value="@{#isAddLine}"/>
         <property name="layoutManager.lineGroupPrototype.header.style" value="margin-bottom:5px;padding-bottom:0;"/>
         <property name="addLineLabel.labelText" value=""/>
@@ -362,16 +342,6 @@
      <property name="layoutManager.separateAddLine" value="false" />
      <property name="layoutManager.richTable.render" value="false" />
      <property name="header.style" value="margin-top:1em;"/>
-     <!--<property name="header.cssClasses">
-      <list merge="true">
-        <value>ks-borderBottom1</value>
-      </list>
-     </property>-->
-     <!--<property name="layoutManager.cssClasses">
-        <list merge="true">
-            <value>ks-tablecollection-header-center</value>
-        </list>
-     </property>-->
      <property name="items">
        <list>
          <bean parent="Uif-InputField" p:propertyName="holidayInfo.name">

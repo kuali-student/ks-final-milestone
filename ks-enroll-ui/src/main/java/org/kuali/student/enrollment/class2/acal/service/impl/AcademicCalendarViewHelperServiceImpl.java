@@ -32,6 +32,7 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.*;
@@ -63,7 +64,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
  *
  * @author Kuali Student Team
  */
-public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl implements AcademicCalendarViewHelperService {
+public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceImpl implements AcademicCalendarViewHelperService {
 
     private AcademicCalendarService acalService;
     private ContextInfo contextInfo;
@@ -286,7 +287,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
            for (AcalEventInfo orgEventInfo : orgEventInfoList){
                AcalEventWrapper newEvent= new AcalEventWrapper(orgEventInfo,true);
                try {
-                   TypeInfo type = getTypeService().getType(orgEventInfo.getTypeKey(), getContextInfo());
+                   TypeInfo type = getTypeInfo(orgEventInfo.getTypeKey());
                    newEvent.setEventTypeName(type.getName());
                }catch (Exception e){
                    //TODO
@@ -309,7 +310,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         for (AcalEventInfo eventInfo: eventInfos) {
             AcalEventWrapper event  = new AcalEventWrapper(eventInfo,false);
-            TypeInfo type = getTypeService().getType(event.getEventTypeKey(), getContextInfo());
+            TypeInfo type = getTypeInfo(event.getEventTypeKey());
             event.setEventTypeName(type.getName());
             events.add(event);
         }
@@ -325,9 +326,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 holidayCalendarWrapperList.add(holidayCalendarWrapper);
             }
         }
-        return holidayCalendarWrapperList;        
+        return holidayCalendarWrapperList;
     }
-    
+
     private HolidayCalendarWrapper getHolidayCalendarWrapper(String hcId){
         ContextInfo context = getContextInfo();
 
@@ -1011,7 +1012,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             KeyDatesGroupWrapper group = (KeyDatesGroupWrapper)addLine;
             if(StringUtils.isNotEmpty(group.getKeyDateGroupType())) {
                 try {
-                    TypeInfo termType = getTypeService().getType(group.getKeyDateGroupType(),getContextInfo());
+                    TypeInfo termType = getTypeInfo(group.getKeyDateGroupType());
                     group.setKeyDateGroupNameUI(termType.getName());
                     group.setTypeInfo(termType);
                 } catch (Exception e) {

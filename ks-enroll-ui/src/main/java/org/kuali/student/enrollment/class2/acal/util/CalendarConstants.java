@@ -71,6 +71,7 @@ public class CalendarConstants {
 
     public static final String DEFAULT_END_TIME = "11:59";
     public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy";
+    public static final String DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
 
     public static final String UPDATE_MAKEOFFICIAL = "makeOfficial";
     public static final String UPDATE_SAVE = "save";

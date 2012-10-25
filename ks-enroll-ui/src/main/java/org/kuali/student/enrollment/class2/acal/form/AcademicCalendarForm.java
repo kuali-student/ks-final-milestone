@@ -15,29 +15,26 @@
 package org.kuali.student.enrollment.class2.acal.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
-import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This is the model class for Academic Calendar.
  *
  * @author Kuali Student Team
  */
 
 public class AcademicCalendarForm extends UifFormBase {
-    private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
     private AcademicCalendarInfo orgAcalInfo;
@@ -52,10 +49,7 @@ public class AcademicCalendarForm extends UifFormBase {
     private boolean newCalendar;
     private boolean officialCalendar;
 
-    //Just to display buttons (delete) based on this flag
     private boolean officialUI;
-
-    //This is useful when user edit term from calendar search. User should see the term tab. By default, info tab
     private String defaultTabToShow;
 
     private List<AcalEventWrapper> eventsToDeleteOnSave;
@@ -94,46 +88,81 @@ public class AcademicCalendarForm extends UifFormBase {
         return adminOrgName;
     }
 
+    /**
+     * Organization involved with an acal.
+     *
+     * @param adminOrgName
+     */
     public void setAdminOrgName(String adminOrgName) {
         this.adminOrgName = adminOrgName;
     }
 
+    /**
+     * List of holiday calendars associated with an academic calendar.
+     *
+     * @param holidayCalendarList
+     */
     public void setHolidayCalendarList(List<HolidayCalendarWrapper> holidayCalendarList) {
         this.holidayCalendarList = holidayCalendarList;
     }
 
+    /**
+     * Returns all the associated Holiday Calendars
+     *
+     * @return
+     */
     public List<HolidayCalendarWrapper> getHolidayCalendarList() {
         return holidayCalendarList;
     }
 
+    /**
+     * This is a list of terms associated with an academic calendar.
+     *
+     * @param termWrapperList
+     */
     public void setTermWrapperList(List<AcademicTermWrapper> termWrapperList) {
         this.termWrapperList = termWrapperList;
     }
 
+    /**
+     * Returns all the associated terms.
+     *
+     * @return
+     */
     public List<AcademicTermWrapper> getTermWrapperList() {
         return termWrapperList;
     }
 
-    public String getUpdateTimeString(){
-        updateTimeString = new String("");
-        if (getAcademicCalendarInfo() == null ||
-            getAcademicCalendarInfo().getId()== null ||
-            getAcademicCalendarInfo().getId().isEmpty()){
-            return updateTimeString;
-        }
-        else {
+    /**
+     * Returns the last updated time stamp
+     *
+     * @return
+     */
+    public String getLastUpdatedTime(){
+        updateTimeString = StringUtils.EMPTY;
+        if (StringUtils.isNotBlank(getAcademicCalendarInfo().getId())){
             Date updateTime = academicCalendarInfo.getMeta().getUpdateTime();
             if (updateTime != null){
-                updateTimeString = "Last saved at "+new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(updateTime);
+                updateTimeString = DateFormatUtils.format(updateTime,CalendarConstants.DATE_FORMAT);
             }
-            return updateTimeString;
         }
+        return updateTimeString;
     }
 
+    /**
+     * Returns a list of Events
+     *
+     * @return
+     */
     public List<AcalEventWrapper> getEvents() {
         return events;
     }
 
+    /**
+     * This is a list of events associated with an academic calendar.
+     *
+     * @param events
+     */
     public void setEvents(List<AcalEventWrapper> events) {
         this.events = events;
     }
@@ -154,30 +183,70 @@ public class AcademicCalendarForm extends UifFormBase {
         this.officialCalendar = officialCalendar;
     }
 
-    public String getDefaultTabToShow() {
-        return defaultTabToShow;
-    }
-
-    public void setDefaultTabToShow(String defaultTabToShow) {
-        this.defaultTabToShow = defaultTabToShow;
-    }
-
+    /**
+     * See setEventsToDeleteOnSave()
+     *
+     * @return
+     */
     public List<AcalEventWrapper> getEventsToDeleteOnSave() {
         return eventsToDeleteOnSave;
     }
 
+    /**
+     * This holds all the events which needs to be deleted on Save. When user deletes events from the ui,
+     * it'll be added to this collection and all the events will be deleted on Acal Save action.
+     *
+     * @param eventsToDeleteOnSave
+     */
     public void setEventsToDeleteOnSave(List<AcalEventWrapper> eventsToDeleteOnSave) {
         this.eventsToDeleteOnSave = eventsToDeleteOnSave;
     }
 
+    /**
+     * See setTermsToDeleteOnSave()
+     *
+     * @return
+     */
     public List<AcademicTermWrapper> getTermsToDeleteOnSave() {
         return termsToDeleteOnSave;
     }
 
+    /**
+     * This holds all the terms which needs to be deleted on Save. When user deletes terms from the ui,
+     * it'll be added to this collection and all the terms will be deleted on Acal Save action.
+     *
+     * @param termsToDeleteOnSave
+     */
     public void setTermsToDeleteOnSave(List<AcademicTermWrapper> termsToDeleteOnSave) {
         this.termsToDeleteOnSave = termsToDeleteOnSave;
     }
 
+    /**
+     * See setDefaultTabToShow()
+     *
+     * @return
+     */
+    public String getDefaultTabToShow() {
+        return defaultTabToShow;
+    }
+
+    /**
+     * This is to set which tab should be selected when user edits.
+     * If user selects editing term, then we need to display the term tab. By default, it shows the Info tab.
+     * Allowed values are <p>info</p> for info tab and <p>term</p> for term tab. Passing any other invalid
+     * data displays the info tab.
+     *
+     * @param defaultTabToShow
+     */
+     public void setDefaultTabToShow(String defaultTabToShow) {
+        this.defaultTabToShow = defaultTabToShow;
+     }
+
+    /**
+     * This returns the index of tab to be selected when user edits. This value will be passed in as template actions.
+     *
+     * @return 1 for term tab and 0 for info tab
+     */
     public int getDefaultSelectedTabIndex() {
         if (StringUtils.equals(defaultTabToShow,CalendarConstants.ACAL_TERM_TAB)){
             return 1;
@@ -185,6 +254,11 @@ public class AcademicCalendarForm extends UifFormBase {
         return 0;
     }
 
+    /**
+     * This method returns whether the Academic Calendar is Official or not. Based on this flag, delete button will be displayed.
+     *
+     * @return true if acal official
+     */
     public boolean isOfficialUI(){
         if (academicCalendarInfo != null){
             return StringUtils.equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,academicCalendarInfo.getStateKey());
@@ -192,6 +266,10 @@ public class AcademicCalendarForm extends UifFormBase {
         return false;
     }
 
+    /**
+     * Resets the form data.
+     *
+     */
     public void reset(){
         setAcademicCalendarInfo(new AcademicCalendarInfo());
         setOfficialCalendar(false);
@@ -204,7 +282,7 @@ public class AcademicCalendarForm extends UifFormBase {
         setNewCalendar(false);
     }
 
-    public AcademicCalendarViewHelperService getViewHelperService(){
+    /*public AcademicCalendarViewHelperService getViewHelperService(){
         if (getView() != null && getView().getViewHelperServiceClass() != null){
             return (AcademicCalendarViewHelperService)getView().getViewHelperService();
         }else{
@@ -214,6 +292,6 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public ContextInfo getContextInfo(){
         return getViewHelperService().getContextInfo();
-    }
+    }*/
 
 }

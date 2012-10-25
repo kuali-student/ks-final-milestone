@@ -27,7 +27,7 @@
         <property name="initializeDataDictionary" value="true"/>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:AcademicCalendarView.xml</value>
+                <value>classpath:AcademicCalendarView-old.xml</value>
             </list>
         </property>
         <!-- <property name="databaseRepositoryFilePaths">
