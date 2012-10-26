@@ -18,13 +18,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
 import org.kuali.rice.krad.maintenance.Maintainable;
-import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
 
 public interface CourseOfferingMaintainable extends Maintainable {
-
-    public void populateGradeRosterLevelTypes(InputField field, MaintenanceForm form);
-
-    public void populateFinalExamDriverTypes(InputField field, MaintenanceForm form);
 
 }

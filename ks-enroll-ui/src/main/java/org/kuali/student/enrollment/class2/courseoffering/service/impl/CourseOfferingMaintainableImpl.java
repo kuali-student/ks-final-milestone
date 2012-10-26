@@ -54,6 +54,14 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     private transient StateService stateService;
     private transient CourseService courseService;
 
+    /**
+     * This method is being called by KRAD to populate grade roster level types drop down. There would be no reference
+     * for this method in the code as it has it's reference at the xml
+     *
+     * @param field
+     * @param form
+     */
+    @SuppressWarnings("unused")
     public void populateGradeRosterLevelTypes(InputField field, MaintenanceForm form){
 
         if (field.isReadOnly()){
@@ -79,6 +87,14 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
 
     }
 
+    /**
+     * This method is being called by KRAD to populate final exam driver types drop down. There would be no reference
+     * for this method in the code as it has it's reference at the xml
+     *
+     * @param field
+     * @param form
+     */
+    @SuppressWarnings("unused")
     public void populateFinalExamDriverTypes(InputField field, MaintenanceForm form){
 
         if (field.isReadOnly()){

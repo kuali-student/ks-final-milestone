@@ -1,3 +1,19 @@
+/**
+ * Copyright 2012 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * Created by chongzhu on 10/24/12
+ */
 package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.krad.uif.field.InputField;
@@ -5,16 +21,14 @@ import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
+import org.kuali.student.enrollment.uif.service.KSViewHelperService;
 
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * Date: 10/24/12
- * Time: 1:10 PM
- * To change this template use File | Settings | File Templates.
+ * Interface for Holiday Calendar View helper.
  */
-public interface HolidayCalendarViewHelperService extends ViewHelperService {
+public interface HolidayCalendarViewHelperService extends KSViewHelperService {
 
     //HC
     public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
@@ -32,8 +46,6 @@ public interface HolidayCalendarViewHelperService extends ViewHelperService {
     public String getHolidayCalendarState(String holidayCalendarStateKey) throws Exception;
 
     public void deleteHolidayCalendar(String holidayCalendarId) throws Exception;
-
-    public void populateHolidayTypes(InputField field, HolidayCalendarForm hcForm);
 
     public void validateHolidayCalendar(HolidayCalendarForm hcForm);
 

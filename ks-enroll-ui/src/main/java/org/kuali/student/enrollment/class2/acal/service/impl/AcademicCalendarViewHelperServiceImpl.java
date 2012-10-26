@@ -72,8 +72,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * This method builds an academic calendar for ui processing. Basically, it builds the wrappers
      * around acal,events,terms,holidays,keydates etc.
      *
-     * @param acalId
-     * @param acalForm
+     * @param acalId academic calendar id
+     * @param acalForm AcademicCalendarForm
      */
     public void populateAcademicCalendar(String acalId, AcademicCalendarForm acalForm){
 
@@ -82,8 +82,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         try{
-
-            ContextInfo contextInfo = createContextInfo();
 
             AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId,createContextInfo());
 
@@ -97,7 +95,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             acalForm.setEvents(events);
 
             //Holiday calendars associated with acal.
-            List<HolidayCalendarWrapper> holidayCalendarWrapperList = populateHolidayCalendars(acalInfo.getHolidayCalendarIds(), contextInfo);
+            List<HolidayCalendarWrapper> holidayCalendarWrapperList = populateHolidayCalendars(acalInfo.getHolidayCalendarIds());
             acalForm.setHolidayCalendarList(holidayCalendarWrapperList);
 
             //Terms (which in turn builds keydate groups and keydates)
@@ -117,12 +115,11 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     /**
      * Builds the wrappers for all the holiday calendars associated with acal.
      *
-     * @param holidayCalendarIds
-     * @param contextInfo
-     * @return
+     * @param holidayCalendarIds list of holiday calendars to populate
+     * @return list of wrappers for the holiday calendars
      * @throws Exception
      */
-    private List<HolidayCalendarWrapper> populateHolidayCalendars(List<String> holidayCalendarIds, ContextInfo contextInfo) throws Exception {
+    private List<HolidayCalendarWrapper> populateHolidayCalendars(List<String> holidayCalendarIds) throws Exception {
 
         if (LOG.isDebugEnabled()){
             LOG.debug("Loading all the holiday calendars associated with the Acal");
@@ -130,6 +127,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         List<HolidayCalendarWrapper> holidayCalendarWrapperList = new ArrayList<HolidayCalendarWrapper>();
 
+        ContextInfo contextInfo = createContextInfo();
         for (String hcId : holidayCalendarIds){
 
             HolidayCalendarWrapper holidayCalendarWrapper = new HolidayCalendarWrapper();
@@ -322,7 +320,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             return null;
         }
         else {
-            //TODO - if > 1 result, find calendar with latest end date?
             return academicCalendarInfoList.get(academicCalendarInfoList.size() - 1);
         }
     }
@@ -350,7 +347,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                    TypeInfo type = getTypeInfo(orgEventInfo.getTypeKey());
                    newEvent.setEventTypeName(type.getName());
                }catch (Exception e){
-                   //TODO
+                   throw convertServiceExceptionsToUI(e);
                }
                newEventList.add(newEvent);
            }
@@ -440,6 +437,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param field
      * @param acalForm
      */
+    @SuppressWarnings("unused")
     public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm) {
 
         boolean isAddLine = BooleanUtils.toBoolean((Boolean)field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
@@ -477,6 +475,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param field
      * @param acalForm
      */
+    @SuppressWarnings("unused")
     public void populateKeyDateGroupTypes(InputField field, AcademicCalendarForm acalForm) {
 
         boolean isAddLine = BooleanUtils.toBoolean((Boolean)field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
@@ -991,7 +990,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     }
 
     protected String getAdminOrgNameById(String id){
-        //TODO: hard-coded for now, going to call OrgService
         String adminOrgName = null;
         Map<String, String> allAcalOrgs = new HashMap<String, String>();
         allAcalOrgs.put("102", "Registrar's Office");
