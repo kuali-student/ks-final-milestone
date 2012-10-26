@@ -104,6 +104,16 @@ public class ColocatedOfferingSetInfo
         this.activityOfferingIds = activityOfferingIds;
     }
 
+    @Deprecated
+    public List<String> getOfferingIds() {
+        return getActivityOfferingIds();
+    }
+
+    @Deprecated
+    public void setOfferingIds(List<String> activityOferingIds) {
+        setActivityOfferingIds(activityOfferingIds);
+    }
+
     @Override
     public Integer getMaximumEnrollment() {
         return maximumEnrollment;
