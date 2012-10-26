@@ -246,6 +246,7 @@
         <search:name>Quick search for current courses</search:name>
         <search:desc>Quick search for current courses</search:desc>
         <search:queryParams>
+            <ref bean="lu.queryParam.luOptionalId"/>
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalType"/>
             <ref bean="lu.queryParam.luOptionalState"/>

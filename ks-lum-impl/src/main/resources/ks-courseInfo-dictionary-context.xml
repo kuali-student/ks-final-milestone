@@ -1441,7 +1441,7 @@
  </bean>
  <bean id="courseVariationInfo.subjectArea" parent="courseVariationInfo.subjectArea-parent" />
  
-   <bean id="courseVariationInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
+   <bean id="courseVariationInfo.stateKey-parent" abstract="true" parent="baseKualiState">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="courseVariationInfo.stateKey" parent="courseVariationInfo.stateKey-parent"/>
@@ -1515,7 +1515,7 @@
  </bean>
  <bean id="courseCrossListingInfo.typeKey" parent="courseCrossListingInfo.typeKey-parent" />
 
- <bean id="courseCrossListingInfo.stateKey-parent" abstract="true" parent="cluIdentifierInfo.stateKey">
+ <bean id="courseCrossListingInfo.stateKey-parent" abstract="true" parent="baseKualiState">
   <property name="name" value="stateKey" />
  </bean>
  <bean id="courseCrossListingInfo.stateKey" parent="courseCrossListingInfo.stateKey-parent" />
@@ -1596,7 +1596,7 @@
  </bean>
  <bean id="courseJointInfo.typeKey" parent="courseJointInfo.typeKey-parent" />
  
-  <bean id="courseJointInfo.stateKey-parent" abstract="true" parent="cluInfo.typeKey-parent">
+  <bean id="courseJointInfo.stateKey-parent" abstract="true" parent="baseKualiState">
   <property name="name" value="stateKey" />
  </bean>
  <bean id="courseJointInfo.stateKey" parent="courseJointInfo.stateKey-parent" />
