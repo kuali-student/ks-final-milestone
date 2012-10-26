@@ -92,7 +92,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
             r.setId("FAKE_ID");
             r.setName("FAKE_NAME_NOT_IMPL");
 
-            return new RoomInfo(r);
+            return r;
             //Used to do this-> throw new DoesNotExistException(roomId);
         }
         return new RoomInfo(this.roomMap.get (roomId));
@@ -319,7 +319,20 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
             ,PermissionDeniedException
     {
         if (!this.buildingMap.containsKey(buildingId)) {
-            throw new DoesNotExistException(buildingId);
+            //TODO Temporary patch.
+            // This exception is crashing the AO screen and we can't do QA
+            // The room data will not be in the system because this is a mock service using a map,
+            // so when we export the data the rooms are not written to the impex
+            LOG.warn("Building id does not exist:"+buildingId);
+            BuildingInfo b = new BuildingInfo();
+            b.setDescr(new RichTextInfo("FAKE_DESC_NOT_IMPL", "FAKE_DESC_NOT_IMPL"));
+            b.setBuildingCode("FAKE_CODE");
+            b.setId("FAKE_ID");
+            b.setName("FAKE_NAME_NOT_IMPL");
+            b.setCampusKey("FAKE_KEY");
+
+            return b;
+            //throw new DoesNotExistException(buildingId);
         }
         return new BuildingInfo(this.buildingMap.get (buildingId));
     }
