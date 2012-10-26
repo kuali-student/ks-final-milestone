@@ -53,7 +53,7 @@
             <property name="localServiceName" value="KSCoreContext"/>
         </bean>
     -->
-    <bean id="ks.messageServiceMock" class="org.kuali.student.r2.core.messages.service.impl.MessageServiceMock">
+    <bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
         <property name="messageFiles">
             <list>
                 <value>classpath:org\kuali\student\common\ui\gwt-messages.xml</value>
