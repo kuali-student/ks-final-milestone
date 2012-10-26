@@ -37,14 +37,14 @@
         </property>
     </bean>
 
-    <bean id="KS-ScheduleOfClasses-CriteriaSection" parent="Uif-HorizontalBoxSection" p:id="scheduleOfClassesCriteriaSection">
+    <bean id="KS-ScheduleOfClasses-CriteriaSection" parent="Uif-HorizontalBoxSection" p:id="scheduleOfClassesCriteriaSection" p:onDocumentReadyScript="toggleShowButton();">
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="termCode" p:id="termCode" p:label="Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -52,7 +52,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.ScheduleOfClassesTermKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="searchType" p:label="Type of Search" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true">
+                            <bean parent="Uif-InputField" p:propertyName="searchType" p:id="searchType" p:label="Type of Search" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
@@ -60,7 +60,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.keyvalue.TypeOfSearchKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="course" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'course'}" p:id="course_search_text">
+                            <bean parent="Uif-InputField" p:propertyName="course" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'course'}" p:id="course_search_text" p:onKeyUpScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                                 </property>

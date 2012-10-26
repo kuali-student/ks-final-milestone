@@ -101,3 +101,14 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
         }
     }
 }
+
+function toggleShowButton() {
+    var termCodeText = jQuery("#termCode_control").find(":selected").text();
+    var searchTypeText = jQuery("#searchType_control").find(":selected").text();
+    var courseSsearchText = jQuery("#course_search_text_control").val();
+    if (termCodeText != '' && searchTypeText != '' && courseSsearchText != '') {
+        jQuery("#show_button").removeAttr("disabled");
+    } else {
+        jQuery("#show_button").attr("disabled", "disabled");
+    }
+}
