@@ -25,7 +25,7 @@
                            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     <!--
         Controller Class: HolidayCalendarController.java
-        View Helper Class: AcademicCalendarViewHelperServiceImpl.java
+        View Helper Class: HolidayCalendarViewHelperServiceImpl.java
         UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html
 
         This is a single page view with all the required beans defined only here.

@@ -23,7 +23,6 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
     <!--
         Controller Class: HolidayCalendarController.java
-        View Helper Class: HolidayCalendarViewHelperServiceInquirableImpl.java
         View Helper Class: HolidayCalendarWrapperInquiryViewHelperServiceImpl.java
         UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html
 
