@@ -42,7 +42,7 @@
                 </td>
                 <br/>
             </tr>
-            <!-- password is not required yet
+            <!-- password is not required yet - but it's needed for testing -->
             <tr>
                 <td class="leftTd">
                     <label for="j_password">Password:</label>
@@ -52,7 +52,6 @@
                 </td>
                 <br/>
             </tr>
-            -->
             <tr>
                 <td class="buttonRow" align="center" colspan="2">
                     <input type="submit" value="Login"/>
