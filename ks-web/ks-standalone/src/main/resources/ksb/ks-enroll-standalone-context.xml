@@ -165,6 +165,17 @@
 
     <!-- END DAOs -->
 
+    <!-- Criteria lookup config -->
+    <bean id="criterialookupDaoJpaEnroll" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="enrollCriteriaLookupService" parent="coreCriteriaLookupService">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpaEnroll"/>
+    </bean>
+
+    <!-- End Criteria Lookup config -->
+
 
     <!-- ACal Beans -->
 
@@ -248,7 +259,7 @@
         <property name="socDao" ref="socDao" />
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao"/>
-        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
+        <property name="criteriaLookupService" ref="enrollCriteriaLookupService" />
         <property name="businessLogic" ref="socBusinessLogic" />
     </bean>
 
@@ -308,7 +319,7 @@
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
     <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
-        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpaEnroll"/>
         <property name="predicateTransforms">
             <list>
                 <ref bean="coCodeTransform"/>
@@ -425,7 +436,7 @@
         <property name="resultScaleDao" ref="resultScaleDao" />
         <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
         <property name="resultScaleCriteriaLookupService">
-            <bean parent="defaultCriteriaLookupService">
+            <bean parent="enrollCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
                         <bean parent="keyword2LikeTransform">
@@ -458,7 +469,7 @@
             </bean>
         </property>
         <property name="resultValueCriteriaLookupService">
-            <bean parent="defaultCriteriaLookupService">
+            <bean parent="enrollCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
                         <bean parent="keyword2LikeTransform">
@@ -488,7 +499,7 @@
             </bean>
         </property>
         <property name="resultValuesGroupCriteriaLookupService">
-            <bean parent="defaultCriteriaLookupService">
+            <bean parent="enrollCriteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="false">
                         <bean parent="keyword2LikeTransform">
@@ -630,7 +641,7 @@
         <property name="checkDao" ref="checkDao" />
         <property name="instructionDao" ref="instructionDao" />
         <property name="stateService" ref="stateServiceCacheDecorator" />
-        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
+        <property name="criteriaLookupService" ref="enrollCriteriaLookupService"/>
     </bean>
 
     <bean id="processServiceValidationDecorator"
@@ -700,7 +711,7 @@
     <bean id="populationService" class="org.kuali.student.r2.core.population.service.impl.mock.PopulationServiceMockImpl">
         <property name="populationDao" ref="populationDao" />
         <property name="populationRuleDao" ref="populationRuleDao" />
-        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
+        <property name="criteriaLookupService" ref="enrollCriteriaLookupService" />
     </bean>
 
     <bean id="ks.exp.populationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -756,7 +767,7 @@
     <bean id="holdService" class="org.kuali.student.enrollment.class1.hold.service.impl.HoldServiceImpl">
         <property name="holdIssueDao" ref="holdIssueDao"/>
         <property name="appliedHoldDao" ref="appliedHoldDao"/>
-        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
+        <property name="criteriaLookupService" ref="enrollCriteriaLookupService"/>
     </bean>
 
     <bean id="holdServiceValidation" class="org.kuali.student.enrollment.class1.hold.service.decorators.HoldServiceValidationDecorator">
@@ -788,7 +799,7 @@
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
-        <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
+        <property name="criteriaLookupService" ref="enrollCriteriaLookupService" />
     </bean>
 
     <bean id="schedulingServiceValidationDecorator" class="org.kuali.student.r2.core.scheduling.service.decorators.SchedulingServiceValidationDecorator">
