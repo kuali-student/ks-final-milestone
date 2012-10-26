@@ -65,6 +65,7 @@ public class TestLuiServiceImpl {
     @Resource(name = "luiDao")
     private LuiDao luiDao;
 
+
     public LuiLuiRelationDao getLuiLuiRelationDao() {
         return luiLuiRelationDao;
     }
@@ -213,15 +214,15 @@ public class TestLuiServiceImpl {
         qbcBuilder.setPredicates(PredicateFactory.like("80", "maxSeats"));
         QueryByCriteria criteria = qbcBuilder.build();
         try{
-            LuiService ls = getLuiService();
+            LuiServiceImpl ls = (LuiServiceImpl) getLuiService();
             ArrayList<String> fields = new ArrayList<String>();
             fields.add("name");
-            GenericQueryResults<List<String>> results = ((LuiServiceImpl) ls).getCriteriaLookupService().genericLookup(LuiEntity.class, criteria, fields);
+            GenericQueryResults<List<String>> results = ls.getCriteriaLookupService().genericLookup(LuiEntity.class, criteria, fields);
             for(List<String> listString: results.getResults()){
                 assertTrue(listString.size()==1);
             }
             fields.add("luiType");
-            results = ((LuiServiceImpl) ls).getCriteriaLookupService().genericLookup(LuiEntity.class, criteria, fields);
+            results = ls.getCriteriaLookupService().genericLookup(LuiEntity.class, criteria, fields);
             for(List<String> listString: results.getResults()){
                 assertTrue(listString.size()==2);
             }
