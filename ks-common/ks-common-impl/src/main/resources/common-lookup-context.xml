@@ -854,7 +854,7 @@
 	<bean id="kuali.common.lookup.findCourse.suggest" parent="commonLookup-parent">
 		<property name="id" value="kuali.common.lookup.findCourse.suggest" />
 		<property name="name" value="Course" />
-		<property name="searchTypeId" value="lu.search.mostCurrent.union" />
+		<property name="searchTypeId" value="lu.search.current.quick" />
 		<property name="desc" value="Search for courses" />
 		<property name="searchParamIdKey" value="lu.queryParam.luOptionalId" />
 		<property name="params">
