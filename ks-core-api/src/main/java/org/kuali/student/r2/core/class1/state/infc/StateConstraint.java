@@ -1,7 +1,7 @@
 package org.kuali.student.r2.core.class1.state.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
-import org.kuali.student.r2.core.class1.state.dto.Cardinality;
+import org.kuali.student.r2.core.class1.state.dto.StateConstraintOperator;
 
 import java.util.List;
 
@@ -14,18 +14,18 @@ public interface StateConstraint extends IdNamelessEntity {
     /**
      * Specifies how the constraints are applied, that is, existence of some, all or none
      *
-     * @name Cardinality
+     * @name State Constraint Operator
      * @required
      */
-    public Cardinality getCardinality();
+    public StateConstraintOperator getStateConstraintOperator();
 
     /**
      * Related objects' state key
      *
-     * @name Related State Keys
+     * @name Related Object State Keys
      * @impl For example, if the cardinality is 'none', then none of the related objects should exist in the given states
      */
-    public List<String> getRelatedStateKeys();
+    public List<String> getRelatedObjectStateKeys();
 
     /**
      * Business rule that specifies the constraint

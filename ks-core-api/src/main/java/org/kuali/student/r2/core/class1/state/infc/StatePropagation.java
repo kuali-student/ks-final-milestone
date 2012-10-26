@@ -14,8 +14,6 @@ public interface StatePropagation extends IdNamelessEntity {
      * Target StateChange associated with this Propagation
      *
      * @name Target State Change Id
-     * @required
-     * @readOnly
      */
     public String getTargetStateChangeId();
 
@@ -23,7 +21,6 @@ public interface StatePropagation extends IdNamelessEntity {
      * This Propagation could be blocked by these constraints, if any
      *
      * @name State Constraint Ids
-     * @readOnly
      */
     List<String> getStateConstraintIds();
 }

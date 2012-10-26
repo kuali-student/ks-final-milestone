@@ -18,13 +18,13 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateConstraintInfo", propOrder = {"id", "typeKey", "stateKey",
-        "cardinality", "relatedStateKeys", "agendaId", "meta", "attributes", "_futureElements"})
+        "stateConstraintOperator", "relatedObjectStateKeys", "agendaId", "meta", "attributes", "_futureElements"})
 public class StateConstraintInfo extends IdNamelessEntityInfo implements StateConstraint {
 
     @XmlElement
-    private Cardinality cardinality;
+    private StateConstraintOperator stateConstraintOperator;
     @XmlElement
-    private List<String> relatedStateKeys;
+    private List<String> relatedObjectStateKeys;
     @XmlElement
     private String agendaId;
     @XmlAnyElement
@@ -37,31 +37,31 @@ public class StateConstraintInfo extends IdNamelessEntityInfo implements StateCo
     public StateConstraintInfo(StateConstraint stateConstraint) {
         super(stateConstraint);
         if (stateConstraint != null) {
-            this.cardinality = stateConstraint.getCardinality();
-            this.relatedStateKeys = new ArrayList<String>(stateConstraint.getRelatedStateKeys());
+            this.stateConstraintOperator = stateConstraint.getStateConstraintOperator();
+            this.relatedObjectStateKeys = new ArrayList<String>(stateConstraint.getRelatedObjectStateKeys());
             this.agendaId = stateConstraint.getAgendaId();
         }
     }
 
     @Override
-    public Cardinality getCardinality() {
-        return this.cardinality;
+    public StateConstraintOperator getStateConstraintOperator() {
+        return this.stateConstraintOperator;
     }
 
-    public void setCardinality(Cardinality cardinality) {
-        this.cardinality = cardinality;
+    public void setStateConstraintOperator(StateConstraintOperator stateConstraintOperator) {
+        this.stateConstraintOperator = stateConstraintOperator;
     }
 
     @Override
-    public List<String> getRelatedStateKeys() {
-        if (this.relatedStateKeys == null) {
+    public List<String> getRelatedObjectStateKeys() {
+        if (this.relatedObjectStateKeys == null) {
             return new ArrayList<String>();
         }
-        return this.relatedStateKeys;
+        return this.relatedObjectStateKeys;
     }
 
-    public void setRelatedStateKeys(List<String> relatedStateKeys) {
-        this.relatedStateKeys = relatedStateKeys;
+    public void setRelatedObjectStateKeys(List<String> relatedObjectStateKeys) {
+        this.relatedObjectStateKeys = relatedObjectStateKeys;
     }
 
     @Override
