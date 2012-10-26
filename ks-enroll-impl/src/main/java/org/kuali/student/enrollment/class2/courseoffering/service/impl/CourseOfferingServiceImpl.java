@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -119,6 +120,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private LRCService lrcService;
     private CriteriaLookupService criteriaLookupService;
     private RoomService roomService;
+
+    private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceImpl.class);
 
     public void setBusinessLogic(CourseOfferingServiceBusinessLogic businessLogic) {
         this.businessLogic = businessLogic;
@@ -1445,6 +1448,54 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
+    private void _dAOC_removeActivityOfferingIdFromAoCluster(String activityOfferingId,
+                                                             ContextInfo context) {
+        boolean exceptionThrown = false;
+        try {
+            ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, context);
+            List<ActivityOfferingClusterInfo> aoClusters
+                    = getActivityOfferingClustersByFormatOffering(aoInfo.getFormatOfferingId(), context);
+            for (ActivityOfferingClusterInfo cluster: aoClusters) {
+                // In M5, you'd expect only one AO cluster to contain an AO ID, but just in case it changes,
+                // this will check all AO clusters to remove an AO ID.
+                List<ActivityOfferingSetInfo> aoSets = cluster.getActivityOfferingSets();
+                boolean changed = false;
+                for (ActivityOfferingSetInfo set: aoSets) {
+                    List<String> aoIds = set.getActivityOfferingIds();
+                    if (aoIds.contains(activityOfferingId)) {
+                        aoIds.remove(activityOfferingId);
+                        changed = true;
+                    }
+                }
+                if (changed) {
+                    // Update, but only if an AO has been deleted
+                    updateActivityOfferingCluster(aoInfo.getFormatOfferingId(), cluster.getId(), cluster, context);
+                }
+            }
+
+        } catch (InvalidParameterException e) {
+            exceptionThrown = true;
+        } catch (ReadOnlyException e) {
+            exceptionThrown = true;
+        } catch (DoesNotExistException e) {
+            exceptionThrown = true;
+        } catch (DataValidationErrorException e) {
+            exceptionThrown = true;
+        } catch (PermissionDeniedException e) {
+            exceptionThrown = true;
+        } catch (VersionMismatchException e) {
+            exceptionThrown = true;
+        } catch (OperationFailedException e) {
+            exceptionThrown = true;
+        } catch (MissingParameterException e) {
+            exceptionThrown = true;
+        }
+        if (exceptionThrown) {
+            // Avoids catching all exceptions
+            LOGGER.warn("Unable to find AO: " + activityOfferingId);
+        }
+    }
+
     @Override
     @Transactional
     public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
@@ -1468,6 +1519,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 deleteRegistrationGroup(regGroup.getId(), context);
             }
         }
+        // Remove AO from AO cluster
+        _dAOC_removeActivityOfferingIdFromAoCluster(activityOfferingId, context);
 
         // Delete the Activity offering
         return deleteActivityOffering(activityOfferingId, context);
@@ -2002,12 +2055,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
 
         List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
+        if (aoIds == null) {
+            aoIds = new ArrayList<String>();
+        }
         Map<String, Map<String, List<String>>> aoTimeSlotMap = new HashMap<String, Map<String, List<String>>>(aoIds.size());
 
         try {
-            if (aoIds != null && !aoIds.isEmpty() && aoIds.size() > 1) {
+            if (aoIds.size() > 1) {
                 //push the actual and requested timeslots associated with the AOs of the given RG into a map
-                for (int i=0; i<aoIds.size(); i++) {
+                for (int i = 0; i < aoIds.size(); i++) {
                     Map<String, List<String>> timeSlotMap = new HashMap<String, List<String>>();
 
                     // retrieve the actual time slots for given AO
@@ -2081,7 +2137,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (PermissionDeniedException e) {
             throw new OperationFailedException("unexpected", e);
         }
 
@@ -2146,12 +2202,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             aoTypeSetCopy.removeAll(foAoTypes);
             if (!aoTypeSetCopy.isEmpty()) {
                 // There are aoTypes in the cluster, which do not appear in the fo's ao types
-                String error = "";
+                StringBuffer error = new StringBuffer();
                 for (String aoType: aoTypeSetCopy) {
-                    error += aoType + " ";
+                    error.append(aoType + " ");
                 }
-                error += "not valid AO types for FO (" + foId + ")";
-                throw new InvalidParameterException(error);
+                error.append("not valid AO types for FO (" + foId + ")");
+                throw new InvalidParameterException(error.toString());
             } else {
                 // All cluster AO types exist in FO but some are missing, so fill in missing ones
                 Set<String> missingAoTypes = new HashSet<String>(foAoTypes);
@@ -3034,7 +3090,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 if (!statusInfo.getIsSuccess()) {
                     failedToDelete.add(id);
                 }
-            } catch (Exception e) {
+                // Hopefully, the only exceptions deleteRegGroup throws
+            } catch (DoesNotExistException e) {
+                failedToDelete.add(id);
+            } catch (InvalidParameterException e) {
+                failedToDelete.add(id);
+            } catch (MissingParameterException e) {
+                failedToDelete.add(id);
+            } catch (OperationFailedException e) {
+                failedToDelete.add(id);
+            } catch (PermissionDeniedException e) {
                 failedToDelete.add(id);
             }
         }
