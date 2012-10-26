@@ -228,6 +228,40 @@
         <search:desc>Id of the reference object</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
+
+    <!-- lu.search.current.quick-->
+    <search:searchType id="lu.search.current.quick">
+        <search:name>Quick search for current courses</search:name>
+        <search:desc>Returns all current courses</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.currentquick" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="lu.criteria.currentquick"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.currentquick" parent="lu.criteria.currentquick-parent"/>
+    <search:searchCriteriaTypeInfo id="lu.criteria.currentquick-parent" abstract="true">
+        <search:name>Quick search for current courses</search:name>
+        <search:desc>Quick search for current courses</search:desc>
+        <search:queryParams>
+            <ref bean="lu.queryParam.luOptionalCode"/>
+            <ref bean="lu.queryParam.luOptionalType"/>
+            <ref bean="lu.queryParam.luOptionalState"/>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+    <search:searchResultTypeInfo id="lu.result.currentquick" parent="lu.result.currentquick-parent"/>
+    <search:searchResultTypeInfo id="lu.result.currentquick-parent" abstract="true">
+        <search:name>Quick search for current courses</search:name>
+        <search:desc>View of Program Clus</search:desc>
+        <search:resultColumns>
+            <ref bean="lu.resultColumn.cluId" />
+            <ref bean="lu.resultColumn.luOptionalCode" />
+            <ref bean="lu.resultColumn.luOptionalVersionIndId" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
 	
 	<!-- Browse Program Search -->
 	<search:searchType id="lu.search.browseProgram">
@@ -1746,6 +1780,20 @@
                     WHERE (clu.version.currentVersionStart &lt;= CURRENT_TIMESTAMP AND (clu.version.currentVersionEnd &gt; CURRENT_TIMESTAMP OR clu.version.currentVersionEnd IS NULL) )
                     </value>
                 </entry>
+
+                <entry key="lu.search.current.quick">
+                    <value>
+                        SELECT clu.id, officialIdentifier.code, clu.version.versionIndId
+                        FROM Clu clu
+                        LEFT JOIN clu.officialIdentifier officialIdentifier
+                        WHERE clu.version.sequenceNumber=(SELECT MAX(mostrecentclu.version.sequenceNumber)
+                                                            FROM Clu mostrecentclu
+                                                           WHERE clu.version.versionIndId=mostrecentclu.version.versionIndId
+                                                             AND mostrecentclu.version.versionIndId IS NOT NULL
+                                                           GROUP BY mostrecentclu.version.versionIndId)
+                    </value>
+                </entry>
+
 		        <entry key="lu.search.generic">
 <!--
 		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.officialIdentifier.level, clu.descr.plain,
