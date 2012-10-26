@@ -88,6 +88,7 @@ limitations under the License.
                         <list>
                             <bean parent="Uif-DataField"
                                   p:propertyName="copyFromAcal.name"
+                                  p:id="copyFromAcalName"
                                   p:style="font-size:125%;"
                                   p:showLabel="false"/>
                             <bean parent="Uif-DataField"
