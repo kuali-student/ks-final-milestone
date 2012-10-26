@@ -167,7 +167,7 @@ public class StatementTranslatorTest {
 /*
 
 	@Test
-	@Ignore
+	@Ignore  KSENROLL-3586
 	public void testTranslateStatement1b() throws Exception {
 		// Rule = R1
 		Statement stmt1 = NaturalLanguageUtil.createStatement(StatementOperatorTypeKey.AND);

@@ -200,7 +200,7 @@ public class ReqComponentTranslatorTest {
 
 /*
 	@Test
-	@Ignore
+	@Ignore  KSENROLL-3587
 	public void testTranslate1_1Of2() throws Exception {
 		String nlUsageTypeKey = "KUALI.RULE";
 		//Comma separated lists of clu ids no longer supported
