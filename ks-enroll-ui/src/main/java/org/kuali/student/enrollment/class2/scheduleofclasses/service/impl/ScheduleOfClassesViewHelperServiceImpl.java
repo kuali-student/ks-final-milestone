@@ -176,9 +176,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             } else {
                 organizationId = orgIDs.get(0);
             }
-        }
-
-        if (organizationId != null) {
+        } else {
             qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.equal("luiContentOwner", organizationId),
                 PredicateFactory.equal("atpId", termId),
@@ -190,10 +188,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             if(courseOfferingIds.size() > 0){
                 form.getCoDisplayWrapperList().clear();
                 form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
-            }
-
-            //If nothing was found then error
-            if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
+            } else {            //If nothing was found then error
                 LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
                 form.getCoDisplayWrapperList().clear();
@@ -204,7 +199,6 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     public void loadActivityOfferingsByCourseOfferingId(String courseOfferingId, ScheduleOfClassesSearchForm form) throws Exception {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        Calendar calendar = new GregorianCalendar();
 
         List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
         List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(courseOfferingId, contextInfo);
@@ -287,10 +281,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         if(courseOfferingIds.size() > 0){
             form.getCoDisplayWrapperList().clear();
             form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
-        }
-
-        //If nothing was found then error
-        if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
+        } else {    //If nothing was found then error
             LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
             GlobalVariables.getMessageMap().putError("Title & Description", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "title or description", titleOrDescription, termId);
             form.getCoDisplayWrapperList().clear();

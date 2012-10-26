@@ -36,10 +36,6 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
      */
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception;
 
-    public SocInfo createSocCoFoAoForTerm(String termId, CourseOfferingRolloverManagementForm form);
-
-    public boolean cleanSourceTerm(String targetTermId, CourseOfferingRolloverManagementForm form);
-    
     public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);
 
     public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form);

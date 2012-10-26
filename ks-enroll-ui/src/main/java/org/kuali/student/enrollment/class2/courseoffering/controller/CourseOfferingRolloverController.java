@@ -277,25 +277,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         }
     }
 
-    @RequestMapping(params = "methodToCall=setUpSourceTerm")
-    public ModelAndView setUpSourceTerm(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
-                                        @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        CourseOfferingViewHelperService helper = getViewHelperService(form);
-
-        if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
-            form.setStatusField("(setUp) Source/target term objects appear to be missing");
-            return getUIFModelAndView(form);
-        }
-        form.setStatusField("");
-        // Delete previous SOC and course offerings (allows for us to redefine SOC/course offering later on
-
-        boolean success = helper.cleanSourceTerm(form.getSourceTerm().getId(), form);
-        if (success) {
-            helper.createSocCoFoAoForTerm(form.getSourceTerm().getId(), form);
-        }
-        return getUIFModelAndView(form);
-    }
-
     @RequestMapping(params = "methodToCall=performReverseRollover")
     public ModelAndView performReverseRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {

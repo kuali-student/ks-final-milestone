@@ -27,31 +27,18 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseofferingset.service.impl.DeleteTargetTermRolloverRunner;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
-import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
@@ -87,127 +74,6 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         AcademicCalendarService acalService = _getAcalService();
         List<TermInfo> terms = acalService.searchForTerms(criteria, new ContextInfo());
         return terms;
-    }
-
-    private CourseOfferingInfo _createCourseOffering(String termId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ContextInfo contextInfo = ContextUtils.getContextInfo();
-
-        CourseOfferingService coService = _getCourseOfferingService();
-        CourseOfferingTransformer coTrans = new CourseOfferingTransformer();
-        CourseService courseService = _getCourseService();
-        CourseInfo courseInfo;
-        try {
-            //TODO why is this hardcoded?
-            courseInfo = courseService.getCourse("b509ad01-6ef3-44a4-8857-f5df8631f79e", contextInfo); // Now CHEM 241
-        } catch (Exception e) {
-            LOG.error("Error getting course", e);
-            return null;
-        }
-
-        CourseOfferingInfo coInfo = new CourseOfferingInfo();
-        List<String> copyOptions = new ArrayList<String>();
-        copyOptions.add(CourseOfferingSetServiceConstants.NOT_GRADING_CREDIT_OPTION_KEY);
-        // At this point
-        coTrans.copyFromCanonical(courseInfo, coInfo, copyOptions, contextInfo);
-        coInfo.setCourseOfferingTitle("Intro to Finite Math");
-        coInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        coInfo.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
-        coInfo.setMinimumEnrollment(5);
-        coInfo.setMaximumEnrollment(40);
-//        // info.setCourseId("REFERENCECOURSEMATH140");
-//        coInfo.setCourseId("5aa58103-1644-40d8-8d9c-09f64e437b93"); // In the new DB
-        coInfo.setCourseOfferingCode("CHEM241");
-        coInfo.setCourseNumberSuffix("241");
-        coInfo.setIsEvaluated(Boolean.TRUE);
-        coInfo.setFinalExamType(FinalExam.STANDARD.toString());
-        coInfo.setTermId(termId);
-        coInfo.setIsFeeAtActivityOffering(Boolean.FALSE);
-//        coInfo.setSubjectArea("MATH");
-        coInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
-        try {
-            String courseId = coInfo.getCourseId();
-            String infoTermId = coInfo.getTermId();
-            String typeKey = coInfo.getTypeKey();
-            List<String> options = new ArrayList<String>();
-
-            CourseOfferingInfo result = coService.createCourseOffering(courseId, infoTermId, typeKey, coInfo,
-                                                                       options, contextInfo);
-            return result;
-        } catch (Exception e) {
-            LOG.error("Error creating course offering", e);
-            return null;
-        }
-    }
-
-    private FormatOfferingInfo _createFormatOffering(CourseOfferingInfo coInfo) {
-        FormatOfferingInfo foInfo = new FormatOfferingInfo();
-        foInfo.setName("DEVTEST_format");
-        foInfo.setCourseOfferingId(coInfo.getId());
-        foInfo.setFormatId("10f433ba-50e4-4037-a727-4ea7747c3e6b"); // Format for CHEM241
-        foInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-        foInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY);
-        try {
-            FormatOfferingInfo result =
-                    _getCourseOfferingService().createFormatOffering(coInfo.getId(), foInfo.getFormatId(), foInfo.getTypeKey(), foInfo, new ContextInfo());
-            return result;
-        } catch (Exception e) {
-            LOG.error("Error creating format offering", e);
-            return null;
-        }
-    }
-
-    private ActivityOfferingInfo _createActivityOffering(FormatOfferingInfo foInfo, CourseOfferingInfo coInfo) {
-        ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
-        aoInfo.setActivityId("f0072e90-3aed-4d9b-8a5a-e7efe317a686"); // Lecture for CHEM241
-        aoInfo.setName("DEVTEST_activity");
-        aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-        aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
-        aoInfo.setActivityCode("A");
-        aoInfo.setCourseOfferingCode(coInfo.getCourseOfferingCode());
-        aoInfo.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
-        aoInfo.setFormatOfferingId(foInfo.getId());
-        aoInfo.setMinimumEnrollment(5);
-        aoInfo.setMaximumEnrollment(40);
-        try {
-            ActivityOfferingInfo result =
-                    coService.createActivityOffering(foInfo.getId(), aoInfo.getActivityId(), aoInfo.getTypeKey(), aoInfo, new ContextInfo());
-            return result;
-        } catch (Exception e) {
-            LOG.error("Error creating Activity Offering", e);
-            return null;
-        }
-    }
-
-    @Override
-    public SocInfo createSocCoFoAoForTerm(String termId, CourseOfferingRolloverManagementForm form) {
-        CourseOfferingInfo coOffering;
-
-        try{
-            coOffering = _createCourseOffering(termId);
-        }catch(Exception e){
-            throw new RuntimeException("Failed to create Course Offering from Course",e);
-        }
-
-        if (coOffering == null) {
-            form.setStatusField("createSocCoFoAoForTerm: Course offering not created");
-        }
-        FormatOfferingInfo foOffering = _createFormatOffering(coOffering);
-        _createActivityOffering(foOffering, coOffering);
-        CourseOfferingSetService socService = _getSocService();
-        // Create the SOC
-        SocInfo socInfo = new SocInfo();
-        socInfo.setTypeKey(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY);
-        socInfo.setStateKey(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY);
-        socInfo.setTermId(termId);
-        try {
-            String socTermId = socInfo.getTermId();
-            String typeKey = socInfo.getTypeKey();
-            ContextInfo contextInfo = new ContextInfo();
-            SocInfo result = socService.createSoc(socTermId, typeKey, socInfo, contextInfo);
-            return result;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     private int _mainSocCount(List<String> socIds) {
@@ -347,73 +213,6 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         runner.setCoService(_getCourseOfferingService());
         runner.setTermId(targetTermId);
         runner.run();
-    }
-
-    @Override
-    public boolean cleanSourceTerm(String sourceTermId, CourseOfferingRolloverManagementForm form) {
-     // Remove SOCS, SOCResults, and course offerings
-        CourseOfferingSetService socService = _getSocService();
-        CourseOfferingService coService = _getCourseOfferingService();
-
-        try {
-            // Delete course offerings since they will be regenerated
-            List<String> coIds = coService.getCourseOfferingIdsByTerm(sourceTermId, Boolean.TRUE, new ContextInfo());
-            if (coIds != null) {
-                if (coIds.size() > 3) {
-                    // Probably deleting wrong term
-                    form.setStatusField("Too many course offerings to delete: " + coIds.size());
-                    return false;
-                } else {
-                    // Delete course offerings
-                    for (String coId : coIds) {
-                        List<FormatOfferingInfo> foInfos =
-                                coService.getFormatOfferingsByCourseOffering(coId, new ContextInfo());
-                        for (FormatOfferingInfo foInfo: foInfos) {
-                            String foId = foInfo.getId();
-                            // Delete activity offerings
-                            List<ActivityOfferingInfo> aoInfos =
-                                    coService.getActivityOfferingsByFormatOffering(foId, new ContextInfo());
-                            for (ActivityOfferingInfo aoInfo: aoInfos) {
-                                coService.deleteActivityOffering(aoInfo.getId(), new ContextInfo());
-                            }
-                            // Delete format offerings first
-                            coService.deleteFormatOffering(foInfo.getId(), new ContextInfo());
-                        }
-                        coService.deleteCourseOffering(coId, new ContextInfo());
-                    }
-                }
-            }
-            // Then, SocRolloverItems
-            List<String> socIds = socService.getSocIdsByTerm(sourceTermId, new ContextInfo());
-            if (socIds != null) {
-                ContextInfo contextInfo = new ContextInfo();
-                for (String sourceSocId: socIds) {
-                    SocInfo socInfo = socService.getSoc(sourceSocId, new ContextInfo());
-                    if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        // Only deal with main SOCs for now
-                        List<String> resultIds = socService.getSocRolloverResultIdsBySourceSoc(sourceSocId, contextInfo);
-                        if (resultIds != null) {
-                            for (String resultId: resultIds) {
-                                List<SocRolloverResultItemInfo> items = socService.getSocRolloverResultItemsByResultId(resultId, contextInfo);
-                                // Items deleted here
-                                for (SocRolloverResultItemInfo item: items) {
-                                    socService.deleteSocRolloverResultItem(item.getId(), contextInfo);
-                                }
-                                // Results deleted here
-                                socService.deleteSocRolloverResult(resultId, contextInfo);
-                            }
-                        }
-                        // Finally, delete the SOC
-                        socService.deleteSoc(sourceSocId, contextInfo);
-                    }
-                }
-            }
-            return true;
-        } catch (Exception ex) {
-            LOG.warn("Exception in cleanTargetTerm", ex); //TODO is it ok to swallow all exceptions here?
-            form.setStatusField("Exception in cleanTargetTerm");
-            return false;
-        }
     }
 
     private AcademicCalendarService _getAcalService() {
