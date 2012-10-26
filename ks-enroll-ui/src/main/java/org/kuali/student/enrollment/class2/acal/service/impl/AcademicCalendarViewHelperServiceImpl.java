@@ -31,6 +31,7 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.*;
@@ -95,18 +96,14 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             List<AcalEventWrapper> events = populateEventWrappers(acalInfo.getId());
             acalForm.setEvents(events);
 
-            //Terms (which in turn builds keydate groups and keydates)
-            List<AcademicTermWrapper> termWrappers = populateTermWrappers(acalId, false);
-            acalForm.setTermWrapperList(termWrappers);
-
             //Holiday calendars associated with acal.
             List<HolidayCalendarWrapper> holidayCalendarWrapperList = populateHolidayCalendars(acalInfo.getHolidayCalendarIds(), contextInfo);
             acalForm.setHolidayCalendarList(holidayCalendarWrapperList);
 
-            //Calculate instructional days (if HC exists)
-            if (acalForm.getHolidayCalendarList() != null && !acalForm.getHolidayCalendarList().isEmpty()) {
-                populateInstructionalDays(acalForm.getTermWrapperList());
-            }
+            //Terms (which in turn builds keydate groups and keydates)
+            boolean calculateInstrDays = !holidayCalendarWrapperList.isEmpty();
+            List<AcademicTermWrapper> termWrappers = populateTermWrappers(acalId, false,calculateInstrDays);
+            acalForm.setTermWrapperList(termWrappers);
 
         }catch(Exception e){
             if (LOG.isDebugEnabled()){
@@ -195,7 +192,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param isCopy
      * @return
      */
-    public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy){
+    public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy,boolean calculateInstrDays){
 
         if (LOG.isDebugEnabled()){
             LOG.debug("Loading all the terms associated with an acal [id=" + acalId + "]");
@@ -206,7 +203,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         try {
             List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, createContextInfo());
             for (TermInfo termInfo : termInfos) {
-                AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy);
+                AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy,calculateInstrDays);
                 termWrappers.add(termWrapper);
             }
         } catch (Exception e) {
@@ -216,7 +213,11 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return termWrappers;
     }
 
-    public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy) throws Exception {
+    public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy,boolean calculateInstrDays) throws Exception {
+
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Populating Term - " + termInfo.getId());
+        }
 
         TypeInfo type = getAcalService().getTermType(termInfo.getTypeKey(),createContextInfo());
 
@@ -246,6 +247,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             if (!group.getKeydates().isEmpty()){
                 termWrapper.getKeyDatesGroupWrappers().add(group);
             }
+        }
+
+        if (calculateInstrDays){
+            populateInstructionalDays(termWrapper);
         }
 
         return termWrapper;
@@ -279,6 +284,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
+    /**
+     * Creates an academic calendar
+     *
+     * @param acalForm
+     * @return
+     * @throws Exception
+     */
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_DRAFT_STATE_KEY);
@@ -345,7 +357,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
            form.setEvents(newEventList);
 
           // 2. copy over terms
-          List<AcademicTermWrapper> newTermList = populateTermWrappers(orgAcalInfo.getId(), true);
+          List<AcademicTermWrapper> newTermList = populateTermWrappers(orgAcalInfo.getId(), true,false);
           form.setTermWrapperList(newTermList);
 
     }
@@ -671,34 +683,24 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     }
 
     /**
-     * Calculates and populates the instructional days for all the terms in a collection
-     *
-     * @param termWrapperList
-     * @throws Exception
-     */
-    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList)
-    throws Exception {
-         for (AcademicTermWrapper termWrapper : termWrapperList) {
-             populateInstructionalDays(termWrapper);
-        }
-    }
-
-    /**
      * Calculates and populates the instructional days for a term
      *
      * @param termWrapper
      * @throws Exception
      */
-    public void populateInstructionalDays(AcademicTermWrapper termWrapper)
-    throws Exception {
+    public void populateInstructionalDays(AcademicTermWrapper termWrapper) {
         if (termWrapper.getKeyDatesGroupWrappers() != null){
             for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapper.getKeyDatesGroupWrappers()) {
                  if (keyDatesGroupWrapper.getKeydates() != null){
                      for (KeyDateWrapper keydate : keyDatesGroupWrapper.getKeydates()) {
                          if (StringUtils.equals(keydate.getKeyDateType(),AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY) &&
                              termWrapper.getTermInfo() != null && StringUtils.isNotBlank(termWrapper.getTermInfo().getId())){
-                             int instructionalDays = getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),createContextInfo());
-                             termWrapper.setInstructionalDays(instructionalDays);
+                             try{
+                                 int instructionalDays = getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),createContextInfo());
+                                 termWrapper.setInstructionalDays(instructionalDays);
+                             }catch(Exception e){  // Calculating instructional days should not block the normal operation
+                                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, CalendarConstants.MessageKeys.ERROR_CALCULATING_INSTRUCTIONAL_DAYS,termWrapper.getTermNameForUI(),e.getMessage());
+                             }
                              break;
                          }
                      }
@@ -716,7 +718,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param isOfficial whether the term is official or not sothat state can be changed
      * @throws Exception
      */
-    public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial) throws Exception {
+    public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial,boolean calculateInstrDays) throws Exception {
 
         TermInfo term = termWrapper.getTermInfo();
 
@@ -743,7 +745,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         //Keydates
-        if (termWrapper.getKeyDatesGroupWrappers() != null){
+        if (termWrapper.getKeyDatesGroupWrappers() != null && !termWrapper.getKeyDatesGroupWrappers().isEmpty()){
             for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
 
@@ -771,6 +773,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     }
                 }
             }
+        }
+
+        if (calculateInstrDays){
+            populateInstructionalDays(termWrapper);
         }
 
     }

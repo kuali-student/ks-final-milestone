@@ -132,11 +132,9 @@ public class AcademicCalendarController extends KSControllerBase {
         try {
             AcademicCalendarInfo acalInfo = getAcalViewHelperService(acalForm).getLatestAcademicCalendar();
             acalForm.setCopyFromAcal(acalInfo);
+        } catch (Exception e) {
+            throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
         }
-        catch (Exception x) {
-            throw new RuntimeException(x);
-        }
-
 
         return getUIFModelAndView(acalForm);
     }
@@ -190,9 +188,8 @@ public class AcademicCalendarController extends KSControllerBase {
                 try {
                     acalInfo= getAcalService().getAcademicCalendar(acalId, getAcalViewHelperService(acalForm).createContextInfo());
                     acalForm.setCopyFromAcal(acalInfo);
-
                 } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+                    throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(ex);
                 }
             }
         }
@@ -204,8 +201,8 @@ public class AcademicCalendarController extends KSControllerBase {
                 acalForm.setNewCalendar(true);
                 acalForm.setCopyFromAcal(acalInfo);
             }
-            catch (Exception x) {
-                throw new RuntimeException(x);
+            catch (Exception e) {
+                throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
             }
 
         }
@@ -280,11 +277,10 @@ public class AcademicCalendarController extends KSControllerBase {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+                             HttpServletRequest request, HttpServletResponse response) {
 
         String controllerPath = CalendarConstants.CALENDAR_SEARCH_CONTROLLER_PATH;
         Properties urlParameters = new Properties();
@@ -317,13 +313,17 @@ public class AcademicCalendarController extends KSControllerBase {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                   HttpServletRequest request, HttpServletResponse response) {
 
-        StatusInfo statusInfo = getAcalService().deleteAcademicCalendar(acalForm.getAcademicCalendarInfo().getId(), getAcalViewHelperService(acalForm).createContextInfo());
+        StatusInfo statusInfo = null;
+        try {
+            statusInfo = getAcalService().deleteAcademicCalendar(acalForm.getAcademicCalendarInfo().getId(), getAcalViewHelperService(acalForm).createContextInfo());
+        } catch (Exception e) {
+            throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
+        }
 
         if (statusInfo.getIsSuccess()){
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, acalForm.getAcademicCalendarInfo().getName());
@@ -354,20 +354,7 @@ public class AcademicCalendarController extends KSControllerBase {
     public ModelAndView cancelTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("unable to determine the selected collection path");
-        }
-
-        int selectedLineIndex = -1;
-        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("unable to determine the selected line index");
-        }
+        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
 
@@ -378,17 +365,11 @@ public class AcademicCalendarController extends KSControllerBase {
         }else{
             try {
                 TermInfo termInfo = getAcalService().getTerm(termWrapper.getTermInfo().getId(), viewHelperService.createContextInfo());
-                AcademicTermWrapper termWrapperFromDB = viewHelperService.populateTermWrapper(termInfo, false);
+                boolean calculateInstrDays = !academicCalendarForm.getHolidayCalendarList().isEmpty();
+                AcademicTermWrapper termWrapperFromDB = viewHelperService.populateTermWrapper(termInfo, false,calculateInstrDays);
                 academicCalendarForm.getTermWrapperList().set(selectedLineIndex,termWrapperFromDB);
-
-               try{
-                    viewHelperService.populateInstructionalDays(termWrapperFromDB);
-                }catch(Exception e){
-                    //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
-                    e.printStackTrace();
-                }
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw getAcalViewHelperService(academicCalendarForm).convertServiceExceptionsToUI(e);
             }
         }
 
@@ -408,20 +389,7 @@ public class AcademicCalendarController extends KSControllerBase {
     public ModelAndView makeTermOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("unable to determine the selected collection path");
-        }
-
-        int selectedLineIndex = -1;
-        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("unable to determine the selected line index");
-        }
+        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
@@ -435,18 +403,14 @@ public class AcademicCalendarController extends KSControllerBase {
         try{
             boolean alreadyOfficial = StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,academicCalendarForm.getAcademicCalendarInfo().getStateKey());
             String messageText = alreadyOfficial ? "info.enroll.term.saved" : "info.enroll.term.official";
-            viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), true);
+            boolean calculateInstrDays = !academicCalendarForm.getHolidayCalendarList().isEmpty();
+            viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), true,calculateInstrDays);
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, messageText, termWrapper.getTermNameForUI());
-            // GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,"info.enroll.term.official",termWrapper.getTermNameForUI());
         }catch (Exception e){
-           throw new RuntimeException(e);
-        }
-
-       try{
-            viewHelperService.populateInstructionalDays(termWrapper);
-        }catch(Exception e){
-            //TODO: FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
-            e.printStackTrace();
+            if (LOG.isDebugEnabled()){
+                LOG.debug("Error Saving term " + termWrapper.getTermNameForUI() + " - " + e.getMessage());
+            }
+           throw getAcalViewHelperService(academicCalendarForm).convertServiceExceptionsToUI(e);
         }
 
         return getUIFModelAndView(academicCalendarForm);
@@ -504,20 +468,7 @@ public class AcademicCalendarController extends KSControllerBase {
     public ModelAndView deleteTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("unable to determine the selected collection path");
-        }
-
-        int selectedLineIndex = -1;
-        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("unable to determine the selected line index");
-        }
+        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
 
@@ -549,15 +500,7 @@ public class AcademicCalendarController extends KSControllerBase {
             throw new RuntimeException("unable to determine the selected collection path");
         }
 
-        int selectedLineIndex = -1;
-        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("unable to determine the selected line index");
-        }
+        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
 
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
         String selectedKeyDateGroup = StringUtils.substringBetween(selectedCollectionPath,"keyDatesGroupWrappers[","]");
@@ -585,15 +528,7 @@ public class AcademicCalendarController extends KSControllerBase {
             throw new RuntimeException("unable to determine the selected collection path");
         }
 
-        int selectedLineIndex = -1;
-        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("unable to determine the selected line index");
-        }
+        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
 
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath, "termWrapperList[", "]");
 
@@ -616,7 +551,7 @@ public class AcademicCalendarController extends KSControllerBase {
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeAcalOfficial")
     public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+                             HttpServletRequest request, HttpServletResponse response) {
         return saveAcademicCalendar(acalForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
     }
 
@@ -703,10 +638,12 @@ public class AcademicCalendarController extends KSControllerBase {
 
         academicCalendarForm.getTermsToDeleteOnSave().clear();
 
+        boolean calculateInstrDays = !academicCalendarForm.getHolidayCalendarList().isEmpty();
+
         // Save Term and keydates
         for (AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
             try {
-                viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), false);
+                viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), false,calculateInstrDays);
             } catch(Exception e) {
                 if (LOG.isDebugEnabled()){
                     LOG.error(String.format("Unable to save term [%s].", termWrapper.getName()), e);
@@ -715,14 +652,6 @@ public class AcademicCalendarController extends KSControllerBase {
                         termWrapper.getName(), e.getLocalizedMessage());
                 return getUIFModelAndView(academicCalendarForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
             }
-        }
-
-        // Calculate instructional days (if HC exists)
-        try {
-            viewHelperService.populateInstructionalDays(academicCalendarForm.getTermWrapperList());
-        } catch(Exception e) {
-            //FIXME: Have to handle the error.. but for now, as it's causing issue, just skipping calculation when there are errors
-            e.printStackTrace();
         }
 
         academicCalendarForm.setNewCalendar(false);
@@ -755,7 +684,7 @@ public class AcademicCalendarController extends KSControllerBase {
     /**
      * Update existing events, create new events, and delete events that do not exist any more when a user modifies and saves an Academic Calendar
      */
-    private void processEvents(AcademicCalendarForm acalForm, List<AcalEventWrapper> events, String acalId)throws Exception{
+    private void processEvents(AcademicCalendarForm acalForm, List<AcalEventWrapper> events, String acalId) throws Exception{
         List<AcalEventWrapper> updatedEvents = new ArrayList<AcalEventWrapper>();
         List<String> currentEventIds = getExistingEventIds(acalForm);
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);

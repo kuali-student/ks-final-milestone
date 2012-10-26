@@ -93,6 +93,7 @@ public class CalendarConstants {
         public static final String ERROR_DUPLICATE_TERM_NAME = "error.enroll.term.duplicateName";
         public static final String ERROR_TERM_NOT_IN_ACAL_RANGE = "error.enroll.term.dateNotInAcal";
         public static final String ERROR_INVALID_DATERANGE_KEYDATE = "error.enroll.keydate.dateNotInTerm";
+        public static final String ERROR_CALCULATING_INSTRUCTIONAL_DAYS = "error.enroll.acal.instructionaldays.calculation";
     }
 
 }

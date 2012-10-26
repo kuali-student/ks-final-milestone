@@ -45,13 +45,11 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
 
-    public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial) throws Exception;
+    public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial,boolean calculateInstrDays) throws Exception;
 
-    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList)throws Exception;
+    public void populateInstructionalDays(AcademicTermWrapper termWrapper);
 
-    public void populateInstructionalDays(AcademicTermWrapper termWrapper) throws Exception;
-
-    public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy);
+    public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy,boolean calculateInstrDays);
 
     public void validateAcademicCalendar(AcademicCalendarForm acalForm);
 
@@ -59,8 +57,6 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm);
 
-    public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy)throws Exception;
-
-    public AcademicCalendarService getAcalService();
+    public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy,boolean calculateInstrDays)throws Exception;
 
 }

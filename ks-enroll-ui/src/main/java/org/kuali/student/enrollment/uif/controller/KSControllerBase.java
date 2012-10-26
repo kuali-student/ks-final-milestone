@@ -16,6 +16,8 @@
 
 package org.kuali.student.enrollment.uif.controller;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -29,7 +31,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  */
 public abstract class KSControllerBase extends UifControllerBase {
 
-    public ViewHelperService getViewHelperService(UifFormBase form){
+    protected ViewHelperService getViewHelperService(UifFormBase form){
         if (form.getView().getViewHelperServiceClass() != null){
             return form.getView().getViewHelperService();
         }else{
@@ -37,5 +39,25 @@ public abstract class KSControllerBase extends UifControllerBase {
         }
     }
 
+    protected int getSelectedCollectionLineIndex(UifFormBase form){
+
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("Unable to determine the selected line index");
+        }
+
+        return selectedLineIndex;
+    }
 
 }
