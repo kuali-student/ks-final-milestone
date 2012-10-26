@@ -16,6 +16,7 @@
 
 package org.kuali.student.enrollment.courseoffering.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ import org.w3c.dom.Element;
 
 public class RegistrationGroupInfo 
     extends IdEntityInfo 
-    implements RegistrationGroup {
+    implements RegistrationGroup, Serializable {
 
     private static final long serialVersionUID = 1L;
 

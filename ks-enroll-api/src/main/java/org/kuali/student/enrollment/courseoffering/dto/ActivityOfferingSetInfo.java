@@ -24,18 +24,21 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Kuali Student Team (Kamal)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingSetInfo", propOrder = {
-                "id", "activityOfferingType", "activityOfferingIds", "_futureElements"})
+                "id", "activityOfferingType", "activityOfferingIds", 
+                "_futureElements"})
 
 public class ActivityOfferingSetInfo
-    implements ActivityOfferingSet {
+    implements ActivityOfferingSet, Serializable {
 
     private static final long serialVersionUID = 1L;
 

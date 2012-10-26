@@ -16,17 +16,18 @@
 
 package org.kuali.student.enrollment.courseoffering.dto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
 
@@ -40,7 +41,7 @@ import org.w3c.dom.Element;
 
 public class FormatOfferingInfo 
     extends IdEntityInfo 
-    implements FormatOffering {
+    implements FormatOffering, Serializable {
 
     private static final long serialVersionUID = 1L;
 

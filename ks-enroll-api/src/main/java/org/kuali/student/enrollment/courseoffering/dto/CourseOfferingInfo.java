@@ -17,11 +17,11 @@
 package org.kuali.student.enrollment.courseoffering.dto;
 
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingCrossListing;
 import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
+
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -32,26 +32,32 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.Serializable;
+
 /**
  * @author Kuali Student Team (Kamal)
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {
         "id", "typeKey", "stateKey", "descr", "courseId",
-        "termId", "courseCode", "courseOfferingCode", "courseNumberSuffix", "courseOfferingTitle",
-        "creditCnt", "isHonorsOffering", "instructors", "subjectArea", "unitsDeploymentOrgIds",
+        "termId", "courseCode", "courseOfferingCode", "courseNumberSuffix", 
+        "courseOfferingTitle", "creditCnt", "isHonorsOffering", 
+        "instructors", "subjectArea", "unitsDeploymentOrgIds",
         "unitsContentOwnerOrgIds",  "maximumEnrollment", 
         "minimumEnrollment",
         "crossListings", "gradingOptionId", "gradingOptionName",
-        "studentRegistrationGradingOptions", "creditOptionName", "creditOptionId",
-        "waitlistLevelTypeKey", "waitlistMaximum", "hasWaitlist", "waitlistTypeKey","campusLocations", 
-        "isEvaluated", "fundingSource", "isFeeAtActivityOffering", "courseNumberInternalSuffix",
+        "studentRegistrationGradingOptions", "creditOptionName", 
+        "creditOptionId", "waitlistLevelTypeKey", "waitlistMaximum", 
+        "hasWaitlist", "waitlistTypeKey","campusLocations", 
+        "isEvaluated", "fundingSource", "isFeeAtActivityOffering", 
+        "courseNumberInternalSuffix",
         "isFinancialAidEligible", "courseOfferingURL", "finalExamType",
         "meta", "attributes", "_futureElements"})
 
 public class CourseOfferingInfo 
     extends IdNamelessEntityInfo 
-    implements CourseOffering {
+    implements CourseOffering, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -78,6 +84,9 @@ public class CourseOfferingInfo
 
     @XmlElement
     private String subjectArea;
+
+    @XmlElement
+    private List<CourseOfferingCrossListingInfo> crossListings;
 
     @XmlElement
     private Boolean isHonorsOffering;
@@ -134,9 +143,6 @@ public class CourseOfferingInfo
     private String finalExamType;
 
     @XmlElement
-    private List<CourseCrossListingInfo> crossListings;
-
-    @XmlElement
     private String fundingSource;
 
     @XmlElement
@@ -189,6 +195,11 @@ public class CourseOfferingInfo
         this.courseNumberSuffix = offering.getCourseNumberSuffix();
         this.courseNumberInternalSuffix = offering.getCourseNumberInternalSuffix();
         this.subjectArea = offering.getSubjectArea();
+        this.crossListings = new ArrayList<CourseOfferingCrossListingInfo>();
+        for (CourseOfferingCrossListing crossListing : offering.getCrossListings()) {
+            this.crossListings.add(new CourseOfferingCrossListingInfo(crossListing));
+        }
+
         this.isHonorsOffering = offering.getIsHonorsOffering();
 
         this.instructors = new ArrayList<OfferingInstructorInfo>();
@@ -212,11 +223,6 @@ public class CourseOfferingInfo
         this.waitlistMaximum = offering.getWaitlistMaximum();
         this.maximumEnrollment = offering.getMaximumEnrollment();
         this.minimumEnrollment = offering.getMinimumEnrollment();
-
-        List<CourseCrossListingInfo> courseCrossListingsList = new ArrayList<CourseCrossListingInfo>();
-        for (CourseCrossListing courseCrossListing : offering.getCrossListings()) {
-            courseCrossListingsList.add(new CourseCrossListingInfo(courseCrossListing));
-        }
 
         this.hasWaitlist = (null != offering.getHasWaitlist()) ? new Boolean(offering.getHasWaitlist()) : null;
 
@@ -314,6 +320,19 @@ public class CourseOfferingInfo
 
     public void setSubjectArea(String subjectArea) {
         this.subjectArea = subjectArea;
+    }
+
+    @Override
+    public List<CourseOfferingCrossListingInfo> getCrossListings() {
+        if (crossListings == null) {
+            crossListings = new ArrayList<CourseOfferingCrossListingInfo>();
+        }
+
+        return crossListings;
+    }
+
+    public void setCrossListings(List<CourseOfferingCrossListingInfo> crossListings) {
+        this.crossListings = crossListings;
     }
 
     @Override
@@ -474,15 +493,6 @@ public class CourseOfferingInfo
 
     public void setMinimumEnrollment(Integer minimumEnrollment) {
         this.minimumEnrollment = minimumEnrollment;
-    }
-
-    @Override
-    public List<CourseCrossListingInfo> getCrossListings() {
-        return crossListings;
-    }
-
-    public void setCrossListings(List<CourseCrossListingInfo> crossListings) {
-        this.crossListings = crossListings;
     }
 
     @Override

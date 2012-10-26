@@ -30,12 +30,17 @@ import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
 import org.w3c.dom.Element;
 
 /**
- *Information about a potential instructor for a lui.
- */ 
+ * Information about an instructor.
+ */
+ 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OfferingInstructorInfo", propOrder = {"id", "personId", 
-        "percentageEffort","personName", "typeKey", "stateKey", "meta", "attributes", "_futureElements"})
-public class OfferingInstructorInfo extends TypeStateEntityInfo implements OfferingInstructor, Serializable {
+                "percentageEffort","personName", "typeKey", "stateKey", 
+                "meta", "attributes", "_futureElements"})
+
+public class OfferingInstructorInfo 
+    extends TypeStateEntityInfo 
+    implements OfferingInstructor, Serializable {
 
     private static final long serialVersionUID = 1L;
 

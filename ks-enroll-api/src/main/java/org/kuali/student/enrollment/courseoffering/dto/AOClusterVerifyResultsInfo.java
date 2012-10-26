@@ -26,19 +26,22 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 /**
  * @author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AOClusterVerifyResultsInfo", propOrder = {
-        "existingRGCount", "validRGCount", "isRegenerationNeeded", "validationResults",
-        "_futureElements"})
+                "existingRGCount", "validRGCount", 
+                "isRegenerationNeeded", "validationResults",
+                "_futureElements"})
 
-public class AOClusterVerifyResultsInfo implements AOClusterVerifyResults {
-
+public class AOClusterVerifyResultsInfo 
+    implements AOClusterVerifyResults, Serializable {
 
     private static final long serialVersionUID = 1L;
 
