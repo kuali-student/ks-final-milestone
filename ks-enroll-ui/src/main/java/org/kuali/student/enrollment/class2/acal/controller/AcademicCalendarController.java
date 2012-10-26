@@ -75,7 +75,7 @@ public class AcademicCalendarController extends KSControllerBase {
     }
 
     /**
-     * This GET method loads an academic calendar based on the parameters passed into the request.
+     * This method loads an academic calendar based on the parameters passed into the request.
      *
      * These are the supported request parameters (specific to Acal)
      * 1. id - Academic Calendar Id to load in to UI
@@ -121,7 +121,7 @@ public class AcademicCalendarController extends KSControllerBase {
     }
 
     /**
-     * This GET method is called before the Create New Academic Calendar page is displayed
+     * This method is called before the Create New Academic Calendar page is displayed
      *
      * It fills in the original Acal for the form with the latest calendar found, by default
      */
@@ -131,7 +131,7 @@ public class AcademicCalendarController extends KSControllerBase {
 
         try {
             AcademicCalendarInfo acalInfo = getAcalViewHelperService(acalForm).getLatestAcademicCalendar();
-            acalForm.setOrgAcalInfo(acalInfo);
+            acalForm.setCopyFromAcal(acalInfo);
         }
         catch (Exception x) {
             throw new RuntimeException(x);
@@ -154,11 +154,11 @@ public class AcademicCalendarController extends KSControllerBase {
     public ModelAndView toEdit(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
-        AcademicCalendarInfo orgAcalInfo = acalForm.getOrgAcalInfo();
+        AcademicCalendarInfo orgAcalInfo = acalForm.getCopyFromAcal();
 
         if (StringUtils.isBlank(acalInfo.getId()) && StringUtils.isNotBlank(orgAcalInfo.getId())){
             getAcalViewHelperService(acalForm).populateAcademicCalendar(orgAcalInfo.getId(), acalForm);
-            acalForm.setOrgAcalInfo(new AcademicCalendarInfo());
+            acalForm.setCopyFromAcal(new AcademicCalendarInfo());
         }
 
         acalForm.getView().setReadOnly(false);
@@ -189,7 +189,7 @@ public class AcademicCalendarController extends KSControllerBase {
 
                 try {
                     acalInfo= getAcalService().getAcademicCalendar(acalId, getAcalViewHelperService(acalForm).createContextInfo());
-                    acalForm.setOrgAcalInfo(acalInfo);
+                    acalForm.setCopyFromAcal(acalInfo);
 
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
@@ -202,7 +202,7 @@ public class AcademicCalendarController extends KSControllerBase {
                 acalInfo = acalForm.getAcademicCalendarInfo();
                 acalForm.reset();
                 acalForm.setNewCalendar(true);
-                acalForm.setOrgAcalInfo(acalInfo);
+                acalForm.setCopyFromAcal(acalInfo);
             }
             catch (Exception x) {
                 throw new RuntimeException(x);
@@ -225,11 +225,8 @@ public class AcademicCalendarController extends KSControllerBase {
     @RequestMapping(method = RequestMethod.POST, params="methodToCall=copy")
     public ModelAndView copy( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        try {
-           getAcalViewHelperService(acalForm).copyToCreateAcademicCalendar(acalForm);
-        }catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+
+        getAcalViewHelperService(acalForm).copyToCreateAcademicCalendar(acalForm);
 
         return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
 
@@ -309,7 +306,7 @@ public class AcademicCalendarController extends KSControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
-        return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_SAVED, false);
+        return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
     }
 
     /**
@@ -329,9 +326,9 @@ public class AcademicCalendarController extends KSControllerBase {
         StatusInfo statusInfo = getAcalService().deleteAcademicCalendar(acalForm.getAcademicCalendarInfo().getId(), getAcalViewHelperService(acalForm).createContextInfo());
 
         if (statusInfo.getIsSuccess()){
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MSG_INFO_SEARCH_DELETE_SUCCESS, acalForm.getAcademicCalendarInfo().getName());
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, acalForm.getAcademicCalendarInfo().getName());
         } else {
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MSG_ERROR_DELETING, acalForm.getAcademicCalendarInfo().getName(),statusInfo.getMessage());
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING, acalForm.getAcademicCalendarInfo().getName(),statusInfo.getMessage());
             return getUIFModelAndView(acalForm);
         }
 
@@ -620,7 +617,7 @@ public class AcademicCalendarController extends KSControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeAcalOfficial")
     public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return saveAcademicCalendar(acalForm, CalendarConstants.MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
+        return saveAcademicCalendar(acalForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
     }
 
 
@@ -644,6 +641,10 @@ public class AcademicCalendarController extends KSControllerBase {
     }
 
     private ModelAndView saveAcademicCalendar(AcademicCalendarForm academicCalendarForm, String keyToDisplayOnSave, boolean isOfficial) {
+
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Saving Academic Calendar...");
+        }
 
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
@@ -681,8 +682,10 @@ public class AcademicCalendarController extends KSControllerBase {
                 createEvents(acalInfo.getId(), academicCalendarForm);
             }
         } catch(Exception e) {
-            LOG.error("Add or update of Academic Calendar failed.", e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MSG_ERROR_ACAL_SAVE_FAILED);
+            if (LOG.isDebugEnabled()){
+                LOG.error("Add/update Academic calendar failed - " + e.getMessage());
+            }
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
             return getUIFModelAndView(academicCalendarForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         }
 
@@ -693,7 +696,7 @@ public class AcademicCalendarController extends KSControllerBase {
                 getAcalService().deleteTerm(termId, viewHelperService.createContextInfo());
             } catch(Exception e) {
                 LOG.error(String.format("Unable to delete term [%s].", termId), e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MSG_ERROR_ACAL_SAVE_FAILED);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
                 return getUIFModelAndView(academicCalendarForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
             }
         }
@@ -705,8 +708,10 @@ public class AcademicCalendarController extends KSControllerBase {
             try {
                 viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), false);
             } catch(Exception e) {
-                LOG.error(String.format("Unable to save term [%s].", termWrapper.getName()), e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MSG_ERROR_ACAL_SAVE_TERM_SAVE_FAILED,
+                if (LOG.isDebugEnabled()){
+                    LOG.error(String.format("Unable to save term [%s].", termWrapper.getName()), e);
+                }
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_SAVE_FAILED,
                         termWrapper.getName(), e.getLocalizedMessage());
                 return getUIFModelAndView(academicCalendarForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
             }
@@ -774,8 +779,7 @@ public class AcademicCalendarController extends KSControllerBase {
         //delete events that have been removed by the user
         if (currentEventIds != null && currentEventIds.size() > 0){
             for(String eventId: currentEventIds){
-                //TODO: delete completely from db, when "deleted" state is available, update the event with state ="deleted"
-                viewHelperService.deleteEvent(eventId);
+                getAcalService().deleteAcalEvent(eventId, getAcalViewHelperService(acalForm).createContextInfo());
             }
         }
 
@@ -793,7 +797,6 @@ public class AcademicCalendarController extends KSControllerBase {
         }
         return eventIds;
     }
-
 
     public AcademicCalendarService getAcalService() {
         if(acalService == null) {

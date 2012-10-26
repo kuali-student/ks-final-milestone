@@ -83,18 +83,18 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
-                      p:render="@{orgAcalInfo != null}">
+                      p:render="@{copyFromAcal != null}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"
-                                  p:propertyName="orgAcalInfo.name"
+                                  p:propertyName="copyFromAcal.name"
                                   p:style="font-size:125%;"
                                   p:showLabel="false"/>
                             <bean parent="Uif-DataField"
-                                  p:propertyName="orgAcalInfo.startDate"
+                                  p:propertyName="copyFromAcal.startDate"
                                   p:label="Start Date"/>
                             <bean parent="Uif-DataField"
-                                  p:propertyName="orgAcalInfo.endDate"
+                                  p:propertyName="copyFromAcal.endDate"
                                   p:label="End Date"/>
                         </list>
                     </property>
@@ -106,10 +106,10 @@ limitations under the License.
                 </bean>
                 <bean parent="Uif-Message"
                       p:messageText="A recent academic calendar could not be found."
-                      p:render="@{orgAcalInfo == null}"
+                      p:render="@{copyFromAcal == null}"
                       p:style="font-size:125%;"/>
                 <bean parent="Uif-ActionLink" p:methodToCall="search"
-                      p:actionLabel="@{orgAcalInfo != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}"/>
+                      p:actionLabel="@{copyFromAcal != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}"/>
             </list>
         </property>
     </bean>

@@ -37,7 +37,7 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception;
 
-    public void copyToCreateAcademicCalendar(AcademicCalendarForm form) throws Exception;
+    public void copyToCreateAcademicCalendar(AcademicCalendarForm form);
 
     public List<AcalEventWrapper> populateEventWrappers(String acalId) throws Exception;
 
@@ -45,11 +45,7 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
 
-    public void deleteEvent(String eventId) throws Exception;
-
     public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial) throws Exception;
-
-    public void deleteKeyDate(KeyDatesGroupWrapper keyDatesGroup,int selectedIndex) throws Exception;
 
     public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList)throws Exception;
 

@@ -371,16 +371,16 @@ public class HolidayCalendarViewHelperServiceImpl extends ViewHelperServiceImpl 
             /*if (holiday.isDateRange() && (null == holiday.getEndDate())) {
                 // KRAD 2.0 bug where endDate not filled but gets prior value anyway; gets past endDate edit
                 GlobalVariables.getMessageMap().putErrorForSectionId( "holidays["+index+"].endDate",
-                        CalendarConstants.MSG_ERROR_DATE_END_REQUIRED, holiday.getTypeName());
+                        CalendarConstants.ERROR_DATE_END_REQUIRED, holiday.getTypeName());
             }*/
             if (!holiday.isAllDay()) { // time fields are enabled and can be filled in
                 if (!StringUtils.isEmpty(holiday.getStartTime()) && StringUtils.isEmpty(holiday.getStartTimeAmPm())) {
                     GlobalVariables.getMessageMap().putError( "holidays["+index+"].startTimeAmPm",
-                            CalendarConstants.MSG_ERROR_TIME_START_AMPM_REQUIRED, holiday.getTypeName());
+                            CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED, holiday.getTypeName());
                 }
                 if (!StringUtils.isEmpty(holiday.getEndTime()) && StringUtils.isEmpty(holiday.getEndTimeAmPm())) {
                     GlobalVariables.getMessageMap().putError( "holidays["+index+"].endTimeAmPm",
-                            CalendarConstants.MSG_ERROR_TIME_END_AMPM_REQUIRED, holiday.getTypeName());
+                            CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED, holiday.getTypeName());
                 }
             }
         }
@@ -507,19 +507,19 @@ public class HolidayCalendarViewHelperServiceImpl extends ViewHelperServiceImpl 
         // KRAD 2.2.0-M1 can handle endDate, but acal not currently using it because of addLine bug
         if (wrapper.isDateRange() && (null == wrapper.getEndDate())) {
             GlobalVariables.getMessageMap().putError(lineName+".endDate",
-                    CalendarConstants.MSG_ERROR_DATE_END_REQUIRED, wrapperName);
+                    CalendarConstants.MessageKeys.ERROR_DATE_END_REQUIRED, wrapperName);
             isValid = false;
         }
 
         if (!wrapper.isAllDay()) { // time fields are enabled and can be filled in
             if (!StringUtils.isEmpty(wrapper.getStartTime()) && StringUtils.isEmpty(wrapper.getStartTimeAmPm())) {
                 GlobalVariables.getMessageMap().putError(lineName+".startTimeAmPm",
-                        CalendarConstants.MSG_ERROR_TIME_START_AMPM_REQUIRED, wrapperName);
+                        CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED, wrapperName);
                 isValid = false;
             }
             if (!StringUtils.isEmpty(wrapper.getEndTime()) && StringUtils.isEmpty(wrapper.getEndTimeAmPm())) {
                 GlobalVariables.getMessageMap().putError(lineName+".endTimeAmPm",
-                        CalendarConstants.MSG_ERROR_TIME_END_AMPM_REQUIRED, wrapperName);
+                        CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED, wrapperName);
                 isValid = false;
             }
         }

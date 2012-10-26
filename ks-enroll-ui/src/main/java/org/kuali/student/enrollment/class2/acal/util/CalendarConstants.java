@@ -73,23 +73,26 @@ public class CalendarConstants {
     public static final String UPDATE_MAKEOFFICIAL = "makeOfficial";
     public static final String UPDATE_SAVE = "save";
 
-    // Error & Information message constants (defined in KSEnroll-ApplicationResources.properties)
-    public static final String MSG_INFO_ACADEMIC_CALENDAR_OFFICIAL = "info.enroll.academiccalendar.official";
-    public static final String MSG_INFO_ACADEMIC_CALENDAR_SAVED = "info.enroll.academiccalendar.saved";
-    public static final String MSG_INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
-    public static final String MSG_INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
-    public static final String MSG_INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
-    public static final String MSG_ERROR_DELETING = "error.enroll.search.delete.failed";
-    public static final String MSG_ERROR_DATE_END_REQUIRED = "error.enroll.date.end.required";
-    public static final String MSG_ERROR_HOLIDAY_CALENDAR_DATE = "error.enroll.holidaycalendar.invalidDates";
-    public static final String MSG_ERROR_HOLIDAY_DATE = "error.enroll.holiday.invalidDates";
-    public static final String MSG_ERROR_HOLIDAY_DUPLICATE = "error.enroll.holiday.duplicate";
-    public static final String MSG_ERROR_TIME_START_AMPM_REQUIRED = "error.enroll.time.start.ampm.required";
-    public static final String MSG_ERROR_TIME_END_AMPM_REQUIRED = "error.enroll.time.end.ampm.required";
-    public static final String MSG_ERROR_ACAL_SAVE_FAILED = "error.enroll.acal.save.failed";
-    public static final String MSG_ERROR_ACAL_SAVE_TERM_SAVE_FAILED = "error.enroll.acal.term.save.failed";
-    public static final String MSG_ERROR_NO_HCAL = "error.enroll.acal.no.hcal";
-    public static final String MSG_ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
-    public static final String MSG_ERROR_KEY_DATE_TYPE_REQUIRED = "error.enroll.keydate.type.empty";
-    public static final String MSG_ERROR_KEY_DATE_GROUP_TYPE_REQUIRED = "error.enroll.keydategroup.type.empty";
+    public static class MessageKeys{
+        public static final String INFO_ACADEMIC_CALENDAR_OFFICIAL = "info.enroll.academiccalendar.official";
+        public static final String INFO_ACADEMIC_CALENDAR_SAVED = "info.enroll.academiccalendar.saved";
+        public static final String INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
+        public static final String INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
+        public static final String INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
+        public static final String ERROR_DELETING = "error.enroll.search.delete.failed";
+        public static final String ERROR_DATE_END_REQUIRED = "error.enroll.date.end.required";
+        public static final String ERROR_TIME_START_AMPM_REQUIRED = "error.enroll.time.start.ampm.required";
+        public static final String ERROR_TIME_END_AMPM_REQUIRED = "error.enroll.time.end.ampm.required";
+        public static final String ERROR_ACAL_SAVE_FAILED = "error.enroll.acal.save.failed";
+        public static final String ERROR_ACAL_SAVE_TERM_SAVE_FAILED = "error.enroll.acal.term.save.failed";
+        public static final String ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
+        public static final String ERROR_KEY_DATE_TYPE_REQUIRED = "error.enroll.keydate.type.empty";
+        public static final String ERROR_DUPLICATE_NAME  = "error.enroll.calendar.duplicateName";
+        public static final String ERROR_DATE_NOT_IN_ACAL_RANGE = "error.enroll.event.dateNotInAcal";
+        public static final String ERROR_INVALID_DATE_RANGE = "error.enroll.daterange.invalid";
+        public static final String ERROR_DUPLICATE_TERM_NAME = "error.enroll.term.duplicateName";
+        public static final String ERROR_TERM_NOT_IN_ACAL_RANGE = "error.enroll.term.dateNotInAcal";
+        public static final String ERROR_INVALID_DATERANGE_KEYDATE = "error.enroll.keydate.dateNotInTerm";
+    }
+
 }

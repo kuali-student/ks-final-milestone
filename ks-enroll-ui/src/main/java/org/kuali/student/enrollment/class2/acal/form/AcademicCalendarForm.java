@@ -36,7 +36,7 @@ import java.util.List;
 public class AcademicCalendarForm extends UifFormBase {
 
     private AcademicCalendarInfo academicCalendarInfo;
-    private AcademicCalendarInfo orgAcalInfo;
+    private AcademicCalendarInfo copyFromAcal;
     private String adminOrgName;
     private String updateTimeString;
 
@@ -84,12 +84,17 @@ public class AcademicCalendarForm extends UifFormBase {
         this.academicCalendarInfo = academicCalendarInfo;
     }
 
-    public AcademicCalendarInfo getOrgAcalInfo() {
-        return orgAcalInfo;
+    public AcademicCalendarInfo getCopyFromAcal() {
+        return copyFromAcal;
     }
 
-    public void setOrgAcalInfo(AcademicCalendarInfo orgAcalInfo) {
-        this.orgAcalInfo = orgAcalInfo;
+    /**
+     * Sets the recent acal, from which create a new one
+     *
+     * @param copyFromAcal
+     */
+    public void setCopyFromAcal(AcademicCalendarInfo copyFromAcal) {
+        this.copyFromAcal = copyFromAcal;
     }
 
     public String getAdminOrgName() {

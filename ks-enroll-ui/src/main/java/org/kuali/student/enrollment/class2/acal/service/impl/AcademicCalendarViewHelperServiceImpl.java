@@ -20,7 +20,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -36,7 +35,6 @@ import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
@@ -46,7 +44,6 @@ import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -68,11 +65,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     private final static Logger LOG = Logger.getLogger(AcademicCalendarViewHelperServiceImpl.class);
 
     private AcademicCalendarService acalService;
-    private ContextInfo contextInfo;
     private TypeService typeService;
-
-    private List<TypeInfo> holidayTypes;
-    private Map<String, List<TypeInfo>> typesByGroupTypeMap = new HashMap<String, List<TypeInfo>>();
 
     /**
      * This method builds an academic calendar for ui processing. Basically, it builds the wrappers
@@ -204,6 +197,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy){
 
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Loading all the terms associated with an acal [id=" + acalId + "]");
+        }
+
         List<AcademicTermWrapper> termWrappers = new ArrayList<AcademicTermWrapper>();
 
         try {
@@ -264,8 +261,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     private void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
         for (TypeInfo keyDateType : keyDateTypes) {
             try {
-                // TODO
-                List<TypeInfo> allowedTypes = getTypesForGroupType(keyDateType.getKey());
+                List<TypeInfo> allowedTypes = getTypeService().getTypesForGroupType(keyDateType.getKey(), createContextInfo());
                 for (TypeInfo allowedType : allowedTypes) {
                     if (StringUtils.equals(allowedType.getKey(),keyDateWrapper.getKeyDateType())){
                         KeyDatesGroupWrapper keyDatesGroup = keyDateGroup.get(keyDateType.getKey());
@@ -294,6 +290,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return newAcal;
     }
 
+    /**
+     * This method finds the latest Academic Calendar.
+     * It first tries to find the current year acal. If there is no match found, it looks for last year
+     *
+     * @return
+     * @throws Exception
+     */
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         List<AcademicCalendarInfo> academicCalendarInfoList =
@@ -312,17 +315,23 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
-    public void copyToCreateAcademicCalendar(AcademicCalendarForm form) throws Exception {
+    public void copyToCreateAcademicCalendar(AcademicCalendarForm form){
 
-           AcademicCalendarInfo orgAcalInfo = form.getOrgAcalInfo();
+           AcademicCalendarInfo orgAcalInfo = form.getCopyFromAcal();
 
            if (orgAcalInfo == null || StringUtils.isBlank(orgAcalInfo.getId())){
                throw new RuntimeException("ACal Info doesn't exists to copy.");
            }
 
            // 1. copy over events
-           List<AcalEventInfo> orgEventInfoList= getAcalService().getAcalEventsForAcademicCalendar(orgAcalInfo.getId(), createContextInfo());
-           List<AcalEventWrapper> newEventList = new ArrayList<AcalEventWrapper>();
+        List<AcalEventInfo> orgEventInfoList= null;
+        try {
+            orgEventInfoList = getAcalService().getAcalEventsForAcademicCalendar(orgAcalInfo.getId(), createContextInfo());
+        } catch (Exception e) {
+            throw convertServiceExceptionsToUI(e);
+        }
+
+        List<AcalEventWrapper> newEventList = new ArrayList<AcalEventWrapper>();
            for (AcalEventInfo orgEventInfo : orgEventInfoList){
                AcalEventWrapper newEvent= new AcalEventWrapper(orgEventInfo,true);
                try {
@@ -356,10 +365,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return event;
     }
 
-    public void deleteEvent(String eventId) throws Exception {
-        getAcalService().deleteAcalEvent(eventId, createContextInfo());
-    }
-
     private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper) throws Exception{
         AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
 
@@ -383,7 +388,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 String holidayCalendarId = holidayCalendarWrapper.getId();
                 if (StringUtils.equals(holidayCalendarWrapper.getId(), ((HolidayCalendarWrapper) addLine).getId())) {
                     GlobalVariables.getMessageMap().putError("newCollectionLines['holidayCalendarList'].id",
-                            CalendarConstants.MSG_ERROR_DUPLICATE_HCAL,
+                            CalendarConstants.MessageKeys.ERROR_DUPLICATE_HCAL,
                             holidayCalendarWrapper.getHolidayCalendarInfo().getName());
                     return false;
                 }
@@ -391,15 +396,14 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         } else if (addLine instanceof KeyDatesGroupWrapper) {
             KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
             if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
                 return false;
             }
         }
         else if (addLine instanceof KeyDateWrapper) {
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             if(StringUtils.isEmpty(keydate.getKeyDateType())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates",
-                        CalendarConstants.MSG_ERROR_KEY_DATE_TYPE_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
                 return false;
             }
             if (!isValidTimeSetWrapper(keydate, keydate.getKeyDateNameUI(), collectionGroup.getAddLineBindingInfo().getBindingPath())) {
@@ -439,7 +443,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         if (StringUtils.isNotBlank(groupWrapper.getKeyDateGroupType())){
             try {
-                List<TypeInfo> types = getTypesForGroupType(groupWrapper.getKeyDateGroupType());
+                List<TypeInfo> types = getTypeService().getTypesForGroupType(groupWrapper.getKeyDateGroupType(),createContextInfo());
                 for (TypeInfo type : types) {
                     if (!groupWrapper.isKeyDateExists(type.getKey())){
                         keyValues.add(new ConcreteKeyValue(type.getKey(), type.getName()));
@@ -526,21 +530,21 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         //Validate Acal Name for duplication
         if (!isValidAcalName(acalForm.getAcademicCalendarInfo())){
-            GlobalVariables.getMessageMap().putError("academicCalendarInfo.name", "error.enroll.calendar.duplicateName");
+            GlobalVariables.getMessageMap().putError("academicCalendarInfo.name", CalendarConstants.MessageKeys.ERROR_DUPLICATE_NAME);
         }
 
         if (!CommonUtils.isValidDateRange(acal.getStartDate(),acal.getEndDate())){
-            GlobalVariables.getMessageMap().putErrorForSectionId("KS-AcademicCalendar-MetaSection", "error.enroll.daterange.invalid","Calendar",CommonUtils.formatDate(acal.getStartDate()),CommonUtils.formatDate(acal.getEndDate()));
+            GlobalVariables.getMessageMap().putErrorForSectionId("KS-AcademicCalendar-MetaSection", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,"Calendar",CommonUtils.formatDate(acal.getStartDate()),CommonUtils.formatDate(acal.getEndDate()));
         }
 
         //Validate Events
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
             if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getStartDate()) ||
                 !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),eventWrapper.getEndDate())){
-                GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event", "error.enroll.event.dateNotInAcal",eventWrapper.getEventTypeName());
+                GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event", CalendarConstants.MessageKeys.ERROR_DATE_NOT_IN_ACAL_RANGE,eventWrapper.getEventTypeName());
             }
             if (eventWrapper.isDateRange() && !CommonUtils.isValidDateRange(eventWrapper.getStartDate(),eventWrapper.getEndDate())){
-                GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event", "error.enroll.daterange.invalid",eventWrapper.getEventTypeName(),CommonUtils.formatDate(eventWrapper.getStartDate()),CommonUtils.formatDate(eventWrapper.getEndDate()));
+                GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,eventWrapper.getEventTypeName(),CommonUtils.formatDate(eventWrapper.getStartDate()),CommonUtils.formatDate(eventWrapper.getEndDate()));
             }
         }
 
@@ -599,19 +603,19 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         // KRAD 2.2.0-M1 can handle endDate, but acal not currently using it because of addLine bug
         if (wrapper.isDateRange() && (null == wrapper.getEndDate())) {
             GlobalVariables.getMessageMap().putError(lineName+".endDate",
-                    CalendarConstants.MSG_ERROR_DATE_END_REQUIRED, wrapperName);
+                    CalendarConstants.MessageKeys.ERROR_DATE_END_REQUIRED, wrapperName);
             isValid = false;
         }
 
         if (!wrapper.isAllDay()) { // time fields are enabled and can be filled in
             if (!StringUtils.isEmpty(wrapper.getStartTime()) && StringUtils.isEmpty(wrapper.getStartTimeAmPm())) {
                 GlobalVariables.getMessageMap().putError(lineName+".startTimeAmPm",
-                        CalendarConstants.MSG_ERROR_TIME_START_AMPM_REQUIRED, wrapperName);
+                        CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED, wrapperName);
                 isValid = false;
             }
             if (!StringUtils.isEmpty(wrapper.getEndTime()) && StringUtils.isEmpty(wrapper.getEndTimeAmPm())) {
                 GlobalVariables.getMessageMap().putError(lineName+".endTimeAmPm",
-                        CalendarConstants.MSG_ERROR_TIME_END_AMPM_REQUIRED, wrapperName);
+                        CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED, wrapperName);
                 isValid = false;
             }
         }
@@ -636,30 +640,30 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             index2++;
             if (wrapper != termWrapperToValidate){
                 if (StringUtils.equalsIgnoreCase(wrapper.getName(),termWrapperToValidate.getName())){
-                    GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", "error.enroll.term.duplicateName",""+ NumberUtils.min(new int[]{termToValidateIndex,index2}),""+NumberUtils.max(new int[]{termToValidateIndex,index2}));
+                    GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_DUPLICATE_TERM_NAME,""+ NumberUtils.min(new int[]{termToValidateIndex,index2}),""+NumberUtils.max(new int[]{termToValidateIndex,index2}));
                 }
             }
         }
 
         if (!CommonUtils.isValidDateRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate())){
-            GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", "error.enroll.daterange.invalid",termWrapperToValidate.getName(),CommonUtils.formatDate(termWrapperToValidate.getStartDate()),CommonUtils.formatDate(termWrapperToValidate.getEndDate()));
+            GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,termWrapperToValidate.getName(),CommonUtils.formatDate(termWrapperToValidate.getStartDate()),CommonUtils.formatDate(termWrapperToValidate.getEndDate()));
         }
 
         if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),termWrapperToValidate.getStartDate()) ||
             !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),termWrapperToValidate.getEndDate())){
-            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", "error.enroll.term.dateNotInAcal",termWrapperToValidate.getName());
+            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_ACAL_RANGE,termWrapperToValidate.getName());
         }
 
         for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapperToValidate.getKeyDatesGroupWrappers()){
             for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
 
                 if (keyDateWrapper.isDateRange() && !CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", "error.enroll.daterange.invalid",keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
+                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
                 }
 
                 if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
                     !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", "error.enroll.keydate.dateNotInTerm",keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
+                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
                 }
             }
         }
@@ -702,19 +706,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
             }
         }
-    }
-
-    private QueryByCriteria buildQueryByCriteriaForTerm(String type, String code){
-        List<Predicate> predicates = new ArrayList<Predicate>();
-
-        predicates.add(PredicateFactory.equal("atpType", type));
-        predicates.add(PredicateFactory.equalIgnoreCase("atpCode", code));
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-        QueryByCriteria qbc = qbcBuilder.build();
-
-        return qbc;
     }
 
     /**
@@ -874,42 +865,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return endDateToInfo;
     }
 
-    /*public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex, String acalId) throws Exception{
-        AcademicTermWrapper termWrapper = termWrapperList.get(selectedIndex);
-        if (StringUtils.isNotBlank(termWrapper.getTermInfo().getId())){
-            if (termWrapper.getKeyDatesGroupWrappers() != null){
-                for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
-                    for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
-                        if (StringUtils.isNotBlank(keyDateWrapper.getKeyDateInfo().getId())){
-                            getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),createContextInfo());
-                        }
-                    }
-                }
-            }
-            getAcalService().deleteTerm(termWrapper.getTermInfo().getId(), createContextInfo());
-        }
-        termWrapperList.remove(selectedIndex);
-    }
-
-    public void deleteKeyDateGroup(AcademicTermWrapper termWrapper,int selectedIndex) throws Exception {
-        KeyDatesGroupWrapper keydateGroup = termWrapper.getKeyDatesGroupWrappers().get(selectedIndex);
-        if (keydateGroup != null){
-            for (int index = 0; index < keydateGroup.getKeydates().size();index++) {
-                deleteKeyDate(keydateGroup,index++);
-            }
-            termWrapper.getKeyDatesGroupWrappers().remove(keydateGroup);
-        }
-
-    }*/
-
-    public void deleteKeyDate(KeyDatesGroupWrapper keyDatesGroup,int selectedIndex) throws Exception{
-        KeyDateWrapper keydate = keyDatesGroup.getKeydates().get(selectedIndex);
-        if (StringUtils.isNotBlank(keydate.getKeyDateInfo().getId())){
-            getAcalService().deleteKeyDate(keydate.getKeyDateInfo().getId(),createContextInfo());
-        }
-        keyDatesGroup.getKeydates().remove(selectedIndex);
-    }
-
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof AcademicTermWrapper){
             AcademicTermWrapper newLine = (AcademicTermWrapper)addLine;
@@ -984,7 +939,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 throw new RuntimeException(e);
             }
             if (!CommonUtils.isValidDateRange(acalEventWrapper.getStartDate(),acalEventWrapper.getEndDate())){
-               GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event","error.enroll.daterange.invalid",acalEventWrapper.getEventTypeName(),CommonUtils.formatDate(acalEventWrapper.getStartDate()),CommonUtils.formatDate(acalEventWrapper.getEndDate()));
+               GlobalVariables.getMessageMap().putWarningForSectionId("acal-info-event",CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,acalEventWrapper.getEventTypeName(),CommonUtils.formatDate(acalEventWrapper.getStartDate()),CommonUtils.formatDate(acalEventWrapper.getEndDate()));
             }
         }else if (addLine instanceof KeyDateWrapper){
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
@@ -994,7 +949,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     keydate.setKeyDateNameUI(type.getName());
                     keydate.setTypeInfo(type);
                     if (!CommonUtils.isValidDateRange(keydate.getStartDate(),keydate.getEndDate())){
-                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", "error.enroll.daterange.invalid",keydate.getKeyDateNameUI(),CommonUtils.formatDate(keydate.getStartDate()),CommonUtils.formatDate(keydate.getEndDate()));
+                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keydate.getKeyDateNameUI(),CommonUtils.formatDate(keydate.getStartDate()),CommonUtils.formatDate(keydate.getEndDate()));
                     }
                 }
             } catch (Exception e) {
@@ -1008,7 +963,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 throw new RuntimeException(e);
             }
             if (!CommonUtils.isValidDateRange(holiday.getStartDate(),holiday.getEndDate())){
-                GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection", "error.enroll.daterange.invalid",holiday.getTypeName(),CommonUtils.formatDate(holiday.getStartDate()),CommonUtils.formatDate(holiday.getEndDate()));
+                GlobalVariables.getMessageMap().putWarningForSectionId("KS-HolidayCalendar-HolidaySection", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,holiday.getTypeName(),CommonUtils.formatDate(holiday.getStartDate()),CommonUtils.formatDate(holiday.getEndDate()));
             }
         } else {
             super.processBeforeAddLine(view, collectionGroup, model, addLine);
@@ -1027,16 +982,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
              typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
-    }
-
-    public List<TypeInfo> getTypesForGroupType(String groupTypeKey) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-
-        List<TypeInfo> types = typesByGroupTypeMap.get(groupTypeKey);
-        if(types == null) {
-            types = Collections.unmodifiableList(getTypeService().getTypesForGroupType(groupTypeKey, createContextInfo()));
-            typesByGroupTypeMap.put(groupTypeKey, types);
-        }
-        return types;
     }
 
     protected String getAdminOrgNameById(String id){
