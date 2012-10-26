@@ -198,9 +198,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
                                         <entry key="RadioGroupControl.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/control/RadioGroupControl.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/control/RadioGroupControl.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -208,7 +208,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField - RadioGroup Control"
-                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5281"/>
+                                               value="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#d6766e5281"/>
                                     </map>
                                 </property>
                             </bean>
@@ -263,7 +263,7 @@
                             <bean parent="Uif-LinkField"
                                   p:label="KRAD Java API"
                                   p:linkText="InputField.html" p:target="_blank"
-                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                  p:href="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
                         </list>
                     </property>
                 </bean>
@@ -273,7 +273,7 @@
                             <bean parent="Uif-LinkField"
                                   p:label="KRAD Guide"
                                   p:linkText="InputField - RadioGroup Control" p:target="_blank"
-                                  p:href="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5281"/>
+                                  p:href="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#d6766e5281"/>
                         </list>
                     </property>
                 </bean>

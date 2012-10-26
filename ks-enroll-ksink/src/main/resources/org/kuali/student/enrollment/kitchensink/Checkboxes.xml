@@ -222,9 +222,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
                                         <entry key="CheckboxControl.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/control/CheckboxControl.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/control/CheckboxControl.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -232,9 +232,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Checkbox control"
-                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e4898"/>
+                                               value="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#d6766e4898"/>
                                         <entry key="Checkbox group control"
-                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5254"/>
+                                               value="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#d6766e5254"/>
                                     </map>
                                 </property>
                             </bean>

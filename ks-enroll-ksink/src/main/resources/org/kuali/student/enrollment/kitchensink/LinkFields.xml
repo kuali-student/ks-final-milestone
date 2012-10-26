@@ -185,9 +185,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="LinkField.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/LinkField.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/field/LinkField.html"/>
                                         <entry key="LinkGroup.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/LinkGroup.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/container/LinkGroup.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -195,9 +195,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Link and Link Field"
-                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#linkAndLinkField"/>
+                                               value="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#linkAndLinkField"/>
                                         <entry key="Link Group"
-                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7692"/>
+                                               value="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#d6766e7692"/>
                                     </map>
                                 </property>
                             </bean>

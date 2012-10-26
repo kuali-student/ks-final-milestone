@@ -207,7 +207,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="CollectionGroup.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/container/CollectionGroup.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -215,7 +215,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Collection Groups"
-                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e7731"/>
+                                               value="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#d6766e7731"/>
                                     </map>
                                 </property>
                             </bean>

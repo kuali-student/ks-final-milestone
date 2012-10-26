@@ -195,9 +195,9 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="InputField.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
                                         <entry key="TextAreaControl.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M3/apidocs/org/kuali/rice/krad/uif/control/TextAreaControl.html"/>
+                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/control/TextAreaControl.html"/>
                                     </map>
                                 </property>
                             </bean>
@@ -205,7 +205,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Input Field TextArea Control"
-                                               value="http://site.kuali.org/rice/2.2.0-M3/reference/html/KRAD_Guide.html#d6766e5054"/>
+                                               value="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#d6766e5054"/>
                                     </map>
                                 </property>
                             </bean>
