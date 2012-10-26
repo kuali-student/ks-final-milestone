@@ -184,7 +184,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
             socRorItemDao.persist(entity);
         }
-        return new Integer(count);
+        return Integer.valueOf(count);
     }
 
     @Override

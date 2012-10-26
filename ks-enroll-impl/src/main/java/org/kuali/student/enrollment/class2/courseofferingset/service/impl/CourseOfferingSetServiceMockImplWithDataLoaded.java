@@ -9,6 +9,13 @@ import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
@@ -32,6 +39,7 @@ public class CourseOfferingSetServiceMockImplWithDataLoaded extends CourseOfferi
             result.setTargetTermId("Fall " + ++year);
             result.getOptionKeys().add("my first option");
             result.getOptionKeys().add("my 2nd option");
+            Exception ex = null;
             try {
                 result = createSocRolloverResult(result.getTypeKey(), result, new ContextInfo());
                 List<SocRolloverResultItemInfo> socRolloverResultItemInfos = new ArrayList<SocRolloverResultItemInfo>();
@@ -64,7 +72,22 @@ public class CourseOfferingSetServiceMockImplWithDataLoaded extends CourseOfferi
                 socRolloverResultItemInfo4.setTypeKey(CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY);
                 socRolloverResultItemInfos.add(socRolloverResultItemInfo4);
                 createSocRolloverResultItems(result.getSourceSocId() + result.getTargetSocId(), CourseOfferingSetServiceConstants.ROLLOVER_RESULT_TYPE_KEY, socRolloverResultItemInfos, new ContextInfo());
-            } catch (Exception ex) {
+            } catch (InvalidParameterException e) {
+                ex = e;
+            } catch (DoesNotExistException e) {
+                ex = e;
+            } catch (OperationFailedException e) {
+                ex = e;
+            } catch (ReadOnlyException e) {
+                ex = e;
+            } catch (PermissionDeniedException e) {
+                ex = e;
+            } catch (DataValidationErrorException e) {
+                ex = e;
+            } catch (MissingParameterException e) {
+                ex = e;
+            }
+            if (ex != null) {
                 throw new RuntimeException(ex);
             }
         }

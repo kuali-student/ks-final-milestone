@@ -548,7 +548,7 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
             count ++;
             this.createSocRolloverResultItem(socRolloverResultId, typeKey, info, context);
         }
-        return new Integer(count);
+        return Integer.valueOf(count);
     }
 
     @Override
@@ -600,11 +600,11 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
 
         EqualPredicate predicate = (EqualPredicate) criteria.getPredicate();
         String targetTerm = (String) predicate.getValue().getValue();
-        SocRolloverResultInfo result = new SocRolloverResultInfo();
         for (Map.Entry<String, SocRolloverResultInfo> entry : socRolloverResultMap.entrySet()) {
             if (entry.getValue().getTargetTermId().equalsIgnoreCase(targetTerm)) {
                 socRolloverResultInfos.add(entry.getValue());
                 try {
+                    // TODO: This looks strange --cclin
                     List<SocRolloverResultItemInfo> socRolloverResultItemInfos = getSocRolloverResultItemsByResultId(entry.getValue().getSourceSocId() + entry.getValue().getTargetSocId(),
                             new ContextInfo());
                 } catch (UnhandledException ue) {

@@ -449,7 +449,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
     @Override
     public List<ValidationResultInfo> verifyRegistrationGroup(String registrationGroupId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return verifyRegistrationGroup(registrationGroupId, contextInfo);
+        return getNextDecorator().verifyRegistrationGroup(registrationGroupId, contextInfo);
     }
 
     @Override

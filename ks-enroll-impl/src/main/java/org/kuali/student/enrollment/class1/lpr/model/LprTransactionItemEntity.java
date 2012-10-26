@@ -218,7 +218,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 			LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
 
 			lprItemResult.setResultingLprId(this.getResultingLprId());
-			lprItemResult.setStatus(new Boolean(
+			lprItemResult.setStatus(Boolean.valueOf(
 					"Y".equals(this.getStatus()) ? true : false));
 			lprTransItemInfo.setLprTransactionItemResult(lprItemResult);
 		}

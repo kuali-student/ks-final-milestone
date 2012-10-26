@@ -497,7 +497,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<TermInfo> getCurrentTerms(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        List<AcademicCalendarInfo> currentACInfos = getAcademicCalendarsByStartYear(new Integer(Calendar.getInstance().get(Calendar.YEAR)), context);
+        List<AcademicCalendarInfo> currentACInfos = getAcademicCalendarsByStartYear(Integer.valueOf(Calendar.getInstance().get(Calendar.YEAR)), context);
         List<TermInfo> terms = getTermsForAcademicCalendar(currentACInfos.get(0).getId(), context);
         if (terms == null || terms.size() == 0) {
             throw new DoesNotExistException("This academic calendar doesn't contain any terms : " + currentACInfos.get(0).getId());
@@ -652,15 +652,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private boolean hasTermCode(String type, String code, ContextInfo context)throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        List<TermInfo> termInfoList = new ArrayList<TermInfo>();
-
         QueryByCriteria qbc = buildQueryByCriteriaForTerm(type, code);
 
         List<TermInfo> terms = searchForTerms(qbc, context);
 
-        if(terms != null && !terms.isEmpty())
+        if (terms != null && !terms.isEmpty()) {
             return true;
-
+        }
         return false;
 
     }

@@ -47,7 +47,7 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
             aoCodes.add(aoInfo.getActivityCode());
         }
 
-        return CalculateNextCode(aoCodes);
+        return calculateNextCode(aoCodes);
     }
 
     @Override
@@ -65,10 +65,10 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
             }
         }
 
-        return CalculateNextCode(internalCodes);
+        return calculateNextCode(internalCodes);
     }
 
-    public String CalculateNextCode(List<String> codes){
+    public String calculateNextCode(List<String> codes){
         //Always start with A if it's not there
         if(!codes.contains("A")){
             return "A";
