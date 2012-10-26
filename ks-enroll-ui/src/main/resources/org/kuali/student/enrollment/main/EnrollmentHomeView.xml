@@ -47,7 +47,7 @@
                 <bean parent="Uif-Link" p:linkText="Search for Calendar or Term"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start"/>
                 <bean parent="Uif-Link" p:linkText="Create New Calendar (Academic Year)"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&amp;pageId=academicCalendarCopyPage&amp;methodToCall=startNew&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentHomeView&amp;"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&amp;pageId=academicCalendarCopyPage&amp;methodToCall=startNew"/>
                 <bean parent="Uif-Link" p:linkText="Create Holiday Calendar"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&amp;pageId=holidayCalendarCopyPage&amp;methodToCall=startNew"/>
             </list>
