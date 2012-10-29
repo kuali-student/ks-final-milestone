@@ -2,11 +2,13 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
@@ -21,21 +23,55 @@ import javax.xml.namespace.QName;
 import java.util.List;
 import java.util.Properties;
 
-public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl implements CalendarSearchViewHelperService {
+public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl implements CalendarSearchViewHelperService {
+    private final static Logger LOG = Logger.getLogger(CalendarSearchViewHelperServiceImpl.class);
 
     private transient AcademicCalendarService academicCalendarService;
 
+    /**
+     * This method search terms based on the input name and the input year
+     * @param name
+     * @param year
+     * @param context
+     * @return
+     * @throws Exception
+     */
     public List<TermInfo> searchForTerms(String name, String year,ContextInfo context)throws Exception {
     	return CalendarSearchViewHelperUtil.searchForTerms(name,year,context,getAcademicCalendarService());
     }
 
+    /**
+     * This method search AcademicCalendars based on the input name and the input year
+     * @param name
+     * @param year
+     * @param context
+     * @return
+     * @throws Exception
+     */
     public List<AcademicCalendarInfo> searchForAcademicCalendars(String name, String year,ContextInfo context)throws Exception {
         return CalendarSearchViewHelperUtil.searchForAcademicCalendars(name,year,context,getAcademicCalendarService());
     }
 
+    /**
+     * This method search HolidayCalendars based on the input name and the input year
+     * @param name
+     * @param year
+     * @param context
+     * @return
+     * @throws Exception
+     */
     public List<HolidayCalendarInfo> searchForHolidayCalendars(String name, String year,ContextInfo context)throws Exception {
         return CalendarSearchViewHelperUtil.searchForHolidayCalendars(name,year,context,getAcademicCalendarService());
     }
+
+    /**
+     * This method builds URL of performRedirect for a term
+     * @param term
+     * @param methodToCall
+     * @param readOnlyView
+     * @param context
+     * @return
+     */
 
     public Properties buildTermURLParameters(TermInfo term, String methodToCall, boolean readOnlyView, ContextInfo context){
 
@@ -46,7 +82,11 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
                 acalId = atps.get(0).getId();
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+           if (LOG.isDebugEnabled()){
+                LOG.debug("Error calling getAcademicCalendarsForTerm - " + term.getId());
+
+            }
+            convertServiceExceptionsToUI(e);
         }
 
         Properties props = new Properties();
@@ -65,6 +105,14 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     }
 
+    /**
+     * This method builds URL of performRedirect for an AcademicCalendar
+     * @param acal
+     * @param methodToCall
+     * @param readOnlyView
+     * @param context
+     * @return
+     */
     public Properties buildACalURLParameters(AcademicCalendarInfo acal, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         Properties props = new Properties();
@@ -87,6 +135,14 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     }
 
+    /**
+     * This method builds URL of performRedirect for a HolidayCalendar
+     * @param hcInfo
+     * @param methodToCall
+     * @param readOnlyView
+     * @param context
+     * @return
+     */
     public Properties buildHCalURLParameters(HolidayCalendarInfo hcInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         Properties props = new Properties();
