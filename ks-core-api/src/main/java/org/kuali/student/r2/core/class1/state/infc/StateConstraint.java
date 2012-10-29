@@ -1,7 +1,6 @@
 package org.kuali.student.r2.core.class1.state.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
-import org.kuali.student.r2.core.class1.state.dto.StateConstraintOperator;
 
 import java.util.List;
 

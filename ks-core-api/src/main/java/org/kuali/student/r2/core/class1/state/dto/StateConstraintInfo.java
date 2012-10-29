@@ -2,6 +2,7 @@ package org.kuali.student.r2.core.class1.state.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.core.class1.state.infc.StateConstraint;
+import org.kuali.student.r2.core.class1.state.infc.StateConstraintOperator;
 
 import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
