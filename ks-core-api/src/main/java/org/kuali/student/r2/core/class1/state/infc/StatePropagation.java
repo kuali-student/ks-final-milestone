@@ -14,6 +14,7 @@ public interface StatePropagation extends IdNamelessEntity {
      * Target StateChange associated with this Propagation
      *
      * @name Target State Change Id
+     * @required
      */
     public String getTargetStateChangeId();
 

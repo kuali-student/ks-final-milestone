@@ -693,6 +693,23 @@ public interface StateService {
     public List<StateConstraintInfo> getStateConstraintsByIds(@WebParam(name = "stateConstraintIds") List<String> stateConstraintIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of StateConstraint Ids by StateConstraint Type.
+     *
+     * @param stateConstraintTypeKey an identifier for an StateConstraint Type
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return a list of StateConstraint identifiers matching stateConstraintTypeKey or
+     *         an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException stateConstraintTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getStateConstraintIdsByType(@WebParam(name = "stateConstraintTypeKey") String stateConstraintTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Searches for StateConstraints based on the criteria and returns a list of
      * StateConstraint identifiers which match the search criteria.
      *
@@ -856,6 +873,22 @@ public interface StateService {
      */
     public List<StatePropagationInfo> getStatePropagationsByIds(@WebParam(name = "statePropagationIds") List<String> statePropagationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Retrieves a list of StatePropagation Ids by StatePropagation Type.
+     *
+     * @param statePropagationTypeKey an identifier for an StatePropagation Type
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return a list of StatePropagation identifiers matching statePropagationTypeKey or
+     *         an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException statePropagationTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getStatePropagationIdsByType(@WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves all StatePropagations to the given target state
@@ -912,6 +945,8 @@ public interface StateService {
      * Validate a StatePropagation
      *
      * @param validationTypeKey       the identifier for the validation Type
+     * @param targetStateChangeId     the identifier of the target StateChange
+     *                                for this propagation
      * @param statePropagationTypeKey the type of the StatePropagation
      * @param statePropagationInfo    detailed information about the
      *                                StatePropagation
@@ -920,21 +955,23 @@ public interface StateService {
      *                                the caller of service operation
      * @return a list of validation results or an empty list if validation
      *         succeeded
-     * @throws DoesNotExistException     validationTypeKey
+     * @throws DoesNotExistException     validationTypeKey, targetStateChangeId
      *                                   or statePropagationTypeKey does not
      *                                   exist
      * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException validationTypeKey,
+     * @throws MissingParameterException validationTypeKey, targetStateChangeId,
      *                                   statePropagationTypeKey, statePropagationInfo
      *                                   or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateStatePropagation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "statePropagationInfo") StatePropagationInfo statePropagationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateStatePropagation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "targetStateChangeId") String targetStateChangeId, @WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "statePropagationInfo") StatePropagationInfo statePropagationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Create a StatePropagation
      *
+     * @param targetStateChangeId     the identifier of the target StateChange
+     *                                for this propagation
      * @param statePropagationTypeKey the type of the StatePropagation
      * @param statePropagationInfo    detailed information about the
      *                                StatePropagation
@@ -943,21 +980,22 @@ public interface StateService {
      *                                the caller of service operation
      * @return created StatePropagation
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        statePropagationId or statePropagationTypeKey
+     * @throws DoesNotExistException        targetStateChangeId or statePropagationTypeKey
      *                                      does not exist
      * @throws InvalidParameterException    invalid contextInfo
-     * @throws MissingParameterException    statePropagationId, statePropagationTypeKey
+     * @throws MissingParameterException    targetStateChangeId, statePropagationTypeKey
      *                                      or contextInfo is missing or null
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public StatePropagationInfo createStatePropagation(@WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "statePropagationInfo") StatePropagationInfo statePropagationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public StatePropagationInfo createStatePropagation(@WebParam(name = "targetStateChangeId") String targetStateChangeId, @WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "statePropagationInfo") StatePropagationInfo statePropagationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates a StatePropagation
      *
+     * @param statePropagationId   identifier of the StatePropagation to be updated
      * @param statePropagationInfo information about the object StatePropagation
      *                             to be updated
      * @param contextInfo          context information containing the
