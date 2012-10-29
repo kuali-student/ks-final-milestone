@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
@@ -11,7 +10,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseOfferingManagementForm extends UifFormBase {
+public class CourseOfferingManagementForm extends CourseOfferingBaseForm {
 
     private String termCode;
     private TermInfo termInfo;
@@ -21,7 +20,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String radioSelection;
     private String inputCode;
     private String selectedOfferingAction;
-    private CourseOfferingInfo theCourseOffering;
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
 
     private List<ActivityOfferingWrapper> activityWrapperList;
@@ -42,8 +40,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String toBeScheduledCourseOfferingsUI;
     private int toBeScheduledCourseOfferingsCount;
     private boolean selectedIllegalAOInDeletion = false;
-
-    private boolean withinPortal = true;
 
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
@@ -106,14 +102,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setSelectedOfferingAction(String selectedOfferingAction) {
         this.selectedOfferingAction = selectedOfferingAction;
-    }
-
-    public CourseOfferingInfo getTheCourseOffering(){
-        return theCourseOffering;
-    }
-
-    public void setTheCourseOffering(CourseOfferingInfo theCourseOffering)  {
-        this.theCourseOffering = theCourseOffering;
     }
 
     public String getNoOfActivityOfferings() {
@@ -253,14 +241,4 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public void setSelectedIllegalAOInDeletion(boolean selectedIllegalAOInDeletion) {
         this.selectedIllegalAOInDeletion = selectedIllegalAOInDeletion;
     }
-
-    public boolean isWithinPortal() {
-        return withinPortal;
-    }
-
-    public void setWithinPortal(boolean withinPortal) {
-        this.withinPortal = withinPortal;
-    }
-
-
 }

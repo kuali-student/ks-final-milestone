@@ -1,15 +1,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrationGroupManagementForm extends UifFormBase {
-    private CourseOfferingInfo theCourseOffering;
+public class RegistrationGroupManagementForm extends CourseOfferingBaseForm {
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO;
@@ -26,8 +23,6 @@ public class RegistrationGroupManagementForm extends UifFormBase {
     private String clusterIdIdForNewFO;
     private String clusterIdForAOMove;
 
-    private boolean withinPortal = true;
-
     private int selectedClusterIndex;
 
     //This is used to handle DialogGroup/Lightbox action within collection.
@@ -38,16 +33,8 @@ public class RegistrationGroupManagementForm extends UifFormBase {
         filteredUnassignedAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
         filteredAOClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         hasAOCluster = false;
-        withinPortal = true;
+        setWithinPortal(true);
         selectCreateNewFromDropDown = false;
-    }
-
-    public CourseOfferingInfo getTheCourseOffering() {
-        return theCourseOffering;
-    }
-
-    public void setTheCourseOffering(CourseOfferingInfo theCourseOffering) {
-        this.theCourseOffering = theCourseOffering;
     }
 
     public String getFormatOfferingIdForViewRG() {
@@ -168,14 +155,6 @@ public class RegistrationGroupManagementForm extends UifFormBase {
 
     public void setClusterIdForAOMove(String clusterIdForAOMove) {
         this.clusterIdForAOMove = clusterIdForAOMove;
-    }
-
-    public boolean isWithinPortal() {
-        return withinPortal;
-    }
-
-    public void setWithinPortal(boolean withinPortal) {
-        this.withinPortal = withinPortal;
     }
 
     public int getSelectedClusterIndex() {
