@@ -223,7 +223,7 @@
 	</bean>
 
     <bean id="KS-CalendarSearch-TermResultSection" parent="Uif-TableCollectionSection"
-		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicTerm'" p:renderAddLine="false">
+		p:layoutManager.numberOfColumns="1" p:progressiveRender="calendarType eq 'AcademicTerm'" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
 		<property name="propertyName" value="terms" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -238,7 +238,7 @@
         </property>
 		<property name="items">
 			<list>
-                <bean parent="Uif-DataField"
+               <bean parent="Uif-DataField"
                   p:label="Name"
                   p:propertyName="name" />
                 <bean parent="Uif-DataField"
@@ -269,28 +269,7 @@
         </property>
 	</bean>
 
-    <!-- TODO: DropdownControl readonly not working here, but work in the collection. figure out the reason and use this one instead of repeating html -->
-    <util:list id="ResultFields">
-        <bean parent="Uif-DataField"
-          p:label="Name"
-          p:propertyName="name" />
-        <bean parent="Uif-DataField"
-          p:label="Start Date"
-          p:propertyName="startDate"/>
-        <bean parent="Uif-DataField"
-          p:label="End Date"
-          p:propertyName="endDate"/>
-        <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
-            <property name="control">
-                <bean parent="Uif-DropdownControl" />
-            </property>
-            <property name="optionsFinder">
-                <ref bean="AtpStates" />
-            </property>
-        </bean>
-    </util:list>
-
-    <bean id="AtpStates" class="org.kuali.student.enrollment.class2.acal.keyvalue.AtpStateKeyValues" />
+    <bean id="AtpStates" class="org.kuali.student.enrollment.class2.acal.keyvalue.AtpStateKeyValues" scope="singleton"/>
 
     <util:list id="search-options">
        <bean parent="Uif-KeyLabelPair" p:key="AcademicCalendar" p:value="Academic Calendar"/>
