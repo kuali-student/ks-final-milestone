@@ -430,6 +430,23 @@ public interface StateService {
     public StatusInfo deleteState(@WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves the StateChange
+     *
+     * @param stateChangeId a unique Id of a StateChange
+     * @param contextInfo       Context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return an StateChange
+     * @throws DoesNotExistException     stateChangeId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException stateChangeId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StateChangeInfo getStateChange(@WebParam(name = "stateChangeId") String stateChangeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a list of StateChanges corresponding to the given list of
      * StateChange Ids.
      *
