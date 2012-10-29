@@ -29,6 +29,7 @@ import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -65,6 +66,9 @@ public class TestLuiServiceImpl {
     @Resource(name = "luiDao")
     private LuiDao luiDao;
 
+    @Resource(name= "criteriaLookupService")
+    private CriteriaLookupService criteriaLookupService;
+
 
     public LuiLuiRelationDao getLuiLuiRelationDao() {
         return luiLuiRelationDao;
@@ -78,7 +82,7 @@ public class TestLuiServiceImpl {
     private LuiLuiRelationDao luiLuiRelationDao;
 
     public LuiService getLuiService() {
-        return luiService;
+        return  luiService;
     }
 
     public void setLuiService(LuiService luiService) {
@@ -214,15 +218,15 @@ public class TestLuiServiceImpl {
         qbcBuilder.setPredicates(PredicateFactory.like("80", "maxSeats"));
         QueryByCriteria criteria = qbcBuilder.build();
         try{
-            LuiServiceImpl ls = (LuiServiceImpl) getLuiService();
+
             ArrayList<String> fields = new ArrayList<String>();
             fields.add("name");
-            GenericQueryResults<List<String>> results = ls.getCriteriaLookupService().genericLookup(LuiEntity.class, criteria, fields);
+            GenericQueryResults<List<String>> results = criteriaLookupService.genericLookup(LuiEntity.class, criteria, fields);
             for(List<String> listString: results.getResults()){
                 assertTrue(listString.size()==1);
             }
             fields.add("luiType");
-            results = ls.getCriteriaLookupService().genericLookup(LuiEntity.class, criteria, fields);
+            results = criteriaLookupService.genericLookup(LuiEntity.class, criteria, fields);
             for(List<String> listString: results.getResults()){
                 assertTrue(listString.size()==2);
             }
