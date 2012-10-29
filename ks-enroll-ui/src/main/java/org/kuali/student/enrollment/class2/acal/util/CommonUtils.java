@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.acal.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.MutableDateTime;
 import org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -160,4 +161,9 @@ public class CommonUtils {
         return adminOrgName;
     }
 
+    public static void logDebugMsg(Logger logger, String message) {
+        if (logger.isDebugEnabled()){
+            logger.debug(message);
+        }
+    }
 }

@@ -1,17 +1,20 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
+import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl;
+import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
 import javax.xml.namespace.QName;
@@ -21,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 public class HolidayCalendarWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
+    private final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
+    private final static String exceptionComment1 = "call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get ";
+    private final static String exceptionComment2 = "call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get ";
     //	 public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
     public final static String HOLIDAY_CALENDAR_WRAPPER_KEY = "id";
     private transient AcademicCalendarService academicCalendarService;
@@ -35,11 +41,11 @@ public class HolidayCalendarWrapperInquiryViewHelperServiceImpl extends Inquirab
             //need to retrieve HolidayCalendarInfo and all Holidays to form the HolidayCalendarWrapper.
             String holidayCalendarKey = parameters.get(HOLIDAY_CALENDAR_WRAPPER_KEY);
             if(holidayCalendarKey == null){
-                System.out.println(">>>holidayCalendarKey is null");
+                CommonUtils.logDebugMsg(LOG, ">>>holidayCalendarKey is null");
                 return null;
             }
             else {
-                System.out.println(">>>holidayCalendarKey ="+holidayCalendarKey);
+                CommonUtils.logDebugMsg(LOG, ">>>holidayCalendarKey ="+holidayCalendarKey);
             }
             HolidayCalendarInfo holidayCalendarInfo = getAcademicCalendarService().getHolidayCalendar(holidayCalendarKey, context);
             holidayCalendarWrapper.setHolidayCalendarInfo(holidayCalendarInfo);
@@ -59,28 +65,28 @@ public class HolidayCalendarWrapperInquiryViewHelperServiceImpl extends Inquirab
                 }
                 holidayCalendarWrapper.setHolidays(holidays);
             }catch (DoesNotExistException dnee){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
+                CommonUtils.logDebugMsg(LOG, exceptionComment1 + "DoesNotExistException:      " + dnee.toString());
             }catch (InvalidParameterException ipe){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
+                CommonUtils.logDebugMsg(LOG, exceptionComment1 + "InvalidParameterException:  " + ipe.toString());
             }catch (MissingParameterException mpe){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
+                CommonUtils.logDebugMsg(LOG, exceptionComment1 + "MissingParameterException:  " + mpe.toString());
             }catch (OperationFailedException ofe){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
+                CommonUtils.logDebugMsg(LOG, exceptionComment1 + "OperationFailedException:   " + ofe.toString());
             }catch (PermissionDeniedException pde){
-                System.out.println("call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+                CommonUtils.logDebugMsg(LOG, exceptionComment1 + "PermissionDeniedException:  " + pde.toString());
             }
             return holidayCalendarWrapper;
 
         }catch (DoesNotExistException dnee){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get DoesNotExistException:  "+dnee.toString());
+            CommonUtils.logDebugMsg(LOG, exceptionComment2 + "DoesNotExistException:      " + dnee.toString());
         }catch (InvalidParameterException ipe){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get InvalidParameterException:  "+ipe.toString());
+            CommonUtils.logDebugMsg(LOG, exceptionComment2 + "InvalidParameterException:  " + ipe.toString());
         }catch (MissingParameterException mpe){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get MissingParameterException:  "+mpe.toString());
+            CommonUtils.logDebugMsg(LOG, exceptionComment2 + "MissingParameterException:  " + mpe.toString());
         }catch (OperationFailedException ofe){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get OperationFailedException:  "+ofe.toString());
+            CommonUtils.logDebugMsg(LOG, exceptionComment2 + "OperationFailedException:   " + ofe.toString());
         }catch (PermissionDeniedException pde){
-            System.out.println("call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get PermissionDeniedException:  "+pde.toString());
+            CommonUtils.logDebugMsg(LOG, exceptionComment2 + "PermissionDeniedException:  " + pde.toString());
         }
         return null;
     }
