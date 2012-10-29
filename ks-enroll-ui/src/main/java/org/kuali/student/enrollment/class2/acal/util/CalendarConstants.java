@@ -54,7 +54,7 @@ public class CalendarConstants {
     //method names
     public static final String AC_EDIT_METHOD = KRADConstants.START_METHOD;
     public static final String AC_VIEW_METHOD = KRADConstants.START_METHOD;
-    public static final String AC_COPY_METHOD = "copyForNew";
+    public static final String AC_COPY_METHOD = "toCopy";
     public static final String HC_EDIT_METHOD = KRADConstants.START_METHOD;
     public static final String HC_VIEW_METHOD = KRADConstants.START_METHOD;
     public static final String HC_COPY_METHOD = "copyForNew";
