@@ -126,6 +126,42 @@
         </property>
     </bean>
 
+    <bean id="KS-KitchenSink-CollectionSmall-Base" parent="KS-KitchenSink-Collection-Base" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField">
+                    <property name="propertyName" value="id"/>
+                    <property name="label" value="ID"/>
+                    <property name="width" value="5"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="name"/>
+                    <property name="label" value="Name"/>
+                    <property name="required" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="size" value="15"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="date"/>
+                    <property name="label" value="Date"/>
+                    <property name="required" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-DateControl">
+                            <property name="watermarkText" value="mm/dd/yyyy"/>
+                            <property name="size" value="10"/>
+                        </bean>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 
     <!-- Miscellaneous definitions -->
 
