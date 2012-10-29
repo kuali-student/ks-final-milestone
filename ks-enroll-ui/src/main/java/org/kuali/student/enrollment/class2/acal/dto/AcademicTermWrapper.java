@@ -267,10 +267,12 @@ public class AcademicTermWrapper {
     }
 
     /**
-     * Returns whether the term is official or not. This is being used at the UI to render fields
+     * Returns whether the term is official or not. This is being used at the UI to render fields.
+     * There would be no reference for this method in the code as it has it's reference at the
      *
-     * @return
+     * @return true if the term is official
      */
+    @SuppressWarnings("unused")
     public boolean isOfficial() {
         return StringUtils.equals(termInfo.getStateKey(), AcademicCalendarServiceConstants.TERM_OFFICIAL_STATE_KEY);
     }
