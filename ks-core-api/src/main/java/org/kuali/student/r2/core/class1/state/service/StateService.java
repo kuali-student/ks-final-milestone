@@ -910,19 +910,19 @@ public interface StateService {
     /**
      * Retrieves all StatePropagations to the given target state
      *
-     * @param targetStateKey the identifier for the target state
+     * @param targetStateId the identifier for the target state
      * @param contextInfo    Context information containing the principalId and
      *                       locale information about the caller of service
      *                       operation
      * @return StatePropagations to the target state or an empty list if none
      *         found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException targetStateKey or contextInfo is
+     * @throws MissingParameterException targetStateId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StatePropagationInfo> getStatePropagationsByTargetState(@WebParam(name = "targetStateKey") String targetStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StatePropagationInfo> getStatePropagationsByTargetState(@WebParam(name = "targetStateId") String targetStateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for StatePropagations based on the criteria and returns a list
