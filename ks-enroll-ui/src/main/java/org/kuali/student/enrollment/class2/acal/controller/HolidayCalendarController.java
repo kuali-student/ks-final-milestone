@@ -62,6 +62,16 @@ public class HolidayCalendarController extends UifControllerBase {
         return new HolidayCalendarForm();
     }
 
+    /**
+     * This is the add action when the add button is pushed in the Holiday calendar edit/create page.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+
     @Override
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLine")
     public ModelAndView addLine(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -228,6 +238,16 @@ public class HolidayCalendarController extends UifControllerBase {
         return super.start(form, result, request, response);
     }
 
+    /**
+     * This is called when the user clicked on Copy button in the Calendar Search page with Holiday calendar selected.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=copyForNew")
     public ModelAndView copyForNew( @ModelAttribute("KualiForm") HolidayCalendarForm form, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
@@ -250,6 +270,16 @@ public class HolidayCalendarController extends UifControllerBase {
 
         return toCopy(form, result, request, response);
     }
+
+    /**
+     * This is called when the user clicked on Copy Holiday Calendar in the Calendar copy page.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=copy")
     public ModelAndView copy( @ModelAttribute("KualiForm") HolidayCalendarForm form, BindingResult result,
@@ -293,7 +323,15 @@ public class HolidayCalendarController extends UifControllerBase {
 
     /**
      * redirect to search Calendar page
+     * This is called when the user clicked on 'Choose a Different Calendar' action link in the create Holiday Calendar page.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
      */
+
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") HolidayCalendarForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -302,9 +340,20 @@ public class HolidayCalendarController extends UifControllerBase {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.CALENDAR_SEARCH_VIEW);
+        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         urlParameters.put(CalendarConstants.CALENDAR_SEARCH_TYPE, CalendarConstants.HOLIDAYCALENDER);
         return super.performRedirect(form,controllerPath, urlParameters);
     }
+
+    /**
+     * This is called when the user clicked on Start a blank calendar instead? action link in the create Holiday Calendar page.
+     *
+     * @param hcForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
 
     @RequestMapping(params = "methodToCall=toCreate")
     public ModelAndView toCreate(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
@@ -347,9 +396,16 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
      /**
-     * Method used to save HC
-     */
-    @RequestMapping(params = "methodToCall=save")
+      * Method used to save HC
+      * This is the add action when the Update Official button is pushed in the Holiday calendar edit/create page.
+      *
+      * @param hcForm
+      * @param result
+      * @param request
+      * @param response
+      * @return
+      */
+     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         return updateHolidayCalendarForm(hcForm, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_SAVED,
@@ -380,14 +436,31 @@ public class HolidayCalendarController extends UifControllerBase {
 
     /**
      * Method used to set HC official
+     * This is called when the Make Official button is pushed in the Holiday calendar create page.
+     *
+     * @param hcForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
      */
-     @RequestMapping(params = "methodToCall=makeOfficial")
+    @RequestMapping(params = "methodToCall=makeOfficial")
      public ModelAndView makeOfficial(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
          hcForm.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
          return updateHolidayCalendarForm(hcForm, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_OFFICIAL,
                  CalendarConstants.UPDATE_MAKEOFFICIAL);
      }
+
+    /**
+     * This is called when the user clicked on  delete button in the Holiday calendar edit page.
+     *
+     * @param hcForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteHoliday")
     public ModelAndView deleteHoliday(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,

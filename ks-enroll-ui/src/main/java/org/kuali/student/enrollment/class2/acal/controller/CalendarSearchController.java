@@ -180,7 +180,7 @@ public class CalendarSearchController  extends UifControllerBase {
     }
 
     /**
-     * This is called when the user clicked on Copy button in the Calendar Search page.
+     * This is called when the user clicked on Copy button in the Calendar Search page with Holiday calendar selected.
      *
      * @param searchForm
      * @param result
@@ -212,7 +212,7 @@ public class CalendarSearchController  extends UifControllerBase {
     }
 
     /**
-     * This is called when the user clicked on Delete button in the Calendar Search page.
+     * This is called when the user clicked on Delete button in the Calendar Search page with Holiday calendar selected.
      *
      * @param searchForm
      * @param result
