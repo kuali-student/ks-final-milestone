@@ -42,8 +42,6 @@ public class AcademicTermWrapper {
     private Date endDate;
 
     private String termNameForUI;
-    private boolean isOfficial;
-    private boolean isAlreadySaved;
 
     private TypeInfo typeInfo;
 

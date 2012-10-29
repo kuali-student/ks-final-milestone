@@ -123,9 +123,6 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                 ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
                 TermInfo termInfo = getAcademicCalendarService().getTerm(courseOfferingInfo.getTermId(), contextInfo);
-                if (StringUtils.isNotBlank(courseOfferingInfo.getGradingOptionId())){
-
-                }
                 co.setTermCode(termInfo.getCode());
                 co.setCredits(courseOfferingInfo.getCreditCnt());
                 co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));

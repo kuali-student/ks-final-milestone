@@ -43,7 +43,6 @@ public class HolidayCalendarForm  extends UifFormBase {
     private Date newCalendarEndDate;
     private String hcId;
     private String orgHcId;
-    private String updateTimeString;
     private boolean newCalendar;
     private boolean officialCalendar;
 
@@ -145,18 +144,13 @@ public class HolidayCalendarForm  extends UifFormBase {
     }
 
     public String getUpdateTimeString(){
-        updateTimeString = new String("");
-        if (getHolidayCalendarInfo() == null ||
-            getHolidayCalendarInfo().getId()== null ||
-            getHolidayCalendarInfo().getId().isEmpty()){
-            return updateTimeString;
-        }
-        else {
+        if (getHolidayCalendarInfo() != null &&
+            getHolidayCalendarInfo().getMeta() != null &&
+            getHolidayCalendarInfo().getMeta().getUpdateTime() != null){
             Date updateTime = getHolidayCalendarInfo().getMeta().getUpdateTime();
-            if (updateTime != null){
-                updateTimeString = "Last saved at "+new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(updateTime);
-            }
-            return updateTimeString;
+            return "Last saved at "+new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(updateTime);
+        } else {
+            return StringUtils.EMPTY;
         }
     }
 
