@@ -139,12 +139,14 @@ public class LuiServiceConstants {
     public static final String LUI_CO_STATE_PLANNED_KEY = "kuali.lui.course.offering.state.planned";
     public static final String LUI_CO_STATE_OFFERED_KEY = "kuali.lui.course.offering.state.offered";
     public static final String LUI_CO_STATE_CANCELED_KEY = "kuali.lui.course.offering.state.canceled";
+    public static final String LUI_CO_STATE_SUSPENDED_KEY = "kuali.lui.course.offering.state.suspended";
 
     public static final String[] COURSE_OFFERING_LIFECYCLE_STATE_KEYS = {
         LUI_CO_STATE_DRAFT_KEY,
         LUI_CO_STATE_PLANNED_KEY,
         LUI_CO_STATE_OFFERED_KEY,
-        LUI_CO_STATE_CANCELED_KEY
+        LUI_CO_STATE_CANCELED_KEY,
+        LUI_CO_STATE_SUSPENDED_KEY
     };
 
     public static boolean isValidCourseOfferingState(String possibleState) {
@@ -169,12 +171,15 @@ public class LuiServiceConstants {
     public static final String LUI_FO_STATE_PLANNED_KEY = "kuali.lui.format.offering.state.planned";
     public static final String LUI_FO_STATE_OFFERED_KEY = "kuali.lui.format.offering.state.offered";
     public static final String LUI_FO_STATE_CANCELED_KEY = "kuali.lui.format.offering.state.canceled";
+    public static final String LUI_FO_STATE_SUSPENDED_KEY = "kuali.lui.format.offering.state.suspended";
+
 
     public static final String[] FORMAT_OFFERING_LIFECYCLE_STATE_KEYS = {
             LUI_FO_STATE_DRAFT_KEY,
             LUI_FO_STATE_PLANNED_KEY,
             LUI_FO_STATE_OFFERED_KEY,
-            LUI_FO_STATE_CANCELED_KEY
+            LUI_FO_STATE_CANCELED_KEY,
+            LUI_FO_STATE_SUSPENDED_KEY
     };
 
     public static boolean isValidFormatOfferingState(String possibleState) {
@@ -341,16 +346,18 @@ public class LuiServiceConstants {
      * (See: https://wiki.kuali.org/display/STUDENT/Learning+Unit+Instance+Types+and+States#LearningUnitInstanceTypesandStates-RegistrationGroupLifecycle)
      *  See Jira KSENROLL-2238
      */
-    public static final String REGISTRATION_GROUP_OPEN_STATE_KEY = "kuali.lui.registration.group.state.open";
-    public static final String REGISTRATION_GROUP_CLOSED_STATE_KEY = "kuali.lui.registration.group.state.closed";
+    public static final String REGISTRATION_GROUP_OFFERED_STATE_KEY = "kuali.lui.registration.group.state.offered";
+    public static final String REGISTRATION_GROUP_NOTOFFERED_STATE_KEY = "kuali.lui.registration.group.state.notoffered";
+    public static final String REGISTRATION_GROUP_CANCELLED_STATE_KEY = "kuali.lui.registration.group.state.cancelled";
     public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = "kuali.lui.registration.group.state.suspended";
     public static final String REGISTRATION_GROUP_INVALID_STATE_KEY = "kuali.lui.registration.group.state.invalid";
     // The process key for Registration Groups
     public static final String REGISTRATION_GROUP_LIFECYCLE_KEY = "kuali.course.registration.group.lifecycle";
     // List of all Registration Group state keys in an array
     public static final String[] REGISTRATION_GROUP_LIFECYCLE_KEY_STATES = {
-            REGISTRATION_GROUP_OPEN_STATE_KEY,
-            REGISTRATION_GROUP_CLOSED_STATE_KEY,
+            REGISTRATION_GROUP_OFFERED_STATE_KEY,
+            REGISTRATION_GROUP_NOTOFFERED_STATE_KEY,
+            REGISTRATION_GROUP_CANCELLED_STATE_KEY,
             REGISTRATION_GROUP_SUSPENDED_STATE_KEY,
             REGISTRATION_GROUP_INVALID_STATE_KEY
     };
