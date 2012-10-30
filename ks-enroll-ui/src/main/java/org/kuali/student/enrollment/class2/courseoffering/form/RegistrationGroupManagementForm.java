@@ -1,12 +1,16 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
+import org.kuali.rice.krad.web.form.UifFormBase;
+
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrationGroupManagementForm extends CourseOfferingBaseForm {
+public class RegistrationGroupManagementForm extends UifFormBase {
+    private CourseOfferingInfo theCourseOffering;
     private String formatOfferingIdForViewRG;
     private String formatOfferingName;
     private List<ActivityOfferingWrapper> filteredUnassignedAOsForSelectedFO;
@@ -23,11 +27,15 @@ public class RegistrationGroupManagementForm extends CourseOfferingBaseForm {
     private String clusterIdIdForNewFO;
     private String clusterIdForAOMove;
 
+    //They are used to handle DialogGroup/Lightbox action within collection.
+    //They only work within the lifecycle of each Dialog.
+    private ActivityOfferingClusterWrapper selectedCluster;
     private int selectedClusterIndex;
 
-    //This is used to handle DialogGroup/Lightbox action within collection.
-    //It only works within the lifecycle of each Dialog.
-    private ActivityOfferingClusterWrapper selectedCluster;
+    //This is a temporary solution to deal with DialogGroup/Lightbox is not
+    //compatible with iFrame. When withinPortal=false, all DialogGroup components
+    //will be turned on.
+    private boolean withinPortal;
 
     public RegistrationGroupManagementForm (){
         filteredUnassignedAOsForSelectedFO = new ArrayList<ActivityOfferingWrapper>();
@@ -35,6 +43,14 @@ public class RegistrationGroupManagementForm extends CourseOfferingBaseForm {
         hasAOCluster = false;
         setWithinPortal(true);
         selectCreateNewFromDropDown = false;
+    }
+
+    public CourseOfferingInfo getTheCourseOffering() {
+        return theCourseOffering;
+    }
+
+    public void setTheCourseOffering(CourseOfferingInfo theCourseOffering) {
+        this.theCourseOffering = theCourseOffering;
     }
 
     public String getFormatOfferingIdForViewRG() {
@@ -163,5 +179,13 @@ public class RegistrationGroupManagementForm extends CourseOfferingBaseForm {
 
     public void setSelectedClusterIndex(int selectedClusterIndex) {
         this.selectedClusterIndex = selectedClusterIndex;
+    }
+
+    public boolean isWithinPortal() {
+        return withinPortal;
+    }
+
+    public void setWithinPortal(boolean withinPortal) {
+        this.withinPortal = withinPortal;
     }
 }
