@@ -30,7 +30,7 @@
     <property name="id" value="academicTermLookupView"/>
     <property name="headerText" value="Academic Term Lookup" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
-    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicTermLookupableImpl" />
     <property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY}"/>
 
     <property name="criteriaFields">
