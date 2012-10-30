@@ -271,7 +271,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Assign" p:methodToCall="moveAOToACluster"  p:id="move_ao_button" p:style="margin-top: 18px;"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Assign" p:methodToCall="moveAOToACluster"  p:id="move_ao_button" p:style="margin-top: 18px;" p:successCallback="renameDialogButtons({'Y':'Create Cluster', 'N': 'Cancel'});"/>
             </list>
         </property>
     </bean>
@@ -319,7 +319,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create New Cluster" p:methodToCall="createNewClusterFromLightBox"
-                      p:id="create_new_cluster_button" p:render="@{!withinPortal}"/>
+                      p:id="create_new_cluster_button" p:render="@{!withinPortal}" p:successCallback="renameDialogButtons({'Y':'Create Cluster', 'N': 'Cancel'});"/>
                 <ref bean="KS-ManageRegistrationGroups-CreateNewClusterSection"/>
                 <ref bean="KS-ManageRegistrationGroups-ClusterCollection"/>
             </list>
@@ -415,7 +415,7 @@
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:actionScript = "showLightbox('registrationGroupsPerCluster_line@{#index}', '@{#ConfigProperties['application.url']}');"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="generateRegGroupsPerCluster" p:actionLabel="Generate Registration Groups" p:render="@{!#line.hasAllRegGroups}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:render="@{!withinPortal}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:successCallback="populateLightboxForm('KS-ManageRegistrationGroups-ClusterHeaderText', {'privateClusterNameForRename' : 'privateName_line@{#index}', 'publishedClusterNameForRename' : 'publishedName_line@{#index}'});"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="renameAClusterThroughDialog" p:actionLabel="Rename" p:render="@{!withinPortal}" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:successCallback="populateLightboxForm('KS-ManageRegistrationGroups-ClusterHeaderText', {'privateClusterNameForRename' : 'privateName_line@{#index}', 'publishedClusterNameForRename' : 'publishedName_line@{#index}'}); renameDialogButtons({'Y':'Replace', 'N': 'Cancel'});"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!withinPortal}"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteACluster" p:actionLabel="Delete" p:render="@{withinPortal}"
                                   p:preSubmitCall="return confirm('This action is not reversible. Are you sure you want to continue?')"

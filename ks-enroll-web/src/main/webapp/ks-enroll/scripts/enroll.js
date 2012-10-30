@@ -93,6 +93,21 @@ function toggleAssignButton(){
     }
 }
 
+function renameDialogButtons(labelsToReplace){
+    var checkboxes = jQuery("#kualiLightboxForm :input[name='dialogResponse']");
+    jQuery.each(labelsToReplace, function (key, newLabelValue) {
+        jQuery(checkboxes).each(function () {
+            if(jQuery(this).val() == key) {
+                var labelForId = jQuery(this).attr("id");
+                var label = jQuery("label[for='"+labelForId+"']");
+                jQuery(label).text(newLabelValue);
+            }
+        });
+    });
+}
+
+
+
 /*
 function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
     if(jqObject && collectionGroupId){
