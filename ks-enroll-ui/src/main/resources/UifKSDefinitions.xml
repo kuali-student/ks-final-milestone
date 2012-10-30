@@ -118,32 +118,6 @@
     </bean>
 
 
-    <bean id="ScheduleControl" parent="ScheduleControl-parentBean"/>
-    <bean id="ScheduleControl-parentBean" abstract="true"
-          class="org.kuali.student.enrollment.uif.control.ScheduleControl" scope="prototype">
-        <property name="template" value="/ks-enroll/WEB-INF/jsp/schedule.jsp"/>
-        <property name="sundayFirst" value="false"/>
-        <property name="startTime" value="5"/>
-        <property name="endTime" value="20"/>
-        <property name="dayType" value="ONE_LETTER"/>
-        <property name="useLetterKeys" value="false"/>
-        <property name="omitWeekend" value="false"/>
-        <property name="omitAMPMSuffix" value="false"/>
-        <property name="militaryTime" value="false"/>
-    </bean>
-
-    <bean id="ScheduleCartControl" parent="ScheduleCartControl-parentBean"/>
-    <bean id="ScheduleCartControl-parentBean" abstract="true"
-          class="org.kuali.student.enrollment.uif.control.ScheduleCartControl" scope="prototype">
-        <property name="template" value="/ks-enroll/WEB-INF/jsp/scheduleCart.jsp"/>
-    </bean>
-
-    <bean id="TimePreviewControl" parent="TimePreviewControl-parentBean"/>
-    <bean id="TimePreviewControl-parentBean" abstract="true"
-          class="org.kuali.student.enrollment.uif.control.TimePreviewControl" scope="prototype">
-        <property name="template" value="/ks-enroll/WEB-INF/jsp/timePreview.jsp"/>
-    </bean>
-
     <bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>
     <bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"
           class="org.kuali.student.enrollment.uif.field.ActionFieldJsOverride">

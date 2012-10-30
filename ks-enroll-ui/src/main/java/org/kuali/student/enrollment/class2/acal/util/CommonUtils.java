@@ -85,44 +85,6 @@ public class CommonUtils {
         return rti;
     }
 
-    /* not currently used
-    public static Date getStartDate(TimeSetWrapper timeSetWrapper) throws Exception {
-        Date startDate = timeSetWrapper.getStartDate();
-        String startTime =  timeSetWrapper.getStartTime();
-        String amPm = timeSetWrapper.getStartTimeAmPm();
-        Date fullStartDate = getDateWithTime(startDate, startTime, amPm);
-
-        return fullStartDate;
-    }
-    public static Date getEndDate(TimeSetWrapper timeSetWrapper) throws Exception {
-        Date endate = timeSetWrapper.getEndDate();
-        String endTime =  timeSetWrapper.getEndTime();
-        String amPm = timeSetWrapper.getEndTimeAmPm();
-        Date fullEndDate = getDateWithTime(endate, endTime, amPm);
-
-        return fullEndDate;
-    } */
-
-    /* formatter.parse throws an Exception which forces try/catch on everything - ugh
-    public static Date getDateWithTime(Date adate, String atime,  String ampm) throws Exception {
-        Date fullDate = null;
-        if (ampm == null)
-            ampm = "am";
-
-        if(adate != null){
-            if(atime != null && !atime.isEmpty()){
-                String fullDateString = new SimpleDateFormat("MM/dd/yyyy").format(adate);
-                fullDateString = fullDateString.concat(" " + atime + " " + ampm);
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-                fullDate = formatter.parse(fullDateString);
-            }
-            else {
-                fullDate = adate;
-            }
-        }
-        return fullDate;
-    }*/
-
     public static Date getDateWithTime(Date date, String hourMinute, String amPm) {
         if (null == date) {
             return null;

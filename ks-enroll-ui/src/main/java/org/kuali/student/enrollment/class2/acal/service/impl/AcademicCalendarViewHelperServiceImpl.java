@@ -780,7 +780,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
-    private Date getStartDateWithUpdatedTime(TimeSetWrapper timeSetWrapper,boolean isSaveAction){
+    protected Date getStartDateWithUpdatedTime(TimeSetWrapper timeSetWrapper,boolean isSaveAction){
         //If start time not blank, set that with the date. If it's empty, just update with default
         if (!timeSetWrapper.isAllDay()){
             if (StringUtils.isNotBlank(timeSetWrapper.getStartTime())){
@@ -803,7 +803,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
-    private void setEventEndDate(AcalEventWrapper eventWrapper) {
+    protected void setEventEndDate(AcalEventWrapper eventWrapper) {
         if (eventWrapper.isAllDay()) {
             eventWrapper.getAcalEventInfo().setIsDateRange(eventWrapper.isDateRange());
         }
@@ -815,7 +815,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         eventWrapper.getAcalEventInfo().setEndDate(endDateToInfo);
     }
 
-    private void setKeyDateEndDate(KeyDateWrapper keyDateWrapper) {
+    protected void setKeyDateEndDate(KeyDateWrapper keyDateWrapper) {
         if (keyDateWrapper.isAllDay()) {
             keyDateWrapper.getKeyDateInfo().setIsDateRange(keyDateWrapper.isDateRange());
         }
@@ -827,7 +827,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         keyDateWrapper.getKeyDateInfo().setEndDate(endDateToInfo);
     }
 
-    private Date timeSetWrapperEndDate(TimeSetWrapper timeSetWrapper) {
+    protected Date timeSetWrapperEndDate(TimeSetWrapper timeSetWrapper) {
         Date endDateToInfo;
 
         if (timeSetWrapper.isAllDay()) {
