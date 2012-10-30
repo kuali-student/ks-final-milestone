@@ -347,6 +347,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 CreditOptionInfo creditOption = new CreditOptionInfo();
 
                 //Grab the Course's credit constraints
+                //FindBugs: getCreditOptions() null check is in CourseInfo
                 List<ResultValuesGroupInfo> courseCreditOptions = courseInfo.getCreditOptions();
 
                 //Lookup the related course's credit constraints and set them on the creditOption

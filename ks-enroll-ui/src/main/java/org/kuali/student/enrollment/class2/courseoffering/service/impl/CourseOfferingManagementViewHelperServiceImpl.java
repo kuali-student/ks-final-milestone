@@ -245,6 +245,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         // find the Activity object that matches the activity id selected
         ActivityInfo activity = null;
+        //FindBugs: getActivities() null check is in FormatInfo
         List<ActivityInfo> activities = format.getActivities();
         for (ActivityInfo info : activities) {
             if (StringUtils.equals(activityId, info.getId())) {

@@ -78,6 +78,7 @@ public class AtpStateKeyValues extends UifKeyValuesFinderBase implements Seriali
                 states = getTermStates();
             }
 
+            //FindBugs: No null check < sates will be always one of the above
             for (StateInfo state : states) {
                 ConcreteKeyValue keyValue = new ConcreteKeyValue();
                 keyValue.setKey(state.getKey());

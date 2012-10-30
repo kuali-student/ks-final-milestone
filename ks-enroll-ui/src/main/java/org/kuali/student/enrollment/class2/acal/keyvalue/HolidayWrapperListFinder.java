@@ -96,7 +96,7 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
             keyValue.setKey("");
             keyValue.setValue("");
             keyValues.add(keyValue);
-
+            //FindBugs - 'if' logic needs to be checked...
             for(HolidayCalendarInfo holidayCalendarInfo:holidayCalendarInfoList) {
                 if (addedHolidayCalendarIds.contains(holidayCalendarInfo.getId())) {
                     continue;
