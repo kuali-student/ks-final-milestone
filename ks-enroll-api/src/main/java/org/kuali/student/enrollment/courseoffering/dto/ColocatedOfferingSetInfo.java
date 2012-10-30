@@ -20,10 +20,14 @@ package org.kuali.student.enrollment.courseoffering.dto;
 import org.kuali.student.enrollment.courseoffering.infc.ColocatedOfferingSet;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
+import org.w3c.dom.Element;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +43,7 @@ import java.util.List;
         "id", "typeKey", "stateKey", "name", "descr",
         "isMaxEnrollmentShared", "activityOfferingIds", 
         "effectiveDate", "expirationDate", "maximumEnrollment",
-        "meta", "attributes"})
+        "meta", "attributes", "_futureElements"})
 
 public class ColocatedOfferingSetInfo 
     extends IdEntityInfo implements ColocatedOfferingSet {
@@ -60,6 +64,9 @@ public class ColocatedOfferingSetInfo
 
     @XmlElement
     private Date expirationDate;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
 
     /**

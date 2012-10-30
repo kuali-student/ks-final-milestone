@@ -20,10 +20,15 @@ import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOfferingCrossListing;
 
+import org.w3c.dom.Element;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+
+import java.util.List;
 
 import java.io.Serializable;
 
@@ -52,6 +57,9 @@ public class CourseOfferingCrossListingInfo
 
     @XmlElement
     private String courseNumberSuffix;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     
     /**
