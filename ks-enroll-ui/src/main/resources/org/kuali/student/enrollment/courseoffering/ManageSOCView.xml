@@ -70,6 +70,13 @@
             <ref bean="massPublishConfirmDialog"/>
           </list>
       </property>
+      <property name="viewHelperService.helperClasses">
+          <map>
+			<entry key="publishHelper">
+              <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper</value>
+              </entry>
+		</map>
+      </property>
    </bean>
 
     <bean id="lockConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"

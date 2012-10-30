@@ -17,10 +17,10 @@ package org.kuali.student.enrollment.uif.service.impl;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.uif.service.KSViewHelperService;
+import org.kuali.student.enrollment.uif.service.KSMaintainable;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -33,18 +33,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Base class for the KS View helper service.
+ * Default implementation of the <code>KSMaintainable</code> interface
  *
  * @author Kuali Student Team
  */
-public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KSViewHelperService {
+public class KSMaintainableImpl extends MaintainableImpl implements KSMaintainable {
 
-    private final static Logger LOG = Logger.getLogger(KSViewHelperServiceImpl.class);
+    private final static Logger LOG = Logger.getLogger(KSMaintainableImpl.class);
 
     private transient Map<String,Class> helperClasses;
     private transient Map<String,Object> helpers;
 
-    public KSViewHelperServiceImpl(){
+    public KSMaintainableImpl(){
         super();
         helperClasses = new HashMap<String, Class>();
         helpers = new HashMap<String, Object>();
@@ -151,7 +151,7 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
      *     CourseOfferingSetPublishingHelper mpeHelper = (CourseOfferingSetPublishingHelper)getHelper("publishHelper");
      * </code>
      *
-     * @param helperClasses map of helper classes with name as keys and classes as values
+     * @param helperClasses
      */
     public void setHelperClasses(Map<String, Class> helperClasses) {
         this.helperClasses = helperClasses;

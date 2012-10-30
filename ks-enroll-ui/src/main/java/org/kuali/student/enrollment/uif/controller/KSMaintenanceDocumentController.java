@@ -13,23 +13,25 @@
  * permissions and limitations under the License.
  *
  */
-
 package org.kuali.student.enrollment.uif.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
-import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * This is the base class for the KS Controller which extends from KRAD controller class. This class is intended to
- * provide common functionalities at the KS level.
- *
+ * Controller for <code>MaintenanceView</code> screens which operate on
+ * <code>MaintenanceDocument</code> instances
  *
  * @author Kuali Student Team
  */
-public abstract class KSControllerBase extends UifControllerBase {
+@Controller
+@RequestMapping(value = "/maintenance")
+public class KSMaintenanceDocumentController extends MaintenanceDocumentController {
 
     protected ViewHelperService getViewHelperService(UifFormBase form){
         if (form.getView() != null){

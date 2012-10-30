@@ -329,7 +329,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         }
 
         ContextInfo contextInfo = createContextInfo();
-        CourseOfferingSetPublishingHelper mpeHelper = new CourseOfferingSetPublishingHelper();
+        CourseOfferingSetPublishingHelper mpeHelper = (CourseOfferingSetPublishingHelper)getHelper("publishHelper");
 
         try {
             //  First state change the SOC to state "publishing"
