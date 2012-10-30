@@ -20,14 +20,14 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>**/org/kuali/rice/standalone/config/build-details.xml</include>
+                    <include>META-INF/build-details.xml</include>
                 </includes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>false</filtering>
                 <excludes>
-                    <exclude>**/org/kuali/rice/standalone/config/build-details.xml</exclude>
+                    <exclude>META-INF/build-details.xml</exclude>
                 </excludes>
             </resource>
         </resources>

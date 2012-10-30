@@ -61,8 +61,8 @@
 	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
-                <value>classpath:org/kuali/rice/standalone/config/build-details.xml</value>
+				<value>classpath:META-INF/ks-embedded-config.xml</value>
+                <value>classpath:META-INF/build-details.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -92,6 +92,6 @@
     <!-- TODO: RICE-M7 UPGRADE fix ks-admin
     <import resource="classpath:ks-embedded-admin-context.xml"/-->
     
-    <import resource="classpath:StudentStandaloneSpringBeans.xml"/>
+    <import resource="classpath:StudentSpringBeans.xml"/>
 
 </beans>

@@ -25,7 +25,6 @@
 <config>
 	<param name="module.name">ks-embedded</param>
 	<param name="application.id">ks</param>
-    <param name="config.location">classpath:META-INF/standalone-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     
@@ -147,6 +146,15 @@
     <!-- Set all services to /services instead of /remoting -->
     <param name="serviceServletUrl">${application.url}/services/</param>
     
+    <!-- Change Configurer Modes to LOCAL -->
+    <param name="location.mode">LOCAL</param>
+    <param name="coreservice.mode">LOCAL</param>
+    <param name="ken.mode">LOCAL</param>
+    <param name="kim.mode">LOCAL</param>
+    <param name="kew.mode">LOCAL</param>
+    <param name="krms.mode">LOCAL</param>
+    <param name="ksb.mode">LOCAL</param>
+
     <!-- KS caching config -->
     <param name="ks.cache.config.file">classpath:ks-ehcache.xml</param>
     <param name="ks.enum.enable.caching">true</param>
