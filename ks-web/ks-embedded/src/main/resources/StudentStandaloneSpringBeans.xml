@@ -60,7 +60,7 @@
                 <!-- Acal -->
                 <value>classpath:org/kuali/student/enrollment/main/EnrollmentHomeView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarFlowView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarEditPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarViewPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarCopyPage.xml</value>
