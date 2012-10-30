@@ -46,11 +46,11 @@ public class KitchenSinkForm extends UifFormBase {
     private String dropdownSelection;
     private Date dateField;
 
-    private List<UITestObject> list1 = new ArrayList<UITestObject>();
-    private List<UITestObject> list3 = new ArrayList<UITestObject>();
+    private List<KitchenSinkFormCollection2> list1 = new ArrayList<KitchenSinkFormCollection2>();
+    private List<KitchenSinkFormCollection2> list3 = new ArrayList<KitchenSinkFormCollection2>();
 
-    private List<DisplayScheduleMockData> displayScheduleMockDataList = DisplayScheduleMockData.mockTestData();
-    private List<ActivityMockData> activityList;
+    private List<KitchenSinkMockDisplayScheduleData> displayScheduleMockDataList = KitchenSinkMockDisplayScheduleData.mockTestData();
+    private List<KitchenSinkMockActivityData> activityList;
 
     public KitchenSinkForm() {
         super();
@@ -127,44 +127,44 @@ public class KitchenSinkForm extends UifFormBase {
     /**
      * @return the list1
      */
-    public List<UITestObject> getList1() {
+    public List<KitchenSinkFormCollection2> getList1() {
         return this.list1;
     }
 
     /**
      * @param list1 the list1 to set
      */
-    public void setList1(List<UITestObject> list1) {
+    public void setList1(List<KitchenSinkFormCollection2> list1) {
         this.list1 = list1;
     }
 
     /**
      * @return the list3
      */
-    public List<UITestObject> getList3() {
+    public List<KitchenSinkFormCollection2> getList3() {
         return this.list3;
     }
 
     /**
      * @param list3 the list3 to set
      */
-    public void setList3(List<UITestObject> list3) {
+    public void setList3(List<KitchenSinkFormCollection2> list3) {
         this.list3 = list3;
     }
 
-    public List<DisplayScheduleMockData> getDisplayScheduleMockDataList() {
+    public List<KitchenSinkMockDisplayScheduleData> getDisplayScheduleMockDataList() {
         return displayScheduleMockDataList;
     }
 
-    public void setDisplayScheduleMockDataList(List<DisplayScheduleMockData> displayScheduleMockDataList) {
+    public void setDisplayScheduleMockDataList(List<KitchenSinkMockDisplayScheduleData> displayScheduleMockDataList) {
         this.displayScheduleMockDataList = displayScheduleMockDataList;
     }
 
-    public List<ActivityMockData> getActivityList() {
+    public List<KitchenSinkMockActivityData> getActivityList() {
         return activityList;
     }
 
-    public void setActivityList(List<ActivityMockData> activityList) {
+    public void setActivityList(List<KitchenSinkMockActivityData> activityList) {
         this.activityList = activityList;
     }
 

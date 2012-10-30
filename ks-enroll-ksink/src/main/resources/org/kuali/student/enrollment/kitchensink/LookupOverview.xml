@@ -82,7 +82,7 @@
         <property name="headerText" value="Term Info Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
         <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.TermInfoLookupableImpl" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkTermInfoLookupableImpl" />
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Term Name"/>

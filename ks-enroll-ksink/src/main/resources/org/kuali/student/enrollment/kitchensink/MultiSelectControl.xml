@@ -62,7 +62,7 @@
                   p:toolTip.tooltipContent="Additional text can go here as well."/>
         </property>
         <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.kitchensink.KitchenSinkKeyValues"/>
+            <bean class="org.kuali.student.enrollment.kitchensink.KitchenSinkMockDwarfKeyValues"/>
         </property>
     </bean>
 

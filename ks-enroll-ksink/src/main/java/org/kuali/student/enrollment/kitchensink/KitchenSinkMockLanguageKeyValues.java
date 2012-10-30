@@ -27,7 +27,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class SimpleTestKeyValues extends KeyValuesBase{
+public class KitchenSinkMockLanguageKeyValues extends KeyValuesBase{
     
     private boolean blankOption;
 

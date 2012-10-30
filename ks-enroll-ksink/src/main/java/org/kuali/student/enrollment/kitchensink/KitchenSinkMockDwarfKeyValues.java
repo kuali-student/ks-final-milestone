@@ -28,7 +28,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class KitchenSinkKeyValues extends KeyValuesBase {
+public class KitchenSinkMockDwarfKeyValues extends KeyValuesBase {
 
     /**
      * This is a fake implementation of a key value finder, normally this would make a request to

@@ -41,7 +41,7 @@
                 </bean>
             </list>
         </property>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.kitchensink.UITestObject"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection2"/>
         <property name="propertyName" value="list1"/>
         <property name="layoutManager.sequencePropertyName" value="field1"/>
         <property name="layoutManager.richTable.render" value="false"/>

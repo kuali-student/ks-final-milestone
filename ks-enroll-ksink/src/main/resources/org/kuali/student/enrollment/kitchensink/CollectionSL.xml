@@ -41,7 +41,7 @@
                 </bean>
             </list>
         </property>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.kitchensink.UITestObject"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkFormCollection2"/>
         <property name="propertyName" value="list3"/>
         <property name="layoutManager.summaryTitle" value="Line Summary'@{#line.field1}' With Expression"/>
         <property name="items">

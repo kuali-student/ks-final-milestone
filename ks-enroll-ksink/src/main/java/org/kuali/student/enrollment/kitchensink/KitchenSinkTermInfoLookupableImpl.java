@@ -36,7 +36,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class TermInfoLookupableImpl extends LookupableImpl {
+public class KitchenSinkTermInfoLookupableImpl extends LookupableImpl {
 
     private transient AcademicCalendarService academicCalendarService;
     private ContextInfo contextInfo;

@@ -51,7 +51,7 @@
                         </bean>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.kitchensink.SimpleTestKeyValues"
+                        <bean class="org.kuali.student.enrollment.kitchensink.KitchenSinkMockLanguageKeyValues"
                               p:blankOption="true"/>
                     </property>
                     <property name="cssClasses">

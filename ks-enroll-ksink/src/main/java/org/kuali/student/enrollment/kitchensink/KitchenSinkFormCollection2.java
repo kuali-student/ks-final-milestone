@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public class UITestObject implements Serializable {
+public class KitchenSinkFormCollection2 implements Serializable {
     private static final long serialVersionUID = -7525378097732916411L;
 
     private String field1;
@@ -37,9 +37,9 @@ public class UITestObject implements Serializable {
 
     private Map<String, Object> remoteFieldValuesMap;
 
-    private List<UITestObject> subList = new ArrayList<UITestObject>();
+    private List<KitchenSinkFormCollection2> subList = new ArrayList<KitchenSinkFormCollection2>();
 
-    public UITestObject() {
+    public KitchenSinkFormCollection2() {
         remoteFieldValuesMap = new HashMap<String, Object>();
         remoteFieldValuesMap.put("remoteField1", "Apple");
         remoteFieldValuesMap.put("remoteField2", "Banana");
@@ -47,7 +47,7 @@ public class UITestObject implements Serializable {
         remoteFieldValuesMap.put("remoteField4", "Fruit");
     }
 
-    public UITestObject(String field1, String field2, String field3, String field4) {
+    public KitchenSinkFormCollection2(String field1, String field2, String field3, String field4) {
         this.field1 = field1;
         this.field2 = field2;
         this.field3 = field3;
@@ -120,14 +120,14 @@ public class UITestObject implements Serializable {
     /**
      * @param subList the subList to set
      */
-    public void setSubList(List<UITestObject> subList) {
+    public void setSubList(List<KitchenSinkFormCollection2> subList) {
         this.subList = subList;
     }
 
     /**
      * @return the subList
      */
-    public List<UITestObject> getSubList() {
+    public List<KitchenSinkFormCollection2> getSubList() {
         return subList;
     }
 

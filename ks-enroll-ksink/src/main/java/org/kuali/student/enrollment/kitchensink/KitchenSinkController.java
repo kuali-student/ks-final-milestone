@@ -16,13 +16,9 @@
  */
 package org.kuali.student.enrollment.kitchensink;
 
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
-import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -141,7 +137,7 @@ public class KitchenSinkController extends UifControllerBase {
             HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        List<ActivityMockData> activities = new ArrayList<ActivityMockData>();
+        List<KitchenSinkMockActivityData> activities = new ArrayList<KitchenSinkMockActivityData>();
 
         Integer index = actionParameters.get("index");
 
@@ -165,6 +161,6 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
-    List<DisplayScheduleMockData> displayScheduleList = DisplayScheduleMockData.mockTestData();
+    List<KitchenSinkMockDisplayScheduleData> displayScheduleList = KitchenSinkMockDisplayScheduleData.mockTestData();
 
 }

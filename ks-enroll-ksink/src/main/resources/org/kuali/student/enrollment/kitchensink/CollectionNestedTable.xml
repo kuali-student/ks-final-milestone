@@ -21,7 +21,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="KS-NestedTable" parent="Uif-TableCollectionSection" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.kitchensink.DisplayScheduleMockData" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkMockDisplayScheduleData" />
         <property name="propertyName" value="displayScheduleMockDataList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />

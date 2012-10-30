@@ -34,8 +34,8 @@ public class KitchenSinkFormCollection1 {
     private String name;
     private String description;
     private Date date;
-    private List<UITestObject> list1;
-    private List<UITestObject> list3;
+    private List<KitchenSinkFormCollection2> list1;
+    private List<KitchenSinkFormCollection2> list3;
 
     public KitchenSinkFormCollection1() { }
 
@@ -99,19 +99,19 @@ public class KitchenSinkFormCollection1 {
         this.date = date;
     }
 
-    public List<UITestObject> getList1() {
+    public List<KitchenSinkFormCollection2> getList1() {
         return list1;
     }
 
-    public void setList1(List<UITestObject> list1) {
+    public void setList1(List<KitchenSinkFormCollection2> list1) {
         this.list1 = list1;
     }
 
-    public List<UITestObject> getList3() {
+    public List<KitchenSinkFormCollection2> getList3() {
         return list3;
     }
 
-    public void setList3(List<UITestObject> list3) {
+    public void setList3(List<KitchenSinkFormCollection2> list3) {
         this.list3 = list3;
     }
 

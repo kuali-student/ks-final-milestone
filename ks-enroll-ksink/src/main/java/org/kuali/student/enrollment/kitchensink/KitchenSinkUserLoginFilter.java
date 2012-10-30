@@ -33,7 +33,7 @@ import java.io.IOException;
  *
  * @author Kuali Student Team
  */
-public class UserLoginFilter extends org.kuali.rice.kew.web.UserLoginFilter {
+public class KitchenSinkUserLoginFilter extends org.kuali.rice.kew.web.UserLoginFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

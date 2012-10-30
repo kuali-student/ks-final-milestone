@@ -9,16 +9,16 @@ import java.io.Serializable;
  * Time: 3:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ActivityMockData implements Serializable {
+public class KitchenSinkMockActivityData implements Serializable {
 
     private String code;
     private String type;
     private String days;
     private String time;
 
-    public ActivityMockData(){}
+    public KitchenSinkMockActivityData(){}
 
-    public ActivityMockData(String code, String type, String days, String time) {
+    public KitchenSinkMockActivityData(String code, String type, String days, String time) {
         this.code = code;
         this.type = type;
         this.days = days;
