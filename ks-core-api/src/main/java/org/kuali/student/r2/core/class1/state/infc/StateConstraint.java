@@ -22,7 +22,7 @@ public interface StateConstraint extends IdNamelessEntity {
      * Related objects' state key
      *
      * @name Related Object State Keys
-     * @impl For example, if the cardinality is 'none', then none of the related objects should exist in the given states
+     * @impl For example, if the StateConstraintOperator is 'none', then none of the related objects should exist in the given states
      */
     public List<String> getRelatedObjectStateKeys();
 
