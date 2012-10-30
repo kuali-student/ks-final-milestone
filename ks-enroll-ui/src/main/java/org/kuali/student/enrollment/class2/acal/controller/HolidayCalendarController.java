@@ -46,7 +46,7 @@ import java.util.*;
 
 
 /**
- * This class handles all the requests for Managing HolidayCalendar, such as, view, edit, copy, delete, etc. This controller is mapped to the view defined in <code>HolidayCalendarFlowView.xml</code>
+ * This class handles all the requests for Managing HolidayCalendar, such as, view, edit, copy, delete, etc. This controller is mapped to the view defined in <code>HolidayCalendarView.xml</code>
  * and its subviews <code>HolidayCalendarEditPage.xml</code>, <code>HolidayCalendarCopyPage.xml</code>, and <code>HolidayCalendarViewPage.xml</code>
  *
  * @author Kuali Student Team
