@@ -28,7 +28,6 @@
 
   <context:component-scan base-package="org.kuali.rice.krad" >
      <context:exclude-filter type="assignable" expression="org.kuali.rice.krad.web.controller.LookupController"/>
-     <context:exclude-filter type="assignable" expression="org.kuali.rice.krad.web.controller.MaintenanceDocumentController"/>
   </context:component-scan>
 
   <context:component-scan base-package="org.kuali.student.enrollment" />
