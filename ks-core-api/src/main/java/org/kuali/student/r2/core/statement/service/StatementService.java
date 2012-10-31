@@ -983,10 +983,7 @@ public interface StatementService extends SearchService {
      */
     public StatusInfo deleteStatementTreeView(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    @Deprecated
-	public String getNaturalLanguageForReqComponent(String reqComponentId,
-			String string, String string2);
-    
+
     /**
      * Retrieves a list of object statement relationships for a particular object.
      * 
