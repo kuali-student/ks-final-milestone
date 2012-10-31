@@ -559,6 +559,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
 
+        //Validate Holiday Calendar are in the date range of the Academic Calendar
+        for (HolidayCalendarWrapper holidayCalendarWrapper : acalForm.getHolidayCalendarList())  {
+            if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),holidayCalendarWrapper.getHolidayCalendarInfo().getStartDate()) ||
+                    !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),holidayCalendarWrapper.getHolidayCalendarInfo().getEndDate())){
+                GlobalVariables.getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DATE_NOT_IN_ACAL_RANGE,"Added Holiday Calendar: " + holidayCalendarWrapper.getHolidayCalendarInfo().getName());
+            }
+        }
         //Validate Terms and keydates
         for (int index=0; index < acalForm.getTermWrapperList().size(); index++) {
             validateTerm(acalForm.getTermWrapperList(),index,acal);
