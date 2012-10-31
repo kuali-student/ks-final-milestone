@@ -56,7 +56,10 @@ public interface CourseOfferingServiceBusinessLogic {
 
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(CourseOfferingInfo courseOfferingInfo, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException;
+            InvalidParameterException, 
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * This is a bulk create method for generateRegistrationGroupsForAOC().  Instead of working on a single Activity Offering Cluster it will

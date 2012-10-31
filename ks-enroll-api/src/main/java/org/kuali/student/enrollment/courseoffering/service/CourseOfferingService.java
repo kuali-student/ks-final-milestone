@@ -548,6 +548,7 @@ public interface CourseOfferingService
      *                                   courseOfferingInfo, or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validateCourseOffering(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                              @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo,
@@ -555,7 +556,8 @@ public interface CourseOfferingService
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
-            OperationFailedException;
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new course offering from a canonical course.
@@ -750,13 +752,17 @@ public interface CourseOfferingService
      * @throws InvalidParameterException if a parameter is invalid
      * @throws MissingParameterException if a parameter is missing
      * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     @Override
     public List<ValidationResultInfo> validateCourseOfferingFromCanonical(@WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo,
                                                                           @WebParam(name = "optionKeys") List<String> optionKeys,
                                                                           @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException;
+            throws DoesNotExistException, 
+            InvalidParameterException,
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets an format offering  based on Id.
@@ -871,8 +877,16 @@ public interface CourseOfferingService
      * @throws InvalidParameterException invalid validationTypeKey, formatOfferingInfo
      * @throws MissingParameterException missing validationTypeKey, formatOfferingInfo
      * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateFormatOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateFormatOffering(@WebParam(name = "validationType") String validationType, 
+            @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, 
+            @WebParam(name = "context") ContextInfo context) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
 
 
     /**
@@ -1477,8 +1491,16 @@ public interface CourseOfferingService
      * @throws InvalidParameterException invalid validationTypeKey, academicCalendarInfo
      * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
      * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateActivityOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateActivityOffering(@WebParam(name = "validationType") String validationType, 
+            @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, 
+            @WebParam(name = "context") ContextInfo context) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * When/for how long does the offering meet in class during the term.
@@ -1716,13 +1738,18 @@ public interface CourseOfferingService
      * @throws InvalidParameterException invalid validationTypeKey, academicCalendarInfo
      * @throws MissingParameterException missing validationTypeKey, academicCalendarInfo
      * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ValidationResultInfo> validateRegistrationGroup(@WebParam(name = "validationType") String validationType,
                                                                 @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
                                                                 @WebParam(name = "registrationGroupType") String registrationGroupType,
                                                                 @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo,
                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws DoesNotExistException,
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new Registration Group.
@@ -1969,8 +1996,17 @@ public interface CourseOfferingService
      *                                   activityOfferingClusterInfo or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateActivityOfferingCluster(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ValidationResultInfo> validateActivityOfferingCluster(@WebParam(name = "validationTypeKey") String validationTypeKey, 
+            @WebParam(name = "formatOfferingId") String formatOfferingId, 
+            @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new Activity Offering Cluster from the given Format Offering
@@ -2299,15 +2335,20 @@ public interface CourseOfferingService
      * @param context              Context information containing the
      *                             principalId and locale information about the
      *                             caller of service operation
-     * @throws DataValidationErrorException
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     * @throws VersionMismatchException
+     * @throws DoesNotExistException if validation type key is not found
+     * @throws InvalidParameterException the context or object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateSeatPoolDefinition(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public List<ValidationResultInfo> validateSeatPoolDefinition(@WebParam(name = "validationTypeKey") String validationTypeKey, 
+            @WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, 
+            @WebParam(name = "context") ContextInfo context) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException;
 
     /**
      * Deletes an existing SeatPoolDefinition.
