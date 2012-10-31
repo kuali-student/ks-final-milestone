@@ -21,9 +21,9 @@ import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity;
 
 /**
- * This class //TODO ...
+ * To access seatpool info from database
  *
  * @author Kuali Student Team
  */
-public class SeatPoolDefinitionDao extends GenericEntityDao<SeatPoolDefinitionEntity> {
+public class SeatPoolDefinitionDao extends GenericEntityDao<SeatPoolDefinitionEntity> implements SeatPoolDefinitionDaoApi {
 }

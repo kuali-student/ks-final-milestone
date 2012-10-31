@@ -36,6 +36,9 @@
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">
     </bean>
 
+    <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.MockActivityOfferingClusterDao">
+    </bean>
+
     <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="luiService" ref="luiService" />
@@ -50,6 +53,7 @@
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
         <property name="schedulingService" ref="schedulingService"/>
+        <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao"/>
     </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">

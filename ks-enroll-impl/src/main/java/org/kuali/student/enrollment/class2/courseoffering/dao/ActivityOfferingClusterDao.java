@@ -27,13 +27,17 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class ActivityOfferingClusterDao extends GenericEntityDao<ActivityOfferingClusterEntity> {
+public class ActivityOfferingClusterDao
+        extends GenericEntityDao<ActivityOfferingClusterEntity>
+        implements ActivityOfferingClusterDaoApi {
 
+    @Override
     public List<ActivityOfferingClusterEntity> getByFormatOffering(String formatOfferingId) {
         return em.createQuery("from ActivityOfferingClusterEntity a where a.formatOfferingId=:formatOfferingId").setParameter("formatOfferingId", formatOfferingId)
                 .getResultList();
     }
 
+    @Override
     public List<String> getActivityOfferingIdsByClusterId(String activityOfferingClusterId) {
         return em.createQuery("SELECT ids from ActivityOfferingClusterEntity a, IN(a.aoSets) aosets, IN(aosets.aoIds) ids where a.id=:activityOfferingClusterId").setParameter("activityOfferingClusterId", activityOfferingClusterId)
                 .getResultList();

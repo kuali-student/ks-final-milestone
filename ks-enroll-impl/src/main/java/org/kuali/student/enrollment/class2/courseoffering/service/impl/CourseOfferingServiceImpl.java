@@ -10,7 +10,9 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao;
+import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao;
+import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity;
@@ -113,8 +115,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private CourseOfferingServiceBusinessLogic businessLogic;
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
-    private SeatPoolDefinitionDao seatPoolDefinitionDao;
-    private ActivityOfferingClusterDao activityOfferingClusterDao;
+    private SeatPoolDefinitionDaoApi seatPoolDefinitionDao;
+    private ActivityOfferingClusterDaoApi activityOfferingClusterDao;
     private RegistrationGroupTransformer registrationGroupTransformer;
     private SchedulingService schedulingService;
     private LRCService lrcService;
@@ -141,7 +143,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        //Cascade delete to the formats
+        // Cascade delete to the formats
         List<FormatOfferingInfo> fos = getFormatOfferingsByCourseOffering(courseOfferingId, context);
         for (FormatOfferingInfo fo : fos) {
             deleteFormatOfferingCascaded(fo.getId(), context);
@@ -152,7 +154,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         //TODO: Delete all attached other things (EnrollmentFees, org relations, etc.)
 
-        //Delete the CO
+        // Delete the CO
         deleteCourseOffering(courseOfferingId, context);
 
         return new StatusInfo();
@@ -167,7 +169,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             deleteActivityOfferingCascaded(ao.getId(), context);
         }
 
-        //TODO: Delete dependent RegistrationGroups
+        // TODO: Delete dependent RegistrationGroups
 
         // Delete the format offering
         try {
@@ -360,11 +362,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         this.lprService = lprService;
     }
 
-    public void setSeatPoolDefinitionDao(SeatPoolDefinitionDao seatPoolDefinitionDao) {
+    public void setSeatPoolDefinitionDao(SeatPoolDefinitionDaoApi seatPoolDefinitionDao) {
         this.seatPoolDefinitionDao = seatPoolDefinitionDao;
     }
 
-    public void setActivityOfferingClusterDao(ActivityOfferingClusterDao activityOfferingClusterDao) {
+    public void setActivityOfferingClusterDao(ActivityOfferingClusterDaoApi activityOfferingClusterDao) {
         this.activityOfferingClusterDao = activityOfferingClusterDao;
     }
 
@@ -993,7 +995,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         String coLongName;
 
         //Pull values from the context so we don't have to look them up if they are known ahead of time
-        if(foId == null){
+        if (foId == null) {
             LuiInfo foLui = this._findFormatOfferingLui(ao.getId(), context);
             LuiInfo coLui = this._findCourseOfferingLui(foLui.getId(), context);
             foId = foLui.getId();
@@ -1001,7 +1003,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             coId = coLui.getId();
             coCode = coLui.getOfficialIdentifier().getCode();
             coLongName = coLui.getOfficialIdentifier().getLongName();
-        }else{
+        } else {
             foShortName = context.getAttributeValue("FOShortName");
             coId = context.getAttributeValue("COId");
             coCode = context.getAttributeValue("COCode");
@@ -1025,7 +1027,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingInfo> results = new ArrayList<ActivityOfferingInfo>();
 
-        if(strings != null && !strings.isEmpty()){
+        if (strings != null && !strings.isEmpty()) {
             List<LuiInfo> luiInfos = getLuiService().getLuisByIds(strings, contextInfo);
 
             for (LuiInfo lui : luiInfos) {
