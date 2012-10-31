@@ -15,7 +15,10 @@
 
 package org.kuali.student.r1.common.search.dto;
 
+import javax.xml.bind.annotation.XmlEnum;
+
 @Deprecated
+@XmlEnum
 public enum SortDirection {
 	ASC,DESC;
 }

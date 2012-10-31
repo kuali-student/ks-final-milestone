@@ -16,6 +16,9 @@
 
 package org.kuali.student.r2.core.search.dto;
 
+import javax.xml.bind.annotation.XmlEnum;
+
+@XmlEnum
 public enum SortDirection {
 	ASC, DESC;
 }

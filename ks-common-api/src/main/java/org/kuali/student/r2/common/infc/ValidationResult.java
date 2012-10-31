@@ -15,8 +15,11 @@
  */
 package org.kuali.student.r2.common.infc;
 
+import javax.xml.bind.annotation.XmlEnum;
+
 public interface ValidationResult {
 
+	@XmlEnum(value=Integer.class)
     public enum ErrorLevel {
 
         OK(0), WARN(1), ERROR(2);

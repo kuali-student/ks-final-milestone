@@ -5,7 +5,8 @@ import javax.xml.bind.annotation.XmlEnum;
 /**
  * @Author Sri komandur@uw.edu
  */
-@XmlEnum(String.class)
+@XmlEnum
 public enum StateConstraintOperator {
     ALL, EXISTS, NONE;
+    
 }
