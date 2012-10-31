@@ -49,7 +49,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  * @author Kuali Student Team
  */
-@Deprecated
 public class MetadataServiceImpl {
     final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
 
@@ -418,9 +417,9 @@ public class MetadataServiceImpl {
         
         if (workflowNode != null && fieldPath != null && fieldPath.startsWith("PROPOSAL/WORKFLOWNODE")){
         	processRequiredByNodeCaseConstraint(constraintMetadata, caseConstraint, workflowNode);        	
-        } else if ("STATE".equals(fieldPath)) {
+        } else if ("STATEKEY".equals(fieldPath)) {
         	processStateCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);
-        } else if ("TYPE".equals(fieldPath)) {
+        } else if ("TYPEKEY".equals(fieldPath)) {
         	processTypeCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);
         }
     }

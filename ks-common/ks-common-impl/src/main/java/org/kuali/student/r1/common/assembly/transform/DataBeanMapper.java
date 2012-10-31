@@ -3,7 +3,6 @@ package org.kuali.student.r1.common.assembly.transform;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 
-@Deprecated
 public interface DataBeanMapper {
 
 	/**

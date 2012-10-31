@@ -24,8 +24,8 @@ import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.validator.ObjectStructureHierarchy;
 
-@Deprecated
 public class ValidatorUtils {
 
 	public static boolean compareValues(Object value1, Object value2,
@@ -207,8 +207,6 @@ public class ValidatorUtils {
 	 * If we want to address fields outside of this object structure we ll need to pass in the
 	 * dictionary context.
 	 * @param key
-	 * @param type
-	 * @param state
 	 * @param objStructure
 	 * @return
 	 */
@@ -230,6 +228,75 @@ public class ValidatorUtils {
 		 }
 		return null;
 	}
+
+    /**
+     * Traverses the dictionary ObjectStructure to find the field with the match
+     * key, type and state
+     * The key has to relative to the current object structure that is being traversed.
+     * example: current object structure is ActivityInfo and if we want to lookup
+     * the academicSubjectorgId, then <property name="fieldPath" value="academicSubjectOrgs.orgId"/>
+     * The current object structure starts from the field on which the constraint is applied on.
+     * If we want to address fields outside of this object structure we ll need to pass in the
+     * dictionary context.
+     * @param key
+     * @param objStructureHierarchy
+     * @return
+     */
+    public static FieldDefinition getField(String key, ObjectStructureHierarchy objStructureHierarchy) {
+        String[] lookupPathTokens = getPathTokens(key);
+
+        ObjectStructureDefinition objStructure = objStructureHierarchy.getObjectStructure();
+        for(int i = 0; i < lookupPathTokens.length; i++) {
+            if ("parent".equals(lookupPathTokens[i])) {
+                objStructure = objStructureHierarchy.getParentObjectStructure();
+                objStructureHierarchy = objStructureHierarchy.getParentObjectStructureHierarchy();
+                continue;
+            }
+
+            for (FieldDefinition f : objStructure.getAttributes()) {
+                if (f.getName().equals(lookupPathTokens[i])) {
+                    if(i==lookupPathTokens.length-1){
+                        return f;
+                    }
+                    else{
+                        objStructure = f.getDataObjectStructure();
+                        break;
+                    }
+
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Traverses the parent data for the field value.
+     * @param key
+     * @param dataProvider
+     * @return
+     */
+    public static Object getFieldValue(String key, ConstraintDataProvider dataProvider) {
+        String[] lookupPathTokens = getPathTokens(key);
+
+        Object returnObject = null;
+        ConstraintDataProvider currentDataProvider = dataProvider;
+        for(int i = 0; i < lookupPathTokens.length; i++) {
+            returnObject = currentDataProvider.getValue(lookupPathTokens[i]);
+
+            // Returns a null if any parent object is null.
+            if (returnObject == null){
+                return null;
+            }
+
+            // Set the current dataprovider to the parent data provider
+            if (returnObject instanceof ConstraintDataProvider){
+                currentDataProvider = (ConstraintDataProvider) returnObject;
+            }
+
+            // TODO: Create new dataProviders for the sub objects.
+        }
+        return returnObject;
+    }
 	
     private static String[] getPathTokens(String fieldPath) {
         return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});

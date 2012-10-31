@@ -15,7 +15,6 @@
 
 package org.kuali.student.r1.common.validator;
 
-@Deprecated
 public interface ConstraintDataProvider {
 
 	public String getObjectId();
@@ -27,5 +26,9 @@ public interface ConstraintDataProvider {
 	public void initialize(Object o);
 	
 	public String getPath();
+
+    public void setParent(ConstraintDataProvider parentDataProvider);
+
+    public ConstraintDataProvider getParent();
 }
 

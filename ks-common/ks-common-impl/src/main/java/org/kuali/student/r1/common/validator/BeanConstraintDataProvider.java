@@ -26,11 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Deprecated
 public class BeanConstraintDataProvider implements ConstraintDataProvider {
     final static Logger LOG = Logger.getLogger(BeanConstraintDataProvider.class);
     
     private static final String DYNAMIC_ATTRIBUTE = "attributes";
+    private static final String PARENT = "parent";
     
 	Map<String, Object> dataMap = null;
 
@@ -46,7 +46,7 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
     public String getPath(){
         return "";
     }
-	
+
     @SuppressWarnings("unchecked")
     @Override
 	public void initialize(Object o) {
@@ -107,5 +107,22 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
 	public Boolean hasField(String fieldKey) {
 		return dataMap.containsKey(fieldKey);
 	}
+
+    @Override
+    public void setParent(ConstraintDataProvider parentDataProvider) {
+        if (dataMap == null){
+            return;
+        }
+
+        dataMap.put(PARENT, parentDataProvider);
+    }
+
+    @Override
+    public ConstraintDataProvider getParent() {
+        if (dataMap == null){
+            return null;
+        }
+        return (ConstraintDataProvider) dataMap.get(PARENT);
+    }
 
 }
