@@ -23,6 +23,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -31,7 +32,7 @@ import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.uif.controller.KSControllerBase;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -63,7 +64,7 @@ import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/academicCalendar")
-public class AcademicCalendarController extends KSControllerBase {
+public class AcademicCalendarController extends UifControllerBase {
 
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(AcademicCalendarController.class);
 
@@ -354,7 +355,7 @@ public class AcademicCalendarController extends KSControllerBase {
     public ModelAndView cancelTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
 
@@ -389,7 +390,7 @@ public class AcademicCalendarController extends KSControllerBase {
     public ModelAndView makeTermOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
@@ -468,7 +469,7 @@ public class AcademicCalendarController extends KSControllerBase {
     public ModelAndView deleteTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
 
@@ -500,7 +501,7 @@ public class AcademicCalendarController extends KSControllerBase {
             throw new RuntimeException("unable to determine the selected collection path");
         }
 
-        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
 
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
         String selectedKeyDateGroup = StringUtils.substringBetween(selectedCollectionPath,"keyDatesGroupWrappers[","]");
@@ -528,7 +529,7 @@ public class AcademicCalendarController extends KSControllerBase {
             throw new RuntimeException("unable to determine the selected collection path");
         }
 
-        int selectedLineIndex = getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
 
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath, "termWrapperList[", "]");
 
@@ -735,7 +736,7 @@ public class AcademicCalendarController extends KSControllerBase {
     }
 
     protected AcademicCalendarViewHelperService getAcalViewHelperService(AcademicCalendarForm acalForm){
-        AcademicCalendarViewHelperService viewHelperService = (AcademicCalendarViewHelperService)getViewHelperService(acalForm);
+        AcademicCalendarViewHelperService viewHelperService = (AcademicCalendarViewHelperService)KSUifUtils.getViewHelperService(acalForm);
         return viewHelperService;
     }
 

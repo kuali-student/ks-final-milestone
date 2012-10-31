@@ -20,12 +20,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
-import org.kuali.student.enrollment.uif.controller.KSControllerBase;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -45,7 +46,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @RequestMapping(value = "/manageSOC")
-public class ManageSOCController extends KSControllerBase {
+public class ManageSOCController extends UifControllerBase {
 
     private final static Logger LOG = Logger.getLogger(ManageSOCController.class);
 
@@ -80,7 +81,7 @@ public class ManageSOCController extends KSControllerBase {
                 return getUIFModelAndView(socForm);
             }
 
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSUifUtils.getViewHelperService(socForm);
             viewHelper.lockSOC(socForm);
 
             return buildModel(socForm, result, request, response);
@@ -111,7 +112,7 @@ public class ManageSOCController extends KSControllerBase {
 
         if (dialogAnswer) {
             // start send approved activities to scheduler
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSUifUtils.getViewHelperService(socForm);
             viewHelper.startMassScheduling(socForm);
             return buildModel(socForm, result, request, response);
         } else {
@@ -132,7 +133,7 @@ public class ManageSOCController extends KSControllerBase {
     public ModelAndView buildModel(@ModelAttribute("KualiForm") ManageSOCForm socForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
-        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
+        ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSUifUtils.getViewHelperService(socForm);
         socForm.clear();
 
         TermInfo term = viewHelper.getTermByCode(socForm.getTermCode());
@@ -167,7 +168,7 @@ public class ManageSOCController extends KSControllerBase {
 
         if (dialogAnswer) {
 
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSUifUtils.getViewHelperService(socForm);
             viewHelper.allowSOCFinalEdit(socForm);
 
             return buildModel(socForm, result, request, response);
@@ -200,7 +201,7 @@ public class ManageSOCController extends KSControllerBase {
         socForm.getDialogManager().resetDialogStatus(dialogName);
 
         if (dialogAnswer) {
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSUifUtils.getViewHelperService(socForm);
             viewHelper.publishSOC(socForm);
             return buildModel(socForm, result, request, response);
         } else {
@@ -230,7 +231,7 @@ public class ManageSOCController extends KSControllerBase {
         socForm.getDialogManager().resetDialogStatus(dialogName);
 
         if (dialogAnswer) {
-            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) getViewHelperService(socForm);
+            ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSUifUtils.getViewHelperService(socForm);
             viewHelper.closeSOC(socForm);
 
             return buildModel(socForm, result, request, response);
