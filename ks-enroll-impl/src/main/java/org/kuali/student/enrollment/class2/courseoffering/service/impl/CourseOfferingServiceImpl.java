@@ -1521,7 +1521,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         // Remove AO from AO cluster
         // TODO: Uncomment (this is breaking tests because DAOs are stupid)
-        //_dAOC_removeActivityOfferingIdFromAoCluster(activityOfferingId, context);
+        _dAOC_removeActivityOfferingIdFromAoCluster(activityOfferingId, context);
 
         // Delete the Activity offering
         return deleteActivityOffering(activityOfferingId, context);
