@@ -2422,6 +2422,211 @@
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
     </table>
+    <table name="KSEN_ROOM">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ROOM_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="ROOM_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="ROOM_CD" required="true" size="255" type="VARCHAR"/>
+        <column name="BUILDING_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="FLOOR" required="true" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM_BUILDING" name="KSEN_ROOM_FK1">
+            <reference foreign="ID" local="BUILDING_ID"/>
+        </foreign-key>
+        <unique name="KSEN_ROOM_I4">
+            <unique-column name="BUILDING_ID"/>
+            <unique-column name="ROOM_CD"/>
+        </unique>
+        <index name="KSEN_ROOM_I1">
+            <index-column name="BUILDING_ID"/>
+            <index-column name="FLOOR"/>
+        </index>
+        <index name="KSEN_ROOM_I2">
+            <index-column name="ROOM_TYPE"/>
+        </index>
+        <index name="KSEN_ROOM_I3">
+            <index-column name="BUILDING_ID"/>
+            <index-column name="ROOM_TYPE"/>
+        </index>
+        <index name="KSEN_ROOM_IF1">
+            <index-column name="BUILDING_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_ACCESS_TYPE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="ACCESS_TYPE_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_ACCESS_TYPE_FK1">
+            <reference foreign="ID" local="ROOM_ID"/>
+        </foreign-key>
+        <unique name="KSEN_ROOM_ACCESS_TYPE_I1">
+            <unique-column name="ROOM_ID"/>
+            <unique-column name="ACCESS_TYPE_ID"/>
+        </unique>
+        <index name="KSEN_ROOM_ACCESS_TYPE_IF1">
+            <index-column name="ROOM_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_ROOM_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_BUILDING">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="BUILDING_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="BUILDING_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
+        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
+        <column name="BUILDING_CD" required="true" size="255" type="VARCHAR"/>
+        <column name="CAMPUS_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <unique name="KSEN_ROOM_BUILDING_I2">
+            <unique-column name="BUILDING_CD"/>
+        </unique>
+        <index name="KSEN_ROOM_BUILDING_I1">
+            <index-column name="CAMPUS_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_BUILDING_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM_BUILDING" name="KSEN_ROOM_BUILDING_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_ROOM_BUILDING_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_FIXED_RSRC">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="FIXED_RSRC_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="QUANTITY" size="22" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_FIXED_RSRC_FK1">
+            <reference foreign="ID" local="ROOM_ID"/>
+        </foreign-key>
+        <index name="KSEN_ROOM_FIXED_RSRC_IF1">
+            <index-column name="ROOM_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_FIXED_RSRC_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM_FIXED_RSRC" name="KSEN_ROOM_FIXED_RSRC_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_ROOM_FIXED_RSRC_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_RESP_ORG">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="RESP_ORG_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="RESP_ORG_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="ORG_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_RESP_ORG_FK1">
+            <reference foreign="ID" local="ROOM_ID"/>
+        </foreign-key>
+        <index name="KSEN_ROOM_RESP_ORG_I1">
+            <index-column name="RESP_ORG_TYPE"/>
+        </index>
+        <index name="KSEN_ROOM_RESP_ORG_IF1">
+            <index-column name="ROOM_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_RESP_ORG_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM_RESP_ORG" name="KSEN_ROOM_RESP_ORG_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_ROOM_RESP_ORG_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_USAGE">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="USAGE_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="LAYOUT_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="PREFERRED_CAPACITY" size="22" type="DECIMAL"/>
+        <column name="HARD_CAPACITY" size="22" type="DECIMAL"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="18" type="CHAR"/>
+        <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_USAGE_FK1">
+            <reference foreign="ID" local="ROOM_ID"/>
+        </foreign-key>
+        <index name="KSEN_ROOM_USAGE_I1">
+            <index-column name="USAGE_TYPE"/>
+        </index>
+        <index name="KSEN_ROOM_USAGE_IF1">
+            <index-column name="ROOM_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_ROOM_USAGE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_ROOM_USAGE" name="KSEN_ROOM_USAGE_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_ROOM_USAGE_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
     <table name="KSEN_SCHED">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
