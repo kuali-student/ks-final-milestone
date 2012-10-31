@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
     private transient CourseOfferingSetService courseOfferingSetService;
-
+    private static final long serialVersionUID = 1L;
     public final static String SOC_ROLLOVER_RESULT_ID = "socRolloverResultId";
 
     @Override

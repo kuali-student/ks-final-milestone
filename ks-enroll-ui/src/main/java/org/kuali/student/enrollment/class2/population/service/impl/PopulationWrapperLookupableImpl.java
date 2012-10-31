@@ -41,7 +41,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class PopulationWrapperLookupableImpl extends LookupableImpl {
-
+    private static final long serialVersionUID = 1L;
     private transient PopulationService populationService;
 
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {

@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class SocRolloverResultInfoInquirableImpl extends InquirableImpl {
     private transient CourseOfferingSetService courseOfferingSetService = null;
-
+    private static final long serialVersionUID = 1L;
     @Override
     public SocRolloverResultInfo retrieveDataObject(Map<String, String> parameters) {
         try {

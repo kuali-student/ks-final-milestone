@@ -35,7 +35,7 @@ public class ResultValuesGroupInfoAdminInquirableImpl extends InquirableImpl
 	private static final Logger LOG = Logger.getLogger(ResultValuesGroupInfoAdminInquirableImpl.class);
 	private transient LRCService lRCService;
 	private final static String PRIMARY_KEY = "key";
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	public ResultValuesGroupInfo retrieveDataObject(Map<String, String> parameters)
 	{

@@ -38,7 +38,7 @@ public class TypeTypeRelationInfoAdminLookupableImpl extends LookupableImpl
 {
 	private static final Logger LOG = Logger.getLogger(TypeTypeRelationInfoAdminLookupableImpl.class);
 	private transient TypeService typeService;
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	protected List<TypeTypeRelationInfo> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
 	{

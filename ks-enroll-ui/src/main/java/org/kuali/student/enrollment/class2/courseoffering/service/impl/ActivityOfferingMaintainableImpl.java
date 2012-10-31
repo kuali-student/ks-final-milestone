@@ -74,7 +74,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class ActivityOfferingMaintainableImpl extends MaintainableImpl implements ActivityOfferingMaintainable {
-
+    private static final long serialVersionUID = 1L;
     private transient CourseOfferingService courseOfferingService;
     private transient CourseOfferingSetService courseOfferingSetService;
     private transient TypeService typeService;

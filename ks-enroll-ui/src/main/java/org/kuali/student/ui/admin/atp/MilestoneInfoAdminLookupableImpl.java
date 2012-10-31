@@ -38,7 +38,7 @@ public class MilestoneInfoAdminLookupableImpl extends LookupableImpl
 {
 	private static final Logger LOG = Logger.getLogger(MilestoneInfoAdminLookupableImpl.class);
 	private transient AtpService atpService;
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	protected List<MilestoneInfo> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
 	{

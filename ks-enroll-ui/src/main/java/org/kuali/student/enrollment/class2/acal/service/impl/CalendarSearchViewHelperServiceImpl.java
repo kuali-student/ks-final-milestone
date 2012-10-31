@@ -25,7 +25,7 @@ import java.util.Properties;
 
 public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl implements CalendarSearchViewHelperService {
     private final static Logger LOG = Logger.getLogger(CalendarSearchViewHelperServiceImpl.class);
-
+    private static final long serialVersionUID = 1L;
     private transient AcademicCalendarService academicCalendarService;
 
     /**

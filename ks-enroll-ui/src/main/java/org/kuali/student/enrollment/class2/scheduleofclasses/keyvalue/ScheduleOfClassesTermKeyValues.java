@@ -42,7 +42,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private transient CourseOfferingSetService courseOfferingSetService;
     private transient AtpService atpService;
 

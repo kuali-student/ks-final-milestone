@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentWindowWrapperLookupableImpl.class);
-
+    private static final long serialVersionUID = 1L;
     private transient AppointmentService appointmentService;
     private transient AcademicCalendarService academicCalendarService;
     private transient TypeService typeService;

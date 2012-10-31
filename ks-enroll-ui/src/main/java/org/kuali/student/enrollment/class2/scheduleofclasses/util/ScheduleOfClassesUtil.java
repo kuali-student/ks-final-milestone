@@ -131,7 +131,7 @@ public class ScheduleOfClassesUtil {
 
     private static Long getAverageTime(AtpInfo atp)  {
          if(isValid(atp)){
-             return new Long((atp.getStartDate().getTime() + atp.getEndDate().getTime())/2);
+             return Long.valueOf((atp.getStartDate().getTime() + atp.getEndDate().getTime())/2);
          } else{
              return Long.MIN_VALUE;
          }

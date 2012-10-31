@@ -52,7 +52,7 @@ import java.util.*;
  * @author Kuali Student Team
  */
 public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl implements ManageSOCViewHelperService {
-
+    private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
 
     private transient AcademicCalendarService acalService;

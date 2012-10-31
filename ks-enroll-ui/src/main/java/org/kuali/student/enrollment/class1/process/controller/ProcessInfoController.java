@@ -247,11 +247,11 @@ public class ProcessInfoController extends UifControllerBase {
         }
 
         form.setActionParameters(actionParameters);
-        List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
+/*        List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
         List<InstructionInfo> activeInstructions = new ArrayList<InstructionInfo>();
         ProcessInfo processInfo = getSelectedProcessInfo(form, "delete");
 
-        /*try{
+        try{
             instructionInfos = getProcessService().getInstructionsByProcess(processInfo.getKey(), getContextInfo());
             for(InstructionInfo instruction : instructionInfos){
                 if(instruction.getStateKey().equals("kuali.process.instruction.state.active")){

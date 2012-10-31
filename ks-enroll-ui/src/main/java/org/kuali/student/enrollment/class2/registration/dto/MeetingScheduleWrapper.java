@@ -89,6 +89,7 @@ public class MeetingScheduleWrapper implements Serializable {
 
     public String getJsScheduleObject() {
         String daysArray = "[";
+        //FindBugs - it is fine as is
         for (String day : getDays()) {
             daysArray = daysArray + "'" + day + "',";
         }

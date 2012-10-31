@@ -81,7 +81,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     @Override
     public void unAssignGrade(View view, Object model, String selectedCollectionPath, Integer selectedLine) {
-        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
+        //CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(selectedCollectionPath);
 
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, selectedCollectionPath);
         if (collection == null) {
@@ -187,7 +187,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
     }
 
     public boolean submitGradeRoster(GradingForm gradingForm)throws Exception {
-        boolean save = saveGrades(gradingForm);
+        //boolean save = saveGrades(gradingForm);
         ContextInfo context = TestHelper.getContext1();
 
         for (GradeRosterInfo info : gradingForm.getRosterInfos()){

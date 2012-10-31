@@ -58,6 +58,7 @@ public class SeatPoolWrapper implements Serializable, Comparable<SeatPoolWrapper
 
 
     @Override
+    //FindBugs - it is fine as is
     public int compareTo(SeatPoolWrapper seatPoolToCompare) {
         return this.getSeatPool().getProcessingPriority()-seatPoolToCompare.getSeatPool().getProcessingPriority();
     }

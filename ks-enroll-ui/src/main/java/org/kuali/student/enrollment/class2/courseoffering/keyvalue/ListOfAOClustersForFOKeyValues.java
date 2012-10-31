@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class ListOfAOClustersForFOKeyValues extends UifKeyValuesFinderBase implements Serializable {
     private transient CourseOfferingService courseOfferingService;
-
+    private static final long serialVersionUID = 1L;
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         RegistrationGroupManagementForm rgForm = (RegistrationGroupManagementForm) model;

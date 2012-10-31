@@ -56,6 +56,7 @@ import java.util.*;
  * @author Kuali Student Team
  */
 public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl implements AppointmentViewHelperService {
+    private static final long serialVersionUID = 1L;
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AppointmentViewHelperServiceImpl.class);
 
     private transient AcademicCalendarService academicCalendarService;

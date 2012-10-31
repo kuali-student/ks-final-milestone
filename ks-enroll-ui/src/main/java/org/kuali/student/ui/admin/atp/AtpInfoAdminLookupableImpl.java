@@ -38,7 +38,7 @@ public class AtpInfoAdminLookupableImpl extends LookupableImpl
 {
 	private static final Logger LOG = Logger.getLogger(AtpInfoAdminLookupableImpl.class);
 	private transient AtpService atpService;
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	protected List<AtpInfo> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
 	{

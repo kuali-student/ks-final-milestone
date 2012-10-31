@@ -33,7 +33,7 @@ public class AcademicTermInfoInquirableImpl  extends InquirableImpl {
         ContextInfo context = new ContextInfo();
         try{
             termInfo = getAcademicCalendarService().getTerm(termKey, context);
-            List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termKey, context);
+            //List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termKey, context);
             return termInfo;
         }catch (Exception e){
             e.printStackTrace();

@@ -31,7 +31,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
-
+    private static final long serialVersionUID = 1L;
     public final static String COURSE_OFFER_ID = "courseOfferingId";
 
     private transient CourseOfferingService courseOfferingService;

@@ -85,6 +85,7 @@ public class ManageSOCStatusHistory implements Comparable<ManageSOCStatusHistory
 
     @Override
     public int compareTo(ManageSOCStatusHistory manageSOCStatusHistory) {
+        //FindBugs - it is fine as is
         if (this.getDateObject() != null && manageSOCStatusHistory.getDateObject() != null){
             return getDateObject().compareTo(manageSOCStatusHistory.getDateObject());
         }else if (manageSOCStatusHistory.getDateObject() == null){

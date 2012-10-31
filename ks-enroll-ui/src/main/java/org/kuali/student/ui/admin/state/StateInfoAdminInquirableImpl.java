@@ -35,7 +35,7 @@ public class StateInfoAdminInquirableImpl extends InquirableImpl
 	private static final Logger LOG = Logger.getLogger(StateInfoAdminInquirableImpl.class);
 	private transient StateService stateService;
 	private final static String PRIMARY_KEY = "key";
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	public StateInfo retrieveDataObject(Map<String, String> parameters)
 	{

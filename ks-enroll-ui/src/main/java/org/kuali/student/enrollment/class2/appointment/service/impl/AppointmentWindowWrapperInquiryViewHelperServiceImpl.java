@@ -34,7 +34,7 @@ import org.kuali.student.r2.common.search.util.SearchResultHelper;
 
 
 public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
-
+    private static final long serialVersionUID = 1L;
     public final static String WINDOW_WRAPPER_KEY = "id";
     private transient AppointmentService appointmentService;
     private transient AcademicCalendarService academicCalendarService;

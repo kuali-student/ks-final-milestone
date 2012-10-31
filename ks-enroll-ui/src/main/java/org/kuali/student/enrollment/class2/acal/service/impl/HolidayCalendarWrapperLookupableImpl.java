@@ -25,6 +25,7 @@ import java.util.Map;
 
 
 public class HolidayCalendarWrapperLookupableImpl extends LookupableImpl {
+    private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
     private final static String exceptionComment1 = "call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get ";
     private final static String exceptionComment2 = "call getAcademicCalendarService().getHolidayCalendarsByStartYear(startYear, context), and get ";

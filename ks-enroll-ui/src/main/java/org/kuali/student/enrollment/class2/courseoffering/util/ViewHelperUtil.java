@@ -108,6 +108,7 @@ public class ViewHelperUtil {
                     Collections.sort(creditValuesF); //Do the sort
 
                     //Convert back to strings and concatenate to one field
+                    //FindBugs - it is fine as is
                     for (Float creditF : creditValuesF ){
                         creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
                     }

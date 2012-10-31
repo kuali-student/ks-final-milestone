@@ -43,7 +43,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
  */
 public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
     private transient PopulationService populationService;
-
+    private static final long serialVersionUID = 1L;
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<StudentGroupWrapper> results = new ArrayList<StudentGroupWrapper>();

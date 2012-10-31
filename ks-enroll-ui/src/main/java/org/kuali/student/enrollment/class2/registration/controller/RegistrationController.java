@@ -174,7 +174,7 @@ public class RegistrationController extends UifControllerBase {
             regForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), regForm.getTermId(), context));
 
             //Pull any existing 'new' cart out
-            List<String> states = new ArrayList<String>();
+            //List<String> states = new ArrayList<String>();
             // FIXME
 //            List<RegistrationRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsByStudentAndTerm(context.getPrincipalId(), regForm.getTermId(), states, context);
             List<RegistrationRequestInfo> regRequestInfos = new ArrayList<RegistrationRequestInfo>();

@@ -50,7 +50,7 @@ public class CourseOfferingForGradingKeyValues extends KeyValuesBase {
             List<GradeRosterInfo> gradeRosterInfoList = gradingService.getGradeRostersByGraderAndTerm(currentUser, GradingConstants.CURRENT_TERM, context);
             keyValues.add(new ConcreteKeyValue("", ""));
             if (gradeRosterInfoList != null){
-                List courseOfferingList = new ArrayList();
+                //List courseOfferingList = new ArrayList();
                 for (GradeRosterInfo rosterInfo : gradeRosterInfoList){
                     keyValues.add(new ConcreteKeyValue(rosterInfo.getCourseOfferingId(), rosterInfo.getName()));
                 }

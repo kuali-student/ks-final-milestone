@@ -53,7 +53,6 @@ public class HoldIssueInfoTypeKeyValues extends UifKeyValuesFinderBase implement
     }
 
     public KeyValue getTypeKeyValue(String typeKey) {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         ConcreteKeyValue keyValue = new ConcreteKeyValue();
 
         ContextInfo context = TestHelper.getContext1();

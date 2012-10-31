@@ -38,7 +38,7 @@ public class ResultScaleInfoAdminLookupableImpl extends LookupableImpl
 {
 	private static final Logger LOG = Logger.getLogger(ResultScaleInfoAdminLookupableImpl.class);
 	private transient LRCService lRCService;
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	protected List<ResultScaleInfo> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
 	{

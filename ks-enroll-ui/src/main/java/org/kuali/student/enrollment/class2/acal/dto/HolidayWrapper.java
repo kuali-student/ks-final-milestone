@@ -96,6 +96,7 @@ public class HolidayWrapper extends TimeSetWrapper implements Comparable<Holiday
      * Allow Collections.sort() to sort by startDate & endDate
      */
     public int compareTo(HolidayWrapper holidayToCompare) {
+        //FindBugs - it is fine as is
         int compareValue = compareDates(this.getStartDate(), holidayToCompare.getStartDate());
         if (compareValue == 0) {
             // startDates are equal so compare endDates

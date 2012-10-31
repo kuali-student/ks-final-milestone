@@ -41,6 +41,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class SlotRuleForAppWindowKeyValuesFinder extends UifKeyValuesFinderBase implements Serializable {
+    private static final long serialVersionUID = 1L;
     private transient EnumerationManagementService enumerationService;
 
     private String enumerationKey;

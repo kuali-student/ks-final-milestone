@@ -75,8 +75,6 @@ public class CheckInfoController extends UifControllerBase {
     private ContextInfo contextInfo;
     private Map<String,String> actionParameters;
 
-    private boolean isEdit;
-
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
         return new CheckInfoForm();
@@ -144,7 +142,6 @@ public class CheckInfoController extends UifControllerBase {
         try {
             processService = getProcessService();
             processService.updateCheck(checkInfo.getId(),checkInfo, getContextInfo());
-            isEdit = false;
         } catch (Exception e) {
             return getUIFModelAndView(form);
         }
@@ -195,7 +192,6 @@ public class CheckInfoController extends UifControllerBase {
     public ModelAndView edit(@ModelAttribute("KualiForm") CheckInfoForm form, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         CheckInfo checkInfo = getSelectedCheckInfo(form, "edit");
-        isEdit = true;
 
         if ((checkInfo.getId() != null) && !checkInfo.getId().trim().isEmpty()) {
             try {
@@ -244,11 +240,11 @@ public class CheckInfoController extends UifControllerBase {
         }
 
         form.setActionParameters(actionParameters);
-        List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
+/*        List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
         List<InstructionInfo> activeInstructions = new ArrayList<InstructionInfo>();
         CheckInfo checkInfo = getSelectedCheckInfo(form, "delete");
 
-        /*try{
+        try{
             instructionInfos = getProcessService().getInstructionsByProcess(processInfo.getKey(), getContextInfo());
             for(InstructionInfo instruction : instructionInfos){
                 if(instruction.getStateKey().equals("kuali.process.instruction.state.active")){

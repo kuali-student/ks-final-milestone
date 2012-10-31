@@ -35,7 +35,7 @@ public class AtpAtpRelationInfoAdminInquirableImpl extends InquirableImpl
 	private static final Logger LOG = Logger.getLogger(AtpAtpRelationInfoAdminInquirableImpl.class);
 	private transient AtpService atpService;
 	private final static String PRIMARY_KEY = "id";
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	public AtpAtpRelationInfo retrieveDataObject(Map<String, String> parameters)
 	{

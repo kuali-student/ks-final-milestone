@@ -38,7 +38,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KSViewHelperService {
-
+    private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(KSViewHelperServiceImpl.class);
 
     private transient Map<String,Class> helperClasses;

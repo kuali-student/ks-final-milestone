@@ -65,7 +65,6 @@ public class ProcessInfoTypeKeyValues extends UifKeyValuesFinderBase implements 
     }
 
     public KeyValue getTypeKeyValue(String typeKey) {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         ConcreteKeyValue keyValue = new ConcreteKeyValue();
 
         ContextInfo context = TestHelper.getContext1();

@@ -18,7 +18,7 @@ import java.util.Map;
  */
 
 public class CourseOfferingInfoLookupableImpl extends LookupableImpl {
-
+    private static final long serialVersionUID = 1L;
     private transient CourseOfferingService courseOfferingService;
 
     @Override

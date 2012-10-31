@@ -37,7 +37,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class PopulationWrapperInquirableImpl extends InquirableImpl {
-
+    private static final long serialVersionUID = 1L;
     private transient PopulationService populationService = null;
 
     @Override

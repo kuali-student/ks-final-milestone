@@ -40,7 +40,7 @@ import java.util.List;
 public class SeatPoolExpirationMilestoneTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
     private transient TypeService typeService;
     private static final Logger LOG = Logger.getLogger(SeatPoolExpirationMilestoneTypeKeyValues.class);
-
+    private static final long serialVersionUID = 1L;
     @Override
     public List<KeyValue> getKeyValues(ViewModel viewModel) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

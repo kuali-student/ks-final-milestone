@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HolidayCalendarWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
+    private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
     private final static String exceptionComment1 = "call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get ";
     private final static String exceptionComment2 = "call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get ";

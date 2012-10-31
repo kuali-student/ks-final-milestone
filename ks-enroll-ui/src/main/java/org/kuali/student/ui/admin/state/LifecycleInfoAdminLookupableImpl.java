@@ -38,7 +38,7 @@ public class LifecycleInfoAdminLookupableImpl extends LookupableImpl
 {
 	private static final Logger LOG = Logger.getLogger(LifecycleInfoAdminLookupableImpl.class);
 	private transient StateService stateService;
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	protected List<LifecycleInfo> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
 	{

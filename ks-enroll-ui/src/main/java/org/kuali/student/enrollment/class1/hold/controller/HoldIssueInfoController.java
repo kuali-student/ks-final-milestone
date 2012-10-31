@@ -257,7 +257,6 @@ public class HoldIssueInfoController extends UifControllerBase {
         }
 
         form.setActionParameters(actionParameters);
-        List<HoldIssueInfo> holdIssueInfos = form.getHoldIssueInfoList();
         HoldIssueInfo holdIssue = getSelectedHoldIssue(form, "delete");
 
         try {

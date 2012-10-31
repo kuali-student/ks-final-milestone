@@ -70,7 +70,7 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainableImpl implements CourseOfferingMaintainable{
-
+    private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(CourseOfferingEditMaintainableImpl.class);
 
     private transient OrganizationService organizationService;

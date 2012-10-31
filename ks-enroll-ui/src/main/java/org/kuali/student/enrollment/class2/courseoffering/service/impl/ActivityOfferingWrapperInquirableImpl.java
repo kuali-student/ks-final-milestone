@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
-
+    private static final long serialVersionUID = 1L;
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient AcademicCalendarService acalService;

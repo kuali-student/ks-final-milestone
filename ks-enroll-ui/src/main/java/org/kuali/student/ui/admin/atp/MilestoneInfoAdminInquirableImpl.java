@@ -35,7 +35,7 @@ public class MilestoneInfoAdminInquirableImpl extends InquirableImpl
 	private static final Logger LOG = Logger.getLogger(MilestoneInfoAdminInquirableImpl.class);
 	private transient AtpService atpService;
 	private final static String PRIMARY_KEY = "id";
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	public MilestoneInfo retrieveDataObject(Map<String, String> parameters)
 	{

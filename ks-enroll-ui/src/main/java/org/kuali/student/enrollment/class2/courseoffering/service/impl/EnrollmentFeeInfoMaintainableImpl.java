@@ -15,7 +15,7 @@ import javax.xml.namespace.QName;
 import java.util.Map;
 
 public class EnrollmentFeeInfoMaintainableImpl extends MaintainableImpl {
-
+    private static final long serialVersionUID = 1L;
     //    private transient CourseOfferingService courseOfferingService;
     private transient TypeService typeService;
     //    private transient StateService stateService;

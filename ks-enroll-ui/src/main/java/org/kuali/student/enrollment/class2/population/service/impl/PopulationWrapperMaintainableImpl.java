@@ -30,7 +30,7 @@ import java.util.*;
  * @author Kuali Student Team
  */
 public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
-
+    private static final long serialVersionUID = 1L;
     private transient PopulationService populationService;
 
     @Override

@@ -38,7 +38,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class KSMaintainableImpl extends MaintainableImpl implements KSMaintainable {
-
+    private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(KSMaintainableImpl.class);
 
     private transient Map<String,Class> helperClasses;

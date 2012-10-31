@@ -33,7 +33,7 @@ public class TypeInfoAdminInquirableImpl extends InquirableImpl
 	private static final Logger LOG = Logger.getLogger(TypeInfoAdminInquirableImpl.class);
 	private transient TypeService typeService;
 	private final static String PRIMARY_KEY = "key";
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	public TypeInfo retrieveDataObject(Map<String, String> parameters)
 	{

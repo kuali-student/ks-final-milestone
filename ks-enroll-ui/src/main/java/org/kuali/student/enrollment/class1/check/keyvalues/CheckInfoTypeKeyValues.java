@@ -75,7 +75,6 @@ public class CheckInfoTypeKeyValues extends KeyValuesBase implements Serializabl
     }
 
     public KeyValue getTypeKeyValue(String typeKey) {
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
         ConcreteKeyValue keyValue = new ConcreteKeyValue();
 
         ContextInfo context = TestHelper.getContext1();

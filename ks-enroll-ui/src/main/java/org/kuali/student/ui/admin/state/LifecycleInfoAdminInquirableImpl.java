@@ -35,7 +35,7 @@ public class LifecycleInfoAdminInquirableImpl extends InquirableImpl
 	private static final Logger LOG = Logger.getLogger(LifecycleInfoAdminInquirableImpl.class);
 	private transient StateService stateService;
 	private final static String PRIMARY_KEY = "key";
-
+    private static final long serialVersionUID = 1L;
 	@Override
 	public LifecycleInfo retrieveDataObject(Map<String, String> parameters)
 	{

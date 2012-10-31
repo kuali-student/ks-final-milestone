@@ -32,7 +32,7 @@ import java.util.Map;
 
 
 public class AcademicTermLookupableImpl  extends LookupableImpl {
-
+    private static final long serialVersionUID = 1L;
     private transient AcademicCalendarService academicCalendarService;
     private ContextInfo contextInfo;
     private final static Logger LOG = Logger.getLogger(AcademicTermLookupableImpl.class);

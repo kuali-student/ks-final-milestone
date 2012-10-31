@@ -27,7 +27,7 @@ public class RegistrationWindowsManagementForm extends UifFormBase {
 
     public RegistrationWindowsManagementForm(){
         termInfo = new TermInfo();
-        periodInfoDetails = new String();
+//        periodInfoDetails = new String();
         periodMilestones = new ArrayList<KeyDateInfo>();
         appointmentWindows = new ArrayList<AppointmentWindowWrapper>();
 //        appointmentWindowIdsToDelete = new ArrayList<String>();
