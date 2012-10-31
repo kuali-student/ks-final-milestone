@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.kuali.student.r2.common.entity.PersistableEntity;
 
+import javax.persistence.EntityManager;
+
 /**
  * Interface, that describes default methods of Dao objects for entity.
  *
@@ -73,4 +75,16 @@ public interface EntityDao<K extends Serializable, T extends PersistableEntity<K
      * @param entity Entity to remove
      */
     void remove(T entity);
+
+    /**
+     * @return An entity manager, if applicable
+     * @throws UnsupportedOperationException if there is no EM associated with this
+     */
+    EntityManager getEm() throws UnsupportedOperationException;
+
+    /**
+     * @param em An entity manager, if applicable
+     * @throws UnsupportedOperationException if there is no EM associated with this
+     */
+    void setEm(EntityManager em) throws UnsupportedOperationException;
 }

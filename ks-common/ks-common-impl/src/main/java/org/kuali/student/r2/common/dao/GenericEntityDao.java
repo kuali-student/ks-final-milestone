@@ -189,10 +189,12 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         }
     }
 
+    @Override
     public void setEm(EntityManager em) {
         this.em = em;
     }
 
+    @Override
     public EntityManager getEm() {
         return em;
     }
