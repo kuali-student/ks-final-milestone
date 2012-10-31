@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
@@ -202,23 +203,16 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                 }
 
                                 if (creditType.equals("kuali.result.values.group.type.fixed")) {
-                                    credits = credits + resultValues.get(0);
+                                    credits = credits + resultValues.get(0).substring(33);
                                 } else if (creditType.equals("kuali.result.values.group.type.multiple")) {
                                     boolean firstValue = true;
                                     for (String resultValue : resultValues) {
-                                        credits = credits + (firstValue ? "" :", ")  + resultValue;
+                                        credits = credits + (firstValue ? "" :", ")  + resultValue.substring(33);
                                         firstValue = false;
                                     }
                                 } else if (creditType.equals("kuali.result.values.group.type.range")) {
-                                    String minCredits = null;
-                                    String maxCredits = null;
-                                    for (AttributeInfo attr : resultComponentInfo.getAttributes()){
-                                        if (attr.getKey().equals("minCreditValue")){
-                                            minCredits = attr.getValue();
-                                        } else if (attr.getKey().equals("maxCreditValue")){
-                                            maxCredits = attr.getValue();
-                                        }
-                                    }
+                                    String minCredits = resultComponentInfo.getResultValueRange().getMinValue();
+                                    String maxCredits = resultComponentInfo.getResultValueRange().getMaxValue();
                                     credits += minCredits + " - " + maxCredits;
                                 }
                             }
