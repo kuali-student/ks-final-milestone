@@ -182,6 +182,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Checkboxes.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionActionImages.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionActionLinksOnHover.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionAddBlankLine.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionAsForm.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionColumnSorting.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/CollectionHorizontal.xml</value>

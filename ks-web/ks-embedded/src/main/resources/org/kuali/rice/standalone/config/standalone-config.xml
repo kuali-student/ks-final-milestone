@@ -139,9 +139,6 @@
     <param name="lum.application.url" override="false">${application.url}</param>
     <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=CURRICULUM_MANAGEMENT</param>
 
-    <!--this enables sharing rice portal tags between ks-bundled and ks-rice-standalone-->
-    <param name="ks.application.url" override="false">${application.url}</param>
-
     <!-- KS Home Url -->
     <param name="ks.home.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
 

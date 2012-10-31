@@ -54,6 +54,7 @@
     <import resource="classpath:ks-transaction-context.xml"/>
    	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
+    <import resource="classpath:ksb/ks-enroll-standalone-context.xml"/>
 
     <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 
@@ -96,7 +97,7 @@
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarCopyPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarWrapperLookupAndInquiryView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarFlowView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarCopyPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicCalendarEditPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/AcademicTermPage.xml</value>
