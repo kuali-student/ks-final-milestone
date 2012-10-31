@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<!-- org.kuali.student.r*.lum.program.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.ReqComponentInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.ReqComponentInfo
+		</class-b>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>desc</a>
+			<b>descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.StatementInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.StatementInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a get-method="getDesc" set-method="setDesc">desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.common.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a get-method="getDesc" set-method="setDesc">desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>state</a>
+			<b get-method="getStateKey" set-method="setStateKey">stateKey</b>
+		</field>
+		<field>
+			<a>type</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+	</mapping>
+	
+</mappings>
