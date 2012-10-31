@@ -25,7 +25,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  *
  * @author Kuali Student Team
  */
-public class KSUifUtils {
+public class KSControllerHelper {
 
     public static ViewHelperService getViewHelperService(UifFormBase form){
         if (form.getView() != null){

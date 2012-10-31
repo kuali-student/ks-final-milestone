@@ -32,7 +32,7 @@ import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.uif.util.KSUifUtils;
+import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -355,7 +355,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView cancelTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
 
@@ -390,7 +390,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView makeTermOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
@@ -469,7 +469,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView deleteTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
-        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
 
@@ -501,7 +501,7 @@ public class AcademicCalendarController extends UifControllerBase {
             throw new RuntimeException("unable to determine the selected collection path");
         }
 
-        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
         String selectedKeyDateGroup = StringUtils.substringBetween(selectedCollectionPath,"keyDatesGroupWrappers[","]");
@@ -529,7 +529,7 @@ public class AcademicCalendarController extends UifControllerBase {
             throw new RuntimeException("unable to determine the selected collection path");
         }
 
-        int selectedLineIndex = KSUifUtils.getSelectedCollectionLineIndex(academicCalendarForm);
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath, "termWrapperList[", "]");
 
@@ -736,7 +736,7 @@ public class AcademicCalendarController extends UifControllerBase {
     }
 
     protected AcademicCalendarViewHelperService getAcalViewHelperService(AcademicCalendarForm acalForm){
-        AcademicCalendarViewHelperService viewHelperService = (AcademicCalendarViewHelperService)KSUifUtils.getViewHelperService(acalForm);
+        AcademicCalendarViewHelperService viewHelperService = (AcademicCalendarViewHelperService) KSControllerHelper.getViewHelperService(acalForm);
         return viewHelperService;
     }
 
