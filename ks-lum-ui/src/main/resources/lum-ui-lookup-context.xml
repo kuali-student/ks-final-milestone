@@ -167,8 +167,8 @@
   </property>
  </bean>
 
- <bean id="courseInfo.courseSpecificLOs.loInfo.desc" parent="uilookupconfig-parent">
-  <property name="path" value="courseInfo.courseSpecificLOs.loInfo.desc" />
+ <bean id="courseInfo.courseSpecificLOs.loInfo.descr" parent="uilookupconfig-parent">
+  <property name="path" value="courseInfo.courseSpecificLOs.loInfo.descr" />
   <property name="initialLookup" >
    <bean class="org.kuali.student.r1.common.assembly.data.UILookupData">
     <property name="id" value="kuali.lu.lookup.advanced.learningObjectives" />

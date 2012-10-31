@@ -788,7 +788,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     protected SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY);
-        section.setInstructions(getLabel(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY + "-instruct", QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc", "plain").toString()));
+        section.setInstructions(getLabel(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY + "-instruct", QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "descr", "plain").toString()));
         section.addSection(generateLearningObjectivesNestedSection());
         return section;
     }

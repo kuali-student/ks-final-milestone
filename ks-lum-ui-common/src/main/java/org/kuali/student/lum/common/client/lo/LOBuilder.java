@@ -70,7 +70,7 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 	private static String repoKey;
 	private static String messageGroup;
     private static String startOfPath;
-    private static String endOfPath = "loInfo/desc/plain";
+    private static String endOfPath = "loInfo/descr/plain";
     private static String middleOfPath = "loDisplayInfoList";
 	HorizontalPanel searchMainPanel = new HorizontalPanel();
 	KSPicker searchWindow;
