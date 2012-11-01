@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r1.common.search.dto.*;
 import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
