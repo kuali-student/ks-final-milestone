@@ -17,12 +17,11 @@
 package org.kuali.student.r2.core.search.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -133,5 +132,83 @@ public class SearchResultInfo
 	
     public void setSortDirection(SortDirection sortDirection) {
         this.sortDirection = sortDirection;
+    }
+
+    public void sortRows() {
+        if (sortColumn != null) {
+            Collections.sort(getRows(), new SearchResultRowComparator(sortColumn, sortDirection));
+        }
+    }
+
+    /**
+     * Compares two SearchResultRow rows with a given sort direction and column
+     *
+     */
+    private static class SearchResultRowComparator implements Comparator<SearchResultRowInfo> {
+        private String sortColumn;
+        private SortDirection sortDirection;
+
+        public SearchResultRowComparator(String sortColumn, SortDirection sortDirection) {
+            super();
+            this.sortColumn = sortColumn;
+            this.sortDirection = sortDirection;
+
+        }
+
+        @Override
+        public int compare(SearchResultRowInfo r1, SearchResultRowInfo r2) {
+            int compareResult = 0;
+
+            //Pares out the cell values to compare
+            String v1 = null;
+            String v2 = null;
+            for (SearchResultCellInfo c : r1.getCells()) {
+                if (sortColumn.equals(c.getKey())) {
+                    v1 = c.getValue();
+                    break;
+                }
+            }
+            for (SearchResultCellInfo c : r2.getCells()) {
+                if (sortColumn.equals(c.getKey())) {
+                    v2 = c.getValue();
+                    break;
+                }
+            }
+
+            //Compare the values wiuth the right type (SHould be done more efficiently
+            try {
+                Integer v1Integer = Integer.parseInt(v1);
+                Integer v2Integer = Integer.parseInt(v2);
+                compareResult = v1Integer.compareTo(v2Integer);
+            } catch (Exception e1) {
+                if (v1 != null && v2 != null && ("true".equals(v1.toLowerCase()) || "false".equals(v1.toLowerCase())) &&
+                        ("true".equals(v2.toLowerCase()) || "false".equals(v2.toLowerCase()))) {
+                    Boolean v1Boolean = Boolean.parseBoolean(v1);
+                    Boolean v2Boolean = Boolean.parseBoolean(v2);
+                    compareResult = v1Boolean.compareTo(v2Boolean);
+                } else {
+                    try {
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date v1Date = df.parse(v1);
+                        Date v2Date = df.parse(v2);
+                        compareResult = v1Date.compareTo(v2Date);
+                    } catch (Exception e) {
+                        if (v1 != null && v2 != null) {
+                            compareResult = v1.compareTo(v2);
+                        } else if (v2 == null) {
+                            compareResult = 0;
+                        } else {
+                            compareResult = -1;
+                        }
+                    }
+                }
+            }
+
+            //Sort reverse if order is descending
+            if (SortDirection.DESC.equals(sortDirection)) {
+                return -1 * compareResult;
+            }
+            return compareResult;
+        }
     }
 }

@@ -22,12 +22,12 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.search.infc.SearchParam;
+
 //import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -103,6 +103,9 @@ public class SearchParamInfo
 
     @Override
     public List<String> getValues() {
+        if (values == null){
+            values = new ArrayList<String>();
+        }
         return values;
     }
 

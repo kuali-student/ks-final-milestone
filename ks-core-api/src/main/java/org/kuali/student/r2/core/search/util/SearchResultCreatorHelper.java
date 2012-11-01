@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.r2.core.search.util;
+package org.kuali.student.r2.common.search.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -72,7 +72,7 @@ public class SearchResultCreatorHelper {
     }  
     
     /** 
-     * Process all the results of the query converting them to a SearchResultRow and 
+     * Process all the results of the query converting them to a SearchResultRowInfo and
      * adding it to the search result
      * 
      * Calls addSearchResultRow for each row returned by the query
