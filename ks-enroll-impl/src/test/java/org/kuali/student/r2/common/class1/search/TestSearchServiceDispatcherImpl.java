@@ -7,10 +7,10 @@ package org.kuali.student.r2.common.class1.search;
 import org.junit.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.search.util.SearchResultHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
