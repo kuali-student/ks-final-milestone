@@ -76,5 +76,4 @@
 	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
 
 
-    <import resource="classpath:StudentStandaloneSpringBeans.xml"/>
 </beans>
