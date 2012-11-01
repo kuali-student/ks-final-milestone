@@ -77,8 +77,8 @@
 	<param name="ks.core.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
 	<param name="ks.core.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
 	<param name="ks.core.datasource.url">${datasource.url}</param>
-	<param name="ks.core.datasource.username">KSSTANDALONE</param>
-	<param name="ks.core.datasource.password">KSSTANDALONE</param>
+	<param name="ks.core.datasource.username">KSAPP</param>
+	<param name="ks.core.datasource.password">KSAPP</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>

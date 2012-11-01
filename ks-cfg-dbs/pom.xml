@@ -429,7 +429,7 @@
                 <module>ks-rice-baseline-db</module>
                 <module>ks-bundled-db</module>
                 <module>ks-regression-db</module>
-                <module>ks-standalone-db</module>
+                <module>ks-app-db</module>
             </modules>
         </profile>
         <profile>
@@ -457,9 +457,9 @@
             </modules>
         </profile>
         <profile>
-            <id>standalone-only</id>
+            <id>app-only</id>
             <modules>
-                <module>ks-standalone-db</module>
+                <module>ks-app-db</module>
             </modules>
         </profile>
         <profile>
@@ -594,7 +594,7 @@
       -->
             <id>generate-xml</id>
             <modules>
-                <module>ks-standalone-db</module>
+                <module>ks-app-db</module>
                 <module>ks-bundled-db</module>
                 <module>ks-rice-db</module>
             </modules>
@@ -897,7 +897,7 @@
             <!-- This profile commits any Impex changes to SCM -->
             <id>commit-impex-changes</id>
             <modules>
-                <module>ks-standalone-db</module>
+                <module>ks-app-db</module>
                 <module>ks-bundled-db</module>
                 <module>ks-rice-db</module>
             </modules>
