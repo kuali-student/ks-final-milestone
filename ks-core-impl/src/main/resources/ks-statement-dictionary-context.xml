@@ -75,7 +75,7 @@
 
 	<bean id="ANDorOR" parent="ValidCharDefinition">
 		<property name="value" value="regex:AND|OR" />
-		<property name="messageKey" value="validation.validChars.ANDorOR" />
+		<property name="labelKey" value="validation.validChars.ANDorOR" />
 	</bean>
 
 	<bean id="statementInfo.reqComponentIds-parent" abstract="true"
