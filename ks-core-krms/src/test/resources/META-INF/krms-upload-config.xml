@@ -66,8 +66,8 @@
 	<param name="datasource.pool.maxWait">30000</param>-->
 	 
  	<param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
- 	<param name="datasource.username">KSEMBEDDED</param>
- 	<param name="datasource.password">KSEMBEDDED</param>
+ 	<param name="datasource.username">KSBUNDLED</param>
+ 	<param name="datasource.password">KSBUNDLED</param>
  	<param name="datasource.ojb.platform">Oracle9i</param>
  	<param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
  	<param name="datasource.driver.name">oracle.jdbc.OracleDriver</param>

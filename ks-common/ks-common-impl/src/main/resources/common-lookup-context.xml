@@ -320,7 +320,7 @@
 	export the rows using DB Vizualizer and add them to an impex file to update the database.  
 	 
 	You can copy/paste this block and use it for any enumeration.  Just change the defaultValueString
-	to match the ENUM_KEY column in the KSEMBEDDED.KSEM_ENUM_T table.
+	to match the ENUM_KEY column in the KSBUNDLED.KSEM_ENUM_T table.
 	
  	-->
 	<bean id="kuali.common.lookup.programModificationType" parent="commonLookup-parent">
