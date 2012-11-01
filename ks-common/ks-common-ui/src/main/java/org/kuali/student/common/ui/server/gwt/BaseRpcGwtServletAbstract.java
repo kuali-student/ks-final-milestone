@@ -15,24 +15,21 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import java.util.List;
-
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.apache.log4j.Logger;
-import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.exceptions.*;
-
-import org.kuali.student.r2.common.search.service.SearchService;
-
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
-
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import java.util.List;
 
 /**
  * This abstract service delegates search & dictionary operations to the web service being

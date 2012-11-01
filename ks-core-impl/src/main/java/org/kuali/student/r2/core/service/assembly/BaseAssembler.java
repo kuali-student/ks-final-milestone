@@ -14,30 +14,22 @@
  */
 package org.kuali.student.r2.core.service.assembly;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dao.CrudDao;
-
-import org.kuali.student.r1.common.entity.Attribute;
-import org.kuali.student.r1.common.entity.AttributeOwner;
-import org.kuali.student.r1.common.entity.Meta;
-import org.kuali.student.r1.common.entity.MetaEntity;
-import org.kuali.student.r1.common.entity.RichText;
-import org.kuali.student.r1.common.entity.Type;
-import org.kuali.student.r1.common.entity.Version;
-
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r1.common.entity.*;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BaseAssembler {
 

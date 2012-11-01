@@ -15,14 +15,13 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import java.util.List;
-
-import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import java.util.List;
 
 /**
  * Async methods for dictionary and search operations. 
