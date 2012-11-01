@@ -1,0 +1,3 @@
+all branches branched from rev 39303
+ks-api branched from branches/M5
+all other modules branched from trunk
