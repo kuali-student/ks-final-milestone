@@ -8,7 +8,7 @@ import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 
 public class SearchResultsLightBox {
     private KSLightBox lightbox;

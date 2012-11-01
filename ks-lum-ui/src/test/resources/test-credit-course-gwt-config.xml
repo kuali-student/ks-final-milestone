@@ -251,7 +251,7 @@
 
     <bean id="personSearchClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/personsearchService?wsdl"/>
-        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.search.service.SearchService" />
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.search.service.SearchService" />
         <property name="serviceQNameString" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
 

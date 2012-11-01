@@ -45,10 +45,10 @@
 		<property name="methodReturnMap">
 			<map>
 				<entry key="search">
-					<bean class="org.kuali.student.r2.common.search.dto.SearchResultInfo">
+					<bean class="org.kuali.student.r2.core.search.dto.SearchResultInfo">
 						<property name="rows">
 							<list>
-								<bean class="org.kuali.student.r2.common.search.dto.SearchResultRowInfo"/>
+								<bean class="org.kuali.student.r2.core.search.dto.SearchResultRowInfo"/>
 							</list>
 						</property>
 					</bean>

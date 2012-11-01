@@ -36,8 +36,8 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.assembly.data.Data.DataValue;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
-import org.kuali.student.r2.common.search.dto.SearchParamInfo;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.core.client.GWT;
