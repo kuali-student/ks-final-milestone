@@ -15,7 +15,7 @@
 # the external paths
 #
 
-ks-api https://svn.kuali.org/repos/student/enrollment/ks-api/branches/M5
+ks-api https://svn.kuali.org/repos/student/enrollment/ks-api/branches/M6
 ks-core https://svn.kuali.org/repos/student/enrollment/ks-core/trunk
 ks-lum https://svn.kuali.org/repos/student/enrollment/ks-lum/trunk
 ks-enroll https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk
