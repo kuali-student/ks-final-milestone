@@ -44,7 +44,7 @@ import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.search.dto.SortDirection;
-import org.kuali.student.r2.common.search.service.SearchManager;
+import org.kuali.student.r2.core.search.service.SearchManager;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.r1.core.organization.entity.Org;
 import org.kuali.student.r1.core.organization.entity.OrgAttribute;
