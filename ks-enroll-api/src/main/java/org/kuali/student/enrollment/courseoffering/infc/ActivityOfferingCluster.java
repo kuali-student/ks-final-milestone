@@ -21,10 +21,11 @@ import org.kuali.student.r2.common.infc.IdEntity;
 import java.util.List;
 
 /**
- * The Registration Template lists the allowable combinations of
- * activity offerings to constrain or generate RegistrationGroups.
- *
- * @author tom
+ * The Activity Offering Cluster lists the allowable combinations of 
+ * activity offerings by activity type which will constrain the number
+ * of RegistrationGroup's that will be generated.  
+ * 
+ * @author Kuali Student Team
  */
 
 public interface ActivityOfferingCluster
@@ -54,7 +55,7 @@ public interface ActivityOfferingCluster
      *
      * (needs an example)
      *
-     * @name Activity Offering Templates
+     * @name Activity Offering Set
      */
     public List<? extends ActivityOfferingSet> getActivityOfferingSets();
 }
