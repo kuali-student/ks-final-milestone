@@ -78,7 +78,7 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      * Retrieves a list of CredentialPrograms corresponding to the given list of
      * CredentialProgram Ids
      * 
-     * @param CredentialProgram Ids list of CredentialPrograms to be retrieved
+     * @param credentialProgramIds list of CredentialPrograms to be retrieved
      * @param contextInfo Context information containing the principalId and
      *            locale information about the caller of service operation
      * @return list of CredentialProgram
@@ -226,7 +226,7 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
      * Retrieves a list of MajorDiscipline corresponding to the given list of
      * major discipline Ids
      * 
-     * @param MajorDiscipline Ids list of MajorDisciplines to be retrieved
+     * @param majorDisciplineIds list of MajorDisciplines to be retrieved
      * @param contextInfo Context information containing the principalId and
      *            locale information about the caller of service operation
      * @return list of MajorDiscipline
