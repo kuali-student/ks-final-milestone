@@ -241,7 +241,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 }
 
                 //set instructors display
-                List<OfferingInstructorInfo> instructorInfos = aoDisplayInfo.getInstructors();
+                OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo();
+                instructorInfo.setPersonId(aoDisplayInfo.getInstructorId());
+                instructorInfo.setPersonName(aoDisplayInfo.getInstructorName());
+
+                List<OfferingInstructorInfo> instructorInfos = new ArrayList<OfferingInstructorInfo>();
+                instructorInfos.add(instructorInfo);
                 if (instructorInfos != null) {
                     for (OfferingInstructorInfo offeringInstructorInfo : instructorInfos) {
                         aoDisplayWrapper.setInstructorDisplayNames(offeringInstructorInfo.getPersonName(), true);
