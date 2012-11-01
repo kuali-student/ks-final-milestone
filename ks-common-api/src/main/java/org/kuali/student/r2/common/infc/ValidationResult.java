@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlEnum;
 
 public interface ValidationResult {
 
-	@XmlEnum(value=Integer.class)
+    @XmlEnum(value=Integer.class)
     public enum ErrorLevel {
 
         OK(0), WARN(1), ERROR(2);
@@ -95,8 +95,4 @@ public interface ValidationResult {
      * @required
      */
     public ErrorLevel getLevel();
-
-
-
-    
 }
