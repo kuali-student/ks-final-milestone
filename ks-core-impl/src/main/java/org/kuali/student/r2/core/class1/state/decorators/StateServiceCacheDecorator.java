@@ -4,10 +4,12 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
 import org.apache.commons.collections.keyvalue.MultiKey;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.class1.state.decorators.StateServiceDecorator;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
@@ -100,7 +102,7 @@ public class StateServiceCacheDecorator extends StateServiceDecorator {
         MultiKey cacheKey = new MultiKey("getLifecycleKeysByRefObjectUri", refObjectUri);
 
         Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
-        Object result = null;
+        Object result;
         if (cachedResult == null) {
             result = getNextDecorator().getLifecycleKeysByRefObjectUri(refObjectUri, contextInfo);
             cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
@@ -210,7 +212,7 @@ public class StateServiceCacheDecorator extends StateServiceDecorator {
         MultiKey cacheKey = new MultiKey("getStatesByLifecycle", lifecycleKey);
 
         Element cachedResult = cacheManager.getCache(STATE_SERVICE_CACHE).get(cacheKey);
-        Object result = null;
+        Object result;
         if (cachedResult == null) {
             result = getNextDecorator().getStatesByLifecycle(lifecycleKey, contextInfo);
             cacheManager.getCache(STATE_SERVICE_CACHE).put(new Element(cacheKey, result));
