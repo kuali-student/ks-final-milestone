@@ -990,7 +990,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+         public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
             throws OperationFailedException, InvalidParameterException, MissingParameterException {
         return searchManager.getSearchCriteriaTypes(contextInfo);
     }
