@@ -6184,13 +6184,6 @@
      <property name="key" value="lrc.resultColumn.resultValue.value" />
      <property name="name" value="The grade value" />
     </bean>
-    <bean parent="result">
-     <property name="dataType" value="STRING" />
-     <property name="desc" value="The result component id" />
-     <property name="hidden" value="true" />
-     <property name="key" value="lrc.resultColumn.resultComponent.id" />
-     <property name="name" value="The grade's Assessment Scale" />
-    </bean>
    </list>
   </property>
   <property name="resultReturnKey" value="lrc.resultColumn.resultValue.id" />

@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.util.HashMap;
@@ -63,6 +64,16 @@ public class LrcContextImpl extends BasicContextImpl {
             throw new OperationFailedException(e.getMessage(), e);
         }
     }
+    private ResultValuesGroupInfo getResultValuesGroupByResultValueGroupId(String resultValueGroupId, ContextInfo contextInfo ) throws OperationFailedException {
+        if (resultValueGroupId == null) {
+            return null;
+        }
+        try {
+            return lrcService.getResultValuesGroup(resultValueGroupId,contextInfo);
+        } catch (Exception e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+    }
 
     private ResultValueInfo getResultValue(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
         try {
@@ -80,12 +91,19 @@ public class LrcContextImpl extends BasicContextImpl {
      * @throws OperationFailedException Creating context map fails
      */
     public Map<String, Object> createContextMap(ReqComponentInfo reqComponent, ContextInfo contextInfo) throws OperationFailedException {
-        String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
         Map<String, Object> contextMap = new HashMap<String, Object>();
+
+        String gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_KEY.getId());
+        if (gradeId == null) {
+            gradeId = getReqComponentFieldValue(reqComponent, ReqComponentFieldTypes.GRADE_TYPE_KEY.getId());
+        }
+
+        if (gradeId != null){
         ResultValueInfo grade = getResultValue(gradeId, contextInfo);
-        if (grade != null) {
-            contextMap.put(GRADE_TOKEN, grade.getValue());
-            contextMap.put(GRADE_TYPE_TOKEN, getResultScale(grade.getResultScaleKey(),contextInfo));
+            if (grade != null) {
+                contextMap.put(GRADE_TOKEN, grade.getValue());
+                contextMap.put(GRADE_TYPE_TOKEN, getResultScale(grade.getResultScaleKey(),contextInfo));
+            }
         }
         return contextMap;
     }

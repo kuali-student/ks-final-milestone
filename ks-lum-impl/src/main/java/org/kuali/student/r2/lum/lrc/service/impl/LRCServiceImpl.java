@@ -9,6 +9,7 @@ import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.search.service.SearchManager;
@@ -37,6 +38,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 
 public class LRCServiceImpl implements LRCService {
 
@@ -48,7 +50,7 @@ public class LRCServiceImpl implements LRCService {
     private CriteriaLookupService resultScaleCriteriaLookupService;
     private CriteriaLookupService resultValueCriteriaLookupService;
     private CriteriaLookupService resultValuesGroupCriteriaLookupService;
-    
+
     public SearchManager getSearchManager() {
         return searchManager;
     }
@@ -113,9 +115,9 @@ public class LRCServiceImpl implements LRCService {
         this.resultValuesGroupCriteriaLookupService = resultValuesGroupCriteriaLookupService;
     }
 
-    
-    
-    
+
+
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ResultScaleInfo createResultScale(String typeKey,
@@ -724,10 +726,67 @@ public class LRCServiceImpl implements LRCService {
         if (searchRequest==null) {
             throw new MissingParameterException(searchRequest + " can not be null");
         }
-        SearchResultInfo searchResult = searchManager.search(searchRequest, contextInfo);
+        List<ResultValueEntity> returnValues = new ArrayList<ResultValueEntity>();
+
+        SearchResultInfo searchResult = new SearchResultInfo();
+        if ("lrc.search.resultValue".equals(searchRequest.getSearchKey())) {
+
+            String resultValueId = null;
+            String resultValueValue = null;
+            String resultComponentId = null;
+            for (SearchParamInfo parm : searchRequest.getParams()) {
+                if ((parm.getKey().equals("lrc.queryParam.resultValue.id") && (parm.getValues() != null)&& parm.getValues().get(0)!=null)) {
+                    resultValueId = parm.getValues().get(0);
+                } else if ((parm.getKey().equals("lrc.queryParam.resultValue.value") && (parm.getValues() != null)&& parm.getValues().get(0)!=null)) {
+                    resultValueValue = parm.getValues().get(0);
+                } else if ((parm.getKey().equals("lrc.queryParam.resultValue.resultComponent.id") && (parm.getValues() != null) && parm.getValues().get(0)!=null)) {
+                    resultComponentId = parm.getValues().get(0);
+                }
+            }
+
+            try {
+
+                if (resultValueId != null){
+                    ResultValueEntity resultValue = resultValueDao.find(resultValueId);
+                    returnValues.add(resultValue);
+                } else if (resultComponentId != null) {
+                    ResultValuesGroupEntity resultValueGroup = resultValuesGroupDao.find(resultComponentId);
+                    List<String> resultValueKeys = new ArrayList<String>();
+                    resultValueKeys.addAll(resultValueGroup.getResultValueKeys());
+                    returnValues = resultValueDao.findByIds(resultValueKeys);
+                } else {
+                    returnValues = resultValueDao.findAll();
+                }
+
+                if (resultValueValue != null) {
+                    List<ResultValueEntity> resultValues = new ArrayList<ResultValueEntity>();
+                    for (ResultValueEntity resultValue : returnValues) {
+                        if (resultValue.getValue().equals(resultValueValue)) {
+                            resultValues.add(resultValue);
+                        }
+                    }
+                    returnValues = resultValues;
+                }
+
+            } catch (Exception e) {
+            }
+
+            if (returnValues == null) {
+                return null;
+            }
+            //Use a hashset of the cell values to remove duplicates
+            for (ResultValueEntity returnValue : returnValues) {
+                SearchResultRowInfo row = new SearchResultRowInfo();
+                row.addCell("lrc.resultColumn.resultValue.id", returnValue.getId());
+                row.addCell("lrc.resultColumn.resultValue.value", returnValue.getValue());
+                searchResult.getRows().add(row);
+            }
+        } else {
+            searchResult = searchManager.search(searchRequest, contextInfo);
+        }
         return searchResult;
     }
-    
+
       @Override
     @Transactional(readOnly = true)
     public List<String> searchForResultScaleIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -781,6 +840,6 @@ public class LRCServiceImpl implements LRCService {
         }
         return infos;
     }
-    
-    
+
+
 }

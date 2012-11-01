@@ -204,7 +204,6 @@
 		<search:resultColumns>
 			<ref bean="lrc.resultColumn.resultValue.id"/>
 			<ref bean="lrc.resultColumn.resultValue.value"/>
-   <ref bean="lrc.resultColumn.resultComponent.id" />
    </search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -228,9 +227,6 @@
 		        <entry key="lrc.search.resultComponent">
 		            <value>SELECT rc.id, rc.name, rc.type FROM ResultValuesGroupEntity rc </value>
 		        </entry>
-		        <entry key="lrc.search.resultValue">
-		            <value>SELECT rv.id, rv.value, rv.resultComponent.id FROM ResultValue rv </value>
-		        </entry>
 				<entry key="lrc.queryParam.resultComponent.id">
 					<value>rc.id = :lrc_queryParam_resultComponent_id</value>
 				</entry>
@@ -242,15 +238,6 @@
 				</entry>
 				<entry key="lrc.queryParam.resultComponent.resultScaleId">
 					<value>rc.resultScaleId IN (:lrc_queryParam_resultComponent_resultScaleId)</value>
-				</entry>
-				<entry key="lrc.queryParam.resultValue.id">
-					<value>rv.id = :lrc_queryParam_resultValue_id</value>
-				</entry>
-				<entry key="lrc.queryParam.resultValue.value">
-					<value>rv.value = :lrc_queryParam_resultValue_value</value>
-				</entry>
-				<entry key="lrc.queryParam.resultValue.resultComponent.id">
-					<value>rv.resultComponent.id = :lrc_queryParam_resultValue_resultComponent_id</value>
 				</entry>
 			</map>
 		</property>
