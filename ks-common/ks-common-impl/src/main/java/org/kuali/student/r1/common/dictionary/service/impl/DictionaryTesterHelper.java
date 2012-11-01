@@ -7,7 +7,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.io.*;
 import java.util.*;
 
-@Deprecated
 public class DictionaryTesterHelper
 {
 
