@@ -55,6 +55,7 @@ It is represented by an LPR at Class I level, when a student actually
 registers for the course the LPR is a RegGroupRegistration
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

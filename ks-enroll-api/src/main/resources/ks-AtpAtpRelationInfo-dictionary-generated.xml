@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Information about a mapping between Academic Time Periods.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

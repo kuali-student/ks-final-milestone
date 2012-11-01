@@ -50,6 +50,7 @@ Note that multiple orgs can be responsible for a room in different roles
 like maintenance, scheduling etc
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

@@ -45,7 +45,7 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Offering Instructor"/>
 		<property name="objectDescription">
 			<value>
-Information about a potential instructor for a lui.
+Information about an instructor.
 			</value>
 		</property>
 		<property name="titleAttribute" value="personName"/>

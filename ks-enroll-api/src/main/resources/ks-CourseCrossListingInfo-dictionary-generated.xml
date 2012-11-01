@@ -49,6 +49,7 @@ This is a description of what this class does - sambit don't forget to fill
 this in.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

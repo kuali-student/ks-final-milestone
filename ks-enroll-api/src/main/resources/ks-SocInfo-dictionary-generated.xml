@@ -66,6 +66,11 @@ Identifies a set of courses that are offered within a term.
 				<ref bean="SocInfo.termId"/>
 				<ref bean="SocInfo.subjectArea"/>
 				<ref bean="SocInfo.unitsContentOwnerId"/>
+				<ref bean="SocInfo.schedulingStateKey"/>
+				<ref bean="SocInfo.lastSchedulingRunStarted"/>
+				<ref bean="SocInfo.lastSchedulingRunCompleted"/>
+				<ref bean="SocInfo.publishingStarted"/>
+				<ref bean="SocInfo.publishingCompleted"/>
 			</list>
 		</property>
 
@@ -226,6 +231,111 @@ THIS IS A PLACEHOLDER FOR DEFINING DEPARTMENTAL SOCS
 NOTE: should this be a list of org ids not just one?
 			</value>
 		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocInfo.schedulingStateKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="schedulingStateKey"/>
+		<property name="shortLabel" value="Scheduling State Key"/>
+		<property name="summary">
+			<value>
+Indicates where this Set of CourseOffering's is in the scheduling process.
+			</value>
+		</property>
+		<property name="label" value="Scheduling State Key"/>
+		<property name="description">
+			<value>
+Indicates where this Set of CourseOffering's is in the scheduling process.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocInfo.lastSchedulingRunStarted-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="lastSchedulingRunStarted"/>
+		<property name="shortLabel" value="Last Scheduling Run Started"/>
+		<property name="summary">
+			<value>
+Date of the last time this SOC was submitted to the scheduler
+			</value>
+		</property>
+		<property name="label" value="Last Scheduling Run Completed"/>
+		<property name="description">
+			<value>
+Date of the last time this SOC was submitted to the scheduler
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocInfo.lastSchedulingRunCompleted-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="lastSchedulingRunCompleted"/>
+		<property name="shortLabel" value="Last Scheduling Run Completed"/>
+		<property name="summary">
+			<value>
+Date the SOC scheduling run completed
+			</value>
+		</property>
+		<property name="label" value="Last Scheduling Run Completed"/>
+		<property name="description">
+			<value>
+Date the SOC scheduling run completed
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocInfo.publishingStarted-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="publishingStarted"/>
+		<property name="shortLabel" value="Publishing Started"/>
+		<property name="summary">
+			<value>
+Date this SOC was submitted for publishing
+			</value>
+		</property>
+		<property name="label" value="Publishing Started"/>
+		<property name="description">
+			<value>
+Date this SOC was submitted for publishing
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="SocInfo.publishingCompleted-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="publishingCompleted"/>
+		<property name="shortLabel" value="Publishing Completed"/>
+		<property name="summary">
+			<value>
+Date the publishing process was initiated
+			</value>
+		</property>
+		<property name="label" value="Publishing Completed"/>
+		<property name="description">
+			<value>
+Date the publishing process was initiated
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="false"/>
 	</bean>
 

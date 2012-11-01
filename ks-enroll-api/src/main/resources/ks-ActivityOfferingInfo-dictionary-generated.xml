@@ -89,6 +89,7 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.waitlistTypeKey"/>
 				<ref bean="ActivityOfferingInfo.waitlistMaximum"/>
 				<ref bean="ActivityOfferingInfo.isWaitlistCheckinRequired"/>
+				<ref bean="ActivityOfferingInfo.isPartOfColocatedOfferingSet"/>
 			</list>
 		</property>
 
@@ -785,6 +786,23 @@ The amount of time.
 			</value>
 		</property>
 		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isPartOfColocatedOfferingSet"/>
+		<property name="shortLabel" value="Is Part Of Colocated Offering Set"/>
+		<property name="summary">
+			<value>
+Indicates that the activity offering is part of a ColocatedOfferingSet.
+			</value>
+		</property>
+		<property name="label" value="Is Part Of Colocated Offering Set"/>
+		<property name="description">
+			<value>
+Indicates that the activity offering is part of a ColocatedOfferingSet.
+			</value>
+		</property>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="ActivityOfferingInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

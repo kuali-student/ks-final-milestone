@@ -59,6 +59,7 @@ or implied. See the License for the specific language governing
 permissions and limitations under the License.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>
@@ -1466,13 +1467,13 @@ List of Affiliated Orgs
 
 	<bean id="CluInfo.version-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="version"/>
-		<property name="shortLabel" value="Version Info"/>
+		<property name="shortLabel" value="Version"/>
 		<property name="summary">
 			<value>
 Version information associated with this CLU
 			</value>
 		</property>
-		<property name="label" value="Version Info"/>
+		<property name="label" value="Version"/>
 		<property name="description">
 			<value>
 Version information associated with this CLU
@@ -1483,7 +1484,7 @@ Version information associated with this CLU
 			<bean parent="DataObjectEntry">
 				<property name="name" value="version"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
-				<property name="objectLabel" value="Version Info"/>
+				<property name="objectLabel" value="Version"/>
 				<property name="objectDescription">
 					<value>
 Version information associated with this CLU

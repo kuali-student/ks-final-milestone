@@ -38,17 +38,14 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- LprInfo-->
-	<bean id="LprInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="lprInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.lpr.dto.LprInfo"/>
-		<property name="objectLabel" value="Lpr"/>
+	<!-- StateChangeInfo-->
+	<bean id="StateChangeInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="stateChangeInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.state.dto.StateChangeInfo"/>
+		<property name="objectLabel" value="State Change"/>
 		<property name="objectDescription">
 			<value>
-Detailed information about a single LUI to Person Relation. This is used to
-link together a learning unit instance and a person in such widely defined
-domains as a student registering in a course or an instructor being assigned
-to advise students in a particular program.
+
 			</value>
 		</property>
 		<property name="titleAttribute" value="id"/>
@@ -60,20 +57,19 @@ to advise students in a particular program.
 
 		<property name="attributes">
 			<list>
-				<ref bean="LprInfo.id"/>
-				<ref bean="LprInfo.typeKey"/>
-				<ref bean="LprInfo.stateKey"/>
-				<ref bean="LprInfo.luiId"/>
-				<ref bean="LprInfo.personId"/>
-				<ref bean="LprInfo.commitmentPercent"/>
-				<ref bean="LprInfo.effectiveDate"/>
-				<ref bean="LprInfo.expirationDate"/>
+				<ref bean="StateChangeInfo.id"/>
+				<ref bean="StateChangeInfo.typeKey"/>
+				<ref bean="StateChangeInfo.stateKey"/>
+				<ref bean="StateChangeInfo.fromStateKey"/>
+				<ref bean="StateChangeInfo.toStateKey"/>
+				<ref bean="StateChangeInfo.effectiveDate"/>
+				<ref bean="StateChangeInfo.expirationDate"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="LprInfo.meta"/>
+				<ref bean="StateChangeInfo.meta"/>
 			</list>
 		</property>
 
@@ -83,107 +79,109 @@ to advise students in a particular program.
 		</property>
 	</bean>
 
-	<bean id="LprInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="StateChangeInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="LprInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="StateChangeInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="LprInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="StateChangeInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="LprInfo.luiId-generated" abstract="true" parent="BaseKuali.luiId">
-		<property name="name" value="luiId"/>
-		<property name="shortLabel" value="Lui Id"/>
+	<bean id="StateChangeInfo.fromStateKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="fromStateKey"/>
+		<property name="shortLabel" value="From State Key"/>
 		<property name="summary">
 			<value>
-Unique identifier for a Learning Unit Instance (LUI).
+Initial or &quot;from&quot; state
 			</value>
 		</property>
-		<property name="label" value="LUI Id"/>
+		<property name="label" value="From State Key"/>
 		<property name="description">
 			<value>
-Unique identifier for a Learning Unit Instance (LUI).
+Initial or &quot;from&quot; state
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="LprInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
-		<property name="name" value="personId"/>
-		<property name="shortLabel" value="Person Id"/>
+	<bean id="StateChangeInfo.toStateKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="toStateKey"/>
+		<property name="shortLabel" value="To State Key"/>
 		<property name="summary">
 			<value>
-Unique identifier for a person record.
+Next or &quot;to&quot; state
 			</value>
 		</property>
-		<property name="label" value="Person Id"/>
+		<property name="label" value="To State Key"/>
 		<property name="description">
 			<value>
-Unique identifier for a person record.
+Next or &quot;to&quot; state
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="LprInfo.resultValuesGroupKeys-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="resultValuesGroupKeys"/>
-		<property name="shortLabel" value="Result Values Group Keys"/>
+	<bean id="StateChangeInfo.stateConstraintIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="stateConstraintIds"/>
+		<property name="shortLabel" value="State Constraint Ids"/>
 		<property name="summary">
 			<value>
-The keys of the result values groups to be applied to this LPR
-
-For example, setting the grading option to pass/fail or the credits to 3
-for this course.
+Constraints, if any, associated with this state change
 			</value>
 		</property>
-		<property name="label" value="Result Values Group Keys"/>
-		<property name="elementLabel" value="Result Values Group Key"/>
+		<property name="label" value="State Constraint Ids"/>
+		<property name="elementLabel" value="State Constraint Id"/>
 		<property name="description">
 			<value>
-The keys of the result values groups to be applied to this LPR
-
-For example, setting the grading option to pass/fail or the credits to 3
-for this course.
+Constraints, if any, associated with this state change
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="LprInfo.commitmentPercent-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="commitmentPercent"/>
-		<property name="shortLabel" value="Commitment Percent"/>
+	<bean id="StateChangeInfo.statePropagationIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="statePropagationIds"/>
+		<property name="shortLabel" value="State Propagation Ids"/>
 		<property name="summary">
 			<value>
-Commitment percentage for the person in the LUI
-
-Valid range should be between 0 and 100.00 inclusive.
+Propagations, if any, triggered by this state change
 			</value>
 		</property>
-		<property name="label" value="Commitment Percent"/>
+		<property name="label" value="State Propagation Ids"/>
+		<property name="elementLabel" value="State Propagation Id"/>
 		<property name="description">
 			<value>
-Commitment percentage for the person in the LUI
-
-Valid range should be between 0 and 100.00 inclusive.
+Propagations, if any, triggered by this state change
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="LprInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+	<bean id="StateChangeInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
 		<property name="name" value="effectiveDate"/>
 	</bean>
 
-	<bean id="LprInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+	<bean id="StateChangeInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
 		<property name="name" value="expirationDate"/>
 	</bean>
 
-	<bean id="LprInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="StateChangeInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -229,11 +227,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="LprInfo.meta.versionInd"/>
-						<ref bean="LprInfo.meta.createTime"/>
-						<ref bean="LprInfo.meta.createId"/>
-						<ref bean="LprInfo.meta.updateTime"/>
-						<ref bean="LprInfo.meta.updateId"/>
+						<ref bean="StateChangeInfo.meta.versionInd"/>
+						<ref bean="StateChangeInfo.meta.createTime"/>
+						<ref bean="StateChangeInfo.meta.createId"/>
+						<ref bean="StateChangeInfo.meta.updateTime"/>
+						<ref bean="StateChangeInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -250,23 +248,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="LprInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="StateChangeInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="LprInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="StateChangeInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="LprInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="StateChangeInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="LprInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="StateChangeInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="LprInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="StateChangeInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

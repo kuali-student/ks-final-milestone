@@ -51,7 +51,7 @@ contains information on the courses a student has taken.
 include notes on Id
 			</value>
 		</property>
-		<property name="titleAttribute" value="termName"/>
+		<property name="titleAttribute" value="courseTitle"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

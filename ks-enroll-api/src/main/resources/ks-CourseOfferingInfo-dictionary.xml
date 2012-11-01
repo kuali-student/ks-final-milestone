@@ -37,6 +37,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<import resource="classpath:ks-CourseOfferingInfo-dictionary-generated.xml"/>
 	<!-- TODO: remove these once the jira about lists of complex objects gets fixed -->
 	<import resource="classpath:ks-OfferingInstructorInfo-dictionary.xml"/>
+	<import resource="classpath:ks-CourseOfferingCrossListingInfo-dictionary.xml"/>
 
 	<!-- CourseOfferingInfo-->
 	<bean id="CourseOfferingInfo" parent="CourseOfferingInfo-parent"/>

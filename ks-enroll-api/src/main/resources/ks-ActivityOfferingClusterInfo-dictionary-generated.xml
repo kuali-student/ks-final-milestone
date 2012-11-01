@@ -45,8 +45,9 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Activity Offering Cluster"/>
 		<property name="objectDescription">
 			<value>
-ActivityOfferingCluster lists the allowable combinations of
-activity offerings to constrain or generate RegistrationGroups.
+The Activity Offering Cluster lists the allowable combinations of 
+activity offerings by activity type which will constrain the number
+of RegistrationGroup's that will be generated.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>

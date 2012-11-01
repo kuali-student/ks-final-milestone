@@ -54,6 +54,7 @@ RegistrationRequest, and not after waitlist or any other type of
 relation with the course.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

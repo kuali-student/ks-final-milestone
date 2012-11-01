@@ -200,7 +200,7 @@ The Schedule Request Component Ids. These provide a list of preferences.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentDisplayInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponentDisplay"/>
 	</bean>
 
 	<bean id="ScheduleRequestDisplayInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

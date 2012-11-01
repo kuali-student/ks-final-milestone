@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Appointment slot information belonging to a person
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

@@ -164,7 +164,7 @@ The weekday codes.
 The weekday codes.
 			</value>
 		</property>
-		<property name="minOccurs" value="1"/>
+		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.Integer"/>
 	</bean>
 
@@ -182,7 +182,7 @@ Start time
 Start time
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="startTime"/>
@@ -244,7 +244,7 @@ End time of the time slot
 End time of the time slot
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="endTime"/>

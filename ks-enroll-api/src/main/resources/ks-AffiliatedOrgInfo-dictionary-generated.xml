@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Detailed information about the distribution of revenue by organization.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

@@ -55,6 +55,7 @@ An ActivityRegistration will be generated for every
 ActivityOffering defined in the RegistrationGroup.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

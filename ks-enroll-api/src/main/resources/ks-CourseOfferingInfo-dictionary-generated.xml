@@ -99,6 +99,7 @@ plus any of its dependencies -->
 		<property name="collections">
 			<list>
 				<ref bean="CourseOfferingInfo.instructors"/>
+				<ref bean="CourseOfferingInfo.crossListings"/>
 			</list>
 		</property>
 	</bean>
@@ -220,24 +221,26 @@ Academic term of course offering
 		<property name="shortLabel" value="Course Code"/>
 		<property name="summary">
 			<value>
-Identifies the number of a course as reflected in the course catalog.
-
+Identifies the number of a course as reflected in the course
+catalog.  
 			</value>
 		</property>
 		<property name="label" value="Course Code"/>
 		<property name="description">
 			<value>
-Identifies the number of a course as reflected in the course catalog.
-This typically must be unique across all courses offered during that
-term. If the user wants to create two separate offerings for the same
-course they must modify this code to make it unique. For example: An
-on-line offering of the course might have an &quot;O&quot; appended to it to
-distinguish it from the face to face offering, i.e. ENG101 and ENG101O
-Initially copied from the course catalog but then, depending on the
-configuration it may be updatable. Often this field is configured so that
-it is not not directly updatable but rather is calculated from it's two
-constituent parts, the subject area and the course number suffix. For
-example: Subject Area = &quot;ENG&quot; and Suffix = &quot;101&quot; then code = &quot;ENG101&quot;
+Identifies the number of a course as reflected in the course
+catalog.  This typically must be unique across all courses
+offered during that term. If the user wants to create two
+separate offerings for the same course they must modify this
+code to make it unique. For example: An on-line offering of the
+course might have an &quot;O&quot; appended to it to distinguish it from
+the face to face offering, i.e. ENG101 and ENG101O Initially
+copied from the course catalog but then, depending on the
+configuration it may be updatable. Often this field is
+configured so that it is not not directly updatable but rather
+is calculated from it's two constituent parts, the subject area
+and the course number suffix. For example: Subject Area = &quot;ENG&quot;
+and Suffix = &quot;101&quot; then code = &quot;ENG101&quot;
 
 This field is differentiated from the Couurse Offering Code in
 that the Course Offering Code can updated while the Course Code
@@ -257,24 +260,26 @@ always indicates the official canonical code.
 		<property name="shortLabel" value="Course Offering Code"/>
 		<property name="summary">
 			<value>
-Identifies the number of a course as reflected in the course catalog.
-
+Identifies the number of a course as reflected in the course
+catalog.  
 			</value>
 		</property>
 		<property name="label" value="Course Offering Code"/>
 		<property name="description">
 			<value>
-Identifies the number of a course as reflected in the course catalog.
-This typically must be unique across all courses offered during that
-term. If the user wants to create two separate offerings for the same
-course they must modify this code to make it unique. For example: An
-on-line offering of the course might have an &quot;O&quot; appended to it to
-distinguish it from the face to face offering, i.e. ENG101 and ENG101O
-Initially copied from the course catalog but then, depending on the
-configuration it may be updatable. Often this field is configured so that
-it is not not directly updatable but rather is calculated from it's two
-constituent parts, the subject area and the course number suffix. For
-example: Subject Area = &quot;ENG&quot; and Suffix = &quot;101&quot; then code = &quot;ENG101&quot;
+Identifies the number of a course as reflected in the course
+catalog.  This typically must be unique across all courses
+offered during that term. If the user wants to create two
+separate offerings for the same course they must modify this
+code to make it unique. For example: An on-line offering of the
+course might have an &quot;O&quot; appended to it to distinguish it from
+the face to face offering, i.e. ENG101 and ENG101O Initially
+copied from the course catalog but then, depending on the
+configuration it may be updatable. Often this field is
+configured so that it is not not directly updatable but rather
+is calculated from it's two constituent parts, the subject area
+and the course number suffix. For example: Subject Area = &quot;ENG&quot;
+and Suffix = &quot;101&quot; then code = &quot;ENG101&quot;
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -285,19 +290,21 @@ example: Subject Area = &quot;ENG&quot; and Suffix = &quot;101&quot; then code =
 		<property name="shortLabel" value="Course Number Suffix"/>
 		<property name="summary">
 			<value>
-A suffix of the course number as reflected in the college catalog. 
+A suffix of the course number as reflected in the college
+catalog. 
 			</value>
 		</property>
 		<property name="label" value="Course Number Suffix"/>
 		<property name="description">
 			<value>
-A suffix of the course number as reflected in the college catalog. This
-is the &quot;number&quot; portion of the course code. Initially copied from the
-course catalog but then, depending on the configuration it may be
-updatable. This field is often configured to be updatable but the updates
-typically simply append something like an &quot;O&quot; for on-line to it to
-differentiate multiple course offerings for the same course. Often used
-in the calculation of the courseCode.
+A suffix of the course number as reflected in the college
+catalog. This is the &quot;number&quot; portion of the course
+code. Initially copied from the course catalog but then,
+depending on the configuration it may be updatable. This field
+is often configured to be updatable but the updates typically
+simply append something like an &quot;O&quot; for on-line to it to
+differentiate multiple course offerings for the same
+course. Often used in the calculation of the courseCode.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -314,16 +321,17 @@ Name of the course used in the college catalog.
 		<property name="label" value="Course Title"/>
 		<property name="description">
 			<value>
-Name of the course used in the college catalog. Initially copied from the
-course catalog but then, depending on the configuration it may be
-updatable. For regular courses this is not generally allowed to be
-updated on the offering, but for special topics courses this is often
-overridden to capture the particular topic being taught offered this
-term. Note: the configuration of the validation for titles is typically
-restricted to exclude line breaks. This may have to be loosened as some
-schools may want the particular topic to appear on a 2nd line. For
-example: SPECIAL TOPICS: AN EXPLORATION OF DEEP SPACE ARTIFACTS
-l
+Name of the course used in the college catalog. Initially
+copied from the course catalog but then, depending on the
+configuration it may be updatable. For regular courses this is
+not generally allowed to be updated on the offering, but for
+special topics courses this is often overridden to capture the
+particular topic being taught offered this term. Note: the
+configuration of the validation for titles is typically
+restricted to exclude line breaks. This may have to be loosened
+as some schools may want the particular topic to appear on a
+2nd line. For example: SPECIAL TOPICS: AN EXPLORATION OF DEEP
+SPACE ARTIFACTS l
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -356,14 +364,15 @@ Gets the Credit Count
 		<property name="shortLabel" value="Is Honors Offering"/>
 		<property name="summary">
 			<value>
-Indicates that the entire course offering is an Honors Course ??? 
+Indicates that the entire course offering is an Honors Course
+??? 
 			</value>
 		</property>
 		<property name="label" value="Is Honors Offering"/>
 		<property name="description">
 			<value>
-Indicates that the entire course offering is an Honors Course ??? Is this
-an enrollment restriction rule or a flag or both?
+Indicates that the entire course offering is an Honors Course
+??? Is this an enrollment restriction rule or a flag or both?
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -374,16 +383,16 @@ an enrollment restriction rule or a flag or both?
 		<property name="shortLabel" value="Instructors"/>
 		<property name="summary">
 			<value>
-Instructors for this course offering TODO: find out if the canonical
-instructors should be copied down
+Instructors for this course offering TODO: find out if the
+canonical instructors should be copied down
 			</value>
 		</property>
 		<property name="label" value="Instructors"/>
 		<property name="elementLabel" value="Instructor"/>
 		<property name="description">
 			<value>
-Instructors for this course offering TODO: find out if the canonical
-instructors should be copied down
+Instructors for this course offering TODO: find out if the
+canonical instructors should be copied down
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -395,18 +404,18 @@ instructors should be copied down
 		<property name="shortLabel" value="Subject Area"/>
 		<property name="summary">
 			<value>
-Identifies the department and/subject code of the course as reflected in
-the course catalog. 
+Identifies the department and/subject code of the course as
+reflected in the course catalog. 
 			</value>
 		</property>
 		<property name="label" value="Subject Area"/>
 		<property name="description">
 			<value>
-Identifies the department and/subject code of the course as reflected in
-the course catalog. Initially copied from the course catalog but then,
-depending on the configuration it may be updatable. In most
-configurations this should not be updatable. Often used in the
-calculation of the courseCode
+Identifies the department and/subject code of the course as
+reflected in the course catalog. Initially copied from the
+course catalog but then, depending on the configuration it may
+be updatable. In most configurations this should not be
+updatable. Often used in the calculation of the courseCode
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -417,24 +426,26 @@ calculation of the courseCode
 		<property name="shortLabel" value="Units Deployment Org Ids"/>
 		<property name="summary">
 			<value>
-Organization(s) that is responsible for administering the course delivery
-- and all associated logistics - of the course Initially copied from the
-canonical course then, depending on the configuration, updated This is
-typically an academic department but could be for example the extended
-studies office that is responsible for delivering the course even though
-it's content is managed by an academic department.
+Organization(s) that is responsible for administering the
+course delivery - and all associated logistics - of the course
+Initially copied from the canonical course then, depending on
+the configuration, updated This is typically an academic
+department but could be for example the extended studies office
+that is responsible for delivering the course even though it's
+content is managed by an academic department.
 			</value>
 		</property>
 		<property name="label" value="Units Deployment"/>
 		<property name="elementLabel" value="Units Deployment Org Id"/>
 		<property name="description">
 			<value>
-Organization(s) that is responsible for administering the course delivery
-- and all associated logistics - of the course Initially copied from the
-canonical course then, depending on the configuration, updated This is
-typically an academic department but could be for example the extended
-studies office that is responsible for delivering the course even though
-it's content is managed by an academic department.
+Organization(s) that is responsible for administering the
+course delivery - and all associated logistics - of the course
+Initially copied from the canonical course then, depending on
+the configuration, updated This is typically an academic
+department but could be for example the extended studies office
+that is responsible for delivering the course even though it's
+content is managed by an academic department.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -446,18 +457,18 @@ it's content is managed by an academic department.
 		<property name="shortLabel" value="Units Content Owner Org Ids"/>
 		<property name="summary">
 			<value>
-Organization(s) that is responsible for the academic content of the
-course as approved in its canonical form. 
+Organization(s) that is responsible for the academic content of
+the course as approved in its canonical form. 
 			</value>
 		</property>
 		<property name="label" value="Units Content Owner"/>
 		<property name="elementLabel" value="Units Content Owner Org Id"/>
 		<property name="description">
 			<value>
-Organization(s) that is responsible for the academic content of the
-course as approved in its canonical form. This is the organization that
-has oversight of the curriculum. This is typically an academic
-department.
+Organization(s) that is responsible for the academic content of
+the course as approved in its canonical form. This is the
+organization that has oversight of the curriculum. This is
+typically an academic department.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -469,16 +480,16 @@ department.
 		<property name="shortLabel" value="Maximum Enrollment"/>
 		<property name="summary">
 			<value>
-Total maximum number of &quot;seats&quot; or enrollment slots that can be filled
-for the offering. 
+Total maximum number of &quot;seats&quot; or enrollment slots that can be
+filled for the offering. 
 			</value>
 		</property>
 		<property name="label" value="Maximum Enrollment"/>
 		<property name="description">
 			<value>
-Total maximum number of &quot;seats&quot; or enrollment slots that can be filled
-for the offering. Calculated based on sum of all the maximum seats of
-primary activity type offerings.
+Total maximum number of &quot;seats&quot; or enrollment slots that can be
+filled for the offering. Calculated based on sum of all the
+maximum seats of primary activity type offerings.
 			</value>
 		</property>
 		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
@@ -494,40 +505,38 @@ primary activity type offerings.
 		<property name="shortLabel" value="Minimum Enrollment"/>
 		<property name="summary">
 			<value>
-Total minimum number of seats that must be filled for the offering not to
-be canceled. 
+Total minimum number of seats that must be filled for the
+offering not to be canceled. 
 			</value>
 		</property>
 		<property name="label" value="Minimum Enrollment"/>
 		<property name="description">
 			<value>
-Total minimum number of seats that must be filled for the offering not to
-be canceled. Calculated based on sum of all the minimum seats of primary
-activity type offerings
+Total minimum number of seats that must be filled for the
+offering not to be canceled. Calculated based on sum of all the
+minimum seats of primary activity type offerings
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.jointOfferingIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="jointOfferingIds"/>
-		<property name="shortLabel" value="Joint Offering Ids"/>
+	<bean id="CourseOfferingInfo.crossListings-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="crossListings"/>
+		<property name="shortLabel" value="Cross Listings"/>
 		<property name="summary">
 			<value>
-The unique identifier of the other course offerings with which this
-offering is joint-listed
+The cross listings which this CourseOffering can be offered under.
 			</value>
 		</property>
-		<property name="label" value="Joint Offering Ids"/>
-		<property name="elementLabel" value="Joint Offering Id"/>
+		<property name="label" value="Cross Listings"/>
+		<property name="elementLabel" value="Cross Listing"/>
 		<property name="description">
 			<value>
-The unique identifier of the other course offerings with which this
-offering is joint-listed
+The cross listings which this CourseOffering can be offered under.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo"/>
 	</bean>
 
 	<bean id="CourseOfferingInfo.gradingOptionId-generated" abstract="true" parent="BaseKuali.string">
@@ -631,11 +640,12 @@ Type of credit of course offering.
 		<property name="label" value="Credit Option Id"/>
 		<property name="description">
 			<value>
-Type of credit of course offering. This field is initially copied from
-the canonical course but then, depending on configuration, it may be
-updated. TODO: figure out which of the credit options will be copied down
-because the canonical has more than one! Often it is just a fixed single
-value but a ResultValuesGroup could contain a range (with increments) or
+Type of credit of course offering. This field is initially
+copied from the canonical course but then, depending on
+configuration, it may be updated. TODO: figure out which of the
+credit options will be copied down because the canonical has
+more than one! Often it is just a fixed single value but a
+ResultValuesGroup could contain a range (with increments) or
 even a discrete list of possible credit values.
 			</value>
 		</property>
@@ -647,15 +657,15 @@ even a discrete list of possible credit values.
 		<property name="shortLabel" value="Waitlist Level Type Key"/>
 		<property name="summary">
 			<value>
-Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
- 
+Indicates the waitlist level, i.e., CourseOffering or
+ ActivityOffering.  
 			</value>
 		</property>
 		<property name="label" value="Waitlist Level Type Key"/>
 		<property name="description">
 			<value>
-Indicates the waitlist level, i.e., CourseOffering or ActivityOffering.
- Values are in WaitListLevel enum.
+Indicates the waitlist level, i.e., CourseOffering or
+ ActivityOffering.  Values are in WaitListLevel enum.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -683,19 +693,19 @@ Maximum number of students to be allowed on the wait list.
 		<property name="shortLabel" value="Has Waitlist"/>
 		<property name="summary">
 			<value>
-Indicates whether a RegistrationGroup has a waitlist TODO: figure out how
-to store this TODO: make sure we are consistent on how we spell Waitlist,
-should be spelled Waitlist, or Wait List or Wait-List (as the
-merriam-webster has it)
+Indicates whether a RegistrationGroup has a waitlist TODO:
+figure out how to store this TODO: make sure we are consistent
+on how we spell Waitlist, should be spelled Waitlist, or Wait
+List or Wait-List (as the merriam-webster has it)
 			</value>
 		</property>
 		<property name="label" value="Has Waitlist"/>
 		<property name="description">
 			<value>
-Indicates whether a RegistrationGroup has a waitlist TODO: figure out how
-to store this TODO: make sure we are consistent on how we spell Waitlist,
-should be spelled Waitlist, or Wait List or Wait-List (as the
-merriam-webster has it)
+Indicates whether a RegistrationGroup has a waitlist TODO:
+figure out how to store this TODO: make sure we are consistent
+on how we spell Waitlist, should be spelled Waitlist, or Wait
+List or Wait-List (as the merriam-webster has it)
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -706,23 +716,25 @@ merriam-webster has it)
 		<property name="shortLabel" value="Waitlist Type Key"/>
 		<property name="summary">
 			<value>
-Indicates the type of waitlist as it relates to processing students on
-and off The three types predefined in kuali are Automatic, Semi-Automatic
-and Manual TODO: Right not Waitlist types are not tied to any Waitlist
-object so we need to define an &quot;other key&quot; to get the list of valid
-values from the type service. 
+Indicates the type of waitlist as it relates to processing
+students on and off The three types predefined in kuali are
+Automatic, Semi-Automatic and Manual TODO: Right not Waitlist
+types are not tied to any Waitlist object so we need to define
+an &quot;other key&quot; to get the list of valid values from the type
+service. 
 			</value>
 		</property>
 		<property name="label" value="Waitlist Type Key"/>
 		<property name="description">
 			<value>
-Indicates the type of waitlist as it relates to processing students on
-and off The three types predefined in kuali are Automatic, Semi-Automatic
-and Manual TODO: Right not Waitlist types are not tied to any Waitlist
-object so we need to define an &quot;other key&quot; to get the list of valid
-values from the type service. TODO: Decide if we need a separate
-getHasWaitList, perhaps no value in this field means no waitlist. TODO:
-Cross validate with hasWaitlist
+Indicates the type of waitlist as it relates to processing
+students on and off The three types predefined in kuali are
+Automatic, Semi-Automatic and Manual TODO: Right not Waitlist
+types are not tied to any Waitlist object so we need to define
+an &quot;other key&quot; to get the list of valid values from the type
+service. TODO: Decide if we need a separate getHasWaitList,
+perhaps no value in this field means no waitlist. TODO: Cross
+validate with hasWaitlist
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -806,15 +818,15 @@ if false its at CourseOffering level.
 		<property name="shortLabel" value="Course Number Internal Suffix"/>
 		<property name="summary">
 			<value>
-A suffix is the system generated code that is hidden from the user
-that parallels with courseOfferingNumberSuffix.
+A suffix is the system generated code that is hidden from the
+user that parallels with courseOfferingNumberSuffix.
 			</value>
 		</property>
 		<property name="label" value="Course Number Internal Suffix"/>
 		<property name="description">
 			<value>
-A suffix is the system generated code that is hidden from the user
-that parallels with courseOfferingNumberSuffix.
+A suffix is the system generated code that is hidden from the
+user that parallels with courseOfferingNumberSuffix.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -825,16 +837,18 @@ that parallels with courseOfferingNumberSuffix.
 		<property name="shortLabel" value="Is Financial Aid Eligible"/>
 		<property name="summary">
 			<value>
-Flag indicating whether a course is eligible for Financial Aid. 
+Flag indicating whether a course is eligible for Financial
+Aid. 
 			</value>
 		</property>
 		<property name="label" value="Is Financial Aid Eligible"/>
 		<property name="description">
 			<value>
-Flag indicating whether a course is eligible for Financial Aid. Derived
-from course catalog (canonical) TODO: find a place to store this on the
-canonical course because it does not currently exist there TODO: Decide
-if this is really a rule or a CluSet or what?
+Flag indicating whether a course is eligible for Financial
+Aid. Derived from course catalog (canonical) TODO: find a place
+to store this on the canonical course because it does not
+currently exist there TODO: Decide if this is really a rule or
+a CluSet or what?
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -862,17 +876,19 @@ Gets the Course Offering URL.
 		<property name="shortLabel" value="Final Exam Type"/>
 		<property name="summary">
 			<value>
-Indicates whether a final exam is to be given  for this format Offering
-and if its true, the level at which it exists
-Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+Indicates whether a final exam is to be given for this format
+Offering and if its true, the level at which it exists
+Indicates the type of final exam ('STANDARD', 'ALTERNATE',
+'NONE') to be given for this format Offering, if any
 			</value>
 		</property>
 		<property name="label" value="Final Exam Type"/>
 		<property name="description">
 			<value>
-Indicates whether a final exam is to be given  for this format Offering
-and if its true, the level at which it exists
-Indicates the type of final exam ('STANDARD', 'ALTERNATE', 'NONE') to be given  for this format Offering, if any
+Indicates whether a final exam is to be given for this format
+Offering and if its true, the level at which it exists
+Indicates the type of final exam ('STANDARD', 'ALTERNATE',
+'NONE') to be given for this format Offering, if any
 			</value>
 		</property>
 		<property name="required" value="false"/>

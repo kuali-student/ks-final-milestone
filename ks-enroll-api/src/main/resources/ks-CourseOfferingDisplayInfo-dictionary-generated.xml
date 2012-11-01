@@ -48,7 +48,7 @@ plus any of its dependencies -->
 null
 			</value>
 		</property>
-		<property name="titleAttribute" value="termName"/>
+		<property name="titleAttribute" value="courseOfferingTitle"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

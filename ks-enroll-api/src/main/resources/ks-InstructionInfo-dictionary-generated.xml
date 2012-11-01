@@ -58,6 +58,7 @@ element evaluates to true. If all applied elements are empty, then
 the Check is globally applied.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

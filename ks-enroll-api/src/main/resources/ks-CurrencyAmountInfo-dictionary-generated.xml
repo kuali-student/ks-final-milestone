@@ -49,6 +49,7 @@ Detailed information about an amount of currency including both the
 type of units and the quantity.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

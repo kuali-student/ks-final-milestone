@@ -49,6 +49,7 @@ Detailed information about a single organization to organization
 relationship.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

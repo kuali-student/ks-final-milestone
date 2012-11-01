@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Resource in a room (computer, projector, whiteboard etc)
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

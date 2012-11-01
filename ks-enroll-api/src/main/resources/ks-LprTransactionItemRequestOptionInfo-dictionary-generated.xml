@@ -49,6 +49,7 @@ Specifies the request options in a LPR transaction. The options can be used
 to create specific kinds of LPR relation.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

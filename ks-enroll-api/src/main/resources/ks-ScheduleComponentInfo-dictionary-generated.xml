@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Information about a Schedule Component.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>
@@ -58,6 +59,7 @@ Information about a Schedule Component.
 			<list>
 				<ref bean="ScheduleComponentInfo.id"/>
 				<ref bean="ScheduleComponentInfo.roomId"/>
+				<ref bean="ScheduleComponentInfo.isTBA"/>
 			</list>
 		</property>
 
@@ -68,7 +70,6 @@ Information about a Schedule Component.
 
 		<property name="collections">
 			<list>
-                <ref bean="ScheduleComponentInfo.timeSlotIds" />
 			</list>
 		</property>
 	</bean>
@@ -111,5 +112,22 @@ The Time Slots Ids.
 		</property>
 		<property name="minOccurs" value="1"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="ScheduleComponentInfo.isTBA-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isTBA"/>
+		<property name="shortLabel" value="Is TBA"/>
+		<property name="summary">
+			<value>
+The flag that holds whether this is a TBA schedule.
+			</value>
+		</property>
+		<property name="label" value="Is T B A"/>
+		<property name="description">
+			<value>
+The flag that holds whether this is a TBA schedule.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 </beans>

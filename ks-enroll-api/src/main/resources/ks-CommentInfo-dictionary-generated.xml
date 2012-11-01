@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Refer to interface javadoc
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>
@@ -59,6 +60,7 @@ Refer to interface javadoc
 				<ref bean="CommentInfo.id"/>
 				<ref bean="CommentInfo.typeKey"/>
 				<ref bean="CommentInfo.stateKey"/>
+				<ref bean="CommentInfo.commenterId"/>
 				<ref bean="CommentInfo.referenceTypeKey"/>
 				<ref bean="CommentInfo.referenceId"/>
 				<ref bean="CommentInfo.effectiveDate"/>
@@ -143,6 +145,23 @@ Narrative text of the comment
 
 	<bean id="CommentInfo.commentText.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="CommentInfo.commenterId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="commenterId"/>
+		<property name="shortLabel" value="Commenter Id"/>
+		<property name="summary">
+			<value>
+Identity of the person making the comment
+			</value>
+		</property>
+		<property name="label" value="Commenter Id"/>
+		<property name="description">
+			<value>
+Identity of the person making the comment
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="CommentInfo.referenceTypeKey-generated" abstract="true" parent="BaseKuali.string">

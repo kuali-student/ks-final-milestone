@@ -38,14 +38,14 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- AccreditationInfo-->
-	<bean id="AccreditationInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="accreditationInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AccreditationInfo"/>
-		<property name="objectLabel" value="Accreditation"/>
+	<!-- StateConstraintInfo-->
+	<bean id="StateConstraintInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="stateConstraintInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo"/>
+		<property name="objectLabel" value="State Constraint"/>
 		<property name="objectDescription">
 			<value>
-Accreditation information
+
 			</value>
 		</property>
 		<property name="titleAttribute" value="id"/>
@@ -57,16 +57,17 @@ Accreditation information
 
 		<property name="attributes">
 			<list>
-				<ref bean="AccreditationInfo.id"/>
-				<ref bean="AccreditationInfo.orgId"/>
-				<ref bean="AccreditationInfo.effectiveDate"/>
-				<ref bean="AccreditationInfo.expirationDate"/>
+				<ref bean="StateConstraintInfo.id"/>
+				<ref bean="StateConstraintInfo.typeKey"/>
+				<ref bean="StateConstraintInfo.stateKey"/>
+				<ref bean="StateConstraintInfo.stateConstraintOperator"/>
+				<ref bean="StateConstraintInfo.agendaId"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="AccreditationInfo.meta"/>
+				<ref bean="StateConstraintInfo.meta"/>
 			</list>
 		</property>
 
@@ -76,36 +77,72 @@ Accreditation information
 		</property>
 	</bean>
 
-	<bean id="AccreditationInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="StateConstraintInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="AccreditationInfo.orgId-generated" abstract="true" parent="BaseKuali.orgId">
-		<property name="name" value="orgId"/>
-		<property name="shortLabel" value="Org Id"/>
+	<bean id="StateConstraintInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="StateConstraintInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="StateConstraintInfo.stateConstraintOperator-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="stateConstraintOperator"/>
+		<property name="shortLabel" value="State Constraint Operator"/>
 		<property name="summary">
 			<value>
-???
+Specifies how the constraints are applied, that is, existence of some, all or none
 			</value>
 		</property>
-		<property name="label" value="Org Id"/>
+		<property name="label" value="State Constraint Operator"/>
 		<property name="description">
 			<value>
-???
+Specifies how the constraints are applied, that is, existence of some, all or none
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="StateConstraintInfo.relatedObjectStateKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="relatedObjectStateKeys"/>
+		<property name="shortLabel" value="Related Object State Keys"/>
+		<property name="summary">
+			<value>
+Related objects' state key
+			</value>
+		</property>
+		<property name="label" value="Related Object State Keys"/>
+		<property name="elementLabel" value="Related Object State Key"/>
+		<property name="description">
+			<value>
+Related objects' state key
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="StateConstraintInfo.agendaId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="agendaId"/>
+		<property name="shortLabel" value="Agenda Id"/>
+		<property name="summary">
+			<value>
+Business rule that specifies the constraint
+			</value>
+		</property>
+		<property name="label" value="Agenda Id"/>
+		<property name="description">
+			<value>
+Business rule that specifies the constraint
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AccreditationInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
-		<property name="name" value="effectiveDate"/>
-	</bean>
-
-	<bean id="AccreditationInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
-		<property name="name" value="expirationDate"/>
-	</bean>
-
-	<bean id="AccreditationInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="StateConstraintInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -151,11 +188,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="AccreditationInfo.meta.versionInd"/>
-						<ref bean="AccreditationInfo.meta.createTime"/>
-						<ref bean="AccreditationInfo.meta.createId"/>
-						<ref bean="AccreditationInfo.meta.updateTime"/>
-						<ref bean="AccreditationInfo.meta.updateId"/>
+						<ref bean="StateConstraintInfo.meta.versionInd"/>
+						<ref bean="StateConstraintInfo.meta.createTime"/>
+						<ref bean="StateConstraintInfo.meta.createId"/>
+						<ref bean="StateConstraintInfo.meta.updateTime"/>
+						<ref bean="StateConstraintInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -172,23 +209,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="AccreditationInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="StateConstraintInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="AccreditationInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="StateConstraintInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="AccreditationInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="StateConstraintInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="AccreditationInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="StateConstraintInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="AccreditationInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="StateConstraintInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

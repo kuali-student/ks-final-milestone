@@ -1051,7 +1051,7 @@ The last academic time period that this Course would be effective.
 
 	<bean id="CourseInfo.version-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="version"/>
-		<property name="shortLabel" value="Version Info"/>
+		<property name="shortLabel" value="Version"/>
 		<property name="summary">
 			<value>
 Version of this course

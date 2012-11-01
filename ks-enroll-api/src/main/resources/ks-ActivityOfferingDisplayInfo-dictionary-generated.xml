@@ -863,7 +863,7 @@ coupled with Room locations.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay"/>
 	</bean>
 
 	<bean id="ActivityOfferingDisplayInfo.scheduleDisplay.meta-generated" abstract="true" parent="ComplexAttributeDefinition">

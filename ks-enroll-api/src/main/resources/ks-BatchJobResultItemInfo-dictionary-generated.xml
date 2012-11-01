@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Object that holds individual item results of a batch job
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

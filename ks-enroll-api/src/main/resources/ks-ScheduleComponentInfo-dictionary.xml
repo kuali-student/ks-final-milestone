@@ -56,4 +56,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="ScheduleComponentInfo.timeSlotIds-parent" abstract="true" parent="ScheduleComponentInfo.timeSlotIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
+
+	<bean id="ScheduleComponentInfo.isTBA" parent="ScheduleComponentInfo.isTBA-parent"/>
+	<bean id="ScheduleComponentInfo.isTBA-parent" abstract="true" parent="ScheduleComponentInfo.isTBA-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
 </beans>

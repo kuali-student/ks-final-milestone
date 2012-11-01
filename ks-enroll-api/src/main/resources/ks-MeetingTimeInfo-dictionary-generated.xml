@@ -49,6 +49,7 @@ Captures space and time information associated with a single
 meeting time or event.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

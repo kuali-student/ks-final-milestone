@@ -92,6 +92,31 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+	<bean id="SocInfo.schedulingStateKey" parent="SocInfo.schedulingStateKey-parent"/>
+	<bean id="SocInfo.schedulingStateKey-parent" abstract="true" parent="SocInfo.schedulingStateKey-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="SocInfo.lastSchedulingRunStarted" parent="SocInfo.lastSchedulingRunStarted-parent"/>
+	<bean id="SocInfo.lastSchedulingRunStarted-parent" abstract="true" parent="SocInfo.lastSchedulingRunStarted-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="SocInfo.lastSchedulingRunCompleted" parent="SocInfo.lastSchedulingRunCompleted-parent"/>
+	<bean id="SocInfo.lastSchedulingRunCompleted-parent" abstract="true" parent="SocInfo.lastSchedulingRunCompleted-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="SocInfo.publishingStarted" parent="SocInfo.publishingStarted-parent"/>
+	<bean id="SocInfo.publishingStarted-parent" abstract="true" parent="SocInfo.publishingStarted-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="SocInfo.publishingCompleted" parent="SocInfo.publishingCompleted-parent"/>
+	<bean id="SocInfo.publishingCompleted-parent" abstract="true" parent="SocInfo.publishingCompleted-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="SocInfo.meta" parent="SocInfo.meta-parent"/>
 	<bean id="SocInfo.meta-parent" abstract="true" parent="SocInfo.meta-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->

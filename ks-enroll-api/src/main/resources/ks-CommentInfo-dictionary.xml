@@ -72,6 +72,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+	<bean id="CommentInfo.commenterId" parent="CommentInfo.commenterId-parent"/>
+	<bean id="CommentInfo.commenterId-parent" abstract="true" parent="CommentInfo.commenterId-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="CommentInfo.referenceTypeKey" parent="CommentInfo.referenceTypeKey-parent"/>
 	<bean id="CommentInfo.referenceTypeKey-parent" abstract="true" parent="CommentInfo.referenceTypeKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->

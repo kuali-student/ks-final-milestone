@@ -49,6 +49,7 @@ Created by IntelliJ IDEA. User: sambitpatnaik Date: 10/27/11 Time: 10:38 AM
 To change this template use File | Settings | File Templates.
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

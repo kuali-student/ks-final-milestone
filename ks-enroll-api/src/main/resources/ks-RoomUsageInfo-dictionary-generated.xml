@@ -48,6 +48,7 @@ plus any of its dependencies -->
 Room Usage information
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>

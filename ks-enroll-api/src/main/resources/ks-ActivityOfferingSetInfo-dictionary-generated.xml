@@ -51,6 +51,7 @@ registratinGroupTemplate.
 (needs example)
 			</value>
 		</property>
+		<property name="titleAttribute" value="id"/>
 		<property name="primaryKeys">
 			<list>
 				<value>id</value>
