@@ -10,10 +10,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.common.search.util.SearchRequestHelper;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r1.common.search.util.SearchRequestHelper;
 
 import javax.persistence.TemporalType;
 import java.text.DateFormat;
