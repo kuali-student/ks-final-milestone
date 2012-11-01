@@ -23,14 +23,14 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.search.dto.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
-import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -107,14 +107,14 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             String termYear = Integer.toString(termStart.get(Calendar.YEAR));
 
 
-            org.kuali.student.r1.common.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r1.common.search.dto.SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
+            org.kuali.student.r2.common.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r2.common.search.dto.SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
             searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID,coWrapper.getCourse().getId());
 
             searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
-            org.kuali.student.r1.common.search.dto.SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
+            org.kuali.student.r2.common.search.dto.SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
             List<String> courseOfferingIds = new ArrayList<String>(searchResult.getTotalResults());
-            for (org.kuali.student.r1.common.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
+            for (org.kuali.student.r2.common.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
                  courseOfferingIds.add(row.getCells().get(0).getValue());
             }
 

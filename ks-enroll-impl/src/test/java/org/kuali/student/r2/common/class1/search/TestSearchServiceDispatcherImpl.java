@@ -19,11 +19,11 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
-import org.kuali.student.r1.common.search.service.SearchService;
-import org.kuali.student.r1.common.search.util.SearchResultHelper;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.common.search.util.SearchResultHelper;
 
 /**
  *

@@ -21,16 +21,16 @@ import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
-import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map;
 import org.kuali.student.r2.common.class1.search.ApptWindowCountsSearchImpl;
-import org.kuali.student.r1.common.search.util.SearchResultHelper;
+import org.kuali.student.r2.common.search.util.SearchResultHelper;
 
 
 public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
