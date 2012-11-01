@@ -27,7 +27,7 @@ public class TestBaseDictionary
         {
             ValidCharsConstraint vc = vcs.get (id);
             System.out.println ("valid chars constraint: " + id + " "
-                    + vc.getMessageKey() + " " + vc.getValue ());
+                    + vc.getLabelKey() + " " + vc.getValue ());
         }
 
         String id = null;
