@@ -416,10 +416,12 @@ public class MetadataServiceImpl {
         fieldPath = (fieldPath != null ? fieldPath.toUpperCase() : fieldPath);
         
         if (workflowNode != null && fieldPath != null && fieldPath.startsWith("PROPOSAL/WORKFLOWNODE")){
-        	processRequiredByNodeCaseConstraint(constraintMetadata, caseConstraint, workflowNode);        	
-        } else if ("STATEKEY".equals(fieldPath)) {
+        	processRequiredByNodeCaseConstraint(constraintMetadata, caseConstraint, workflowNode);
+          //Both 'stateKey' and 'state' needs to be checked until R1 code is phased out
+        } else if ("STATEKEY".equals(fieldPath) || "STATE".equals(fieldPath)) {
         	processStateCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);
-        } else if ("TYPEKEY".equals(fieldPath)) {
+          //Both 'typeKey' and 'type' needs to be checked until R1 code is phased out
+        } else if ("TYPEKEY".equals(fieldPath) || "TYPE".equals(fieldPath)) {
         	processTypeCaseConstraint(constraintMetadata, caseConstraint, type, state, nextState, workflowNode);
         }
     }
