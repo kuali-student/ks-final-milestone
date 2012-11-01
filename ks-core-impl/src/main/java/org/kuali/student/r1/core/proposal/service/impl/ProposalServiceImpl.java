@@ -35,7 +35,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
@@ -46,8 +46,8 @@ import org.kuali.student.r1.core.proposal.entity.ProposalReference;
 import org.kuali.student.r1.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.r1.core.proposal.entity.ProposalType;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -355,7 +355,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchCriteriaTypes(ContextInfo)
+     * @see org.kuali.student.r1.common.search.service.SearchService#getSearchCriteriaTypes(ContextInfo)
      */
     @Override
     public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
@@ -363,7 +363,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchResultTypes(ContextInfo)
+     * @see org.kuali.student.r1.common.search.service.SearchService#getSearchResultTypes(ContextInfo)
      */
     @Override
     public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
@@ -371,7 +371,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchType(java.lang.String, ContextInfo)
+     * @see org.kuali.student.r1.common.search.service.SearchService#getSearchType(java.lang.String, ContextInfo)
      */
     @Override
     public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -380,7 +380,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypes(ContextInfo)
+     * @see org.kuali.student.r1.common.search.service.SearchService#getSearchTypes(ContextInfo)
      */
     @Override
     public List<TypeInfo> getSearchTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
@@ -388,7 +388,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String,ContextInfo)
+     * @see org.kuali.student.r1.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String,ContextInfo)
      */
     @Override
     public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -396,7 +396,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByResult(java.lang.String,ContextInfo)
+     * @see org.kuali.student.r1.common.search.service.SearchService#getSearchTypesByResult(java.lang.String,ContextInfo)
      */
     @Override
     public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

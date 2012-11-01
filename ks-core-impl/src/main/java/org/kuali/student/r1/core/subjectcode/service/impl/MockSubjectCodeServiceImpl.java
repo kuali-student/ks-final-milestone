@@ -6,8 +6,8 @@ import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
 
 import javax.jws.WebParam;
 

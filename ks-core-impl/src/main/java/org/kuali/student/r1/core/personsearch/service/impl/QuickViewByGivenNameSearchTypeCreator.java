@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r1.common.search.dto.*;
 
 public class QuickViewByGivenNameSearchTypeCreator
 {

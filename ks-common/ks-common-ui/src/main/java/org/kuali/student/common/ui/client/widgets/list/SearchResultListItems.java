@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
-import org.kuali.student.r2.common.search.dto.ResultColumnInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r1.common.search.dto.ResultColumnInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
 
 /**
  * This is a ListItems adapter for search results returned by the search service.

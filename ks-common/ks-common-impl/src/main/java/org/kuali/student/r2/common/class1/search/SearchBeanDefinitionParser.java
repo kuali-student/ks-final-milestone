@@ -17,11 +17,11 @@ package org.kuali.student.r2.common.class1.search;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.dto.CrossSearchTypeInfo;
-import org.kuali.student.r2.common.search.dto.QueryParamInfo;
-import org.kuali.student.r2.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.dto.CrossSearchTypeInfo;
+import org.kuali.student.r1.common.search.dto.QueryParamInfo;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;

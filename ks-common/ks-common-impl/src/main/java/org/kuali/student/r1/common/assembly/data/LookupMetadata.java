@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r2.common.search.dto.SortDirection;
+import org.kuali.student.r1.common.search.dto.SortDirection;
 
 public class LookupMetadata implements Serializable {
 

@@ -25,7 +25,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
 
 public class AdvancedSearchWindow {
     

@@ -34,10 +34,10 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.search.dto.SearchParamInfo;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchParamInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

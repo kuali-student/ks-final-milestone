@@ -21,8 +21,8 @@ import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
 
 /**
  *  A base RPC service interface that exposes dictionary and search interfaces

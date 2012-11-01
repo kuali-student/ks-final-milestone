@@ -23,15 +23,15 @@ import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r1.common.search.service.SearchService;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 /**

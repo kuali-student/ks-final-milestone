@@ -16,8 +16,8 @@
 package org.kuali.student.common.ui.client.service;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
 
 public interface SearchRpcServiceAsync {
     void search(SearchRequestInfo searchRequest, AsyncCallback<SearchResultInfo> callback);

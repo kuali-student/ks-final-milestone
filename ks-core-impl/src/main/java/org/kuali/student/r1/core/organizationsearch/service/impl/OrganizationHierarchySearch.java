@@ -9,7 +9,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
 import org.kuali.student.r1.core.organization.entity.Org;
-import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r1.common.search.dto.*;
 
 /**
  * This is a description of what this class does - pctsw don't forget to fill this in.

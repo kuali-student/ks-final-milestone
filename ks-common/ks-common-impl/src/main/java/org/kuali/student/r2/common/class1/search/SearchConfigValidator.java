@@ -1,6 +1,6 @@
 package org.kuali.student.r2.common.class1.search;
 
-import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 
 import java.util.ArrayList;
 import java.util.List;
