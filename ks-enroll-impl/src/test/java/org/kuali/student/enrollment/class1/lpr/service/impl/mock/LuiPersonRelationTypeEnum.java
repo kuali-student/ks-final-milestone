@@ -7,20 +7,19 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl.mock;
 
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.class1.type.infc.Type;
+
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.class1.type.infc.Type;
 
 /**
  * Types for Learning Person Relations
