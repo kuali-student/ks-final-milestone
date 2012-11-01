@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.search.dto.*;
-import org.kuali.student.r2.common.search.service.SearchManager;
+import org.kuali.student.r2.core.search.service.SearchManager;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.context.ApplicationContext;
