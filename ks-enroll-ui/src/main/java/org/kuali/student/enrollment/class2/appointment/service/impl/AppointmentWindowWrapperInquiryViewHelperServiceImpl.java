@@ -11,10 +11,6 @@ import org.kuali.student.r2.common.class1.search.ApptWindowCountsSearchImpl;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.core.search.util.SearchResultHelper;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
@@ -25,6 +21,10 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.core.search.util.SearchResultHelper;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
@@ -75,7 +75,7 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
             searchRequest.addParam(ApptWindowCountsSearchImpl.APPT_WINDOW_ID.getKey(),windowId);
             SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
-            SearchResultHelper resultHelper = new SearchResultHelper (searchResult);
+            SearchResultHelper resultHelper = new SearchResultHelper(searchResult);
             Integer numberOfSlots = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_SLOTS);
             Integer numberOfStudents = resultHelper.getAsInteger(0, ApptWindowCountsSearchImpl.NUM_APPTS);
             double meanStudentsPerSlot = Math.ceil(numberOfStudents/(float)numberOfSlots);
