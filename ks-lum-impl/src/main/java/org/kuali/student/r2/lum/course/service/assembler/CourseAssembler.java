@@ -286,8 +286,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         //Remove special cases for grading options
         boolean isAudit = course.getGradingOptions().remove(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
         //course.setAttributeValue(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT, Boolean.toString(isAudit));
-
-
         return course;
     }
 

@@ -25,16 +25,18 @@ import java.util.*;
  */
 public class CourseDataGenerator {
     private static final String[] campusLocations = {CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_NORTH, CourseAssemblerConstants.COURSE_CAMPUS_LOCATION_CD_SOUTH};
-    String activities[] = {CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_DISCUSSION_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_TUTORIAL_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_LECTURE_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE, /*
-                                                                                                                                                                                                                                                                                                                  * \
-                                                                                                                                                                                                                                                                                                                  * *
-                                                                                                                                                                                                                                                                                                                  * CourseAssemblerConstants
-                                                                                                                                                                                                                                                                                                                  * .
-                                                                                                                                                                                                                                                                                                                  * COURSE_ACTIVITY_WEBDISCUSS_TYPE
-                                                                                                                                                                                                                                                                                                                  * ,
-                                                                                                                                                                                                                                                                                                                  */// not
-                                                                                                                                                                                                                                                                                                                    // in
-                                                                                                                                                                                                                                                                                                                    // DB
+    String activities[] = {CourseAssemblerConstants.COURSE_ACTIVITY_LAB_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_DISCUSSION_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_TUTORIAL_TYPE,
+            CourseAssemblerConstants.COURSE_ACTIVITY_LECTURE_TYPE, CourseAssemblerConstants.COURSE_ACTIVITY_WEBLECTURE_TYPE,
+            /*
+              * \
+              * *
+              * CourseAssemblerConstants
+              * .
+              * COURSE_ACTIVITY_WEBDISCUSS_TYPE
+              * ,
+              */// not
+                // in
+            // DB
             CourseAssemblerConstants.COURSE_ACTIVITY_DIRECTED_TYPE};
     public static String subjectAreas[] = {"GEOG", "COMP", "BIOL", "ENGL", "SOCY"};
     public static String loCategories[] = {"category-1", "category-2"};
