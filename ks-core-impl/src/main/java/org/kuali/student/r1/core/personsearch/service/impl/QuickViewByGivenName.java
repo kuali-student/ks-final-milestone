@@ -8,19 +8,13 @@
 
 package org.kuali.student.r1.core.personsearch.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.search.dto.*;
 import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
+
+import java.util.*;
 
 public final class QuickViewByGivenName extends PersonSearch implements SearchOperation {
     public static final String SEARCH_TYPE = "person.search.personQuickViewByGivenName";

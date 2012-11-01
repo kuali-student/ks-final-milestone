@@ -15,32 +15,27 @@
 
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
-import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
+import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
+import com.google.gwt.gen2.table.client.PagingScrollTable;
+import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
-import com.google.gwt.gen2.table.client.PagingScrollTable;
-import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
-import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import java.util.*;
+
+import static org.kuali.student.core.organization.ui.client.mvc.view.CommonConfigurer.getLabel;
 
 public class MembersTable extends Composite{
     private static final String POSITION = "position";

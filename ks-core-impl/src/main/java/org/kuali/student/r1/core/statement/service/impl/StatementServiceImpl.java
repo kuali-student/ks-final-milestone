@@ -15,65 +15,34 @@
 
 package org.kuali.student.r1.core.statement.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r1.core.statement.dao.StatementDao;
+import org.kuali.student.r1.core.statement.dto.*;
+import org.kuali.student.r1.core.statement.entity.*;
+import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageTranslator;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularReferenceException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.search.service.SearchManager;
-import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.common.search.service.SearchService;
-import org.kuali.student.r1.core.statement.dao.StatementDao;
-import org.kuali.student.r1.core.statement.dto.NlUsageTypeInfo;
-import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.r1.core.statement.dto.RefStatementRelationTypeInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.r1.core.statement.dto.StatementInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.r1.core.statement.entity.NlUsageType;
-import org.kuali.student.r1.core.statement.entity.ObjectType;
-import org.kuali.student.r1.core.statement.entity.RefStatementRelation;
-import org.kuali.student.r1.core.statement.entity.RefStatementRelationAttribute;
-import org.kuali.student.r1.core.statement.entity.RefStatementRelationType;
-import org.kuali.student.r1.core.statement.entity.ReqComponent;
-import org.kuali.student.r1.core.statement.entity.ReqComponentType;
-import org.kuali.student.r1.core.statement.entity.Statement;
-import org.kuali.student.r1.core.statement.entity.StatementType;
-import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageTranslator;
-import org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator;
-import org.kuali.student.r1.core.statement.service.StatementService;
+import org.kuali.student.r2.common.search.service.SearchManager;
+import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import java.util.*;
 
 @Deprecated
 @WebService(endpointInterface = "org.kuali.student.r1.core.statement.service.StatementService", serviceName = "StatementService", portName = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")

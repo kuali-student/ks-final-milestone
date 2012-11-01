@@ -1,15 +1,14 @@
 package org.kuali.student.r1.core.subjectcode.service.impl;
 
-import java.util.List;
-
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
+import java.util.List;
 
 @Deprecated
 public class MockSubjectCodeServiceImpl implements SubjectCodeService {

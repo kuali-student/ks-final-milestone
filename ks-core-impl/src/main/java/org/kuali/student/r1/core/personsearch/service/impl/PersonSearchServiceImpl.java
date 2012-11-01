@@ -15,17 +15,8 @@
 
 package org.kuali.student.r1.core.personsearch.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.jws.WebService;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -34,7 +25,15 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import javax.jws.WebService;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Proxy Search service to the rice PersonService that adds primitive support for the search() and searchForResult()

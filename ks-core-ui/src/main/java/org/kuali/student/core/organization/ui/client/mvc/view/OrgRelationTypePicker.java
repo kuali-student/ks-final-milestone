@@ -15,19 +15,18 @@
 
 package org.kuali.student.core.organization.ui.client.mvc.view;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gwt.core.client.GWT;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
-import com.google.gwt.core.client.GWT;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OrgRelationTypePicker extends KSDropDown{
 

@@ -15,29 +15,10 @@
 
 package org.kuali.student.r1.core.proposal.service.impl;
 
-import java.util.List;
-
-import javax.jws.WebService;
-
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.search.service.SearchManager;
-import org.kuali.student.r2.common.validator.Validator;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.dto.ProposalTypeInfo;
@@ -46,9 +27,19 @@ import org.kuali.student.r1.core.proposal.entity.ProposalReference;
 import org.kuali.student.r1.core.proposal.entity.ProposalReferenceType;
 import org.kuali.student.r1.core.proposal.entity.ProposalType;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebService;
+import java.util.List;
 
 /**
  * Implementation of the Proposal Service

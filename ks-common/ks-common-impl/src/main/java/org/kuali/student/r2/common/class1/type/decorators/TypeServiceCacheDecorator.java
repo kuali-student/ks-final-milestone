@@ -4,10 +4,10 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
 import org.apache.commons.collections.keyvalue.MultiKey;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import java.util.List;
 

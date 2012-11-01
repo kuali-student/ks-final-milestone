@@ -16,7 +16,6 @@
  */
 package org.kuali.student.r2.common.class1.search;
 
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
@@ -24,6 +23,7 @@ import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
 import java.text.SimpleDateFormat;

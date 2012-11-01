@@ -3,7 +3,6 @@ package org.kuali.student.r2.common.search;
 import org.kuali.student.r2.common.class1.search.CrossSearchManager;
 import org.kuali.student.r2.common.class1.search.SearchManagerImpl;
 import org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.search.dto.*;

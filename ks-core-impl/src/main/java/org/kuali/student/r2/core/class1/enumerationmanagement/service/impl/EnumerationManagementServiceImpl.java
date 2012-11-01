@@ -15,28 +15,12 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebService;
-import javax.persistence.NoResultException;
-
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.search.service.SearchManager;
@@ -45,16 +29,20 @@ import org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValu
 import org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.service.SearchService;
-import org.springframework.transaction.annotation.Transactional;
-import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebService;
+import javax.persistence.NoResultException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Enumeration Management Service implementation class.
