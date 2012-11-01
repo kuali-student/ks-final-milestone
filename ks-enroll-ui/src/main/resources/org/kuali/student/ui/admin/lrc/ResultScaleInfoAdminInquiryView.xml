@@ -41,7 +41,7 @@
 		                    <bean parent="Uif-DataField" p:propertyName="key" />
 		                    <bean parent="Uif-DataField" p:propertyName="typeKey">
 		                        <property name="inquiry">
-		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.common.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
+		                            <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo" p:inquiryParameters="typeKey:key" />
 		                        </property>
 		                    </bean>
 		                    <bean parent="Uif-DataField" p:propertyName="stateKey">
