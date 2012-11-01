@@ -21,10 +21,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultCellInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 public abstract class CocValuesFinder extends StudentKeyValuesBase {

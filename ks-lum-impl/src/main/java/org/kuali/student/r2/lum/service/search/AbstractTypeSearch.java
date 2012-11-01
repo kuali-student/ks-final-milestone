@@ -1,9 +1,9 @@
 package org.kuali.student.r2.lum.service.search;
 
-import org.kuali.student.r1.common.search.dto.SearchParamInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;

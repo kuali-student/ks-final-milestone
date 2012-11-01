@@ -928,7 +928,7 @@
     </bean>
 
     <bean id="personSearchClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.search.service.SearchService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.search.service.SearchService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}PersonSearchService"/>
     </bean>
 
@@ -975,7 +975,7 @@
     </bean>
 
     <bean id="searchService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r1.common.search.service.SearchService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.search.service.SearchService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/search}SearchService"/>
     </bean>
 

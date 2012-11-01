@@ -41,8 +41,8 @@ import org.kuali.student.r1.core.statement.dto.StatementInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 import javax.jws.WebParam;
 
