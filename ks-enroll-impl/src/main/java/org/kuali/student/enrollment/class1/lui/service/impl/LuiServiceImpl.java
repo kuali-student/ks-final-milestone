@@ -24,6 +24,7 @@ import org.kuali.student.enrollment.class1.lui.model.*;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -31,8 +32,10 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -752,5 +755,60 @@ public class LuiServiceImpl
                PermissionDeniedException {
 
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<TypeInfo> getLuiSetTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public TypeInfo getLuiSetType(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public LuiSetInfo getLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public List<LuiSetInfo> getLuiSetsByIds(@WebParam(name = "luiSetIds") List<String> luiSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public List<LuiInfo> getLuisFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public List<String> getLuiIdsFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public Boolean isLuiInLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public LuiSetInfo createLuiSet(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public LuiSetInfo updateLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException {
+        throw new RuntimeException("Not implemented.");
+    }
+
+    @Override
+    public StatusInfo deleteLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new RuntimeException("Not implemented.");
     }
 }

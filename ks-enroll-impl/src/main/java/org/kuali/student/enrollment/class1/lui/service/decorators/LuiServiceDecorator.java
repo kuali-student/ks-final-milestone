@@ -24,21 +24,16 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 
+import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import javax.jws.WebParam;
 
 
 public class LuiServiceDecorator 
@@ -393,5 +388,76 @@ public class LuiServiceDecorator
                PermissionDeniedException {
 
         return getNextDecorator().deleteLuiCapacity(luiCapacityId, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getLuiSetTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLuiSetTypes(contextInfo);
+    }
+
+    @Override
+    public TypeInfo getLuiSetType(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLuiSetType(luiSetTypeKey, contextInfo);
+    }
+
+    @Override
+    public LuiSetInfo getLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLuiSet(luiSetId, contextInfo);
+    }
+
+    @Override
+    public List<LuiSetInfo> getLuiSetsByIds(@WebParam(name = "luiSetIds") List<String> luiSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLuiSetsByIds(luiSetIds, contextInfo);
+    }
+
+    @Override
+    public List<LuiInfo> getLuisFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLuisFromLuiSet(luiSetId, contextInfo);
+    }
+
+    @Override
+    public List<String> getLuiIdsFromLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLuiIdsFromLuiSet(luiSetId, contextInfo);
+    }
+
+    @Override
+    public Boolean isLuiInLuiSet(@WebParam(name = "luiId") String luiId, @WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().isLuiInLuiSet(luiId, luiSetId, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLuiSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "luiSetTypeKey") String luiSetTypeKey,
+                                                     @WebParam(name = "LuiSetInfo") LuiSetInfo LuiSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateLuiSet(validationTypeKey, luiSetTypeKey, LuiSetInfo, contextInfo);
+    }
+
+    @Override
+    public LuiSetInfo createLuiSet(@WebParam(name = "luiSetTypeKey") String luiSetTypeKey, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo,
+                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException, UnsupportedActionException {
+        return getNextDecorator().createLuiSet(luiSetTypeKey, luiSetInfo, contextInfo);
+    }
+
+    @Override
+    public LuiSetInfo updateLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "luiSetInfo") LuiSetInfo luiSetInfo,
+                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, UnsupportedActionException, VersionMismatchException {
+        return getNextDecorator().updateLuiSet(luiSetId, luiSetInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteLuiSet(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteLuiSet(luiSetId, contextInfo);
     }
 }
