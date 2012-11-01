@@ -58,7 +58,7 @@ public class TestBaseValidCharsDictionary {
         for (String id : vccs.keySet()) {
             ValidCharactersConstraint vcc = vccs.get(id);
             System.out.println("valid chars constraint: " + id + " "
-                    + vcc.getLabelKey() + " " + vcc.getValue());
+                    + vcc.getMessageKey() + " " + vcc.getValue());
         }
 
         String id = null;
