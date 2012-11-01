@@ -40,14 +40,14 @@ import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelp
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
-import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;

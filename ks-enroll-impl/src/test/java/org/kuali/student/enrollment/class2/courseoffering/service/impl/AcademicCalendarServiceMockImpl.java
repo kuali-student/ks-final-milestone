@@ -8,25 +8,16 @@ import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *

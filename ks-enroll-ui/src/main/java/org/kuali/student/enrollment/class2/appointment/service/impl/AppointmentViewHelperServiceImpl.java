@@ -24,7 +24,6 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -35,20 +34,24 @@ import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHe
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentSlotRuleTypeConversion;
 import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.constants.TypeServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.constants.TypeServiceConstants;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
-import org.kuali.student.r2.common.class1.type.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * This class //TODO ...
