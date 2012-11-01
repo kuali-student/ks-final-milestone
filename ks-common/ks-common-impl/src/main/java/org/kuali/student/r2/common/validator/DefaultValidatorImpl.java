@@ -257,8 +257,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 } else {
                     if (field.getMinOccurs() != null && field.getMinOccurs() > 0) {
                         ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack), value);
-                        if (field.getMessageKey() != null) {
-                            val.setError(getMessage(field.getMessageKey(), contextInfo));
+                        if (field.getLabelKey() != null) {
+                            val.setError(getMessage(field.getLabelKey(), contextInfo));
                         } else {
                             val.setError(getMessage("validation.required", contextInfo));
                         }
@@ -545,8 +545,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if ("regex".equalsIgnoreCase(processorType)) {
             if (fieldValue == null || !fieldValue.toString().matches(validChars)) {
                 val = new ValidationResultInfo(element, fieldValue);
-                if (vcConstraint.getMessageKey() != null) {
-                    val.setError(getMessage(vcConstraint.getMessageKey(), contextInfo));
+                if (vcConstraint.getLabelKey() != null) {
+                    val.setError(getMessage(vcConstraint.getLabelKey(), contextInfo));
                 } else {
                     val.setError(getMessage("validation.validCharsFailed", contextInfo));
                 }
@@ -700,8 +700,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if (value == null || "".equals(value.toString().trim())) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
                 ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + name, value);
-                if (constraint.getMessageKey() != null) {
-                    val.setError(getMessage(constraint.getMessageKey(), contextInfo));
+                if (constraint.getLabelKey() != null) {
+                    val.setError(getMessage(constraint.getLabelKey(), contextInfo));
                 } else {
                     val.setMessage(getMessage("validation.required", contextInfo));
                 }

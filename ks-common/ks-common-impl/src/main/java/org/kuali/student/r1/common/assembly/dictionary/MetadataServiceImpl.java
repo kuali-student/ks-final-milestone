@@ -160,7 +160,8 @@ public class MetadataServiceImpl {
      * This method gets the metadata for the given object key and state
      * 
      * @param objectKey
-     * @param type The type of the object (value can be null)
+     * @param state
+     * @return
      */
     public Metadata getMetadata(String objectKey, String state) {
     	return getMetadata(objectKey, null, state);
@@ -203,11 +204,14 @@ public class MetadataServiceImpl {
 
     /**
      * This method is used to convert a list of dictionary fields into metadata properties
+     *
+     * @param objectStructure
      * @param type
      * @param state
-     * @param documentTypeName TODO
-     * @param fields
-     * 
+     * @param nextState
+     * @param workflowNode
+     * @param counter
+     * @param documentTypeName
      * @return
      */
     private Map<String, Metadata> getProperties(ObjectStructureDefinition objectStructure, String type, String state, String nextState, String workflowNode, RecursionCounter counter, String documentTypeName) {
@@ -233,7 +237,7 @@ public class MetadataServiceImpl {
                 metadata.setCanUnmask(!fd.isMask());
                 metadata.setCanView(!fd.isHide());
                 metadata.setDynamic(fd.isDynamic());
-                metadata.setLabelKey(fd.getMessageKey());
+                metadata.setLabelKey(fd.getLabelKey());
                 metadata.setDefaultValue(convertDefaultValue(metadata.getDataType(), fd.getDefaultValue()));
                 metadata.setDefaultValuePath(fd.getDefaultValuePath());
                 
@@ -397,7 +401,7 @@ public class MetadataServiceImpl {
 
         if (constraint.getValidChars() != null) {
             constraintMetadata.setValidChars(constraint.getValidChars().getValue());
-            constraintMetadata.setValidCharsMessageId(constraint.getValidChars().getMessageKey());
+            constraintMetadata.setValidCharsMessageId(constraint.getValidChars().getLabelKey());
         }
 
         // Case constraints

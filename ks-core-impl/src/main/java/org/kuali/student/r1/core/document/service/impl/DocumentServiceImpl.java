@@ -15,24 +15,9 @@
 
 package org.kuali.student.r1.core.document.service.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.search.service.SearchManager;
-import org.kuali.student.r2.common.validator.Validator;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.document.dao.DocumentDao;
 import org.kuali.student.r1.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.r1.core.document.dto.DocumentInfo;
@@ -47,9 +32,23 @@ import org.kuali.student.r1.core.document.entity.RefDocRelationType;
 import org.kuali.student.r1.core.document.entity.RefObjectSubType;
 import org.kuali.student.r1.core.document.entity.RefObjectType;
 import org.kuali.student.r1.core.document.service.DocumentService;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

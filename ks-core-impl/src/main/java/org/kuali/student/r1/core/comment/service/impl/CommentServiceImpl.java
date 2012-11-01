@@ -15,29 +15,11 @@
 
 package org.kuali.student.r1.core.comment.service.impl;
 
-import java.util.List;
-
-import javax.jws.WebService;
-import javax.persistence.NoResultException;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.search.service.SearchManager;
-import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.common.validator.Validator;
-import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.core.comment.dao.CommentDao;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;
 import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
@@ -50,7 +32,23 @@ import org.kuali.student.r1.core.comment.entity.ReferenceType;
 import org.kuali.student.r1.core.comment.entity.Tag;
 import org.kuali.student.r1.core.comment.entity.TagType;
 import org.kuali.student.r1.core.comment.service.CommentService;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebService;
+import javax.persistence.NoResultException;
+import java.util.List;
 
 /**
  * Implementation of the Comment Search Service

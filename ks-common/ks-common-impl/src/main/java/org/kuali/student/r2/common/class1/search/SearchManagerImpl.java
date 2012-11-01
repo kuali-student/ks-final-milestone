@@ -16,18 +16,22 @@
 package org.kuali.student.r2.common.class1.search;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.r2.core.search.dto.CrossSearchTypeInfo;
-import org.kuali.student.r2.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.search.dto.*;
-import org.kuali.student.r2.core.search.service.SearchManager;
-import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.search.dto.CrossSearchTypeInfo;
+import org.kuali.student.r2.core.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
