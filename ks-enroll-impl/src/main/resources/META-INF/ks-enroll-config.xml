@@ -28,7 +28,7 @@
 	
 	<param name="ks.enroll.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
 	<param name="ks.enroll.datasource.url.derby">jdbc:derby://localhost:1527/derby/enroll;create=true</param>
-	<param name="ks.enroll.datasource.url.mysql">jdbc:mysql://localhost/KSEMBEDDED</param>
+	<param name="ks.enroll.datasource.url.mysql">jdbc:mysql://localhost/KSBUNDLED</param>
 	
 	<param name="ks.enroll.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="ks.enroll.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
