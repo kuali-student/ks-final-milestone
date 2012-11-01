@@ -81,7 +81,7 @@ public class CourseOfferingServiceValidationDecorator
 
     @Override
     public List<ValidationResultInfo> validateCourseOffering(String validationType, CourseOfferingInfo courseOfferingInfo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // validate
         List<ValidationResultInfo> errors;
         try {
@@ -154,7 +154,7 @@ public class CourseOfferingServiceValidationDecorator
 
     @Override
     public List<ValidationResultInfo> validateFormatOffering(String validationType, FormatOfferingInfo formatOfferingInfo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // validate
         List<ValidationResultInfo> errors;
         try {
@@ -207,7 +207,7 @@ public class CourseOfferingServiceValidationDecorator
 
     @Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // validate
         List<ValidationResultInfo> errors;
         try {
@@ -263,7 +263,7 @@ public class CourseOfferingServiceValidationDecorator
 
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType, String activityOfferingClusterId, String registrationGroupType, RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // validate
         List<ValidationResultInfo> errors;
         try {
@@ -309,12 +309,8 @@ public class CourseOfferingServiceValidationDecorator
         // create 
         try {
             List<ValidationResultInfo> errors;
-            try {
-                errors = this.validateSeatPoolDefinition(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                        seatPoolDefinitionInfo, context);
-            } catch (VersionMismatchException ex) {
-                throw new OperationFailedException("Unexpected", ex);
-            }
+            errors = this.validateSeatPoolDefinition(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
+                    seatPoolDefinitionInfo, context);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
@@ -344,8 +340,8 @@ public class CourseOfferingServiceValidationDecorator
 
     @Override
     public List<ValidationResultInfo> validateSeatPoolDefinition(String validationTypeKey, SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, VersionMismatchException {
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         // validate
         List<ValidationResultInfo> errors;
         try {
@@ -453,7 +449,7 @@ public class CourseOfferingServiceValidationDecorator
             ActivityOfferingClusterInfo activityOfferingClusterInfo,
             ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+            OperationFailedException, PermissionDeniedException {
 
         // validate
         List<ValidationResultInfo> errors;

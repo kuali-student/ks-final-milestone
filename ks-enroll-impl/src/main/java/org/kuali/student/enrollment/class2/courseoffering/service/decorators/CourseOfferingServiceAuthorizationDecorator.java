@@ -228,7 +228,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             String validationType, CourseOfferingInfo courseOfferingInfo,
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+            OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -368,7 +368,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             String validationType, ActivityOfferingInfo activityOfferingInfo,
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+            OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -522,7 +522,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             String validationType, String activityOfferingClusterId, String registrationGroupType, RegistrationGroupInfo registrationGroupInfo,
             ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+            OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }

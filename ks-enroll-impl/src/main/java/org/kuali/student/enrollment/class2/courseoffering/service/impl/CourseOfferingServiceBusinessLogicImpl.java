@@ -576,7 +576,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         rg.setName(regGroupCode);
         rg.setRegistrationCode(null);
         rg.setTermId(formatOffering.getTermId());
-        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        //rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
         rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
         return rg;
     }
