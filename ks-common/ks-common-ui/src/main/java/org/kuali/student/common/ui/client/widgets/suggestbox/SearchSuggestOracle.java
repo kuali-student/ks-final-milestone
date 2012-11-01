@@ -27,8 +27,8 @@ import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.*;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;

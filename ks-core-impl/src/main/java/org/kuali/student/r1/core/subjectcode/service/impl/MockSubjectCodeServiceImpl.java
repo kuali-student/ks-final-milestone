@@ -3,8 +3,8 @@ package org.kuali.student.r1.core.subjectcode.service.impl;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;

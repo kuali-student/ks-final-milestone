@@ -1,9 +1,9 @@
 package org.kuali.student.r2.common.class1.search;
 
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r2.common.search.dto.QueryParamInfo;
-import org.kuali.student.r2.common.search.dto.ResultColumnInfo;
-import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.core.search.dto.QueryParamInfo;
+import org.kuali.student.r2.core.search.dto.ResultColumnInfo;
+import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
 
 import java.util.Map;
 

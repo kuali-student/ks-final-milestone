@@ -26,8 +26,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
 /**
  * This widget can be used to display a list of filter items with a list of options.

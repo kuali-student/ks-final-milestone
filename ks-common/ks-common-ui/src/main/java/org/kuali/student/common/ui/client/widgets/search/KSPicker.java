@@ -74,8 +74,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
 public class KSPicker extends Composite implements HasFocusLostCallbacks, HasValueChangeHandlers<String>, HasDataValue, TranslatableValueWidget, HasInputWidget, HasCrossConstraints {
 

@@ -19,11 +19,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.dto.JoinComparisonInfo.ComparisonType;
-import org.kuali.student.r2.common.search.dto.JoinCriteriaInfo.JoinType;
-import org.kuali.student.r2.common.search.dto.CrossSearchTypeInfo;
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.core.search.dto.*;
+import org.kuali.student.r2.core.search.dto.JoinComparisonInfo.ComparisonType;
+import org.kuali.student.r2.core.search.dto.JoinCriteriaInfo.JoinType;
+import org.kuali.student.r2.core.search.dto.CrossSearchTypeInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

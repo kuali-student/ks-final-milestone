@@ -23,10 +23,10 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
-import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebService;
@@ -42,7 +42,7 @@ import java.util.Map;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@WebService(endpointInterface = "org.kuali.student.r2.common.search.service.SearchService", name = "PersonSearchService", serviceName = "PersonSearchService", portName = "PersonSearchService", targetNamespace = "http://student.kuali.org/wsdl/personsearch")
+@WebService(endpointInterface = "org.kuali.student.r2.core.search.service.SearchService", name = "PersonSearchService", serviceName = "PersonSearchService", portName = "PersonSearchService", targetNamespace = "http://student.kuali.org/wsdl/personsearch")
 public class PersonSearchServiceImpl implements SearchService {
     protected static final Logger LOG = Logger.getLogger(PersonSearchServiceImpl.class);
 

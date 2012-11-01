@@ -1,8 +1,8 @@
 package org.kuali.student.common.ui.client.service;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
 import java.util.HashMap;
 

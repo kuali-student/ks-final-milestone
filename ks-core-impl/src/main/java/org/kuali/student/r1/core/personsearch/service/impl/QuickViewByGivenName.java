@@ -10,9 +10,9 @@ package org.kuali.student.r1.core.personsearch.service.impl;
 
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.dto.SearchParamInfo;
-import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.core.search.dto.*;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
 
 import java.util.*;
 

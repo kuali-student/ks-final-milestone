@@ -16,10 +16,10 @@
 package org.kuali.student.r2.common.dao.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.r2.common.search.dto.QueryParamInfo;
-import org.kuali.student.r2.common.search.dto.ResultColumnInfo;
-import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.core.search.dto.QueryParamInfo;
+import org.kuali.student.r2.core.search.dto.ResultColumnInfo;
+import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.core.search.dto.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

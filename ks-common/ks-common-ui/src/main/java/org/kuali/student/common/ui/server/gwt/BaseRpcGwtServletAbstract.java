@@ -23,9 +23,9 @@ import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 

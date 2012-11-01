@@ -25,8 +25,8 @@ import java.util.Map.Entry;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.r1.common.assembly.transform.IdTranslatorFilter;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r2.core.search.dto.*;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.beans.factory.InitializingBean;
 
