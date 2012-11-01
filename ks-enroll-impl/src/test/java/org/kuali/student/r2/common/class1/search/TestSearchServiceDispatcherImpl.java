@@ -11,7 +11,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.common.search.util.SearchResultHelper;
+import org.kuali.student.r2.core.search.util.SearchResultHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import static org.junit.Assert.assertEquals;
