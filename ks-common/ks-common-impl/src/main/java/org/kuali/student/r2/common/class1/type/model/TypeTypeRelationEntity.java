@@ -1,11 +1,11 @@
 package org.kuali.student.r2.common.class1.type.model;
 
-import org.kuali.student.r2.common.class1.type.infc.TypeTypeRelation;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
 
 import javax.persistence.*;
 import java.util.Date;
