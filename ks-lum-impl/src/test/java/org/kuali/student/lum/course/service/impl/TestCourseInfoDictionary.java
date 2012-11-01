@@ -125,7 +125,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(0, validationResults.size());
+		assertEquals(3, validationResults.size());
 
 		System.out.println("test validation on dynamic attributes");
 		
@@ -134,7 +134,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(3, validationResults.size());
+		assertEquals(5, validationResults.size());
 
 		LoDisplayInfo loInfo = new LoDisplayInfo();
 		LoCategoryInfo loCatInfo = new LoCategoryInfo();
@@ -155,7 +155,7 @@ public class TestCourseInfoDictionary {
 ///descr validation.required
 ///finalExamStatus validation.validCharsFailed
 ///finalExamRationale validation.required
-		assertEquals(5, validationResults.size());
+		assertEquals(7, validationResults.size());
 
 		
 		// Test custom validation 
