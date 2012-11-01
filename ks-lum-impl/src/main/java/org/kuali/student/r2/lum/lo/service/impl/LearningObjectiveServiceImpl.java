@@ -15,53 +15,31 @@
 
 package org.kuali.student.r2.lum.lo.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.service.SearchManager;
-import org.kuali.student.r2.common.search.service.SearchService;
-import org.kuali.student.r2.lum.lo.dao.LoDao;
-import org.kuali.student.r2.lum.lo.entity.Lo;
-import org.kuali.student.r2.lum.lo.entity.LoCategory;
-import org.kuali.student.r2.lum.lo.entity.LoCategoryType;
-import org.kuali.student.r2.lum.lo.entity.LoLoRelation;
-import org.kuali.student.r2.lum.lo.entity.LoLoRelationType;
-import org.kuali.student.r2.lum.lo.entity.LoRepository;
-import org.kuali.student.r2.lum.lo.entity.LoType;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.lum.lo.dao.LoDao;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo;
+import org.kuali.student.r2.lum.lo.entity.*;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import java.util.*;
 
 /*n
  * @author Kuali Student team

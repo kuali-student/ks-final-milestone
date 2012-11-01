@@ -4,82 +4,30 @@
  */
 package org.kuali.student.r2.lum.lu.service.impl;
 
+import org.kuali.student.r1.common.entity.Amount;
+import org.kuali.student.r1.common.entity.CurrencyAmount;
+import org.kuali.student.r1.common.entity.TimeAmount;
+import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.infc.SearchParam;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.service.assembly.BaseAssembler;
+import org.kuali.student.r2.lum.clu.dto.*;
+import org.kuali.student.r2.lum.lu.dao.LuDao;
+import org.kuali.student.r2.lum.lu.entity.*;
+import org.springframework.beans.BeanUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-
-import org.kuali.student.r1.common.entity.Amount;
-import org.kuali.student.r1.common.entity.CurrencyAmount;
-import org.kuali.student.r1.common.entity.TimeAmount;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-
-import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
-import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.clu.dto.CluAccountingInfo;
-import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluCreditInfo;
-import org.kuali.student.r2.lum.clu.dto.CluFeeInfo;
-import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
-import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
-import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.FieldInfo;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
-
-
-import org.kuali.student.r2.lum.lu.dao.LuDao;
-import org.kuali.student.r2.lum.lu.entity.AffiliatedOrg;
-import org.kuali.student.r2.lum.lu.entity.Clu;
-import org.kuali.student.r2.lum.lu.entity.CluAccounting;
-import org.kuali.student.r2.lum.lu.entity.CluAccreditation;
-import org.kuali.student.r2.lum.lu.entity.CluAdminOrg;
-import org.kuali.student.r2.lum.lu.entity.CluAtpTypeKey;
-import org.kuali.student.r2.lum.lu.entity.CluCampusLocation;
-import org.kuali.student.r2.lum.lu.entity.CluCluRelation;
-import org.kuali.student.r2.lum.lu.entity.CluCredit;
-import org.kuali.student.r2.lum.lu.entity.CluFee;
-import org.kuali.student.r2.lum.lu.entity.CluFeeAmount;
-import org.kuali.student.r2.lum.lu.entity.CluFeeAttribute;
-import org.kuali.student.r2.lum.lu.entity.CluFeeRecord;
-import org.kuali.student.r2.lum.lu.entity.CluFeeRecordAttribute;
-import org.kuali.student.r2.lum.lu.entity.CluIdentifier;
-import org.kuali.student.r2.lum.lu.entity.CluIdentifierAttribute;
-import org.kuali.student.r2.lum.lu.entity.CluInstructor;
-import org.kuali.student.r2.lum.lu.entity.CluLoRelation;
-import org.kuali.student.r2.lum.lu.entity.CluPublication;
-import org.kuali.student.r2.lum.lu.entity.CluPublicationVariant;
-import org.kuali.student.r2.lum.lu.entity.CluResult;
-import org.kuali.student.r2.lum.lu.entity.CluSet;
-import org.kuali.student.r2.lum.lu.entity.CluSetAttribute;
-import org.kuali.student.r2.lum.lu.entity.CluSetJoinVersionIndClu;
-import org.kuali.student.r2.lum.lu.entity.LuCode;
-import org.kuali.student.r2.lum.lu.entity.LuLuRelationType;
-import org.kuali.student.r2.lum.lu.entity.LuRichText;
-import org.kuali.student.r2.lum.lu.entity.MembershipQuery;
-import org.kuali.student.r2.lum.lu.entity.ResultOption;
-import org.kuali.student.r2.lum.lu.entity.SearchParameter;
-import org.kuali.student.r2.lum.lu.entity.SearchParameterValue;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.service.assembly.BaseAssembler;
-import org.kuali.student.r2.common.search.dto.SearchParamInfo;
-import org.kuali.student.r2.common.search.infc.SearchParam;
-import org.springframework.beans.BeanUtils;
 
 public class CluServiceAssembler extends BaseAssembler {
 

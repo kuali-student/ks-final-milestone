@@ -16,10 +16,9 @@
 package org.kuali.student.lum.common.client.lo.rpc;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import java.util.List;
