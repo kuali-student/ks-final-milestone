@@ -47,8 +47,8 @@ import org.kuali.student.r1.common.assembly.data.LookupMetadata.Usage;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.r1.common.search.dto.SearchParamInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

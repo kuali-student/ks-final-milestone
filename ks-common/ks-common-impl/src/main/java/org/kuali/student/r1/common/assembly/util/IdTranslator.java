@@ -27,8 +27,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 /**

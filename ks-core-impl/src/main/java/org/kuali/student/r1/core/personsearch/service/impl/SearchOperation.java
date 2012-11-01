@@ -16,9 +16,9 @@
 package org.kuali.student.r1.core.personsearch.service.impl;
 
 import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 public interface SearchOperation {
     public SearchResultInfo search(IdentityService identityService, SearchRequestInfo searchRequest);

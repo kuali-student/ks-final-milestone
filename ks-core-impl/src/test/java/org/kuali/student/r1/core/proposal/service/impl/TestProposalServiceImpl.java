@@ -47,8 +47,8 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.r1.core.proposal.service.ProposalService;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 
 /**
  * Test the Proposal Service methods

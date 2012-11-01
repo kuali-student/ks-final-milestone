@@ -14,11 +14,11 @@ import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r1.common.search.dto.SearchParamInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
-import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r2.common.search.dto.*;
 import org.springframework.beans.factory.InitializingBean;
 
 import javax.jws.WebService;

@@ -36,10 +36,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.r1.common.search.dto.SearchParamInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
-import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.common.search.service.SearchManager;
 import org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumContextValueDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao;
@@ -48,8 +48,8 @@ import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationE
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
-import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.springframework.transaction.annotation.Transactional;
 import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 

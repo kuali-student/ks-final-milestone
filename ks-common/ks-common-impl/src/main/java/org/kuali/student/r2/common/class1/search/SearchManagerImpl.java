@@ -16,17 +16,17 @@
 package org.kuali.student.r2.common.class1.search;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.r1.common.search.dto.CrossSearchTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.search.dto.CrossSearchTypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r2.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r1.common.search.dto.*;
-import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.search.dto.*;
+import org.kuali.student.r2.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
