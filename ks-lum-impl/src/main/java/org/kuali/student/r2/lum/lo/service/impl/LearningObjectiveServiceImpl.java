@@ -26,9 +26,9 @@ import javax.jws.WebService;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.service.SearchManager;
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.lum.lo.dao.LoDao;
 import org.kuali.student.r2.lum.lo.entity.Lo;
 import org.kuali.student.r2.lum.lo.entity.LoCategory;

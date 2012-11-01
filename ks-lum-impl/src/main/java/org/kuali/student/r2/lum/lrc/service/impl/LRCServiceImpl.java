@@ -9,11 +9,11 @@ import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
-import org.kuali.student.r2.common.search.dto.SearchParamInfo;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
-import org.kuali.student.r2.common.search.service.SearchManager;
-import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r1.common.search.dto.SearchParamInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.lum.lrc.dao.ResultScaleDao;
 import org.kuali.student.r2.lum.lrc.dao.ResultValueDao;
 import org.kuali.student.r2.lum.lrc.dao.ResultValuesGroupDao;
@@ -38,7 +38,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.springframework.transaction.annotation.Transactional;
-import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
 
 public class LRCServiceImpl implements LRCService {
 

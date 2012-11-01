@@ -21,8 +21,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.*;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.r2.common.search.dto.*;
-import org.kuali.student.r2.common.search.dto.SearchParamInfo;
+import org.kuali.student.r1.common.search.dto.*;
+import org.kuali.student.r1.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -2270,12 +2270,12 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
-		List<org.kuali.student.r2.common.search.dto.SearchParamInfo> queryParamValueList = new ArrayList<org.kuali.student.r2.common.search.dto.SearchParamInfo>();
-        org.kuali.student.r2.common.search.dto.SearchParamInfo sp1 = new org.kuali.student.r2.common.search.dto.SearchParamInfo();
+		List<org.kuali.student.r1.common.search.dto.SearchParamInfo> queryParamValueList = new ArrayList<org.kuali.student.r1.common.search.dto.SearchParamInfo>();
+        org.kuali.student.r1.common.search.dto.SearchParamInfo sp1 = new org.kuali.student.r1.common.search.dto.SearchParamInfo();
 		sp1.setKey("lu.queryParam.startsWith.cluCode");
 		sp1.setValues(Arrays.asList("AAST"));
         queryParamValueList.add(sp1);
-        org.kuali.student.r2.common.search.dto.SearchParamInfo sp2 = new org.kuali.student.r2.common.search.dto.SearchParamInfo();
+        org.kuali.student.r1.common.search.dto.SearchParamInfo sp2 = new org.kuali.student.r1.common.search.dto.SearchParamInfo();
 		sp2.setKey("lu.queryParam.cluState");
 		sp2.setValues(Arrays.asList("Active"));
         queryParamValueList.add(sp2);
@@ -2499,7 +2499,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
 	    CluSetInfo cluSet1 = createCluSetInfo();
 
 		//Create clu set
-		ArrayList<org.kuali.student.r2.common.search.dto.SearchParamInfo> queryParamValueList = new ArrayList<org.kuali.student.r2.common.search.dto.SearchParamInfo>();
+		ArrayList<org.kuali.student.r1.common.search.dto.SearchParamInfo> queryParamValueList = new ArrayList<org.kuali.student.r1.common.search.dto.SearchParamInfo>();
 		MembershipQueryInfo query1 = new MembershipQueryInfo();
 		query1.setSearchTypeKey("lu.search.clus");
 		query1.setQueryParamValues(queryParamValueList);

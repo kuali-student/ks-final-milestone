@@ -52,14 +52,14 @@
     </bean>
 
 	<bean id="lumSearchDispatcher" class="org.kuali.student.common.test.mock.MockProxyFactoryBean">
-		<property name="interfaceClass" value="org.kuali.student.r2.common.search.service.SearchService" />
+		<property name="interfaceClass" value="org.kuali.student.r1.common.search.service.SearchService" />
 		<property name="methodReturnMap">
 			<map>
 				<entry key="search">
-					<bean class="org.kuali.student.r2.common.search.dto.SearchResultInfo">
+					<bean class="org.kuali.student.r1.common.search.dto.SearchResultInfo">
 						<property name="rows">
 							<list>
-								<bean class="org.kuali.student.r2.common.search.dto.SearchResultRowInfo"/>
+								<bean class="org.kuali.student.r1.common.search.dto.SearchResultRowInfo"/>
 							</list>
 						</property>
 					</bean>

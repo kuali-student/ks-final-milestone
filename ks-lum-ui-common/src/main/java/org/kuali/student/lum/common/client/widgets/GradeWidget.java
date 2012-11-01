@@ -35,8 +35,8 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.AccessWidgetValu
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
 
 public class GradeWidget extends Composite implements AccessWidgetValue, HasDataValue {
 

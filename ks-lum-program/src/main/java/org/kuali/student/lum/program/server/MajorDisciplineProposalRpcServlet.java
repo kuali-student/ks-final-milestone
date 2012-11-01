@@ -16,8 +16,8 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSumm
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r1.core.proposal.service.ProposalService;

@@ -31,10 +31,10 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultInfo;
-import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultCellInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.core.client.GWT;
