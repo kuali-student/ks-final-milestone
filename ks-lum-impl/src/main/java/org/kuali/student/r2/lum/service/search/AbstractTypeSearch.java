@@ -4,9 +4,8 @@ import org.kuali.student.r2.common.search.dto.SearchParamInfo;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -15,16 +15,16 @@
 
 package org.kuali.student.r2.lum.statement.config.context;
 
-import java.util.Map;
-
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+
+import java.util.Map;
 
 
 /**
