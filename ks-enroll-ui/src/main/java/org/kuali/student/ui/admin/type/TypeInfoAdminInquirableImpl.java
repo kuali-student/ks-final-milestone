@@ -16,21 +16,22 @@
 package org.kuali.student.ui.admin.type;
 
 
-import java.util.Map;
-import javax.xml.namespace.QName;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.common.util.ContextBuilder;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.common.class1.type.service.TypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.util.Map;
 
 public class TypeInfoAdminInquirableImpl extends InquirableImpl
 {
 	private static final Logger LOG = Logger.getLogger(TypeInfoAdminInquirableImpl.class);
+
 	private transient TypeService typeService;
 	private final static String PRIMARY_KEY = "key";
     private static final long serialVersionUID = 1L;

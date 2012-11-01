@@ -17,9 +17,9 @@
 package org.kuali.student.enrollment.uif.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 public interface KSViewHelperService extends ViewHelperService{
 

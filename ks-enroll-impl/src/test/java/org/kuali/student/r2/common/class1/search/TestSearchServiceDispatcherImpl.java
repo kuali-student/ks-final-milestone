@@ -4,26 +4,17 @@
  */
 package org.kuali.student.r2.common.class1.search;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.BeforeClass;
-import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
-import org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl;
-import org.kuali.student.r2.common.class1.type.dto.TypeInfo;
+import org.junit.*;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultInfo;
 import org.kuali.student.r2.common.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r2.common.search.util.SearchResultHelper;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
