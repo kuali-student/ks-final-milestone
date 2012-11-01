@@ -200,7 +200,7 @@ public class TestCourseOfferingServiceImplM4 {
         registrationGroupInfo.setActivityOfferingIds(activityOfferingIds);
         registrationGroupInfo.setIsGenerated(true);
         registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
-        registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
         return registrationGroupInfo;
     }
 
@@ -222,7 +222,7 @@ public class TestCourseOfferingServiceImplM4 {
         registrationGroupInfo.setActivityOfferingIds(activityOfferingIds);
         registrationGroupInfo.setIsGenerated(true);
         registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
-        registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
         return registrationGroupInfo;
     }
 
