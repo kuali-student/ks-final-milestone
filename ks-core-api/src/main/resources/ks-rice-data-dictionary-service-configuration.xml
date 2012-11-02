@@ -27,8 +27,12 @@
         </constructor-arg>
         <!--<property name="kualiConfigurationService" ref="kualiConfigurationService" />-->
         <property name="kualiModuleService" ref="kualiModuleService" />
-        <property name="baselinePackages">
-          <bean parent="allDictionaryFileLocations" />
+	    <property name="additionalDictionaryFiles">
+            <map>
+		        <entry key="http://student.kuali.org/wsdl/datadictionary">
+                     <ref bean="allDictionaryFileLocations"/>
+                </entry>
+            </map>
         </property>
     </bean>
 </beans>
