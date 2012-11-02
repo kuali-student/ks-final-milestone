@@ -185,25 +185,31 @@
         ID="kuali.lui.format.offering.state.planned"
         LIFECYCLE_KEY="kuali.format.offering.lifecycle" NAME="Planned"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
-        DESCR_FORMATTED="Registration Group is closed"
-        DESCR_PLAIN="Registration Group is closed"
-        ID="kuali.lui.registration.group.state.closed"
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="Registration Group is canceled"
+        DESCR_PLAIN="Registration Group is canceled"
+        ID="kuali.lui.registration.group.state.canceled"
         LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
-        NAME="Closed" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        NAME="Canceled" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
         DESCR_FORMATTED="Registration Group is invalid"
         DESCR_PLAIN="Registration Group is invalid"
         ID="kuali.lui.registration.group.state.invalid"
         LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
         NAME="Invalid" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
-        DESCR_FORMATTED="Registration Group is open"
-        DESCR_PLAIN="Registration Group is open"
-        ID="kuali.lui.registration.group.state.open"
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="Registration Group is valid, but not ready to be offered"
+        DESCR_PLAIN="Registration Group is valid, but not ready to be offered"
+        ID="kuali.lui.registration.group.state.notoffered"
         LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
-        NAME="Open" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120814000000"
+        NAME="Not offered" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="Registration Group is offered"
+        DESCR_PLAIN="Registration Group is offered"
+        ID="kuali.lui.registration.group.state.offered"
+        LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
+        NAME="Offered" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
         DESCR_FORMATTED="Registration Group is suspended"
         DESCR_PLAIN="Registration Group is suspended"
         ID="kuali.lui.registration.group.state.suspended"
