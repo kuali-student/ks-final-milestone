@@ -24,7 +24,7 @@ import org.apache.cxf.common.util.StringUtils;
 import org.junit.Test;
 
 public class TestManifestInspector {
-	String name = "Kuali Student Embedded";
+	String name = "Kuali Student Bundled with All-In-One Rice";
 	String version = "1.1.0-M8-SNAPSHOT";
 	String timestamp = "2010-08-10 21:35 EDT";
 	String buildNumber = "89";
