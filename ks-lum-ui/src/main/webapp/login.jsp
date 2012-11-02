@@ -2,7 +2,7 @@
 <%@ page import="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" %>
 <%@ page import="org.springframework.security.core.AuthenticationException" %>
 <!--
-Do not change this file if you are using embedded or standalone, override the appropriate one in those
+Do not change this file if you are using bundled or standalone, override the appropriate one in those
 projects - this file is for dev mode
 -->
 <script type="text/javascript">

@@ -220,79 +220,79 @@
 
 	<!-- Service clients -->
 	<bean id="cluClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/CluService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/CluService?wsdl"/>
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/clu}CluService"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.clu.service.CluService"/>
 	</bean>
 	
 	<bean id="commentClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/CommentService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/CommentService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.comment.service.CommentService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/comment}CommentService" />
 	</bean>
 
 	<bean id="statementServiceClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/StatementService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/StatementService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.statement.service.StatementService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/statement}StatementService" />
 	</bean>
 
 	<bean id="orgClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/OrganizationService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/OrganizationService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.organization.service.OrganizationService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/organization}OrganizationService" />
 	</bean>
 
 	<bean id="atpClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/AtpService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/AtpService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.atp.service.AtpService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/atp}AtpService" />
 	</bean>
 
     <bean id="personSearchClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/personsearchService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/personsearchService?wsdl"/>
         <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.search.service.SearchService" />
         <property name="serviceQNameString" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
 
 	<bean id="messageClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/MessageService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/MessageService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.r2.common.messages.service.MessageService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/messages}MessageService" />
 	</bean>
 
 	<bean id="proposalClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/ProposalService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/ProposalService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.proposal.service.ProposalService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
 	</bean>
 
 	<bean id="loClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/LearningObjectiveService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/LearningObjectiveService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.r2.lum.lo.service.LearningObjectiveService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/lo}LearningObjectiveService" />
 	</bean>
 
 	<bean id="workflowUtilityClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/WorkflowUtilityServiceSOAP?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/WorkflowUtilityServiceSOAP?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.service.WorkflowUtility" />
 		<property name="serviceQNameString" value="{http://rice.kuali.org/wsdl/kew}WorkflowUtilityServiceSOAP" />
 	</bean>
 
 	<bean id="simpleDocActionsClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/simpleDocumentActionsService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/simpleDocumentActionsService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService" />
 		<property name="serviceQNameString" value="{http://rice.kuali.org/wsdl/kew}simpleDocumentActionsService" />
 	</bean>
 
 	<bean id="documentService" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/DocumentService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/DocumentService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.document.service.DocumentService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/document}DocumentService" />
 	</bean>
 
 	<bean id="relationService" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/DocumentRelationService?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/DocumentRelationService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.common.mock.service.DocumentRelationService" />
 		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/documentRelation}DocumentRelationService" />
 	</bean>
@@ -311,7 +311,7 @@
 	</bean>
 
 	<!--<bean id="permissionServiceClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
-		<property name="wsdlLocation" value="http://localhost:8081/ks-embedded-dev/services/kimPermissionServiceUnsecure?wsdl"/>
+		<property name="wsdlLocation" value="http://localhost:8081/ks-bundled-dev/services/kimPermissionServiceUnsecure?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.PermissionService" />
 		<property name="serviceQNameString" value="{KIM}kimPermissionServiceUnsecure" />
 	</bean>-->

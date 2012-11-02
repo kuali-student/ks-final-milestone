@@ -53,7 +53,7 @@ public class CreateCourseSeleniumTest {
     @Test
     public void testCreateCourse() throws Exception {
         driver.get("http://dev.ks.kuali.org/login.jsp");
-        //driver.get("http://localhost:8081/ks-embedded-dev/login.jsp");
+        //driver.get("http://localhost:8081/ks-bundled-dev/login.jsp");
         //Login Page
         WebElement logonUserName = driver.findElement(By.id("j_username"));
         typeValue(logonUserName, "admin");

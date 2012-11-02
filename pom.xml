@@ -35,7 +35,7 @@
             </modules>
         </profile>
         <profile>
-            <id>embedded-only-war</id>
+            <id>bundled-only-war</id>
             <modules>
                 <module>ks-lum-sql</module>
                 <module>ks-lum-impl</module>
