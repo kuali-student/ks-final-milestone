@@ -347,7 +347,7 @@ public class LuiServiceConstants {
      *  See Jira KSENROLL-2238
      */
     public static final String REGISTRATION_GROUP_OFFERED_STATE_KEY = "kuali.lui.registration.group.state.offered";
-    public static final String REGISTRATION_GROUP_NOTOFFERED_STATE_KEY = "kuali.lui.registration.group.state.notoffered";
+    public static final String REGISTRATION_GROUP_PENDING_STATE_KEY = "kuali.lui.registration.group.state.pending";
     public static final String REGISTRATION_GROUP_CANCELED_STATE_KEY = "kuali.lui.registration.group.state.canceled";
     public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = "kuali.lui.registration.group.state.suspended";
     public static final String REGISTRATION_GROUP_INVALID_STATE_KEY = "kuali.lui.registration.group.state.invalid";
@@ -356,7 +356,7 @@ public class LuiServiceConstants {
     // List of all Registration Group state keys in an array
     public static final String[] REGISTRATION_GROUP_LIFECYCLE_KEY_STATES = {
             REGISTRATION_GROUP_OFFERED_STATE_KEY,
-            REGISTRATION_GROUP_NOTOFFERED_STATE_KEY,
+            REGISTRATION_GROUP_PENDING_STATE_KEY,
             REGISTRATION_GROUP_CANCELED_STATE_KEY,
             REGISTRATION_GROUP_SUSPENDED_STATE_KEY,
             REGISTRATION_GROUP_INVALID_STATE_KEY
