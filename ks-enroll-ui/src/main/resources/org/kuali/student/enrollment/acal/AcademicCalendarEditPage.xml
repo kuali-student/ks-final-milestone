@@ -274,7 +274,7 @@ limitations under the License.
                        <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
                        <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                             p:actionScript="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
+                             p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
                     </list>
                  </property>
              </bean>
@@ -284,7 +284,7 @@ limitations under the License.
                  <property name="items">
                     <list>
                        <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"
-                             p:actionScript="performCollectionAction('acal-holidays');" p:render="@{!#view.readOnly}"/>
+                             p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
                     </list>
                  </property>
              </bean>
