@@ -219,6 +219,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         _cRG_validateCreateRegistrationGroup(registrationGroupInfo, registrationGroupTypeKey, fo);
         registrationGroupInfo.setTermId(fo.getTermId());
 
+        //Default the initial state to not offered (might need more logic here in the future)
+        registrationGroupInfo.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_NOTOFFERED_STATE_KEY);
+
         // get the course offering
         CourseOfferingInfo coInfo = this.getCourseOffering(registrationGroupInfo.getCourseOfferingId(), context);
         String coCode = coInfo.getCourseOfferingCode();
