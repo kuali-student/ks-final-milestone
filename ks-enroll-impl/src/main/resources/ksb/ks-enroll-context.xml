@@ -448,7 +448,7 @@
       <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
         <property name="jaxWsService" value="true" />
         <property name="service" ref="typeServiceCacheDecorator" />
-        <property name="serviceInterface" value="org.kuali.student.r2.common.class1.type.service.TypeService" />
+        <property name="serviceInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService" />
         <property name="localServiceName" value="TypeService" />
         <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
         <property name="busSecurity" value="${ks.lum.bus.security}" />
