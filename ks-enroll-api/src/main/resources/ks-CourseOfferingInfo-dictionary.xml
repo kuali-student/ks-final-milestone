@@ -146,10 +146,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseOfferingInfo.jointOfferingIds" parent="CourseOfferingInfo.jointOfferingIds-parent"/>
-	<bean id="CourseOfferingInfo.jointOfferingIds-parent" abstract="true" parent="CourseOfferingInfo.jointOfferingIds-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
+    <bean id="CourseOfferingInfo.crossListings" parent="CourseOfferingInfo.crossListings-parent"/>
+   	<bean id="CourseOfferingInfo.crossListings-parent" abstract="true" parent="CourseOfferingInfo.crossListings-generated">
+   	<!-- insert any overrides to the generated attribute definitions here -->
+   	</bean>
 
 	<bean id="CourseOfferingInfo.gradingOptionId" parent="CourseOfferingInfo.gradingOptionId-parent"/>
 	<bean id="CourseOfferingInfo.gradingOptionId-parent" abstract="true" parent="CourseOfferingInfo.gradingOptionId-generated">
