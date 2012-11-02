@@ -53,7 +53,7 @@
         ID="kuali.course.offering.lifecycle"
         NAME="kuali.course.offering.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
-        CREATETIME="20120814000000"
+        CREATETIME="20121102000000"
         DESCR_FORMATTED="Registration Group State Lifecycle"
         DESCR_PLAIN="Registration Group State Lifecycle"
         ID="kuali.course.registration.group.lifecycle"
