@@ -2153,7 +2153,7 @@
  </bean>
  <bean id="resultValuesGroupInfo.stateKey" parent="resultValuesGroupInfo.stateKey-parent"/>
 
- <bean id="courseInfo.resultValuesGroupInfo.resultValueKeys-parent" abstract="true" parent="baseString">
+ <bean id="courseInfo.resultValuesGroupInfo.resultValueKeys-parent" abstract="true" parent="baseNumericString">
   <property name="name" value="resultValueKeys" />
   <property name="maxOccurs" value="unbounded" />
   <property name="caseConstraint">
