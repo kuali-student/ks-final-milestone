@@ -191,6 +191,8 @@
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="94041b67-648d-48ce-aa30-9687e9c24fa2" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
     <KSEN_LUI_RELATED_LUI_TYPES
+        LUI_ID="956b41a2-de25-4572-8bd7-fa958522407a" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
+    <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="963830ff-ea29-44d2-ade3-dffd76ce159d" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.seminar"/>
     <KSEN_LUI_RELATED_LUI_TYPES
         LUI_ID="986a06ce-c053-45e3-88ae-0972a541669a" RELATED_LUI_TYPE="kuali.lui.type.activity.offering.lecture"/>
