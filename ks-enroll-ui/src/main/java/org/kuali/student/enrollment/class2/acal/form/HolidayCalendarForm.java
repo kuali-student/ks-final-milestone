@@ -57,13 +57,27 @@ public class HolidayCalendarForm  extends UifFormBase {
         officialCalendar = false;
     }
 
+    /**
+     *
+     * @return the HolidayCalendarInfo which is currently in use at the view
+     */
     public HolidayCalendarInfo getHolidayCalendarInfo() {
         return holidayCalendarInfo;
     }
+
+    /**
+     * New Hcal or editing an existing Hcal object
+     *
+     * @param holidayCalendarInfo
+     */
     public void setHolidayCalendarInfo(HolidayCalendarInfo holidayCalendarInfo) {
         this.holidayCalendarInfo = holidayCalendarInfo;
     }
 
+    /**
+     *
+     * @return the list of HolidayWrapper which are currently in use at the holiday view
+     */
     public List<HolidayWrapper> getHolidays() {
         // Putting sort here causes list to be sorted when addLine "add" clicked, instead of having
         // the new row added to the top of the collection as desired.  Just so you know.
@@ -71,78 +85,178 @@ public class HolidayCalendarForm  extends UifFormBase {
         return holidays;
     }
 
+    /**
+     * Update new list of HolidayWrapper or Save the edited an existing list of HolidayWrapper object
+     *
+     * @param holidays
+     */
     public void setHolidays(List<HolidayWrapper> holidays) {
         this.holidays = holidays;
     }
 
+    /**
+     * State of the current holiday calendar.
+     *
+     * @return stateName
+     */
     public String getStateName() {
         return stateName;
     }
 
+    /**
+     * State name involved with a hcal.
+     *
+     * @param stateName
+     */
     public void setStateName(String stateName) {
         this.stateName = stateName;
     }
 
+    /**
+     * Organization involved with a hcal.
+     *
+     * @return adminOrgName
+     */
     public String getAdminOrgName() {
         return adminOrgName;
     }
+    /**
+     * Organization involved with a hcal.
+     *
+     * @param adminOrgName
+     */
     public void setAdminOrgName(String adminOrgName) {
         this.adminOrgName = adminOrgName;
     }
 
+    /**
+     * new hcal.
+     *
+     * @return newCalendarName
+     */
     public String getNewCalendarName() {
         return newCalendarName;
     }
+    /**
+     * New Hcal object
+     *
+     * @param newCalendarName
+     */
     public void setNewCalendarName(String newCalendarName) {
         this.newCalendarName = newCalendarName;
     }
 
+    /**
+     * Start date of the new hcal.
+     *
+     * @return newCalendarStartDate
+     */
     public Date getNewCalendarStartDate() {
         return newCalendarStartDate;
     }
+    /**
+     * Start date of the new hcal.
+     *
+     * @param newCalendarStartDate
+     */
     public void setNewCalendarStartDate(Date newCalendarStartDate) {
         this.newCalendarStartDate = newCalendarStartDate;
     }
 
+    /**
+     * The new calendar end date.
+     *
+     * @return newCalendarEndDate
+     */
     public Date getNewCalendarEndDate() {
         return newCalendarEndDate;
     }
+    /**
+     * End date of the new hcal.
+     *
+     * @param newCalendarEndDate
+     */
     public void setNewCalendarEndDate(Date newCalendarEndDate) {
         this.newCalendarEndDate = newCalendarEndDate;
     }
 
+    /**
+     * Holiday calendar id.
+     *
+     * @return hcId
+     */
     public String getHcId() {
         return hcId;
     }
 
+    /**
+     * Holiday calendar id.
+     *
+     * @param hcId
+     */
     public void setHcId(String hcId) {
         this.hcId = hcId;
     }
 
+    /**
+     * Original holiday calendar id.
+     *
+     * @return orgHcId
+     */
     public String getOrgHcId() {
         return orgHcId;
     }
 
+    /**
+     * Original holiday calendar id.
+     *
+     * @param orgHcId
+     */
     public void setOrgHcId(String orgHcId) {
         this.orgHcId = orgHcId;
     }
 
+    /**
+     * indicate new calendar exists or not.
+     *
+     * @return newCalendar
+     */
     public boolean isNewCalendar() {
         return newCalendar;
     }
 
+    /**
+     * Set New calendar.
+     *
+     * @param newCalendar
+     */
     public void setNewCalendar(boolean newCalendar) {
         this.newCalendar = newCalendar;
     }
 
+    /**
+     * It is an official Calendar or not with a hcal.
+     *
+     * @return
+     */
     public boolean isOfficialCalendar() {
         return officialCalendar;
     }
 
+    /**
+     * It is an official Calendar or not with a hcal.
+     *
+     * @param  officialCalendar
+     */
     public void setOfficialCalendar(boolean officialCalendar) {
         this.officialCalendar = officialCalendar;
     }
 
+    /**
+     * The last updated time involved with a hcal.
+     *
+     * @return
+     */
     public String getUpdateTimeString(){
         if (getHolidayCalendarInfo() != null &&
             getHolidayCalendarInfo().getMeta() != null &&
@@ -154,6 +268,11 @@ public class HolidayCalendarForm  extends UifFormBase {
         }
     }
 
+    /**
+     * UI data if an Calendar is official or not with a hcal.
+     *
+     * @return
+     */
     public boolean isOfficialUI(){
         if (holidayCalendarInfo != null){
             return StringUtils.equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY, holidayCalendarInfo.getStateKey());
