@@ -119,7 +119,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @return list of wrappers for the holiday calendars
      * @throws Exception
      */
-    private List<HolidayCalendarWrapper> populateHolidayCalendars(List<String> holidayCalendarIds) throws Exception {
+    protected List<HolidayCalendarWrapper> populateHolidayCalendars(List<String> holidayCalendarIds) throws Exception {
 
         if (LOG.isDebugEnabled()){
             LOG.debug("Loading all the holiday calendars associated with the Acal");
@@ -261,7 +261,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param keyDateWrapper
      * @param keyDateGroup
      */
-    private void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
+    protected void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Adding key date to a group");
+        }
         for (TypeInfo keyDateType : keyDateTypes) {
             try {
                 List<TypeInfo> allowedTypes = getTypeService().getTypesForGroupType(keyDateType.getKey(), createContextInfo());
@@ -308,6 +311,11 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @throws Exception
      */
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception {
+
+        if (LOG.isDebugEnabled()){
+            LOG.debug("Finding the latest Academic calendar");
+        }
+
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         List<AcademicCalendarInfo> academicCalendarInfoList =
                 getAcalService().getAcademicCalendarsByStartYear(currentYear, createContextInfo());
@@ -374,7 +382,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return event;
     }
 
-    private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper) throws Exception{
+    /**
+     * Construct a new <code>AcalEventInfo</code> from a wrapper instance
+     *
+     * @param eventWrapper event wrapper
+     * @return  AcalEventInfo dto
+     */
+    private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper){
         AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
 
         RichTextInfo rti = new RichTextInfo();
@@ -389,6 +403,15 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return eventInfo;
     }
 
+    /**
+     * Performs validation on adding holiday calendar, key date groups, key date or event.
+     *
+     * @param view
+     * @param collectionGroup
+     * @param model
+     * @param addLine
+     * @return
+     */
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
 
         if (addLine instanceof HolidayCalendarWrapper) {
@@ -877,6 +900,14 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         return endDateToInfo;
     }
 
+    /**
+     * Process before adding a term, key date group, holiday calendar or event
+     *
+     * @param view
+     * @param collectionGroup
+     * @param model
+     * @param addLine
+     */
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof AcademicTermWrapper){
             AcademicTermWrapper newLine = (AcademicTermWrapper)addLine;
