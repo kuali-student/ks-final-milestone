@@ -186,7 +186,7 @@
 	<bean id="validchars.cip.codes" parent="ValidCharDefinition">
 		<property name="value"
 			value="regex:[0-9][0-9]\.[0-9][0-9][0-9][0-9]|[0-9][0-9]\.[0-9][0-9]|[0-9][0-9]\.|[0-9][0-9]" />
-		<!-- <property name="messageKey" value="validation.validChars.digits"/> -->
+		<!-- <property name="labelKey" value="validation.validChars.digits"/> -->
 	</bean>
 
 	<bean id="majorDisciplineInfo.cip2000Code-parent" abstract="true"
@@ -2717,7 +2717,7 @@
 																	ref="constraint.lookup.programVariation.endProgramEntryTerm" />
 																<property name="minOccurs" value="1" />
 																<property name="errorLevel" value="WARN" />
-																<property name="messageKey" value="validation.variationEndTerm" />
+																<property name="labelKey" value="validation.variationEndTerm" />
 															</bean>
 														</property>
 													</bean>
@@ -2760,7 +2760,7 @@
 																	ref="constraint.lookup.programVariation.endProgramEntryTerm" />
 																<property name="minOccurs" value="1" />
 																<property name="errorLevel" value="ERROR" />
-																<property name="messageKey" value="validation.variationEndTerm" />
+																<property name="labelKey" value="validation.variationEndTerm" />
 															</bean>
 														</property>
 													</bean>
@@ -2820,7 +2820,7 @@
 																	ref="constraint.lookup.programVariation.endTerm" />
 																<property name="minOccurs" value="1" />
 																<property name="errorLevel" value="WARN" />
-																<property name="messageKey" value="validation.variationEndTerm" />
+																<property name="labelKey" value="validation.variationEndTerm" />
 															</bean>
 														</property>
 													</bean>
@@ -2863,7 +2863,7 @@
 																	ref="constraint.lookup.programVariation.endTerm" />
 																<property name="minOccurs" value="1" />
 																<property name="errorLevel" value="ERROR" />
-																<property name="messageKey" value="validation.variationEndTerm" />
+																<property name="labelKey" value="validation.variationEndTerm" />
 															</bean>
 														</property>
 													</bean>
@@ -3063,7 +3063,7 @@
 															<bean parent="cluInfo.expectedFirstAtp">
 																<property name="minOccurs" value="1" />
 																<property name="errorLevel" value="WARN" />
-																<property name="messageKey" value="validation.variationStartTerm" />
+																<property name="labelKey" value="validation.variationStartTerm" />
 																<property name="lookupDefinition"
 																	ref="constraint.lookup.programVariation.startTerm" />
 															</bean>
@@ -3104,7 +3104,7 @@
 															<bean parent="cluInfo.expectedFirstAtp">
 																<property name="minOccurs" value="1" />
 																<property name="errorLevel" value="ERROR" />
-																<property name="messageKey" value="validation.variationStartTerm" />
+																<property name="labelKey" value="validation.variationStartTerm" />
 																<property name="lookupDefinition">
 																	<bean parent="constraint.lookup.programVariation.startTerm">
 																		<property name="errorLevel" value="ERROR" />
@@ -3589,7 +3589,7 @@
 																	ref="constraint.lookup.programVariation.endInstAdmitTerm" />
 																<property name="minOccurs" value="1" />
 																<property name="errorLevel" value="WARN" />
-																<property name="messageKey" value="validation.variationEndTerm" />
+																<property name="labelKey" value="validation.variationEndTerm" />
 															</bean>
 														</property>
 													</bean>
@@ -3632,7 +3632,7 @@
 																	ref="constraint.lookup.programVariation.endInstAdmitTerm" />
 																<property name="minOccurs" value="1" />
 																<property name="errorLevel" value="ERROR" />
-																<property name="messageKey" value="validation.variationEndTerm" />
+																<property name="labelKey" value="validation.variationEndTerm" />
 															</bean>
 														</property>
 													</bean>
