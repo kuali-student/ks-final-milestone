@@ -34,19 +34,19 @@
     <bean id="Integer" parent="IntegerPatternConstraint">
         <property name="applyClientSide" value="true"/>
         <property name="allowNegative" value="true"/>
-        <property name="labelKey" value="validation.validChars.integer"/>
+        <property name="messageKey" value="validation.validChars.integer"/>
     </bean>
 
     <bean id="Positive.integer" parent="IntegerPatternConstraint">
         <property name="applyClientSide" value="true"/>
         <property name="allowNegative" value="false"/>
         <property name="omitZero" value="true" />
-        <property name="labelKey" value="validation.validChars.positive.integer"/>
+        <property name="messageKey" value="validation.validChars.positive.integer"/>
     </bean>
     <bean id="RelationalOperator" parent="ValidCharactersConstraint">
         <property name="value" value="\&lt;|=|\&lt;=|\&gt;|\&gt;=|&lt;&gt;"/>
         <property name="applyClientSide" value="true"/>
-        <property name="labelKey" value="validation.validChars.relationalOperator"/>
+        <property name="messageKey" value="validation.validChars.relationalOperator"/>
     </bean>
     <bean id="Alpha" parent="AlphaPatternConstraint"/>
     <bean id="UpperCase" parent="ValidCharactersConstraint">
@@ -63,7 +63,7 @@
     <bean id="Gpa4.0" parent="ValidCharactersConstraint">
         <property name="value" value="[0-4]\.[0-9]"/>
         <property name="applyClientSide" value="true"/>
-        <property name="labelKey" value="validation.validChars.gpa9.9"/>
+        <property name="messageKey" value="validation.validChars.gpa9.9"/>
     </bean>
     <bean id="Numeric" parent="ValidCharactersConstraint">
         <!--
@@ -75,7 +75,7 @@
   -->
         <property name="value" value="^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$"/>
         <property name="applyClientSide" value="true"/>
-        <property name="labelKey" value="validation.validChars.numeric"/>
+        <property name="messageKey" value="validation.validChars.numeric"/>
     </bean>
     <bean id="Numeric.range" parent="ValidCharactersConstraint">
         <!--
@@ -84,7 +84,7 @@
         <property name="value"
                   value="^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
         <property name="applyClientSide" value="true"/>
-        <property name="labelKey" value="validation.validChars.numeric.range"/>
+        <property name="messageKey" value="validation.validChars.numeric.range"/>
     </bean>
     <bean id="Positive.numeric.range" parent="ValidCharactersConstraint">
         <!--
@@ -93,6 +93,6 @@
         <property name="value"
                   value="^([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
         <property name="applyClientSide" value="true"/>
-        <property name="labelKey" value="validation.validChars.positive.numeric.range"/>
+        <property name="messageKey" value="validation.validChars.positive.numeric.range"/>
     </bean>
 </beans>
