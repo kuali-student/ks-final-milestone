@@ -1654,7 +1654,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(List<String> activityOfferingIds,
                                                                                   ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<RegistrationGroupInfo> registrationGroupInfos = new ArrayList<RegistrationGroupInfo>();
+        if(activityOfferingIds != null && !activityOfferingIds.isEmpty()){
+            for (String activityOfferingId : activityOfferingIds){
+                List<RegistrationGroupInfo> regGroups = _getRegistrationGroupsByActivityOffering(activityOfferingId, context);
+                if(regGroups != null) {
+                    registrationGroupInfos.addAll(regGroups);
+                }
+            }
+        }
+
+        return registrationGroupInfos;
     }
 
     private List<RegistrationGroupInfo> _getRegistrationGroupsByActivityOffering(String activityOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
