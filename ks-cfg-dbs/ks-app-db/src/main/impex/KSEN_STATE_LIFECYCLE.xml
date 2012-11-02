@@ -47,6 +47,12 @@
         DESCR_PLAIN="kuali atp state process" ID="kuali.atp.process"
         NAME="kuali.atp.process" VER_NBR="0"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121102000000"
+        DESCR_FORMATTED="Activity Offering Lifecycle"
+        DESCR_PLAIN="Activity Offering Lifecycle"
+        ID="kuali.course.activity.offering.cluster.lifecycle"
+        NAME="kuali.course.activity.offering.cluster.lifecycle" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120301000000"
         DESCR_FORMATTED="kuali.course.offering.lifecycle state lifecycle"
         DESCR_PLAIN="kuali.course.offering.lifecycle state lifecycle"
