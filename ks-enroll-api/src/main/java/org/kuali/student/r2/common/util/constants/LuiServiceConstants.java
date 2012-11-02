@@ -119,7 +119,7 @@ public class LuiServiceConstants {
     public static final String ACTIVITY_OFFERING_TYPE_KEY_PREFIX = "kuali.lui.type.activity.offering."; // Not a type
     // TODO: May want to do this for other groupings
     private static HashSet<String> ACTIVITY_TYPES_HASH_SET = null;
-    public static boolean isActivityType(String possibleActivityType) {
+    public static synchronized boolean isActivityType(String possibleActivityType) {
         if (ACTIVITY_TYPES_HASH_SET == null) {
             // One time initialization
             ACTIVITY_TYPES_HASH_SET = new HashSet<String>();
@@ -348,7 +348,7 @@ public class LuiServiceConstants {
      */
     public static final String REGISTRATION_GROUP_OFFERED_STATE_KEY = "kuali.lui.registration.group.state.offered";
     public static final String REGISTRATION_GROUP_NOTOFFERED_STATE_KEY = "kuali.lui.registration.group.state.notoffered";
-    public static final String REGISTRATION_GROUP_CANCELLED_STATE_KEY = "kuali.lui.registration.group.state.cancelled";
+    public static final String REGISTRATION_GROUP_CANCELED_STATE_KEY = "kuali.lui.registration.group.state.canceled";
     public static final String REGISTRATION_GROUP_SUSPENDED_STATE_KEY = "kuali.lui.registration.group.state.suspended";
     public static final String REGISTRATION_GROUP_INVALID_STATE_KEY = "kuali.lui.registration.group.state.invalid";
     // The process key for Registration Groups
@@ -357,7 +357,7 @@ public class LuiServiceConstants {
     public static final String[] REGISTRATION_GROUP_LIFECYCLE_KEY_STATES = {
             REGISTRATION_GROUP_OFFERED_STATE_KEY,
             REGISTRATION_GROUP_NOTOFFERED_STATE_KEY,
-            REGISTRATION_GROUP_CANCELLED_STATE_KEY,
+            REGISTRATION_GROUP_CANCELED_STATE_KEY,
             REGISTRATION_GROUP_SUSPENDED_STATE_KEY,
             REGISTRATION_GROUP_INVALID_STATE_KEY
     };
