@@ -3612,6 +3612,278 @@
         <column name="SVC_DSCRPTR_ID" primaryKey="true" size="40" type="VARCHAR"/>
         <column name="DSCRPTR" required="true" type="CLOB"/>
     </table>
+    <table name="KSAP_ATP">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="END_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="START_DT" type="TIMESTAMP"/>
+        <column name="STATE" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KSAP_RICH_TEXT_T" name="KSAP_ATP_FK2">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSAP_ATP_TYPE" name="KSAP_ATP_FK1">
+            <reference foreign="TYPE_KEY" local="TYPE"/>
+        </foreign-key>
+        <index name="KSAP_ATP_I1">
+            <index-column name="TYPE"/>
+        </index>
+        <index name="KSAP_ATP_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+    </table>
+    <table name="KSAP_ATP_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_ATP" name="KSAP_ATP_ATTR_FK1">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+        <index name="KSAP_ATP_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
+    </table>
+    <table name="KSAP_ATP_DUR_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+    </table>
+    <table name="KSAP_ATP_DUR_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_ATP_DUR_TYPE" name="KSAP_ATP_DUR_TYPE_ATTR_FK1">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+        <index name="KSAP_ATP_DUR_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
+    </table>
+    <table name="KSAP_ATP_SEASONAL_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+    </table>
+    <table name="KSAP_ATP_SEASONAL_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_ATP_SEASONAL_TYPE" name="KSAP_ATP_SEAS_TYPE_ATTR_FK1">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+        <index name="KSAP_ATP_SEAS_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
+    </table>
+    <table name="KSAP_ATP_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="DUR_TYPE" size="255" type="VARCHAR"/>
+        <column name="SEASONAL_TYPE" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_ATP_SEASONAL_TYPE" name="KSAP_ATP_TYPE_FK1">
+            <reference foreign="TYPE_KEY" local="SEASONAL_TYPE"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSAP_ATP_DUR_TYPE" name="KSAP_ATP_TYPE_FK2">
+            <reference foreign="TYPE_KEY" local="DUR_TYPE"/>
+        </foreign-key>
+        <index name="KSAP_ATP_TYPE_I1">
+            <index-column name="SEASONAL_TYPE"/>
+        </index>
+        <index name="KSAP_ATP_TYPE_I2">
+            <index-column name="DUR_TYPE"/>
+        </index>
+    </table>
+    <table name="KSAP_ATP_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_ATP_TYPE" name="KSAP_ATP_TYPE_ATTR_FK1">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+        <index name="KSAP_ATP_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
+    </table>
+    <table name="KSAP_DT_RANGE">
+        <column name="DATERANGE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="END_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="START_DT" type="TIMESTAMP"/>
+        <column name="STATE" size="255" type="VARCHAR"/>
+        <column name="ATP_ID" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="DT_RANGE_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KSAP_DT_RANGE_TYPE" name="KSAP_DT_RANGE_FK1">
+            <reference foreign="TYPE_KEY" local="DT_RANGE_TYPE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSAP_ATP" name="KSAP_DT_RANGE_FK3">
+            <reference foreign="ID" local="ATP_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSAP_RICH_TEXT_T" name="KSAP_DT_RANGE_FK2">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <index name="KSAP_DT_RANGE_I1">
+            <index-column name="DT_RANGE_TYPE_ID"/>
+        </index>
+        <index name="KSAP_DT_RANGE_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSAP_DT_RANGE_I3">
+            <index-column name="ATP_ID"/>
+        </index>
+    </table>
+    <table name="KSAP_DT_RANGE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_DT_RANGE" name="KSAP_DT_RANGE_ATTR_FK1">
+            <reference foreign="DATERANGE_KEY" local="OWNER"/>
+        </foreign-key>
+        <index name="KSAP_DT_RANGE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
+    </table>
+    <table name="KSAP_DT_RANGE_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+    </table>
+    <table name="KSAP_DT_RANGE_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_DT_RANGE_TYPE" name="KSAP_DT_RANGE_TYPE_ATTR_FK1">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+        <index name="KSAP_DT_RANGE_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
+    </table>
+    <table name="KSAP_MLSTN">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="MLSTN_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="STATE" size="255" type="VARCHAR"/>
+        <column name="ATP_ID" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="MLSTN_TYPE_ID" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <foreign-key foreignTable="KSAP_RICH_TEXT_T" name="KSAP_MLSTN_FK2">
+            <reference foreign="ID" local="RT_DESCR_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSAP_MLSTN_TYPE" name="KSAP_MLSTN_FK3">
+            <reference foreign="TYPE_KEY" local="MLSTN_TYPE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSAP_ATP" name="KSAP_MLSTN_FK1">
+            <reference foreign="ID" local="ATP_ID"/>
+        </foreign-key>
+        <index name="KSAP_MLSTN_I1">
+            <index-column name="ATP_ID"/>
+        </index>
+        <index name="KSAP_MLSTN_I2">
+            <index-column name="RT_DESCR_ID"/>
+        </index>
+        <index name="KSAP_MLSTN_I3">
+            <index-column name="MLSTN_TYPE_ID"/>
+        </index>
+    </table>
+    <table name="KSAP_MLSTN_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_MLSTN" name="KSAP_MLSTN_ATTR_FK1">
+            <reference foreign="ID" local="OWNER"/>
+        </foreign-key>
+        <index name="KSAP_MLSTN_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
+    </table>
+    <table name="KSAP_MLSTN_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+    </table>
+    <table name="KSAP_MLSTN_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ATTR_NAME" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <foreign-key foreignTable="KSAP_MLSTN_TYPE" name="KSAP_MLSTN_TYPE_ATTR_FK1">
+            <reference foreign="TYPE_KEY" local="OWNER"/>
+        </foreign-key>
+        <index name="KSAP_MLSTN_TYPE_ATTR_I1">
+            <index-column name="OWNER"/>
+        </index>
+    </table>
+    <table name="KSAP_RICH_TEXT_T">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="FORMATTED" size="2000" type="VARCHAR"/>
+        <column name="PLAIN" size="2000" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+    </table>
     <table name="KSCO_COMMENT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
@@ -5759,211 +6031,6 @@
         <column name="VER_NBR" size="19" type="DECIMAL"/>
         <column name="FORMATTED" size="2000" type="VARCHAR"/>
         <column name="PLAIN" size="2000" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_ROOM">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ROOM_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="ROOM_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
-        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="ROOM_CD" required="true" size="255" type="VARCHAR"/>
-        <column name="BUILDING_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="FLOOR" required="true" size="255" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM_BUILDING" name="KSEN_ROOM_FK1">
-            <reference foreign="ID" local="BUILDING_ID"/>
-        </foreign-key>
-        <unique name="KSEN_ROOM_I4">
-            <unique-column name="BUILDING_ID"/>
-            <unique-column name="ROOM_CD"/>
-        </unique>
-        <index name="KSEN_ROOM_I1">
-            <index-column name="BUILDING_ID"/>
-            <index-column name="FLOOR"/>
-        </index>
-        <index name="KSEN_ROOM_I2">
-            <index-column name="ROOM_TYPE"/>
-        </index>
-        <index name="KSEN_ROOM_I3">
-            <index-column name="BUILDING_ID"/>
-            <index-column name="ROOM_TYPE"/>
-        </index>
-        <index name="KSEN_ROOM_IF1">
-            <index-column name="BUILDING_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_ACCESS_TYPE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="ACCESS_TYPE_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_ACCESS_TYPE_FK1">
-            <reference foreign="ID" local="ROOM_ID"/>
-        </foreign-key>
-        <unique name="KSEN_ROOM_ACCESS_TYPE_I1">
-            <unique-column name="ROOM_ID"/>
-            <unique-column name="ACCESS_TYPE_ID"/>
-        </unique>
-        <index name="KSEN_ROOM_ACCESS_TYPE_IF1">
-            <index-column name="ROOM_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-        <index name="KSEN_ROOM_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_BUILDING">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="BUILDING_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="BUILDING_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
-        <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="BUILDING_CD" required="true" size="255" type="VARCHAR"/>
-        <column name="CAMPUS_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <unique name="KSEN_ROOM_BUILDING_I2">
-            <unique-column name="BUILDING_CD"/>
-        </unique>
-        <index name="KSEN_ROOM_BUILDING_I1">
-            <index-column name="CAMPUS_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_BUILDING_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM_BUILDING" name="KSEN_ROOM_BUILDING_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-        <index name="KSEN_ROOM_BUILDING_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_FIXED_RSRC">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="FIXED_RSRC_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="QUANTITY" size="22" type="DECIMAL"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_FIXED_RSRC_FK1">
-            <reference foreign="ID" local="ROOM_ID"/>
-        </foreign-key>
-        <index name="KSEN_ROOM_FIXED_RSRC_IF1">
-            <index-column name="ROOM_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_FIXED_RSRC_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM_FIXED_RSRC" name="KSEN_ROOM_FIXED_RSRC_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-        <index name="KSEN_ROOM_FIXED_RSRC_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_RESP_ORG">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="RESP_ORG_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="RESP_ORG_STATE" required="true" size="255" type="VARCHAR"/>
-        <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="ORG_ID" required="true" size="255" type="VARCHAR"/>
-        <column name="EFF_DT" type="TIMESTAMP"/>
-        <column name="EXPIR_DT" type="TIMESTAMP"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_RESP_ORG_FK1">
-            <reference foreign="ID" local="ROOM_ID"/>
-        </foreign-key>
-        <index name="KSEN_ROOM_RESP_ORG_I1">
-            <index-column name="RESP_ORG_TYPE"/>
-        </index>
-        <index name="KSEN_ROOM_RESP_ORG_IF1">
-            <index-column name="ROOM_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_RESP_ORG_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM_RESP_ORG" name="KSEN_ROOM_RESP_ORG_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-        <index name="KSEN_ROOM_RESP_ORG_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_USAGE">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="USAGE_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="LAYOUT_TYPE" required="true" size="255" type="VARCHAR"/>
-        <column name="PREFERRED_CAPACITY" size="22" type="DECIMAL"/>
-        <column name="HARD_CAPACITY" size="22" type="DECIMAL"/>
-        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
-        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
-        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
-        <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="UPDATEID" size="18" type="CHAR"/>
-        <column name="ROOM_ID" required="true" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM" name="KSEN_ROOM_USAGE_FK1">
-            <reference foreign="ID" local="ROOM_ID"/>
-        </foreign-key>
-        <index name="KSEN_ROOM_USAGE_I1">
-            <index-column name="USAGE_TYPE"/>
-        </index>
-        <index name="KSEN_ROOM_USAGE_IF1">
-            <index-column name="ROOM_ID"/>
-        </index>
-    </table>
-    <table name="KSEN_ROOM_USAGE_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="OBJ_ID" size="36" type="VARCHAR"/>
-        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
-        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_ROOM_USAGE" name="KSEN_ROOM_USAGE_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
-        </foreign-key>
-        <index name="KSEN_ROOM_USAGE_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
-        </index>
     </table>
     <table name="KSEN_SCHED">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -9274,19 +9341,19 @@
         <column name="BUILD_ID" size="255" type="VARCHAR"/>
         <column name="BUILD_TIMESTAMP" size="255" type="VARCHAR"/>
     </table>
-    <view name="KRIM_GRP_MBR_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, mg.GRP_NM AS mbr_grp_nm&#xa;, mg.GRP_ID AS mbr_grp_id&#xa;FROM KRIM_GRP_MBR_T gm&#xa;LEFT JOIN krim_grp_t g&#xa;ON g.GRP_ID = gm.GRP_ID&#xa;LEFT OUTER JOIN krim_grp_t mg&#xa;ON mg.GRP_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'G'&#xa;LEFT OUTER JOIN krim_prncpl_t p&#xa;ON p.PRNCPL_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'P'&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON en.ENTITY_ID = p.ENTITY_ID&#xa;AND en.DFLT_IND = 'Y'&#xa;AND en.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd, grp_nm, prncpl_nm&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_GRP_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, t.NM AS grp_typ_nm&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM krim_grp_t g&#xa;LEFT OUTER JOIN KRIM_GRP_ATTR_DATA_T d&#xa;ON d.grp_id = g.GRP_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T t&#xa;ON g.KIM_TYP_ID = t.KIM_TYP_ID&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_PERM_ATTR_V" viewdefinition="SELECT&#xa;t.nmspc_cd AS tmpl_nmspc_cd&#xa;, t.NM AS tmpl_nm&#xa;, t.PERM_TMPL_ID&#xa;, p.nmspc_cd AS perm_nmspc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, a.NM AS attr_nm&#xa;, ad.ATTR_VAL AS attr_val&#xa;FROM KRIM_PERM_T p&#xa;LEFT JOIN KRIM_PERM_TMPL_T t&#xa;ON p.PERM_TMPL_ID = t.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T ad&#xa;ON p.PERM_ID = ad.perm_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID&#xa;ORDER BY tmpl_nmspc_cd, tmpl_nm, perm_nmspc_cd, perm_id, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_PERM_V" viewdefinition="SELECT&#xa;t.nmspc_cd AS tmpl_nmspc_cd&#xa;, t.NM AS tmpl_nm&#xa;, t.PERM_TMPL_ID&#xa;, p.nmspc_cd AS perm_nmspc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, typ.NM AS perm_typ_nm&#xa;, typ.SRVC_NM&#xa;FROM KRIM_PERM_T p&#xa;INNER JOIN KRIM_PERM_TMPL_T t&#xa;ON p.PERM_TMPL_ID = t.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T typ&#xa;ON t.KIM_TYP_ID = typ.KIM_TYP_ID&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_PRNCPL_V" viewdefinition="SELECT&#xa;p.PRNCPL_ID&#xa;,p.PRNCPL_NM&#xa;,en.FIRST_NM&#xa;,en.LAST_NM&#xa;,ea.AFLTN_TYP_CD&#xa;,ea.CAMPUS_CD&#xa;,eei.EMP_STAT_CD&#xa;,eei.EMP_TYP_CD&#xa;FROM krim_prncpl_t p&#xa;LEFT OUTER JOIN krim_entity_emp_info_t eei&#xa;ON eei.ENTITY_ID = p.ENTITY_ID&#xa;LEFT OUTER JOIN krim_entity_afltn_t ea&#xa;ON ea.ENTITY_ID = p.ENTITY_ID&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON p.ENTITY_ID = en.ENTITY_ID&#xa;AND 'Y' = en.DFLT_IND&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_GRP_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, g.NMSPC_CD AS grp_nmspc_cd&#xa;, g.GRP_NM&#xa;, rm.ROLE_MBR_ID&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_MBR_T rm&#xa;LEFT JOIN KRIM_ROLE_T r&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT JOIN KRIM_GRP_T g&#xa;ON g.GRP_ID = rm.MBR_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d&#xa;ON d.role_mbr_id = rm.ROLE_MBR_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;WHERE rm.MBR_TYP_CD = 'G'&#xa;ORDER BY nmspc_cd, role_nm, grp_nmspc_cd, grp_nm, role_mbr_id, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_PERM_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, pt.NMSPC_CD AS tmpl_nmspc_cd&#xa;, pt.NM AS tmpl_nm&#xa;, pt.PERM_TMPL_ID&#xa;, p.NMSPC_CD AS perm_nmpsc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, a.NM AS attr_nm&#xa;, ad.ATTR_VAL AS attr_val&#xa;FROM KRIM_PERM_T p&#xa;LEFT JOIN KRIM_PERM_TMPL_T pt&#xa;ON p.PERM_TMPL_ID = pt.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T ad&#xa;ON p.PERM_ID = ad.perm_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_PERM_T rp&#xa;ON rp.PERM_ID = p.PERM_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_T r&#xa;ON rp.ROLE_ID = r.ROLE_ID&#xa;ORDER BY NMSPC_CD, role_nm, tmpl_nmspc_cd, tmpl_nm, perm_id, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_PRNCPL_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.ROLE_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, en.FIRST_NM&#xa;, en.LAST_NM&#xa;, rm.ROLE_MBR_ID&#xa;, ad.NM AS attr_nm&#xa;, rmad.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_T r&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_T rm&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T rmad&#xa;ON rm.ROLE_MBR_ID = rmad.role_mbr_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T ad&#xa;ON rmad.KIM_ATTR_DEFN_ID = ad.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_PRNCPL_T p&#xa;ON rm.MBR_ID = p.PRNCPL_ID&#xa;AND rm.mbr_typ_cd = 'P'&#xa;LEFT OUTER JOIN KRIM_ENTITY_NM_T en&#xa;ON p.ENTITY_ID = en.ENTITY_ID&#xa;WHERE (en.DFLT_IND = 'Y')&#xa;ORDER BY nmspc_cd, role_nm, prncpl_nm, rm.ROLE_MBR_ID, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_ROLE_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, mr.NMSPC_CD AS mbr_role_nmspc_cd&#xa;, mr.role_NM AS mbr_role_nm&#xa;, mr.role_id AS mbr_role_id&#xa;, rm.role_mbr_id&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_MBR_T rm&#xa;LEFT JOIN KRIM_ROLE_T r&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT JOIN KRIM_role_T mr&#xa;ON mr.role_ID = rm.MBR_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d&#xa;ON d.role_mbr_id = rm.ROLE_MBR_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;WHERE rm.MBR_TYP_CD = 'R'&#xa;ORDER BY nmspc_cd, role_nm, mbr_role_nmspc_cd, mbr_role_nm, role_mbr_id, attr_nm&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_ROLE_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.ROLE_ID&#xa;, t.nm AS role_typ_nm&#xa;, t.SRVC_NM&#xa;, t.KIM_TYP_ID&#xa;FROM KRIM_ROLE_T r&#xa;, KRIM_TYP_T t&#xa;WHERE t.KIM_TYP_ID = r.KIM_TYP_ID&#xa;AND r.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd&#xa;, role_nm&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_RSP_ATTR_V" viewdefinition="SELECT&#xa;krim_typ_t.NM AS responsibility_type_name&#xa;, KRIM_rsp_TMPL_T.NM AS rsp_TEMPLATE_NAME&#xa;, KRIM_rsp_T.nmspc_cd AS rsp_namespace_code&#xa;, KRIM_rsp_T.NM AS rsp_NAME&#xa;, krim_rsp_t.RSP_ID AS rsp_id&#xa;, KRIM_ATTR_DEFN_T.NM AS attribute_name&#xa;, KRIM_rsp_ATTR_DATA_T.ATTR_VAL AS attribute_value&#xa;FROM KRIM_rsp_T KRIM_rsp_T&#xa;INNER JOIN KRIM_rsp_ATTR_DATA_T KRIM_rsp_ATTR_DATA_T&#xa;ON KRIM_rsp_T.rsp_ID = KRIM_rsp_ATTR_DATA_T.rsp_id&#xa;INNER JOIN KRIM_ATTR_DEFN_T KRIM_ATTR_DEFN_T&#xa;ON KRIM_rsp_ATTR_DATA_T.KIM_ATTR_DEFN_ID = KRIM_ATTR_DEFN_T.KIM_ATTR_DEFN_ID&#xa;INNER JOIN KRIM_rsp_TMPL_T KRIM_rsp_TMPL_T&#xa;ON KRIM_rsp_T.rsp_TMPL_ID = KRIM_rsp_TMPL_T.rsp_TMPL_ID&#xa;INNER JOIN KRIM_TYP_T KRIM_TYP_T&#xa;ON KRIM_rsp_TMPL_T.KIM_TYP_ID = KRIM_TYP_T.KIM_TYP_ID&#xa;ORDER BY rsp_TEMPLATE_NAME, rsp_NAME, attribute_name&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_RSP_ROLE_ACTN_V" viewdefinition="select&#xa;rsp.nmspc_cd as rsp_nmspc_cd&#xa;, rsp.rsp_id&#xa;, r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, rr.ROLE_ID&#xa;, rm.MBR_ID&#xa;, rm.MBR_TYP_CD&#xa;, rm.ROLE_MBR_ID&#xa;, actn.ACTN_TYP_CD&#xa;, actn.ACTN_PLCY_CD&#xa;, actn.FRC_ACTN&#xa;, actn.PRIORITY_NBR&#xa;from krim_rsp_t rsp&#xa;left join krim_rsp_tmpl_t rspt&#xa;on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id&#xa;left outer join krim_role_rsp_t rr&#xa;on rr.rsp_id = rsp.rsp_id&#xa;left outer join KRIM_ROLE_MBR_T rm&#xa;ON rm.ROLE_ID = rr.ROLE_ID&#xa;left outer join KRIM_ROLE_RSP_ACTN_T actn&#xa;ON actn.ROLE_RSP_ID = rr.ROLE_RSP_ID&#xa;AND (actn.ROLE_MBR_ID = rm.ROLE_MBR_ID OR actn.ROLE_MBR_ID = '*')&#xa;left outer join krim_role_t r&#xa;on rr.role_id = r.role_id&#xa;order by rsp_nmspc_cd&#xa;, rsp_id&#xa;, role_id&#xa;, role_mbr_id&#xa;&#xa;&#xa;&#xa;"/>
-    <view name="KRIM_RSP_ROLE_V" viewdefinition="select&#xa;rspt.nmspc_cd as rsp_tmpl_nmspc_cd&#xa;, rspt.nm as rsp_tmpl_nm&#xa;, rsp.nmspc_cd as rsp_nmspc_cd&#xa;, rsp.nm as rsp_nm&#xa;, rsp.rsp_id&#xa;, a.nm as attr_nm&#xa;, d.attr_val&#xa;, r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, rr.ROLE_ID&#xa;from krim_rsp_t rsp&#xa;left join krim_rsp_tmpl_t rspt&#xa;on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id&#xa;left outer join krim_rsp_attr_data_t d&#xa;on rsp.rsp_id = d.rsp_id&#xa;left outer join krim_attr_defn_t a&#xa;on d.kim_attr_defn_id = a.kim_attr_defn_id&#xa;left outer join krim_role_rsp_t rr&#xa;on rr.rsp_id = rsp.rsp_id&#xa;left outer join krim_role_t r&#xa;on rr.role_id = r.role_id&#xa;order by rsp_tmpl_nmspc_cd, rsp_tmpl_nm, rsp_nmspc_cd, rsp_nm, rsp_id, attr_nm, attr_val&#xa;&#xa;&#xa;&#xa;"/>
+    <view name="KRIM_GRP_MBR_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, mg.GRP_NM AS mbr_grp_nm&#xa;, mg.GRP_ID AS mbr_grp_id&#xa;FROM KRIM_GRP_MBR_T gm&#xa;LEFT JOIN krim_grp_t g&#xa;ON g.GRP_ID = gm.GRP_ID&#xa;LEFT OUTER JOIN krim_grp_t mg&#xa;ON mg.GRP_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'G'&#xa;LEFT OUTER JOIN krim_prncpl_t p&#xa;ON p.PRNCPL_ID = gm.MBR_ID&#xa;AND gm.MBR_TYP_CD = 'P'&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON en.ENTITY_ID = p.ENTITY_ID&#xa;AND en.DFLT_IND = 'Y'&#xa;AND en.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd, grp_nm, prncpl_nm&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_GRP_V" viewdefinition="SELECT g.NMSPC_CD&#xa;, g.grp_nm&#xa;, g.GRP_ID&#xa;, t.NM AS grp_typ_nm&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM krim_grp_t g&#xa;LEFT OUTER JOIN KRIM_GRP_ATTR_DATA_T d&#xa;ON d.grp_id = g.GRP_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T t&#xa;ON g.KIM_TYP_ID = t.KIM_TYP_ID&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_PERM_ATTR_V" viewdefinition="SELECT&#xa;t.nmspc_cd AS tmpl_nmspc_cd&#xa;, t.NM AS tmpl_nm&#xa;, t.PERM_TMPL_ID&#xa;, p.nmspc_cd AS perm_nmspc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, a.NM AS attr_nm&#xa;, ad.ATTR_VAL AS attr_val&#xa;FROM KRIM_PERM_T p&#xa;LEFT JOIN KRIM_PERM_TMPL_T t&#xa;ON p.PERM_TMPL_ID = t.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T ad&#xa;ON p.PERM_ID = ad.perm_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID&#xa;ORDER BY tmpl_nmspc_cd, tmpl_nm, perm_nmspc_cd, perm_id, attr_nm&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_PERM_V" viewdefinition="SELECT&#xa;t.nmspc_cd AS tmpl_nmspc_cd&#xa;, t.NM AS tmpl_nm&#xa;, t.PERM_TMPL_ID&#xa;, p.nmspc_cd AS perm_nmspc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, typ.NM AS perm_typ_nm&#xa;, typ.SRVC_NM&#xa;FROM KRIM_PERM_T p&#xa;INNER JOIN KRIM_PERM_TMPL_T t&#xa;ON p.PERM_TMPL_ID = t.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_TYP_T typ&#xa;ON t.KIM_TYP_ID = typ.KIM_TYP_ID&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_PRNCPL_V" viewdefinition="SELECT&#xa;p.PRNCPL_ID&#xa;,p.PRNCPL_NM&#xa;,en.FIRST_NM&#xa;,en.LAST_NM&#xa;,ea.AFLTN_TYP_CD&#xa;,ea.CAMPUS_CD&#xa;,eei.EMP_STAT_CD&#xa;,eei.EMP_TYP_CD&#xa;FROM krim_prncpl_t p&#xa;LEFT OUTER JOIN krim_entity_emp_info_t eei&#xa;ON eei.ENTITY_ID = p.ENTITY_ID&#xa;LEFT OUTER JOIN krim_entity_afltn_t ea&#xa;ON ea.ENTITY_ID = p.ENTITY_ID&#xa;LEFT OUTER JOIN krim_entity_nm_t en&#xa;ON p.ENTITY_ID = en.ENTITY_ID&#xa;AND 'Y' = en.DFLT_IND&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_ROLE_GRP_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, g.NMSPC_CD AS grp_nmspc_cd&#xa;, g.GRP_NM&#xa;, rm.ROLE_MBR_ID&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_MBR_T rm&#xa;LEFT JOIN KRIM_ROLE_T r&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT JOIN KRIM_GRP_T g&#xa;ON g.GRP_ID = rm.MBR_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d&#xa;ON d.role_mbr_id = rm.ROLE_MBR_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;WHERE rm.MBR_TYP_CD = 'G'&#xa;ORDER BY nmspc_cd, role_nm, grp_nmspc_cd, grp_nm, role_mbr_id, attr_nm&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_ROLE_PERM_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, pt.NMSPC_CD AS tmpl_nmspc_cd&#xa;, pt.NM AS tmpl_nm&#xa;, pt.PERM_TMPL_ID&#xa;, p.NMSPC_CD AS perm_nmpsc_cd&#xa;, p.NM AS perm_nm&#xa;, p.PERM_ID&#xa;, a.NM AS attr_nm&#xa;, ad.ATTR_VAL AS attr_val&#xa;FROM KRIM_PERM_T p&#xa;LEFT JOIN KRIM_PERM_TMPL_T pt&#xa;ON p.PERM_TMPL_ID = pt.PERM_TMPL_ID&#xa;LEFT OUTER JOIN KRIM_PERM_ATTR_DATA_T ad&#xa;ON p.PERM_ID = ad.perm_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON ad.KIM_ATTR_DEFN_ID = a.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_PERM_T rp&#xa;ON rp.PERM_ID = p.PERM_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_T r&#xa;ON rp.ROLE_ID = r.ROLE_ID&#xa;ORDER BY NMSPC_CD, role_nm, tmpl_nmspc_cd, tmpl_nm, perm_id, attr_nm&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_ROLE_PRNCPL_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.ROLE_ID&#xa;, p.PRNCPL_NM&#xa;, p.PRNCPL_ID&#xa;, en.FIRST_NM&#xa;, en.LAST_NM&#xa;, rm.ROLE_MBR_ID&#xa;, ad.NM AS attr_nm&#xa;, rmad.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_T r&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_T rm&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T rmad&#xa;ON rm.ROLE_MBR_ID = rmad.role_mbr_id&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T ad&#xa;ON rmad.KIM_ATTR_DEFN_ID = ad.KIM_ATTR_DEFN_ID&#xa;LEFT OUTER JOIN KRIM_PRNCPL_T p&#xa;ON rm.MBR_ID = p.PRNCPL_ID&#xa;AND rm.mbr_typ_cd = 'P'&#xa;LEFT OUTER JOIN KRIM_ENTITY_NM_T en&#xa;ON p.ENTITY_ID = en.ENTITY_ID&#xa;WHERE (en.DFLT_IND = 'Y')&#xa;ORDER BY nmspc_cd, role_nm, prncpl_nm, rm.ROLE_MBR_ID, attr_nm&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_ROLE_ROLE_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.role_id&#xa;, mr.NMSPC_CD AS mbr_role_nmspc_cd&#xa;, mr.role_NM AS mbr_role_nm&#xa;, mr.role_id AS mbr_role_id&#xa;, rm.role_mbr_id&#xa;, a.NM AS attr_nm&#xa;, d.ATTR_VAL AS attr_val&#xa;FROM KRIM_ROLE_MBR_T rm&#xa;LEFT JOIN KRIM_ROLE_T r&#xa;ON r.ROLE_ID = rm.ROLE_ID&#xa;LEFT JOIN KRIM_role_T mr&#xa;ON mr.role_ID = rm.MBR_ID&#xa;LEFT OUTER JOIN KRIM_ROLE_MBR_ATTR_DATA_T d&#xa;ON d.role_mbr_id = rm.ROLE_MBR_ID&#xa;LEFT OUTER JOIN KRIM_ATTR_DEFN_T a&#xa;ON a.KIM_ATTR_DEFN_ID = d.KIM_ATTR_DEFN_ID&#xa;WHERE rm.MBR_TYP_CD = 'R'&#xa;ORDER BY nmspc_cd, role_nm, mbr_role_nmspc_cd, mbr_role_nm, role_mbr_id, attr_nm&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_ROLE_V" viewdefinition="SELECT r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, r.ROLE_ID&#xa;, t.nm AS role_typ_nm&#xa;, t.SRVC_NM&#xa;, t.KIM_TYP_ID&#xa;FROM KRIM_ROLE_T r&#xa;, KRIM_TYP_T t&#xa;WHERE t.KIM_TYP_ID = r.KIM_TYP_ID&#xa;AND r.ACTV_IND = 'Y'&#xa;ORDER BY nmspc_cd&#xa;, role_nm&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_RSP_ATTR_V" viewdefinition="SELECT&#xa;krim_typ_t.NM AS responsibility_type_name&#xa;, KRIM_rsp_TMPL_T.NM AS rsp_TEMPLATE_NAME&#xa;, KRIM_rsp_T.nmspc_cd AS rsp_namespace_code&#xa;, KRIM_rsp_T.NM AS rsp_NAME&#xa;, krim_rsp_t.RSP_ID AS rsp_id&#xa;, KRIM_ATTR_DEFN_T.NM AS attribute_name&#xa;, KRIM_rsp_ATTR_DATA_T.ATTR_VAL AS attribute_value&#xa;FROM KRIM_rsp_T KRIM_rsp_T&#xa;INNER JOIN KRIM_rsp_ATTR_DATA_T KRIM_rsp_ATTR_DATA_T&#xa;ON KRIM_rsp_T.rsp_ID = KRIM_rsp_ATTR_DATA_T.rsp_id&#xa;INNER JOIN KRIM_ATTR_DEFN_T KRIM_ATTR_DEFN_T&#xa;ON KRIM_rsp_ATTR_DATA_T.KIM_ATTR_DEFN_ID = KRIM_ATTR_DEFN_T.KIM_ATTR_DEFN_ID&#xa;INNER JOIN KRIM_rsp_TMPL_T KRIM_rsp_TMPL_T&#xa;ON KRIM_rsp_T.rsp_TMPL_ID = KRIM_rsp_TMPL_T.rsp_TMPL_ID&#xa;INNER JOIN KRIM_TYP_T KRIM_TYP_T&#xa;ON KRIM_rsp_TMPL_T.KIM_TYP_ID = KRIM_TYP_T.KIM_TYP_ID&#xa;ORDER BY rsp_TEMPLATE_NAME, rsp_NAME, attribute_name&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_RSP_ROLE_ACTN_V" viewdefinition="select&#xa;rsp.nmspc_cd as rsp_nmspc_cd&#xa;, rsp.rsp_id&#xa;, r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, rr.ROLE_ID&#xa;, rm.MBR_ID&#xa;, rm.MBR_TYP_CD&#xa;, rm.ROLE_MBR_ID&#xa;, actn.ACTN_TYP_CD&#xa;, actn.ACTN_PLCY_CD&#xa;, actn.FRC_ACTN&#xa;, actn.PRIORITY_NBR&#xa;from krim_rsp_t rsp&#xa;left join krim_rsp_tmpl_t rspt&#xa;on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id&#xa;left outer join krim_role_rsp_t rr&#xa;on rr.rsp_id = rsp.rsp_id&#xa;left outer join KRIM_ROLE_MBR_T rm&#xa;ON rm.ROLE_ID = rr.ROLE_ID&#xa;left outer join KRIM_ROLE_RSP_ACTN_T actn&#xa;ON actn.ROLE_RSP_ID = rr.ROLE_RSP_ID&#xa;AND (actn.ROLE_MBR_ID = rm.ROLE_MBR_ID OR actn.ROLE_MBR_ID = '*')&#xa;left outer join krim_role_t r&#xa;on rr.role_id = r.role_id&#xa;order by rsp_nmspc_cd&#xa;, rsp_id&#xa;, role_id&#xa;, role_mbr_id&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
+    <view name="KRIM_RSP_ROLE_V" viewdefinition="select&#xa;rspt.nmspc_cd as rsp_tmpl_nmspc_cd&#xa;, rspt.nm as rsp_tmpl_nm&#xa;, rsp.nmspc_cd as rsp_nmspc_cd&#xa;, rsp.nm as rsp_nm&#xa;, rsp.rsp_id&#xa;, a.nm as attr_nm&#xa;, d.attr_val&#xa;, r.NMSPC_CD&#xa;, r.ROLE_NM&#xa;, rr.ROLE_ID&#xa;from krim_rsp_t rsp&#xa;left join krim_rsp_tmpl_t rspt&#xa;on rsp.rsp_tmpl_id = rspt.rsp_tmpl_id&#xa;left outer join krim_rsp_attr_data_t d&#xa;on rsp.rsp_id = d.rsp_id&#xa;left outer join krim_attr_defn_t a&#xa;on d.kim_attr_defn_id = a.kim_attr_defn_id&#xa;left outer join krim_role_rsp_t rr&#xa;on rr.rsp_id = rsp.rsp_id&#xa;left outer join krim_role_t r&#xa;on rr.role_id = r.role_id&#xa;order by rsp_tmpl_nmspc_cd, rsp_tmpl_nm, rsp_nmspc_cd, rsp_nm, rsp_id, attr_nm, attr_val&#xa;&#xa;&#xa;&#xa;&#xa;&#xa; "/>
     <sequence name="KREN_CHNL_S" nextval="1000"/>
     <sequence name="KREN_CHNL_SUBSCRP_S" nextval="1020"/>
     <sequence name="KREN_CNTNT_TYP_S" nextval="1000"/>
@@ -9400,6 +9467,6 @@
     <sequence name="KRSB_BAM_PARM_S" nextval="2000"/>
     <sequence name="KRSB_BAM_S" nextval="2000"/>
     <sequence name="KRSB_MSG_QUE_S" nextval="1000"/>
-    <sequence name="KRSB_SVC_DEF_S" nextval="10000"/>
-    <sequence name="KRSB_SVC_DSCRPTR_S" nextval="10000"/>
+    <sequence name="KRSB_SVC_DEF_S" nextval="10178"/>
+    <sequence name="KRSB_SVC_DSCRPTR_S" nextval="10178"/>
 </database>
