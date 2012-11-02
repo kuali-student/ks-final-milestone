@@ -44,21 +44,17 @@
     </bean>
 
 
-	<bean id="kimIdentityDelegateService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl"
-          p:businessObjectService-ref="businessObjectService"
-          p:criteriaLookupService-ref="criteriaLookupService" />
-
     <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
-	<bean id="ks.exp.kimIdentityManagementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-		<property name="remotedServiceRegistry" ref="rice.ksb.serviceBus" />
-		<property name="serviceDefinition">
-			<bean parent="kimSoapService" p:service-ref="kimIdentityService"
-				p:localServiceName="IdentityService">
-				<property name="busSecurity" value="${ks.core.bus.security}" />
-				<property name="jaxWsService" value="true" />
-			</bean>
-		</property>
-	</bean>
+	<!--<bean id="ks.exp.kimIdentityManagementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">-->
+		<!--<property name="remotedServiceRegistry" ref="rice.ksb.serviceBus" />-->
+		<!--<property name="serviceDefinition">-->
+			<!--<bean parent="kimSoapService" p:service-ref="kimIdentityService"-->
+				<!--p:localServiceName="IdentityService">-->
+				<!--<property name="busSecurity" value="${ks.core.bus.security}" />-->
+				<!--<property name="jaxWsService" value="true" />-->
+			<!--</bean>-->
+		<!--</property>-->
+	<!--</bean>-->
 
 	<!-- <bean class="org.kuali.rice.ksb.messaging.KSBExporter">
 		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
@@ -81,6 +77,10 @@
 			</bean>
 		</property>
 	</bean>-->
+
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kualiModuleService"/>
+    </bean>
 
 	<bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
 		<property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
