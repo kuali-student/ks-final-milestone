@@ -558,7 +558,7 @@
 
     <!-- Type Search Service Helper -->
     <bean id="typeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.r2.common.class1.type.service.TypeService"/>
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/type}TypeService"/>
     </bean>
 
