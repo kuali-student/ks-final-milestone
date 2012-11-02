@@ -28,5 +28,5 @@
   <inherits name='org.kuali.student.r1.lum.lo.Lo'/>
   <inherits name='org.kuali.student.r1.lum.lu.Lu'/>
   <inherits name='org.kuali.student.r2.lum.clu.Clu'/>
-  <inherits name='org.kuali.student.r2.common.search.Search'/>
+  <inherits name='org.kuali.student.r2.core.search.Search'/>
 </module>
