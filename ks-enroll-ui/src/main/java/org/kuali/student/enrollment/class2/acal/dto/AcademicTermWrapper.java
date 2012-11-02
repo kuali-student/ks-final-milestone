@@ -61,6 +61,12 @@ public class AcademicTermWrapper {
         termInfo.setDescr(desc);
     }
 
+    /**
+     * Copy constructor. Populates data from the passed in term dto.
+     *
+     * @param termInfo source dto to copy from
+     * @param isCopy whether to copy or not
+     */
     public AcademicTermWrapper(TermInfo termInfo,boolean isCopy){
 
         this.startDate = termInfo.getStartDate();
@@ -83,9 +89,9 @@ public class AcademicTermWrapper {
     }
 
     /**
-     * See setName()
+     * See <code>setName()</code>
      *
-     * @return
+     * @return the name of the term
      */
     public String getName() {
         return name;
@@ -94,16 +100,16 @@ public class AcademicTermWrapper {
     /**
      * Sets the name for display purpose. This would display a term as <p>"Spring 2013"</p>.
      *
-     * @param name
+     * @param name to display
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * See setTermType()
+     * See <code>setTermType()</code>
      *
-     * @return
+     * @return term type
      */
     public String getTermType() {
         return termType;
@@ -113,7 +119,7 @@ public class AcademicTermWrapper {
      * Sets the term type from the drop down list. This is being
      * used only at the add line which allows user to pick an available term type
      *
-     * @param termType
+     * @param termType term type
      */
     public void setTermType(String termType) {
         this.termType = termType;
@@ -122,7 +128,7 @@ public class AcademicTermWrapper {
     /**
      * Returns the term start date
      *
-     * @return
+     * @return start date
      */
     public Date getStartDate() {
         return startDate;
@@ -131,16 +137,16 @@ public class AcademicTermWrapper {
     /**
      * sets the term start date.
      *
-     * @param startDate
+     * @param startDate start date
      */
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
     /**
-     * See setEndDate()
+     * See <code>setEndDate()</code>
      *
-     * @return
+     * @return end date
      */
     public Date getEndDate() {
         return endDate;
@@ -149,16 +155,16 @@ public class AcademicTermWrapper {
     /**
      * Sets the term end date.
      *
-     * @param endDate
+     * @param endDate end date
      */
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
     /**
-     * See setTermInfo()
+     * See <code>setTermInfo()</code>
      *
-     * @return
+     * @return term dto
      */
     public TermInfo getTermInfo() {
         return termInfo;
@@ -166,17 +172,19 @@ public class AcademicTermWrapper {
 
     /**
      * <code>TermInfo</code> DTO associated with a term.
-     * @param termInfo
+     *
+     * @param termInfo term dto
      */
     public void setTermInfo(TermInfo termInfo) {
         this.termInfo = termInfo;
     }
 
     /**
-     * See setInstructionalDays()
+     * See <code>setInstructionalDays()</code>
      *
-     * @return
+     * @return the no of instructional days in a term
      */
+    @SuppressWarnings("unused")
     public int getInstructionalDays() {
         return instructionalDays;
     }
@@ -185,12 +193,17 @@ public class AcademicTermWrapper {
      * Sets the number of instructional days for ui display. It's just for display purpose and this is being
      * calculated at the service.
      *
-     * @param instructionalDays
+     * @param instructionalDays instructional days
      */
     public void setInstructionalDays(int instructionalDays) {
         this.instructionalDays = instructionalDays;
     }
 
+    /**
+     * Term name for ui display purpose
+     *
+     * @return term name
+     */
     public String getTermNameForUI() {
         return termNameForUI;
     }
@@ -198,16 +211,16 @@ public class AcademicTermWrapper {
     /**
      * Sets the term name for the ui display purpose
      *
-     * @param termNameForUI
+     * @param termNameForUI term name
      */
     public void setTermNameForUI(String termNameForUI) {
         this.termNameForUI = termNameForUI;
     }
 
     /**
-     * See setKeyDatesGroupWrappers()
+     * See <code>setKeyDatesGroupWrappers()</code>
      *
-     * @return
+     * @return a list of associated key date groups
      */
     public List<KeyDatesGroupWrapper> getKeyDatesGroupWrappers() {
         return keyDatesGroupWrappers;
@@ -216,14 +229,14 @@ public class AcademicTermWrapper {
     /**
      * Collection of KeyDate groups associated with a term.
      *
-     * @param keyDatesGroupWrappers
+     * @param keyDatesGroupWrappers key date groups
      */
     public void setKeyDatesGroupWrappers(List<KeyDatesGroupWrapper> keyDatesGroupWrappers) {
         this.keyDatesGroupWrappers = keyDatesGroupWrappers;
     }
 
     /**
-     * See setKeyDatesToDeleteOnSave()
+     * See <code>setKeyDatesToDeleteOnSave()</code>
      *
      * @return the terms marked for deletion which is already exists in the DB
      */
@@ -235,7 +248,7 @@ public class AcademicTermWrapper {
      * This collection is used to hold the terms which are marked for deletion on save. The terms exists
      * in this collection will be already present in the DB.
      *
-     * @param keyDatesToDeleteOnSave
+     * @param keyDatesToDeleteOnSave marked key dates to delete on save
      */
     public void setKeyDatesToDeleteOnSave(List<KeyDateWrapper> keyDatesToDeleteOnSave) {
         this.keyDatesToDeleteOnSave = keyDatesToDeleteOnSave;
@@ -253,6 +266,11 @@ public class AcademicTermWrapper {
         keyDatesToDeleteOnSave.clear();
     }
 
+    /**
+     * Type Info
+     *
+     * @return type info
+     */
     public TypeInfo getTypeInfo() {
         return typeInfo;
     }
@@ -260,7 +278,7 @@ public class AcademicTermWrapper {
     /**
      * Type DTO for the term type.
      *
-     * @param typeInfo
+     * @param typeInfo type info
      */
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;

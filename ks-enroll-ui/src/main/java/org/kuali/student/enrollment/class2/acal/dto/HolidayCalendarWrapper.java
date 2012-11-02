@@ -42,18 +42,29 @@ public class HolidayCalendarWrapper {
     }
 
     /**
+     * Holiday calendar Id
+     *
      * @return the id
      */
     public String getId() {
         return id;
     }
+
     /**
+     * Holiday calendar id.
+     *
      * @param id the id to set. It equals to holidayCalendarInfo.getId()
      */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * Holiday calendar heading for display. (Used in view xml)
+     *
+     * @return formatted heading text
+     */
+    @SuppressWarnings("unused")
     public String getHolidayCalendarHeading(){
         String sHeading = "No calendar available";
         HolidayCalendarInfo holidayCalendarInfo = getHolidayCalendarInfo();
@@ -63,42 +74,96 @@ public class HolidayCalendarWrapper {
         return sHeading;
     }
 
+    /**
+     * Returns Hcal dto
+     *
+     * @return hcal dto
+     */
     public HolidayCalendarInfo getHolidayCalendarInfo(){
         return holidayCalendarInfo;
     }
-    
+
+    /**
+     * Sets the holiday calendar dto for a wrapper
+     *
+     * @param holidayCalendarInfo hcal dto
+     */
     public void setHolidayCalendarInfo (HolidayCalendarInfo holidayCalendarInfo){
         this.holidayCalendarInfo = holidayCalendarInfo;
     }
 
+    /**
+     * Returns organization name
+     *
+     * @return admin organization name
+     */
     public String getAdminOrgName() {
         return adminOrgName;
     }
+
+    /**
+     * Sets the org associated with the hcal
+     *
+     * @param adminOrgName admin organization name
+     */
     public void setAdminOrgName(String adminOrgName) {
         this.adminOrgName = adminOrgName;
     }
 
+    /**
+     * Returns the state name.
+     *
+     * @return state name
+     */
+    @SuppressWarnings("unused")
     public String getStateName() {
         return stateName;
     }
 
+    /**
+     * Sets the state of the holiday calendar.
+     *
+     * @param stateName state name
+     */
     public void setStateName(String stateName) {
         this.stateName = stateName;
     }
-    
+
+    /**
+     * Holidays list in a calendar. (Used in view xml)
+     *
+     * @return a list of holidays
+     */
+    @SuppressWarnings("unused")
     public List<HolidayWrapper> getHolidays() {
         Collections.sort(holidays);
         return holidays;
     }
 
+    /**
+     * Sets a list of holidays for a hcal
+     *
+     * @param holidays list of holidays
+     */
     public void setHolidays(List<HolidayWrapper> holidays){
         this.holidays = holidays;
     }
-    
+
+    /**
+     * Acal start date
+     *
+     * @return the acal start date
+     */
+    @SuppressWarnings("unused")
     public String getAcalStartYear(){
         return acalStartYear;
     }
-    
+
+    /**
+     * Used in HolidayCalendarWrapperLookupAndInquiryView.xml
+     *
+     * @param acalStartYear
+     */
     public void setAcalStartYear(String acalStartYear) {
         this.acalStartYear = acalStartYear;
     }

@@ -48,7 +48,6 @@ public class AcademicCalendarForm extends UifFormBase {
     private boolean newCalendar;
     private boolean officialCalendar;
 
-    private boolean officialUI;
     private String defaultTabToShow;
 
     private List<AcalEventWrapper> eventsToDeleteOnSave;
@@ -68,6 +67,7 @@ public class AcademicCalendarForm extends UifFormBase {
     }
 
     /**
+     * Returns an associated acal.
      *
      * @return the acal which is currently in use at the view
      */
@@ -78,12 +78,17 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * New Acal or editing an existing acal object
      *
-     * @param academicCalendarInfo
+     * @param academicCalendarInfo current acal in use
      */
     public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
         this.academicCalendarInfo = academicCalendarInfo;
     }
 
+    /**
+     * See <code>setCopyFromAcal()</code>
+     *
+     * @return acal which is the source for the copy
+     */
     public AcademicCalendarInfo getCopyFromAcal() {
         return copyFromAcal;
     }
@@ -91,12 +96,17 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * Sets the recent acal, from which create a new one
      *
-     * @param copyFromAcal
+     * @param copyFromAcal source acal for copy
      */
     public void setCopyFromAcal(AcademicCalendarInfo copyFromAcal) {
         this.copyFromAcal = copyFromAcal;
     }
 
+    /**
+     * Organization for the acal
+     *
+     * @return org name
+     */
     public String getAdminOrgName() {
         return adminOrgName;
     }
@@ -104,7 +114,7 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * Organization involved with an acal.
      *
-     * @param adminOrgName
+     * @param adminOrgName organization name
      */
     public void setAdminOrgName(String adminOrgName) {
         this.adminOrgName = adminOrgName;
@@ -113,7 +123,7 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * List of holiday calendars associated with an academic calendar.
      *
-     * @param holidayCalendarList
+     * @param holidayCalendarList list of hcals
      */
     public void setHolidayCalendarList(List<HolidayCalendarWrapper> holidayCalendarList) {
         this.holidayCalendarList = holidayCalendarList;
@@ -122,7 +132,7 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * Returns all the associated Holiday Calendars
      *
-     * @return
+     * @return all the hcal associated with the acal
      */
     public List<HolidayCalendarWrapper> getHolidayCalendarList() {
         return holidayCalendarList;
@@ -131,7 +141,7 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * This is a list of terms associated with an academic calendar.
      *
-     * @param termWrapperList
+     * @param termWrapperList list of terms associated with the acal
      */
     public void setTermWrapperList(List<AcademicTermWrapper> termWrapperList) {
         this.termWrapperList = termWrapperList;
@@ -140,17 +150,19 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * Returns all the associated terms.
      *
-     * @return
+     * @return list of terms associated with the acal
      */
     public List<AcademicTermWrapper> getTermWrapperList() {
         return termWrapperList;
     }
 
     /**
-     * Returns the last updated time stamp
+     * Returns the last updated time stamp. It's being called from the xml and by KRAD. So, there would not be any
+     * java references to this method.
      *
      * @return
      */
+    @SuppressWarnings("unused")
     public String getLastUpdatedTime(){
         updateTimeString = StringUtils.EMPTY;
         if (StringUtils.isNotBlank(getAcademicCalendarInfo().getId())){
@@ -165,7 +177,7 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * Returns a list of Events
      *
-     * @return
+     * @return list of acal events
      */
     public List<AcalEventWrapper> getEvents() {
         return events;
@@ -174,12 +186,18 @@ public class AcademicCalendarForm extends UifFormBase {
     /**
      * This is a list of events associated with an academic calendar.
      *
-     * @param events
+     * @param events list of events
      */
     public void setEvents(List<AcalEventWrapper> events) {
         this.events = events;
     }
 
+    /**
+     * See <code>setNewCalendar()</code>. (Used in view xml).
+     *
+     * @return true if it's a new calendar
+     */
+    @SuppressWarnings("unused")
     public boolean isNewCalendar() {
         return newCalendar;
     }
@@ -188,31 +206,23 @@ public class AcademicCalendarForm extends UifFormBase {
         this.newCalendar = newCalendar;
     }
 
+    /**
+     * See <code>setOfficialCalendar()</code>. (Used in view xml).
+     *
+     * @return true if it's a new calendar
+     */
+    @SuppressWarnings("unused")
     public boolean isOfficialCalendar() {
         return officialCalendar;
     }
 
+    /**
+     * Sets whether the acal is official or not
+     *
+     * @param officialCalendar true or false
+     */
     public void setOfficialCalendar(boolean officialCalendar) {
         this.officialCalendar = officialCalendar;
-    }
-
-    /**
-     * See setEventsToDeleteOnSave()
-     *
-     * @return
-     */
-    public List<AcalEventWrapper> getEventsToDeleteOnSave() {
-        return eventsToDeleteOnSave;
-    }
-
-    /**
-     * This holds all the events which needs to be deleted on Save. When user deletes events from the ui,
-     * it'll be added to this collection and all the events will be deleted on Acal Save action.
-     *
-     * @param eventsToDeleteOnSave
-     */
-    public void setEventsToDeleteOnSave(List<AcalEventWrapper> eventsToDeleteOnSave) {
-        this.eventsToDeleteOnSave = eventsToDeleteOnSave;
     }
 
     /**
@@ -235,10 +245,11 @@ public class AcademicCalendarForm extends UifFormBase {
     }
 
     /**
-     * See setDefaultTabToShow()
+     * See <code>setDefaultTabToShow()</code> (Used in xml)
      *
-     * @return
+     * @return 'info' to show information tab or 'term' to open term term on calendar open.
      */
+    @SuppressWarnings("unused")
     public String getDefaultTabToShow() {
         return defaultTabToShow;
     }
@@ -257,9 +268,11 @@ public class AcademicCalendarForm extends UifFormBase {
 
     /**
      * This returns the index of tab to be selected when user edits. This value will be passed in as template actions.
+     * (Used in xml)
      *
      * @return 1 for term tab and 0 for info tab
      */
+    @SuppressWarnings("unused")
     public int getDefaultSelectedTabIndex() {
         if (StringUtils.equals(defaultTabToShow,CalendarConstants.ACAL_TERM_TAB)){
             return 1;
@@ -269,9 +282,11 @@ public class AcademicCalendarForm extends UifFormBase {
 
     /**
      * This method returns whether the Academic Calendar is Official or not. Based on this flag, delete button will be displayed.
+     * (Used in xml)
      *
      * @return true if acal official
      */
+    @SuppressWarnings("unused")
     public boolean isOfficialUI(){
         if (academicCalendarInfo != null){
             return StringUtils.equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,academicCalendarInfo.getStateKey());
@@ -289,7 +304,6 @@ public class AcademicCalendarForm extends UifFormBase {
         getView().setReadOnly(false);
         setEvents(new ArrayList<AcalEventWrapper>());
         setHolidayCalendarList(new ArrayList<HolidayCalendarWrapper>());
-        setEventsToDeleteOnSave(new ArrayList<AcalEventWrapper>());
         setTermsToDeleteOnSave(new ArrayList<AcademicTermWrapper>());
         setTermWrapperList(new ArrayList<AcademicTermWrapper>());
         setNewCalendar(false);
