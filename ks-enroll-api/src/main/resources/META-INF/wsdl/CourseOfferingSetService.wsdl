@@ -3565,7 +3565,7 @@
     </wsdl:binding>
     <wsdl:service name="CourseOfferingSetService">
         <wsdl:port binding="tns:CourseOfferingSetServiceSoapBinding" name="CourseOfferingSetService">
-            <soap:address location="http://localhost:8081/ks-embedded-dev/services/CourseOfferingSetService"/>
+            <soap:address location="http://localhost:8081/ks-bundled-dev/services/CourseOfferingSetService"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>

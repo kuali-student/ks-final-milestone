@@ -9476,7 +9476,7 @@
   </wsdl:binding>
   <wsdl:service name="LuService">
     <wsdl:port binding="tns:LuServiceSoapBinding" name="LuServicePort">
-      <soap:address location="http://localhost:8282/umd-cm-embedded-dev/services/LuService" />
+      <soap:address location="http://localhost:8282/umd-cm-bundled-dev/services/LuService" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

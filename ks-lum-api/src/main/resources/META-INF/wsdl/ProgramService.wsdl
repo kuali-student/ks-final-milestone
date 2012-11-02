@@ -4883,7 +4883,7 @@
   </wsdl:binding>
   <wsdl:service name="ProgramService">
     <wsdl:port binding="tns:ProgramServiceSoapBinding" name="ProgramServicePort">
-      <soap:address location="http://localhost:8282/umd-cm-embedded-dev/services/ProgramService" />
+      <soap:address location="http://localhost:8282/umd-cm-bundled-dev/services/ProgramService" />
     </wsdl:port>
   </wsdl:service>
 
