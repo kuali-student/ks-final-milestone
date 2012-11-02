@@ -39,6 +39,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Keyvalues finder to display a list of event types.
+ *
+ * @author Kuali Student Team
+ */
 public class AcalEventTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;

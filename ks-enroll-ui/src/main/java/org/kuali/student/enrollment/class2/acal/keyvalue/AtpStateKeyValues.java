@@ -23,8 +23,6 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.mock.utilities.TestHelper;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -41,12 +39,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This is used at calendar search view to display the acal,hcal,term state names on the ui instead of
+ * state key. (CalendarSearchView.xml)
  *
  * @author Kuali Student Team
  */
-
-//  Used in CalendarSearchView.xml
 public class AtpStateKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
