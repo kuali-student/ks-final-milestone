@@ -308,17 +308,17 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Open Create Course Route Status R"
         NM="Open Create Course Route Status R" NMSPC_CD="KS-SYS"
-        OBJ_ID="CD85C63F514C6623E040720A048357C5" PERM_ID="10065"
+        OBJ_ID="CD8786ECE747CA3CE040720A04837075" PERM_ID="10065"
         PERM_TMPL_ID="10001" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Open Modify Course Route Status R"
         NM="Open Modify Course Route Status R" NMSPC_CD="KS-SYS"
-        OBJ_ID="CD85C63F514D6623E040720A048357C5" PERM_ID="10066"
+        OBJ_ID="CD8786ECE748CA3CE040720A04837075" PERM_ID="10066"
         PERM_TMPL_ID="10001" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Open Course Retirement Route Status R"
         NM="Open Course Retirement Route Status R" NMSPC_CD="KS-SYS"
-        OBJ_ID="CD85C63F514E6623E040720A048357C5" PERM_ID="10067"
+        OBJ_ID="CD8786ECE749CA3CE040720A04837075" PERM_ID="10067"
         PERM_TMPL_ID="10001" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
@@ -563,7 +563,7 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send Complete ad hoc requests for Kuali Documents"
         NM="Send Complete Request Kuali Document" NMSPC_CD="KR-SYS"
-        OBJ_ID="CD85C63F50286623E040720A048357C5" PERM_ID="3119"
+        OBJ_ID="CD8786ECE623CA3CE040720A04837075" PERM_ID="3119"
         PERM_TMPL_ID="49" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"
