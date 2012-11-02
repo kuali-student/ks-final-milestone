@@ -4,11 +4,19 @@ insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCL
 /
 insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.course.offering.state.canceled', null, 'Canceled', 'Canceled', 'Canceled', 'kuali.course.offering.lifecycle', null, null, 1, TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER', TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER')
 /
+insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.course.offering.state.draft', null, 'Draft', 'Draft', 'Draft', 'kuali.course.offering.lifecycle', null, null, 1, TIMESTAMP '2012-07-19 00:00:00', 'SYSTEMLOADER', TIMESTAMP '2012-07-19 00:00:00', 'SYSTEMLOADER')
+/
+insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.course.offering.state.suspended', null, 'Suspended', 'Suspended', 'Suspended', 'kuali.course.offering.lifecycle', null, null, 1, TIMESTAMP '2012-11-02 00:00:00', 'SYSTEMLOADER', TIMESTAMP '2012-11-02 00:00:00', 'SYSTEMLOADER')
+/
 insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.format.offering.state.planned', null, 'Planned', 'Planned', 'Planned', 'kuali.format.offering.lifecycle', null, null, 1, TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER', TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER')
 /
 insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.format.offering.state.offered', null, 'Offered', 'Offered', 'Offered', 'kuali.format.offering.lifecycle', null, null, 1, TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER', TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER')
 /
 insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.format.offering.state.canceled', null, 'Canceled', 'Canceled', 'Canceled', 'kuali.format.offering.lifecycle', null, null, 1, TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER', TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER')
+/
+insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.format.offering.state.draft', null, 'Draft', 'Draft', 'Draft', 'kuali.format.offering.lifecycle', null, null, 1, TIMESTAMP '2012-07-19 00:00:00', 'SYSTEMLOADER', TIMESTAMP '2012-07-19 00:00:00', 'SYSTEMLOADER')
+/
+insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.format.offering.state.suspended', null, 'Suspended', 'Suspended', 'Suspended', 'kuali.format.offering.lifecycle', null, null, 1, TIMESTAMP '2012-11-02 00:00:00', 'SYSTEMLOADER', TIMESTAMP '2012-11-02 00:00:00', 'SYSTEMLOADER')
 /
 insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.lui.activity.offering.state.draft', null, 'Draft', 'Draft', 'Draft', 'kuali.activity.offering.lifecycle', null, null, 1, TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER', TIMESTAMP '1970-01-01 00:00:00', 'SYSTEMLOADER')
 /
