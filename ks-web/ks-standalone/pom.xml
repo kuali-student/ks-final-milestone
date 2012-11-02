@@ -33,7 +33,7 @@
                 </executions>
                 <configuration>
                     <modules>
-                        <module>${ks.gwt.module.org}</module>
+                        <!--<module>${ks.gwt.module.org}</module>-->
                         <module>${ks.gwt.module.lum}</module>
                     </modules>
                 </configuration>
