@@ -154,12 +154,11 @@
         ID="kuali.lui.course.offering.state.canceled"
         LIFECYCLE_KEY="kuali.course.offering.lifecycle" NAME="Canceled"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
-        DESCR_FORMATTED="Course offering is in draft state"
-        DESCR_PLAIN="Course offering is in draft state"
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120719000000"
+        DESCR_FORMATTED="Draft" DESCR_PLAIN="Draft"
         ID="kuali.lui.course.offering.state.draft"
         LIFECYCLE_KEY="kuali.course.offering.lifecycle" NAME="Draft"
-        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+        UPDATEID="SYSTEMLOADER" UPDATETIME="20120719000000" VER_NBR="1"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="Offered" DESCR_PLAIN="Offered"
         ID="kuali.lui.course.offering.state.offered"
@@ -170,17 +169,21 @@
         ID="kuali.lui.course.offering.state.planned"
         LIFECYCLE_KEY="kuali.course.offering.lifecycle" NAME="Planned"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="Suspended" DESCR_PLAIN="Suspended"
+        ID="kuali.lui.course.offering.state.suspended"
+        LIFECYCLE_KEY="kuali.course.offering.lifecycle" NAME="Suspended"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="20121102000000" VER_NBR="1"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="Canceled" DESCR_PLAIN="Canceled"
         ID="kuali.lui.format.offering.state.canceled"
         LIFECYCLE_KEY="kuali.format.offering.lifecycle" NAME="Canceled"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
-        DESCR_FORMATTED="Format offering is in draft state"
-        DESCR_PLAIN="Format offering is in draft state"
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120719000000"
+        DESCR_FORMATTED="Draft" DESCR_PLAIN="Draft"
         ID="kuali.lui.format.offering.state.draft"
         LIFECYCLE_KEY="kuali.format.offering.lifecycle" NAME="Draft"
-        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+        UPDATEID="SYSTEMLOADER" UPDATETIME="20120719000000" VER_NBR="1"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         DESCR_FORMATTED="Offered" DESCR_PLAIN="Offered"
         ID="kuali.lui.format.offering.state.offered"
@@ -191,6 +194,11 @@
         ID="kuali.lui.format.offering.state.planned"
         LIFECYCLE_KEY="kuali.format.offering.lifecycle" NAME="Planned"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="Suspended" DESCR_PLAIN="Suspended"
+        ID="kuali.lui.format.offering.state.suspended"
+        LIFECYCLE_KEY="kuali.format.offering.lifecycle" NAME="Suspended"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="20121102000000" VER_NBR="1"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
         DESCR_FORMATTED="Registration Group is canceled"
         DESCR_PLAIN="Registration Group is canceled"
@@ -204,17 +212,17 @@
         LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
         NAME="Invalid" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
-        DESCR_FORMATTED="Registration Group is valid, but not ready to be offered"
-        DESCR_PLAIN="Registration Group is valid, but not ready to be offered"
-        ID="kuali.lui.registration.group.state.notoffered"
-        LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
-        NAME="Not offered" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
         DESCR_FORMATTED="Registration Group is offered"
         DESCR_PLAIN="Registration Group is offered"
         ID="kuali.lui.registration.group.state.offered"
         LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
         NAME="Offered" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="Registration Group is valid, but not ready to be offered"
+        DESCR_PLAIN="Registration Group is valid, but not ready to be offered"
+        ID="kuali.lui.registration.group.state.pending"
+        LIFECYCLE_KEY="kuali.course.registration.group.lifecycle"
+        NAME="Pending" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
         DESCR_FORMATTED="Registration Group is suspended"
         DESCR_PLAIN="Registration Group is suspended"
