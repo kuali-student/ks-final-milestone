@@ -18,7 +18,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-embedded</module>
+                <module>ks-with-rice-bundled</module>
                 <module>ks-standalone</module>
                 <module>ks-rice</module>
             </modules>
@@ -35,9 +35,9 @@
             </modules>
         </profile>
         <profile>
-            <id>embedded-only-war</id>
+            <id>bundled-only-war</id>
             <modules>
-                <module>ks-embedded</module>
+                <module>ks-with-rice-bundled</module>
             </modules>
         </profile>
     </profiles>

@@ -81,7 +81,7 @@
     <!-- data loader -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="jtaTxManager"/>
-        <property name="shouldLoadData" value="${ks.embedded.doDataLoad}"/>
+        <property name="shouldLoadData" value="${ks.bundled.doDataLoad}"/>
         <property name="preloadMap">
             <map>
                 <entry key="kim-loader">

@@ -23,7 +23,7 @@
         syntax: ${varname} ${institution}
     -->
 <config>
-	<param name="module.name">ks-embedded</param>
+	<param name="module.name">ks-bundled</param>
 	<param name="application.id">ks</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
@@ -40,7 +40,7 @@
     <param name="portal.show.sample.app">true</param>
 
     <param name="appserver.url">http://localhost:8081</param>
-    <param name="app.code">ks-embedded</param>
+    <param name="app.code">ks-bundled</param>
 
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
@@ -105,16 +105,16 @@
 	 -->
   
     <!--
-      this property allows switching between the ks-embedded-admin-context which loads
-      the ks admin app into rice the old ks-embedded-context.xml which skips ks admin
+      this property allows switching between the ks-bundled-admin-context which loads
+      the ks admin app into rice the old ks-bundled-context.xml which skips ks admin
       and loads a mock messageservice impl
     -->
-    <!-- <param name="ks.embedded.context">classpath:ks-embedded-admin-context.xml</param> -->
+    <!-- <param name="ks.bundled.context">classpath:ks-bundled-admin-context.xml</param> -->
 
     <!-- additional context files -->
     <!-- 
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.KS-SYS.additionalSpringFiles">${ks.projects},${ks.embedded.context},${ks.authentication.context},${ks.institutional.context}</param>
+    <param name="rice.KS-SYS.additionalSpringFiles">${ks.projects},${ks.bundled.context},${ks.authentication.context},${ks.institutional.context}</param>
 	-->
 	
 	<param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
@@ -141,7 +141,7 @@
     <!-- KS Home Url -->
     <param name="ks.home.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
 
-    <param name="ks.embedded.doDataLoad">false</param>
+    <param name="ks.bundled.doDataLoad">false</param>
 
     <!-- Set all services to /services instead of /remoting -->
     <param name="serviceServletUrl">${application.url}/services/</param>
@@ -168,7 +168,7 @@
 
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-embedded-config.xml</param>
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-bundled-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
     
 </config>

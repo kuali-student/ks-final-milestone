@@ -61,7 +61,7 @@
 	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:META-INF/ks-embedded-config.xml</value>
+				<value>classpath:META-INF/ks-bundled-config.xml</value>
                 <value>classpath:META-INF/build-details.xml</value>
 			</list>
 		</property>
@@ -90,7 +90,7 @@
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-enroll-context.xml"/>
     <!-- TODO: RICE-M7 UPGRADE fix ks-admin
-    <import resource="classpath:ks-embedded-admin-context.xml"/-->
+    <import resource="classpath:ks-bundled-admin-context.xml"/-->
     
     <import resource="classpath:StudentSpringBeans.xml"/>
 
