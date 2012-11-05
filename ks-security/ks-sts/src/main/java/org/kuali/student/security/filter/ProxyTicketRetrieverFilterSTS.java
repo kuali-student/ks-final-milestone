@@ -15,26 +15,6 @@
 
 package org.kuali.student.security.filter;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.List;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.JAXBElement;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.apache.xpath.XPathAPI;
 import org.jasig.cas.client.validation.Assertion;
 import org.kuali.student.security.exceptions.KSSecurityException;
 import org.kuali.student.security.trust.dto.RequestSecurityTokenResponseType;
@@ -50,6 +30,24 @@ import org.springframework.web.filter.GenericFilterBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBElement;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.List;
+
 
 public class ProxyTicketRetrieverFilterSTS extends GenericFilterBean {
     
@@ -63,6 +61,7 @@ public class ProxyTicketRetrieverFilterSTS extends GenericFilterBean {
 			doFilterHttp((HttpServletRequest) request,
 					(HttpServletResponse) response, chain);
 		} else {
+            throw new UnsupportedOperationException("Empty If Statement: No action defined for this statement ");
 			// TODO: handle this
 		}
 	}
@@ -99,8 +98,6 @@ public class ProxyTicketRetrieverFilterSTS extends GenericFilterBean {
                 if(useCasProxyMechanism){
                     RequestSecurityTokenType rst = prepareSecurityToken(proxyTicket, proxyTargetService);
                     rstr = stsClient.requestSecurityToken(rst);
-                } else {
-                    //signedSAMLRet = samlIssuerService.getSamlPrincipal(principal);
                 }
                 
                 String tokenTypeUri = null;

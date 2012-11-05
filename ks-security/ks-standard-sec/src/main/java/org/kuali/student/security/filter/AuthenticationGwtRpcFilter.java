@@ -15,7 +15,7 @@
 
 package org.kuali.student.security.filter;
 
-import java.io.IOException;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,8 +23,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.web.filter.GenericFilterBean;
+import java.io.IOException;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -39,6 +38,7 @@ public class AuthenticationGwtRpcFilter extends GenericFilterBean {
             doFilterHttp((HttpServletRequest) request,
                     (HttpServletResponse) response, chain);
         } else {
+            throw new UnsupportedOperationException("Empty If Statement: No action defined for this method");
             // TODO: handle this
         }
     }

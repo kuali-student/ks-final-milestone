@@ -15,8 +15,14 @@
 
 package org.kuali.student.security.filter;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import org.jasig.cas.client.validation.Assertion;
+import org.kuali.student.security.saml.service.SamlIssuerService;
+import org.kuali.student.security.util.SamlUtils;
+import org.opensaml.SAMLAssertion;
+import org.springframework.security.cas.authentication.CasAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.GenericFilterBean;
+import org.w3c.dom.Document;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -26,15 +32,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.jasig.cas.client.validation.Assertion;
-import org.kuali.student.security.saml.service.SamlIssuerService;
-import org.kuali.student.security.util.SamlUtils;
-import org.opensaml.SAMLAssertion;
-import org.springframework.security.cas.authentication.CasAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
-import org.w3c.dom.Document;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 public class ProxyTicketRetrieverFilter extends GenericFilterBean {
     
@@ -49,6 +48,7 @@ public class ProxyTicketRetrieverFilter extends GenericFilterBean {
 					(HttpServletResponse) response, chain);
 		} else {
 			// TODO: handle this
+            throw new UnsupportedOperationException("Empty If Statement: No action defined for this statement ");
 		}
 	}
 

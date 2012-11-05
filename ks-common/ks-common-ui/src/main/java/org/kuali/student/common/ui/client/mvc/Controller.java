@@ -15,15 +15,15 @@
 
 package org.kuali.student.common.ui.client.mvc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.shared.GwtEvent.Type;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
@@ -39,15 +39,8 @@ import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.event.shared.GwtEvent.Type;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.*;
 
 /**
  * Abstract Controller composite. Provides basic controller operations, and defines abstract methods that a composite must
@@ -554,7 +547,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
      * This method implement the "Generic Export" of a windows content to Jasper based on the format the user selected.
      * This method can be overwritten on a subclass to do specific export to the specific view
      * 
-     * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.ArrayList)
+     * @see org.kuali.student.common.ui.client.reporting.ReportExport#doReportExport(java.util.List, String format, String reportTitle)
      */
     @Override
     public void doReportExport(List<ExportElement> exportElements, final String format, final String reportTitle) {        
@@ -624,11 +617,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
                 viewName =  currentView.getName();
                 exportElements = ExportUtils.getExportElementsFromView((SectionView)currentView, exportElements, viewName, "Sectionname");
                 return exportElements;
-            } else {
-//                logger.warn("ExportUtils.getExportElementsFromView not implemented for :" + this.getCurrentView());
             }
-        } else {
-//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
         }
         return null;
     }

@@ -138,8 +138,12 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 orgOrgRelationInfo.setMeta(metaInfo);
             } 
             else if (isDeleted(orgorgRelationHelper.getData())) {
+                LOG.error("Empty If Statement: No action defined for isDeleted(orgorgRelationHelper.getData(). There is a technical debt jira KSENROLL-3645 to look into this. If you ever see this warning, please check that jira and report.");
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for isDeleted(orgorgRelationHelper.getData(). There is a technical debt jira KSENROLL-3645 to look into this. If you ever see this warning, please check that jira and report.");
             }
             else if (isCreated(orgorgRelationHelper.getData())) {
+                LOG.error("Empty If Statement: No action defined for isCreated(orgorgRelationHelper.getData(). There is a technical debt jira KSENROLL-3645 to look into this. If you ever see this warning, please check that jira and report.");
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for isCreated(orgorgRelationHelper.getData(). There is a technical debt jira KSENROLL-3645 to look into this. If you ever see this warning, please check that jira and report.");
             }
         }
         if(orgOrgRelationInfo.getMeta()!=null){

@@ -15,6 +15,8 @@
 
 package org.kuali.student.common.ui.client.widgets.field.layout.element;
 
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.ValidationMessagePanel;
@@ -29,14 +31,6 @@ import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayo
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A ui field element.  Areas which contain a field for user data entry should use
@@ -504,9 +498,10 @@ public class FieldElement extends Composite implements FieldLayoutComponent{
 				status = vr.getLevel();			
 			}
 		}
-		else{
+		//else{
 			//TODO does nothing on ok, ok is not currently used
-		}
+		//}
+
 		return status;
 	}
 

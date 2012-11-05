@@ -15,39 +15,16 @@
 
 package org.kuali.student.r1.common.validator.old;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.r1.common.dictionary.old.dto.CaseConstraint;
-import org.kuali.student.r1.common.dictionary.old.dto.ConstraintDescriptor;
-import org.kuali.student.r1.common.dictionary.old.dto.ConstraintSelector;
-import org.kuali.student.r1.common.dictionary.old.dto.Field;
-import org.kuali.student.r1.common.dictionary.old.dto.LookupConstraint;
-import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.r1.common.dictionary.old.dto.OccursConstraint;
-import org.kuali.student.r1.common.dictionary.old.dto.RequireConstraint;
-import org.kuali.student.r1.common.dictionary.old.dto.State;
-import org.kuali.student.r1.common.dictionary.old.dto.Type;
-import org.kuali.student.r1.common.dictionary.old.dto.TypeStateCaseConstraint;
-import org.kuali.student.r1.common.dictionary.old.dto.ValidCharsConstraint;
-import org.kuali.student.r1.common.dictionary.old.dto.WhenConstraint;
+import org.kuali.student.r1.common.dictionary.old.dto.*;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.common.util.ContextUtils;
+
+import java.util.*;
 
 @Deprecated
 public class Validator {
@@ -232,6 +209,7 @@ public class Validator {
 				.getObjectStructure();
 			}
 			else if (hasText(field.getFieldDescriptor().getObjectStructureRef())) {
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for this statement ");
 				//TODO: Setup a mechanism to retrive referenced object structures
 //				nestedObjStruct = setupFactory.getObjectStructure(field
 //						.getFieldDescriptor().getObjectStructureRef());
@@ -367,6 +345,7 @@ public class Validator {
 			ConstraintSelector cs = cd.getConstraint().get(0);
 			TypeStateCaseConstraint tscs = cs.getTypeStateCaseConstraint();
 			if (null != tscs) {
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for this statement ");
 				// ValidationResultContainer vc = new
 				// ValidationResultContainer();
 				// processTypeStateCaseConstraint(vc);
@@ -536,7 +515,7 @@ public class Validator {
 	 * any of the when condition matches
 	 *
 	 * @param bcb
-	 * @param caseConstraint
+	 * @param constraint
 	 * @param field
 	 */
 	private void processCaseConstraint(List<ValidationResultInfo> valResults,
@@ -625,7 +604,7 @@ public class Validator {
 	 * Computes if all the filed required in the occurs clause are between the
 	 * min and max
 	 *
-	 * @param valResults
+	 * @param element
 	 * @param constraint
 	 * @param field
 	 * @param type

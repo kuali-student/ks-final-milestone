@@ -15,15 +15,6 @@
 
 package org.kuali.student.security.filter;
 
-import java.io.IOException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -33,6 +24,14 @@ import org.springframework.security.web.util.UrlUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -72,7 +71,7 @@ public class KSLogoutFilter extends GenericFilterBean {
 			doFilterHttp((HttpServletRequest) request,
 					(HttpServletResponse) response, chain);
 		} else {
-			// TODO: handle this
+            throw new UnsupportedOperationException("Empty If Statement: No action defined for this method");
 		}
 	}
 

@@ -15,26 +15,24 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import java.util.*;
-
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.delegation.DelegationType;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
+import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.core.api.util.jaxb.MapStringStringAdapter;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.delegate.DelegateMember;
 import org.kuali.rice.kim.api.common.delegate.DelegateType;
-
 import org.kuali.rice.kim.api.group.GroupService;
 import org.kuali.rice.kim.api.role.*;
-import org.kuali.rice.core.api.membership.MemberType;
 import org.kuali.rice.kim.framework.type.KimTypeService;
 import org.kuali.student.common.mock.MockService;
 
 import javax.jws.WebParam;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.util.*;
 
 /**
  * @author nwright
@@ -496,9 +494,9 @@ public class RoleServiceMockImpl implements RoleService, MockService {
                     }
                 }
             }
-            if (null == roleMembershipInfo) {
+            //if (null == roleMembershipInfo) {
                 // roleMembershipInfo = new RoleMembership(roleInfo.getRoleId(), roleMemberId, memberId, memberTypeCode, qualifier)
-            }
+            //}
             
         }
 

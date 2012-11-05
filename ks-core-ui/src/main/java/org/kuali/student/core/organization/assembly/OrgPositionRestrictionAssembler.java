@@ -213,8 +213,10 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                 orgPositionRestrictionInfo.setId(orgPositionHelper.getId());
             }
             else if (isDeleted(orgPositionHelper.getData())) {
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for isDeleted(orgPositionHelper.getData(). KSENROLL-3645 ");
             }
             else if (isCreated(orgPositionHelper.getData())) {
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for isCreated(orgPositionHelper.getData(). KSENROLL-3645 ");
             } 
         }
         if(orgPositionRestrictionInfo.getMeta()!=null){

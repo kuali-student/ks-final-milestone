@@ -8,9 +8,8 @@
 
 package org.kuali.student.common.ui.client.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
@@ -32,14 +31,8 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableBloc
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableModel;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableRow;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.ComplexPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasHTML;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.WidgetCollection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -158,8 +151,6 @@ public class ExportUtils {
                     exportItem.setPrintType(ExportElement.PARAGRAPH);
                 }
 
-            } else {
-                // don't set anything
             }
         
             
@@ -227,8 +218,7 @@ public class ExportUtils {
      * 
      * Retrieve the sub elements from the summary table on a table section.
      * 
-     * @param tableSection
-     * @param exportElements
+     * @param sumTable
      * @return
      */
     public static List<ExportElement> getDetailsForWidget(SummaryTable sumTable) {
