@@ -171,13 +171,7 @@ public class StatePropagationTestController extends UifControllerBase {
             return "Error: Can't find any Term for term code: " + termCode;
         }
 
-
-        try {
-            response.setHeader("content-type", "text/html");
-            response.getWriter().println(layoutString);
-        } catch (IOException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        response.setHeader("content-type", "text/html");
 
         return layoutString.toString();
     }
