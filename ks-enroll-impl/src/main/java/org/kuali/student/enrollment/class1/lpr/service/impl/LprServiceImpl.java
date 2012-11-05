@@ -7,44 +7,29 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
+import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao;
+import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao;
+import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
+import org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity;
+import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprRosterDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprRosterEntryDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao;
-import org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao;
-import org.kuali.student.enrollment.class1.lpr.model.LprTransactionEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity;
-import org.kuali.student.enrollment.class1.lpr.model.LprEntity;
-import org.kuali.student.enrollment.class1.roster.model.LprRichTextEntity;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
-import org.kuali.student.enrollment.lpr.dto.LprInfo;
-import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.r2.common.dto.BulkStatusInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.class1.util.ValidationUtils;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author sambit
@@ -504,6 +489,7 @@ public class LprServiceImpl implements LprService {
                 
                 lprTransResultInfo.setResultingLprId(lprCreated);
                  */
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for this method. Get Mezba to fix");
             } else if (lprTransactionItemInfo.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
                 /**
                  * TODO this needs to be implemented for drop to work, read below Be careful with the implementation here,

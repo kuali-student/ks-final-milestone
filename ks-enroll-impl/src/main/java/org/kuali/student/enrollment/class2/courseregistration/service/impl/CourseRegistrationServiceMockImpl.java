@@ -16,55 +16,28 @@
 
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.math.BigDecimal;
-
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
 import org.kuali.student.common.mock.MockService;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseregistration.dto.*;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
-
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
-
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
-import org.kuali.student.r2.common.dto.BulkStatusInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.OperationStatusInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import java.math.BigDecimal;
+import java.util.*;
 
 public class CourseRegistrationServiceMockImpl
     extends AbstractCourseRegistrationService
     implements CourseRegistrationService, MockService {
+
+    private static final Logger LOGGER = Logger.getLogger(CourseRegistrationServiceMockImpl.class);
 
     private final Map<String, CourseRegistrationInfo> crMap   = new LinkedHashMap<String, CourseRegistrationInfo>();
     private final Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
@@ -699,11 +672,14 @@ public class CourseRegistrationServiceMockImpl
                 response.getRegistrationResponseItems().add(responseItem);
 
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
-                
+                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
-                
+                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY);
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY);
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
-                
+                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY);
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY);
             } 
         }
 
@@ -803,6 +779,7 @@ public class CourseRegistrationServiceMockImpl
             if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
                 load.setAdditionalCredits((new BigDecimal(item.getCredits())).add(new BigDecimal(load.getAdditionalCredits())).toString());
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
                 // TODO: figure out credits
             }
         }

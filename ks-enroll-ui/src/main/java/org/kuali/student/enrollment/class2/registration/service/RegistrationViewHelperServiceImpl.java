@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.registration.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -14,13 +15,14 @@ import org.kuali.student.enrollment.class2.registration.dto.RegistrationGroupWra
 import org.kuali.student.enrollment.class2.registration.form.RegistrationForm;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import java.util.List;
 
 //Needs to clean up the core slice codes
 @Deprecated
 public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
+
+    private static final Logger LOGGER = Logger.getLogger(RegistrationViewHelperServiceImpl.class);
 
     public void checkRegElements(CollectionGroup collGroup, RegistrationForm form){
         List<CourseRegistrationInfo> regs = form.getCourseRegistrations();
@@ -93,14 +95,20 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
 
         // TODO: RICE=M9 UPGRADE Replace call to "getSummaryMessageField" to use one of the new ContainerBase message field widgets, I suspect this should use getErrorsField
         if(courseRegistered){
+            LOGGER.error("Empty If Statement: No action defined for courseRegistered " + courseRegistered);
+            throw new UnsupportedOperationException("Empty If Statement: No action defined for courseRegistered " + courseRegistered);
            //collGroup.getSummaryMessageField().setMessageText("You are currently registered for a version of this course.");
            //collGroup.getSummaryMessageField().addStyleClass("ks-regWarning");
         }
         else if(courseInCart){
+            LOGGER.error("Empty If Statement: No action defined for courseInCart " + courseInCart);
+            throw new UnsupportedOperationException("Empty If Statement: No action defined for courseRegistered " + courseInCart);
            //collGroup.getSummaryMessageField().setMessageText("Your cart contains a version of this course.");
            //collGroup.getSummaryMessageField().addStyleClass("ks-regWarning");
         }
         else{
+            LOGGER.error("Empty If Statement: No action defined for final else");
+            throw new UnsupportedOperationException("Empty If Statement: No action defined for final else");
            //collGroup.getSummaryMessageField().setMessageText("Add a course to your cart or register with a single click:");
            //collGroup.getSummaryMessageField().getStyleClasses().remove("ks-regWarning");
         }
