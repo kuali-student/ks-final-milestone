@@ -15,10 +15,10 @@
 
 package org.kuali.student.core.statement.ui.client.widgets.rules;
 
-import java.io.Serializable;
-
 import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+
+import java.io.Serializable;
 
 public class ReqComponentVO extends Token implements Serializable, Idable {
 
@@ -90,11 +90,6 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return this == obj;
-    }
-
-    @Override
     public String toString() {
         /*
         String reqCompDescription = typeDesc;
@@ -105,5 +100,37 @@ public class ReqComponentVO extends Token implements Serializable, Idable {
 
         return (reqCompDescription == null ? "" : reqCompDescription); */
         return reqComponentInfo.getNaturalLanguageTranslation();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ReqComponentVO that = (ReqComponentVO) o;
+
+        if (dirty != that.dirty) return false;
+        if (clusetId != null ? !clusetId.equals(that.clusetId) : that.clusetId != null) return false;
+        if (guiReferenceLabelId != null ? !guiReferenceLabelId.equals(that.guiReferenceLabelId) : that.guiReferenceLabelId != null)
+            return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (reqComponentInfo != null ? !reqComponentInfo.equals(that.reqComponentInfo) : that.reqComponentInfo != null)
+            return false;
+        if (typeDesc != null ? !typeDesc.equals(that.typeDesc) : that.typeDesc != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (reqComponentInfo != null ? reqComponentInfo.hashCode() : 0);
+        result = 31 * result + (typeDesc != null ? typeDesc.hashCode() : 0);
+        result = 31 * result + (dirty ? 1 : 0);
+        result = 31 * result + (clusetId != null ? clusetId.hashCode() : 0);
+        result = 31 * result + (guiReferenceLabelId != null ? guiReferenceLabelId.hashCode() : 0);
+        return result;
     }
 }

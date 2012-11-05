@@ -15,20 +15,18 @@
 
 package org.kuali.student.core.statement.ui.client.widgets.rules;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
-import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class StatementVO extends Token implements Serializable {
 
@@ -955,8 +953,28 @@ public class StatementVO extends Token implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return this == obj;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        StatementVO that = (StatementVO) o;
+
+        if (reqComponentVOs != null ? !reqComponentVOs.equals(that.reqComponentVOs) : that.reqComponentVOs != null)
+            return false;
+        if (statementInfo != null ? !statementInfo.equals(that.statementInfo) : that.statementInfo != null)
+            return false;
+        if (statementVOs != null ? !statementVOs.equals(that.statementVOs) : that.statementVOs != null) return false;
+
+        return true;
     }
 
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (statementInfo != null ? statementInfo.hashCode() : 0);
+        result = 31 * result + (reqComponentVOs != null ? reqComponentVOs.hashCode() : 0);
+        result = 31 * result + (statementVOs != null ? statementVOs.hashCode() : 0);
+        return result;
+    }
 }
