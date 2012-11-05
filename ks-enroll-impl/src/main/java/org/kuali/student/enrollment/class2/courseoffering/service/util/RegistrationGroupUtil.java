@@ -59,6 +59,11 @@ public class RegistrationGroupUtil {
                     public boolean equals(Object obj) {
                         return super.equals(obj);  // Put something in to satisfy the interface
                     }
+
+                    @Override
+                    public int hashCode(){
+                        return super.hashCode();
+                    }
                 });
     }
 
