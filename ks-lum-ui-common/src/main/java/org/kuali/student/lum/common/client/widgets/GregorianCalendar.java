@@ -326,6 +326,15 @@ public class GregorianCalendar extends Calendar
         return this.date.equals(obj.getTime());
     }
 
+    public int hashCode() {
+        if(this.date == null){
+            return super.hashCode();
+        }else{
+            return this.date.hashCode();
+        }
+
+    }
+
     public boolean isLeapYear() {
         return isLeapYear(this.year);
     }
