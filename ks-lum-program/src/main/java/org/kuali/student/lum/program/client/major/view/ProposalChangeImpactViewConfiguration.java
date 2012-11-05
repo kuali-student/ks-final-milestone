@@ -20,6 +20,7 @@ import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -63,7 +64,8 @@ public class ProposalChangeImpactViewConfiguration extends AbstractSectionConfig
     }  
     
     private Section createEditableSection() {
-        SummaryTableSection section = new SummaryTableSection(controller);             
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
         section.setEditable(false);
         section.addSummaryTableFieldBlock(createSummaryTableFieldBlock());
         return section;

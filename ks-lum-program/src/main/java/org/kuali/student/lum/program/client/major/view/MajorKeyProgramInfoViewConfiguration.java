@@ -28,6 +28,7 @@ import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -144,7 +145,8 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
 
     // Side-by-side comparison (when controller is not null)  
     private SummaryTableSection createIdentifyingDetailsSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createIdentifyingDetailsSectionBlock());
 
@@ -164,7 +166,8 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
   	}
     
     private SummaryTableSection createProgramTitleSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createProgramTitleSectionEditBlock());
 
@@ -183,7 +186,8 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
   	}
   	
     private SummaryTableSection createDatesSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createDatesSectionEditBlock());
 
@@ -203,7 +207,8 @@ public class MajorKeyProgramInfoViewConfiguration extends AbstractSectionConfigu
   	}
 
     private SummaryTableSection createOtherInformationSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createOtherInformationSectionEditBlock());
 

@@ -403,8 +403,8 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
             List<String> deletionParentKeys) {
         QueryPath parentPath = QueryPath.concat(path);
-        MultiplicityConfiguration config = new MultiplicityConfiguration(multiplicityType,
-                styleType, getMetaData(parentPath.toString()));
+        MultiplicityConfiguration config = GWT.create(MultiplicityConfiguration.class);
+        config.init(multiplicityType, styleType, getMetaData(parentPath.toString()));
         config.setAddItemLabel(getLabel(addItemlabelMessageKey));
         config.setItemLabel(getLabel(itemLabelMessageKey));
         config.setUpdateable(true);

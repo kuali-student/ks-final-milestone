@@ -21,6 +21,7 @@ import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -95,7 +96,8 @@ public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguratio
     
     // Side-by-side comparison (when controller is not null)  
     private SummaryTableSection createMainSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createMainSectionEditBlock());
 
@@ -113,7 +115,8 @@ public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguratio
   	}
 
     private CollapsableSection createAdditionalSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createAdditionalSectionEditBlock());
       	

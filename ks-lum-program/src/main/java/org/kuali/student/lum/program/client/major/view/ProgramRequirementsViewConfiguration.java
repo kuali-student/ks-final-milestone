@@ -27,6 +27,7 @@ import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSumm
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsViewController;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ProgramRequirementsViewConfiguration extends AbstractControllerConfiguration {
@@ -83,7 +84,8 @@ public class ProgramRequirementsViewConfiguration extends AbstractControllerConf
        
     // Side-by-side comparison (when controller is not null)  
     private SummaryTableSection createProgramRequirementsSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createProgramRequirementsSectionEditBlock());
 

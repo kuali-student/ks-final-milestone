@@ -62,7 +62,8 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
         this.stmtTypes = stmtTypes;
         this.controller = controller;
         this.modelId = modelId;
-        tableSection = new SummaryTableSection((Controller) controller);
+        tableSection = GWT.create(SummaryTableSection.class);
+        tableSection.init((Controller) controller);
     }
     
     public void init(String type, String state, String groupName,
@@ -76,7 +77,8 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
         this.stmtTypes = stmtTypes;
         this.controller = controller;
         this.modelId = modelId;
-        tableSection = new SummaryTableSection((Controller) controller);
+        tableSection = GWT.create(SummaryTableSection.class);
+        tableSection.init((Controller) controller);
     }
 
     public VerticalSectionView generateProposalSummarySection(boolean canEditSections) {

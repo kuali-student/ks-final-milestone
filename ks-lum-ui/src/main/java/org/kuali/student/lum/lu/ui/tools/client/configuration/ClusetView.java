@@ -230,7 +230,8 @@ public class ClusetView extends VerticalSectionView {
     }
 
     private SummaryTableSection setupGeneralClusInfoSection() {
-        SummaryTableSection result = new SummaryTableSection(getController());
+        SummaryTableSection result = GWT.create(SummaryTableSection.class);
+        result.init(getController());
         result.setEditable(false);
 
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();

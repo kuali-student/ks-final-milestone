@@ -128,7 +128,8 @@ public class CourseSummaryConfigurer extends Configurer implements
         this.stmtTypes = stmtTypes;
         this.controller = controller;
         this.modelId = modelId;
-        tableSection = new SummaryTableSection((Controller) controller);
+        tableSection = GWT.create(SummaryTableSection.class);
+        tableSection.init((Controller) controller);
     }
     
     public void init(String type, String state, String groupName,
@@ -142,7 +143,8 @@ public class CourseSummaryConfigurer extends Configurer implements
         this.stmtTypes = stmtTypes;
         this.controller = controller;
         this.modelId = modelId;
-        tableSection = new SummaryTableSection((Controller) controller);
+        tableSection = GWT.create(SummaryTableSection.class);
+        tableSection.init((Controller) controller);
     }
 
     protected VerticalSectionView initSectionView(Enum<?> viewEnum,
@@ -966,8 +968,8 @@ public class CourseSummaryConfigurer extends Configurer implements
             String itemLabelMessageKey, List<List<String>> fieldKeysAndLabels,
             Map<String, ModelWidgetBinding> customBindings) {
         QueryPath parentPath = QueryPath.concat(path);
-        MultiplicityConfiguration config = new MultiplicityConfiguration(
-                MultiplicityConfiguration.MultiplicityType.TABLE,
+        MultiplicityConfiguration config = GWT.create(MultiplicityConfiguration.class);
+        config.init(MultiplicityConfiguration.MultiplicityType.TABLE,
                 MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
                 modelDefinition.getMetadata(parentPath));
         config.setItemLabel(getLabel(itemLabelMessageKey));
@@ -1040,8 +1042,8 @@ public class CourseSummaryConfigurer extends Configurer implements
     }
 
     public VerticalSectionView generateCourseBriefSection() {
-        SummaryTableSection courseBriefSection = new SummaryTableSection(
-                controller);
+        SummaryTableSection courseBriefSection = GWT.create(SummaryTableSection.class);
+        courseBriefSection.init(controller);
         courseBriefSection.setEditable(false);
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + COURSE_TITLE,

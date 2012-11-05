@@ -21,6 +21,7 @@ import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -116,7 +117,8 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
     private Section createAccreditingAgenciesSection() {
 
         Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY));
-        MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP, MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP, metadata);
+        MultiplicityConfiguration config = GWT.create(MultiplicityConfiguration.class);
+        config.init(MultiplicityConfiguration.MultiplicityType.GROUP, MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP, metadata);
         config.setAddItemLabel(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_ADDACCREDITATION));
         config.setUpdateable(true);
         config.setItemLabel(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_ACCREDITATION));

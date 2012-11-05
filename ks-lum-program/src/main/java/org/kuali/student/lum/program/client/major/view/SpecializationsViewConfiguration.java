@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.major.view;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -72,7 +73,8 @@ public class SpecializationsViewConfiguration extends AbstractSectionConfigurati
     
     // Side-by-side comparison (when controller is not null)  
     private SummaryTableSection createSpecializationsSectionEdit() { 
-      	SummaryTableSection section = new SummaryTableSection((Controller) controller);     		
+        SummaryTableSection section = GWT.create(SummaryTableSection.class);
+        section.init((Controller) controller);
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createSpecializationsSectionEditBlock());
 

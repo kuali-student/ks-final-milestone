@@ -82,13 +82,13 @@ CreditCourseLearningResultsConstants
     public static final String CLU_PROPOSAL_MODEL = "courseProposalModel";
 
     //FIXME: [KSCOR-225] Initialize type and state from selected cluId
-    private String type = "Course";
-    private String state = DtoConstants.STATE_DRAFT;
-    private String groupName = LUUIConstants.COURSE_GROUP_NAME;
+    protected String type = "Course";
+    protected String state = DtoConstants.STATE_DRAFT;
+    protected String groupName = LUUIConstants.COURSE_GROUP_NAME;
 
-    private DataModelDefinition modelDefinition;
-    private List<StatementTypeInfo> stmtTypes;
-    private CourseSummaryConfigurer summaryConfigurer;
+    protected DataModelDefinition modelDefinition;
+    protected List<StatementTypeInfo> stmtTypes;
+    protected CourseSummaryConfigurer summaryConfigurer;
 
     public static enum ViewCourseSections{BRIEF, DETAILED, CATALOG}
 

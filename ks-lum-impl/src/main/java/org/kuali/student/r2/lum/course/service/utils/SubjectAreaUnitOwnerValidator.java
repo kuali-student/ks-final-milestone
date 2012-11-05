@@ -28,7 +28,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
  */
 public class SubjectAreaUnitOwnerValidator extends DefaultValidatorImpl {
 
-	private SearchService searchDispatcher;
+    protected SearchService searchDispatcher;
 	
 	@Override
 	public List<ValidationResultInfo> validateObject(FieldDefinition field,
