@@ -325,7 +325,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                                                               , Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition
                                                               , List<String> deletionParentKeys){
         QueryPath parentPath = QueryPath.concat(path);
-        MultiplicityConfiguration config = new MultiplicityConfiguration(multiplicityType, styleType, getMetaData(parentPath.toString()));
+        MultiplicityConfiguration config = GWT.create(MultiplicityConfiguration.class);
+        config.init(multiplicityType, styleType, getMetaData(parentPath.toString()));
         FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, null, null);
         
         MultiplicityFieldConfiguration fc = buildMultiplicityFD("fieldKey", "", parentPath.toString());

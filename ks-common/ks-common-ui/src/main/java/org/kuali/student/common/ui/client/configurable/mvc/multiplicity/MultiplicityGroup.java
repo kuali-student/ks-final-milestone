@@ -61,7 +61,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MultiplicityGroup extends Composite {
 
-    private MultiplicityConfiguration config;
+    protected MultiplicityConfiguration config;
 
     private List<MultiplicityGroupItem> items = new ArrayList<MultiplicityGroupItem>();
     private List<MultiplicityGroupItem> removed = new ArrayList<MultiplicityGroupItem>();
@@ -69,12 +69,12 @@ public class MultiplicityGroup extends Composite {
     private FlowPanel mainPanel = new FlowPanel();
     private FlowPanel itemsPanel = new FlowPanel();
     private boolean loaded = false;
-    private int itemCount = 0;
-    private String parentPath;
+    protected int itemCount = 0;
+    protected String parentPath;
     private boolean isDirty = false;
 
-    private Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition;
-    private List<String> deletionParentKeys;
+    protected Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition;
+    protected List<String> deletionParentKeys;
 
     public MultiplicityGroup() {
     }
@@ -82,12 +82,17 @@ public class MultiplicityGroup extends Composite {
     public MultiplicityGroup(MultiplicityConfiguration config,
             Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
             List<String> deletionParentKeys) {
+        init(config, swappableFieldsDefinition, deletionParentKeys);
+    }
+    
+    public void init(MultiplicityConfiguration config,
+            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
+            List<String> deletionParentKeys) {
         this.config = config;
         initWidget(mainPanel);
         this.swappableFieldsDefinition = swappableFieldsDefinition;
         this.deletionParentKeys = deletionParentKeys;
     }
-
 
     /**
      * Creates an instance of a MultiplicityGroup based on the options in the MultiplicityConfiguration
@@ -142,7 +147,7 @@ public class MultiplicityGroup extends Composite {
         }
     }
 
-    private Widget generateAddWidget() {
+    protected Widget generateAddWidget() {
     	KSButton addWidget;
     	if(config.getStyleType() == MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP){
     		addWidget = new KSButton(config.getAddItemLabel(), ButtonStyle.FORM_LARGE);
@@ -192,7 +197,7 @@ public class MultiplicityGroup extends Composite {
 	    return itemsPanel;
 	}
 
-    private Widget createWidget() {
+	protected Widget createWidget() {
 
 		GroupSection section = new GroupSection();
         final SwappableFieldsHelper helper = new SwappableFieldsHelper();

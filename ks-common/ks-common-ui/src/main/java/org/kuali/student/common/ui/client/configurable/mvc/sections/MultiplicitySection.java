@@ -34,6 +34,7 @@ import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.TableFieldLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -117,7 +118,8 @@ import com.google.gwt.user.client.ui.Widget;
             case GROUP:
                 layout = new VerticalFieldLayout(config.getTitle());
                 if (config.getCustomMultiplicityGroup() == null) {
-                    widget = new MultiplicityGroup(config, swappableFieldsDefinition, deletionParentKeys);
+                    widget = GWT.create(MultiplicityGroup.class);
+                    ((MultiplicityGroup) widget).init(config, swappableFieldsDefinition, deletionParentKeys);
                 } else {
                     widget = config.getCustomMultiplicityGroup();
                 }

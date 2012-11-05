@@ -44,15 +44,21 @@ public class SummaryTableSection extends VerticalSection {
     	return hasWarnings;
     }
 
+    public SummaryTableSection() {
+        super();
+    }
+    
     public SummaryTableSection(Controller controller) {
         super();
-        this.controller = controller;
-        this.addWidget(summaryTable);
-        summaryTable.setModel(summaryTableModel);
+        init(controller);
     }
 
     public SummaryTableSection(Controller controller, SectionTitle title) {
         super(title);
+        init(controller);
+    }
+
+    public void init(Controller controller) {
         this.controller = controller;
         this.addWidget(summaryTable);
         summaryTable.setModel(summaryTableModel);
@@ -179,7 +185,7 @@ public class SummaryTableSection extends VerticalSection {
     	summaryTable.clearHighlightedRows("rowHighlight");
     }
     
-    private int buildMultiplicityRows(DataModel model, DataModel compModel, SummaryTableMultiplicityFieldRow parentRow, 
+    protected int buildMultiplicityRows(DataModel model, DataModel compModel, SummaryTableMultiplicityFieldRow parentRow, 
     		List<SummaryTableRow> rowList, int styleLevel, Integer parentNum){
     	MultiplicityConfiguration config = parentRow.getConfig();
     	int index = rowList.indexOf(parentRow) + 1;

@@ -14,6 +14,7 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -52,7 +53,8 @@ public class SummaryTableDemo extends Composite {
         datamodel.setRoot(new Data());
         datamodel.set(QueryPath.parse("/field1"), "value");
         
-        final SummaryTableSection tableSection = new SummaryTableSection(null);
+        final SummaryTableSection tableSection = GWT.create(SummaryTableSection.class);
+        tableSection.init(null);
         tableSection.setContentColumnHeader1("Title 1");
         //tableSection.setContentColumnHeader2("Title 2");
         String fieldKey = "/field1";

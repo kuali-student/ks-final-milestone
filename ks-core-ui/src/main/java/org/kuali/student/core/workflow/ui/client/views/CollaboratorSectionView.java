@@ -284,7 +284,7 @@ public class CollaboratorSectionView extends SectionView {
 
     }
 
-    private void createAddCollabSection() {
+    protected void createAddCollabSection() {
         // Retrieve person meta data.
         String principalIdKey = "collaboratorInfo/collaborators/*/principalId";
         Metadata personIdMeta = model.getMetadata(QueryPath.parse(principalIdKey));

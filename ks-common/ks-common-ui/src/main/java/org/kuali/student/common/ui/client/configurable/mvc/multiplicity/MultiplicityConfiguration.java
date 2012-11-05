@@ -26,6 +26,8 @@ import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKe
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 
+import com.google.gwt.core.client.GWT;
+
 /**
   *
   * MultiplicityConfiguration is passed into a MultiplicitySection to control the creation of the multiplicity.
@@ -74,7 +76,8 @@ public class MultiplicityConfiguration {
         TOP_LEVEL_GROUP, SUB_LEVEL_GROUP, BORDERLESS_TABLE, BORDERED_TABLE
     }
 
-
+    public MultiplicityConfiguration() {}
+    
      /**
      *
      * Creates a new MultiplicityConfiguration.
@@ -84,7 +87,11 @@ public class MultiplicityConfiguration {
      * @param styleType             the style type for this multiplicity, StyleType
      * @param metaData              the metadata for the parentFd
      */
-     public MultiplicityConfiguration(MultiplicityType multiplicityType, StyleType styleType, Metadata metaData) {
+    public MultiplicityConfiguration(MultiplicityType multiplicityType, StyleType styleType, Metadata metaData) {
+        init(multiplicityType, styleType, metaData);
+    }
+
+    public void init(MultiplicityType multiplicityType, StyleType styleType, Metadata metaData) {
         this.multiplicityType = multiplicityType;
         this.styleType = styleType;
         this.metaData = metaData;
@@ -152,7 +159,8 @@ public class MultiplicityConfiguration {
      * @return  MultiplicityConfiguration
      */
     public MultiplicityConfiguration copy() {
-        MultiplicityConfiguration copy = new MultiplicityConfiguration(getMultiplicityType(), getStyleType(), getMetaData());
+        MultiplicityConfiguration copy = GWT.create(MultiplicityConfiguration.class);
+        copy.init(getMultiplicityType(), getStyleType(), getMetaData());
         copy.setAddItemLabel(getAddItemLabel());
         copy.setItemLabel(getItemLabel());
         copy.setMetaData(getMetaData());
