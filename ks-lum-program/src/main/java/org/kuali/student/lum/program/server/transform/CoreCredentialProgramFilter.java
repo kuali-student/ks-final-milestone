@@ -72,8 +72,8 @@ public class CoreCredentialProgramFilter extends AbstractDataFilter {
         qpv1.setKey("lu.queryParam.luOptionalRelatedCluId");
         qpv1.getValues().add(coreProgramId);
         SearchParamInfo qpv2 = new SearchParamInfo();
-        qpv1.setKey("lu.queryParam.luOptionalRelationType");
-        qpv1.getValues().add(ProgramConstants.HAS_CORE_PROGRAM);
+        qpv2.setKey("lu.queryParam.luOptionalRelationType");
+        qpv2.getValues().add(ProgramConstants.HAS_CORE_PROGRAM);
 
         searchParams.add(qpv1);
         searchParams.add(qpv2);
