@@ -1051,9 +1051,8 @@ public class MajorProposalController extends MajorController implements Workflow
                	}
             }
             return exportElements;           
-        } else {
-//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
         }
+
         return null;    
     }
 

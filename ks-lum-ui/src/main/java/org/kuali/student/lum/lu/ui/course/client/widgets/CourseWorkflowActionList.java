@@ -1,14 +1,13 @@
 package org.kuali.student.lum.lu.ui.course.client.widgets;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.student.r1.common.assembly.data.QueryPath;
-import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.lum.clu.CLUConstants;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -17,12 +16,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSCheckBox;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSRadioButton;
-import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.*;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
@@ -34,19 +28,14 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CourseWorkflowActionList extends StylishDropDown {
     private static final String MSG_GROUP = "course";
@@ -180,12 +169,14 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
 	private void showStateDialog(String newState) {
     	if (newState.equals(DtoConstants.STATE_RETIRED)) {
+            throw new UnsupportedOperationException("We do not have a dialog that supports the Retired State.");
     		// TODO: create Retire dialog
     	} else if (newState.equals(DtoConstants.STATE_ACTIVE)) {     		
     		// TODO: use message e.g. activateCurrentInstr, activateModificationInstr    		
     		activateSection.setInstructions(getInstructions(newState));    				
         	activateDialog.show();
     	} else if (newState.equals(DtoConstants.STATE_SUSPENDED)) {
+            throw new UnsupportedOperationException("We do not have a dialog that supports the Suspended State.");
     		// TODO: create Inactivate dialog
     	}
     	
@@ -426,9 +417,9 @@ public class CourseWorkflowActionList extends StylishDropDown {
      * proposal is approved or canceled.
      * 
      * @param viewContext
-     * @param modifyPath
+     * @param retirePath
      * @param model
-     * @param reviewOption
+     *
      */
     private void checkOnlyOneRetireProposalInWorkflow(final ViewContext viewContext, final String retirePath, final DataModel model){
         
@@ -496,7 +487,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
     
     
 	/**
-	 *  This depends heavily on {@link CourseStateUtil#setCourseState(String, String, Callback)}. 
+	 *  This depends heavily on {CourseStateUtil::setCourseState(String, String, Callback)}.
 	 *  Changes here will affect assumptions made there.
  	 *
 	 */
