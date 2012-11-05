@@ -35,7 +35,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.lu.entity.CluLoRelationType;
 import org.kuali.student.r2.lum.lu.entity.CluSet;
-import org.kuali.student.r2.lum.lu.entity.Lui;
+//import org.kuali.student.r2.lum.lu.entity.Lui;
 import org.kuali.student.r2.lum.lu.entity.MembershipQuery;
 import org.kuali.student.r2.lum.lu.entity.SearchParameter;
 import org.kuali.student.r2.lum.lu.entity.SearchParameterValue;
@@ -58,14 +58,14 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 		
 		query.getResultList();
 	}
-	
+	  /*
 	@Test
 	public void testGetLuLuRelationTypeInfo(){
 		List<Lui> luis = dao.getLuisByRelationType("LUI-3", "luLuType.type1");
 		assertEquals(1, luis.size());
 		assertEquals("LUI-1", luis.get(0).getId());
 	}
-	
+	         */
 	@Test
 	public void testGetCluLoRelationTypeInfo() throws DoesNotExistException{
         CluLoRelationType relType = dao.fetch(CluLoRelationType.class, "kuali.lu.lo.relation.type.includes");

@@ -27,19 +27,19 @@ import org.kuali.student.r2.lum.lu.entity.CluPublication;
 import org.kuali.student.r2.lum.lu.entity.CluResult;
 import org.kuali.student.r2.lum.lu.entity.CluResultType;
 import org.kuali.student.r2.lum.lu.entity.CluSet;
-import org.kuali.student.r2.lum.lu.entity.Lui;
-import org.kuali.student.r2.lum.lu.entity.LuiLuiRelation;
+//import org.kuali.student.r2.lum.lu.entity.Lui;
+//import org.kuali.student.r2.lum.lu.entity.LuiLuiRelation;
 
 public interface LuDao extends CrudDao {
 	public List<Clu> getClusByIdList(List<String> cluIdList);
 	public List<Clu> getClusByLuType(String luTypeKey, String luState);
-	public List<Lui> getLuisByIdList(List<String> luiIds);
-	public List<Lui> getLuisByRelationType(String luiId, String luLuRelationTypeId);
+	//public List<Lui> getLuisByIdList(List<String> luiIds);
+	//public List<Lui> getLuisByRelationType(String luiId, String luLuRelationTypeId);
 	public List<String> getLuiIdsByCluId(String cluId);
 	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey);
     public List<CluSet> getCluSetInfoByIdList(List<String> cluSetIdList);
     public Boolean isCluInCluSet(String cluId, String cluSetId);
-	public List<LuiLuiRelation> getLuiLuiRelations(String luiId);
+	//public List<LuiLuiRelation> getLuiLuiRelations(String luiId);
 	public List<CluCluRelation> getCluCluRelationsByClu(String cluId);
 	public List<Clu> getClusByRelation(String relatedCluId, String luLuRelationTypeKey);
 	public List<Clu> getClusByRelationSt(String relatedCluId, String luLuRelationTypeId, List<String> luStateList);
@@ -50,7 +50,7 @@ public interface LuDao extends CrudDao {
 			String luLuRelationTypeId);
 	public List<Clu> getRelatedClusByCluId(String cluId,
 			String luLuRelationTypeId);
-	public List<Lui> getRelatedLuisByLuiId(String luiId, String id);
+	//public List<Lui> getRelatedLuisByLuiId(String luiId, String id);
 	public List<String> getRelatedLuiIdsByLuiId(String luiId, String id);
 	public List<String> getLuiIdsByRelationType(String relatedLuiId, String luLuRelationTypeId);
 	public List<CluLoRelation> getCluLoRelationsByClu(String cluId);

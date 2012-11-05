@@ -33,8 +33,8 @@ import org.kuali.student.r2.lum.lu.entity.CluPublication;
 import org.kuali.student.r2.lum.lu.entity.CluResult;
 import org.kuali.student.r2.lum.lu.entity.CluResultType;
 import org.kuali.student.r2.lum.lu.entity.CluSet;
-import org.kuali.student.r2.lum.lu.entity.Lui;
-import org.kuali.student.r2.lum.lu.entity.LuiLuiRelation;
+//import org.kuali.student.r2.lum.lu.entity.Lui;
+//import org.kuali.student.r2.lum.lu.entity.LuiLuiRelation;
 
 public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 
@@ -67,11 +67,11 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 	public List<CluSet> getCluSetInfoByIdList(List<String> cluSetIdList) {
 		Query query = em.createNamedQuery("CluSet.getCluSetInfoByIdList");
 		query.setParameter("cluSetIdList", cluSetIdList);
-		@SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked")
 		List<CluSet> resultList = query.getResultList();
 		return resultList;
 	}
-
+          /*
 	@Override
 	public List<Lui> getLuisByIdList(List<String> luiIds) {
 		Query query = em.createNamedQuery("Lui.getLuisByIdList");
@@ -80,7 +80,7 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 		List<Lui> luis = query.getResultList();
 		return luis;
 	}
-
+                   */
 	@Override
 	public List<String> getLuiIdsByCluId(String cluId) {
 		Query query = em.createNamedQuery("Lui.getLuiIdsByCluId");
@@ -89,7 +89,7 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 		List<String> luiIds = query.getResultList();
 		return luiIds;
 	}
-
+                     /*
 	@Override
 	public List<Lui> getLuisByRelationType(String luiId,
 			String luLuRelationTypeId) {
@@ -102,7 +102,7 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 		List<Lui> luis = query.getResultList();
 		return luis;
 	}
-
+                            */
 	@Override
 	public List<String> getLuiIdsByRelationType(String relatedLuiId,
 			String luLuRelationTypeId) {
@@ -134,7 +134,7 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 		Long valid = (Long) query.getSingleResult();
 		return valid.intValue() > 0;
 	}
-
+                              /*
 	@Override
 	public List<LuiLuiRelation> getLuiLuiRelations(String luiId) {
 		Query query = em
@@ -144,7 +144,7 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 		List<LuiLuiRelation> luiLuiRelations = query.getResultList();
 		return luiLuiRelations;
 	}
-
+                                     */
 	@Override
 	public List<CluCluRelation> getCluCluRelationsByClu(String cluId) {
 		Query query = em.createNamedQuery("CluCluRelation.getCluCluRelation");
@@ -210,7 +210,7 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 	}
     
     
-    
+
 	@Override
 	public List<String> getRelatedLuiIdsByLuiId(String luiId,
 			String luLuRelationTypeId) {
@@ -222,7 +222,7 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 		List<String> relatedLuiIds = query.getResultList();
 		return relatedLuiIds;
 	}
-
+                     /*
 	@Override
 	public List<Lui> getRelatedLuisByLuiId(String luiId,
 			String luLuRelationTypeId) {
@@ -233,7 +233,7 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 		@SuppressWarnings("unchecked")
 		List<Lui> relatedLuis = query.getResultList();
 		return relatedLuis;
-	}
+	}                    */
 
 	@Override
 	public List<Clu> getClusByRelation(String parentCluId,
