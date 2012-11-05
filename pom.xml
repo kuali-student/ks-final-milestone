@@ -124,7 +124,7 @@
         <jsr107cache.version>1.0</jsr107cache.version>
         <jta.version>1.1</jta.version>
         <junit.version>4.10</junit.version>
-        <ks-contract-docs.plugin.version>1.0.4</ks-contract-docs.plugin.version>
+        <ks-contract-docs.plugin.version>1.0.6</ks-contract-docs.plugin.version>
         <kuali.rice.version>2.2.0-M4</kuali.rice.version>
         <log4j.version>1.2.16</log4j.version>
         <log4j.javadoc.version>1.2</log4j.javadoc.version>
