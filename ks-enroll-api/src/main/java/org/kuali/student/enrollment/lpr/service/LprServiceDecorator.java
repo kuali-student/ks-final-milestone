@@ -12,6 +12,8 @@ package org.kuali.student.enrollment.lpr.service;
 
 import java.util.List;
 
+import javax.jws.WebParam;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.lpr.dto.*;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
@@ -149,8 +151,20 @@ public class LprServiceDecorator implements LprService {
     public List<LprInfo> getLprsByLui(String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByLui(luiId, contextInfo);
     }
+    
+    
 
     @Override
+	public List<LprInfo> getLprsByLuis(
+			@WebParam(name = "luiIds") List<String> luiIds,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getLprsByLuis(luiIds, contextInfo);
+	}
+
+	@Override
     public List<LprInfo> getLprsByIds(List<String> lprIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByIds(lprIds, contextInfo);
     }
