@@ -7,6 +7,8 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
+import javax.jws.WebParam;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
@@ -112,8 +114,20 @@ public class LprServiceImpl implements LprService {
         }
         return dtos;
     }
+    
+    
 
     @Override
+	public List<LprInfo> getLprsByLuis(
+			List<String> luiIds,
+			ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
     @Transactional
     public List<BulkStatusInfo> createLprsForPerson(String personId,
             String lprTypeKey,

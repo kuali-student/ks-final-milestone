@@ -15,6 +15,17 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.jws.WebParam;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
@@ -29,15 +40,17 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class LprServiceMockImpl implements LprService, MockService {
 
@@ -69,7 +82,36 @@ public class LprServiceMockImpl implements LprService, MockService {
         return this.lprMap.get(lprId);
     }
 
+	
     @Override
+	public List<LprInfo> getLprsByLuis(
+			@WebParam(name = "luiIds") List<String> luiIds,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		List<LprInfo> lprs = new ArrayList<LprInfo>();
+
+		Set<LprInfo> allLprs = new HashSet<LprInfo>(this.lprMap.values());
+
+		for (String luiId : luiIds) {
+
+			Iterator<LprInfo> it = allLprs.iterator();
+			while (it.hasNext()) {
+				LprInfo lprInfo = it.next();
+
+				if (lprInfo.getLuiId().equals(luiId)) {
+					lprs.add(lprInfo);
+					it.remove();
+				}
+			}
+
+		}
+		
+		return lprs;
+	}
+
+	@Override
     public List<LprInfo> getLprsByIds(List<String> lprIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
