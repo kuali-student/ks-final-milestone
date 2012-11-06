@@ -191,7 +191,7 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public String getCreditOptionCreditsUI(){
         if(creditOption!=null && !creditOption.getAllowedCredits().isEmpty()){
-            return StringUtils.join(creditOption.getAllowedCredits(),",");
+            return StringUtils.join(creditOption.getCredits(),",");
         }
         return "No Credits Selected";
     }
