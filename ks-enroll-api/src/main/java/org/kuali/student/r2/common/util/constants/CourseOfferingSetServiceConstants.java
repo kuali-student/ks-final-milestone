@@ -19,7 +19,11 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Course Offering Service Constants
@@ -36,8 +40,6 @@ public class CourseOfferingSetServiceConstants {
     public static final String SUBJECT_AREA_SOC_TYPE_KEY = "kuali.soc.type.subject.area";
     public static final String UNITS_CONTENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.content.owner";
     public static final String UNITS_DEPLOYMENT_OWNER_SOC_TYPE_KEY = "kuali.soc.type.units.deployment.owner";
-
-    public static final String STATE_CHANGE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     // SOC states (see https://wiki.kuali.org/display/STUDENT/Set+of+Course+Offerings+%28SOC%29+States)
     // SOC states (see https://wiki.kuali.org/display/STUDENT/Course+Offering+Set+Types+and+States)
