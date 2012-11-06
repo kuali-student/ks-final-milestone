@@ -8,14 +8,27 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.acal.dto.*;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -33,9 +46,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
@@ -1080,6 +1105,64 @@ public class TestAcademicCalendarServiceImpl {
 
         assertNotNull(result);
         assertTrue(!result.isEmpty());
+    }
+
+    @Test   // Jira - KSENROLL-530
+    public void testGetKeyDateTypesForTermType()
+           throws AlreadyExistsException, DataValidationErrorException,
+           InvalidParameterException, MissingParameterException, OperationFailedException,
+           PermissionDeniedException, DoesNotExistException, ReadOnlyException, VersionMismatchException {
+
+       String termType = AtpServiceConstants.ATP_FALL_TYPE_KEY;
+       List<TypeInfo> types = this.acalService.getKeyDateTypesForTermType(termType, callContext);
+       assertNotNull(types);
+       if (types.size () < 2) {
+           fail ("too few key date types");
+       }
+       System.out.println ("Found " + types.size() + " keydate types for " + termType);
+       for (TypeInfo type : types) {
+           System.out.println(type.getKey() + " " + type.getName());
+       }
+    }
+
+    @Test //Jira - KSENROLL-679
+    public void testCreateAcalWithHcal()
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, ReadOnlyException, VersionMismatchException {
+        AcademicCalendarInfo orig = new AcademicCalendarInfo();
+        orig.setName("testAcal1 name");
+        orig.setEndDate(new Date());
+        orig.setStartDate(new Date());
+        orig.setDescr(new RichTextHelper().fromPlain("test descrtion 1"));
+        // Assume holidayCalendarIds picking up from dropdown and valid(already
+        // in db)
+        List<String> holidayCalendarIds = new ArrayList<String>();
+        holidayCalendarIds.add("testAtpId2");
+        orig.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        orig.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        orig.setHolidayCalendarIds(holidayCalendarIds);
+        AcademicCalendarInfo info = acalService.createAcademicCalendar(orig.getTypeKey(), orig, callContext);
+        assertNotNull(info);
+        assertNotNull(info.getId());
+        assertEquals (orig.getName(), info.getName());
+        assertEquals (orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
+        assertEquals (orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
+
+
+        orig = info;
+        info = acalService.getAcademicCalendar(info.getId(), callContext);
+        assertNotNull(info);
+        assertEquals (orig.getName(), info.getName());
+        assertEquals (orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
+        assertEquals (orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
+
+        orig = info;
+        orig.setName("testNewAcal name");
+        info = acalService.updateAcademicCalendar(info.getId(), info, callContext);
+        assertNotNull(info);
+        assertEquals (orig.getName(), info.getName());
+        assertEquals (orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
+        assertEquals (orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
     }
 
     private void populateRequiredFields(AcademicCalendarInfo acal) {
