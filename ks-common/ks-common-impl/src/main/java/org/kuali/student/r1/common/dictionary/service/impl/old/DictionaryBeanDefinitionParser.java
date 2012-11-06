@@ -15,15 +15,6 @@
 
 package org.kuali.student.r1.common.dictionary.service.impl.old;
 
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.CaseConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.ConstraintDescriptor;
@@ -43,6 +34,7 @@ import org.kuali.student.r1.common.dictionary.old.dto.TypeStateCaseConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.TypeStateWhenConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.ValidCharsConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.WhenConstraint;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -50,6 +42,13 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Daniel Epstein
@@ -189,9 +188,8 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	                		String fieldName=resolveFieldName(element.getLocalName(),node.getLocalName());
 
 	                		if(Node.ELEMENT_NODE == node.getNodeType()&&"date".equals(((Element)node).getSchemaTypeInfo().getTypeName())){
-	                			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 	                			try {
-									builder.addPropertyValue(fieldName, df.parse(node.getTextContent()));
+									builder.addPropertyValue(fieldName, DateFormatters.DEFAULT_DATE_FORMATTER.parse(node.getTextContent()));
 								} catch (Exception e) {
 									logger.error("Cannot convert date, must be in format 'YYYY-MM-DD' :"+node.getTextContent(),e);
 								}

@@ -15,21 +15,23 @@
 
 package org.kuali.student.r1.common.validator;
 
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Deprecated
 public class ServerDateParser implements DateParser {
    
-	private static ThreadLocal<SimpleDateFormat[]> formats = new ThreadLocal<SimpleDateFormat[]>() {
+	private static ThreadLocal<KSDateTimeFormatter[]> formats = new ThreadLocal<KSDateTimeFormatter[]>() {
 
-		protected SimpleDateFormat[] initialValue() {
-			return new SimpleDateFormat[] {
-		    		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"), 
-		    		new SimpleDateFormat("yyyy-MM-dd"), 
-		    		new SimpleDateFormat("yyyy-MMM-dd"),
-		    		new SimpleDateFormat("dd-MM-yyyy"),
-		    		new SimpleDateFormat("dd-MMM-yyyy")
+		protected KSDateTimeFormatter[] initialValue() {
+			return new KSDateTimeFormatter[] {
+		    		new KSDateTimeFormatter("yyyy-MM-dd'T'HH:mm:ss.SSSZ"),
+		    		new KSDateTimeFormatter("yyyy-MM-dd"),
+		    		new KSDateTimeFormatter("yyyy-MMM-dd"),
+		    		new KSDateTimeFormatter("dd-MM-yyyy"),
+		    		new KSDateTimeFormatter("dd-MMM-yyyy")
 		    };
 		}
 
@@ -39,7 +41,7 @@ public class ServerDateParser implements DateParser {
     public Date parseDate(String input) {
         Date result = null;
         
-        for (SimpleDateFormat format : formats.get()) {
+        for (KSDateTimeFormatter format : formats.get()) {
                 try {
                     result = format.parse(input);
                 } catch (Exception e) {
