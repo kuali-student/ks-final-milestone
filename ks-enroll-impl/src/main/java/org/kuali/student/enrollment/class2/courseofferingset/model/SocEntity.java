@@ -1,20 +1,27 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
-import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.infc.Soc;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.RichTextHelper;
-
-import javax.persistence.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_SOC")
@@ -174,10 +181,9 @@ public class SocEntity extends MetaEntity implements AttributeOwner<SocAttribute
         Date dateOut = null;
         String value = soc.getAttributeValue(stateKey);
         if (value != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
             try {
-                dateOut = formatter.parse(value);
-            } catch (ParseException e) {
+                dateOut = DateFormatters.STATE_CHANGE_DATE_FORMATTER.parse(value);
+            } catch (IllegalArgumentException e) {
                 throw new RuntimeException(String.format("Could not parse date string [%s] stored in SOC %s attribute %s.",
                         value, soc.getId(), stateKey));
             }

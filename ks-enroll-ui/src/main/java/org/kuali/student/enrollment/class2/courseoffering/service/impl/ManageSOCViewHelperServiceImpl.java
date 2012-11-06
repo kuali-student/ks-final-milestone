@@ -38,10 +38,10 @@ import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -189,7 +189,6 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         String stateName;
 
         List<String> validSOCStates = Arrays.asList(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_STATE_KEYS);
-        DateFormat dateFormat = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
 
         for (AttributeInfo info : socInfo.getAttributes()){
             if (validSOCStates.contains(info.getKey())){
@@ -199,9 +198,9 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 String dateUI = info.getValue();
                 if (StringUtils.isNotBlank(info.getValue())){
                     try{
-                        date = dateFormat.parse(info.getValue());
+                        date = DateFormatters.STATE_CHANGE_DATE_FORMATTER.parse(dateUI);
                         dateUI = formatScheduleDate(date);
-                    }catch(ParseException e){
+                    }catch(IllegalArgumentException e){
                         throw new RuntimeException(e);
                     }
                 }

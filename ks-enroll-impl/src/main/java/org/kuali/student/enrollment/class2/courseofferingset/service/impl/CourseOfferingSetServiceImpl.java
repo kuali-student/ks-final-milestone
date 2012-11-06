@@ -47,11 +47,11 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -760,11 +760,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     private void logStateChange(SocEntity entity, String stateKey, ContextInfo contextInfo) {
         // add the state change to the log
         // TODO: consider changing this to a call to a real logging facility instead of stuffing it in the dynamic attributes
-        SimpleDateFormat formatter = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
-        Date date = contextInfo.getCurrentDate();
 
         // Add an attribute with a key of the state en
-        AttributeInfo attr = new AttributeInfo(stateKey, formatter.format(date));
+        AttributeInfo attr = new AttributeInfo(stateKey, DateFormatters.STATE_CHANGE_DATE_FORMATTER.format(contextInfo.getCurrentDate()));
         entity.getAttributes().add(new SocAttributeEntity(attr, entity));
     }
 

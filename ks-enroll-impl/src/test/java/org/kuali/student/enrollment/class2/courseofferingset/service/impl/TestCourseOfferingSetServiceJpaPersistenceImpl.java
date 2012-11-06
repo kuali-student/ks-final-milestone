@@ -4,22 +4,26 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
-import org.junit.Test;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the jpa persistence impl
@@ -44,13 +48,14 @@ public class TestCourseOfferingSetServiceJpaPersistenceImpl extends TestCourseOf
         orig.setUnitsContentOwnerId("myUnitId");
 
         //  Verify that scheduling state changes are successfully "logged" in dynamic attributes and that the conversion between date string and date works.
-        SimpleDateFormat formatter = new SimpleDateFormat(CourseOfferingSetServiceConstants.STATE_CHANGE_DATE_FORMAT);
-        Date startDate = new Date();
-        String startDateString = formatter.format(startDate);
+
+        String startDateString = DateFormatters.STATE_CHANGE_DATE_FORMATTER.format(new Date());
+
         orig.getAttributes().add(new AttributeTester().toAttribute(CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, startDateString));
         SocInfo info = socService.createSoc(orig.getTermId(), orig.getTypeKey(), orig, callContext);
 
-        assertEquals(startDateString, formatter.format(info.getLastSchedulingRunStarted()));
+
+        assertEquals(startDateString, DateFormatters.STATE_CHANGE_DATE_FORMATTER.format(info.getLastSchedulingRunStarted()));
         assertNull(info.getLastSchedulingRunCompleted());
 
         //  Update SOC with scheduling state "completed"
@@ -60,7 +65,7 @@ public class TestCourseOfferingSetServiceJpaPersistenceImpl extends TestCourseOf
 
         SocInfo updated = socService.getSoc(info.getId(), callContext);
 
-        assertEquals(startDateString, formatter.format(updated.getLastSchedulingRunStarted()));
+        assertEquals(startDateString, DateFormatters.STATE_CHANGE_DATE_FORMATTER.format(updated.getLastSchedulingRunStarted()));
         assertNotNull(updated.getLastSchedulingRunCompleted());
         assertFalse(updated.getLastSchedulingRunStarted().compareTo(updated.getLastSchedulingRunCompleted()) > 0);
     }
