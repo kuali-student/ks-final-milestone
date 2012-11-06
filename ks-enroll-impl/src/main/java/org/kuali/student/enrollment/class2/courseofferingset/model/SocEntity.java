@@ -7,9 +7,9 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
