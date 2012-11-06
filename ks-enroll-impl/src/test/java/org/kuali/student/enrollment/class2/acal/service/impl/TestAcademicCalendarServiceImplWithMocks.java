@@ -4,12 +4,18 @@ import edu.emory.mathcs.backport.java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.acal.dto.*;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.atp.service.impl.DateUtil;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -22,7 +28,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:acal-test-with-mocks-context.xml"})
@@ -876,5 +884,164 @@ public class TestAcademicCalendarServiceImplWithMocks {
         } catch (DoesNotExistException ex) {
             // expected
         }
+    }
+
+    @Test  // Jira - KSENROLL-3470
+    public void testHcalAndHoliday() throws Exception{
+        //Hcal
+        HolidayCalendarInfo hcal = new HolidayCalendarInfo();
+        hcal.setName("Jira3470TestHcal name");
+        hcal.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestHcal", "description formatted Jira3470TestHcal"));
+        hcal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        hcal.setStartDate(new Date());
+        hcal.setEndDate(new Date(new Date().getTime() + 100000));
+        hcal.setAdminOrgId("testOrgId1");
+
+        try{
+             hcal.setTypeKey("not configured hcal type");
+             acalService.createHolidayCalendar(hcal.getTypeKey(), hcal, callContext);
+        }catch(InvalidParameterException ex){
+            System.out.println("expected exception: "  + ex.getMessage());
+        }
+
+        hcal.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
+        HolidayCalendarInfo info = acalService.createHolidayCalendar(hcal.getTypeKey(), hcal, callContext);
+        assertNotNull(info);
+        assertNotNull(info.getId());
+        assertEquals(hcal.getName(), info.getName());
+
+
+        //Holiday
+        HolidayInfo holiday = new HolidayInfo();
+        holiday.setName("Jira3470TestHoliday name");
+        holiday.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestHoliday", "description formatted Jira3470TestHoliday"));
+        holiday.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        holiday.setStartDate(new Date());
+        holiday.setEndDate(new Date(new Date().getTime() + 100000));
+        holiday.setIsAllDay(Boolean.TRUE);
+        holiday.setIsDateRange(Boolean.TRUE);
+        holiday.setIsInstructionalDay(Boolean.TRUE);;
+
+        try{
+            holiday.setTypeKey("not configured holiday type");
+            acalService.createHoliday(info.getId(), holiday.getTypeKey(), holiday, callContext);
+        }catch(InvalidParameterException ex){
+            System.out.println("expected exception: "  + ex.getMessage());
+        }
+
+        holiday.setTypeKey(AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY);
+        HolidayInfo holidayInfo = acalService.createHoliday(info.getId(), holiday.getTypeKey(), holiday, callContext);
+        assertNotNull(info);
+        assertNotNull(info.getId());
+        assertEquals(holiday.getName(), holidayInfo.getName());
+    }
+
+    @Test  // Jira - KSENROLL-3470
+    public void testAcalAndEvent() throws Exception{
+        //Acal
+        AcademicCalendarInfo acal = new AcademicCalendarInfo();
+        acal.setName("Jira3470TestAcal name");
+        acal.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestAcal", "description formatted Jira3470TestAcal"));
+        acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        acal.setStartDate(new Date());
+        acal.setEndDate(new Date(new Date().getTime() + 100000));
+        acal.setAdminOrgId("testOrgId1");
+
+        try{
+            acal.setTypeKey("not configured acal type");
+            acalService.createAcademicCalendar(acal.getTypeKey(), acal, callContext);
+        }catch(InvalidParameterException ex){
+            System.out.println("expected exception: "  + ex.getMessage());
+        }
+
+        acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        AcademicCalendarInfo acalInfo = acalService.createAcademicCalendar(acal.getTypeKey(), acal, callContext);
+        assertNotNull(acalInfo);
+        assertNotNull(acalInfo.getId());
+        assertEquals(acal.getName(), acalInfo.getName());
+
+        //AcalEvent
+        AcalEventInfo event = new AcalEventInfo();
+        event.setName("Jira3470TestAcalEvent name");
+        event.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestAcalEven", "description formatted Jira3470TestAcalEvent"));
+        event.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        event.setStartDate(new Date());
+        event.setEndDate(new Date(new Date().getTime() + 100000));
+        event.setIsAllDay(Boolean.TRUE);
+        event.setIsDateRange(Boolean.TRUE);
+
+        try{
+            event.setTypeKey("not configured acalevent type");
+            acalService.createAcalEvent(acalInfo.getId(), event.getTypeKey(), event, callContext);
+        }catch(InvalidParameterException ex){
+            System.out.println("expected exception: "  + ex.getMessage());
+        }
+
+        event.setTypeKey(AtpServiceConstants.MILESTONE_HOMECOMING_TYPE_KEY);
+        AcalEventInfo eventInfo = acalService.createAcalEvent(acalInfo.getId(), event.getTypeKey(), event, callContext);
+        assertNotNull(eventInfo);
+        assertNotNull(eventInfo.getId());
+        assertEquals(event.getName(), eventInfo.getName());
+    }
+
+    @Test  // Jira - KSENROLL-3470
+    public void testTermAndKeydate() throws Exception{
+        AcademicCalendarInfo acal = new AcademicCalendarInfo();
+         acal.setName("Jira3470TestAcalWTerm name");
+         acal.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestAcalWTerm", "description formatted Jira3470TestAcalWTerm"));
+         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+         acal.setStartDate(new Date());
+         acal.setEndDate(new Date(new Date().getTime() + 100000));
+         acal.setAdminOrgId("testOrgId1");
+
+        AcademicCalendarInfo acalInfo = acalService.createAcademicCalendar(acal.getTypeKey(), acal, callContext);
+        assertNotNull(acalInfo);
+        assertNotNull(acalInfo.getId());
+        assertEquals(acal.getName(), acalInfo.getName());
+
+        //Term
+       TermInfo term = new TermInfo();
+        term.setName("Jira3470TestTerm name");
+        term.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestTerm", "description formatted Jira3470TestTerm"));
+        term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        term.setStartDate(new Date());
+        term.setEndDate(new Date(new Date().getTime() + 100000));
+
+        try{
+            term.setTypeKey("not configured term type");
+            acalService.createTerm(term.getTypeKey(), term, callContext);
+        }catch(InvalidParameterException ex){
+            System.out.println("expected exception: "  + ex.getMessage());
+        }
+
+        term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        TermInfo termInfo = acalService.createTerm(term.getTypeKey(), term, callContext);
+        assertNotNull(termInfo);
+        assertNotNull(termInfo.getId());
+        assertEquals(term.getName(), termInfo.getName());
+
+         //Keydate
+        KeyDateInfo kd = new KeyDateInfo();
+        kd.setName("Jira3470TestKeydate name");
+        kd.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestKeydate", "description formatted Jira3470TestKeydate"));
+        kd.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        kd.setStartDate(new Date());
+        kd.setEndDate(new Date(new Date().getTime() + 100000));
+        kd.setIsAllDay(Boolean.TRUE);
+        kd.setIsDateRange(Boolean.TRUE);
+
+        try{
+            kd.setTypeKey("not configured keydate type");
+            acalService.createKeyDate(termInfo.getId(), kd.getTypeKey(), kd, callContext);
+        }catch(InvalidParameterException ex){
+            System.out.println("expected exception: "  + ex.getMessage());
+        }
+
+        kd.setTypeKey(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY);
+        KeyDateInfo kdInfo = acalService.createKeyDate(termInfo.getId(), kd.getTypeKey(), kd, callContext);
+        assertNotNull(kdInfo);
+        assertNotNull(kdInfo.getId());
+        assertEquals(kd.getName(), kdInfo.getName());
     }
 }
