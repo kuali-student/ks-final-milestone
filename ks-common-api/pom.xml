@@ -8,6 +8,17 @@
     </parent>
     <artifactId>ks-common-api</artifactId>
     <name>KS Common API</name>
+    <build>
+           <plugins>
+               <plugin>
+                   <artifactId>maven-surefire-plugin</artifactId>
+                   <configuration>
+                       <forkMode>always</forkMode>
+                       <argLine>-Xms256m -Xmx512m</argLine>
+                   </configuration>
+               </plugin>
+           </plugins>
+    </build>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
