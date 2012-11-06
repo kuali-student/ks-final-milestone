@@ -15,7 +15,18 @@
  */
 package org.kuali.student.r2.common.datadictionary;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.*;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -25,18 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.*;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -126,7 +126,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
      * Test of validate method, of class RiceValidatorImpl.
      */
     @Test
-    @Ignore // TODO: RICE-M9 UPGRADE
+    @Ignore // KSENROLL-3721// TODO: RICE-M9 UPGRADE
     public void testValidate() throws Exception {
         System.out.println("validate ATP");
         DataDictionaryValidator.ValidationType validationType = null;

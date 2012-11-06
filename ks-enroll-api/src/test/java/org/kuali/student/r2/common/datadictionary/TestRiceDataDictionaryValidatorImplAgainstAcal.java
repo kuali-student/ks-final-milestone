@@ -15,7 +15,18 @@
  */
 package org.kuali.student.r2.common.datadictionary;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.*;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -25,24 +36,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.*;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
  * @author nwright
  */
-@Ignore
+@Ignore    //KSENROLL-3720
 public class TestRiceDataDictionaryValidatorImplAgainstAcal {
 
     public TestRiceDataDictionaryValidatorImplAgainstAcal() {
