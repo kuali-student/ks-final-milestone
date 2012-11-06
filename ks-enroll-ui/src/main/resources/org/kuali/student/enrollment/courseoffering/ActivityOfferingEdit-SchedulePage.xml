@@ -54,7 +54,7 @@
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="editScheduleComponent" p:actionLabel="Edit"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:preSubmitCall="return confirm('Removing all delivery logistics from this activity offering will cause it to become unscheduled')"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"/>
             </list>
         </property>
     </bean>
