@@ -198,10 +198,6 @@
         <class>org.kuali.student.r2.lum.lu.entity.LuCodeAttribute</class>
         <class>org.kuali.student.r2.lum.lu.entity.LuCodeType</class>
         <class>org.kuali.student.r2.lum.lu.entity.LuCodeTypeAttribute</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
-        <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationAttributeEntity</class>
         <class>org.kuali.student.r2.lum.lu.entity.LuLuRelationType</class>
         <class>org.kuali.student.r2.lum.lu.entity.LuLuRelationTypeAttribute</class>
         <class>org.kuali.student.r2.lum.lu.entity.LuPublicationType</class>
