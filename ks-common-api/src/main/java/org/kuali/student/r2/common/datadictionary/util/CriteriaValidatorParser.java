@@ -15,23 +15,21 @@
  */
 package org.kuali.student.r2.common.datadictionary.util;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.kuali.rice.core.api.uif.DataType;
-
 import org.kuali.student.r2.common.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Comparison;
 import org.kuali.student.r2.common.infc.Criteria;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 
-/**
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+ /**
  * A class that validates the criteria against the dictionary
  *
  * It also sets the parsedValues and parsedOperators so they may be used in the implementation
@@ -265,19 +263,17 @@ public class CriteriaValidatorParser {
     }
 
     private Timestamp parseDateTime(int i, String cv) throws InvalidParameterException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd-hh.mm.ss");
         try {
-            return new Timestamp(df.parse(cv).getTime());
-        } catch (ParseException ex) {
+            return new Timestamp(DateFormatters.DEFAULT_TIMESTAMP_FORMATTER.parse(cv).getTime());
+        } catch (IllegalArgumentException ex) {
             throw new InvalidParameterException("The " + i + "th comparison's value " + cv + " cannot be parsed as a dateTime");
         }
     }
 
     private Date parseDate(int i, String cv) throws InvalidParameterException {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            return df.parse(cv);
-        } catch (ParseException ex) {
+            return DateFormatters.DEFAULT_DATE_FORMATTER.parse(cv);
+        } catch (IllegalArgumentException ex) {
             throw new InvalidParameterException("The " + i + "th comparison's value " + cv + " cannot be parsed as a date");
         }
     }

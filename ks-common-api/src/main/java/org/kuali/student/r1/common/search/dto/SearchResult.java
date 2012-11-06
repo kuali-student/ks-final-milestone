@@ -15,16 +15,16 @@
 
 package org.kuali.student.r1.common.search.dto;
 
+import org.kuali.student.r2.common.util.date.DateFormatters;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
 
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -123,9 +123,8 @@ public class SearchResult implements Serializable {
                     compareResult = v1Boolean.compareTo(v2Boolean);
                 } else {
                     try {
-                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                        Date v1Date = df.parse(v1);
-                        Date v2Date = df.parse(v2);
+                        Date v1Date = DateFormatters.DEFAULT_DATE_FORMATTER.parse(v1);
+                        Date v2Date = DateFormatters.DEFAULT_DATE_FORMATTER.parse(v2);
                         compareResult = v1Date.compareTo(v2Date);
                     } catch (Exception e) {
                         if (v1 != null && v2 != null) {
