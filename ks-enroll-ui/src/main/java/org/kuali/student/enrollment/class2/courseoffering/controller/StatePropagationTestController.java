@@ -251,10 +251,15 @@ public class StatePropagationTestController extends UifControllerBase {
         });
 
         layoutBuilder.append("<b>Seat Pool</b> ");
-        for(SeatPoolDefinitionInfo spd : seatPoolDefinitionInfoList){
-            layoutBuilder.append(spd.getProcessingPriority() + " " + getStateName(spd.getStateKey()));
-            layoutBuilder.append("</br>");
+        if(seatPoolDefinitionInfoList.size() > 0) {
+            for(SeatPoolDefinitionInfo spd : seatPoolDefinitionInfoList){
+                layoutBuilder.append(spd.getProcessingPriority() + " " + getStateName(spd.getStateKey()));
+                layoutBuilder.append("</br>");
+            }
+        } else {
+            layoutBuilder.append("no data");
         }
+
         layoutBuilder.append("</br>");
     }
 
@@ -319,9 +324,13 @@ public class StatePropagationTestController extends UifControllerBase {
         try {
             List<RegistrationGroupInfo>  registrationGroupInfos = getCourseOfferingService().getRegistrationGroupsWithActivityOfferings(activityOfferingIds, getContextInfo());
             layoutBuilder.append("<b>RegistrationGroups</b> ");
-            for(RegistrationGroupInfo rg : registrationGroupInfos){
-                layoutBuilder.append(rg.getId() + " " + getStateName(rg.getStateKey()));
-                layoutBuilder.append("</br>");
+            if(registrationGroupInfos.size()>0){
+                for(RegistrationGroupInfo rg : registrationGroupInfos){
+                    layoutBuilder.append(rg.getId() + " " + getStateName(rg.getStateKey()));
+                    layoutBuilder.append("</br>");
+                }
+            }else{
+                layoutBuilder.append("no data");
             }
             layoutBuilder.append("</br>");
         } catch (Exception e) {
