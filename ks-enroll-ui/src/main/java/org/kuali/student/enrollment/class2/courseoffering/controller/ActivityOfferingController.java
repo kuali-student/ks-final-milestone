@@ -12,6 +12,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +36,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     public ModelAndView reviseSchedule(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        getViewHelperService(form).prepareForScheduleRevise(activityOfferingWrapper);
+        ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+        viewHelper.prepareForScheduleRevise(activityOfferingWrapper);
         form.setDeliveryLogisiticsAddButtonText("Add");
 
         return getUIFModelAndView(form,ActivityOfferingForm.SCHEDULE_PAGE);
@@ -61,7 +63,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     public ModelAndView addScheduleComponent(@ModelAttribute("KualiForm") ActivityOfferingForm form) throws Exception {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        boolean success = getViewHelperService(form).addScheduleRequestComponent(form);
+        ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+        boolean success = viewHelper.addScheduleRequestComponent(form);
 
         if (form.isSchedulePage() && success){
             form.setDeliveryLogisiticsAddButtonText("Add");
@@ -110,7 +113,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
         }
 
-        getViewHelperService(form).processRevisedSchedules(activityOfferingWrapper);
+        ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+        viewHelper.processRevisedSchedules(activityOfferingWrapper);
 
         activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
         activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
@@ -132,29 +136,41 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form,ActivityOfferingForm.MAIN_PAGE);
     }
 
-    public ActivityOfferingMaintainable getViewHelperService(ActivityOfferingForm form){
-        if (form.getView().getViewHelperServiceClass() != null){
-            return (ActivityOfferingMaintainable) form.getView().getViewHelperService();
-        }else{
-            return (ActivityOfferingMaintainable) form.getPostedView().getViewHelperService();
+    /*@RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteLine")
+    public ModelAndView deleteLine(@ModelAttribute("KualiForm") ActivityOfferingForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+
+        if (StringUtils.endsWith(selectedCollectionPath,"revisedScheduleRequestComponents")){
+            if (activityOfferingWrapper.getRequestedScheduleComponents().size() == 1){
+                String dialogName = "deleteScheduleConfirmDialog";
+
+                if (!hasDialogBeenAnswered(dialogName, form)) {
+                    return showDialog(dialogName, form, request, response);
+                }
+
+                boolean dialogAnswer = getBooleanDialogResponse(dialogName, form, request, response);
+                form.getDialogManager().resetDialogStatus(dialogName);
+
+                if (!dialogAnswer) {
+                    return getUIFModelAndView(form);
+                }
+            }
         }
-    }
-    
+
+        return super.deleteLine(form,result,request,response);
+
+    }*/
+
     private Object getSelectedObject(ActivityOfferingForm form){
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set");
         }
 
-        int selectedLineIndex = -1;
-        String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("Selected line index was not set");
-        }
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(form);
 
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(form, selectedCollectionPath);
         return ((List<Object>) collection).get(selectedLineIndex);
