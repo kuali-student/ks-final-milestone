@@ -190,7 +190,7 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     }
 
     public String getCreditOptionCreditsUI(){
-        if(creditOption!=null && !creditOption.getAllowedCredits().isEmpty()){
+        if(creditOption!=null && !creditOption.getAllowedCredits().isEmpty() && !creditOption.getCredits().isEmpty() ){
             return StringUtils.join(creditOption.getCredits(),",");
         }
         return "No Credits Selected";
