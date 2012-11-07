@@ -17,9 +17,8 @@ package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -48,15 +47,12 @@ public class TimeSetWrapper {
         // If not all day, set start/end time in the wrapper
         if (!isAllDay()){
 
-            DateFormat dfm = new SimpleDateFormat("hh:mm");
-
             if (getEndDate() != null){
-                setStartTime(dfm.format(getStartDate()));
-                setEndTime(dfm.format(getEndDate()));
+                setStartTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getStartDate()));
+                setEndTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getEndDate()));
 
-                dfm = new SimpleDateFormat("a");
-                setStartTimeAmPm(dfm.format(getStartDate()));
-                setEndTimeAmPm(dfm.format(getEndDate()));
+                setStartTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getStartDate()));
+                setEndTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getEndDate()));
 
                 String startDate = CommonUtils.formatDate(getStartDate());
                 String endDate = CommonUtils.formatDate(getEndDate());
@@ -141,12 +137,10 @@ public class TimeSetWrapper {
     protected String formatStartDateUI(Date startDate){
         if (startDate != null) {
             if (!isAllDay()){
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-                String formattedDate = formatter.format(startDate);
+                String formattedDate = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(startDate);
                 return StringUtils.removeEndIgnoreCase(formattedDate,"12:00 am");
             }else{
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                return formatter.format(startDate);
+                return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(startDate);
             }
         }else{
             return StringUtils.EMPTY;
@@ -158,15 +152,13 @@ public class TimeSetWrapper {
     protected String formatEndDateUI(Date endDate){
         if (endDate != null) {
             if (!isAllDay()){
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-                String formattedEndDate = formatter.format(endDate);
-                String formattedStartDate = formatter.format(startDate);
+                String formattedEndDate = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(endDate);
+                String formattedStartDate = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(startDate);
                 String strippedDate = StringUtils.removeStart(formattedEndDate,StringUtils.substringBefore(formattedStartDate," "));
                 return StringUtils.removeEndIgnoreCase(strippedDate,"11:59 pm");
             }else{
                 if (isDateRange()){
-                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                    return formatter.format(endDate);
+                    return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(endDate);
                 }else{
                     return StringUtils.EMPTY;
                 }
