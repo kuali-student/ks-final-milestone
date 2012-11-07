@@ -2476,7 +2476,7 @@
   </wsdl:binding>
   <wsdl:service name="WorkflowUtilityServiceSOAP">
     <wsdl:port binding="tns:WorkflowUtilityServiceSOAPSoapBinding" name="WorkflowUtilityServiceSOAPPort">
-      <soap:address location="http://localhost:8081/ks-rice-dev/remoting/WorkflowUtilityServiceSOAP" />
+      <soap:address location="http://localhost:8081/ks-rice-standalone-dev/remoting/WorkflowUtilityServiceSOAP" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
