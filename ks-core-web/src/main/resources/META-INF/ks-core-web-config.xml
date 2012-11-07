@@ -38,8 +38,8 @@
 	<param name="ks.core.doDataLoad">true</param>
 
     <!-- Rice URLS --> 
-    <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-dev/kr/lookup.do</param>
-    <param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-dev/kew/ActionList.do</param>
+    <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-rice-standalone-dev/kr/lookup.do</param>
+    <param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-rice-standalone-dev/kew/ActionList.do</param>
     
     <!-- system params for derby network version -->
     <param name="derby.system.home" system="true" override="false">target</param>
