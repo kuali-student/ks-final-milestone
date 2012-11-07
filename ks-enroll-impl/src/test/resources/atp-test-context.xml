@@ -23,19 +23,6 @@
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
 	<import resource="classpath:search-test-context.xml"/>
-	
-	    <!--  Preloaded data None -->
-<!--    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-        <property name="jtaTxManager" ref="JtaTxManager"/>
-        <property name="shouldLoadData" value="true"/>
-        <property name="preloadMap">
-            <map>
-                <entry key="Acal">
-                    <value>classpath:ks-atp.sql</value>
-                </entry>
-            </map>
-        </property>
-    </bean>-->
 
     <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">
@@ -84,7 +71,6 @@
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
-            <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" />-->
     </bean>
     
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
@@ -92,12 +78,6 @@
         <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
-    
-   <!--<bean id="entityManagerFactory"
-        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false" autowire="byType">
-        <property name="persistenceUnitName" value="Acal"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml"/>
-    </bean>-->
 
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
