@@ -2680,13 +2680,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
         }
 
-        List<CourseOfferingInfo> testCo = new ArrayList<CourseOfferingInfo>();
-        for (CourseOfferingInfo coInfo : courseOfferings) {
-            if (coInfo.getInstructors().size()>0) {
-                testCo.add(coInfo);
-            }
-        }
-        System.out.println("test");
         return courseOfferings;
     }
 
