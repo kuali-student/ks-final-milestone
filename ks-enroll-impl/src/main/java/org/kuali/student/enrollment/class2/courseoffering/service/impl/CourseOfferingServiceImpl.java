@@ -2006,11 +2006,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     private List<ValidationResultInfo> _vRG_checkTimeConflict(List<String> timeSlotIdsFirst, List<String> timeSlotIdsSecond,
-                                                          List<ValidationResultInfo> validationResultInfos,
-                                                          String aoIdFirst, String aoIdSecond,
-                                                          ContextInfo context)
+                                                              List<ValidationResultInfo> validationResultInfos,
+                                                              String aoIdFirst, String aoIdSecond,
+                                                              ContextInfo context)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-                   OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         if (_checkTimeSlotsOverlap(timeSlotIdsFirst, timeSlotIdsSecond, context)) {
             ValidationResultInfo validationResultInfo = new ValidationResultInfo();
             validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
@@ -2198,7 +2198,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     private void _verifyAoIdsInCorrectAoSet(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-                   PermissionDeniedException, OperationFailedException {
+            PermissionDeniedException, OperationFailedException {
 
         for (ActivityOfferingSetInfo setInfo: clusterInfo.getActivityOfferingSets()) {
             String aoType = setInfo.getActivityOfferingType();
@@ -2221,7 +2221,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private void _verifyAOSetsInCluster(FormatOfferingInfo foInfo, ActivityOfferingClusterInfo clusterInfo,
                                         ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-                   OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
         // Make sure types are unique
         Set<String> clusterAoTypes = _verifyUniquenessOfAoTypes(clusterInfo);
         List<String> aoTypes = foInfo.getActivityOfferingTypeKeys();
@@ -2390,7 +2390,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     private void _uAOC_deleteRegGroupsWithAosNotInCluster(ActivityOfferingClusterInfo clusterInfo, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException,
-                   OperationFailedException {
+            OperationFailedException {
 
         // Find all AO IDs in this cluster
         List<ActivityOfferingSetInfo> aoSetInfos = clusterInfo.getActivityOfferingSets();
@@ -2424,8 +2424,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                                      ActivityOfferingClusterInfo activityOfferingClusterInfo,
                                                                      ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-                   MissingParameterException, OperationFailedException, PermissionDeniedException,
-                   ReadOnlyException, VersionMismatchException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException, VersionMismatchException {
 
         ActivityOfferingClusterEntity activityOfferingClusterEntity = activityOfferingClusterDao.find(activityOfferingClusterId);
         if (null != activityOfferingClusterEntity) {
@@ -2455,7 +2455,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteActivityOfferingCluster(String activityOfferingClusterId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-                   OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
+            OperationFailedException, PermissionDeniedException, DependentObjectsExistException {
 
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -2492,7 +2492,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public SeatPoolDefinitionInfo getSeatPoolDefinition(String seatPoolDefinitionId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-                   OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException {
 
         SeatPoolDefinitionEntity poolEntity = seatPoolDefinitionDao.find(seatPoolDefinitionId); // throws DoesNotExistException
         if (null == poolEntity) {
@@ -2628,17 +2628,65 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
-        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
-        for (LuiEntity lui : results.getResults()) {
-            if (_checkTypeForCourseOfferingType(lui.getLuiType())) {
-                CourseOfferingInfo co = new CourseOfferingInfo();
-                //Associate instructors to the given CO
-                courseOfferingTransformer.lui2CourseOffering(lui.toDto(), co, context);
-                courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
-                courseOfferings.add(co);
+        List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(results.getResults().size());
+        List<String> coIds = new ArrayList<String>(results.getResults().size());
+
+        if (results != null && results.getResults().size() > 0) {
+            for (LuiEntity lui : results.getResults()) {
+                if (_checkTypeForCourseOfferingType(lui.getLuiType())) {
+                    coIds.add(lui.getId());
+                    CourseOfferingInfo co = new CourseOfferingInfo();
+                    //Associate instructors to the given CO
+                    courseOfferingTransformer.lui2CourseOffering(lui.toDto(), co, context);
+                    //courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
+
+                    courseOfferings.add(co);
+                }
+            }
+
+            List<LprInfo> lprs = new ArrayList<LprInfo>();
+
+            //create the map to store co-lprList relationship
+            try {
+                lprs = getLprService().getLprsByLuis(coIds, context);
+                Map<String, List<LprInfo>> coLprMap = new HashMap<String, List<LprInfo>>(courseOfferings.size());
+                for (LprInfo lpr : lprs) {
+                    int mapIndex = 0;
+                    for (Map.Entry<String, List<LprInfo>> entry : coLprMap.entrySet()) {
+                        if (entry.getKey().equals(lpr.getLuiId())) {
+                            entry.getValue().add(lpr);
+                            break;
+                        }
+                        mapIndex++;
+                    }
+                    if (mapIndex == coLprMap.size()) {
+                        List<LprInfo> lprsForCo = new ArrayList<LprInfo>();
+                        lprsForCo.add(lpr);
+                        coLprMap.put(lpr.getLuiId(), lprsForCo);
+                    }
+
+                }
+
+                //assemble instructors to CO
+                for (CourseOfferingInfo coInfo : courseOfferings) {
+                    List<LprInfo> lprsForAssemble = coLprMap.get(coInfo.getId());
+
+                    if (lprsForAssemble != null && lprsForAssemble.size() > 0) {
+                        courseOfferingTransformer.assembleInstructorsByLprs(coInfo, lprsForAssemble);
+                    }
+                }
+            } catch(Exception e){
+                throw new OperationFailedException("Failed to retrieve Lprs", e);
             }
         }
 
+        List<CourseOfferingInfo> testCo = new ArrayList<CourseOfferingInfo>();
+        for (CourseOfferingInfo coInfo : courseOfferings) {
+            if (coInfo.getInstructors().size()>0) {
+                testCo.add(coInfo);
+            }
+        }
+        System.out.println("test");
         return courseOfferings;
     }
 
@@ -3066,9 +3114,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
             String activityOfferingClusterId, ContextInfo contextInfo)
-              throws DoesNotExistException, InvalidParameterException,
-                     MissingParameterException, OperationFailedException,
-                     PermissionDeniedException {
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
         List<RegistrationGroupInfo> regGroupsForAOC = new ArrayList<RegistrationGroupInfo>();

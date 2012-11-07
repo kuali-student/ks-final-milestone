@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -171,7 +172,7 @@ public class CourseOfferingTransformer {
                 }
             }
 
-           if(creditOptionId != null){
+            if(creditOptionId != null){
                 ResultValuesGroupInfo resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
                 String typeKey = resultValuesGroupInfo.getTypeKey();
                 if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
@@ -380,7 +381,7 @@ public class CourseOfferingTransformer {
     public void copyFromCanonical(CourseInfo courseInfo, CourseOfferingInfo courseOfferingInfo, List<String> optionKeys, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         courseOfferingInfo.setCourseId(courseInfo.getId());
         if (!optionKeys.contains(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY)) {
-         courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
+            courseOfferingInfo.setCourseOfferingTitle(courseInfo.getCourseTitle());
         }
         courseOfferingInfo.setSubjectArea(courseInfo.getSubjectArea());
 
@@ -473,28 +474,57 @@ public class CourseOfferingTransformer {
             throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Permission Denied ", e);
         }
 
-        for (LprInfo lpr : lprs) {
-            if (lpr.getStateKey()==null || !lpr.getStateKey().equals(LprServiceConstants.DROPPED_STATE_KEY)) {
-                OfferingInstructorInfo instructor = new OfferingInstructorInfo();
-                instructor.setPersonId(lpr.getPersonId());
-                if (lpr.getCommitmentPercent() != null) {
-                    instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
-                } else {
-                    instructor.setPercentageEffort(null);
-                }
-                instructor.setId(lpr.getId());
-                instructor.setTypeKey(lpr.getTypeKey());
-                instructor.setStateKey(lpr.getStateKey());
+        assembleInstructorsByLprs(co, lprs);
 
-                 // Should be only one person found by person id
-                List<Person> personList = OfferingInstructorTransformer.getInstructorByPersonId(instructor.getPersonId());
-                if(personList != null && !personList.isEmpty()){
-                    instructor.setPersonName(personList.get(0).getName());
+//        for (LprInfo lpr : lprs) {
+//            if (lpr.getStateKey()==null || !lpr.getStateKey().equals(LprServiceConstants.DROPPED_STATE_KEY)) {
+//                OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+//                instructor.setPersonId(lpr.getPersonId());
+//                if (lpr.getCommitmentPercent() != null) {
+//                    instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+//                } else {
+//                    instructor.setPercentageEffort(null);
+//                }
+//                instructor.setId(lpr.getId());
+//                instructor.setTypeKey(lpr.getTypeKey());
+//                instructor.setStateKey(lpr.getStateKey());
+//
+//                 // Should be only one person found by person id
+//                List<Person> personList = OfferingInstructorTransformer.getInstructorByPersonId(instructor.getPersonId());
+//                if(personList != null && !personList.isEmpty()){
+//                    instructor.setPersonName(personList.get(0).getName());
+//                }
+//                co.getInstructors().add(instructor);
+//            }
+//
+//        }
+    }
+
+    public void assembleInstructorsByLprs(CourseOfferingInfo co, List<LprInfo> lprs) {
+        if (lprs != null && lprs.size() > 0) {
+            for (LprInfo lpr : lprs) {
+                if (lpr.getStateKey() == null || !lpr.getStateKey().equals(LprServiceConstants.DROPPED_STATE_KEY)) {
+                    OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+                    instructor.setPersonId(lpr.getPersonId());
+                    if (lpr.getCommitmentPercent() != null) {
+                        instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+                    } else {
+                        instructor.setPercentageEffort(null);
+                    }
+                    instructor.setId(lpr.getId());
+                    instructor.setTypeKey(lpr.getTypeKey());
+                    instructor.setStateKey(lpr.getStateKey());
+
+                    // Should be only one person found by person id
+                    List<Person> personList = OfferingInstructorTransformer.getInstructorByPersonId(instructor.getPersonId());
+                    if (personList != null && !personList.isEmpty()) {
+                        instructor.setPersonName(personList.get(0).getName());
+                    }
+                    co.getInstructors().add(instructor);
                 }
-                co.getInstructors().add(instructor);
             }
-
         }
+
     }
 
     public CluService getCluService() {

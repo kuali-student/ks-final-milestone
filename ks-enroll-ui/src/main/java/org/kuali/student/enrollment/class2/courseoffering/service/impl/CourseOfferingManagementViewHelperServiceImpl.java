@@ -94,10 +94,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 PredicateFactory.like("courseOfferingCode", courseCode + "%"),
                 PredicateFactory.equalIgnoreCase("atpId", termId)));
         QueryByCriteria criteria = qbcBuilder.build();
-        List<String> courseOfferingIds = _getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
+        List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().searchForCourseOfferings(criteria, contextInfo);
+        //List<String> courseOfferingIds = _getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo); //David Yin commented out
 
-        if(courseOfferingIds.size() > 0){
-            List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,contextInfo);
+        if(courseOfferingList.size() > 0){
+            //List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,contextInfo);
             form.getCourseOfferingEditWrapperList().clear();
             for(CourseOfferingInfo coInfo: courseOfferingList){
                 CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
@@ -114,14 +115,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     private String getGradingOption(String gradingOptionId) throws Exception {
-          String gradingOption = "";
-          if(StringUtils.isNotBlank(gradingOptionId)){
-              ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, ContextUtils.createDefaultContextInfo());
-              if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
-                 gradingOption = rvg.getName();
-              }
-          }
-          return gradingOption;
+        String gradingOption = "";
+        if(StringUtils.isNotBlank(gradingOptionId)){
+            ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, ContextUtils.createDefaultContextInfo());
+            if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
+                gradingOption = rvg.getName();
+            }
+        }
+        return gradingOption;
     }
 
     public List<CourseOfferingInfo> findCourseOfferingsByTermAndCourseOfferingCode (String termCode, String courseOfferingCode, CourseOfferingManagementForm form) throws Exception{
@@ -190,12 +191,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     int currentIndex = courseOfferingInfos.indexOf(offeringInfo);
                     form.setInputCode(offeringInfo.getCourseOfferingCode());
                     if (currentIndex > 0){
-                         form.setPreviousCourseOffering(courseOfferingInfos.get(currentIndex-1));
+                        form.setPreviousCourseOffering(courseOfferingInfos.get(currentIndex-1));
                     }else{
                         form.setPreviousCourseOffering(null);
                     }
                     if (currentIndex < courseOfferingInfos.size()-1){
-                         form.setNextCourseOffering(courseOfferingInfos.get(currentIndex+1));
+                        form.setNextCourseOffering(courseOfferingInfos.get(currentIndex+1));
                     }else{
                         form.setNextCourseOffering(null);
                     }
@@ -345,7 +346,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     } else {
                         if ( ! hasBadStateWarning) hasBadStateWarning = true;
                     }
-                //  If the action is "Approve for Scheduling" then AO state must be "Draft"
+                    //  If the action is "Approve for Scheduling" then AO state must be "Draft"
                 } else {
                     if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, wrapper.getAoInfo().getStateKey())) {
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
