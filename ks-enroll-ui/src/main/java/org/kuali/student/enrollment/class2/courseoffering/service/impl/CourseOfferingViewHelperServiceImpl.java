@@ -39,10 +39,10 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -235,9 +235,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     @Override
     public String formatDate(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("EEE, MMMMM d, yyyy");
-        String startDateStr = format.format(date);
-        return startDateStr;
+        return DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER.format(date);
     }
 
     @Override
@@ -245,9 +243,8 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         if (date == null) {
             return "";
         }
-        SimpleDateFormat format = new SimpleDateFormat("MMMMM d, yyyy, h:mm a");
-        String startDateStr = format.format(date);
-        return startDateStr;
+
+        return DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER.format(date);
     }
 
     @Override

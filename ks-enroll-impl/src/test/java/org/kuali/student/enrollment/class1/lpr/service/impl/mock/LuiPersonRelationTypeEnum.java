@@ -12,11 +12,10 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.infc.Type;
 
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -123,12 +122,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
         if (dateStr == null) {
             return null;
         }
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-        try {
-            return df.parse(dateStr);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException(ex);
-        }
+        return DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse(dateStr);
     }
 
     public void setKey(String key) {
