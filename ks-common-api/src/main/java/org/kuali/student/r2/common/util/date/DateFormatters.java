@@ -20,6 +20,8 @@ public class DateFormatters {
     public static final String YEAR_MONTH_DAY_CONCAT_DATE_FORMAT =  "yyyyMMdd";
     public static final String COURSE_OFFERING_VIEW_HELPER_DATE_FORMAT ="EEE, MMMMM d, yyyy";
     public static final String COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMAT = "MMMMM d, yyyy, h:mm a";
+    public static final String HOUR_MINUTE_TIME_FORMAT = "hh:mm";
+    public static final String AM_PM_TIME_FORMAT = "a";
 
 
     // Fast Thread Safe Formatter. Use this instead of SimpleDateFormat
@@ -33,6 +35,8 @@ public class DateFormatters {
     public static final KSDateTimeFormatter YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER = new KSDateTimeFormatter(YEAR_MONTH_DAY_CONCAT_DATE_FORMAT);
     public static final KSDateTimeFormatter COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER = new KSDateTimeFormatter(COURSE_OFFERING_VIEW_HELPER_DATE_FORMAT);
     public static final KSDateTimeFormatter COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER = new KSDateTimeFormatter(COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMAT);
+    public static final KSDateTimeFormatter HOUR_MINUTE_TIME_FORMATTER = new KSDateTimeFormatter(HOUR_MINUTE_TIME_FORMAT);
+    public static final KSDateTimeFormatter AM_PM_TIME_FORMATTER = new KSDateTimeFormatter(AM_PM_TIME_FORMAT);
 
 
 
