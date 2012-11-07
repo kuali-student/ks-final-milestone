@@ -141,11 +141,9 @@
             <bean parent="Uif-AttributeQueryConfig">
                 <!-- method defined in helper, but can also be a static method -->
                 <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
-                <property name="queryMethodArgumentFieldList" value="stringField3"/>
-                <!--
-                <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+                <!-- note, param is not the form field, it's the mapped field -->
+                <property name="queryMethodArgumentFieldList" value="id"/>
                 <property name="queryFieldMapping" value="stringField3:id"/>
-                -->
                 <property name="returnFieldMapping" value="name:stringField4"/>
             </bean>
         </property>
@@ -243,6 +241,11 @@
 
     <bean id="KS-KitchenSink-LookupOverview-View-Bare" parent="KS-KitchenSink-LookupOverview-View-Base">
         <property name="breadcrumbs.render" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-ks-kitchensink-marginTop</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
