@@ -337,7 +337,7 @@ public class RoomServiceMockImpl implements RoomService {
         List<String> idList = new ArrayList<String>();
         boolean found = false;
         for(BuildingInfo info : buildingList) {
-            if(info.getCampusKey().equalsIgnoreCase(campusKey)) {
+            if(info.getCampusId().equalsIgnoreCase(campusKey)) {
                 found = true;
                 idList.add(info.getId());
             }
@@ -413,7 +413,7 @@ public class RoomServiceMockImpl implements RoomService {
         BuildingInfo  info = new BuildingInfo();
         info.setId(buildingId);
         info.setBuildingCode(buildingInfo.getBuildingCode());
-        info.setCampusKey(buildingInfo.getCampusKey());
+        info.setCampusId(buildingInfo.getCampusId());
         info.setAttributes(buildingInfo.getAttributes());
         info.setDescr(buildingInfo.getDescr());
         info.setMeta(buildingInfo.getMeta());
@@ -656,7 +656,7 @@ public class RoomServiceMockImpl implements RoomService {
     private BuildingInfo createBuildingInfo (String buildingId, String buildingCode, String compusKey, String buildingName, String desc) {
         BuildingInfo info = new BuildingInfo();
         info.setBuildingCode(buildingCode);
-        info.setCampusKey(compusKey);
+        info.setCampusId(compusKey);
         info.setId(buildingId);
         info.setName(buildingName);
         RichTextInfo descr = new RichTextInfo();

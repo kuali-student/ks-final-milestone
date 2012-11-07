@@ -59,7 +59,7 @@ public class BaseEntity implements PersistableEntity<String> {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
+		StringBuffer builder = new StringBuffer();
 		builder.append("BaseEntity [id=");
 		builder.append(id);
 		builder.append(", objectId=");

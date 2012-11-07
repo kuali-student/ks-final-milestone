@@ -329,7 +329,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
             b.setBuildingCode("FAKE_CODE");
             b.setId("FAKE_ID");
             b.setName("FAKE_NAME_NOT_IMPL");
-            b.setCampusKey("FAKE_KEY");
+            b.setCampusId("FAKE_KEY");
 
             return b;
             //throw new DoesNotExistException(buildingId);
@@ -362,7 +362,7 @@ public class RoomServiceMockImplM5 implements RoomService, MockService
     {
         List<String> list = new ArrayList<String> ();
         for (BuildingInfo info: buildingMap.values ()) {
-            if (campusKey.equals(info.getCampusKey())) {
+            if (campusKey.equals(info.getCampusId())) {
                 list.add (info.getId ());
             }
         }
