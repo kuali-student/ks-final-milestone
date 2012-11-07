@@ -15,20 +15,12 @@
 
 package org.kuali.student.r1.common.assembly.dictionary.old;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.r1.common.dictionary.old.dto.ConstraintDescriptor;
 import org.kuali.student.r1.common.dictionary.old.dto.ConstraintSelector;
@@ -38,9 +30,15 @@ import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.old.dto.State;
 import org.kuali.student.r1.common.dictionary.old.dto.Type;
 import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class provides metadata lookup services for orchestration objects.
@@ -443,10 +441,9 @@ public class MetadataServiceImpl {
                     value = new Data.FloatValue(Float.valueOf(s));
                     break;
                 case DATE:
-                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");                    
                     try {
-                        value = new Data.DateValue(format.parse(s));
-                    } catch (ParseException e) {
+                        value = new Data.DateValue(DateFormatters.DEFAULT_DATE_FORMATTER.parse(s));
+                    } catch (IllegalArgumentException e) {
                         LOG.error("Unable to get default date value from metadata definition");
                     }
                     break;

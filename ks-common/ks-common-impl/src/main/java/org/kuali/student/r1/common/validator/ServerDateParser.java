@@ -15,9 +15,9 @@
 
 package org.kuali.student.r1.common.validator;
 
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Deprecated
@@ -66,8 +66,7 @@ public class ServerDateParser implements DateParser {
     @Override
     public String toString(Date date) {
         String result = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss,SSS");
-        result = format.format(date);
+        result = DateFormatters.SERVER_DATE_PARSER_FORMATTER.format(date);
 
         return result;        
     }

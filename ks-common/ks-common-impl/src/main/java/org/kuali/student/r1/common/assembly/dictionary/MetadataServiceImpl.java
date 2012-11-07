@@ -8,27 +8,18 @@
 
 package org.kuali.student.r1.common.assembly.dictionary;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.LookupMetadata;
-import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.assembly.data.UILookupConfig;
-import org.kuali.student.r1.common.assembly.data.UILookupData;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata.WidgetOption;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.r1.common.assembly.data.UILookupConfig;
+import org.kuali.student.r1.common.assembly.data.UILookupData;
 import org.kuali.student.r1.common.dictionary.dto.CaseConstraint;
 import org.kuali.student.r1.common.dictionary.dto.CommonLookupParam;
 import org.kuali.student.r1.common.dictionary.dto.Constraint;
@@ -39,9 +30,16 @@ import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -561,10 +559,9 @@ public class MetadataServiceImpl {
                     v = new Data.FloatValue(Float.valueOf(s));
                     break;
                 case DATE:
-                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                     try {
-                        v = new Data.DateValue(format.parse(s));
-                    } catch (ParseException e) {
+                        v = new Data.DateValue(DateFormatters.DEFAULT_DATE_FORMATTER.parse(s));
+                    } catch (IllegalArgumentException e) {
                         LOG.error("Unable to get default date value from metadata definition");
                     }
                     break;
