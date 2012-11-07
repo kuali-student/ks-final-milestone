@@ -11,7 +11,7 @@
     <!-- Change this if you want to use a different Spring file -->
     <context-param>
       <param-name>web.bootstrap.spring.file</param-name>
-      <param-value>classpath:org/kuali/rice/standalone/config/StandaloneSpringBeans.xml</param-value>
+      <param-value>classpath:SpringBeans.xml</param-value>
     </context-param>
 	 
 	<!-- KS Spring Security Config - Begin -->

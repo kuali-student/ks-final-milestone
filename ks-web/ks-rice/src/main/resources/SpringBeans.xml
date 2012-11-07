@@ -50,7 +50,7 @@
 		class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
+				<value>classpath:META-INF/ks-rice-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -75,7 +75,7 @@
 	<import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />
 	<import resource="classpath:org/kuali/rice/config/RiceSpringBeans.xml"/>
 
-    <import resource="classpath:StudentStandaloneSpringBeans.xml"/>
+    <import resource="classpath:StudentSpringBeans.xml"/>
 
 
 </beans>
