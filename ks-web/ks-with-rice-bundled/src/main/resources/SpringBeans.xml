@@ -61,7 +61,7 @@
 	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
-				<value>classpath:META-INF/ks-bundled-config.xml</value>
+				<value>classpath:META-INF/ks-with-rice-bundled-config.xml</value>
                 <value>classpath:META-INF/build-details.xml</value>
 			</list>
 		</property>

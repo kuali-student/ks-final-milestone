@@ -105,8 +105,8 @@
 	 -->
   
     <!--
-      this property allows switching between the ks-bundled-admin-context which loads
-      the ks admin app into rice the old ks-bundled-context.xml which skips ks admin
+      this property allows switching between the ks-with-rice-bundled-admin-context which loads
+      the ks admin app into rice the old ks-with-rice-bundled-context.xml which skips ks admin
       and loads a mock messageservice impl
     -->
     <!-- <param name="ks.bundled.context">classpath:ks-bundled-admin-context.xml</param> -->
