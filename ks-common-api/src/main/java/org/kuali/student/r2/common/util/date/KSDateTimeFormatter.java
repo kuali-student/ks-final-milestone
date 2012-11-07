@@ -25,8 +25,16 @@ public class KSDateTimeFormatter  {
      * @param pattern  regex pattern for the format
      */
     public KSDateTimeFormatter(String pattern) {
-        this.formatter = DateTimeFormat.forPattern(pattern);
-        this.pattern = pattern;
+        try{
+            this.pattern = pattern;
+
+            this.formatter = DateTimeFormat.forPattern(pattern);
+        }
+        catch (IllegalArgumentException ex){
+
+            throw new IllegalArgumentException("Illegal pattern cannot be parsed. pattern["+ pattern +"].");
+        }
+
     }
 
     /**
