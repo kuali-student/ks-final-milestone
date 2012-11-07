@@ -90,7 +90,7 @@
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-enroll-context.xml"/>
     <!-- TODO: RICE-M7 UPGRADE fix ks-admin
-    <import resource="classpath:ks-bundled-admin-context.xml"/-->
+    <import resource="classpath:ks-with-rice-bundled-admin-context.xml"/-->
     
     <import resource="classpath:StudentSpringBeans.xml"/>
 

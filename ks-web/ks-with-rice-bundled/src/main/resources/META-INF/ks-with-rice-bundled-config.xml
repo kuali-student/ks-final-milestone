@@ -23,7 +23,7 @@
         syntax: ${varname} ${institution}
     -->
 <config>
-	<param name="module.name">ks-bundled</param>
+	<param name="module.name">ks-with-rice-bundled</param>
 	<param name="application.id">ks</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
@@ -40,7 +40,7 @@
     <param name="portal.show.sample.app">true</param>
 
     <param name="appserver.url">http://localhost:8081</param>
-    <param name="app.code">ks-bundled</param>
+    <param name="app.code">ks-with-rice-bundled</param>
 
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
@@ -109,7 +109,7 @@
       the ks admin app into rice the old ks-with-rice-bundled-context.xml which skips ks admin
       and loads a mock messageservice impl
     -->
-    <!-- <param name="ks.bundled.context">classpath:ks-bundled-admin-context.xml</param> -->
+    <!-- <param name="ks.bundled.context">classpath:ks-with-rice-bundled-admin-context.xml</param> -->
 
     <!-- additional context files -->
     <!-- 
