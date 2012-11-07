@@ -20,7 +20,7 @@
             <modules>
                 <module>ks-with-rice-bundled</module>
                 <module>ks-standalone</module>
-                <module>ks-rice</module>
+                <module>ks-rice-standalone</module>
             </modules>
         </profile>
         <profile>
@@ -31,7 +31,7 @@
             <id>standalone-only-wars</id>
             <modules>
                 <module>ks-standalone</module>
-                <module>ks-rice</module>
+                <module>ks-rice-standalone</module>
             </modules>
         </profile>
         <profile>

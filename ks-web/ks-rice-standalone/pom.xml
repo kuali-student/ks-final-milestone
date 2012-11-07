@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>ks-rice</artifactId>
+    <artifactId>ks-rice-standalone</artifactId>
     <packaging>war</packaging>
-    <name>KS Rice</name>
-    <description>Kuali Student Rice Standalone Server project for development</description>
+    <name>KS Rice Standalone</name>
+    <description>Kuali Student Rice Standalone</description>
     <parent>
         <groupId>org.kuali.student.web</groupId>
         <artifactId>ks-web</artifactId>
