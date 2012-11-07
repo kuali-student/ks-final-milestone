@@ -267,7 +267,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<EnumeratedValueEntity> returnvalues = new ArrayList<EnumeratedValueEntity>();
         if(searchRequest.getSearchKey().equals("enumeration.management.search")){
             List<String> enumTypes = null;
@@ -276,6 +276,8 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
                 if((parm.getKey().equals("enumeration.queryParam.enumerationType")) && (parm.getValues() != null)){
                     enumTypes = parm.getValues();
                 } else if ((parm.getKey().equals("enumeration.queryParam.enumerationCode") && (parm.getValues() != null))){
+                    enumCodes = parm.getValues();
+                } else if ((parm.getKey().equals("enumeration.queryParam.enumerationOptionalCode") && (parm.getValues() != null))){
                     enumCodes = parm.getValues();
                 }
             }
@@ -286,6 +288,9 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
                     for(EnumeratedValueEntity enumValue : enumvalues){
                         for(String code : enumCodes){
                             if (enumValue.getCode().equals(code)){
+                                returnvalues.add(enumValue);
+                                break;
+                            } else if (enumValue.getCode().startsWith(code)){
                                 returnvalues.add(enumValue);
                                 break;
                             }
@@ -317,6 +322,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         }
 
         return searchResult;
+//        return searchManager.search(searchRequest, contextInfo);
     }
 
     /**
