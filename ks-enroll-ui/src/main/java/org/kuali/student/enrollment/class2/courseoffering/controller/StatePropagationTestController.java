@@ -153,9 +153,12 @@ public class StatePropagationTestController extends UifControllerBase {
                         layoutString.append("</br>");
                     }
 
+                    //ao scheduling state
+                    layoutString.append("<b>AO Scheduling</b> " + getStateName(activityOffering.getSchedulingStateKey()));
+                    layoutString.append("</br>");
+
                     loadRegGroup(layoutString, activityOffering.getId());
                     loadSeatPool(layoutString, activityOffering.getId());
-                    loadScheduleActuals(layoutString, activityOffering.getScheduleId());
 
                  } catch (Exception e) {
                     LOG.error("Error calling loadCourseOfferingByTermAndCoCode - " + termCode + "/" + coCode);
@@ -298,23 +301,6 @@ public class StatePropagationTestController extends UifControllerBase {
 
         return soc;
 
-    }
-
-    private void loadScheduleActuals(StringBuilder layoutBuilder, String scheduleId){
-        if (scheduleId == null) {
-            layoutBuilder.append("AO Schedule not found");
-            layoutBuilder.append("</br>");
-        }
-
-        try {
-            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, getContextInfo());
-            layoutBuilder.append("<b>AO Scheduling</b> " + getStateName(scheduleInfo.getStateKey()));
-            layoutBuilder.append("</br>");
-        } catch (Exception e) {
-            LOG.error("Error calling getSchedule - " + scheduleId);
-            layoutBuilder.append("Error calling AO Schedule: " + e.getMessage());
-            layoutBuilder.append("</br>");
-        }
     }
 
     private void loadRegGroup(StringBuilder layoutBuilder, String aoId){
