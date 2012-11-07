@@ -159,7 +159,7 @@ public interface RoomService {
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException;
+            PermissionDeniedException, DoesNotExistException;
 
     /**
      * Retrieves a list of Rooms corresponding to the given Building id and Room Type key
