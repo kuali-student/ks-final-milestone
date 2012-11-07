@@ -93,13 +93,13 @@
     <!-- additional config files -->
     <param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml,classpath:ks-rice-admin-context.xml</param>
+    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml,classpath:ks-rice-standalone-admin-context.xml</param>
     
     <!-- Bus security -->
     <param name="ks.core.bus.security">false</param>
     
     <!-- default config files -->
-    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-config.xml</param>
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
     <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 		
