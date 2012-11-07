@@ -19,14 +19,27 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.search.dto.*;
-import org.kuali.student.r2.core.search.dto.JoinComparisonInfo.ComparisonType;
-import org.kuali.student.r2.core.search.dto.JoinCriteriaInfo.JoinType;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.CrossSearchTypeInfo;
+import org.kuali.student.r2.core.search.dto.JoinComparisonInfo;
+import org.kuali.student.r2.core.search.dto.JoinComparisonInfo.ComparisonType;
+import org.kuali.student.r2.core.search.dto.JoinCriteriaInfo;
+import org.kuali.student.r2.core.search.dto.JoinCriteriaInfo.JoinType;
+import org.kuali.student.r2.core.search.dto.JoinResultMappingInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.dto.SubSearchInfo;
+import org.kuali.student.r2.core.search.dto.SubSearchParamMappingInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This still needs a few things
@@ -306,9 +319,8 @@ public class CrossSearchManager {
 		}catch(Exception e){
 		}
 		try{
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date leftDate = df.parse(left);
-			Date rightDate = df.parse(right);
+			Date leftDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(left);
+			Date rightDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(right);
 			return compareDate(leftDate,rightDate,type);
 		}catch(Exception e){
 		}

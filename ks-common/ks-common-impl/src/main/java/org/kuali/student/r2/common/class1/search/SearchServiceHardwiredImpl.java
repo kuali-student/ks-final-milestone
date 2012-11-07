@@ -18,15 +18,19 @@ package org.kuali.student.r2.common.class1.search;
 
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import javax.jws.WebParam;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -82,10 +86,10 @@ public class SearchServiceHardwiredImpl implements SearchService {
                     getSingleResult();
             SearchResultInfo searchResult = new SearchResultInfo();
             SearchResultRowInfo row = new SearchResultRowInfo();
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-            row.addCell("createTime", formatter.format(result[0]));
-            row.addCell("firstSlot",formatter.format(result[1]));
-            row.addCell("lastSlot",formatter.format(result[2]));
+
+            row.addCell("createTime", DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(result[0].toString()));
+            row.addCell("firstSlot",DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(result[1].toString()));
+            row.addCell("lastSlot",DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(result[2].toString()));
             row.addCell("numAppts",result[3].toString());
             row.addCell("numSlots",result[4].toString());
 

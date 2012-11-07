@@ -5,10 +5,16 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributes;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility class containing utility methods to aide in DTO & Entity transformations
@@ -98,7 +104,7 @@ public class TransformUtility {
     // Pick a format that is human readable.  Year-month-day is kinda neutral way to represent a date
     // so that it isn't the US month-day-year, nor other places day-month-year.  The advantage of using this over
     // a more agnostic UTC representation (i.e., milliseconds since Jan 1, 1970) is that
-    // Used in the two methods below for SimpleDateFormat
+    // Used in the two methods below for KSDateFormatter
     public static final String DYNAMIC_ATTRIBUTE_DATE_FORMAT = "yyyy MMM d HH:mm:ss zzz";
 
     /**
@@ -112,8 +118,7 @@ public class TransformUtility {
             return null;
         }
 
-        SimpleDateFormat formatter = new SimpleDateFormat(DYNAMIC_ATTRIBUTE_DATE_FORMAT);
-        String formattedDate = formatter.format(date);
+        String formattedDate = DateFormatters.DYNAMIC_ATTRIBUTE_DATE_FORMATTER.format(date);
         return formattedDate;
     }
 
@@ -127,8 +132,8 @@ public class TransformUtility {
         if (formattedDateStr == null) {
             return null;
         }
-        SimpleDateFormat formatter = new SimpleDateFormat(DYNAMIC_ATTRIBUTE_DATE_FORMAT);
-        Date date = formatter.parse(formattedDateStr);
+
+        Date date = DateFormatters.DYNAMIC_ATTRIBUTE_DATE_FORMATTER.parse(formattedDateStr);
         return date;
     }
     // ------------------------ For Dynamic Attributes ---------------------------------
