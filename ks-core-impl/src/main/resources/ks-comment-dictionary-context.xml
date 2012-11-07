@@ -16,6 +16,7 @@
     <ref bean="commentInfo.referenceTypeKey"/>
     <ref bean="commentInfo.stateKey"/>
     <ref bean="commentInfo.typeKey"/>
+    <ref bean="commentInfo.commenterId"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
@@ -42,6 +43,11 @@
   <property name="name" value="id"/>
  </bean>
  <bean id="commentInfo.id" parent="commentInfo.id-parent"/>
+
+ <bean id="commentInfo.commenterId-parent" abstract="true" parent="baseKualiId">
+   <property name="name" value="commenterId"/>
+ </bean>
+ <bean id="commentInfo.commenterId" parent="commentInfo.commenterId-parent"/>
 
  <bean id="commentInfo.referenceId-parent" abstract="true" parent="baseKualiIdRequired">
   <property name="name" value="referenceId"/>
