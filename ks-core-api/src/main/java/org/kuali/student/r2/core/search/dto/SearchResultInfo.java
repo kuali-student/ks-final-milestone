@@ -16,7 +16,8 @@
 
 package org.kuali.student.r2.core.search.dto;
 
-import org.kuali.student.r2.common.util.date.DateFormatters;
+//import org.kuali.student.r2.common.util.date.DateFormatters;
+
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 
@@ -25,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -191,8 +193,9 @@ public class SearchResultInfo
                     compareResult = v1Boolean.compareTo(v2Boolean);
                 } else {
                     try {
-                        Date v1Date = DateFormatters.DEFAULT_DATE_FORMATTER.parse(v1);
-                        Date v2Date = DateFormatters.DEFAULT_DATE_FORMATTER.parse(v2);
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date v1Date = df.parse(v1);
+                        Date v2Date = df.parse(v2);
                         compareResult = v1Date.compareTo(v2Date);
                     } catch (Exception e) {
                         if (v1 != null && v2 != null) {
