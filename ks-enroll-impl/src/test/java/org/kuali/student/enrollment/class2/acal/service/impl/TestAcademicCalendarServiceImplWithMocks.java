@@ -722,6 +722,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         // test adding term to term
         TermInfo subTerm = new TermInfo();
         subTerm.setName("subterm name");
+        subTerm.setCode(info.getCode() + "1");
         subTerm.setDescr(new RichTextHelper().toRichTextInfo("description plain 1", "description formatted 1"));
         subTerm.setTypeKey(AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY);
         subTerm.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
@@ -729,7 +730,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         subTerm.setEndDate(new Date(new Date().getTime() + 100000));
         subTerm.getAttributes().add(new AttributeTester().toAttribute("key1", "value1"));
         subTerm.getAttributes().add(new AttributeTester().toAttribute("key2", "value2"));
-        subTerm = acalService.createTerm(orig.getTypeKey(), orig, callContext);
+        subTerm = acalService.createTerm(subTerm.getTypeKey(), subTerm, callContext);
 
         orig = info;
         status = this.acalService.addTermToTerm(info.getId(), subTerm.getId(), callContext);

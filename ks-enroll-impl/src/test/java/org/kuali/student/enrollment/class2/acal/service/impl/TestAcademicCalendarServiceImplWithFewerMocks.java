@@ -1,8 +1,5 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-
-
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(locations = {"classpath:acal-test-with-fewer-mocks-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-@Ignore //KSENROLL-3480
 public class TestAcademicCalendarServiceImplWithFewerMocks extends TestAcademicCalendarServiceImplWithMocks {
 
 }
