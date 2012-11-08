@@ -1,38 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:ws="http://jax-ws.dev.java.net/spring/core"
-    xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:jee="http://www.springframework.org/schema/jee"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xsi:schemaLocation="
-          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
-          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
-          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <!--  DON'T NEED Preloaded data FOR TEST-->
-<!--    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-        <property name="jtaTxManager" ref="JtaTxManager"/>
-        <property name="shouldLoadData" value="true"/>
-        <property name="preloadMap">
-            <map>
-                <entry key="persistentUnit">
-                    <value>classpath:ks-type.sql</value>
-                </entry>
-            </map>
-        </property>
-    </bean>-->
-    
 
     <bean id="systemPropertyConfigurer"
         class="org.kuali.student.common.util.SystemPropertyConfigurer">
@@ -82,7 +60,6 @@
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
-            <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" />-->
     </bean>
     
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
@@ -94,8 +71,7 @@
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false" autowire="no">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-    
-   
+
     <bean id="typeDao" class="org.kuali.student.r2.common.class1.type.dao.TypeDao"/>
     <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.class1.type.dao.TypeTypeRelationDao"/>
     <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">

@@ -2,30 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
             http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-         ">
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
 
     <context:annotation-config />
-    <!-- <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" /> -->
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml" />
-
-    <!-- Preloaded data NONE NEEDED -->
-<!--    <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-      <property name="jtaTxManager" ref="JtaTxManager" />
-      <property name="shouldLoadData" value="true" />
-      <property name="preloadMap">
-        <map>
-          <entry key="Acal">
-            <value>classpath:ks-common.sql</value>
-          </entry>
-        </map>
-      </property>
-    </bean>-->
 
     <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
@@ -69,7 +53,6 @@
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}" />
-      <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" /> -->
     </bean>
 
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">

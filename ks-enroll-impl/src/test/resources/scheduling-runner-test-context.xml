@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
-       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
-          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
-          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:annotation-config />
 
@@ -19,18 +14,6 @@
     <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
     <import resource="classpath:scheduling-runner-course-test-context.xml" />
-    <!-- Preloaded data NO DATA TO LOAD DONE VIA SERVICES -->
-    <!--  <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
-      <property name="jtaTxManager" ref="JtaTxManager" />
-      <property name="shouldLoadData" value="true" />
-      <property name="preloadMap">
-        <map>
-          <entry key="co">
-            <value>classpath:ks-courseOffering.sql</value>
-          </entry>
-        </map>
-      </property>
-    </bean>-->
 
     <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
@@ -71,7 +54,6 @@
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}" />
-        <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" /> -->
     </bean>
 
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory">
@@ -113,13 +95,9 @@
         <property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
     </bean>
 
-
-
     <bean id="luiDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiDao">
         <property name="em" ref="entityManager" />
     </bean>
-
-
 
     <bean id="luiLuiRelationDao" class="org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao">
         <property name="em" ref="entityManager" />
@@ -145,12 +123,6 @@
     <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="entityManager" />
     </bean>
-
-    <!--  <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl">
-      <property name="lprService" ref="lprPersistenceService" />
-      <property name="courseOfferingService" ref="coService" />
-      <property name="gradeRosterAssembler" ref="grAssembler" />
-    </bean>-->
 
     <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
         <property name="typeDao" ref="typeDao"/>
