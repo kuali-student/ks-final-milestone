@@ -44,6 +44,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -55,7 +56,6 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -437,9 +437,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 // Setting term string: Fall 2012 (09/28/2012 to 12/15/2012)
                 TermInfo termInfo = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-                StringBuilder termStartDate = new StringBuilder(dateFormat.format(termInfo.getStartDate()));
-                StringBuilder termEndDate = new StringBuilder(dateFormat.format(termInfo.getEndDate()));
+                StringBuilder termStartDate = new StringBuilder(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getStartDate()));
+                StringBuilder termEndDate = new StringBuilder(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getEndDate()));
                 String termStartEnd = termInfo.getName() + " (" + termStartDate + " to " +termEndDate + ")";
                 formObject.setTermStartEnd(termStartEnd);
 

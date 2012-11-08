@@ -2,9 +2,9 @@ package org.kuali.student.enrollment.class2.appointment.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AppointmentWindowWrapper extends TimeSetWrapper {
@@ -177,8 +177,7 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
     //This is for UI display purpose
     public String getStartDateUI(){
         if (getStartDate() != null) {
-           SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-           return formatter.format(getStartDate());
+           return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(getStartDate());
 
         }else{
             return StringUtils.EMPTY;
@@ -189,8 +188,7 @@ public class AppointmentWindowWrapper extends TimeSetWrapper {
     //This is for UI display purpose
     public String getEndDateUI(){
         if (endDateUI != null) {
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-            return formatter.format(endDateUI);
+            return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(endDateUI);
         }else{
             return StringUtils.EMPTY;
         }

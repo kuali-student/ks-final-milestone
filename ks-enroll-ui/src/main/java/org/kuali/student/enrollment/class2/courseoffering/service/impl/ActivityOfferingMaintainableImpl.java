@@ -39,6 +39,7 @@ import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -836,11 +837,10 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
         // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
         StringBuilder    stringBuilder = new StringBuilder();
         Formatter        formatter     = new Formatter(stringBuilder, Locale.US);
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         String           displayString = termId; // use termId as a default.
         if (term != null) {
-            String           startDate = dateFormatter.format(term.getStartDate());
-            String           endDate   = dateFormatter.format(term.getEndDate());
+            String           startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+            String           endDate   = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
             String           termType  = term.getName();
             formatter.format("%s (%s to %s)", termType, startDate, endDate);
             displayString = stringBuilder.toString();

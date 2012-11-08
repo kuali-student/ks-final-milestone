@@ -12,6 +12,7 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
@@ -27,7 +28,6 @@ import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.search.util.SearchResultHelper;
 
 import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -100,8 +100,8 @@ public class AppointmentWindowWrapperInquiryViewHelperServiceImpl extends Inquir
 
 
     private String getFormattedDate(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
-        String formattedDate = formatter.format(date);
+
+        String formattedDate = DateFormatters.MONTH_DAY_YEAR_TIME_DATE_FORMATTER.format(date);
         if (StringUtils.endsWithIgnoreCase(formattedDate, "12:00 am")){
             return StringUtils.removeEndIgnoreCase(formattedDate,"12:00 am");
         }else {

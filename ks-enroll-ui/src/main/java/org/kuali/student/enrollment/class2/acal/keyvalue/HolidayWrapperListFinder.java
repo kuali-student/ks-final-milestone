@@ -34,14 +34,22 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 /**
  * This is used to display all the official holiday calendars for an academic calendar.
@@ -65,7 +73,7 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
         AcademicCalendarForm acalForm = (AcademicCalendarForm)model;
         Date startDate = acalForm.getAcademicCalendarInfo().getStartDate(); 
         Date endDate = acalForm.getAcademicCalendarInfo().getEndDate();
-        SimpleDateFormat simpleDateformat = new SimpleDateFormat("yyyy");
+
         List<HolidayCalendarInfo> holidayCalendarInfoList = null;
         //when there's no user input on acalInfo startDate and endDate, return an empty list of calendars
         if (startDate == null && endDate == null ) {
@@ -85,9 +93,9 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
         else {
             Integer theStartYear;
             if (startDate != null)
-                theStartYear = new Integer(simpleDateformat.format(startDate));
+                theStartYear = new Integer(DateFormatters.DEFULT_YEAR_FORMATTER.format(startDate));
             else
-                theStartYear = new Integer(simpleDateformat.format(endDate));
+                theStartYear = new Integer(DateFormatters.DEFULT_YEAR_FORMATTER.format(endDate));
             holidayCalendarInfoList = buildOfficialHolidayCalendarInfoList(theStartYear);
         }
 

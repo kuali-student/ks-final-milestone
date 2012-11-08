@@ -14,6 +14,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -22,11 +23,14 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -134,7 +138,6 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
     private void updateScheduleToAOWrapperForDisplay(ActivityOfferingWrapper aoWrapper, Boolean isTBA, RoomInfo roomInfo,TimeSlotInfo timeSlot,boolean append) throws Exception{
 
         Calendar calendar = new GregorianCalendar();
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
 
         aoWrapper.setTbaDisplayName(isTBA,append);
 
@@ -146,12 +149,12 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
 
             if (startTime != null && startTime.getMilliSeconds() != null) {
                 calendar.setTimeInMillis(startTime.getMilliSeconds());
-                aoWrapper.setStartTimeDisplay(format.format(calendar.getTime()),append);
+                aoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()),append);
             }
 
             if (endTime != null && endTime.getMilliSeconds() != null) {
                 calendar.setTimeInMillis(endTime.getMilliSeconds());
-                aoWrapper.setEndTimeDisplay(format.format(calendar.getTime()),append);
+                aoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()),append);
             }
 
             if (days != null && days.size() > 0) {

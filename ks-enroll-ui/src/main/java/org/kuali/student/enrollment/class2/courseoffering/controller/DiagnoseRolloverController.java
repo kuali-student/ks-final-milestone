@@ -21,11 +21,11 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DiagnoseRolloverViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,7 +35,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -123,12 +122,11 @@ public class DiagnoseRolloverController extends UifControllerBase {
             form.setDisplayedSourceTermCode(sourceTermCode);
             // Set the start date
             Date startDate = termInfo.getStartDate();
-            SimpleDateFormat format = new SimpleDateFormat("EEE, MMMMM d, yyyy");
-            String startDateStr = format.format(startDate);
+            String startDateStr = DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER.format(startDate);
             form.setSourceTermStartDate(startDateStr);
             // Set the end date
             Date endDate = termInfo.getEndDate();
-            String endDateStr = format.format(endDate);
+            String endDateStr = DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER.format(endDate);
             form.setSourceTermEndDate(endDateStr);
             // TODO: Put in last rollover date (Kirk says this may be unnecessary in new wireframes 5/18/2012)
             form.setSourceTerm(termInfo);
