@@ -1,20 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:ws="http://jax-ws.dev.java.net/spring/core"
-       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="
-          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
-          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-    	  http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
-		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <context:annotation-config/>
     <!--                     -->
@@ -62,7 +51,6 @@
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="dataSource" ref="dataSource" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}" />
-        <!--<property name="persistenceUnitPostProcessors" ref="postProcessorList" /> -->
     </bean>
 
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
@@ -70,10 +58,6 @@
         <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
-
-    <!--<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" autowire-candidate="false"
-   autowire="byType"> <property name="persistenceUnitName" value="Acal"/> <property name="persistenceXmlLocation" value="classpath:META-INF/persistence_jta.xml"/>
-   </bean> -->
 
     <bean id="entityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean" autowire-candidate="false"
           autowire="no">
@@ -163,10 +147,6 @@
     <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="entityManager" />
     </bean>
-
-
-
-
 
     <bean id="atpAtpRelationDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao">
         <property name="em" ref="entityManager" />
@@ -356,26 +336,18 @@
     </bean>
 
     <bean id="businessServiceValidator" class="org.kuali.student.r2.common.service.impl.MockDefaultValidatorImpl"/>
-    <!--<bean id="businessServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-         <property name="messageService" ref="ks.messageServiceMock"/>
-         <property name="searchDispatcher" ref="mockSearchDispatcher"/>
-     </bean>-->
+
     <bean id="mockSearchDispatcher" class="org.kuali.student.r2.common.service.impl.MockSearchDispatcher" >
     </bean>
+
     <bean id="validatorFactory"
           class="org.kuali.student.r2.common.validator.ValidatorFactory">
         <property name="defaultValidator" ref="businessServiceValidator"/>
     </bean>
 
-
     <bean id="dictionaryService" class="org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />
     </bean>
-
-    <!-- Other data to load -->
-    <!-- <bean class="org.kuali.student.common.test.spring.PersistObjectsListener">
-         <property name="persistObjectsBean" ref="persistObjectsBean"/>
-     </bean>-->
 
     <bean id="EnumMetaCampus"
           class="org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity">
