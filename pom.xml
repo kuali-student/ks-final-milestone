@@ -28,5 +28,11 @@
                 <module>ks-cfg-dbs</module>
             </modules>
         </profile>
+        <profile>
+            <id>web-only</id>
+            <modules>
+                <module>ks-web</module>
+            </modules>
+        </profile>
     </profiles>
 </project>
