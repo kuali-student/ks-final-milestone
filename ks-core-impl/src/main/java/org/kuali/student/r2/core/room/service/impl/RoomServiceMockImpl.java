@@ -23,7 +23,15 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -337,7 +345,7 @@ public class RoomServiceMockImpl implements RoomService {
         List<String> idList = new ArrayList<String>();
         boolean found = false;
         for(BuildingInfo info : buildingList) {
-            if(info.getCampusId().equalsIgnoreCase(campusKey)) {
+            if(info.getCampusKey().equalsIgnoreCase(campusKey)) {
                 found = true;
                 idList.add(info.getId());
             }
@@ -413,7 +421,7 @@ public class RoomServiceMockImpl implements RoomService {
         BuildingInfo  info = new BuildingInfo();
         info.setId(buildingId);
         info.setBuildingCode(buildingInfo.getBuildingCode());
-        info.setCampusId(buildingInfo.getCampusId());
+        info.setCampusKey(buildingInfo.getCampusKey());
         info.setAttributes(buildingInfo.getAttributes());
         info.setDescr(buildingInfo.getDescr());
         info.setMeta(buildingInfo.getMeta());
@@ -656,7 +664,7 @@ public class RoomServiceMockImpl implements RoomService {
     private BuildingInfo createBuildingInfo (String buildingId, String buildingCode, String compusKey, String buildingName, String desc) {
         BuildingInfo info = new BuildingInfo();
         info.setBuildingCode(buildingCode);
-        info.setCampusId(compusKey);
+        info.setCampusKey(compusKey);
         info.setId(buildingId);
         info.setName(buildingName);
         RichTextInfo descr = new RichTextInfo();

@@ -202,7 +202,7 @@ public class SchedulingServiceUtil {
                 requestComponentInfo.getBuildingIds().add(room.getBuildingId());
 
                 BuildingInfo building = roomService.getBuilding(room.getBuildingId(), callContext);
-                requestComponentInfo.getCampusIds().add(building.getCampusId());
+                requestComponentInfo.getCampusIds().add(building.getCampusKey());
 
                 List<String> responsibleOrgIdList = roomService.getRoomResponsibleOrgIdsByRoom(schedComp.getRoomId(), callContext);
                 if(responsibleOrgIdList != null) {
