@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,7 +51,7 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
     private String buildingCode;
 
     @Column(name = "CAMPUS_ID")
-    private String campusId;
+    private String campusKey;
 
     /*
    BaseVersionEntity defines and handles the VER_NBR field
@@ -86,7 +85,7 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
             this.setDescrFormatted( building.getDescr().getFormatted() );
         }
 
-        this.setCampusId( building.getCampusId() );
+        this.setCampusKey(building.getCampusKey());
 
         this.setAttributes( new HashSet<RoomBuildingAttributeEntity>(building.getAttributes().size()) );
         for(Attribute attribute : building.getAttributes()) {
@@ -99,7 +98,7 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
 
         buildingInfo.setId( this.getId() );
         buildingInfo.setBuildingCode( this.getBuildingCode() );
-        buildingInfo.setCampusId( this.getCampusId() );
+        buildingInfo.setCampusKey(this.getCampusKey());
         buildingInfo.setDescr( new RichTextInfo(this.getDescrPlain(), this.getDescrFormatted()) );
         buildingInfo.setMeta( super.toDTO() );
         buildingInfo.setName( this.getName() );
@@ -154,12 +153,12 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
         this.buildingCode = buildingCode;
     }
 
-    public String getCampusId() {
-        return campusId;
+    public String getCampusKey() {
+        return campusKey;
     }
 
-    public void setCampusId(String campusId) {
-        this.campusId = campusId;
+    public void setCampusKey(String campusKey) {
+        this.campusKey = campusKey;
     }
 
     @Override
