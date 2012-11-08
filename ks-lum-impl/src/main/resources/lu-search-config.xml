@@ -250,6 +250,7 @@
             <ref bean="lu.queryParam.luOptionalCode"/>
             <ref bean="lu.queryParam.luOptionalType"/>
             <ref bean="lu.queryParam.luOptionalState"/>
+            <ref bean="lu.queryParam.luOptionalVersionIndId"/>
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
