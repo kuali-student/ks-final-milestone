@@ -27,6 +27,7 @@
    		<property name="configLocations">
    			<list>
    				<value>classpath:META-INF/ks-standalone-config.xml</value>
+                <value>classpath:META-INF/build-details.xml</value>
    			</list>
    		</property>
    	</bean>
