@@ -16,7 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_ATP")
@@ -42,7 +44,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     private String atpType;
     @Column(name = "ATP_STATE", nullable = false)
     private String atpState;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval=true)
     private Set<AtpAttributeEntity> attributes = new HashSet<AtpAttributeEntity>();
 
     public AtpEntity() {
@@ -69,7 +71,11 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         this.setAtpState(atp.getStateKey());
         this.setStartDate(atp.getStartDate());
         this.setEndDate(atp.getEndDate());
-        this.setAttributes(new HashSet<AtpAttributeEntity>());
+        if (getAttributes() == null){
+            this.setAttributes(new HashSet<AtpAttributeEntity>());
+        } else {
+            this.getAttributes().clear();
+        }
         for (Attribute att : atp.getAttributes()) {
             this.getAttributes().add(new AtpAttributeEntity(att, this));
         }
