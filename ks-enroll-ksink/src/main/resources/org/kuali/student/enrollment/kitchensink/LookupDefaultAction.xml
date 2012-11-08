@@ -20,211 +20,131 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <!-- NOTE:
-        https://jira.kuali.org/browse/KSENROLL-1496 calls for, according to Venkat via Skype:
-            [9/28/2012 8:52:45 AM] Venkat Premchandran:
-            "the intention of the jira is, say for the calendar search, when the user searches for the
-            calendar with cal name and if there is a direct match, redirect them to the edit screen
-            instead of displaying the result and then user click on edit"
-        This view shows a single field with a lookup button, and the lookup returns a value
-        into the input field.  The file is currently not in StudentStandaloneSpringBeans.xml
-        and there is no linkk in kitchensink2.tag to this view.
-    -->
-
-    <!-- The Interesting Bits -->
-
-    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-LookupDefaultAction-Example1">
-        <property name="propertyName" value="stringField1"/>
-        <property name="label" value="Term Name"/>
-        <property name="instructionalText" value="Click the search button to perform a lookup; search for &quot;Fall 1997&quot; to see default action. [DOESN'T WORK RIGHT NOW]"/>
-        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-        <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo-Default"/>
-        <property name="quickfinder.fieldConversions">
-            <map>
-                <entry key="name" value="stringField1"/>
-            </map>
+    <!-- LookupView -->
+    <bean id="KS-KitchenSink-Population-LookupView" parent="KSLookupView">
+        <property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}"/>
+        <property name="headerText" value="Population Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.population.dto.PopulationInfo"/>
+        <!-- LookupView should not use property "viewName" -->
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkPopulationInfoLookupableImpl" />
+        <property name="maintenanceUrlMapping" value="population"/>
+        <property name="page">
+            <!-- custom page to suppress "Create New" link-->
+            <bean parent="Uif-Page">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>uif-lookupPage</value>
+                    </list>
+                </property>
+                <property name="renderFooter" value="false"/>
+            </bean>
         </property>
-    </bean>
-
-    <!-- KS-KitchenSink-LookupOverview-LookupView defined in LookupOverview.xml -->
-    <bean id="KS-KitchenSink-LookupDefaultAction-LookupView" parent="KS-KitchenSink-LookupOverview-LookupView">
-        <property name="headerText" value="Term Info Lookup With Default Action" />
-        <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo-Default"/>
-        <!--<property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}"/>-->
-    </bean>
-<!--
-    <bean id="KS-KitchenSink-LookupDefaultAction-LookupView" parent="KSLookupView">
-        <property name="headerText" value="Term Info Lookup With Default Action" />
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
-        <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicTermLookupableImpl" />
-        <!==<property name="defaultSingleLookupResultAction" value="@{#Constants.PARAM_MAINTENANCE_VIEW_MODE_MAINTENANCE}"/>==>
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Term Name"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate" p:label="Term Year"/>
+                <bean parent="Uif-LookupCriteriaInputField">
+                    <property name="propertyName" value="keyword"/>
+                    <property name="label" value="Keyword"/>
+                    <property name="fieldLabel.style" value="width:10%;white-space:nowrap;"/>
+                    <property name="style" value="width:auto;"/>
+                    <property name="constraintText" value="Try &quot;freshman&quot;, then &quot;sophomore&quot; to see default edit action"/>
+                </bean>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <!==
-                <bean parent="Uif-DataField" p:propertyName="id"/>
-                <bean parent="Uif-DataField" p:propertyName="code"/>
-                ==>
-                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Name" />
-                <!==<bean parent="Uif-DataField" p:propertyName="typeKey" />==>
-                <bean parent="Uif-DataField" p:propertyName="startDate" />
-                <bean parent="Uif-DataField" p:propertyName="endDate" />
-                <bean parent="Uif-DataField" p:propertyName="stateKey" p:label="State Key" />
+                <bean parent="Uif-DataField" p:propertyName="name" p:label="Name"/>
+                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Description"/>
             </list>
         </property>
-    </bean>
--->
-
-
-
-    <!-- just the various containers for the interesting bits -->
-
-    <bean id="KS-KitchenSink-LookupDefaultAction-View" parent="KS-KitchenSink-FormView">
-        <property name="headerText" value="Lookups, etc"/>
-        <property name="items">
-            <list>
-                <bean parent="KS-KitchenSink-Page" p:headerText="Lookup With Default Action">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-KitchenSink-Page-Summary">
-                                <property name="messageText">
-                                    <value>
-                                        A lookup backed by a business object which performs a default action
-                                        when the search returns only one result.
-                                    </value>
-                                </property>
-                            </bean>
-                            <ref bean="KS-KitchenSink-LookupDefaultAction-Content"/>
-                            <ref bean="KS-KitchenSink-LookupDefaultAction-Links"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+        <!-- custom "resultsActionsFieldGroup" to display "edit" link only -->
+        <property name="resultsActionsFieldGroup">
+            <bean parent="Uif-FieldGroupBase">
+                <property name="label" value="Actions"/>
+                <property name="group">
+                    <bean parent="Uif-LinkGroup">
+                        <property name="cssClasses">
+                            <list merge="true">
+                                <value>uif-lookupView-resultActions</value>
+                            </list>
+                        </property>
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-Link">
+                                    <property name="linkText" value="edit"/>
+                                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                                    <property name="finalizeMethodAdditionalArguments" value="maintenanceEdit"/>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-LookupDefaultAction-Content" parent="KS-KitchenSink-TabSection">-->
-    <bean id="KS-KitchenSink-LookupDefaultAction-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
+    <bean id="KS-KitchenSink-MaintenanceView-PopulationInfo" parent="KSMaintenanceView">
+        <property name="headerText" value="Edit PopulationInfo"/>
+        <property name="header.style" value="height:inherit;"/>
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.population.dto.PopulationInfo"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkPopulationInfoMaintainableImpl"/>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
+        <property name="singlePageView" value="true"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-LookupDefaultAction-Example1-Section">
-                    <!--
-                    <property name="items">
-                        <list merge="true">
-                            <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="Uif-InputField with multiple properties set."/>
-                        </list>
-                    </property>
+                <ref bean="KS-KitchenSink-PopulationInfo-Section"/>
+            </list>
+        </property>
+        <property name="page.footer.items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton">
+                    <property name="actionLabel" value="Update"/>
+                    <property name="render" value="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                    <property name="actionScript" value="alert('Maintenance document update prevented');"/>
+                    <!-- if actionScript were removed, this would fire update:
+                    <property name="methodToCall" value="route"/>
                     -->
                 </bean>
             </list>
         </property>
     </bean>
 
-    <!-- Example #1 containers -->
-
-    <bean id="KS-KitchenSink-LookupDefaultAction-Example1-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+    <bean id="KS-KitchenSink-PopulationInfo-Section" parent="Uif-GridSection">
+        <property name="layoutManager.numberOfColumns" value="2"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-Page" p:header.render="false">
-                    <property name="items">
-                        <list>
-                            <ref bean="KS-KitchenSink-LookupDefaultAction-Example1-Section"/>
-                        </list>
+                <bean parent="Uif-InputField" p:propertyName="name" p:label="Name"/>
+                <bean parent="Uif-InputField" p:propertyName="descr.plain" p:label="Description">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="40" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="stateKey" p:label="State">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean parent="Uif-KeyLabelPair"
+                                          p:key="kuali.population.population.state.active" p:value="Active"/>
+                                    <bean parent="Uif-KeyLabelPair"
+                                          p:key="kuali.population.population.state.inactive" p:value="Inactive"/>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-LookupDefaultAction-Example1-Section" parent="Uif-VerticalBoxSection"
-          p:headerText="Lookup With Default Action" p:header.render="false">
-        <property name="items">
+    <bean id="KitchenSinkPopulationInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo"/>
+        <property name="maintainableClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkPopulationInfoMaintainableImpl"/>
+        <!--<property name="businessRulesClass" value="org.kuali.student.enrollment...Rule" />-->
+        <property name="documentTypeName" value="KitchenSinkPopulationInfoMaintenanceDocument"/>
+        <property name="lockingKeys">
             <list>
-                <ref bean="KS-KitchenSink-LookupDefaultAction-Example1"/>
-            </list>
-        </property>
-    </bean>
-
-    <!-- Links -->
-
-    <bean id="KS-KitchenSink-LookupDefaultAction-Links" parent="KS-KitchenSink-Page-Links">
-        <property name="items">
-            <list>
-                <bean parent="KS-KitchenSink-FooterLinkSection">
-                    <property name="footerLinkGroups">
-                        <list>
-                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
-                                <property name="footerLinks">
-                                    <map>
-                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml"/>
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
-                                <property name="footerLinks">
-                                    <map>
-                                        <!--
-                                        <entry key="UifFieldDefinitions.xml (Uif-InputField)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M4/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
-                                        <entry key="UifControlDefinitions.xml (Uif-TextControl)"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M4/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
-                                        -->
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
-                                <property name="footerLinks">
-                                    <map>
-                                        <!--
-                                        <entry key="InputField.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M4/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
-                                        <entry key="TextControl.java"
-                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0-M4/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/TextControl.java"/>
-                                        -->
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
-                                <property name="footerLinks">
-                                    <map>
-                                        <!--
-                                        <entry key="InputField.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
-                                        <entry key="TextControl.html"
-                                               value="http://site.origin.kuali.org/rice/2.2.0-M4/apidocs/org/kuali/rice/krad/uif/control/TextControl.html"/>
-                                        -->
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
-                                <property name="footerLinks">
-                                    <map>
-                                        <!--
-                                        <entry key="InputField"
-                                               value="http://site.kuali.org/rice/2.2.0-M4/reference/html/KRAD_Guide.html#d6766e4967"/>
-                                        -->
-                                    </map>
-                                </property>
-                            </bean>
-                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
-                                <property name="footerLinks">
-                                    <map>
-                                        <entry key="Lookup with Default Action"
-                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-LookupDefaultAction-Example1-View-Bare&amp;methodToCall=start"/>
-                                    </map>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+                <value>id</value>
             </list>
         </property>
     </bean>
