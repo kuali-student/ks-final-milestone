@@ -1,5 +1,4 @@
 -- sequences are not set correctly, so use hopefully-unique values instead
-/
 
 INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
     VALUES (77300,(SELECT KREW_DOC_TYP_T.DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE KREW_DOC_TYP_T.DOC_TYP_NM='RiceDocument'),'KitchenSinkPopulationInfoMaintenanceDocument',0,1,1,'Create KSKS PopulationInfo Maintenance Document','KSKS PopulationInfo Maintenance Document',NULL,'','${application.url}/kr-krad/maintenance?methodToCall=docHandler&dataObjectClassName=org.kuali.student.r2.core.population.dto.PopulationInfo','','','org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor','1','1','','','2','','','','',SYS_GUID(),1)

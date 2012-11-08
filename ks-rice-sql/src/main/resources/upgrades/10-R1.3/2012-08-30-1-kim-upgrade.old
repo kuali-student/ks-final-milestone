@@ -143,16 +143,6 @@ delete from KRIM_PERM_T where PERM_ID = '3104'
 /
 delete from KRIM_PERM_T where PERM_ID = '3113'
 /
-delete from KRIM_PERM_T where PERM_ID = '3114'
-/
-delete from KRIM_PERM_T where PERM_ID = '3115'
-/
-delete from KRIM_PERM_T where PERM_ID = '3116'
-/
-delete from KRIM_PERM_T where PERM_ID = '3117'
-/
-delete from KRIM_PERM_T where PERM_ID = '3118'
-/
 delete from KRIM_PERM_T where PERM_ID = '10000'
 /
 
@@ -788,21 +778,6 @@ values ('10064', '0C29276C87DC4A15A1C7BFC02FAC035C', 1, '10', 'KS-SYS', 'Retire 
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
 values ('265', '606763510FF296D3E0404F8189D857A2', 1, '29', 'KR-WKFLW', 'Use Screen XML Ingester Screen', 'Allows users to access the XML Ingester screen.', 'Y')
 /
-insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-values ('842', 'B6FDEDA86F967F26E0402E0AA9D728AF', 1, '29', 'KR-SYS', 'Use Cache Adminstration Screen', 'Allows use of the cache administration screen', 'Y')
-/
-insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-values ('843', 'B7DBFABEFD2B8CBFE0402E0AA9D757C9', 1, '52', 'KR-RULE-TEST', 'Maintain KRMS Agenda', 'Allows creation and modification of agendas via the agenda editor', 'Y')
-/
-insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-values ('844', '0dbce939-4f22-4e9b-a4bb-1615c0f411a2', 1, '42', 'KR-NS', 'Create Term Maintenance Document', 'Allows user to create a new Term maintainence document', 'Y')
-/
-insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-values ('845', 'cefeed6d-b5e2-40aa-9034-137db317b532', 1, '42', 'KR-NS', 'Create Context Maintenance Document', 'Allows user to create a new Context maintainence document', 'Y')
-/
-insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
-values ('846', '02bd9acd-48d9-4fec-acbd-6a441c5ea8c2', 1, '42', 'KR-NS', 'Create TermSpecification Maintenance Document', 'Allows user to create a new TermSpecification maintainence document', 'Y')
-/
 
 --KRIM_PERM_ATTR_DATA
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
@@ -1053,21 +1028,6 @@ values ('10081', 'B031190B53644885A298C4C828DF8B79', 1, '10064', '3', '13', 'kua
 /
 insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
 values ('874', '606763510FF496D3E0404F8189D857A2', 1, '265', '12', '2', 'org.kuali.rice.kew.batch.web.IngesterAction')
-/
-insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-values ('882', 'B6FDEDA86F977F26E0402E0AA9D728AF', 1, '842', '12', '2', 'org.kuali.rice.core.web.cache.CacheAdminController')
-/
-insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-values ('883', 'B7DBFABEFD2C8CBFE0402E0AA9D757C9', 1, '843', '67', '4', 'KRMS_TEST')
-/
-insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-values ('884', 'aa1d1400-6155-4819-8bad-e5dd81f9871b', 1, '844', '56', '13', 'TermMaintenanceDocument')
-/
-insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-values ('885', 'c43bc7f5-949e-4a85-b173-6a53d81f2762', 1, '845', '56', '13', 'ContextMaintenanceDocument')
-/
-insert into KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL)
-values ('886', 'd3e373ca-296b-4834-bd66-ba159ebe733a', 1, '846', '56', '13', 'TermSpecificationMaintenanceDocument')
 /
 
 --KRIM_ROLE_T
@@ -1423,21 +1383,6 @@ values ('1081', '60B93DE0F1EE4313AE1FF8BE25566C33', 1, '10001', '10063', 'Y')
 /
 insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
 values ('1082', '181314D488D14980B5E7C3898EE7C8B5', 1, '10002', '10064', 'Y')
-/
-insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('857', 'B6FDEDA86F987F26E0402E0AA9D728AF', 1, '63', '842', 'Y')
-/
-insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('858', 'B7DBFABEFD2F8CBFE0402E0AA9D757C9', 1, '98', '843', 'Y')
-/
-insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('859', '45f8f55e-23d9-4278-ade8-ddfc870852e6', 1, '98', '844', 'Y')
-/
-insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('860', 'cd7cbc67-c0b2-4785-afa8-8c8d073b78df', 1, '98', '845', 'Y')
-/
-insert into KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND)
-values ('861', '83a270a0-1cdb-4440-ab8b-41cd8afc41d9', 1, '98', '846', 'Y')
 /
 
 --KRIM_ROLE_MBR_T
