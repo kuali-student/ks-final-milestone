@@ -5835,7 +5835,7 @@
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
         <column name="BUILDING_CD" required="true" size="255" type="VARCHAR"/>
-        <column name="CAMPUS_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="CAMPUS_KEY" required="true" size="255" type="VARCHAR"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
@@ -5845,7 +5845,7 @@
             <unique-column name="BUILDING_CD"/>
         </unique>
         <index name="KSEN_ROOM_BUILDING_I1">
-            <index-column name="CAMPUS_ID"/>
+            <index-column name="CAMPUS_KEY"/>
         </index>
     </table>
     <table name="KSEN_ROOM_BUILDING_ATTR">
