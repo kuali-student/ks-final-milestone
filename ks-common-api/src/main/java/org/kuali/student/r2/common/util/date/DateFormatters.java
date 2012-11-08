@@ -14,7 +14,7 @@ public class DateFormatters {
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
     public static final String DEFAULT_TIMESTAMP_FORMAT = "yyyy-MM-dd-hh.mm.ss";
     public static final String SERVER_DATE_PARSER_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
-    public static final String DYNAMIC_ATTRIBUTE_DATE_FORMAT = "yyyy MMM d HH:mm:ss zzz";
+    public static final String DYNAMIC_ATTRIBUTE_DATE_FORMAT = "yyyy MMM d HH:mm:ss ZZZ";
     public static final String MONTH_DAY_YEAR_TIME_DATE_FORMAT = "MM/dd/yyyy hh:mm aa";
     public static final String MONTH_DAY_YEAR_DATE_FORMAT = "MM/dd/yyyy";
     public static final String YEAR_MONTH_DAY_CONCAT_DATE_FORMAT =  "yyyyMMdd";
