@@ -50,7 +50,7 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
     @Column(name = "BUILDING_CD")
     private String buildingCode;
 
-    @Column(name = "CAMPUS_ID")
+    @Column(name = "CAMPUS_KEY")
     private String campusKey;
 
     /*
