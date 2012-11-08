@@ -1,96 +1,80 @@
+/*
+ * Copyright 2011 The Kuali Foundation Licensed under the
+ *  Educational Community License, Version 2.0 (the "License"); you may
+ *  not use this file except in compliance with the License. You may
+ *  obtain a copy of the License at
+ *
+ *   http://www.osedu.org/licenses/ECL-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an "AS IS"
+ *  BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ *  or implied. See the License for the specific language governing
+ *  permissions and limitations under the License.
+ */
+
 package org.kuali.student.r2.core.room.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.room.infc.Building;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-//import org.w3c.dom.Element;
-
 /**
- * Created with IntelliJ IDEA.
- * User: Gordon
- * Date: 11/5/12
- * Time: 11:05 AM
  *
+ * @Version 2.0
+ * @Author Sri komandur@uw.edu
  */
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BuildingInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "buildingCode", "campusId", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
-
+        "name", "descr", "buildingCode", "campusKey", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class BuildingInfo extends IdEntityInfo implements Building, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String buildingCode;
-
+    
     @XmlElement
-    private String campusId;
+    private String campusKey;
 
 //    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 
     public BuildingInfo() {
-        super();
     }
 
     public BuildingInfo(Building building) {
         super(building);
         if (null != building) {
-            this.setBuildingCode( building.getBuildingCode() );
-            this.setCampusId( building.getCampusId() );
+            this.buildingCode = building.getBuildingCode();
+            this.campusKey = building.getCampusKey();
         }
     }
 
-    /**
-     * Returns the code assigned to the building (ex "ARM")
-     *
-     * @return
-     */
     @Override
     public String getBuildingCode() {
-        return this.buildingCode;  //To change body of implemented methods use File | Settings | File Templates.
+        return buildingCode;
     }
 
-    /**
-     * Sets the code assigned to the building (ex "ARM)
-     *
-     * @param buildingCode
-     * @return
-     */
-    @Override
     public void setBuildingCode(String buildingCode) {
         this.buildingCode = buildingCode;
     }
 
-    /**
-     * Returns the id of the campus record associated with the building
-     *
-     * @return
-     */
     @Override
-    public String getCampusId() {
-        return this.campusId;
+    public String getCampusKey() {
+        return this.campusKey;
     }
 
-    /**
-     * Sets the id of the campus record associated with the building
-     *
-     * @param campusId
-     * @return
-     */
-    @Override
-    public void setCampusId(String campusId) {
-        this.campusId = campusId;
+    public void setCampusKey(String campusKey) {
+        this.campusKey = campusKey;
     }
 }
-
