@@ -192,9 +192,9 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/DateField.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LinkFields.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupSuggest.xml</value>
-                <!--
+                <!-- -->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml</value>
-                -->
+                <!-- -->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupOverview.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/MultiSelectControl.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/RadioButtons.xml</value>

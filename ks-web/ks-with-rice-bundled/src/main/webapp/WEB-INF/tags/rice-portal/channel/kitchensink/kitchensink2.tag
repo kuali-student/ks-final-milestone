@@ -27,9 +27,13 @@
         <li><portal:portalLink displayTitle="true" title="Combo Boxes"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ComboBoxes-View&methodToCall=start" /></li>
         <%--
-        <li><portal:portalLink displayTitle="true" title="Lookup with default action"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupDefaultAction-View&methodToCall=start" /></li>
+            http://localhost:8081/ks-bundled-dev/portal.do?channelTitle=Manage%20Population%20(Lookup)&channelUrl=http://localhost:8081/ks-bundled-dev/kr-krad/lookup?viewId=KS-Population-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&returnLocation=http://localhost:8081/ks-bundled-dev/portal.do&hideReturnLink=true&showMaintenanceLinks=true&viewName=Manage%20Populations
+            "${ConfigProperties.application.url}/kr-krad/lookup?viewId=KS-Population-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true&viewName=Manage Populations"
+            "${ConfigProperties.application.url}/kr-krad/lookup?viewId=KS-KitchenSink-Population-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true&showMaintenanceLinks=true&viewName=Manage Populations"
         --%>
+        <li><portal:portalLink displayTitle="true" title="Lookup with default action"
+                               url="${ConfigProperties.application.url}/kr-krad/lookup?viewId=KS-KitchenSink-Population-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.population.dto.PopulationInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <%-- --%>
         <li><portal:portalLink displayTitle="true" title="Lookup Overview"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupOverview-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Suggest (Auto-Complete)"
