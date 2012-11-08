@@ -69,12 +69,6 @@
                     <groupId>commons-fileupload</groupId>
                     <artifactId>commons-fileupload</artifactId>
                 </exclusion>
-                <!-- Required for rice startup
-                    <exclusion>
-                        <groupId>commons-httpclient</groupId>
-                        <artifactId>commons-httpclient</artifactId>
-                    </exclusion>
-                     -->
                 <!--  These commons libraries may be required -->
                 <exclusion>
                     <groupId>commons-io</groupId>
@@ -84,13 +78,6 @@
                     <groupId>commons-lang</groupId>
                     <artifactId>commons-lang</artifactId>
                 </exclusion>
-                <!-- OJB Dependencies (Thinking these may not be required when using JPA -->
-                <!--  Required for rice startup
-                    <exclusion>
-                        <groupId>ojb</groupId>
-                        <artifactId>db-ojb</artifactId>
-                    </exclusion>
-                     -->
                 <!-- CXF - Transitive Dependencies-->
                 <exclusion>
                     <groupId>javax.xml.soap</groupId>
@@ -126,32 +113,14 @@
                     <groupId>bcel</groupId>
                     <artifactId>bcel</artifactId>
                 </exclusion>
-                <!-- This is needed for bus security in ks-standalone
-                    <exclusion>
-                        <groupId>bouncycastle</groupId>
-                        <artifactId>bcprov-jdk15</artifactId>
-                    </exclusion>
-                    -->
                 <exclusion>
                     <groupId>bsf</groupId>
                     <artifactId>bsf</artifactId>
                 </exclusion>
-                <!-- Required for rice startup
-                    <exclusion>
-                        <groupId>dwr</groupId>
-                        <artifactId>dwr</artifactId>
-                    </exclusion>
-                     -->
                 <exclusion>
                     <groupId>struts</groupId>
                     <artifactId>struts</artifactId>
                 </exclusion>
-                <!-- This is used by jboss ArchiveBrowser - anything else?
-                    <exclusion>
-                        <groupId>concurrent</groupId>
-                        <artifactId>concurrent</artifactId>
-                    </exclusion>
-                    -->
                 <exclusion>
                     <groupId>displaytag</groupId>
                     <artifactId>displaytag</artifactId>
@@ -177,12 +146,6 @@
                     <groupId>opensymphony</groupId>
                     <artifactId>oscache</artifactId>
                 </exclusion>
-                <!-- Required for KSB to startup
-               <exclusion>
-                   <groupId>opensymphony</groupId>
-                   <artifactId>quartz</artifactId>
-               </exclusion>
-                -->
                 <exclusion>
                     <groupId>struts</groupId>
                     <artifactId>struts-el</artifactId>
