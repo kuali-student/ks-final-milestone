@@ -15,6 +15,7 @@
 package org.kuali.student.r2.lum.lu.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.entity.Amount;
@@ -78,7 +79,7 @@ public class CluServiceImpl implements CluService {
     }
 
     @Override
-    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         return searchManager.getSearchTypes(contextInfo);
     }
 
@@ -3868,4 +3869,149 @@ public class CluServiceImpl implements CluService {
     private ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#getCluResultsByClus(java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<CluResultInfo> getCluResultsByClus(
+             List<String> cluIds,
+             ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForClus(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<CluInfo> searchForClus(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<String> searchForCluIds(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluCluRelations(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<CluCluRelationInfo> searchForCluCluRelations(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluCluRelationIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<String> searchForCluCluRelationIds(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluLoRelations(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<CluLoRelationInfo> searchForCluLoRelations(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluLoRelationIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<String> searchForCluLoRelationIds(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluPublications(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<CluPublicationInfo> searchForCluPublications(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluPublicationIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<String> searchForCluPublicationIds(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluResults(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<CluResultInfo> searchForCluResults(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.r2.lum.clu.service.CluService#searchForCluResultIds(org.kuali.rice.core.api.criteria.QueryByCriteria, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<String> searchForCluResultIds(
+             QueryByCriteria criteria,
+             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("not implemented");
+    }
+    
+    
 }
