@@ -31,8 +31,8 @@
     </bean>
 
     <bean parent="Uif-LinkField"  id="KS-KitchenSink-Links-Text-Lightbox">
-        <property name="label" value="This link opens in a lightbox"/>
-        <property name="linkText" value="Kuali Foundation"/>
+        <!--<property name="label" value="This link opens in a lightbox"/>-->
+        <property name="linkText" value="Kuali Foundation in a Lightbox"/>
         <property name="href" value="http://www.kuali.org"/>
         <property name="target" value="_blank"/>
         <property name="lightBox">
@@ -44,32 +44,37 @@
         <!-- instructionalText doesn't look like a normal link label; mimic with instructionalMessage
         <property name="instructionalText" value="LinkGroup with | delimiter, [ begin delimiter, and ] end delimiter"/>
         -->
+        <!-- no label is desired, after all
         <property name="instructionalMessage">
             <bean parent="Uif-Message"
                   p:style="font-weight:bold"
                   p:messageText="LinkGroup with | delimiter, [ begin delimiter, and ] end delimiter:"/>
         </property>
+        -->
+        <!-- remove begin and end delimiters
         <property name="groupBeginDelimiter" value="["/>
         <property name="groupEndDelimiter" value="]"/>
+        -->
         <property name="linkSeparator" value="|"/>
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink">
                     <property name="actionScript" value="alert('You clicked link #1');"/>
-                    <property name="actionLabel" value="ActionLink 1"/>
+                    <property name="actionLabel" value="Example ActionLink 1"/>
                 </bean>
                 <bean parent="Uif-ActionLink">
                     <property name="actionScript" value="alert('You clicked link #2');"/>
-                    <property name="actionLabel" value="ActionLink 2"/>
+                    <property name="actionLabel" value="Example ActionLink 2"/>
                 </bean>
                 <bean parent="Uif-ActionLink">
                     <property name="actionScript" value="alert('You clicked link #3');"/>
-                    <property name="actionLabel" value="ActionLink 3"/>
+                    <property name="actionLabel" value="Example ActionLink 3"/>
                 </bean>
             </list>
         </property>
     </bean>
 
+    <!-- currently not displayed -->
     <bean parent="Uif-ActionField"  id="KS-KitchenSink-Links-Image">
         <property name="actionScript" value="window.open('http://www.kuali.org','_blank');"/>
         <property name="label" value="ActionField simulating an image link"/>
@@ -140,7 +145,7 @@
                 <ref bean="KS-KitchenSink-Links-Text"/>
                 <ref bean="KS-KitchenSink-Links-Text-Lightbox"/>
                 <ref bean="KS-KitchenSink-Links-Group"/>
-                <ref bean="KS-KitchenSink-Links-Image"/>
+                <!--<ref bean="KS-KitchenSink-Links-Image"/>-->
             </list>
         </property>
     </bean>
