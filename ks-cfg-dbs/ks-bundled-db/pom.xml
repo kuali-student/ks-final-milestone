@@ -10,8 +10,8 @@
     <name>KS Bundled Impex</name>
     <description>Kuali Student Bundled Impex</description>
     <properties>
-        <ks.impex.username>KSBUNDLED</ks.impex.username>
-        <ks.impex.password>KSBUNDLED</ks.impex.password>
+        <ks.impex.username>KSBUNDLED_UMD_ENR_DATA</ks.impex.username>
+        <ks.impex.password>KSBUNDLED_UMD_ENR_DATA</ks.impex.password>
         <scm.phase>process-resources</scm.phase>
     </properties>
     <profiles>

@@ -142,8 +142,17 @@
     <KREW_RTE_NODE_T ACTVN_TYP="S" DOC_TYP_ID="3009" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="AdHoc" RTE_NODE_ID="2962"
         TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="13"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3019" FNL_APRVR_IND="0"
+        GRP_ID="1" MNDTRY_RTE_IND="0" NM="Initiated" RTE_NODE_ID="2964"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3020" FNL_APRVR_IND="0"
+        GRP_ID="1" MNDTRY_RTE_IND="0" NM="Initiated" RTE_NODE_ID="2965"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3021" FNL_APRVR_IND="0"
         GRP_ID="1" MNDTRY_RTE_IND="0" NM="Initiated" RTE_NODE_ID="2966"
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
+    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3023" FNL_APRVR_IND="0"
+        GRP_ID="1" MNDTRY_RTE_IND="0" NM="Initiated" RTE_NODE_ID="2967"
         TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
     <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="3025" FNL_APRVR_IND="0"
         GRP_ID="1" MNDTRY_RTE_IND="0" NM="Initiated" RTE_NODE_ID="2968"
@@ -282,7 +291,4 @@
         MNDTRY_RTE_IND="0" NM="Publication Review" RTE_MTHD_CD="RM"
         RTE_MTHD_NM="org.kuali.rice.kew.role.RoleRouteModule"
         RTE_NODE_ID="3009" TYP="org.kuali.rice.kew.engine.node.RoleNode" VER_NBR="1"/>
-    <KREW_RTE_NODE_T ACTVN_TYP="P" DOC_TYP_ID="77300" FNL_APRVR_IND="0"
-        GRP_ID="1" MNDTRY_RTE_IND="0" NM="Initiated" RTE_NODE_ID="77400"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
 </dataset>

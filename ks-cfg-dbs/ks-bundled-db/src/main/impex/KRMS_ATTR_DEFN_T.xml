@@ -16,11 +16,11 @@
     <KRMS_ATTR_DEFN_T ACTV="Y" ATTR_DEFN_ID="1006"
         DESC_TXT="PeopleFlow Name" LBL="PeopleFlow Name"
         NM="peopleFlowName" NMSPC_CD="KR_RULE" VER_NBR="1"/>
-    <KRMS_ATTR_DEFN_T ACTV="Y" ATTR_DEFN_ID="T1000"
+    <KRMS_ATTR_DEFN_T ACTV="Y" ATTR_DEFN_ID="T1000" DESC_TXT="null"
         LBL="Context 1 Qualifier" NM="Context1Qualifier"
         NMSPC_CD="KR-RULE-TEST" VER_NBR="1"/>
-    <KRMS_ATTR_DEFN_T ACTV="Y" ATTR_DEFN_ID="T1001" LBL="Event Name"
-        NM="Event" NMSPC_CD="KR-RULE-TEST" VER_NBR="1"/>
+    <KRMS_ATTR_DEFN_T ACTV="Y" ATTR_DEFN_ID="T1001" DESC_TXT="null"
+        LBL="Event Name" NM="Event" NMSPC_CD="KR-RULE-TEST" VER_NBR="1"/>
     <KRMS_ATTR_DEFN_T ACTV="Y" ATTR_DEFN_ID="T1002"
         DESC_TXT="this is an optional attribute for testing" LBL="label"
         NM="Optional Test Attribute" NMSPC_CD="KR-RULE-TEST" VER_NBR="0"/>
