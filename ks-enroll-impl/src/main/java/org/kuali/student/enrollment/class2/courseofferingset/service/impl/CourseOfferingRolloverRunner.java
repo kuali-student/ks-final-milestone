@@ -214,7 +214,6 @@ public class CourseOfferingRolloverRunner implements Runnable {
             }
             sourceCoIdsHandled++;
             count++;
-            break;
         }
         logger.info("======= Finished processing rollover =======");
         reportProgress(items, sourceCoIdsHandled - errors);      // Items Processed = Items - Errors
