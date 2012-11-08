@@ -33,8 +33,8 @@ import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -182,8 +182,9 @@ public class DecisionPanel implements HasReferenceId, ToolView {
     				ResultRow theRow = new ResultRow();
                     theRow.setId(commentInfo.getId());
                     theRow.setValue("Decision", drDetails.getLabel());
-    				StringBuilder rationaleDate = new StringBuilder(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(commentInfo.getMetaInfo().getCreateTime()));
-    
+                    SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
+                    StringBuilder rationaleDate = new StringBuilder(dateformat
+                            .format(commentInfo.getMetaInfo().getCreateTime()));
     				theRow.setId(commentInfo.getId());
     				theRow.setValue("Date", rationaleDate.toString());
     
