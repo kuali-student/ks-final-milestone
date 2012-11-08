@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-with-rice-bundled</artifactId>
     <packaging>war</packaging>
-    <name>KS Bundled with Rice</name>
+    <name>KS with Rice Bundled</name>
     <description>Contains all KS modules and Rice</description>
     <parent>
         <groupId>org.kuali.student.web</groupId>
