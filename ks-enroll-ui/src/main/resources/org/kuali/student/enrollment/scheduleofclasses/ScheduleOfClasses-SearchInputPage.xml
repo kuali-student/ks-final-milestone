@@ -82,7 +82,7 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="departmentName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}" p:id="department_search_text">
+                            <bean parent="Uif-InputField" p:propertyName="departmentName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'department'}" p:id="department_search_text" p:onKeyUpScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Type exact dept name or use search"/>
                                 </property>
@@ -104,7 +104,7 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="instructorName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}" p:id="instructor_search_text">
+                            <bean parent="Uif-InputField" p:propertyName="instructorName" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'instructor'}" p:id="instructor_search_text" p:onKeyUpScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Type principal name or use search"/>
                                 </property>
@@ -127,7 +127,7 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}" p:id="title_description_search_text">
+                            <bean parent="Uif-InputField" p:propertyName="titleDesc" p:required="true" p:style="margin-top:17px;" p:progressiveRender="@{#dp.searchType eq 'titleDesc'}" p:id="title_description_search_text" p:onKeyUpScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Plants, Diaspora, Sartre"/>
                                 </property>

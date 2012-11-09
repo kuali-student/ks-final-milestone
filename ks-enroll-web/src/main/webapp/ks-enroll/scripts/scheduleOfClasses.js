@@ -104,9 +104,18 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
 
 function toggleShowButton() {
     var termCodeText = jQuery("#termCode_control").find(":selected").text();
-    var searchTypeText = jQuery("#searchType_control").find(":selected").text();
-    var courseSsearchText = jQuery("#course_search_text_control").val();
-    if (termCodeText != '' && searchTypeText != '' && courseSsearchText != '') {
+    var searchTypeVal = jQuery("#searchType_control").find(":selected");
+    var searchTypeText = searchTypeVal.text();
+    var searchTextBoxVal = '';
+    console.log(searchTypeVal.val());
+    switch(searchTypeVal.val()){
+        case 'course' : searchTextBoxVal = jQuery("#course_search_text_control").val(); break;
+        case 'department' : searchTextBoxVal = jQuery("#department_search_text_control").val(); break;
+        case 'instrucotr' : searchTextBoxVal = jQuery("#instructor_search_text_control").val(); break;
+        case 'titleDesc' : searchTextBoxVal = jQuery("#title_description_search_text_control").val(); break;
+    }
+
+    if (termCodeText != '' && searchTypeText != '' && searchTextBoxVal != '') {
         jQuery("#show_button").removeAttr("disabled");
     } else {
         jQuery("#show_button").attr("disabled", "disabled");
