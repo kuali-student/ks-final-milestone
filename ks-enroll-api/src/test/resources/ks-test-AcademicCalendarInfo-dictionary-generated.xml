@@ -38,14 +38,14 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- AtpInfo-->
-	<bean id="AtpInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="atpInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.atp.dto.AtpInfo"/>
-		<property name="objectLabel" value="Atp"/>
+	<!-- AcademicCalendarInfo-->
+	<bean id="AcademicCalendarInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="academicCalendarInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
+		<property name="objectLabel" value="Academic Calendar"/>
 		<property name="objectDescription">
 			<value>
-Information about an Academic Time Period.
+Information about an Academic Calendar.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
@@ -57,21 +57,20 @@ Information about an Academic Time Period.
 
 		<property name="attributes">
 			<list>
-				<ref bean="AtpInfo.id"/>
-				<ref bean="AtpInfo.typeKey"/>
-				<ref bean="AtpInfo.stateKey"/>
-				<ref bean="AtpInfo.name"/>
-				<ref bean="AtpInfo.code"/>
-				<ref bean="AtpInfo.startDate"/>
-				<ref bean="AtpInfo.endDate"/>
-				<ref bean="AtpInfo.adminOrgId"/>
+				<ref bean="AcademicCalendarInfo.id"/>
+				<ref bean="AcademicCalendarInfo.typeKey"/>
+				<ref bean="AcademicCalendarInfo.stateKey"/>
+				<ref bean="AcademicCalendarInfo.name"/>
+				<ref bean="AcademicCalendarInfo.adminOrgId"/>
+				<ref bean="AcademicCalendarInfo.startDate"/>
+				<ref bean="AcademicCalendarInfo.endDate"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="AtpInfo.descr"/>
-				<ref bean="AtpInfo.meta"/>
+				<ref bean="AcademicCalendarInfo.descr"/>
+				<ref bean="AcademicCalendarInfo.meta"/>
 			</list>
 		</property>
 
@@ -81,23 +80,23 @@ Information about an Academic Time Period.
 		</property>
 	</bean>
 
-	<bean id="AtpInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="AcademicCalendarInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="AtpInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="AcademicCalendarInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="AtpInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="AcademicCalendarInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="AtpInfo.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="AcademicCalendarInfo.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 	</bean>
 
-	<bean id="AtpInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="AcademicCalendarInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
@@ -125,8 +124,8 @@ A description of the entity.
 
 				<property name="attributes">
 					<list>
-						<ref bean="AtpInfo.descr.plain"/>
-						<ref bean="AtpInfo.descr.formatted"/>
+						<ref bean="AcademicCalendarInfo.descr.plain"/>
+						<ref bean="AcademicCalendarInfo.descr.formatted"/>
 					</list>
 				</property>
 
@@ -143,43 +142,67 @@ A description of the entity.
 		</property>
 	</bean>
 
-	<bean id="AtpInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="AcademicCalendarInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="AtpInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="AcademicCalendarInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="AtpInfo.code-generated" abstract="true" parent="BaseKuali.code">
-		<property name="name" value="code"/>
-		<property name="shortLabel" value="Code"/>
+	<bean id="AcademicCalendarInfo.holidayCalendarIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="holidayCalendarIds"/>
+		<property name="shortLabel" value="Holiday Calendar Ids"/>
 		<property name="summary">
 			<value>
-Gets a display code for this ATP.
+The holiday calendar id corresponding to this academic
+calendar. 
 			</value>
 		</property>
-		<property name="label" value="Code"/>
+		<property name="label" value="Holiday Calendar Ids"/>
+		<property name="elementLabel" value="Holiday Calendar Id"/>
 		<property name="description">
 			<value>
-Gets a display code for this ATP.
+The holiday calendar id corresponding to this academic
+calendar. A multi-year academic calendar may have more than one
+holiday calendar.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="AcademicCalendarInfo.adminOrgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="adminOrgId"/>
+		<property name="shortLabel" value="Admin Org Id"/>
+		<property name="summary">
+			<value>
+The administrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="label" value="AdminOrg Id"/>
+		<property name="description">
+			<value>
+The administrative organization responsible for maintaining
+this calendar.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AtpInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
+	<bean id="AcademicCalendarInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
 		<property name="name" value="startDate"/>
 		<property name="shortLabel" value="Start Date"/>
 		<property name="summary">
 			<value>
-Date and time the academic time period became effective. 
+Date and time the term became effective. 
 			</value>
 		</property>
 		<property name="label" value="Start Date"/>
 		<property name="description">
 			<value>
-Date and time the academic time period became effective. This
+Date and time the term became effective. This
 does not provide a bound on date ranges or milestones
 associated with this time period, but instead indicates the
 time period proper. This is a similar concept to the effective
@@ -188,21 +211,21 @@ specified, this field must be less than or equal to the
 expiration date.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AtpInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
+	<bean id="AcademicCalendarInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
 		<property name="name" value="endDate"/>
 		<property name="shortLabel" value="End Date"/>
 		<property name="summary">
 			<value>
-Date and time the academic time period expires. 
+Date and time the term expires. 
 			</value>
 		</property>
 		<property name="label" value="End Date"/>
 		<property name="description">
 			<value>
-Date and time the academic time period expires. This does not
+Date and time the term expires. This does not
 provide a bound on date ranges or milestones associated with
 this time period, but instead indicates the time period
 proper. If specified, this must be greater than or equal to the
@@ -211,29 +234,10 @@ expiration date has been currently defined and should
 automatically be considered greater than the effective date.
 			</value>
 		</property>
-		<property name="required" value="true"/>
-	</bean>
-
-	<bean id="AtpInfo.adminOrgId-generated" abstract="true" parent="BaseKuali.orgId">
-		<property name="name" value="adminOrgId"/>
-		<property name="shortLabel" value="Admin Org Id"/>
-		<property name="summary">
-			<value>
-The adminsitrative organization responsible for maintaining
-this time period.
-			</value>
-		</property>
-		<property name="label" value="AdminOrg Id"/>
-		<property name="description">
-			<value>
-The adminsitrative organization responsible for maintaining
-this time period.
-			</value>
-		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AtpInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="AcademicCalendarInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -279,11 +283,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="AtpInfo.meta.versionInd"/>
-						<ref bean="AtpInfo.meta.createTime"/>
-						<ref bean="AtpInfo.meta.createId"/>
-						<ref bean="AtpInfo.meta.updateTime"/>
-						<ref bean="AtpInfo.meta.updateId"/>
+						<ref bean="AcademicCalendarInfo.meta.versionInd"/>
+						<ref bean="AcademicCalendarInfo.meta.createTime"/>
+						<ref bean="AcademicCalendarInfo.meta.createId"/>
+						<ref bean="AcademicCalendarInfo.meta.updateTime"/>
+						<ref bean="AcademicCalendarInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -300,23 +304,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="AtpInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="AcademicCalendarInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="AtpInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="AcademicCalendarInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="AtpInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="AcademicCalendarInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="AtpInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="AcademicCalendarInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="AtpInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="AcademicCalendarInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>
