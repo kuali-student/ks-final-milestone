@@ -26,7 +26,7 @@
    	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
    		<property name="configLocations">
    			<list>
-   				<value>classpath:META-INF/ks-standalone-config.xml</value>
+   				<value>classpath:META-INF/ks-with-rice-embedded-config.xml</value>
                 <value>classpath:META-INF/build-details.xml</value>
    			</list>
    		</property>
@@ -55,7 +55,7 @@
     <import resource="classpath:ks-transaction-context.xml"/>
    	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
-    <import resource="classpath:ksb/ks-enroll-standalone-context.xml"/>
+    <import resource="classpath:ksb/ks-enroll-with-rice-embedded-context.xml"/>
 
     <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 

@@ -29,7 +29,7 @@
 
     <context-param>
       <param-name>log4j.config.file.location</param-name>
-      <param-value>${user.home}/kuali/main/dev/ks-standalone-log4j.properties</param-value>
+      <param-value>${user.home}/kuali/main/dev/ks-with-rice-embedded-log4j.properties</param-value>
     </context-param>
 
     <context-param>

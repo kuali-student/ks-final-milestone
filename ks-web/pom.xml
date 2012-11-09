@@ -19,7 +19,7 @@
             </activation>
             <modules>
                 <module>ks-with-rice-bundled</module>
-                <module>ks-standalone</module>
+                <module>ks-with-rice-embedded</module>
                 <module>ks-rice-standalone</module>
             </modules>
         </profile>
@@ -28,9 +28,9 @@
             <modules/>
         </profile>
         <profile>
-            <id>standalone-only-wars</id>
+            <id>distributed-only-wars</id>
             <modules>
-                <module>ks-standalone</module>
+                <module>ks-with-rice-embedded</module>
                 <module>ks-rice-standalone</module>
             </modules>
         </profile>
