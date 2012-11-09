@@ -102,7 +102,7 @@
     <!-- This is a collection of AppointmentWindows -->
     <bean id="KS-RegistrationWindows-AddWindowsSection" parent="Uif-Disclosure-TableCollectionSection"
           p:layoutManager.numberOfColumns="12" p:render="@{showAddWindows}"
-            p:headerText="Add Windows" p:collectionObjectClass="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
+            p:headerText="Windows" p:collectionObjectClass="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
             p:propertyName="appointmentWindows" p:layoutManager.renderSequenceField="false"
             p:layoutManager.generateAutoSequence="false"
             p:layoutManager.separateAddLine="false"
