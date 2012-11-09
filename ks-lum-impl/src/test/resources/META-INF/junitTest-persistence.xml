@@ -67,11 +67,6 @@
 
         <!-- Lu Persistence -->
         <class>org.kuali.student.r2.lum.lu.entity.AffiliatedOrg</class>
-        <class>org.kuali.student.r2.lum.lu.entity.AllowedCluLoRelationType</class>
-        <class>org.kuali.student.r2.lum.lu.entity.AllowedCluResultLuType</class>
-        <class>org.kuali.student.r2.lum.lu.entity.AllowedLuLuRelationType</class>
-        <class>org.kuali.student.r2.lum.lu.entity.AllowedResultComponentUsageType</class>
-        <class>org.kuali.student.r2.lum.lu.entity.AllowedResultUsageLuType</class>
         <class>org.kuali.student.r2.lum.lu.entity.Clu</class>
         <class>org.kuali.student.r2.lum.lu.entity.CluAcademicSubjectOrg</class>
         <class>org.kuali.student.r2.lum.lu.entity.CluAccounting</class>
