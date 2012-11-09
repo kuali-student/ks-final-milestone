@@ -72,17 +72,16 @@
                 <ref bean="ActivityOfferingEdit-SchedulePage"/>
             </list>
         </property>
-        <property name="dialogs">
+        <!--<property name="dialogs">
           <list>
             <ref bean="deleteScheduleConfirmDialog"/>
           </list>
-        </property>
+        </property>-->
     </bean>
 
     <bean id="deleteScheduleConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
           p:promptText="Removing all delivery logistics from this activity offering will cause it to become unscheduled." >
         <property name="headerText" value="Delete Schedule"/>
-        <property name="fieldBindingObjectPath" value="#form."/>
         <property name="availableResponses">
           <list>
             <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Ok"/>
