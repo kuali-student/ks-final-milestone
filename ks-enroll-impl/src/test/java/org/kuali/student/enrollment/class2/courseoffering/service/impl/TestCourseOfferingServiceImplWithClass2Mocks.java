@@ -934,7 +934,6 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    @Ignore  //KSENROLL-3485
     public void testUpdateRegistrationGroup() throws InvalidParameterException,
             DataValidationErrorException, MissingParameterException,
             DoesNotExistException, VersionMismatchException,
@@ -948,12 +947,12 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         for (RegistrationGroupInfo regGroup : rgList) {
 
             // TODO: find a way to reach in and check that the reg groups are generated properly.
-            if (regGroup.getId().contains("LEC-A")) {
+            if (regGroup.getActivityOfferingIds().get(0).indexOf("LEC-A") > 0) {
                 assertEquals("CO-2", regGroup.getCourseOfferingId());
                 assertEquals(1, regGroup.getActivityOfferingIds().size());
                 assertEquals("CO-2:LEC-ONLY:LEC-A", regGroup.getActivityOfferingIds()
                         .get(0));
-            } else if (regGroup.getId().contains("LEC-B")) {
+            } else if (regGroup.getActivityOfferingIds().get(0).indexOf("LEC-B") > 0) {
                 regGroup.getActivityOfferingIds().remove(0);
                 regGroup.getActivityOfferingIds().add("CO-2:LEC-ONLY:LEC-B");
                 RegistrationGroupInfo updatedRegGroup = coService
