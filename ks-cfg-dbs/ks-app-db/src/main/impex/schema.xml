@@ -5514,8 +5514,8 @@
     <sequence name="KREW_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KREW_TYP_S" nextval="10000"/>
     <sequence name="KREW_USR_S" nextval="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10008"/>
-    <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10001"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" nextval="10081"/>
+    <sequence name="KRIM_ATTR_DEFN_ID_S" nextval="10011"/>
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_ADDR_ID_S" nextval="10000"/>
@@ -5533,20 +5533,20 @@
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_ID_S" nextval="10001"/>
+    <sequence name="KRIM_PERM_ID_S" nextval="10057"/>
     <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10001"/>
+    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10005"/>
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_ID_S" nextval="10004"/>
-    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10001"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1014"/>
+    <sequence name="KRIM_ROLE_ID_S" nextval="10026"/>
+    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10031"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1099"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_RQRD_ATTR_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_TMPL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_TYP_ATTR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_TYP_ID_S" nextval="10000"/>
+    <sequence name="KRIM_TYP_ATTR_ID_S" nextval="10011"/>
+    <sequence name="KRIM_TYP_ID_S" nextval="10018"/>
     <sequence name="KRMS_ACTN_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_ACTN_S" nextval="10000"/>
     <sequence name="KRMS_AGENDA_ATTR_S" nextval="10000"/>
