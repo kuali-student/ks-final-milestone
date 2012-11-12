@@ -109,7 +109,8 @@
             p:layoutManager.richTable.disableTableSort="true"
             p:addLineLabel.labelText=""
             p:layoutManager.richTable.render="false"
-            p:layoutManager.applyAlternatingRowStyles="false">
+            p:layoutManager.applyAlternatingRowStyles="false"
+            p:id="addRegistrationWindowCollection"            >
 
         <property name="cssClasses">
             <list merge="true">
@@ -158,25 +159,31 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField"  p:label="Student Group"  p:propertyName="assignedPopulationName" p:required="true"
-                      p:style="font-weight:bold;white-space:nowrap;" p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                <bean parent="Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName"
+                      p:style="font-weight:bold;" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="16" />
+                        <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
                     </property>
-                    <!--<property name="quickfinder.render" value="true"/>-->
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                     <property name="quickfinder.fieldConversions">
                         <map>
-                            <entry key="populationInfo.name" value="assignedPopulationName" />
-                            <entry key="populationInfo.id" value="appointmentWindowInfo.assignedPopulationId" />
+                            <entry key="populationInfo.id" value="appointmentWindowInfo.assignedPopulationId"/>
+                            <entry key="populationInfo.name" value="assignedPopulationName"/>
                         </map>
                     </property>
-                    <!--<property name="suggest.render" value="true" />-->
-                    <!--<property name="suggest.sourcePropertyName" value="name" />-->
-                    <!--<property name="suggest.suggestQuery.dataObjectClassName"-->
-                              <!--value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />-->
-
+                    <!-- Hide the state option, and default it to Active -->
+                    <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
+                    <property name="quickfinder.quickfinderAction">
+                        <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
+                            <property name="actionImage">
+                                <bean parent="Uif-QuickLookupImage"/>
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
+
+
+
 
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;white-space:nowrap;" p:readOnlyDisplayReplacementPropertyName="startDateUI"
                       p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">

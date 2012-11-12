@@ -16,6 +16,8 @@
  */
 package org.kuali.student.enrollment.class2.appointment.service.impl;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -33,25 +35,38 @@ import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsM
 import org.kuali.student.enrollment.class2.appointment.service.AppointmentViewHelperService;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentConstants;
 import org.kuali.student.enrollment.class2.appointment.util.AppointmentSlotRuleTypeConversion;
+import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.population.service.PopulationService;
 
 import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -65,6 +80,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     private transient AcademicCalendarService academicCalendarService;
     private transient TypeService typeService;
     private transient AppointmentService appointmentService;
+    private transient PopulationService populationService;
 
     @Override
     public void searchForTerm(String typeKey, String year, RegistrationWindowsManagementForm form) throws Exception {
@@ -223,7 +239,42 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 isValid = false;
             }
         }
+
+        try {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("name", apptWindow.getAssignedPopulationName());
+            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+            List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, getContextInfo());
+
+            if(populationInfoList == null || populationInfoList.isEmpty()){
+                GlobalVariables.getMessageMap().putErrorForSectionId("addRegistrationWindowCollection", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, apptWindow.getAssignedPopulationName());
+                isValid = false;
+            } else {
+                apptWindow.setAssignedPopulationName(populationInfoList.get(0).getName());
+                apptWindow.getAppointmentWindowInfo().setAssignedPopulationId(populationInfoList.get(0).getId());
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return isValid;
+    }
+
+    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
+        String populationName = fieldValues.get("name");
+
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (StringUtils.isNotBlank(populationName)) {
+            predicates.add(PredicateFactory.equalIgnoreCase("name", populationName));
+            predicates.add(PredicateFactory.and(PredicateFactory.equal("populationState", PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY)));
+        }
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria qbc = qbcBuilder.build();
+
+        return qbc;
     }
 
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
@@ -373,6 +424,12 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     }
 
 
+    private PopulationService getPopulationService() {
+        if(populationService == null) {
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationService"));
+        }
+        return populationService;
+    }
 
     public ContextInfo getContextInfo() {
         ContextInfo contextInfo = new ContextInfo();
