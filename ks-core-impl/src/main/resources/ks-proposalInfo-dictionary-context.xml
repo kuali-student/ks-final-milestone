@@ -343,7 +343,7 @@
 		<property name="name" value="rationale" />
 		<property name="maxOccurs" value="1" />
 		<property name="minOccurs" value="0" />
-		<property name="maxLength" value="400"/>
+		<property name="maxLength" value="255"/>
   		<property name="caseConstraint">
 	  	  <bean parent="caseConstraint">
 	   		<property name="operator" value="EQUALS"/>
@@ -360,7 +360,7 @@
 		       <property name="constraint">
 		        <bean parent="baseKualiDescription">
 				 <property name="maxOccurs" value="1" />
-				 <property name="maxLength" value="400"/>
+				 <property name="maxLength" value="255"/>
 		         <property name="caseConstraint">
 		            <bean parent="caseConstraint">
 	           		    <property name="operator" value="EQUALS"/>
@@ -374,7 +374,7 @@
 						                <bean parent="baseKualiDescription">
 							              <property name="maxOccurs" value="1" />
 							              <property name="minOccurs" value="1" />
-							              <property name="maxLength" value="400"/>
+							              <property name="maxLength" value="255"/>
 					        			</bean>
 									</property>
 								</bean>
@@ -397,7 +397,7 @@
 	                <bean parent="baseKualiDescription">
 		              <property name="maxOccurs" value="1" />
 		              <property name="minOccurs" value="1" />
-		              <property name="maxLength" value="400"/>
+		              <property name="maxLength" value="255"/>
         			</bean>
 	      		  </property>
 	     		</bean>
