@@ -111,7 +111,7 @@ function toggleShowButton() {
     switch(searchTypeVal.val()){
         case 'course' : searchTextBoxVal = jQuery("#course_search_text_control").val(); break;
         case 'department' : searchTextBoxVal = jQuery("#department_search_text_control").val(); break;
-        case 'instrucotr' : searchTextBoxVal = jQuery("#instructor_search_text_control").val(); break;
+        case 'instructor' : searchTextBoxVal = jQuery("#instructor_search_text_control").val(); break;
         case 'titleDesc' : searchTextBoxVal = jQuery("#title_description_search_text_control").val(); break;
     }
 
