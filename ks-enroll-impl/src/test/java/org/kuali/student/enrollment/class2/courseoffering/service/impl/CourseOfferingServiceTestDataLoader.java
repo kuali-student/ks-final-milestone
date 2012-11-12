@@ -154,7 +154,7 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		context.setCurrentDate(new Date());
 
 		atpDataLoader.loadData();
-		acalDataLoader.loadData();
+		//acalDataLoader.loadData();
 		
 		// load in custom dates for use in the courses
 		 TermInfo fall2012 = createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
