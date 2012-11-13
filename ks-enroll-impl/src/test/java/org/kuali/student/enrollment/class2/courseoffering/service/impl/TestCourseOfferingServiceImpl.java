@@ -102,24 +102,21 @@ public class TestCourseOfferingServiceImpl {
 
 	    // load in custom dates for use in the courses
 		TermInfo fall2012 = dataLoader.createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), callContext);
-
-		TermInfo spring2012 = dataLoader.createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), callContext);
-
         createCourseCHEM123(fall2012, callContext);
     }
 
-    private void createCourseCHEM123(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    private void createCourseCHEM123(TermInfo term, ContextInfo context) throws Exception{
 
         CourseInfo canonicalCourse = buildCanonicalCourse("CLU-1", term.getId(), "CHEM", "CHEM123", "Chemistry 123", "description 1");
 
         FormatInfo canonicalLectureOnlyFormat = buildCanonicalFormat("CHEM123:LEC-ONLY", canonicalCourse);
 
-        ActivityInfo canonicalLectureOnlyLectureActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, canonicalLectureOnlyFormat);
+        buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, canonicalLectureOnlyFormat);
 
         FormatInfo canonicalLectureAndLabFormat = buildCanonicalFormat("CHEM123:LEC-AND-LAB", canonicalCourse);
 
-        ActivityInfo canonicalLectureAndLabFormatLectureActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, canonicalLectureAndLabFormat);
-        ActivityInfo canonicalLectureAndLabFormatLabActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY, canonicalLectureAndLabFormat);
+        buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, canonicalLectureAndLabFormat);
+        buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY, canonicalLectureAndLabFormat);
 
         courseService.createCourse(canonicalCourse, context);
     }
@@ -202,10 +199,10 @@ public class TestCourseOfferingServiceImpl {
         String coId = testCreateCourseOffering();
         testUpdateCourseOffering(coId);
         testSearchForCourseOfferings();
-        testDeleteCourseOffering(coId);
+        //testDeleteCourseOffering(coId);
     }
 
-    private String testCreateCourseOffering() throws Exception {
+    private CourseOfferingInfo createCourseOffering() throws Exception{
         List<String> optionKeys = new ArrayList<String>();
         CourseInfo canonicalCourse = courseService
                 .getCourse("CLU-1", callContext);
@@ -220,6 +217,11 @@ public class TestCourseOfferingServiceImpl {
                 "2012FA", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo,
                 optionKeys, callContext);
 
+        return created;
+    }
+
+    private String testCreateCourseOffering() throws Exception {
+        CourseOfferingInfo created = createCourseOffering();
         assertNotNull(created);
         assertEquals("CLU-1", created.getCourseId());
         assertEquals("2012FA", created.getTermId());
@@ -326,5 +328,104 @@ public class TestCourseOfferingServiceImpl {
         }
 
     }
-   
+
+    @Test
+    public void testCRFormatOffering() throws Exception {
+       CourseOfferingInfo co = createCourseOffering();
+        FormatOfferingInfo created = createFormatOffering(co.getId(), co.getTermId());
+
+        assertNotNull(created);
+        assertEquals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY,
+             created.getStateKey());
+        assertEquals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
+             created.getTypeKey());
+        assertEquals("TEST FORMAT OFFERING", created.getDescr().getPlain());
+
+        FormatOfferingInfo retrieved =  coService.getFormatOffering(created.getId(), callContext);
+        assertEquals(retrieved.getStateKey(),
+             created.getStateKey());
+        assertEquals(retrieved.getTypeKey(),
+             created.getTypeKey());
+        assertEquals(retrieved.getDescr().getPlain(), created.getDescr().getPlain());
+        assertEquals(retrieved.getTermId(), created.getTermId());
+    }
+
+    private FormatOfferingInfo createFormatOffering(String coId, String coTermId) throws Exception {
+        FormatOfferingInfo fo = null;
+        try {
+            FormatOfferingInfo newFO = CourseOfferingServiceDataUtils
+                    .createFormatOffering(coId, "CHEM123:LEC-ONLY",
+                            coTermId, "TEST FORMAT OFFERING",
+                            LuiServiceConstants.ALL_ACTIVITY_TYPES);
+
+            fo = coService.createFormatOffering(coId,
+                    "CHEM123:LEC-ONLY", LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
+                    newFO, callContext);
+        } catch (Exception ex) {
+            log.error("exception due to ", ex);
+            fail(ex.getMessage());
+        }
+
+        return fo;
+    }
+
+    @Test
+    public void testCRActivityOffering() throws Exception {
+        CourseOfferingInfo courseOffering = createCourseOffering();
+        FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
+
+        String activityId = CourseOfferingServiceDataUtils
+                .createCanonicalActivityId("CHEM123:LEC-ONLY",
+                        LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
+
+        List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+        ActivityOfferingInfo ao = CourseOfferingServiceDataUtils
+                .createActivityOffering("2012FA", courseOffering, fo.getId(),
+                        null, activityId, "Lecture", "A",
+                        LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
+                        instructors);
+
+        try {
+            ActivityOfferingInfo created = coService.createActivityOffering(
+                    fo.getId(), activityId,
+                    LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, ao,
+                    callContext);
+            assertNotNull(created);
+
+            ActivityOfferingInfo retrieved = coService.getActivityOffering(
+                    created.getId(), callContext);
+            assertNotNull(retrieved);
+
+            assertEquals(created.getActivityId(), retrieved.getActivityId());
+            assertEquals(created.getTermId(), retrieved.getTermId());
+            assertEquals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY,
+                    retrieved.getStateKey());
+            assertEquals(
+                    LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
+                    retrieved.getTypeKey());
+
+            // test getActivityOfferingsByCourseOffering
+            List<ActivityOfferingInfo> activities = coService
+                    .getActivityOfferingsByCourseOffering(courseOffering.getId(), callContext);
+            assertNotNull(activities);
+
+            assertEquals(1, activities.size());
+
+            boolean foundActivityId = false;
+
+            for (ActivityOfferingInfo activityOfferingInfo : activities) {
+
+                if (activityOfferingInfo.getActivityId().equals(
+                        created.getActivityId())) {
+                    foundActivityId = true;
+                }
+            }
+            assertTrue(foundActivityId);
+
+        } catch (Exception ex) {
+            log.fatal("Exception from serviceCall", ex);
+
+            fail("Exception from service call :" + ex.getMessage());
+        }
+    }
 }
