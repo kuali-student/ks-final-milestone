@@ -1,7 +1,7 @@
--- Insert Summer1 and Summer2 term types
-insert into KSEN_TYPE (TYPE_KEY, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, EFF_DT, EXPIR_DT, REF_OBJECT_URI, SERVICE_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.atp.type.Summer1', null, 'Summer I Term', null, null, null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 'http://student.kuali.org/wsdl/atp/AtpService', 0, TIMESTAMP '2012-11-09 00:00:00', 'UMDDATA', null, null);
+-- Update Summer1 and Summer2 term types
+update KSEN_TYPE SET REF_OBJECT_URI = 'http://student.kuali.org/wsdl/atp/AtpInfo', SERVICE_URI='http://student.kuali.org/wsdl/atp/AtpService', CREATETIME = TIMESTAMP '2012-11-09 00:00:00', CREATEID = 'UMDDATA' WHERE TYPE_KEY = 'kuali.atp.type.Summer1';
 /
-insert into KSEN_TYPE (TYPE_KEY, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, EFF_DT, EXPIR_DT, REF_OBJECT_URI, SERVICE_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.atp.type.Summer2', null, 'Summer II Term', null, null, null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 'http://student.kuali.org/wsdl/atp/AtpService', 0, TIMESTAMP '2012-11-09 00:00:00', 'UMDDATA', null, null);
+update KSEN_TYPE SET REF_OBJECT_URI = 'http://student.kuali.org/wsdl/atp/AtpInfo', SERVICE_URI='http://student.kuali.org/wsdl/atp/AtpService', CREATETIME = TIMESTAMP '2012-11-09 00:00:00', CREATEID = 'UMDDATA' WHERE TYPE_KEY = 'kuali.atp.type.Summer2';
 /
 
 -- Add type-type relation for Summer 1
