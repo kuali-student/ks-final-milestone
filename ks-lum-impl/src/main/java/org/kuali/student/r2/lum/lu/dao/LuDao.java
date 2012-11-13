@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 import org.kuali.student.r2.lum.lu.entity.Clu;
 import org.kuali.student.r2.lum.lu.entity.CluCluRelation;
 import org.kuali.student.r2.lum.lu.entity.CluLoRelation;
@@ -71,6 +72,7 @@ public interface LuDao extends CrudDao {
 	public List<String> getAllowedLuLuRelationTypesByCluId(String cluId,
 			String relatedCluId);
 	public List<CluResult> getCluResultByClu(String cluId);
+    public List<CluResult> getCluResultsByClus(List<String> cluIds);
 	
 	public Clu getLatestCluVersion(String cluVersionIndId);
 	public Clu getCurrentCluVersion(String cluVersionIndId);

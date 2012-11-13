@@ -15,9 +15,7 @@
 
 package org.kuali.student.r2.lum.lu.dao.impl;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -407,6 +405,14 @@ public class LuDaoImpl extends AbstractCrudDaoImpl implements LuDao {
 		List<CluResult> resultList = query.getResultList();
 		return resultList;
 	}
+
+    @Override
+    public List<CluResult> getCluResultsByClus(List<String> cluIds) {
+        Set<String> cluIdSet = new HashSet<String>(cluIds.size());
+        // remove duplicates from the key list
+        cluIdSet.addAll(cluIds);
+        return (List<CluResult>) em.createNamedQuery("CluResult.getCluResultsByCluIds").setParameter("cluIds", cluIdSet).getResultList();
+    }
 
     @Override
     public Clu getLatestCluVersion(String cluVersionIndId) {

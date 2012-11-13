@@ -3879,8 +3879,10 @@ public class CluServiceImpl implements CluService {
              ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("not implemented");
+        checkForMissingParameter(cluIds, "cluIds");
+        checkForEmptyList(cluIds, "cluIds");
+        return CluServiceAssembler.toCluResultInfos(luDao.getCluResultsByClus(cluIds));
+
     }
 
     /* (non-Javadoc)

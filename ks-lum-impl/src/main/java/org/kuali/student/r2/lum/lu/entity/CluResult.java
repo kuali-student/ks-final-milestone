@@ -37,6 +37,7 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 @Table(name = "KSLU_CLU_RSLT")
 @NamedQueries( {
         @NamedQuery(name = "CluResult.getCluResultByCluId", query = "SELECT cr FROM CluResult cr WHERE cr.clu.id = :cluId"),
+        @NamedQuery(name = "CluResult.getCluResultsByCluIds", query = "SELECT cr FROM CluResult cr WHERE cr.clu.id in (:cluIds)"),
         @NamedQuery(name = "CluResult.getCluIdByResultUsageType", query = "SELECT cr.clu.id FROM CluResult cr INNER JOIN cr.resultOptions res WHERE res.resultUsageType = :resultUsageType"),
         @NamedQuery(name = "CluResult.getCluIdByResultComponentId", query = "SELECT cr.clu.id FROM CluResult cr INNER JOIN cr.resultOptions res WHERE res.resultComponentId = :resultComponentId")
 })
