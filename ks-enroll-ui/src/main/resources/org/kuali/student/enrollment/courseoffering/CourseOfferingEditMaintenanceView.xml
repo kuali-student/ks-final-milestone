@@ -324,7 +324,7 @@
                       p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
                       p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}" />
+                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}" p:onBlurScript="validateCredits(this);"/>
                     </property>
                 </bean>
                 <!-- Range -->

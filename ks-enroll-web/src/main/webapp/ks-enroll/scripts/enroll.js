@@ -1,8 +1,7 @@
-
 /**
  * Fix for KULRICE-7795 as suggested by Brian. We need to remove this method once we get the same in next rice upgrade M3/M4
  */
-writeMessagesForPage = function() {
+writeMessagesForPage = function () {
     var page = jQuery("[data-type='Page']");
     var pageId = page.attr("id");
     var data = page.data(kradVariables.VALIDATION_MESSAGES);
@@ -48,7 +47,7 @@ function removeSelfFromDropdowns(headerTextNameContainerId) {
 }
 
 function addDropdownGroup(dropdownId, prepend, groupText, optionList, withinPortal) {
-    if(withinPortal){
+    if (withinPortal) {
         return;
     }
     var dropdown = jQuery("#" + dropdownId);
@@ -56,7 +55,7 @@ function addDropdownGroup(dropdownId, prepend, groupText, optionList, withinPort
         if (optionList != 'undefined') {
             if (prepend) {
                 dropdown.prepend('<optgroup label="' + groupText + '"></optgroup>');
-            }  else{
+            } else {
                 dropdown.append('<optgroup label="' + groupText + '"></optgroup>');
             }
             jQuery.each(optionList, function (key, value) {
@@ -66,15 +65,15 @@ function addDropdownGroup(dropdownId, prepend, groupText, optionList, withinPort
     }
 }
 
-function addOption(dropdown, prepend, key, value){
+function addOption(dropdown, prepend, key, value) {
     if (prepend) {
-        dropdown.prepend(jQuery('<option>', {key : value}).text(value));
-    }  else{
-        dropdown.append(jQuery('<option>', {value: key}).text(value));
+        dropdown.prepend(jQuery('<option>', {key:value}).text(value));
+    } else {
+        dropdown.append(jQuery('<option>', {value:key}).text(value));
     }
 }
 
-function populateLightboxForm(propertyContainerId, defaultPropertyValues){
+function populateLightboxForm(propertyContainerId, defaultPropertyValues) {
 //    var lightboxForm = jQuery("#" + "kualiLightboxForm");
     jQuery.each(defaultPropertyValues, function (lightboxPropId, kualiPropId) {
         var lightboxInput = jQuery("#kualiLightboxForm :input[name='" + lightboxPropId + "']");
@@ -83,80 +82,99 @@ function populateLightboxForm(propertyContainerId, defaultPropertyValues){
     });
 }
 
-function toggleAssignButton(){
+function toggleAssignButton() {
     var table = jQuery("#KS-ManageRegistrationGroups-UnassignedActivityOfferingsPerFormatSection").find("table");
     var checkedCheckboxesCount = jQuery(table).find('input:checkbox:checked').length;
-    if(checkedCheckboxesCount > 0){
+    if (checkedCheckboxesCount > 0) {
         jQuery("#move_ao_button").removeAttr("disabled");
-    }else{
+    } else {
         jQuery("#move_ao_button").attr("disabled", "disabled");
     }
 }
 
-function renameDialogButtons(labelsToReplace){
+function renameDialogButtons(labelsToReplace) {
     var checkboxes = jQuery("#kualiLightboxForm :input[name='dialogResponse']");
     jQuery.each(labelsToReplace, function (key, newLabelValue) {
         jQuery(checkboxes).each(function () {
-            if(jQuery(this).val() == key) {
+            if (jQuery(this).val() == key) {
                 var labelForId = jQuery(this).attr("id");
-                var label = jQuery("label[for='"+labelForId+"']");
+                var label = jQuery("label[for='" + labelForId + "']");
                 jQuery(label).text(newLabelValue);
             }
         });
     });
 }
 
+function validateCredits(textBox) {
+    if (jQuery(textBox).val().trim() != '') {
+        var foundMatch = false;
+        var textValue;
+        var labelValue;
+        jQuery("input[name='document.newMaintainableObject.dataObject.creditOption.credits']").each(function () {
+            var labelForId = jQuery(this).attr("id");
+            textValue = parseFloat(jQuery(textBox).val());
+            var label = jQuery("label[for='" + labelForId + "']");
+            labelValue = parseFloat(jQuery(label).text());
+            if (textValue == labelValue) {
+                foundMatch = true;
+            }
+        });
+        if (!foundMatch) {
+            alert("Not a valid credit");
+        }
+    }
+}
 
 
 /*
-function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
-    if(jqObject && collectionGroupId){
-        collectionGroupId = jqObject.closest("[id^='" + collectionGroupId + "']").attr("id");
-        collectionGroupId = collectionGroupId.replace("_group", "");
-		var otherElementToBlock = jq("#" + updateAfterId + "_div");
-        var updateComponentCallback = function(htmlContent){
-	    	var component = jq("#" + updateAfterId + "_div", htmlContent);
+ function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
+ if(jqObject && collectionGroupId){
+ collectionGroupId = jqObject.closest("[id^='" + collectionGroupId + "']").attr("id");
+ collectionGroupId = collectionGroupId.replace("_group", "");
+ var otherElementToBlock = jq("#" + updateAfterId + "_div");
+ var updateComponentCallback = function(htmlContent){
+ var component = jq("#" + updateAfterId + "_div", htmlContent);
 
-			otherElementToBlock.unblock({onUnblock: function(){
-					//replace component
-					if(jq("#" + updateAfterId + "_div").length){
-						jq("#" + updateAfterId + "_div").replaceWith(component);
-					}
-					runHiddenScripts(updateAfterId + "_div");
-				}
-			});
-	    };
-        var elementToBlock = jq("#" + collectionGroupId + "_div");
-	    var updateCollectionCallback = function(htmlContent){
-	    	var component = jq("#" + collectionGroupId + "_div", htmlContent);
+ otherElementToBlock.unblock({onUnblock: function(){
+ //replace component
+ if(jq("#" + updateAfterId + "_div").length){
+ jq("#" + updateAfterId + "_div").replaceWith(component);
+ }
+ runHiddenScripts(updateAfterId + "_div");
+ }
+ });
+ };
+ var elementToBlock = jq("#" + collectionGroupId + "_div");
+ var updateCollectionCallback = function(htmlContent){
+ var component = jq("#" + collectionGroupId + "_div", htmlContent);
 
-			elementToBlock.unblock({onUnblock: function(){
-					//replace component
-					if(jq("#" + collectionGroupId + "_div").length){
-						jq("#" + collectionGroupId + "_div").replaceWith(component);
-					}
-					runHiddenScripts(collectionGroupId + "_div");
-                    ajaxSubmitForm("updateComponent", updateComponentCallback,
-			            {reqComponentId: updateAfterId, skipViewInit: "true"}, otherElementToBlock);
-				}
-			});
-	    };
+ elementToBlock.unblock({onUnblock: function(){
+ //replace component
+ if(jq("#" + collectionGroupId + "_div").length){
+ jq("#" + collectionGroupId + "_div").replaceWith(component);
+ }
+ runHiddenScripts(collectionGroupId + "_div");
+ ajaxSubmitForm("updateComponent", updateComponentCallback,
+ {reqComponentId: updateAfterId, skipViewInit: "true"}, otherElementToBlock);
+ }
+ });
+ };
 
-	    var methodToCall = jq("input[name='methodToCall']").val();
-		ajaxSubmitForm(methodToCall, updateCollectionCallback, {reqComponentId: collectionGroupId, skipViewInit: "true"},
-				elementToBlock);
-	}
-}
+ var methodToCall = jq("input[name='methodToCall']").val();
+ ajaxSubmitForm(methodToCall, updateCollectionCallback, {reqComponentId: collectionGroupId, skipViewInit: "true"},
+ elementToBlock);
+ }
+ }
 
-    function removeFromCart(){
-        var row = jq(this).closest("tr.keyRow");
-        var name = jq(row).find(".timeKeyName").text();
-        if(confirm("Remove "+ name +" from your cart?")){
-            var id = jq(row).attr("name");
-            writeHiddenToForm("methodToCall", "removeFromCart");
-            writeHiddenToForm('jumpToId' , 'TOP');
-            writeHiddenToForm('renderFullView' , 'true');
-            writeHiddenToForm('actionParameters[itemId]' , id);
-            jq('#kualiForm').submit();
-        }
-    }*/
+ function removeFromCart(){
+ var row = jq(this).closest("tr.keyRow");
+ var name = jq(row).find(".timeKeyName").text();
+ if(confirm("Remove "+ name +" from your cart?")){
+ var id = jq(row).attr("name");
+ writeHiddenToForm("methodToCall", "removeFromCart");
+ writeHiddenToForm('jumpToId' , 'TOP');
+ writeHiddenToForm('renderFullView' , 'true');
+ writeHiddenToForm('actionParameters[itemId]' , id);
+ jq('#kualiForm').submit();
+ }
+ }*/
