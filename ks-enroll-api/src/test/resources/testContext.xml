@@ -13,8 +13,12 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <bean id="testLuiInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-test-LuiInfo-dictionary.xml" />
     </bean>
+    <bean id="testLprInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-LprInfo-dictionary.xml" />
+    </bean>
+
     <bean id="testCourseOfferingInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-CourseOfferingInfo-dictionary.xml" />
+        <constructor-arg value="classpath:ks-test-CourseOfferingInfo-dictionary.xml" />
     </bean>
     <bean name="testDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>
@@ -23,6 +27,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                 <bean parent="testAcalInfoDictionaryLocation" />
                 <bean parent="testLuiInfoDictionaryLocation" />
                 <bean parent="testCourseOfferingInfoDictionaryLocation" />
+                <bean parent="testLprInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
