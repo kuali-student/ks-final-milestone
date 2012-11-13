@@ -455,7 +455,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-
+        /*
         List<CourseOfferingInfo> results = new ArrayList<CourseOfferingInfo>();
 
         if(courseOfferingIds != null && !courseOfferingIds.isEmpty()){
@@ -473,6 +473,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         return results;
+        */
+        List<CourseOfferingInfo>courseOfferings = new ArrayList<CourseOfferingInfo>();
+        if(courseOfferingIds != null && !courseOfferingIds.isEmpty()){
+            courseOfferingTransformer.luis2CourseOfferings(courseOfferingIds, courseOfferings, context);
+        }
+
+        return courseOfferings;
     }
 
     @Override

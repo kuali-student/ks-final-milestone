@@ -87,18 +87,18 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
         // Building a query
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
                 PredicateFactory.like("courseOfferingCode", courseCode + "%"),
                 PredicateFactory.equalIgnoreCase("atpId", termId)));
         QueryByCriteria criteria = qbcBuilder.build();
-        List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().searchForCourseOfferings(criteria, contextInfo);
-        //List<String> courseOfferingIds = _getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo); //David Yin commented out
 
-        if(courseOfferingList.size() > 0){
-            //List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,contextInfo);
+        List<String> courseOfferingIds = _getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo); //David Yin commented out
+
+
+        if(courseOfferingIds.size() > 0){
+            List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,contextInfo);
             form.getCourseOfferingEditWrapperList().clear();
             for(CourseOfferingInfo coInfo: courseOfferingList){
                 CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);

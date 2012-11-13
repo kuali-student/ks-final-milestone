@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -38,19 +39,195 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CourseOfferingTransformer {
     private LprService lprService;
     private PersonService personService;
     private LRCService lrcService;
     private CluService cluService;
+    private LuiService luiService;
 
     final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
+
+    public void luis2CourseOfferings(List<String> courseOfferingIds, List<CourseOfferingInfo>cos, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if(courseOfferingIds == null || courseOfferingIds.isEmpty()){
+            LOG.warn("invalid courseOfferingIds");
+            return;
+        }
+
+        List<String> cluIds = new ArrayList<String>();
+        List<String> luiIds = new ArrayList<String>();
+        List<LuiInfo> luiInfos = luiService.getLuisByIds(courseOfferingIds, context);
+
+        // lui id to list of result value group keys
+        Map<String, List<String>>luiToResultValueGroupKeysMap = new HashMap<String, List<String>>();
+        // rvg key to rvg info
+        Map<String, ResultValuesGroupInfo>rvgKeyToResultValueGroupMap = new HashMap<String, ResultValuesGroupInfo>();
+        // result value key to result value
+        Map<String, ResultValueInfo>resultValueKeyToResultValueMap = new HashMap<String, ResultValueInfo>();
+        // cluid to list of results
+        Map<String, List<CluResultInfo>> cluResultListMap = new HashMap<String, List<CluResultInfo>>();
+
+        Set<String> totalResultValueGroupKeySet = new HashSet<String>();
+        Set<String> totalResultValueKeySet = new HashSet<String>();
+
+        for (LuiInfo lui : luiInfos) {
+            List<String> rvgKeys = lui.getResultValuesGroupKeys();
+            luiToResultValueGroupKeysMap.put(lui.getId(), rvgKeys);
+
+            // build the union of all the result value group keys
+            totalResultValueGroupKeySet.addAll(rvgKeys);
+            cluIds.add(lui.getCluId());
+            luiIds.add(lui.getId());
+        }
+
+        List<CluResultInfo> cluResults = cluService.getCluResultsByClus(cluIds, context);
+        for (CluResultInfo cluResultInfo : cluResults) {
+            List<CluResultInfo> resultsList = cluResultListMap.get(cluResultInfo.getCluId());
+            if (resultsList == null) {
+                resultsList = new ArrayList<CluResultInfo>();
+                cluResultListMap.put(cluResultInfo.getCluId(), resultsList);
+            }
+
+            resultsList.add(cluResultInfo);
+            totalResultValueGroupKeySet.add(cluResultInfo.getResultOptions().get(0).getResultComponentId());
+        }
+
+        List<String>totalResultValueGroupKeyList = new ArrayList<String>(totalResultValueGroupKeySet);
+        List<ResultValuesGroupInfo> rvgList = lrcService.getResultValuesGroupsByKeys(totalResultValueGroupKeyList, context);
+        for (ResultValuesGroupInfo rvg : rvgList) {
+            // store all of the result value groups
+            rvgKeyToResultValueGroupMap.put(rvg.getKey(), rvg);
+
+            totalResultValueKeySet.addAll(rvg.getResultValueKeys());
+        }
+
+        List<String> totalResultValueKeyList = new ArrayList<String>(totalResultValueKeySet);
+        List<ResultValueInfo> resultValues = lrcService.getResultValuesByKeys(totalResultValueKeyList, context);
+        if (resultValues != null && resultValues.size() > 0) {
+            for (ResultValueInfo resultValueInfo : resultValues) {
+                resultValueKeyToResultValueMap.put(resultValueInfo.getKey(), resultValueInfo);
+            }
+        }
+
+        List<LprInfo> lprs = lprService.getLprsByLuis(luiIds, context);
+        Map<String, List<LprInfo>>luiToLprListMap = new HashMap<String, List<LprInfo>>();
+        for (LprInfo lprInfo : lprs) {
+            List<LprInfo> lprList = luiToLprListMap.get(lprInfo.getLuiId());
+            if (lprList == null) {
+                lprList = new ArrayList<LprInfo>();
+                luiToLprListMap.put(lprInfo.getLuiId(), lprList);
+            }
+            lprList.add(lprInfo);
+        }
+
+        for (LuiInfo luiInfo : luiInfos) {
+            CourseOfferingInfo co = new CourseOfferingInfo();
+            lui2CourseOffering(luiInfo, co, cluResultListMap, rvgKeyToResultValueGroupMap, resultValueKeyToResultValueMap);
+            List<LprInfo>courseInstructors = luiToLprListMap.get(luiInfo.getId());
+            assembleInstructorsByLprs(co, courseInstructors);
+
+            cos.add(co);
+
+        }
+    }
+
+    private void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, Map<String, List<CluResultInfo>> cluResultListMap, Map<String, ResultValuesGroupInfo> rvgMap, Map<String, ResultValueInfo> resultValueMap) {
+        co.setId(lui.getId());
+        co.setTypeKey(lui.getTypeKey());
+        co.setStateKey(lui.getStateKey());
+        co.setDescr(lui.getDescr());
+        co.setMeta(lui.getMeta());
+        co.setCourseOfferingURL(lui.getReferenceURL());
+
+        //Dynamic attributes
+        List<AttributeInfo> attributes = co.getAttributes();
+        for (Attribute attr : lui.getAttributes()) {
+            if (CourseOfferingServiceConstants.WAIT_LIST_LEVEL_TYPE_KEY_ATTR.equals(attr.getKey())){
+                co.setWaitlistLevelTypeKey(attr.getValue());
+            } else if  (CourseOfferingServiceConstants.WAIT_LIST_TYPE_KEY_ATTR.equals((attr.getKey()))){
+                co.setWaitlistTypeKey(attr.getValue());
+            } else if (CourseOfferingServiceConstants.WAIT_LIST_INDICATOR_ATTR.equals((attr.getKey()))){
+                co.setHasWaitlist(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.FINAL_EXAM_INDICATOR_ATTR.equals(attr.getKey())){
+                co.setFinalExamType(attr.getValue());
+            } else if(CourseOfferingServiceConstants.COURSE_EVALUATION_INDICATOR_ATTR.equals(attr.getKey())){
+                co.setIsEvaluated(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.WHERE_FEES_ATTACHED_FLAG_ATTR.equals(attr.getKey())){
+                co.setIsFeeAtActivityOffering(Boolean.valueOf(attr.getValue()));
+            } else if (CourseOfferingServiceConstants.FUNDING_SOURCE_ATTR.equals(attr.getKey())){
+                co.setFundingSource(attr.getValue());
+            } else if (CourseOfferingServiceConstants.COURSE_NUMBER_IN_SUFX_ATTR.equals(attr.getKey())){
+                co.setCourseNumberInternalSuffix(attr.getValue());
+            } else {
+                attributes.add(new AttributeInfo(attr));
+            }
+        }
+        co.setAttributes(attributes);
+
+        // specific fields
+        co.setMaximumEnrollment(lui.getMaximumEnrollment());
+        co.setMinimumEnrollment(lui.getMinimumEnrollment());
+        co.setCourseId(lui.getCluId());
+        co.setTermId(lui.getAtpId());
+        co.setUnitsDeployment(lui.getUnitsDeployment());
+        co.setUnitsContentOwner(lui.getUnitsContentOwner());
+
+        //Split up the result keys for student registration options into a separate field.
+        co.getStudentRegistrationGradingOptions().clear();
+        co.setGradingOptionId(null);
+        for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
+            if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
+            } else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
+                if(co.getGradingOptionId()!=null){
+                    throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
+                }
+                co.setGradingOptionId(resultValueGroupKey);
+            } else if(resultValueGroupKey!=null && resultValueGroupKey.startsWith("kuali.creditType.credit")){//There should be a better way of distinguishing credits from other results
+                co.setCreditOptionId(resultValueGroupKey);
+            }
+        }
+
+        co.setCreditCnt(getCreditCount(co.getCreditOptionId(), co.getCourseId(), cluResultListMap, rvgMap, resultValueMap));
+
+        if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
+            co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
+        }
+
+        LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
+        if (identifier == null) {
+            co.setCourseOfferingCode(null);
+            co.setCourseNumberSuffix(null);
+            co.setCourseOfferingTitle(null);
+            co.setSubjectArea(null);
+        } else {
+            co.setCourseOfferingCode(identifier.getCode());
+            co.setCourseNumberSuffix(identifier.getSuffixCode());
+            co.setCourseOfferingTitle(identifier.getLongName());
+            co.setSubjectArea(identifier.getDivision());
+        }
+
+        // store honors in lu code
+        LuCodeInfo luCode = this.findLuCode(lui, LuiServiceConstants.HONORS_LU_CODE);
+        if (luCode == null) {
+            co.setIsHonorsOffering(false);
+        } else {
+            co.setIsHonorsOffering(string2Boolean(luCode.getValue()));
+        }
+
+        //below undecided
+        //lui.getAlternateIdentifiers() -- where to map?
+        //lui.getName() -- where to map?
+        //lui.getReferenceURL() -- where to map?
+        //LuiLuiRelation (to set jointOfferingIds, hasFinalExam)
+        //assembleLuiLuiRelations(co, lui.getId(), context);
+        return;
+    }
+
+
+
 
     public void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, ContextInfo context) {
         co.setId(lui.getId());
@@ -97,7 +274,9 @@ public class CourseOfferingTransformer {
         //Split up the result keys for student registration options into a separate field.
         co.getStudentRegistrationGradingOptions().clear();
         co.setGradingOptionId(null);
-        for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
+
+        List<String> resultValuesGroupKeys = lui.getResultValuesGroupKeys();
+        for(String resultValueGroupKey : resultValuesGroupKeys){
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
@@ -155,6 +334,61 @@ public class CourseOfferingTransformer {
         }
     }
 
+    //get credit count from persisted COInfo or from CourseInfo
+    private String getCreditCount(String creditOptionId, String courseId, Map<String, List<CluResultInfo>> cluResultListMap, Map<String, ResultValuesGroupInfo> rvgMap, Map<String, ResultValueInfo>resultValueMap) {
+        String creditCount="";
+        try{
+            //Lookup persisted values (if the CO has a Credit set use that, otherwise look at the RVG of Course/Clu
+            if (creditOptionId == null && courseId != null && cluResultListMap!=null ) {//TODO fix the tests and inject clu service then remove this line
+                List<CluResultInfo> cluResults = cluResultListMap.get(courseId);
+                for(CluResultInfo cluResultInfo : cluResults){
+                    if(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS.equals(cluResultInfo.getTypeKey())){
+                        creditOptionId = cluResultInfo.getResultOptions().get(0).getResultComponentId();
+                        break;
+                    }
+                }
+            }
+
+            if(creditOptionId != null){
+                ResultValuesGroupInfo resultValuesGroupInfo = rvgMap.get(creditOptionId);
+                String typeKey = resultValuesGroupInfo.getTypeKey();
+                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    List<ResultValueInfo> resultValueInfos = getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), resultValueMap);
+                    creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
+                    //Use the min/max values from the RVG
+                    creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
+                            trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                    //Get the actual values with a service call
+                    List<ResultValueInfo> resultValueInfos = getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), resultValueMap);
+                    if (!resultValueInfos.isEmpty()) {
+                        //Convert to floats and sort
+                        List<Float> creditValuesF = new ArrayList<Float>();
+                        for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
+                            creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
+                        }
+                        Collections.sort(creditValuesF); //Do the sort
+
+                        //Convert back to strings and concatenate to one field
+                        for (Float creditF : creditValuesF ){
+                            creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
+                        }
+                        if(creditCount.length() >=  2)  {
+                            creditCount =  creditCount.substring(2);  //trim leading ", "
+                        }
+                    }
+                } else {
+                    //no credit option
+                    LOG.info("Credit is missing for course id" + courseId);
+                    creditCount = "N/A";
+                }
+            }
+            return creditCount;
+        }catch (Exception e){
+            throw new RuntimeException("Error getting credit count for course offering", e);
+        }
+    }
 
     //get credit count from persisted COInfo or from CourseInfo
     public String getCreditCount(String creditOptionId, String courseId, ContextInfo contextInfo) {
@@ -527,6 +761,25 @@ public class CourseOfferingTransformer {
 
     }
 
+    /*
+ * Get the list of values from the cached map of results.
+ */
+    private List<ResultValueInfo> getResultValuesByKeys(List<String> resultValueKeys,
+                                                        Map<String, ResultValueInfo>resultValueMap) {
+
+        List<ResultValueInfo> values = new ArrayList<ResultValueInfo>();
+
+        for (String key : resultValueKeys) {
+
+            ResultValueInfo value = resultValueMap.get(key);
+
+            values.add(value);
+        }
+
+        return values;
+
+    }
+
     public CluService getCluService() {
         if(cluService == null){
             cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -549,5 +802,14 @@ public class CourseOfferingTransformer {
         this.lrcService = lrcService;
     }
 
+    public LuiService getLuiService() {
+        if(luiService == null){
+            luiService = GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE, LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return luiService;
+    }
 
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
 }
