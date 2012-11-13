@@ -35,17 +35,17 @@ import java.util.Set;
  */
 public class RoomServiceDao extends GenericEntityDao<RoomEntity> {
 
-    private Query sqlFindIdsByKey = null;
-    private Query sqlFindIdsByKeyPair = null;
-    private Query sqlFindIdsByIds = null;
-    private Query sqlFindIdsByKeyAndList = null;
+//    private Query sqlFindIdsByKey = null;
+//    private Query sqlFindIdsByKeyPair = null;
+//    private Query sqlFindIdsByIds = null;
+//    private Query sqlFindIdsByKeyAndList = null;
 
     public RoomServiceDao() {
         super();
-        sqlFindIdsByKey = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName = :keyValue");
-        sqlFindIdsByKeyPair = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName0 = :keyValue0 AND :keyName1 = :keyValue1");
-        sqlFindIdsByIds = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName in (:keyValues)");
-        sqlFindIdsByKeyAndList = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName0 = :keyValue0 AND :keyName1 in (:keyValues1)");
+//        sqlFindIdsByKey = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName = :keyValue");
+//        sqlFindIdsByKeyPair = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName0 = :keyValue0 AND :keyName1 = :keyValue1");
+//        sqlFindIdsByIds = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName in (:keyValues)");
+//        sqlFindIdsByKeyAndList = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName0 = :keyValue0 AND :keyName1 in (:keyValues1)");
     }
 
     public List<String> findIdsByKey(String keyName, String keyValue) throws DoesNotExistException, InvalidParameterException {
@@ -57,6 +57,7 @@ public class RoomServiceDao extends GenericEntityDao<RoomEntity> {
             throw new InvalidParameterException("No value specified for '" + keyName + "'!");
         }
 
+        Query sqlFindIdsByKey = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName = :keyValue");
         List<String> roomIds = ((sqlFindIdsByKey.setParameter("keyName", keyName)).setParameter("keyValue", keyValue)).getResultList();
 
         verifyResults(roomIds);
@@ -81,6 +82,7 @@ public class RoomServiceDao extends GenericEntityDao<RoomEntity> {
         String[] keys = new String[2];
         kvPair.keySet().toArray(keys);
 
+        Query sqlFindIdsByKeyPair = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName0 = :keyValue0 AND :keyName1 = :keyValue1");
         List<String> roomIds = sqlFindIdsByKeyPair.setParameter("keyName0", keys[0]).setParameter("keyValue0", kvPair.get(keys[0])).setParameter("keyName1", keys[1]).setParameter("keyValue1", kvPair.get(keys[1])).getResultList();
 
         verifyResults(roomIds);
@@ -97,6 +99,7 @@ public class RoomServiceDao extends GenericEntityDao<RoomEntity> {
             throw new InvalidParameterException("Invalid value specified for '" + keyName + "': " + keyValues.toString());
         }
 
+        Query sqlFindIdsByIds = em.createQuery("SELECT id FROM RoomEntity WHERE :keyName in (:keyValues)");
         List<String> roomIds = sqlFindIdsByIds.setParameter("keyName", keyName).setParameter("keyValues", keyValues).getResultList();
 
         verifyResults(roomIds);
@@ -121,6 +124,7 @@ public class RoomServiceDao extends GenericEntityDao<RoomEntity> {
             throw new InvalidParameterException("Invalid value specified for '" + keyName1 +"': " + keyValues1.toString());
         }
 
+        Query sqlFindIdsByKeyAndList =  em.createQuery("SELECT id FROM RoomEntity WHERE :keyName0 = :keyValue0 AND :keyName1 in (:keyValues1)");
         List<String> roomIds = sqlFindIdsByKeyAndList.setParameter("keyName0", keyName0).setParameter("keyValue0", keyValue0).setParameter("keyName1", keyName1).setParameter("keyValues1", keyValues1).getResultList();
 
         verifyResults(roomIds);

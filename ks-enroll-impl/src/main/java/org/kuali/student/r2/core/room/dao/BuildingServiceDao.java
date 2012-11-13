@@ -18,18 +18,18 @@ import java.util.List;
  */
 public class BuildingServiceDao extends GenericEntityDao<RoomBuildingEntity> {
 
-    private Query sqlFindIdsByKey = null;
-    private Query sqlFindIdsByKeyPair = null;
-    private Query sqlFindIdsByIds = null;
-    private Query sqlFindIdsByKeyAndList = null;
+//    private Query sqlFindIdsByKey = null;
+//    private Query sqlFindIdsByKeyPair = null;
+//    private Query sqlFindIdsByIds = null;
+//    private Query sqlFindIdsByKeyAndList = null;
 
-    public BuildingServiceDao() {
-        super();
-        sqlFindIdsByKey = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE :keyName = :keyValue");
-        sqlFindIdsByKeyPair = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE :keyName0 = :keyValue0 AND :keyName1 = :keyValue1");
-        sqlFindIdsByIds = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE :keyName in (:keyValues)");
-        sqlFindIdsByKeyAndList = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE :keyName0 = :keyValue0 AND :keyName1 in (:keyValues1)");
-    }
+//    public BuildingServiceDao() {
+//        super();
+//        sqlFindIdsByKey = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE :keyName = :keyValue");
+//        sqlFindIdsByKeyPair = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE :keyName0 = :keyValue0 AND :keyName1 = :keyValue1");
+//        sqlFindIdsByIds = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE :keyName in (:keyValues)");
+//        sqlFindIdsByKeyAndList = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE :keyName0 = :keyValue0 AND :keyName1 in (:keyValues1)");
+//    }
 
     public List<String> findIdsByKey(String keyName, String keyValue) throws DoesNotExistException, InvalidParameterException {
         if (keyName == null || keyName.length() == 0) {
@@ -40,16 +40,8 @@ public class BuildingServiceDao extends GenericEntityDao<RoomBuildingEntity> {
             throw new InvalidParameterException("No value specified for '" + keyName + "'!");
         }
 
-        List<String> buildingIds = ((sqlFindIdsByKey.setParameter("keyName", keyName)).setParameter("keyValue", keyValue)).getResultList();
-
-        verifyResults(buildingIds);
-
-        return buildingIds;
+        Query sqlFindIdsByKey = em.createQuery("SELECT id FROM RoomBuildingEntity WHERE " + keyName + " = :keyValue");
+        return (sqlFindIdsByKey.setParameter("keyValue", keyValue)).getResultList();
     }
 
-    private void verifyResults(List<String> results) throws DoesNotExistException {
-        if (results == null || results.size() == 0) {
-            throw new DoesNotExistException("No matching records found!");
-        }
-    }
 }

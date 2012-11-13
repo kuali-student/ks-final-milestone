@@ -74,7 +74,7 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
 
     public void fromDto(Building building) {
         this.setId(building.getId());
-//        this.setObjectId( building.getObjectId() );
+
         //Meta is set during super constructor
         this.setName( building.getName() );
         this.setBuildingCode( building.getBuildingCode() );

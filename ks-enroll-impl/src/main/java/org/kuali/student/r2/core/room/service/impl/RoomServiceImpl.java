@@ -439,25 +439,26 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public RoomInfo createRoom(String buildingId, String roomTypeKey, RoomInfo roomInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         checkContext(contextInfo);
-        RoomEntity room = new RoomEntity();
+        RoomEntity roomEntity = new RoomEntity();
 
         if (roomInfo != null) {
-            room.fromDto(roomInfo);
+            roomEntity.fromDto(roomInfo);
         }
 
-        room.setId(null); //ensure no id prior to persist
+        roomEntity.setId(null); //ensure no id prior to persist
+        roomEntity.setEntityCreated(contextInfo);
 
         //override buildingId and roomTypeKey if they're provided
         if (buildingId != null && buildingId.length() > 0) {
-            room.setBuildingId(buildingId);
+            roomEntity.setBuildingId(buildingId);
         }
         if (roomTypeKey != null && roomTypeKey.length() > 0) {
-            room.setRoomType(roomTypeKey);
+            roomEntity.setRoomType(roomTypeKey);
         }
 
-        roomServiceDao.persist(room);
+        roomServiceDao.persist(roomEntity);
 
-        return room.toDto();
+        return roomEntity.toDto();
     }
 
     /**
@@ -494,11 +495,12 @@ public class RoomServiceImpl implements RoomService {
     public RoomInfo updateRoom(String roomId, RoomInfo roomInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         checkValid(roomInfo, contextInfo);
 
-        RoomEntity room = new RoomEntity();
-        room.fromDto(roomInfo);
-        roomServiceDao.update(room);
+        RoomEntity roomEntity = new RoomEntity();
+        roomEntity.fromDto(roomInfo);
+        roomEntity.setEntityUpdated(contextInfo);
+        roomServiceDao.update(roomEntity);
 
-        return room.toDto();
+        return roomEntity.toDto();
     }
 
     /**
@@ -612,10 +614,10 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
-    public List<String> getBuildingIdsByCampus(@WebParam(name = "campusKey") String campusKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(campusKey, "campusId", contextInfo);
+    public List<String> getBuildingIdsByCampus(String campusKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkValid(campusKey, "campusKey", contextInfo);
 
-        return buildingServiceDao.findIdsByKey("campusId", campusKey);
+        return buildingServiceDao.findIdsByKey("campusKey", campusKey);
     }
 
     /**
@@ -736,16 +738,15 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public BuildingInfo createBuilding(String buildingTypeKey, BuildingInfo buildingInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        checkContext( contextInfo );
+        checkValid(buildingInfo, contextInfo);
         RoomBuildingEntity buildingEntity = new RoomBuildingEntity();
 
-        if (buildingInfo != null) {
-            buildingEntity.fromDto( buildingInfo );
-        }
-
+        buildingEntity.fromDto( buildingInfo );
+        buildingEntity.setId( null );
         if (buildingTypeKey != null) {
             buildingEntity.setBuildingType( buildingTypeKey );
         }
+        buildingEntity.setEntityCreated( contextInfo );
 
         buildingServiceDao.persist( buildingEntity );
 
@@ -786,8 +787,8 @@ public class RoomServiceImpl implements RoomService {
     public BuildingInfo updateBuilding(String buildingId, BuildingInfo buildingInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         checkValid(buildingInfo, contextInfo);
 
-        RoomBuildingEntity buildingEntity = new RoomBuildingEntity();
-        buildingEntity.fromDto( buildingInfo );
+        RoomBuildingEntity buildingEntity = new RoomBuildingEntity(buildingInfo);
+        buildingEntity.setEntityUpdated( contextInfo );
         buildingServiceDao.update(buildingEntity);
 
         return buildingEntity.toDto();
@@ -1192,12 +1193,8 @@ public class RoomServiceImpl implements RoomService {
     private void checkValid(String key, String keyName, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
         checkContext(contextInfo);
 
-        if (key == null) {
-            throw new MissingParameterException(keyName + " is null!");
-        }
-
-        if (key.equalsIgnoreCase("")) {
-            throw new InvalidParameterException(keyName + " is empty!");
+        if (key == null || key.equals("")) {
+            throw new MissingParameterException(keyName + " is missing!");
         }
     }
 
@@ -1208,28 +1205,20 @@ public class RoomServiceImpl implements RoomService {
             throw new MissingParameterException(keyName + " is null!");
         }
 
-        for (String key : keys) {
-            if (key != null && !key.equalsIgnoreCase("")) {
-                return;
-            }
+        if (keys.contains(null) || keys.contains("")) {
+            throw new InvalidParameterException(keyName + " has invalid values! " + keyName.toString());
         }
-
-        throw new InvalidParameterException(keyName + " has no valid values!");
     }
 
     private void checkValid(Map<String, String> kvPairs, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
         checkContext(contextInfo);
 
-        if (kvPairs.containsValue(null)) {
-            throw new MissingParameterException("One or more parameters are null! '" + kvPairs + "'");
-        }
-
-        if (kvPairs.containsValue("")) {
-            throw new InvalidParameterException("One or more parameters are empty! '" + kvPairs + "'");
+        if (kvPairs.containsValue(null) || kvPairs.containsValue("")) {
+            throw new MissingParameterException("One or more parameters are missing! '" + kvPairs + "'");
         }
     }
 
-    private void checkValid(RoomInfo roomInfo, ContextInfo contextInfo) throws MissingParameterException{
+    private void checkValid(RoomInfo roomInfo, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
         checkContext(contextInfo);
 
         if (roomInfo == null) {
@@ -1237,7 +1226,7 @@ public class RoomServiceImpl implements RoomService {
         }
     }
 
-    private void checkValid(BuildingInfo buildingInfo, ContextInfo contextInfo) throws MissingParameterException {
+    private void checkValid(BuildingInfo buildingInfo, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
         checkContext( contextInfo );
 
         if (buildingInfo == null) {
@@ -1245,9 +1234,17 @@ public class RoomServiceImpl implements RoomService {
         }
     }
 
-    private void checkContext(ContextInfo contextInfo) throws MissingParameterException {
+    private void checkContext(ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
         if (contextInfo == null) {
             throw new MissingParameterException("contextInfo is null!");
+        }
+
+        if (contextInfo.getPrincipalId() == null || contextInfo.getPrincipalId() == "") {
+            throw new InvalidParameterException("principalId is missing!");
+        }
+
+        if (contextInfo.getCurrentDate() == null) {
+            throw new InvalidParameterException("currentDate is missing!");
         }
     }
 

@@ -62,7 +62,7 @@ public class RoomEntity extends MetaEntity implements AttributeOwner<RoomAttribu
     @Column(name = "ROOM_CD")
     private String roomCode;
 
-    @OneToOne(mappedBy = "id")
+    @Column(name = "BUILDING_ID")
     private String buildingId;
 
     @Column(name = "FLOOR")
