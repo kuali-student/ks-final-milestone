@@ -10,21 +10,13 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
-
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -243,7 +235,7 @@ public class TestCourseOfferingServiceImpl {
             coi.setMaximumEnrollment(40);
             coi.setMinimumEnrollment(10);
 
-            //skiping instructors test because we can't config lim personservice at test context
+            //skiping instructors test because we can't config kim personservice at test context
 
             // dynamic attributes
             AttributeTester attributeTester = new AttributeTester();
@@ -354,27 +346,33 @@ public class TestCourseOfferingServiceImpl {
         return fo;
     }
 
+    private ActivityOfferingInfo createActivityOffering(CourseOfferingInfo courseOffering, String foId) throws Exception {
+        String activityId = CourseOfferingServiceDataUtils
+            .createCanonicalActivityId("CHEM123:LEC-ONLY",
+                    LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
+
+        List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+        ActivityOfferingInfo ao = CourseOfferingServiceDataUtils
+            .createActivityOffering("2012FA", courseOffering, foId,
+                    null, activityId, "Lecture", "A",
+                    LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
+                    instructors);
+
+        ActivityOfferingInfo created = coService.createActivityOffering(
+                foId, activityId,
+                LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, ao,
+                callContext);
+
+        return created;
+    }
+
     @Test
     public void testCRActivityOffering() throws Exception {
         CourseOfferingInfo courseOffering = createCourseOffering();
         FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
 
-        String activityId = CourseOfferingServiceDataUtils
-                .createCanonicalActivityId("CHEM123:LEC-ONLY",
-                        LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
-
-        List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
-        ActivityOfferingInfo ao = CourseOfferingServiceDataUtils
-                .createActivityOffering("2012FA", courseOffering, fo.getId(),
-                        null, activityId, "Lecture", "A",
-                        LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
-                        instructors);
-
         try {
-            ActivityOfferingInfo created = coService.createActivityOffering(
-                    fo.getId(), activityId,
-                    LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, ao,
-                    callContext);
+            ActivityOfferingInfo created = createActivityOffering(courseOffering, fo.getId());
             assertNotNull(created);
 
             ActivityOfferingInfo retrieved = coService.getActivityOffering(
@@ -411,6 +409,33 @@ public class TestCourseOfferingServiceImpl {
             log.fatal("Exception from serviceCall", ex);
 
             fail("Exception from service call :" + ex.getMessage());
+        }
+    }
+
+   @Test
+   public void testDeleteCourseOfferingCascaded() throws Exception {
+        CourseOfferingInfo courseOffering = createCourseOffering();
+        FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
+        ActivityOfferingInfo ao = createActivityOffering(courseOffering, fo.getId());
+        List<FormatOfferingInfo> oformats = coService.getFormatOfferingsByCourseOffering(courseOffering.getId(), callContext);
+        assertEquals(1, oformats.size());
+
+        List<ActivityOfferingInfo> oactivities = coService.getActivityOfferingsByCourseOffering(courseOffering.getId(), callContext);
+        assertEquals(1, oactivities.size());
+
+        StatusInfo status = coService.deleteCourseOfferingCascaded(courseOffering.getId(), callContext);
+        assertTrue(status.getIsSuccess());
+
+        List<FormatOfferingInfo> formats = coService.getFormatOfferingsByCourseOffering(courseOffering.getId(), callContext);
+        assertEquals(0, formats.size());
+
+        List<ActivityOfferingInfo> activities = coService.getActivityOfferingsByCourseOffering(courseOffering.getId(), callContext);
+        assertEquals(0, activities.size());
+
+        try{
+            coService.getCourseOffering(courseOffering.getId(), callContext);
+        }catch(DoesNotExistException ex){
+           //expected
         }
     }
 }
