@@ -152,7 +152,8 @@ insert into KSEN_TYPE (TYPE_KEY, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, EFF
 insert into KSEN_TYPETYPE_RELTN (ID, OBJ_ID, TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE, EFF_DT, EXPIR_DT, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.type.type.relation.type.group.kuali.lu.type.grouping.activity.kuali.lu.type.activity.LectureORSeminar', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.lu.type.grouping.activity', 'kuali.lu.type.activity.LectureORSeminar', 0, 0, TIMESTAMP '2012-03-01 00:00:00', 'SYSTEMLOADER', null, null)
 /
 insert into KSEN_TYPETYPE_RELTN (ID, OBJ_ID, TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE, EFF_DT, EXPIR_DT, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.type.type.relation.type.group.kuali.lui.type.grouping.activity.kuali.lui.type.activity.offering.LectureORSeminar', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.lui.type.grouping.activity', 'kuali.lui.type.activity.offering.LectureORSeminar', 0, 0, TIMESTAMP '2012-03-01 00:00:00', 'SYSTEMLOADER', null, null)
-/UPDATE KSEN_LRC_RVG SET RVG_TYPE ='kuali.result.values.group.type.fixed', RVG_STATE ='kuali.result.values.group.state.approved', NAME ='Allow students to audit', DESCR_PLAIN ='Courses flagged with this allow students to audit the course', DESCR_FORMATTED ='Courses flagged with this allow students to audit the course'
+/
+UPDATE KSEN_LRC_RVG SET RVG_TYPE ='kuali.result.values.group.type.fixed', RVG_STATE ='kuali.result.values.group.state.approved', NAME ='Allow students to audit', DESCR_PLAIN ='Courses flagged with this allow students to audit the course', DESCR_FORMATTED ='Courses flagged with this allow students to audit the course'
 /
 
 UPDATE KSEN_LRC_RVG SET RVG_TYPE ='kuali.result.values.group.type.multiple', RVG_STATE ='kuali.result.values.group.state.approved', NAME ='Accepts a completed notation', DESCR_PLAIN ='Courses flagged with this only allow for a completed or not completed notation.', DESCR_FORMATTED ='Courses flagged with this only allow for a completed or not completed notation.'
@@ -192,12 +193,11 @@ insert into
 values
 	('kuali.type.type.relation.type.group.kuali.milestone.type.group.instructional.kuali.atp.milestone.lastdayofclasses', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.instructional', 'kuali.atp.milestone.lastdayofclasses', 0, 0, TIMESTAMP '2012-03-01 00:00:00', 'SYSTEMLOADER', null, null)
 /
--- Update Summer1 and Summer2 term types
-update KSEN_TYPE SET REF_OBJECT_URI = 'http://student.kuali.org/wsdl/atp/AtpInfo', SERVICE_URI='http://student.kuali.org/wsdl/atp/AtpService', CREATETIME = TIMESTAMP '2012-11-09 00:00:00', CREATEID = 'UMDDATA' WHERE TYPE_KEY = 'kuali.atp.type.Summer1';
+-- Insert Summer1 and Summer2 term types
+insert into KSEN_TYPE (TYPE_KEY, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, EFF_DT, EXPIR_DT, REF_OBJECT_URI, SERVICE_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.atp.type.Summer1', null, 'Summer I Term', null, null, null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 'http://student.kuali.org/wsdl/atp/AtpService', 0, TIMESTAMP '2012-11-09 00:00:00', 'UMDDATA', null, null);
 /
-update KSEN_TYPE SET REF_OBJECT_URI = 'http://student.kuali.org/wsdl/atp/AtpInfo', SERVICE_URI='http://student.kuali.org/wsdl/atp/AtpService', CREATETIME = TIMESTAMP '2012-11-09 00:00:00', CREATEID = 'UMDDATA' WHERE TYPE_KEY = 'kuali.atp.type.Summer2';
+insert into KSEN_TYPE (TYPE_KEY, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, EFF_DT, EXPIR_DT, REF_OBJECT_URI, SERVICE_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.atp.type.Summer2', null, 'Summer II Term', null, null, null, null, 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 'http://student.kuali.org/wsdl/atp/AtpService', 0, TIMESTAMP '2012-11-09 00:00:00', 'UMDDATA', null, null);
 /
-
 
 -- Add type-type relation for Summer 1
 insert into KSEN_TYPETYPE_RELTN (ID, OBJ_ID, TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE, EFF_DT, EXPIR_DT, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.type.type.relation.type.group.kuali.atp.type.Summer1.kuali.atp.duration.Term', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.atp.type.Summer1', 'kuali.atp.duration.Term', 0, 0, TIMESTAMP '2012-09-12 00:00:00', 'UMDDATA', null, null);
@@ -293,4 +293,13 @@ SET
     END
 WHERE
     LENGTH(KSEN_LUI.ATP_ID) = 6
+/
+--Clear out all schedules since these point to non existant rooms/building
+delete from KSEN_SCHED_CMP_TMSLOT
+/
+delete from KSEN_SCHED_CMP
+/
+delete from KSEN_SCHED
+/
+update KSEN_LUI set KSEN_LUI.SCHEDULE_ID = null
 /
