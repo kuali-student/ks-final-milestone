@@ -22,12 +22,9 @@ import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -36,12 +33,9 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
-import javax.sql.DataSource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -75,22 +69,10 @@ public class TestCourseOfferingServiceImpl {
     protected CourseOfferingService coService;
 
     @Resource
-    protected AcademicCalendarService acalService;
-
-    @Resource
-    protected AtpService atpService;
-
-    @Resource
-    protected CourseService courseService;
+   protected CourseService courseService;
 
     @Resource
     protected CourseOfferingServiceTestDataLoader dataLoader;
-
-    @Resource
-    private AtpTestDataLoader atpDataLoader;
-
-    @Resource
-    protected LuiServiceDataLoader luiDataLoader;
 
     public static String principalId = "123";
     public ContextInfo callContext = null;
@@ -199,7 +181,7 @@ public class TestCourseOfferingServiceImpl {
         String coId = testCreateCourseOffering();
         testUpdateCourseOffering(coId);
         testSearchForCourseOfferings();
-        //testDeleteCourseOffering(coId);
+        testDeleteCourseOffering(coId);
     }
 
     private CourseOfferingInfo createCourseOffering() throws Exception{
@@ -319,8 +301,11 @@ public class TestCourseOfferingServiceImpl {
             StatusInfo delResult = coService.deleteCourseOffering(coId, callContext);
             assertTrue(delResult.getIsSuccess());
 
-            CourseOfferingInfo retrieved = coService.getCourseOffering(coId, callContext);
-            assertNull(retrieved);
+             try{
+                coService.getCourseOffering(coId, callContext);
+             }catch(DoesNotExistException ex){
+                 //expected
+             }
 
         } catch (Exception ex) {
             log.error("exception due to ", ex);
