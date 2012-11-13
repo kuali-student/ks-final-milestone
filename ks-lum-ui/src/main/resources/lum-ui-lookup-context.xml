@@ -4559,20 +4559,20 @@
   <property name="initialLookup" ref="kuali.lu.lookup.programLevel" />  
  </bean>
 
- <bean id="majorDisciplineInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
-  <property name="path" value="majorDisciplineInfo.learningObjectives.loInfo.desc" />
+ <bean id="majorDisciplineInfo.learningObjectives.loInfo.descr" parent="programLo-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.learningObjectives.loInfo.descr" />
  </bean>
 
- <bean id="credentialProgramInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
-  <property name="path" value="credentialProgramInfo.learningObjectives.loInfo.desc" /> 
+ <bean id="credentialProgramInfo.learningObjectives.loInfo.descr" parent="programLo-lookup-binding-parent">
+  <property name="path" value="credentialProgramInfo.learningObjectives.loInfo.descr" />
  </bean>
 
- <bean id="programVariationInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
-  <property name="path" value="majorDisciplineInfo.variations.learningObjectives.loInfo.desc" /> 
+ <bean id="programVariationInfo.learningObjectives.loInfo.descr" parent="programLo-lookup-binding-parent">
+  <property name="path" value="majorDisciplineInfo.variations.learningObjectives.loInfo.descr" />
  </bean>
 
- <bean id="coreProgramInfo.learningObjectives.loInfo.desc" parent="programLo-lookup-binding-parent">
-  <property name="path" value="coreProgramInfo.learningObjectives.loInfo.desc" /> 
+ <bean id="coreProgramInfo.learningObjectives.loInfo.descr" parent="programLo-lookup-binding-parent">
+  <property name="path" value="coreProgramInfo.learningObjectives.loInfo.descr" />
  </bean>
 
  <bean id="programLo-lookup-binding-parent" parent="uilookupconfig-parent" abstract="true">
