@@ -344,7 +344,9 @@ public class StateServiceMockImpl
             throw new DoesNotExistException(initialStateKey + " does not exist");
         }
 
-        this.initialStatesMap.get(lifecycleKey).add(initialStateKey);
+        if(!this.initialStatesMap.get(lifecycleKey).add(initialStateKey)) {
+            throw new AlreadyExistsException(initialStateKey + "already exists");
+        }
 
         return new StatusInfo();
     }
