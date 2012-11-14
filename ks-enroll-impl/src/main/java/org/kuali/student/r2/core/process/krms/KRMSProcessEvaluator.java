@@ -58,6 +58,7 @@ import org.kuali.student.r2.core.process.context.CourseRegistrationProcessContex
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.evaluator.ProcessEvaluator;
+import org.kuali.student.r2.core.process.krms.evaluator.KRMSEvaluator;
 import org.kuali.student.r2.core.process.krms.proposition.ExemptionAwareProposition;
 import org.kuali.student.r2.core.process.krms.proposition.MilestoneDateComparisonProposition;
 import org.kuali.student.r2.core.process.krms.proposition.MilestoneDateComparisonProposition.DateComparisonType;
@@ -82,7 +83,7 @@ import java.util.Map;
  *
  * @author alubbers
  */
-public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistrationProcessContextInfo> {
+public class KRMSProcessEvaluator extends KRMSEvaluator implements ProcessEvaluator<CourseRegistrationProcessContextInfo> {
 
     public static final String EXEMPTION_WAS_USED_MESSAGE_SUFFIX = " (exemption applied)";
 
@@ -90,10 +91,6 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
     private ProcessService processService;
     private PopulationService populationService;
     private ExemptionService exemptionService;
-    private HoldService holdService;
-    private List<TermResolver<?>> termResolvers;
-    private ExecutionOptions executionOptions;
-    private SelectionCriteria selectionCriteria;
 
     public void setAcalService(AcademicCalendarService acalService) {
         this.acalService = acalService;
@@ -109,10 +106,6 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
     public void setExemptionService(ExemptionService exemptionService) {
         this.exemptionService = exemptionService;
-    }
-
-    public void setHoldService(HoldService holdService) {
-        this.holdService = holdService;
     }
 
     @Override
@@ -309,100 +302,6 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), processContext.getTermKey(), true, dateOverrideInfo);
     }
 
-    private EngineResults evaluateProposition(Proposition proposition, Map<String, Object> executionFacts) {
-
-        // Build the KRMS agenda and other startup objects to execute
-        List<AgendaTreeEntry> treeEntries = new ArrayList<AgendaTreeEntry>(1);
-        treeEntries.add(new BasicAgendaTreeEntry(new BasicRule(proposition, null)));
-
-        Map<String, String> qualifiers = Collections.emptyMap();
-        Agenda agenda = new BasicAgenda(qualifiers, new BasicAgendaTree(treeEntries));
-
-        Context context = new BasicContext(Arrays.asList(agenda), termResolvers);
-        ContextProvider contextProvider = new ManualContextProvider(context);
-
-        ProviderBasedEngine engine = new ProviderBasedEngine();
-        engine.setContextProvider(contextProvider);
-
-        if (executionOptions == null) {
-            executionOptions = new ExecutionOptions();
-            executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
-            executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
-        }
-
-        if (selectionCriteria == null) {
-            Map<String, String> contextQualifiers = Collections.singletonMap(RulesExecutionConstants.DOCTYPE_CONTEXT_QUALIFIER, RulesExecutionConstants.STUDENT_ELIGIBILITY_DOCTYPE);
-
-            Map<String, String> empty = Collections.emptyMap();
-            selectionCriteria = SelectionCriteria.createCriteria(new DateTime(), contextQualifiers, empty);
-        }
-
-        return engine.execute(selectionCriteria, executionFacts, executionOptions);
-    }
-
-    private List<ValidationResultInfo> buildValidationResultsFromEngineResults(EngineResults engineResults, Map<Proposition, InstructionInfo> propositionInstructionMap, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
-
-        // go through all the results from the Propositions, and build validation results based on any propositions that failed
-        List<ResultEvent> events = engineResults.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
-        for (ResultEvent e : events) {
-            Proposition prop = (Proposition) e.getSource();
-            InstructionInfo instruction = propositionInstructionMap.get(prop);
-            ValidationResultInfo result = new ValidationResultInfo();
-            String message = instruction.getMessage().getPlain();
-            ExemptionAwareProposition exemptionProp = null;
-
-            if(prop instanceof SubProcessProposition) {
-                List<ValidationResultInfo> subResults = (List<ValidationResultInfo>) e.getResultDetails().get(RulesExecutionConstants.SUBPROCESS_EVALUATION_RESULTS);
-                results.addAll(subResults);
-            }
-            else {
-                // if the proposition is could have an exemption, check for the exemption and add a suffix to the message
-                if(prop instanceof ExemptionAwareProposition) {
-                    exemptionProp = (ExemptionAwareProposition)prop;
-                    if(exemptionProp.isExemptionUsed()) {
-                        message += EXEMPTION_WAS_USED_MESSAGE_SUFFIX;
-                    }
-                }
-                if (e.getResult()) {
-                    result.setLevel(ValidationResult.ErrorLevel.OK);
-                    // add a message to an OK result only if an exemption was used
-                    if(exemptionProp != null && exemptionProp.isExemptionUsed()) {
-                        result.setMessage(message);
-                    }
-                }
-                else {
-
-                    if (instruction.getIsWarning()) {
-                        result.setWarn(message);
-                    } else {
-                        result.setError(message);
-                    }
-                }
-
-                results.add(result);
-            }
-
-            if (!e.getResult() && !instruction.getContinueOnFail()) {
-                break;
-            }
-        }
-
-        // Now check if there are any warnings from Holds that are marked as warning only
-        List<String> warningHoldIds = (List<String>) engineResults.getAttribute(RulesExecutionConstants.REGISTRATION_HOLD_WARNINGS_ATTRIBUTE);
-
-        if (warningHoldIds != null && !warningHoldIds.isEmpty()) {
-            for (String holdId : warningHoldIds) {
-                AppliedHoldInfo hold = holdService.getAppliedHold(holdId, context);
-                ValidationResultInfo result = new ValidationResultInfo();
-                result.setWarn("The following hold was found on the student's account, but set as a warning: " + hold.getDescr().getPlain());
-                results.add(result);
-            }
-        }
-
-        return results;
-    }
-
     public List<ValidationResultInfo> evaluateStudentAliveRule(InstructionInfo instruction, CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
@@ -445,11 +344,4 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         return executionFacts;
     }
 
-    public void setTermResolvers(List<TermResolver<?>> termResolvers) {
-        this.termResolvers = termResolvers;
-    }
-
-    public void setExecutionOptions(ExecutionOptions executionOptions) {
-        this.executionOptions = executionOptions;
-    }
 }

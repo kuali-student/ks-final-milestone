@@ -7,7 +7,6 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.krms.KSKRMSTestCase;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -19,18 +18,29 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Ignore
-public class KSKRMSTestKRMSServices extends KSKRMSTestCase {
+public class KSKRMSTestKRMSServices {
 
 	org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler acalAssembler;
 	AcademicCalendarService acalService;
 	KSTermResolverTypeService ksKRMSTermResolverTypeService;
 
-    @Override
-    protected String getAdditionalSpringFile(){
-        return "ks-krms-test-context.xml";
-    }
+    //@Override
+    //protected String getAdditionalSpringFile(){
+    //    return "ks-krms-test-context.xml";
+    //}
 
     protected ContextDefinition getKRMSContext(String context) {
+        return null;
+    }
+
+    protected TermResolverDefinition krmsTermResolverLookup(String termResolverName) {
+        // this may be called more than once, we only want to create one though
+        //Map<String, String> queryArgs = new HashMap<String, String>();
+        //queryArgs.put("nm", termResolverName);
+        //TermResolverBo termBo = getBoService().findByPrimaryKey(TermResolverBo.class, queryArgs);
+        //if (termBo != null) {
+        //    return TermResolverBo.to(termBo);
+        //}
         return null;
     }
 
