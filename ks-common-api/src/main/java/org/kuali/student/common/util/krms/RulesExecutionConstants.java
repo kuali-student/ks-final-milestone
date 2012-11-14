@@ -24,6 +24,7 @@ public class RulesExecutionConstants {
     public static final String STUDENT_REGISTRATION_HOLDS_TERM_NAME = "studentRegistrationHolds";
 
     public static final String ORG_PERMISSION_TERM_NAME = "orgPermission";
+    public static final String ADMIN_ORG_NUMBER_TERM_NAME = "adminOrgNumber";
     public static final String NR_OF_COMPLETED_COURSES_TERM_NAME = "numberOfCompletedCourses";
     public static final String COMPLETED_COURSE_TERM_NAME = "completedCourse";
     
@@ -41,6 +42,7 @@ public class RulesExecutionConstants {
 
     public static final String REQUIRED_COURSES_PROPERTY = "requiredCourses";
     public static final String ORGANIZATION_ID_PROPERTY = "organizationId";
+    public static final String ORG_TYPE_KEY_TERM_PROPERTY = "orgTypeKey";
 
     public static final String STATEMENT_EVENT_NAME = "statementEvent";
     public static final String PROCESS_EVENT_NAME = "processEvent";
