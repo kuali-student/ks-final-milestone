@@ -152,9 +152,9 @@ public class MenuEditableSectionController extends MenuSectionController{
 
 				@Override
 				public void exec(Boolean result) {
-					if(false){
-						MenuEditableSectionController.this.editMode = !editMode;
-					}
+//					if(false){
+//						MenuEditableSectionController.this.editMode = !editMode;
+//					}
 				}
 			});
 		}

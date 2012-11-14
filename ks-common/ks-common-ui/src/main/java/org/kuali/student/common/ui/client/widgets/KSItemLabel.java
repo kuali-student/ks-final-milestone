@@ -279,9 +279,9 @@ public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLab
 				status = vr.getLevel();			
 			}
 		}
-		else{
+//		else{
 			//TODO does nothing on ok, ok is not currently used
-		}
+//		}
 		return status;
 	}
     

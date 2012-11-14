@@ -505,9 +505,9 @@ public class AppointmentServiceImplHelper {
             }
             copy.add(Calendar.DAY_OF_MONTH, 1); // Add a day
             loopCount++;
-            if (loopCount > 10) {
+//            if (loopCount > 10) {
                 // TODO: Figure this out (should it be taken care of)
-            }
+//            }
         }
     }
     
