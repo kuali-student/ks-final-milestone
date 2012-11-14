@@ -795,8 +795,8 @@ public class GradingServiceImpl implements GradingService {
                 entryAttributesKey = ADMINISTRATIVE_GRADE;
             } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 entryAttributesKey = CREDITS_EARNED;
-            } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
-                entryAttributesKey = CALCULATED_GRADE;
+//            } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
+//                entryAttributesKey = CALCULATED_GRADE;
             }
 
             if (entryAttributesKey != null) {
@@ -865,8 +865,8 @@ public class GradingServiceImpl implements GradingService {
                 administrativeGradeKey = resultValue.getKey();
             } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 creditsEarnedKey = resultValue.getKey();
-            } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
-                calculatedGradeKey = resultValue.getKey();
+//            } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
+//                calculatedGradeKey = resultValue.getKey();
             }
         }
 

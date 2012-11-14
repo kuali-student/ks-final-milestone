@@ -122,7 +122,7 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
                 } else if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY)) {
                     //offeringInstructorInfo.setTypeKey("Teaching Assistant");
                     instructor.setTypeName("Teaching Assistant");
-                } else if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY)) {
+//                } else if (offeringInstructorInfo.getTypeKey().equals(LprServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY)) {
                     //TODO: set support here
                 }
                 instructorList.add(instructor);
