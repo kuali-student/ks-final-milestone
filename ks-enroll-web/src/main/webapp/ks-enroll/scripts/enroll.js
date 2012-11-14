@@ -105,22 +105,39 @@ function renameDialogButtons(labelsToReplace) {
     });
 }
 
-function validateCredits(textBox) {
-    if (jQuery(textBox).val().trim() != '') {
-        var foundMatch = false;
-        var textValue;
-        var labelValue;
-        jQuery("input[name='document.newMaintainableObject.dataObject.creditOption.credits']").each(function () {
-            var labelForId = jQuery(this).attr("id");
-            textValue = parseFloat(jQuery(textBox).val());
-            var label = jQuery("label[for='" + labelForId + "']");
-            labelValue = parseFloat(jQuery(label).text());
-            if (textValue == labelValue) {
-                foundMatch = true;
+function validateCredits(textBox, url, courseTypeKey) {
+    if (courseTypeKey) {
+        if (jQuery(textBox).val().trim() != '') {
+            var foundMatch = false;
+            var textValue;
+            var labelValue;
+            jQuery("input[name='document.newMaintainableObject.dataObject.creditOption.credits']").each(function () {
+                var labelForId = jQuery(this).attr("id");
+                textValue = jQuery(textBox).val().trim();
+                var label = jQuery("label[for='" + labelForId + "']");
+                labelValue = parseFloat(jQuery(label).text());
+                if (textValue == labelValue) {
+                    foundMatch = true;
+                }
+            });
+
+            var div = jQuery(jQuery(textBox)).closest('div');
+
+            if (!foundMatch) {
+                jQuery(textBox).addClass("error").removeClass("valid");
+                jQuery(textBox).attr("aria-invalid", "true");
+                jQuery(div).addClass("uif-hasError");
+                if (jQuery(div).find('img').length == 0) {
+                    jQuery(div).append('<img class="uif-validationImage" src="' + url + '/krad/images/validation/error.png" alt="Error" />');
+                }
+            } else {
+                if (jQuery(textBox).attr("aria-invalid") != undefined) {
+                    jQuery(textBox).attr("aria-invalid").remove();
+                }
+                jQuery(textBox).addClass("valid").removeClass("error");
+                jQuery(div).removeClass("uif-hasError");
+                jQuery(div).find('img').remove();
             }
-        });
-        if (!foundMatch) {
-            alert("Not a valid credit");
         }
     }
 }
