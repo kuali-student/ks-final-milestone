@@ -405,6 +405,13 @@
                               p:actionEvent="addLine"/>
                       </list>
                     </property>
+                    <property name="lineActions">
+                      <list>
+                        <bean parent="Uif-DeleteLineAction">
+                            <property name="render" value="@{#lp.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
+                        </bean>
+                      </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="formatId"  p:readOnly="@{!#isAddLine}"
