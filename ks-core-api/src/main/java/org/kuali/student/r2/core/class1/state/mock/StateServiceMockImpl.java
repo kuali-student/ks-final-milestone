@@ -358,7 +358,9 @@ public class StateServiceMockImpl
             throw new DoesNotExistException(initialStateKey + " does not exist");
         }
 
-        this.initialStatesMap.remove(lifecycleKey);
+        if(!this.initialStatesMap.get(lifecycleKey).remove(initialStateKey)) {
+            throw new DoesNotExistException(initialStateKey + " initial state does not exist");
+        }
 
         return new StatusInfo();
     }
