@@ -22,6 +22,10 @@ public class RulesExecutionConstants {
     public static final String MILESTONES_BY_TYPE_TERM_NAME = "milestonesByType";
     public static final String MILESTONE_TERM_NAME = "milestone";
     public static final String STUDENT_REGISTRATION_HOLDS_TERM_NAME = "studentRegistrationHolds";
+
+    public static final String ORG_PERMISSION_TERM_NAME = "orgPermission";
+    public static final String NR_OF_COMPLETED_COURSES_TERM_NAME = "numberOfCompletedCourses";
+    public static final String COMPLETED_COURSE_TERM_NAME = "completedCourse";
     
     public static final Term completedCourseIdsTerm = new Term(STUDENT_COMPLETED_COURSE_IDS_TERM_NAME);
     public static final Term enrolledCourseIdsTerm = new Term(STUDENT_ENROLLED_COURSE_IDS_TERM_NAME);
@@ -34,6 +38,9 @@ public class RulesExecutionConstants {
     public static final String MILESTONE_ATP_KEY_TERM_PROPERTY = "milestoneAtpKeyProperty";
     public static final String MILESTONE_ID_TERM_PROPERTY = "milestoneIdProperty";
     public static final String ISSUE_KEY_TERM_PROPERTY = "issueKeyProperty";
+
+    public static final String REQUIRED_COURSES_PROPERTY = "requiredCourses";
+    public static final String ORGANIZATION_ID_PROPERTY = "organizationId";
 
     public static final String STATEMENT_EVENT_NAME = "statementEvent";
     public static final String PROCESS_EVENT_NAME = "processEvent";
