@@ -18,6 +18,7 @@
 
 
   	<inherits name="org.kuali.student.lum.lu.ui.main.LumUI"/>
+  	<inherits name="javax.validation.Validation"/>
 	<!--
   	
   	 Theme                  
