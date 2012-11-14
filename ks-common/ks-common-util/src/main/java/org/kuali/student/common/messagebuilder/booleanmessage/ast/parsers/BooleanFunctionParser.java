@@ -144,6 +144,8 @@ public class BooleanFunctionParser extends Parser {
             throw e;
         }
         finally {
+            root_0 = null;
+            orTerm1 = null;
         }
         return retval;
     }
@@ -230,6 +232,11 @@ public class BooleanFunctionParser extends Parser {
             throw e;
         }
         finally {
+            root_0 = null;
+            OR3 = null;
+            andTerm2 = null;
+            andTerm4 = null;
+            OR3_tree = null;
         }
         return retval;
     }
@@ -316,6 +323,11 @@ public class BooleanFunctionParser extends Parser {
             throw e;
         }
         finally {
+            root_0 = null;
+            AND6 = null;
+            atom5 = null;
+            atom7 = null;
+            AND6_tree = null;
         }
         return retval;
     }
@@ -409,6 +421,14 @@ public class BooleanFunctionParser extends Parser {
             throw e;
         }
         finally {
+            root_0 = null;
+            ALPHA8=null;
+            LP9=null;
+            RP11=null;
+            orTerm10 = null;
+            ALPHA8_tree=null;
+            LP9_tree=null;
+            RP11_tree=null;
         }
         return retval;
     }
