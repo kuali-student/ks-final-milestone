@@ -124,6 +124,8 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
 
     /**
      * Test of validate method, of class RiceValidatorImpl.
+     * Because there is no constraintProcessors provided for DictionaryValidationService in rice all tests are just
+     * to validate the xml file syntax. Any element setting is not validated.
      */
     @Test
     public void testValidate() throws Exception {
