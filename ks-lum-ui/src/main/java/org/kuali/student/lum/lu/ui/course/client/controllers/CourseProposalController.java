@@ -641,10 +641,12 @@ public class CourseProposalController extends MenuEditableSectionController impl
         Data proposalData = new Data();
         proposalData.set(new Data.StringKey("type"), currentDocType);
         data.set(new Data.StringKey("proposal"), proposalData);                
-        if (cfg.getNextState() == null || cfg.getNextState().isEmpty()){
-        	proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
+        if (cfg != null) {
+            if (cfg.getNextState() == null || cfg.getNextState().isEmpty()){
+        	    proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
+            }
         }
-        
+
         isNew = true;
         setHeaderTitle();
         setLastUpdated();

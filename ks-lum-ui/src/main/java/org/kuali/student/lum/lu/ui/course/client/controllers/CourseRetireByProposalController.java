@@ -102,10 +102,12 @@ public class CourseRetireByProposalController extends CourseProposalController {
         Data proposalData = new Data();
         proposalData.set(new Data.StringKey("type"), CLUConstants.PROPOSAL_TYPE_COURSE_RETIRE);
         data.set(new Data.StringKey("proposal"), proposalData);
-        if (cfg.getNextState() == null && cfg.getNextState().isEmpty()){
-        	proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
+        if (cfg != null) {
+            if (cfg.getNextState() == null && cfg.getNextState().isEmpty()){
+        	    proposalData.set(new Data.StringKey("workflowNode"), "PreRoute");
+            }
         }
-                
+
         data.set(new Data.StringKey("id"), getViewContext().getId());
         
         cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>() {
