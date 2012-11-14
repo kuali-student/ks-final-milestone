@@ -227,9 +227,9 @@
                                     <list>
                                         <bean parent="Uif-InputField" p:propertyName="course.code" p:showLabel="false"
                                               p:readOnly="true" />
-                                        <bean parent="Uif-InputField" p:propertyName="coInfo.courseNumberSuffix" p:showLabel="false" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                        <bean parent="Uif-InputField" p:propertyName="coInfo.courseNumberSuffix"  p:showLabel="false" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="5" />
+                                                <bean parent="Uif-TextControl" p:watermarkText="Suffix" p:size="5" />
                                             </property>
                                         </bean>
                                     </list>
