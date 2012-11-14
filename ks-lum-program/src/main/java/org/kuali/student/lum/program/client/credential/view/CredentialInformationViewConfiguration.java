@@ -53,43 +53,55 @@ public class CredentialInformationViewConfiguration extends AbstractSectionConfi
 
     private TableSection createIdentifyingDetailsSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_IDENTIFYINGDETAILS)));
-        configurer.addReadOnlyField(section, ProgramConstants.CODE, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_CODE));
-        configurer.addReadOnlyField(section, ProgramConstants.PROGRAM_LEVEL, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_LEVEL));
-        configurer.addReadOnlyField(section, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_DEGREETYPE));
+        configurer.addReadOnlyField(section, ProgramConstants.CODE,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_CODE));
+        configurer.addReadOnlyField(section, ProgramConstants.PROGRAM_LEVEL,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_LEVEL));
+        configurer.addReadOnlyField(section, ProgramConstants.DEGREE_TYPE,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_DEGREETYPE));
         return section;
     }
 
     private TableSection createProgramTitleSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_PROGRAMTITLE)));
-        configurer.addReadOnlyField(section, ProgramConstants.LONG_TITLE, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_TITLEFULL));
-        configurer.addReadOnlyField(section, ProgramConstants.SHORT_TITLE, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_TITLESHORT));
+        configurer.addReadOnlyField(section, ProgramConstants.LONG_TITLE,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_TITLEFULL));
+        configurer.addReadOnlyField(section, ProgramConstants.SHORT_TITLE,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_TITLESHORT));
         return section;
     }
 
     private TableSection createDatesSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_DATES)));
         // Add this field and hide it so it is available for cross field validation
-        FieldDescriptor fd = configurer.addField(section, ProgramConstants.PREV_START_TERM, new MessageKeyInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVSTARTTERM));
+        FieldDescriptor fd = configurer.addField(section, ProgramConstants.PREV_START_TERM,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.MAJORDISCIPLINE_PREVSTARTTERM));
         fd.getFieldWidget().setVisible(false);
         fd.hideLabel();
 
-        configurer.addReadOnlyField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_STARTTERM));
-        configurer.addReadOnlyField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM));
-        configurer.addReadOnlyField(section, ProgramConstants.END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM));
+        configurer.addReadOnlyField(section, ProgramConstants.START_TERM,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_STARTTERM));
+        configurer.addReadOnlyField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM));
+        configurer.addReadOnlyField(section, ProgramConstants.END_PROGRAM_ENROLL_TERM,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM));
         return section;
     }
 
     private TableSection createOtherInformationSection() {
         TableSection section = new TableSection(SectionTitle.generateH4Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_OTHERINFORMATION)));
-        configurer.addReadOnlyField(section, ProgramConstants.INSTITUTION + "/" + ProgramConstants.ORG_ID, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_INSTITUTION));
+        configurer.addReadOnlyField(section, ProgramConstants.INSTITUTION + "/" + ProgramConstants.ORG_ID,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_INSTITUTION));
         return section;
     }
 
     public VerticalSection createActivateProgramSection() {
         final VerticalSection section = new VerticalSection(SectionTitle.generateH2Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_ACTIVATEPROGRAM)));
         section.setInstructions("<br>" + getLabel(ProgramMsgConstants.PROGRAMINFORMATION_ACTIVATEINSTRUCTIONS) + "<br><br>");
-        configurer.addField(section, "proposal/" + ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM));
-        configurer.addField(section, "proposal/" + ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM));
+        configurer.addField(section, "proposal/" + ProgramConstants.PREV_END_PROGRAM_ENTRY_TERM,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM));
+        configurer.addField(section, "proposal/" + ProgramConstants.PREV_END_PROGRAM_ENROLL_TERM,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM));
         return section;
     }
 }

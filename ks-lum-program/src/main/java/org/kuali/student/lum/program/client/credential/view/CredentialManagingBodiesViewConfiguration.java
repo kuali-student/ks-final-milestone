@@ -43,10 +43,14 @@ public class CredentialManagingBodiesViewConfiguration extends AbstractSectionCo
 
     private VerticalSection createMainSection() {
         VerticalSection section = new VerticalSection();
-        configurer.addReadOnlyField(section, ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION, new MessageKeyInfo(ProgramMsgConstants.MANAGINGBODIES_CURRICULUMOVERSIGHTDIVISION));
-        configurer.addReadOnlyField(section, ProgramConstants.CURRICULUM_OVERSIGHT_UNIT, new MessageKeyInfo(ProgramMsgConstants.MANAGINGBODIES_CURRICULUMOVERSIGHTUNIT));
-        configurer.addReadOnlyField(section, ProgramConstants.STUDENT_OVERSIGHT_DIVISION, new MessageKeyInfo(ProgramMsgConstants.MANAGINGBODIES_STUDENTOVERSIGHTDIVISION));
-        configurer.addReadOnlyField(section, ProgramConstants.STUDENT_OVERSIGHT_UNIT, new MessageKeyInfo(ProgramMsgConstants.MANAGINGBODIES_STUDENTOVERSIGHTUNIT));
+        configurer.addReadOnlyField(section, ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.MANAGINGBODIES_CURRICULUMOVERSIGHTDIVISION));
+        configurer.addReadOnlyField(section, ProgramConstants.CURRICULUM_OVERSIGHT_UNIT,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.MANAGINGBODIES_CURRICULUMOVERSIGHTUNIT));
+        configurer.addReadOnlyField(section, ProgramConstants.STUDENT_OVERSIGHT_DIVISION,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.MANAGINGBODIES_STUDENTOVERSIGHTDIVISION));
+        configurer.addReadOnlyField(section, ProgramConstants.STUDENT_OVERSIGHT_UNIT,
+                new MessageKeyInfo(ProgramMsgConstants.PROGRAM_MSG_GROUP, "course", ProgramMsgConstants.STATUS_ACTIVE, ProgramMsgConstants.MANAGINGBODIES_STUDENTOVERSIGHTUNIT));
         return section;
     }
 }
