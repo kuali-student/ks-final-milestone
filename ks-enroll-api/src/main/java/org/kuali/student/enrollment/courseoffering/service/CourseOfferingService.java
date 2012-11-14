@@ -2217,13 +2217,30 @@ public interface CourseOfferingService
      *                           and locale information about the caller of
      *                           service operation
      * @return List of SeatPoolDefinitions
-     * @throws DoesNotExistException     activityOfferingId not found
-     * @throws InvalidParameterException invalid activityOfferingId
-     * @throws MissingParameterException missing activityOfferingId
+     * @throws DoesNotExistException     No ActivityOffering found for the specified activityOfferingId
+     * @throws InvalidParameterException context is null
+     * @throws MissingParameterException one or more missing parameters
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ActivityOffering records that are associated to a specific
+     * SeatPoolDefinition. 
+     *
+     * @param seatPoolDefinitionId Unique Id of the SeatPoolDefinition
+     * @param context            Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return List of ActivityOfferings
+     * @throws DoesNotExistException     no seat pool exists for seatPoolDefinitionId
+     * @throws InvalidParameterException contextInfo is null.
+     * @throws MissingParameterException missing seatPoolDefinitionId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ActivityOfferingInfo> getActivityOfferingsForSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for SeatPoolDefinitions that meet the given search criteria.
