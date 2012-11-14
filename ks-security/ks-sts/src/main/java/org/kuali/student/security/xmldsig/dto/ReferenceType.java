@@ -129,7 +129,9 @@ public class ReferenceType {
      *     byte[]
      */
     public void setDigestValue(byte[] value) {
-        this.digestValue = ((byte[]) value);
+        this.digestValue = new byte[value.length];
+        System.arraycopy(value, 0, this.digestValue, 0, value.length);
+//        this.digestValue = ((byte[]) value);
     }
 
     /**

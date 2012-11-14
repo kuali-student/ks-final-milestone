@@ -62,7 +62,9 @@ public class KSLogoutFilter extends GenericFilterBean {
         Assert.notEmpty(handlers, "LogoutHandlers are required");
         this.logoutSuccessUrl = logoutSuccessUrl;
         Assert.isTrue(UrlUtils.isValidRedirectUrl(logoutSuccessUrl), logoutSuccessUrl + " isn't a valid redirect URL");
-        this.handlers = handlers;
+        this.handlers = new LogoutHandler[handlers.length];
+        System.arraycopy(handlers, 0, this.handlers, 0, handlers.length);
+//        this.handlers = handlers;
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,

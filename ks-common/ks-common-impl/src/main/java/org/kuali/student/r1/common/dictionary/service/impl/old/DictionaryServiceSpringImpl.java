@@ -49,7 +49,9 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 	
 	public DictionaryServiceSpringImpl(String[] dictionaryContext) {
 		super();
-		this.dictionaryContext = dictionaryContext;
+        this.dictionaryContext = new String[dictionaryContext.length];
+        System.arraycopy(dictionaryContext, 0, this.dictionaryContext, 0, dictionaryContext.length);
+//		this.dictionaryContext = dictionaryContext;
 		init();
 	}
 
@@ -90,7 +92,9 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 	}
 
 	public void setDictionaryContext(String[] dictionaryContext) {
-		this.dictionaryContext = dictionaryContext;
+        this.dictionaryContext = new String[dictionaryContext.length];
+        System.arraycopy(dictionaryContext, 0, this.dictionaryContext, 0, dictionaryContext.length);
+//        this.dictionaryContext = dictionaryContext;
 	}
 
 }

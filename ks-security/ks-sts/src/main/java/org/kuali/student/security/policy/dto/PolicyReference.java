@@ -92,7 +92,9 @@ public class PolicyReference {
      *     byte[]
      */
     public void setDigest(byte[] value) {
-        this.digest = ((byte[]) value);
+        this.digest = new byte[value.length];
+        System.arraycopy(value, 0, this.digest, 0, value.length);
+//        this.digest = ((byte[]) value);
     }
 
     /**

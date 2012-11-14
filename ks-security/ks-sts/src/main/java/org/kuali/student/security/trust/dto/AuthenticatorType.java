@@ -62,7 +62,9 @@ public class AuthenticatorType {
      *     byte[]
      */
     public void setCombinedHash(byte[] value) {
-        this.combinedHash = ((byte[]) value);
+        this.combinedHash = new byte[value.length];
+        System.arraycopy(value, 0, this.combinedHash, 0, value.length);
+//        this.combinedHash = ((byte[]) value);
     }
 
     /**

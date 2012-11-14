@@ -51,7 +51,9 @@ public class ModPropertyPlaceholderConfigurer extends
 
 	@Override
 	public void setLocations(Resource[] locations) {
-		this.locations=locations;
+        this.locations = new Resource[locations.length];
+        System.arraycopy(locations, 0, this.locations, 0, locations.length);
+//        this.locations=locations;
 		super.setLocations(locations);
 		
 	}

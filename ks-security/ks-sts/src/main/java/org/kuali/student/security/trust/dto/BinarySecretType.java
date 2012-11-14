@@ -62,7 +62,9 @@ public class BinarySecretType {
      *     byte[]
      */
     public void setValue(byte[] value) {
-        this.value = ((byte[]) value);
+        this.value = new byte[value.length];
+        System.arraycopy(value, 0, this.value, 0, value.length);
+//        this.value = ((byte[]) value);
     }
 
     /**

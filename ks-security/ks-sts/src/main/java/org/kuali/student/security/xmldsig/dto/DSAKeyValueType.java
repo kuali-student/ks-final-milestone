@@ -82,7 +82,9 @@ public class DSAKeyValueType {
      *     byte[]
      */
     public void setP(byte[] value) {
-        this.p = ((byte[]) value);
+        this.p = new byte[value.length];
+        System.arraycopy(value, 0, this.p, 0, value.length);
+//        this.p = ((byte[]) value);
     }
 
     /**
@@ -104,7 +106,9 @@ public class DSAKeyValueType {
      *     byte[]
      */
     public void setQ(byte[] value) {
-        this.q = ((byte[]) value);
+        this.q = new byte[value.length];
+        System.arraycopy(value, 0, this.q, 0, value.length);
+//        this.q = ((byte[]) value);
     }
 
     /**
@@ -126,7 +130,9 @@ public class DSAKeyValueType {
      *     byte[]
      */
     public void setG(byte[] value) {
-        this.g = ((byte[]) value);
+        this.g = new byte[value.length];
+        System.arraycopy(value, 0, this.g, 0, value.length);
+//        this.g = ((byte[]) value);
     }
 
     /**
@@ -148,7 +154,9 @@ public class DSAKeyValueType {
      *     byte[]
      */
     public void setY(byte[] value) {
-        this.y = ((byte[]) value);
+        this.y = new byte[value.length];
+        System.arraycopy(value, 0, this.y, 0, value.length);
+//        this.y = ((byte[]) value);
     }
 
     /**
@@ -170,7 +178,9 @@ public class DSAKeyValueType {
      *     byte[]
      */
     public void setJ(byte[] value) {
-        this.j = ((byte[]) value);
+        this.j = new byte[value.length];
+        System.arraycopy(value, 0, this.j, 0, value.length);
+//        this.j = ((byte[]) value);
     }
 
     /**
@@ -192,7 +202,9 @@ public class DSAKeyValueType {
      *     byte[]
      */
     public void setSeed(byte[] value) {
-        this.seed = ((byte[]) value);
+        this.seed = new byte[value.length];
+        System.arraycopy(value, 0, this.seed, 0, value.length);
+//        this.seed = ((byte[]) value);
     }
 
     /**
@@ -214,7 +226,9 @@ public class DSAKeyValueType {
      *     byte[]
      */
     public void setPgenCounter(byte[] value) {
-        this.pgenCounter = ((byte[]) value);
+        this.pgenCounter = new byte[value.length];
+        System.arraycopy(value, 0, this.pgenCounter, 0, value.length);
+//        this.pgenCounter = ((byte[]) value);
     }
 
 }
