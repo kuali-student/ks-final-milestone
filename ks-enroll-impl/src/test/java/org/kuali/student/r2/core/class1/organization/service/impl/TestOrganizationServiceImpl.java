@@ -182,7 +182,6 @@ public class TestOrganizationServiceImpl {
     }
 	
     @Test
-    //@Ignore //KSENROLL-3488
     public void testCreateUpdateOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException, ReadOnlyException {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         
