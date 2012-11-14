@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.krms.api.repository.context.ContextDefinition;
-import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.type.KrmsTypeResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;

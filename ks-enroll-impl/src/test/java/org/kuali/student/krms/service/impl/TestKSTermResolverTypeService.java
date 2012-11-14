@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.krms.termresolver;
+package org.kuali.student.krms.service.impl;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -24,6 +24,7 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.impl.type.KrmsTypeResolver;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.test.context.ContextConfiguration;

@@ -4,36 +4,19 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.core.api.lifecycle.Lifecycle;
-import org.kuali.rice.core.framework.resourceloader.SpringResourceLoader;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
-import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.type.KrmsTypeResolver;
 
 
-import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.core.hold.service.HoldService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityExistsException;
-import javax.xml.namespace.QName;
-
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.util.CollectionUtils;
 
 import static org.junit.Assert.*;
 

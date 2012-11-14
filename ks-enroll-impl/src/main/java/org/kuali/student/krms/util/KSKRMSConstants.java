@@ -199,7 +199,7 @@ public class KSKRMSConstants {
 	public static final String TERM_ENROLLED_LEARNING_OBJ_DESCR = "Enrolled learning Objective: Description";
 	
 	public static final String KS_AGENDA_TYPE = "KSAgendaType";
-	public static final String KS_TERM_RESOLVER_TYPE = "KSTermResolverType";
+	public static final String KS_TERM_RESOLVER_TYPE = "KSKRMSTermResolverTypeService";
 	
 	public static final String CONTEXT_ANTI_REQUISITE = "Antirequisite";
 	public static final String CONTEXT_CORE_REQUISITE = "Corerequisite";
@@ -207,21 +207,12 @@ public class KSKRMSConstants {
 	public static final String CONTEXT_RECOMMENDED_PREPARATION = "Recommended Preparation";
 	public static final String CONTEXT_REPEATED_CREDITS = "Repeated Credits";
 	public static final String CONTEXT_STUD_ELIGIBILITY = "Stud Eligibility and Prereq";
-	
-//	public static final String AGENDA1 = "Must have successfully completed <course>";
-//	public static final String AGENDA2 = "Must have successfully completed all courses from <courses>";
-//	public static final String AGENDA3 = "Must have successfully completed a minimum of <n> courses from <courses>";
-//	public static final String AGENDA4 = "Must have successfully completed a minimum of <n> credits from <courses>";
-//	public static final String AGENDA5 = "Must have earned a minimum GPA of <GPA> in <courses>";
-//	public static final String AGENDA6 = "Must have earned a minimum grade of <gradeType> <grade> in <courses>";
-//	public static final String AGENDA7 = "Must've completed a min of <n> courses from <courses> with a min grade of <gradeType> <grade>";
-//	public static final String AGENDA8 = "Must not have earned a minimum grade of <gradeType> <grade> or higher in <course>";
-//	public static final String AGENDA9 = "Permission of instructor required";
-//	public static final String AGENDA10 = "Free form text";
-//	public static final String AGENDA11 = "Must have earned a cumulative GPA of <GPA>";
-	
-	
-	
-	
-	
+
+	public static final String PERSON_ID_TERM_PROPERTY = "personIdProperty";
+	public static final String COURSE_CODE_TERM_PROPERTY = "courseCodeProperty";
+	//
+	public static final String CONTEXT_INFO_TERM_NAME = "contextInfo";
+
+
+
 }

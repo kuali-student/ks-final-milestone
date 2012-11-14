@@ -191,7 +191,10 @@ public class OrganizationServiceMockImpl implements OrganizationService, MockSer
         List<OrgInfo> orgs = new ArrayList(orgInfoMap.values());
 
         for (OrgInfo org : orgs) {
-            orgIds.add(org.getId());
+
+            if (orgTypeKey.equals(org.getTypeKey())){
+                orgIds.add(org.getId());
+            }
         }
         return orgIds;
     }

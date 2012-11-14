@@ -41,8 +41,7 @@ import java.util.Set;
 public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
 
     private OrganizationService organizationService;
-    
-    
+
     public OrganizationService getOrganizationService() {
         return organizationService;
     }
@@ -58,14 +57,12 @@ public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
 
     @Override
     public String getOutput() {
-        return "AdminOrgNumberTermResolver.getOutput()";
+        return RulesExecutionConstants.ADMIN_ORG_NUMBER_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return Collections.singleton(RulesExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
     }
 
     @Override
@@ -77,14 +74,21 @@ public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
     @Override
     public List<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String orgTypeKey = parameters.get(KSKRMSExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
+        String orgTypeKey = parameters.get(RulesExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
         
         List<String> result = null;
         try {
             result = organizationService.getOrgIdsByType(orgTypeKey, context);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        } catch (InvalidParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (MissingParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (OperationFailedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (PermissionDeniedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
         }
+
         return result;
     }
 }
