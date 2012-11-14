@@ -717,5 +717,17 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().searchForActivityOfferingClusterIds(criteria, contextInfo);
     }
 
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsForSeatPoolDefinition(
+            @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().getActivityOfferingsForSeatPoolDefinition(seatPoolDefinitionId, context);
+    }
+    
+    
+
 
 }

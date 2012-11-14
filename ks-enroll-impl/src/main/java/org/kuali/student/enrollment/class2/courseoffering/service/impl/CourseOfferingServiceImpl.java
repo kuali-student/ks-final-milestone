@@ -960,6 +960,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return formatOffering;
     }
 
+    
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsForSeatPoolDefinition(
+            @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        
+        throw new UnsupportedOperationException("not implemented");
+    }
+
     @Override
     public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

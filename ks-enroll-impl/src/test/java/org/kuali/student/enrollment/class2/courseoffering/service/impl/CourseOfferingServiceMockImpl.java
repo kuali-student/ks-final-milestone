@@ -2021,5 +2021,19 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsForSeatPoolDefinition(
+            @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
+            @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        
+        List<String> activityOfferingIds = this.activityOfferingToSeatPoolMap.get(seatPoolDefinitionId);
+
+        return getActivityOfferingsByIds(activityOfferingIds, context);
+    }
+
+    
 
 }
