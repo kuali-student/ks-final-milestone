@@ -61,6 +61,16 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                 <property name="dataDictionaryMapper">
                     <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
                 </property>
+                <property name="moduleDictionaryFiles">
+                  <map>
+                    <entry key="KS">
+                      <list>
+                        <value>classpath:ks-OfferingInstructorInfo-dictionary.xml</value>
+                        <value>classpath:ks-CourseOfferingCrossListingInfo-dictionary.xml</value>
+                      </list>
+                      </entry>
+                    </map>
+                </property>
             </bean>
         </constructor-arg>
         <!--<property name="kualiConfigurationService" ref="kualiConfigurationService" />-->

@@ -15,7 +15,11 @@
  */
 package org.kuali.student.r2.common.datadictionary;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
@@ -41,7 +45,6 @@ import static org.junit.Assert.assertEquals;
  *
  * @author nwright
  */
-@Ignore    //KSENROLL-3722
 public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
 
     public TestRiceDataDictionaryValidatorImplAgainstCourseOffering() {
