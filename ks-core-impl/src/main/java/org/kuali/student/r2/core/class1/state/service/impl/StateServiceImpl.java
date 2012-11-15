@@ -16,6 +16,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.state.dao.LifecycleDao;
+import org.kuali.student.r2.core.class1.state.dao.StateChangeDao;
 import org.kuali.student.r2.core.class1.state.dao.StateDao;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
@@ -23,6 +24,7 @@ import org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.dto.StatePropagationInfo;
 import org.kuali.student.r2.core.class1.state.model.LifecycleEntity;
+import org.kuali.student.r2.core.class1.state.model.StateChangeEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +41,7 @@ public class StateServiceImpl implements StateService {
 
     private StateDao stateDao;
     private LifecycleDao lifecycleDao;
+    private StateChangeDao stateChangeDao;
     private CriteriaLookupService lifecycleCriteriaLookupService;
     private CriteriaLookupService stateCriteriaLookupService;
 
@@ -56,6 +59,14 @@ public class StateServiceImpl implements StateService {
 
     public void setLifecycleDao(LifecycleDao lifecycleDao) {
         this.lifecycleDao = lifecycleDao;
+    }
+
+    public StateChangeDao getStateChangeDao() {
+        return stateChangeDao;
+    }
+
+    public void setStateChangeDao(StateChangeDao stateChangeDao) {
+        this.stateChangeDao = stateChangeDao;
     }
 
     public CriteriaLookupService getLifecycleCriteriaLookupService() {
@@ -329,7 +340,16 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public StateChangeInfo getStateChange(@WebParam(name = "stateChangeId") String stateChangeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("This method has not yet been implemented.");
+        try {
+            StateChangeEntity stateChangeEntity = stateChangeDao.find(stateChangeId);
+            if (null == stateChangeEntity) {
+                throw new DoesNotExistException(stateChangeId);
+            }
+            return stateChangeEntity.toDto();
+        } catch (NoResultException ex) {
+            throw new DoesNotExistException(stateChangeId);
+        }
+
     }
 
     @Override
@@ -354,7 +374,14 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public List<StateChangeInfo> getStateChangesByFromStateAndToState(@WebParam(name = "fromStateKey") String fromStateKey, @WebParam(name = "toStateKey") String toStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<StateChangeEntity> stateChangeEntities = stateChangeDao.getStateChangesByFromStateAndToState(fromStateKey, toStateKey);
+        List<StateChangeInfo> stateChangeInfos = new ArrayList<StateChangeInfo>();
+
+        for(StateChangeEntity scentity : stateChangeEntities){
+            stateChangeInfos.add(scentity.toDto());
+        }
+
+        return stateChangeInfos;
     }
 
     @Override
@@ -374,7 +401,34 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public StateChangeInfo createStateChange(@WebParam(name = "toStateKey") String toStateKey, @WebParam(name = "fromStateKey") String fromStateKey, @WebParam(name = "stateChangeTypeKey") String stateChangeTypeKey, @WebParam(name = "stateChangeInfo") StateChangeInfo stateChangeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        StateEntity toStateEntity = stateDao.find(toStateKey);
+        if (toStateEntity == null) {
+            throw new DoesNotExistException(toStateKey);
+        }
+
+        StateEntity fromStateEntity = stateDao.find(fromStateKey);
+        if (fromStateEntity == null) {
+            throw new DoesNotExistException(fromStateKey);
+        }
+
+        List<StateChangeEntity> stateChangeEntities = stateChangeDao.getStateChangesByFromStateAndToState(fromStateKey, toStateKey);
+        if (stateChangeEntities != null && !stateChangeEntities.isEmpty()) {
+            throw new OperationFailedException(fromStateKey + "to" + toStateKey + "Already Exists");
+        }
+
+        if (!stateChangeTypeKey.equals(stateChangeInfo.getTypeKey())) {
+            throw new InvalidParameterException(stateChangeTypeKey + " stateChangeType key does not match the key in the info object " + stateChangeInfo.getTypeKey());
+        }
+
+        StateChangeEntity entity = new StateChangeEntity(stateChangeInfo);
+        entity.setToStateKey(toStateKey);
+        entity.setFromStateKey(fromStateKey);
+        entity.setTypeKey(stateChangeTypeKey);
+
+        entity.setEntityCreated(contextInfo);
+
+        stateChangeDao.persist(entity);
+        return entity.toDto();
     }
 
     @Override

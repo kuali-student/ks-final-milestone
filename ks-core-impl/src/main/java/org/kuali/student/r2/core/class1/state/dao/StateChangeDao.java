@@ -19,5 +19,13 @@ package org.kuali.student.r2.core.class1.state.dao;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.state.model.StateChangeEntity;
 
+import java.util.List;
+
 public class StateChangeDao extends GenericEntityDao<StateChangeEntity> {
+    public List<StateChangeEntity> getStateChangesByFromStateAndToState(String fromStateKey, String toStateKey){
+        return (List<StateChangeEntity>)em.createQuery("from StateChangeEntity sc where sc.fromStateKey = :fromStateKey and sc.toStateKey = :toStateKey")
+                .setParameter("fromStateKey", fromStateKey)
+                .setParameter("toStateKey", toStateKey)
+                .getResultList();
+    }
 }
