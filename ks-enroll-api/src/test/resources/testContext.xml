@@ -63,7 +63,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
                 </property>
                 <property name="moduleDictionaryFiles">
                   <map>
-                    <entry key="KS">
+                    <entry key="http://student.kuali.org/wsdl/datadictionary">
                       <list>
                         <value>classpath:ks-OfferingInstructorInfo-dictionary.xml</value>
                         <value>classpath:ks-CourseOfferingCrossListingInfo-dictionary.xml</value>
