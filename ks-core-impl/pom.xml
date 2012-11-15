@@ -86,7 +86,6 @@
             <version>${antlr.legacy.version}</version>
             <scope>test</scope>
         </dependency>
-
         <!-- TODO: remove this, only used for the rice integration test for now -->
         <dependency>
             <groupId>com.oracle</groupId>
@@ -95,7 +94,6 @@
             <scope>test</scope>
         </dependency>
         <!-- end -->
-
     </dependencies>
     <profiles>
         <profile>
