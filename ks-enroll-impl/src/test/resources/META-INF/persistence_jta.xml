@@ -44,7 +44,10 @@
         <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
-        
+
+        <class>org.kuali.student.r2.core.class1.state.model.StateChangeEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateChangeAttributeEntity</class>
+
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldIssueAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.AppliedHoldEntity</class>
