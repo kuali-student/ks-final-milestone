@@ -11,6 +11,7 @@ import org.kuali.student.r2.core.room.infc.Building;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -58,8 +59,7 @@ public class RoomBuildingEntity extends MetaEntity implements AttributeOwner<Roo
    MetaEntity defines and handles the CREATETIME, CREATEID, UPDATETIME, and UPDATEID fields
     */
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-//    private Set<RoomAttributeEntity> attributes = new HashSet<RoomAttributeEntity>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<RoomBuildingAttributeEntity> attributes = null;
 
     public RoomBuildingEntity() {

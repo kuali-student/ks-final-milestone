@@ -46,6 +46,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class implements the Fee Service
@@ -96,13 +97,11 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public RoomInfo getRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        checkValid(roomId, "id", contextInfo);
+        checkValid("id", roomId, contextInfo);
 
         RoomEntity roomEntity = roomServiceDao.find(roomId);
-
         if (roomEntity == null) {
-            throw new DoesNotExistException("No RoomEntity found for '" + roomId + "'");
+            throw new DoesNotExistException(roomId + " is not found");
         }
 
         return roomEntity.toDto();
@@ -130,15 +129,15 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<RoomInfo> getRoomsByIds(List<String> roomIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(roomIds, "id list", contextInfo);
+        checkValid("id", roomIds, contextInfo);
 
         List<RoomEntity> rooms = roomServiceDao.findByIds(roomIds);
-
-        if (rooms == null || rooms.size() == 0) {
-            throw new DoesNotExistException("No RoomEntity found for '" + roomIds + "'");
+        List<RoomInfo> roomInfos = new ArrayList<RoomInfo>(rooms.size());
+        for (RoomEntity room : rooms) {
+            roomInfos.add( room.toDto() );
         }
 
-        return convertList( rooms );
+        return roomInfos;
     }
 
     /**
@@ -162,7 +161,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<String> getRoomIdsByBuilding(String buildingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(buildingId, "buildingId", contextInfo);
+        checkValid("buildingId", buildingId, contextInfo);
 
         return roomServiceDao.findIdsByKey("buildingId", buildingId);
     }
@@ -220,7 +219,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<String> getRoomIdsByType(String roomTypeKey,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        checkValid(roomTypeKey, "roomType", contextInfo);
+        checkValid("roomType", roomTypeKey, contextInfo);
 
         return roomServiceDao.findIdsByKey("roomType", roomTypeKey);
     }
@@ -306,8 +305,8 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<String> getRoomIdsByBuildingAndRoomTypes(String buildingId, List<String> roomTypeKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(buildingId, "buildingId", contextInfo);
-        checkValid(roomTypeKeys, "roomType", contextInfo);
+        checkValid("buildingId", buildingId, contextInfo);
+        checkValid("roomType", roomTypeKeys, contextInfo);
 
         return roomServiceDao.findIdsByKeyAndList("buildingId", buildingId, "roomType", roomTypeKeys);
     }
@@ -438,16 +437,11 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public RoomInfo createRoom(String buildingId, String roomTypeKey, RoomInfo roomInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        checkContext(contextInfo);
-        RoomEntity roomEntity = new RoomEntity();
+        checkValid(roomInfo, contextInfo);
 
-        if (roomInfo != null) {
-            roomEntity.fromDto(roomInfo);
-        }
-
+        RoomEntity roomEntity = new RoomEntity(roomInfo); //create Entity from Info
         roomEntity.setId(null); //ensure no id prior to persist
-        roomEntity.setEntityCreated(contextInfo);
-
+        roomEntity.setEntityCreated(contextInfo); //set MetaInfo
         //override buildingId and roomTypeKey if they're provided
         if (buildingId != null && buildingId.length() > 0) {
             roomEntity.setBuildingId(buildingId);
@@ -495,9 +489,8 @@ public class RoomServiceImpl implements RoomService {
     public RoomInfo updateRoom(String roomId, RoomInfo roomInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         checkValid(roomInfo, contextInfo);
 
-        RoomEntity roomEntity = new RoomEntity();
-        roomEntity.fromDto(roomInfo);
-        roomEntity.setEntityUpdated(contextInfo);
+        RoomEntity roomEntity = new RoomEntity( roomInfo );
+        roomEntity.setEntityUpdated( contextInfo );
         roomServiceDao.update(roomEntity);
 
         return roomEntity.toDto();
@@ -524,7 +517,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public StatusInfo deleteRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(roomId, "id", contextInfo);
+        checkValid("id", roomId, contextInfo);
 
         RoomEntity room = roomServiceDao.find(roomId);
 
@@ -554,11 +547,14 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public BuildingInfo getBuilding(String buildingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(buildingId, "id", contextInfo);
+        checkValid("id", buildingId, contextInfo);
 
-        RoomBuildingEntity buildingEntity = buildingServiceDao.find(buildingId);
+        RoomBuildingEntity e = buildingServiceDao.find(buildingId);
+        if (e == null) {
+            throw new DoesNotExistException(buildingId + " is not found!");
+        }
 
-        return buildingEntity.toDto();
+        return e.toDto();
     }
 
     /**
@@ -583,7 +579,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<BuildingInfo> getBuildingsByIds(List<String> buildingIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(buildingIds, "id", contextInfo);
+        checkValid("id", buildingIds, contextInfo);
 
         List<RoomBuildingEntity> buildingEntities = buildingServiceDao.findByIds( buildingIds );
         List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>( buildingEntities.size() );
@@ -615,7 +611,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<String> getBuildingIdsByCampus(String campusKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(campusKey, "campusKey", contextInfo);
+        checkValid("campusKey", campusKey, contextInfo);
 
         return buildingServiceDao.findIdsByKey("campusKey", campusKey);
     }
@@ -739,16 +735,16 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public BuildingInfo createBuilding(String buildingTypeKey, BuildingInfo buildingInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         checkValid(buildingInfo, contextInfo);
-        RoomBuildingEntity buildingEntity = new RoomBuildingEntity();
 
-        buildingEntity.fromDto( buildingInfo );
-        buildingEntity.setId( null );
-        if (buildingTypeKey != null) {
+        RoomBuildingEntity buildingEntity = new RoomBuildingEntity(buildingInfo); //construct Entity from Info
+        buildingEntity.setId( null ); //ensure no id
+        //override typeKey if specified
+        if (buildingTypeKey != null && buildingTypeKey.length() > 0) {
             buildingEntity.setBuildingType( buildingTypeKey );
         }
         buildingEntity.setEntityCreated( contextInfo );
 
-        buildingServiceDao.persist( buildingEntity );
+        buildingServiceDao.persist(buildingEntity);
 
         return buildingEntity.toDto();
     }
@@ -815,7 +811,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public StatusInfo deleteBuilding(String buildingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(buildingId, "id", contextInfo);
+        checkValid("id", buildingId, contextInfo);
 
         RoomBuildingEntity buildingEntity = buildingServiceDao.find(buildingId);
         buildingServiceDao.remove(buildingEntity);
@@ -1149,17 +1145,12 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<BuildingInfo> getBuildingsByBuildingCode(String buildingCode, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        checkValid(buildingCode, "buildingCode", contextInfo);
+        checkValid("buildingCode", buildingCode, contextInfo);
 
-        List<String> keyList = new ArrayList<String>(1);
-        keyList.add( buildingCode );
-        List<RoomBuildingEntity> buildingEntities = buildingServiceDao.findByIds("buildingCode", keyList);
-        List<BuildingInfo> buildingInfos = new ArrayList<BuildingInfo>( buildingEntities.size() );
-        for (RoomBuildingEntity entity : buildingEntities) {
-            buildingInfos.add( entity.toDto() );
-        }
+        List<String> ids = new ArrayList<String>(1);
+        ids.add(buildingCode);
 
-        return buildingInfos;
+        return convertBuildingList( buildingServiceDao.findByIds("buildingCode", ids) );
     }
 
     /**
@@ -1186,52 +1177,59 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
-    public List<RoomInfo> getRoomsByBuildingAndRoomCode(String buildingCode, String roomCode, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+    public List<RoomInfo> getRoomsByBuildingAndRoomCode(String buildingCode, String roomCode, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        checkValid("buildingCode", buildingCode, "roomCode", roomCode, contextInfo);
+
+        List<String> buildingIds = buildingServiceDao.findIdsByKey("buildingCode", buildingCode);
+        List<String> roomIds = roomServiceDao.findIdsByKeyAndList("roomCode", roomCode, "buildingId", buildingIds);
+
+        return convertRoomList( roomServiceDao.findByIds(roomIds) );
     }
 
-    private void checkValid(String key, String keyName, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
+    private void checkValid(String keyName, String keyValue, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
         checkContext(contextInfo);
 
-        if (key == null || key.equals("")) {
-            throw new MissingParameterException(keyName + " is missing!");
-        }
+        checkKey(keyName, keyValue);
     }
 
-    private void checkValid(List<String> keys, String keyName, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException{
+    private void checkValid(String keyName, List<String> keys, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException{
         checkContext(contextInfo);
 
         if (keys == null) {
-            throw new MissingParameterException(keyName + " is null!");
+            throw new MissingParameterException(keyName + " list is null!");
         }
 
         if (keys.contains(null) || keys.contains("")) {
-            throw new InvalidParameterException(keyName + " has invalid values! " + keyName.toString());
+            throw new InvalidParameterException(keyName + " list has invalid values! " + keyName.toString());
         }
     }
 
     private void checkValid(Map<String, String> kvPairs, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
         checkContext(contextInfo);
 
-        if (kvPairs.containsValue(null) || kvPairs.containsValue("")) {
-            throw new MissingParameterException("One or more parameters are missing! '" + kvPairs + "'");
+        if (kvPairs.isEmpty()) {
+            throw new MissingParameterException("keys are missing!");
+        }
+
+        Set<String> keys = kvPairs.keySet();
+        for (String key : keys) {
+            checkKey(key, kvPairs.get(key));
         }
     }
 
-    private void checkValid(RoomInfo roomInfo, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
-        checkContext(contextInfo);
-
-        if (roomInfo == null) {
-            throw new MissingParameterException("roomInfo is null!");
-        }
-    }
-
-    private void checkValid(BuildingInfo buildingInfo, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
+    private void checkValid(Object o, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
         checkContext( contextInfo );
 
-        if (buildingInfo == null) {
-            throw new MissingParameterException("buildingInfo is null!");
+        if (o == null) {
+            throw new MissingParameterException("Object is missing!");
         }
+    }
+
+    private void checkValid(String keyName0, String keyValue0, String keyName1, String keyValue1, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException {
+        checkContext(contextInfo);
+
+        checkKey(keyName0, keyValue0);
+        checkKey(keyName1, keyValue1);
     }
 
     private void checkContext(ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException {
@@ -1248,11 +1246,27 @@ public class RoomServiceImpl implements RoomService {
         }
     }
 
-    private List<RoomInfo> convertList(List<RoomEntity> rooms) {
+    private void checkKey(String name, String value) throws MissingParameterException {
+        if (value == null || value.length() == 0) {
+            throw new MissingParameterException(name + " key is missing!");
+        }
+    }
+
+    private List<RoomInfo> convertRoomList(List<RoomEntity> rooms) {
         List<RoomInfo> result = new ArrayList<RoomInfo>( rooms.size() );
 
         for (RoomEntity room : rooms) {
             result.add( room.toDto() );
+        }
+
+        return result;
+    }
+
+    private List<BuildingInfo> convertBuildingList(List<RoomBuildingEntity> buildings) {
+        List<BuildingInfo> result = new ArrayList<BuildingInfo>(buildings.size());
+
+        for (RoomBuildingEntity building : buildings) {
+            result.add( building.toDto() );
         }
 
         return result;

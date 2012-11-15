@@ -20,12 +20,17 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.infc.Building;
 import org.kuali.student.r2.core.room.infc.Room;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -73,8 +78,7 @@ public class RoomEntity extends MetaEntity implements AttributeOwner<RoomAttribu
     MetaEntity defines and handles the CREATETIME, CREATEID, UPDATETIME, and UPDATEID fields
      */
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-//    private Set<RoomAttributeEntity> attributes = new HashSet<RoomAttributeEntity>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<RoomAttributeEntity> attributes = null;
 
     public RoomEntity() { // no-arg constructor expected in entity
@@ -124,7 +128,7 @@ public class RoomEntity extends MetaEntity implements AttributeOwner<RoomAttribu
         }
 
         roomInfo.setRoomCode( this.getRoomCode() );
-        roomInfo.setBuildingId(this.getBuildingId());
+        roomInfo.setBuildingId( this.getBuildingId() );
         roomInfo.setFloor(this.getFloor());
 
         // Then, the meta fields
