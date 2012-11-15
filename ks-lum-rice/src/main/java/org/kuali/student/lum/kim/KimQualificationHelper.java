@@ -160,8 +160,8 @@ public class KimQualificationHelper {
 					LOG.warn("Could not find valid document id or application id using qualifications: " + qualification);
 				}
 			}
-			translateQualifications(docDetail, proposalId, qualification);
-		    return qualification;
+
+            return translateQualifications(docDetail, proposalId, qualification);
 	    }
 		catch (Exception e) {
             LOG.error(e.getLocalizedMessage(), e);
@@ -169,19 +169,20 @@ public class KimQualificationHelper {
 		}
 	}
 
-	protected static void translateQualifications(DocumentDetail docDetail, String proposalId, Map<String,String> qualifications) {
+	protected static Map<String,String> translateQualifications(DocumentDetail docDetail, String proposalId, Map<String,String> qualifications) {
+        Map<String, String> newQualifications = new LinkedHashMap();
 		if (docDetail != null) {
 			// add document id if necessary
 			if (!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_NUMBER)) {
-				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, docDetail.getDocument().getDocumentId());
+                newQualifications.put(KimConstants.AttributeConstants.DOCUMENT_NUMBER, docDetail.getDocument().getDocumentId());
 			}
 			// add KS proposal id if possible
 			if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID) && StringUtils.isNotBlank(proposalId)) {
-			    qualifications.put(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID, proposalId);
+                newQualifications.put(StudentIdentityConstants.QUALIFICATION_KS_PROPOSAL_ID, proposalId);
 			}
 			// add KS object id if necessary
 			if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID)) {
-				qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID, docDetail.getDocument().getApplicationDocumentId());
+                    newQualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID, docDetail.getDocument().getApplicationDocumentId());
 			}
                         DocumentType docType = KEWServiceLocator.getDocumentTypeService().findById(docDetail.getDocument().getDocumentTypeId());
 //			DocumentType docType = KEWServiceLocator.getDocumentTypeService().getDocumentType(docDetail.getDocTypeId());
@@ -189,11 +190,11 @@ public class KimQualificationHelper {
 				String documentTypeName = docType.getName();
 				// add document type name if necessary
 				if (!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
-					qualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
+                    newQualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, documentTypeName);
 				}
 				// add KS object type code if necessary
 				if (!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) {
-					qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE, translationMap.getKeyForValue(documentTypeName));
+                    newQualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE, translationMap.getKeyForValue(documentTypeName));
 				}
 			}
 			else {
@@ -207,13 +208,18 @@ public class KimQualificationHelper {
 			// add KS object type code if necessary
 			if ((!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) &&
 					qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
-				qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE, translationMap.getKeyForValue(qualifications.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)));
+                newQualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE, translationMap.getKeyForValue(qualifications.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)));
 			}
 			else if ((!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) &&
 					qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) {
-				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, translationMap.get(qualifications.get(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)));
+                newQualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, translationMap.get(qualifications.get(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)));
 			}
 		}
+        for (Map.Entry<String,String> entry : qualifications.entrySet()) {
+            newQualifications.put(entry.getKey(), entry.getValue());
+        }
+
+        return newQualifications;
 	}
 
     protected static ProposalService getProposalService() {
