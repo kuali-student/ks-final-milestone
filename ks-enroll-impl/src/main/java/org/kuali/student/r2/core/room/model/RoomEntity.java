@@ -98,13 +98,11 @@ public class RoomEntity extends MetaEntity implements AttributeOwner<RoomAttribu
 
     public RoomEntity(Room room) {
         super(room);
-        //this.set(fee.getTypeKey()); // read-only field
         this.fromDto(room);
     }
 
     public void fromDto(Room room) {
         this.setId( room.getId() ); // read-only field
-//        this.setObjectId( );
         this.setRoomType( room.getTypeKey() );
         this.setRoomState( room.getStateKey() );
         this.setName( room.getName() );

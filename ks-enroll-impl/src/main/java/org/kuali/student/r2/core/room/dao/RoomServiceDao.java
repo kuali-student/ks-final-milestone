@@ -81,39 +81,5 @@ public class RoomServiceDao extends GenericEntityDao<RoomEntity> {
 
         return em.createNamedQuery("Room.findRoomsByCodeAndBuilding", RoomEntity.class).setParameter("roomCode", roomCode).setParameter("buildingIds", ids).getResultList();
     }
-    /*
-    public List<String> findIdsByKey(String keyName, String keyValue) throws InvalidParameterException {
-        if (keyName == null || keyName.isEmpty()) {
-            throw new InvalidParameterException("No keyName specified!");
-        }
 
-        if (keyValue == null || keyValue.isEmpty()) {
-            throw new InvalidParameterException("No value specified for '" + keyName + "'!");
-        }
-
-        Query sqlFindIdsByKey = em.createQuery("SELECT id FROM RoomEntity WHERE " + keyName + " = :keyValue");
-        return (sqlFindIdsByKey.setParameter("keyValue", keyValue)).getResultList();
-    }
-
-    public List<String> findIdsByKeyAndList(String keyName0, String keyValue0, String keyName1, List<String> keyValues1) throws DoesNotExistException, InvalidParameterException {
-        if (keyName0 == null || keyName0.isEmpty()) {
-            throw new InvalidParameterException("No keyName specified!");
-        }
-
-        if (keyValue0 == null || keyValue0.isEmpty()) {
-            throw new InvalidParameterException(("No value specified for '" + keyName0 + "'"));
-        }
-
-        if (keyName1 == null || keyName1.isEmpty()) {
-            throw new InvalidParameterException("No listKeyName specified!");
-        }
-
-        if (keyValues1 == null || keyValues1.isEmpty() || keyValues1.contains(null) || keyValues1.contains("")) {
-            throw new InvalidParameterException("Invalid value specified for '" + keyName1 +"': " + keyValues1.toString());
-        }
-
-        Query sqlFindIdsByKeyAndList =  em.createQuery("SELECT id FROM RoomEntity WHERE " + keyName0 + " = :keyValue0 AND " + keyName1 + " in (:keyValues1)");
-        return sqlFindIdsByKeyAndList.setParameter("keyValue0", keyValue0).setParameter("keyValues1", keyValues1).getResultList();
-    }
-    */
 }
