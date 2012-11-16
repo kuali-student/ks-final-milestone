@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.class1.state.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
@@ -19,6 +20,7 @@ import org.kuali.student.r2.core.class1.state.dao.LifecycleDao;
 import org.kuali.student.r2.core.class1.state.dao.StateChangeDao;
 import org.kuali.student.r2.core.class1.state.dao.StateConstraintDao;
 import org.kuali.student.r2.core.class1.state.dao.StateDao;
+import org.kuali.student.r2.core.class1.state.dao.StatePropagationDao;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo;
@@ -28,6 +30,7 @@ import org.kuali.student.r2.core.class1.state.model.LifecycleEntity;
 import org.kuali.student.r2.core.class1.state.model.StateChangeEntity;
 import org.kuali.student.r2.core.class1.state.model.StateConstraintEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StatePropagationEntity;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +48,7 @@ public class StateServiceImpl implements StateService {
     private LifecycleDao lifecycleDao;
     private StateChangeDao stateChangeDao;
     private StateConstraintDao stateConstraintDao;
+    private StatePropagationDao statePropagationDao;
     private CriteriaLookupService lifecycleCriteriaLookupService;
     private CriteriaLookupService stateCriteriaLookupService;
 
@@ -78,6 +82,14 @@ public class StateServiceImpl implements StateService {
 
     public void setStateConstraintDao(StateConstraintDao stateConstraintDao) {
         this.stateConstraintDao = stateConstraintDao;
+    }
+
+    public StatePropagationDao getStatePropagationDao() {
+        return statePropagationDao;
+    }
+
+    public void setStatePropagationDao(StatePropagationDao statePropagationDao) {
+        this.statePropagationDao = statePropagationDao;
     }
 
     public CriteriaLookupService getLifecycleCriteriaLookupService() {
@@ -515,17 +527,27 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public StatePropagationInfo getStatePropagation(@WebParam(name = "statePropagationId") String statePropagationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        StatePropagationEntity entity = statePropagationDao.find(statePropagationId);
+        if (entity == null){
+            throw new DoesNotExistException("Entity for " + statePropagationId + " doesnt exists");
+        }
+        return entity.toDto();
     }
 
     @Override
     public List<StatePropagationInfo> getStatePropagationsByIds(@WebParam(name = "statePropagationIds") List<String> statePropagationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<StatePropagationEntity> entities = statePropagationDao.findByIds(statePropagationIds);
+        List<StatePropagationInfo> infos = new ArrayList<StatePropagationInfo>(entities.size());
+        for(StatePropagationEntity entity : entities){
+             infos.add(entity.toDto());
+        }
+        return infos;
     }
 
     @Override
     public List<String> getStatePropagationIdsByType(@WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<String> ids = statePropagationDao.getStatePropagationIdsByType(statePropagationTypeKey);
+        return ids;
     }
 
     @Override
@@ -550,7 +572,16 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public StatePropagationInfo createStatePropagation(@WebParam(name = "targetStateChangeId") String targetStateChangeId, @WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "statePropagationInfo") StatePropagationInfo statePropagationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        if (!StringUtils.equals(statePropagationTypeKey,statePropagationInfo.getTypeKey())) {
+            throw new InvalidParameterException(statePropagationTypeKey + " key does not match the key in the info object " + statePropagationInfo.getTypeKey());
+        }
+
+        StatePropagationEntity entity = new StatePropagationEntity(statePropagationInfo);
+        entity.setEntityCreated(contextInfo);
+
+        statePropagationDao.persist(entity);
+        return entity.toDto();
     }
 
     @Override
