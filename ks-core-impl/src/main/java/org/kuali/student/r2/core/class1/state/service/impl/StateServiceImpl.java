@@ -480,7 +480,12 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public List<StateConstraintInfo> getStateConstraintsByIds(@WebParam(name = "stateConstraintIds") List<String> stateConstraintIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<StateConstraintEntity> entities = stateConstraintDao.findByIds(stateConstraintIds);
+        List<StateConstraintInfo> infos = new ArrayList<StateConstraintInfo>(entities.size());
+        for(StateConstraintEntity entity : entities){
+            infos.add(entity.toDto());
+        }
+        return infos;
     }
 
     @Override
