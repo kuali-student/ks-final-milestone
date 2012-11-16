@@ -47,12 +47,14 @@ insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (kr
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.enrollmentEligibility'), krms_typ_s.currval, 'A', 4, 0, 'Y')
 /
 
---kuali.statement.type.course.academicReadiness.studentEligibility
+--kuali.statement.type.course.academicReadiness.studentEligibility  DON'T THINK THIS IS REQUIRED.
 insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.statement.type.course.academicReadiness.studentEligibility','KS-SYS','ruleTypeService','N','0')
 /
 
---kuali.statement.type.course.academicReadiness.studentEligibilityPrereq
+--kuali.statement.type.course.academicReadiness.studentEligibilityPrereq THIS IS A DUPLICATE, SHOULD BE REMOVED.
 insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.statement.type.course.academicReadiness.studentEligibilityPrereq','KS-SYS','ruleTypeService','N','0')
+/
+insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.enrollmentEligibility'), krms_typ_s.currval, 'A', 2, 0, 'Y')
 /
 
 
