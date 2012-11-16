@@ -2813,6 +2813,26 @@
             <index-column name="OWNER_ID"/>
         </index>
     </table>
+    <table name="KSEN_STATE_CHG_CNSTRNT">
+        <column name="STATE_CHG_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="STATE_CNSTRNT_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <index name="KSEN_STATE_CHG_C_IF1">
+            <index-column name="STATE_CHG_ID"/>
+        </index>
+        <index name="KSEN_STATE_CHG_C_IF2">
+            <index-column name="STATE_CNSTRNT_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_STATE_CHG_PROPAGT">
+        <column name="STATE_CHG_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="STATE_PROPAGT_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <index name="KSEN_STATE_CHG_P_IF1">
+            <index-column name="STATE_CHG_ID"/>
+        </index>
+        <index name="KSEN_STATE_CHG_P_IF2">
+            <index-column name="STATE_PROPAGT_ID"/>
+        </index>
+    </table>
     <table name="KSEN_STATE_CNSTRNT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
