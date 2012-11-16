@@ -535,7 +535,7 @@ public class TestRoomServiceImpl {
         //test empty list
         try {
             roomService.getBuildingsByIds(ids, contextInfo);
-        } catch (DoesNotExistException e) {
+        } catch (MissingParameterException e) {
             //this is the exception we expect
         } catch (Throwable t) {
             fail(t.toString());
@@ -1462,7 +1462,7 @@ public class TestRoomServiceImpl {
         try {
             ids = roomService.getRoomIdsByBuildingAndRoomTypes(b2.getId(), new ArrayList<String>(0), contextInfo);
             fail("Expected exception not thrown");
-        } catch(InvalidParameterException e) {
+        } catch(MissingParameterException e) {
             //this is the exception we expect
         } catch (Throwable t) {
             fail(t.toString());
@@ -1619,7 +1619,6 @@ public class TestRoomServiceImpl {
         }
 
         //test for empty roomCode
-        /* temporarily removing broken test. will re-implement soon.
         try {
             roomService.getRoomsByBuildingAndRoomCode(b2.getBuildingCode(), "", contextInfo);
             fail("Expected exception not thrown");
@@ -1627,7 +1626,7 @@ public class TestRoomServiceImpl {
             //this is the exception we expect
         } catch (Throwable t) {
             fail(t.toString());
-        }  */
+        }
 
         //test for null buildingCode
         try {

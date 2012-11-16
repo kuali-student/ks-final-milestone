@@ -31,6 +31,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -38,12 +40,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class contains information on Room records, and defines the JPA.
+ * This class contains information on Room records
  *
  * @author Kuali Student Team
  */
 @Entity
 @Table(name = "KSEN_ROOM")
+@NamedQueries( value={
+        @NamedQuery(name="Room.findRoomsByIds", query="from RoomEntity where id in (:ids)"),
+        @NamedQuery(name="Room.findRoomIdsByBuilding", query="SELECT id FROM RoomEntity WHERE buildingId = :id"),
+        @NamedQuery(name="Room.findRoomIdsByBuildingAndFloor", query="SELECT id FROM RoomEntity WHERE buildingId = :buildingId AND floor = :floor"),
+        @NamedQuery(name="Room.findRoomIdsByType", query="SELECT id FROM RoomEntity WHERE roomType = :roomType"),
+        @NamedQuery(name="Room.findRoomIdsByBuildingAndRoomType", query="SELECT id FROM RoomEntity WHERE buildingId = :buildingId AND roomType = :roomType"),
+        @NamedQuery(name="Room.findRoomIdsByBuildingAndRoomTypes", query="SELECT id FROM RoomEntity WHERE buildingId = :buildingId AND roomType in (:roomTypes)"),
+        @NamedQuery(name="Room.findRoomsByCodeAndBuilding", query="FROM RoomEntity WHERE roomCode = :roomCode AND buildingId in (:buildingIds)")
+})
 public class RoomEntity extends MetaEntity implements AttributeOwner<RoomAttributeEntity> {
     /*
     BaseEntity defines and handles the ID and OBJ_ID fields

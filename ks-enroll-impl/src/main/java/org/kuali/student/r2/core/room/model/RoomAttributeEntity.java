@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 4/26/12
+ * Created by Gordon on 11/01/12
  */
 package org.kuali.student.r2.core.room.model;
 
@@ -23,7 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * This class //TODO ...
+ * This class contains information on attributes associated with RoomEntity records
  *
  * @author Kuali Student Team
  */
