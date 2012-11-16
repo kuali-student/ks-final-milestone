@@ -112,6 +112,13 @@
     </bean>
 
     <bean id="KS-KitchenSink-CollectionStacked-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <!-- XSS test -->
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/scripts/crossdomain.js</value>
+            </list>
+        </property>
+        <!-- end of XSS test -->
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
