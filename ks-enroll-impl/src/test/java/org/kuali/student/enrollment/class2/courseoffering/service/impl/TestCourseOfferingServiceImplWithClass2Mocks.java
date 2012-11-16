@@ -108,7 +108,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         if (testAwareDataLoader)
             dataLoader.afterTest();
     }

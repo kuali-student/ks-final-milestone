@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2012 The Kuali Foundation
  *
  * Licensed under the the Educational Community License, Version 1.0
@@ -19,7 +19,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,23 +26,21 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
-import org.junit.Assert;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.TestAwareDataLoader;
+import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.TermCodeGenerator;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
-import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -76,7 +73,6 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 
 /**
@@ -93,7 +89,7 @@ import org.springframework.context.ApplicationContextAware;
  * @author ocleirig
  *
  */
-public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader, ApplicationContextAware {
+public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwareDataLoader {
 
 	@Resource
 	protected AcademicCalendarService acalService;
@@ -116,10 +112,6 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
     protected AtpTestDataLoader atpDataLoader;
     protected AcalTestDataLoader acalDataLoader;
 
-    protected ApplicationContext applicationContext;
-
-    protected boolean initialized;
-	
 
 	/**
 	 * @param coService 
@@ -128,30 +120,21 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	 * 
 	 */
 	public CourseOfferingServiceTestDataLoader() {
+	    super();
 	}
 
 	
-	
-	
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-				this.applicationContext = applicationContext;
-		
-	}
 
-
-
-
-	@Override
-	public void beforeTest() throws Exception {
+	/* (non-Javadoc)
+     * @see org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader#initializeData()
+     */
+    @Override
+    protected void initializeData() throws Exception {
+        
 		this.atpDataLoader = new AtpTestDataLoader(atpService);
 		this.acalDataLoader = new AcalTestDataLoader(acalService);		
 		
-		ContextInfo context = new ContextInfo();
 		
-		context.setPrincipalId("123");
-		context.setCurrentDate(new Date());
 
 		atpDataLoader.loadData();
 		//acalDataLoader.loadData();
@@ -167,7 +150,6 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		
 		createCourseENG101(spring2012, context);
 		
-		this.initialized = true;
 		
 		
 		// activity
@@ -193,23 +175,6 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 		// for registration groups
 		
 	}
-
-
-
-	@Override
-	public void afterTest() {
-		// clear the state
-		
-		Map<String, MockService> map = applicationContext.getBeansOfType(MockService.class);
-		
-		for (MockService mock : map.values()) {
-			
-			mock.clear();
-		}
-		
-	}
-
-
 
 
 	    protected TermInfo createTerm(String id, String name, String atpTypeKey, Date startDate, Date endDate, ContextInfo context) throws OperationFailedException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, ReadOnlyException {
@@ -585,12 +550,4 @@ public class CourseOfferingServiceTestDataLoader implements TestAwareDataLoader,
 	            throw new IllegalArgumentException("Bad date " + str + " in " + context);
 	        }
 	    }
-
-
-
-
-		public boolean isInitialized() {
-			return initialized;
-		}
-
 }

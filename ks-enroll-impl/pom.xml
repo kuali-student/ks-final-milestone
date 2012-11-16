@@ -56,6 +56,12 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-krms</artifactId>
+            <version>${ks.core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-hibernate</artifactId>
             <version>${ks.core.version}</version>
             <type>pom</type>

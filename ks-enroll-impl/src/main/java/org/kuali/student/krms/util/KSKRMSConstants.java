@@ -1,17 +1,5 @@
 package org.kuali.student.krms.util;
 
-import org.kuali.student.krms.termresolver.CompletedCourseCodeTermResolver;
-import org.kuali.student.krms.termresolver.CompletedCourseNumberTermResolver;
-import org.kuali.student.krms.termresolver.CompletedCourseSetTermResolver;
-import org.kuali.student.krms.termresolver.CompletedEffectiveDateFromTermResolver;
-import org.kuali.student.krms.termresolver.CompletedEffectiveDateToTermResolver;
-import org.kuali.student.krms.termresolver.CompletedLearningObjectivesTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledCourseCodeTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledCourseNumberTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledCoursesByTermTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledEffectiveDateFromTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledEffectiveDateToTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledLearningObjectivesTermResolver;
 
 public class KSKRMSConstants {
 

@@ -15,11 +15,16 @@
 
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import org.joda.time.DateTime;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+
 import org.kuali.rice.kim.api.identity.PersonService;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.OfferingInstructorTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -29,7 +34,15 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -49,13 +62,6 @@ import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstant
 import org.kuali.student.r2.lum.lu.entity.CluResultType;
 import org.kuali.student.r2.lum.lu.entity.LuLuRelationType;
 import org.kuali.student.r2.lum.lu.entity.LuType;
-
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -115,29 +121,23 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         this.socId = socId;
     }
 
-    @Override
-    public void beforeTest() throws Exception {
+   
 
-        OfferingInstructorTransformer.setPersonService(personService);
+        /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader#initializeData()
+     */
+    @Override
+    protected void initializeData() throws Exception {
+       
 
         loadTypes();
-
-        // load in custom dates for use in the courses
-        TermInfo fall2012 = createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
-
-        TermInfo spring2012 = createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
-
-        // load the canonical course data
-
-        createCourseCHEM123(fall2012, context);
-
-        createCourseENG101(spring2012, context);
+        
+        super.initializeData();
 
         tweakOfferingData();
 
         loadSchedulingData();
 
-        this.initialized = true;
     }
 
     private void tweakOfferingData() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
