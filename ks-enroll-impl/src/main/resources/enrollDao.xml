@@ -207,4 +207,12 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <!-- Room Service -->
+    <bean id="buildingServiceDao" class="org.kuali.student.r2.core.room.dao.BuildingServiceDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="roomServiceDao" class="org.kuali.student.r2.core.room.dao.RoomServiceDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
 </beans>

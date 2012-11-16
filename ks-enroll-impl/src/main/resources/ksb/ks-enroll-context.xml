@@ -1115,7 +1115,7 @@
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
         <property name="atpService" ref="atpEnrService"/>
         <property name="typeService" ref="typeService"/>
-        <property name="roomService" ref="roomServiceMockImpl"/>
+        <property name="roomService" ref="roomServiceImpl"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
@@ -1140,17 +1140,17 @@
         </property>
     </bean>
 
-    <!-- Room Service Mock Impl -->
-    <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
-        <property name="buildingMap" ref="buildingMap"/>
-        <property name="roomMap" ref="roomMap"/>
+    <!-- The REAL RoomServiceImpl -->
+    <bean id="roomServiceImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceImpl">
+        <property name="buildingServiceDao" ref="buildingServiceDao" />
+        <property name="roomServiceDao" ref="roomServiceDao" />
     </bean>
 
     <bean id="ks.exp.roomService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="roomServiceMockImpl" />
+                <property name="service" ref="roomServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.room.service.RoomService" />
                 <property name="localServiceName" value="RoomService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/room" />
@@ -1158,5 +1158,4 @@
             </bean>
         </property>
     </bean>
-
-</beans>
+ </beans>
