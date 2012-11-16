@@ -88,9 +88,18 @@ public class AtpServiceMockImpl implements AtpService, MockService {
 
         Set<String> keys = atpCache.keySet();
 
+        
         for (String key : keys) {
             AtpInfo atp = atpCache.get(key);
-            if (startDate.before(atp.getStartDate()) && endDate.after(atp.getEndDate())) {
+            
+            Date atpStart = atp.getStartDate();
+            Date atpEnd = atp.getEndDate();
+            
+            /*
+             * match exactly on the boundaries.
+             */
+            if ((startDate.equals(atpStart) || startDate.before(atpStart)) && 
+                    (endDate.equals(atpEnd) ||  endDate.after(atpEnd))) {
                 atpList.add(atp);
             }
         }
