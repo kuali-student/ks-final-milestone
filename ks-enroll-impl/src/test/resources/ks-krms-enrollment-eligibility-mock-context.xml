@@ -12,7 +12,7 @@
 
     <context:annotation-config/>
 
-	<bean id="dataLoader" class="org.kuali.student.class3.krms.data.KRMSEnrollmentEligibilityDataLoader"/>
+	<bean id="dataLoader" class="org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader"/>
 	
 	<bean id="krmsServices" class="org.kuali.student.krms.mock.KRMSEngineService"/>
 	

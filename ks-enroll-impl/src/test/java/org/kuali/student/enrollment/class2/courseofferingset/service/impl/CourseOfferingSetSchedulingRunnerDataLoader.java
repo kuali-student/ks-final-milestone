@@ -25,6 +25,7 @@ import javax.persistence.EntityManager;
 
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.OfferingInstructorTransformer;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -129,6 +130,7 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
     @Override
     protected void initializeData() throws Exception {
        
+        OfferingInstructorTransformer.setPersonService(personService);
 
         loadTypes();
         

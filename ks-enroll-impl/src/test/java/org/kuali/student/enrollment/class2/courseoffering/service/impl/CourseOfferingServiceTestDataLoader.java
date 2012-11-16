@@ -86,7 +86,7 @@ import org.springframework.context.ApplicationContext;
  * 
  * We also define some methods that can be used to insert specific kinds of data into various spots for each example CourseOffering.
  * 
- * @author ocleirig
+ * @author Kuali Student Team
  *
  */
 public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwareDataLoader {
