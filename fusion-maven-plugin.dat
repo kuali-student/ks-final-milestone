@@ -1,10 +1,10 @@
 # module = ks-api branch Path = enrollment/ks-api/branches/M5 revision = 37254
 ks-api::enrollment_ks-api_branches_M5::1f6424de6827db6c66d567d18b4e9884ba41915e
 # module = ks-core branch Path = enrollment/ks-core/trunk revision = 37254
-ks-core::enrollment_ks-core_trunk::08575882c4e07651c7cf17f2d5ea241fc3ce453d
+ks-core::enrollment_ks-core_trunk::75f3ea6dc3ba93eec04a29c4a3bb725a5312971f
 # module = ks-lum branch Path = enrollment/ks-lum/trunk revision = 37254
 ks-lum::enrollment_ks-lum_trunk::84c6b4508e6f0032493d19ee7212f4c8dd85aa67
 # module = ks-enroll branch Path = enrollment/ks-enroll/trunk revision = 37254
 ks-enroll::enrollment_ks-enroll_trunk::bede8c9bdad26e85df64ed3997902818749be523
 # module = ks-deployments branch Path = enrollment/ks-deployments/trunk revision = 37254
-ks-deployments::enrollment_ks-deployments_trunk::190bb1530c19e41f54d4c6e80793b9c3a30fa3a4
+ks-deployments::enrollment_ks-deployments_trunk::643a88381a1cfcb2c398cea3612c5b8850d595e6
