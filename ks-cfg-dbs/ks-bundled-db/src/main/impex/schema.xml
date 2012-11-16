@@ -6656,6 +6656,9 @@
     <table name="KSEN_STATE_PROPAGT_CNSTRNT">
         <column name="STATE_PROPAGT_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="STATE_CNSTRNT_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_STATE_CNSTRNT" name="KSEN_STATE_PROPAGT_CNS_FK2">
+            <reference foreign="ID" local="STATE_CNSTRNT_ID"/>
+        </foreign-key>
         <foreign-key foreignTable="KSEN_STATE_PROPAGT" name="KSEN_STATE_PROPAGT_CNS_FK1">
             <reference foreign="ID" local="STATE_PROPAGT_ID"/>
         </foreign-key>
