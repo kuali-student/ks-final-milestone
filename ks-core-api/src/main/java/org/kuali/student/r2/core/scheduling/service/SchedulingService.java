@@ -640,6 +640,33 @@ public interface SchedulingService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+    
+    /**
+     * Retrieves a list of ScheduleRequest objects for a list of RefObject Ids 
+     * and RefObject Type.  The list of ScheduleRequests may be smaller than 
+     * the list of RefObject Ids because there may not be any schedule request
+     * for that RefObjectType and refObjectId pair.
+     *
+     * @param refObjectType an identifier for a ref object Type
+     * @param refObjectIds   a list of ref object identifiers
+     * @param contextInfo   Context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return a list of ScheduleRequest objects matching
+     *         refObjectType for each refObjectIds.  The returned list may be less than the size of the refObjectIds parameter.
+     * @throws InvalidParameterException invalid refObjectIds or contextInfo
+     * @throws MissingParameterException one or more of the method parameters is missing.
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+
+    public List<ScheduleRequestInfo> getScheduleRequestsByRefObjects(@WebParam(name = "refObjectType") String refObjectType,
+                                                       @WebParam(name = "refObjectId") List<String> refObjectIds,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for ScheduleRequests based on the criteria and returns a list of
