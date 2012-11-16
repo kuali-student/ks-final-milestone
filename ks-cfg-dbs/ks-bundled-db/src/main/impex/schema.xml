@@ -6569,6 +6569,50 @@
         <column name="EXPIR_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
     </table>
+    <table name="KSEN_STATE_PROPAGT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="STATE_PROPAGT_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="STATE_PROPAGT_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="TARGET_STATE_CHG_ID" required="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_STATE_CHG" name="KSEN_STATE_PROPAGT_FK1">
+            <reference foreign="ID" local="TARGET_STATE_CHG_ID"/>
+        </foreign-key>
+        <index name="KSEN_STATE_PROPAGT_I1">
+            <index-column name="STATE_PROPAGT_TYPE"/>
+        </index>
+        <index name="KSEN_STATE_PROPAGT_I2">
+            <index-column name="TARGET_STATE_CHG_ID"/>
+        </index>
+    </table>
+    <table name="KSEN_STATE_PROPAGT_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_STATE_PROPAGT" name="KSEN_STATE_PROPAGT_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+    </table>
+    <table name="KSEN_STATE_PROPAGT_CNSTRNT">
+        <column name="STATE_PROPAGT_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="STATE_CNSTRNT_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_STATE_PROPAGT" name="KSEN_STATE_PROPAGT_CNS_FK1">
+            <reference foreign="ID" local="STATE_PROPAGT_ID"/>
+        </foreign-key>
+        <index name="KSEN_STATE_PROPAGT_C_IF1">
+            <index-column name="STATE_CNSTRNT_ID"/>
+        </index>
+        <index name="KSEN_STATE_PROPAGT_C_IF2">
+            <index-column name="STATE_PROPAGT_ID"/>
+        </index>
+    </table>
     <table name="KSEN_TYPE">
         <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
