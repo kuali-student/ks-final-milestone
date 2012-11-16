@@ -33,4 +33,10 @@ public class StatePropagationDao extends GenericEntityDao<StatePropagationEntity
                 .getResultList();
     }
 
+    public List<StatePropagationEntity> getStatePropagationsByTargetState(String targetStateKey) {
+        return (List<StatePropagationEntity>) em.createQuery("select sp from StatePropagationEntity sp where sp.targetStateChangeId in (select sc.id from StateChangeEntity sc where sc.toStateKey = :targetStateKey)")
+                .setParameter("targetStateKey", targetStateKey)
+                .getResultList();
+    }
+
 }

@@ -541,23 +541,39 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public List<StatePropagationInfo> getStatePropagationsByIds(@WebParam(name = "statePropagationIds") List<String> statePropagationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
         List<StatePropagationEntity> entities = statePropagationDao.findByIds(statePropagationIds);
-        List<StatePropagationInfo> infos = new ArrayList<StatePropagationInfo>(entities.size());
-        for(StatePropagationEntity entity : entities){
-             infos.add(entity.toDto());
+
+        if (!entities.isEmpty()){
+            List<StatePropagationInfo> infos = new ArrayList<StatePropagationInfo>(entities.size());
+            for(StatePropagationEntity entity : entities){
+                 infos.add(entity.toDto());
+            }
+            return infos;
+        } else {
+            return new ArrayList();
         }
-        return infos;
     }
 
     @Override
     public List<String> getStatePropagationIdsByType(@WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> ids = statePropagationDao.getStatePropagationIdsByType(statePropagationTypeKey);
-        return ids;
+        return statePropagationDao.getStatePropagationIdsByType(statePropagationTypeKey);
     }
 
     @Override
-    public List<StatePropagationInfo> getStatePropagationsByTargetState(@WebParam(name = "targetStateId") String targetStateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<StatePropagationInfo> getStatePropagationsByTargetState(@WebParam(name = "targetStateKey") String targetStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<StatePropagationEntity> entities = statePropagationDao.getStatePropagationsByTargetState(targetStateKey);
+
+        if (!entities.isEmpty()){
+            List<StatePropagationInfo> infos = new ArrayList<StatePropagationInfo>(entities.size());
+            for(StatePropagationEntity entity : entities){
+                 infos.add(entity.toDto());
+            }
+            return infos;
+        } else {
+            return new ArrayList();
+        }
     }
 
     @Override
@@ -576,6 +592,7 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
+    @Transactional
     public StatePropagationInfo createStatePropagation(@WebParam(name = "targetStateChangeId") String targetStateChangeId, @WebParam(name = "statePropagationTypeKey") String statePropagationTypeKey, @WebParam(name = "statePropagationInfo") StatePropagationInfo statePropagationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         if (!StringUtils.equals(statePropagationTypeKey,statePropagationInfo.getTypeKey())) {
@@ -590,12 +607,36 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
+    @Transactional
     public StatePropagationInfo updateStatePropagation(@WebParam(name = "statePropagationId") String statePropagationId, @WebParam(name = "statePropagationInfo") StatePropagationInfo statePropagationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        StatePropagationEntity entity = statePropagationDao.find(statePropagationId);
+
+        if (entity == null) {
+            throw new DoesNotExistException(statePropagationId);
+        }
+
+        entity.fromDto(statePropagationInfo);
+        entity.setEntityUpdated(contextInfo);
+
+        statePropagationDao.merge(entity);
+        return entity.toDto();
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteStatePropagation(@WebParam(name = "statePropagationId") String statePropagationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        StatePropagationEntity entity = statePropagationDao.find(statePropagationId);
+
+        if (entity == null) {
+            throw new DoesNotExistException(statePropagationId);
+        }
+
+        statePropagationDao.remove(entity);
+        StatusInfo deleteStatus = new StatusInfo();
+        deleteStatus.setSuccess(true);
+
+        return deleteStatus;
     }
 }
