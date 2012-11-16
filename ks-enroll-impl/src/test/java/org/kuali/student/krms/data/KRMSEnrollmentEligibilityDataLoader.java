@@ -67,7 +67,6 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
     public static final String FAKE_COURSE_ID = "course1";
 
 
-
     private AtpInfo springAtpInfo;
 
 

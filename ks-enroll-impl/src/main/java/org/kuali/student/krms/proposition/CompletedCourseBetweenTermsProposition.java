@@ -25,7 +25,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.apache.openjpa.lib.log.Log;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.Term;
@@ -35,7 +34,6 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.krms.KRMSConstants;
-import org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;

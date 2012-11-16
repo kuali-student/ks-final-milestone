@@ -40,7 +40,12 @@ public final class KRMSConstants {
     public static final String END_TERM = "kuali.krms.term.type.acal.term.end";
     public static final String START_DATE = "kuali.krms.term.type.date.start";
     public static final String END_DATE = "kuali.krms.term.type.date.end";
-
+    
+    public static final String ATP_ID = "kuali.krms.term.type.atp.id";
+    
+    public static final String CURRENT_TERM_ID = "kuali.krms.term.type.atp.current.id";
+    
+    public static final String FIELD_TYPE_PARAMETER = "kuali.krms.term.type.field";
     
     private KRMSConstants() {
 
