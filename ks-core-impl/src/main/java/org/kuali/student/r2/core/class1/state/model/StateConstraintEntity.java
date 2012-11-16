@@ -54,8 +54,8 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
     private String stateKey;
 
     @ElementCollection
-    @CollectionTable(name ="KSEN_STATE_CHG_CNSTRNT",joinColumns = @JoinColumn(name = "STATE_CHG_ID"))
-    @Column(name="STATE_CNSTRNT_ID")
+    @CollectionTable(name ="KSEN_STATE_CNSTRNT_ROS",joinColumns = @JoinColumn(name = "STATE_CNSTRNT_ID"))
+    @Column(name="REL_OBJ_STATE_ID")
     private List<String> relatedObjectStateKeys;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval=true)

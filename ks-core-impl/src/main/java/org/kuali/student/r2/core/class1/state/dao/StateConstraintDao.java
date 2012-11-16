@@ -19,10 +19,17 @@ package org.kuali.student.r2.core.class1.state.dao;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.state.model.StateConstraintEntity;
 
+import java.util.List;
+
 /**
  * This class contains the methods to operate on StateConstraintEntity
  *
  * @author Kuali Student Team
  */
 public class StateConstraintDao  extends GenericEntityDao<StateConstraintEntity> {
+    public List<StateConstraintEntity> getStateConstraintIdsByType(String stateConstraintTypeKey) {
+        return (List<StateConstraintEntity>) em.createQuery("from StateConstraintEntity sce where sce.typeKey = :stateConstraintTypeKey")
+                .setParameter("typeKey", stateConstraintTypeKey)
+                .getResultList();
+    }
 }

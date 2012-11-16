@@ -17,6 +17,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.state.dao.LifecycleDao;
 import org.kuali.student.r2.core.class1.state.dao.StateChangeDao;
+import org.kuali.student.r2.core.class1.state.dao.StateConstraintDao;
 import org.kuali.student.r2.core.class1.state.dao.StateDao;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
@@ -25,6 +26,7 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.dto.StatePropagationInfo;
 import org.kuali.student.r2.core.class1.state.model.LifecycleEntity;
 import org.kuali.student.r2.core.class1.state.model.StateChangeEntity;
+import org.kuali.student.r2.core.class1.state.model.StateConstraintEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +44,7 @@ public class StateServiceImpl implements StateService {
     private StateDao stateDao;
     private LifecycleDao lifecycleDao;
     private StateChangeDao stateChangeDao;
+    private StateConstraintDao stateConstraintDao;
     private CriteriaLookupService lifecycleCriteriaLookupService;
     private CriteriaLookupService stateCriteriaLookupService;
 
@@ -67,6 +70,14 @@ public class StateServiceImpl implements StateService {
 
     public void setStateChangeDao(StateChangeDao stateChangeDao) {
         this.stateChangeDao = stateChangeDao;
+    }
+
+    public StateConstraintDao getStateConstraintDao() {
+        return stateConstraintDao;
+    }
+
+    public void setStateConstraintDao(StateConstraintDao stateConstraintDao) {
+        this.stateConstraintDao = stateConstraintDao;
     }
 
     public CriteriaLookupService getLifecycleCriteriaLookupService() {
@@ -442,8 +453,17 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public StateConstraintInfo getStateConstraint(@WebParam(name = "stateConstraintId") String stateConstraintId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public StateConstraintInfo getStateConstraint(@WebParam(name = "stateConstraintId") String stateConstraintId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        try {
+            StateConstraintEntity stateConstraintEntity = stateConstraintDao.find(stateConstraintId);
+            if (null == stateConstraintEntity) {
+                throw new DoesNotExistException(stateConstraintId);
+            }
+            return stateConstraintEntity.toDto();
+        } catch (NoResultException ex) {
+            throw new DoesNotExistException(stateConstraintId);
+        }
     }
 
     @Override
@@ -453,7 +473,14 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public List<String> getStateConstraintIdsByType(@WebParam(name = "stateConstraintTypeKey") String stateConstraintTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<StateConstraintEntity> stateChangeEntities = stateConstraintDao.getStateConstraintIdsByType(stateConstraintTypeKey);
+        List<String> stateConstraintIds = new ArrayList<String>();
+
+        for(StateConstraintEntity stateConstraintEntity : stateChangeEntities){
+            stateConstraintIds.add(stateConstraintEntity.getId());
+        }
+
+        return stateConstraintIds;
     }
 
     @Override
