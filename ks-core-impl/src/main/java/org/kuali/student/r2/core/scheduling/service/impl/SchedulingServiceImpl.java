@@ -42,6 +42,7 @@ import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import javax.naming.OperationNotSupportedException;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -288,6 +289,17 @@ public class SchedulingServiceImpl implements SchedulingService {
     public List<String> getScheduleRequestIdsByRefObject(@WebParam(name = "refObjectType") String refObjectType, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByRefObject(refObjectType, refObjectId);
         return getScheduleRequestsIdList(entityList);
+    }
+
+    
+    @Override
+    public List<ScheduleRequestInfo> getScheduleRequestsByRefObjects(
+            @WebParam(name = "refObjectType") String refObjectType,
+            @WebParam(name = "refObjectId") List<String> refObjectIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+       throw new UnsupportedOperationException("not implemented");
     }
 
     @Override
