@@ -201,7 +201,7 @@ public class CrossSearchManager {
 	 * @return whether the criteria is met
 	 */
 	private boolean meetsCriteria(Map<String, SearchResultRowInfo> permutation,
-			CrossSearchTypeInfo crossSearchType, JoinCriteriaInfo joinCriteria){
+			CrossSearchTypeInfo crossSearchType, JoinCriteriaInfo joinCriteria) throws OperationFailedException {
 
 		JoinType joinType = joinCriteria.getJoinType();
 		
@@ -301,122 +301,70 @@ public class CrossSearchManager {
 
 
 	private boolean compare(DataType dataType, String left, String right,
-			ComparisonType type ){
-		//FIXME needs a handle to the result params data types here
+			ComparisonType type ) throws OperationFailedException {
+		//FIXME Right now DataType is always null, needs to be addressed by fixing JIRA KSCOR-505
 		try{
 			Integer leftInteger = Integer.parseInt(left);
 			Integer rightInteger = Integer.parseInt(right);
-			return compareInt(leftInteger,rightInteger,type);
-		}catch(Exception e){
+			return compare(leftInteger,rightInteger,type);
+		}catch(NumberFormatException e){
 		}
-		try{
-			if(("true".equals(left.toLowerCase())||"false".equals(left.toLowerCase()))&&
-			   ("true".equals(right.toLowerCase())||"false".equals(right.toLowerCase()))){
-				Boolean leftBoolean = Boolean.parseBoolean(left);
-				Boolean rightBoolean = Boolean.parseBoolean(right);
-				return compareBoolean(leftBoolean,rightBoolean,type);
-			}
-		}catch(Exception e){
-		}
-		try{
-			Date leftDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(left);
-			Date rightDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(right);
-			return compareDate(leftDate,rightDate,type);
-		}catch(Exception e){
-		}
-		return compareString(left,right,type);
-//		switch(dataType){
-//			case BOOLEAN:
-//				Boolean leftBoolean = new Boolean(left);
-//				Boolean rightBoolean = new Boolean(right);
-//				return compareBoolean(leftBoolean,rightBoolean,type);
-//			case DATE:
-//				SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//				Date leftDate = df.parse(left);
-//				Date rightDate = df.parse(right);
-//				return compareDate(leftDate,rightDate,type);
-//			case INT:
-//				Integer leftInteger = Integer.getInteger(left);
-//				Integer rightInteger = Integer.getInteger(right);
-//				return compareInt(leftInteger,rightInteger,type);
-//			case STRING:
-//				return compareString(left,right,type);
-//		}
-//		return false;
+
+
+        if(left != null && right != null) {
+            if(("true".equals(left.toLowerCase())||"false".equals(left.toLowerCase())) &&
+                    ("true".equals(right.toLowerCase())||"false".equals(right.toLowerCase()))) {
+                Boolean leftBoolean = Boolean.parseBoolean(left);
+                Boolean rightBoolean = Boolean.parseBoolean(right);
+                return compare(leftBoolean, rightBoolean, type);
+            }
+        }
+        try{
+            Date leftDate = null, rightDate = null;
+            if(left != null) {
+                leftDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(left);
+            }
+            if(right != null) {
+                rightDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(right);
+            }
+            return compare(leftDate, rightDate, type);
+        }catch(IllegalArgumentException e){
+        }
+		return compare(left, right, type);
 	}
 	
-	private boolean compareString(String left, String right, ComparisonType type) {
-		switch(type){
-		case EQUALS:
-			return left.equals(right);
-		case GREATERTHAN:
-			return left.compareTo(right) > 0;
-		case GREATERTHANEQUALS:
-			return left.compareTo(right) >= 0;
-		case LESSTHAN:
-			return left.compareTo(right) < 0;
-		case LESSTHANEQUALS:
-			return left.compareTo(right) <= 0;
-		case NOTEQUALS:
-			return !left.equals(right);
-		}
-		return false;
-	}
+    private boolean compare(Comparable left, Comparable right, ComparisonType type) throws OperationFailedException {
 
-	private boolean compareInt(Integer left, Integer right, ComparisonType type) {
-		switch(type){
-		case EQUALS:
-			return left.equals(right);
-		case GREATERTHAN:
-			return left.compareTo(right) > 0;
-		case GREATERTHANEQUALS:
-			return left.compareTo(right) >= 0;
-		case LESSTHAN:
-			return left.compareTo(right) < 0;
-		case LESSTHANEQUALS:
-			return left.compareTo(right) <= 0;
-		case NOTEQUALS:
-			return !left.equals(right);
-		}
-		return false;
-	}
+        if(left == null || right == null) {
+            if(type == ComparisonType.EQUALS) {
+                return left == right;
+            }
+            else if(type == ComparisonType.NOTEQUALS) {
+                return left != right;
+            }
+            else {
+                throw new OperationFailedException("Comparison type " + type.toString() + " undefined for null values");
+            }
+        }
 
-	private boolean compareDate(Date left, Date right, ComparisonType type) {
-		switch(type){
-		case EQUALS:
-			return left.equals(right);
-		case GREATERTHAN:
-			return left.compareTo(right) > 0;
-		case GREATERTHANEQUALS:
-			return left.compareTo(right) >= 0;
-		case LESSTHAN:
-			return left.compareTo(right) < 0;
-		case LESSTHANEQUALS:
-			return left.compareTo(right) <= 0;
-		case NOTEQUALS:
-			return !left.equals(right);
-		}
-		return false;
-	}
+        switch (type) {
+            case EQUALS:
+                return left.equals(right);
+            case GREATERTHAN:
+                return left.compareTo(right) > 0;
+            case GREATERTHANEQUALS:
+                return left.compareTo(right) >= 0;
+            case LESSTHAN:
+                return left.compareTo(right) < 0;
+            case LESSTHANEQUALS:
+                return left.compareTo(right) <= 0;
+            case NOTEQUALS:
+                return !left.equals(right);
+            default:
+                throw new OperationFailedException("Unsupported ComparisonType: " + type);
+        }
+    }
 
-	private boolean compareBoolean(Boolean left, Boolean right,
-			ComparisonType type) {
-		switch(type){
-		case EQUALS:
-			return left.equals(right);
-		case GREATERTHAN:
-			return left.compareTo(right) > 0;
-		case GREATERTHANEQUALS:
-			return left.compareTo(right) >= 0;
-		case LESSTHAN:
-			return left.compareTo(right) < 0;
-		case LESSTHANEQUALS:
-			return left.compareTo(right) <= 0;
-		case NOTEQUALS:
-			return !left.equals(right);
-		}
-		return false;
-	}
 	public void setSearchDispatcher(SearchService searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
 	}
