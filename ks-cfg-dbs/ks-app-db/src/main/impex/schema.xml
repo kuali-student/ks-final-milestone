@@ -2813,6 +2813,39 @@
             <index-column name="OWNER_ID"/>
         </index>
     </table>
+    <table name="KSEN_STATE_CNSTRNT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="STATE_CNSTRNT_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="STATE_CNSTRNT_STATE" required="true" size="255" type="VARCHAR"/>
+        <column name="STATE_CNSTRNT_OPERATOR" required="true" size="255" type="VARCHAR"/>
+        <column name="AGENDA_ID" size="255" type="VARCHAR"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="CREATETIME" required="true" type="TIMESTAMP"/>
+        <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_STATE_CNSTRNT_I1">
+            <index-column name="STATE_CNSTRNT_TYPE"/>
+        </index>
+    </table>
+    <table name="KSEN_STATE_CNSTRNT_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSEN_STATE_CNSTRNT_ROS">
+        <column name="STATE_CNSTRNT_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="REL_OBJ_STATE_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_STATE" name="KSEN_STATE_CNSTRNT_ROS_FK2">
+            <reference foreign="ID" local="REL_OBJ_STATE_ID"/>
+        </foreign-key>
+        <foreign-key foreignTable="KSEN_STATE_CNSTRNT" name="KSEN_STATE_CNSTRNT_ROS_FK1">
+            <reference foreign="ID" local="STATE_CNSTRNT_ID"/>
+        </foreign-key>
+    </table>
     <table name="KSEN_STATE_LIFECYCLE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
