@@ -49,7 +49,7 @@ public class CourseR1TestDataLoader {
                 LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
     }
 
-    public void loadCourse(String id,
+    public CourseInfo loadCourse(String id,
             String startTermId,
             String subjectArea,
             String code,
@@ -65,10 +65,10 @@ public class CourseR1TestDataLoader {
         if (activityTypeKey1 != null) {
             activityTypeKeys.add(activityTypeKey2);
         }
-        this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys);
+        return this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys);
     }
 
-    private void loadCourseInternal(String id,
+    private CourseInfo loadCourseInternal(String id,
             String startTermId,
             String subjectArea,
             String code,
@@ -104,7 +104,7 @@ public class CourseR1TestDataLoader {
             activity.setState("Active");
         }
         try {
-            CourseInfo newInfo = this.courseService.createCourse(info, ContextUtils.getContextInfo());
+            return this.courseService.createCourse(info, ContextUtils.getContextInfo());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
