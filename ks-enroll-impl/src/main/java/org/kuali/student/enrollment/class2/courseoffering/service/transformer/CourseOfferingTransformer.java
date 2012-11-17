@@ -183,8 +183,8 @@ public class CourseOfferingTransformer {
         co.getStudentRegistrationGradingOptions().clear();
         co.setGradingOptionId(null);
 
-        for(String resultValueGroupKeyRef : rvgMap.keySet()){
-            String resultValueGroupKey = new String(resultValueGroupKeyRef);
+        for(String resultValueGroupKeyRef : rvgMap.keySet()){     // the rvgMap should now contain not the lui
+            String resultValueGroupKey = new String(resultValueGroupKeyRef);   // values from the map are pass by ref so we need to create a new instance.
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             } else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
