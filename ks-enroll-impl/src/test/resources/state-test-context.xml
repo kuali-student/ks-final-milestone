@@ -126,6 +126,8 @@
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao" />
         <property name="lifecycleDao" ref="lifecycleDao" />
+        <property name="stateChangeDao" ref="stateChangeDao" />
+        <property name="stateConstraintDao" ref="stateConstraintDao" />
         <property name="stateCriteriaLookupService">
             <bean parent="criteriaLookupService">
                 <property name="predicateTransforms">
@@ -170,5 +172,10 @@
     <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="entityManager" />
     </bean>
-
+    <bean id="stateChangeDao" class="org.kuali.student.r2.core.class1.state.dao.StateChangeDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+    <bean id="stateConstraintDao" class="org.kuali.student.r2.core.class1.state.dao.StateConstraintDao">
+        <property name="em" ref="entityManager" />
+    </bean>
 </beans>
