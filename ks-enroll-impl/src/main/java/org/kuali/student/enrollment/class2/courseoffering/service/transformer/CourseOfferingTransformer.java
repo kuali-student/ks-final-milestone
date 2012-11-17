@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -183,7 +182,9 @@ public class CourseOfferingTransformer {
         //Split up the result keys for student registration options into a separate field.
         co.getStudentRegistrationGradingOptions().clear();
         co.setGradingOptionId(null);
-        for(String resultValueGroupKey : lui.getResultValuesGroupKeys()){
+
+        for(String resultValueGroupKeyRef : rvgMap.keySet()){
+            String resultValueGroupKey = new String(resultValueGroupKeyRef);
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             } else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
