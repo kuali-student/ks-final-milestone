@@ -189,7 +189,7 @@ public class CourseOfferingTransformer {
                 co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             } else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 if(co.getGradingOptionId()!=null){
-                    throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
+                    throw new RuntimeException("This course[lui.id="+ co.getId() +", rvg key="+resultValueGroupKey+"] offering has multiple grading options in the data. It should only have at most one.\n" + rvgMap.toString() );
                 }
                 co.setGradingOptionId(resultValueGroupKey);
             } else if(resultValueGroupKey!=null && resultValueGroupKey.startsWith("kuali.creditType.credit")){//There should be a better way of distinguishing credits from other results
