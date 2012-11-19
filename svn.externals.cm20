@@ -8,7 +8,7 @@
 #
 # The SVN command for using this file to create SVN external definitions is
 # 
-# svn propset svn:externals -F svn.externals .
+# svn propset svn:externals -F svn.externals.cm20 .
 #
 # *** IMPORTANT ***
 # you must rerun the svn propset command and commit after editing any of
