@@ -123,9 +123,9 @@ public class TestStateChangeServiceImpl {
         assertEquals(orig.getEffectiveDate(), created.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), created.getExpirationDate());
         assertEquals(orig.getStateConstraintIds().size(), created.getStateConstraintIds().size());
-       // assertTrue(orig.getStateConstraintIds().contains("cnstrnt-1"));
+        assertTrue(orig.getStateConstraintIds().contains("cnstrnt-1"));
         assertEquals(orig.getStatePropagationIds().size(), created.getStatePropagationIds().size());
-        //assertTrue(orig.getStatePropagationIds().contains("propagt-1"));
+        assertTrue(orig.getStatePropagationIds().contains("propagt-1"));
 
         //get
         StateChangeInfo retrieved = stateService.getStateChange(created.getId(), callContext);
@@ -137,9 +137,9 @@ public class TestStateChangeServiceImpl {
         assertEquals(retrieved.getEffectiveDate(), created.getEffectiveDate());
         assertEquals(retrieved.getExpirationDate(), created.getExpirationDate());
         assertEquals(retrieved.getStateConstraintIds().size(), created.getStateConstraintIds().size());
-        //assertTrue(retrieved.getStateConstraintIds().contains("cnstrnt-1"));
+        assertTrue(retrieved.getStateConstraintIds().contains("cnstrnt-1"));
         assertEquals(retrieved.getStatePropagationIds().size(), created.getStatePropagationIds().size());
-        //assertTrue(retrieved.getStatePropagationIds().contains("propagt-1"));
+        assertTrue(retrieved.getStatePropagationIds().contains("propagt-1"));
 
         //getbyFrom&ToStates
         List<StateChangeInfo> stateChangeInfoList = stateService.getStateChangesByFromStateAndToState(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, callContext);
@@ -152,9 +152,9 @@ public class TestStateChangeServiceImpl {
         assertEquals(info.getEffectiveDate(), created.getEffectiveDate());
         assertEquals(info.getExpirationDate(), created.getExpirationDate());
         assertEquals(info.getStateConstraintIds().size(), created.getStateConstraintIds().size());
-        //assertTrue(info.getStateConstraintIds().contains("cnstrnt-1"));
+        assertTrue(info.getStateConstraintIds().contains("cnstrnt-1"));
         assertEquals(info.getStatePropagationIds().size(), created.getStatePropagationIds().size());
-        //assertTrue(info.getStatePropagationIds().contains("propagt-1"));
+        assertTrue(info.getStatePropagationIds().contains("propagt-1"));
 
 
     }
