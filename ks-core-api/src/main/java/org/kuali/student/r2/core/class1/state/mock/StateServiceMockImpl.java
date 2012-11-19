@@ -173,7 +173,7 @@ public class StateServiceMockImpl
     public StatusInfo deleteLifecycle(String lifecycleKey, ContextInfo contextInfo) 
         throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        if (this.lifecycleMap.get(lifecycleKey) != null) {
+        if (this.lifecycleMap.get(lifecycleKey) == null) {
             throw new DoesNotExistException(lifecycleKey + " does not exist");
         }
 
@@ -267,7 +267,7 @@ public class StateServiceMockImpl
         }
             
         // TODO call validate 
-
+        stateInfo.setMeta(newMeta(contextInfo));
         this.stateMap.put(stateKey, stateInfo);
         this.lifeCycleStatesMap.get(lifecycleKey).add(stateKey);
 
