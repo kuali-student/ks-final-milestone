@@ -50,7 +50,7 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator {
     }
 
     @Override
-    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         List<ValidationResultInfo> errors = this.validateLuiLuiRelation(ValidationUtils.TYPE_VALIDATION_TYPE_KEY,luiId,relatedLuiId,luiLuiRelationTypeKey,luiLuiRelationInfo,contextInfo);
 
         if(errors != null && !errors.isEmpty()){
