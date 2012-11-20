@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+<bean id="PropositionBo-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="Proposition Lookup" />
+    <property name="theme">
+      <bean parent="Uif-KradTheme"/>
+    </property>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.PropositionBo" />
+    <property name="viewHelperServiceClass" value="org.kuali.student.krms.service.impl.PropositionLookupableHelperServiceImpl" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="ruleId" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeId" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="id" />
+        <bean parent="Uif-InputField" p:propertyName="description" />
+        <bean parent="Uif-InputField" p:propertyName="ruleId" />
+        <bean parent="Uif-InputField" p:propertyName="typeId" />
+        <bean parent="Uif-InputField" p:propertyName="propositionTypeCode" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PropositionBo-InquiryView" parent="Uif-InquiryView">
+    <property name="headerText" value="Rule Inquiry"/>
+    <property name="theme">
+      <bean parent="Uif-KradTheme"/>
+    </property>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.PropositionBo"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+        <bean parent="Uif-Page" p:id="page1">
+          <property name="items">
+            <list>
+			  <bean parent="Uif-Disclosure-GridSection">
+			    <property name="layoutManager.numberOfColumns" value="2"/>
+				<property name="items">
+				  <list>
+				    <bean parent="Uif-InputField" p:propertyName="id"/>
+				    <bean parent="Uif-InputField" p:propertyName="description"/>
+					<bean parent="Uif-InputField" p:propertyName="ruleId"/>
+					<bean parent="Uif-InputField" p:propertyName="typeId"/>
+					<bean parent="Uif-InputField" p:propertyName="propositionTypeCode"/>
+				  </list>
+				</property>
+				<property name="headerText" value="Proposition Attributes"/>
+			  </bean>
+              <ref bean="PropositionBo-InquiryView-parameters"/>
+              <ref bean="PropositionBo-InquiryView-Custom"/>
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="PropositionMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.rice.krms.impl.repository.PropositionBo"/>
+    <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.PropositionMaintainable"/>
+    <property name="documentTypeName" value="PropositionMaintenanceDocument"/>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="Proposition-MaintenanceView" parent="Uif-MaintenanceView">
+    <property name="headerText" value="Proposition Editor"/>
+    <property name="theme">
+      <bean parent="Uif-KradTheme"/>
+    </property>
+    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.PropositionBo"/>
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.PropositionMaintainable"/>
+    <property name="formPostUrl" value="krmsProposition" />
+    <property name="items">
+        <list>
+            <ref bean="PropositionBo-MaintenanceView-Custom"/>
+        </list>
+    </property>
+  </bean>
+
+  <bean id="PropositionBo-MaintenanceView-Custom" parent="PropositionBo-MaintenanceView-Custom-parentBean"/>
+  <bean id="PropositionBo-MaintenanceView-Custom-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+    <property name="headerText" value="Term" />
+    <property name="items">
+      <list>
+        <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
+          <property name="items">
+            <list>
+
+              <bean parent="Uif-DataField" p:propertyName="proposition.description" p:showLabel="true" p:label="Description"/>
+
+              <bean parent="Uif-InputField" p:propertyName="proposition.typeId"
+                    p:showLabel="true" p:label="Type" p:maxLength="40">
+                <property name="control">
+                  <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                        p:onChangeScript="ajaxSubmitForm('updateProposition', null, jQuery(this).data('submitdata'), null, null, null);"/>
+                </property>
+                <property name="optionsFinder">
+                  <bean class="org.kuali.student.krms.service.impl.PropositionTypeValuesFinder"/>
+                </property>
+              </bean>
+
+              <bean id="customValue" parent="Uif-InputField" p:propertyName="proposition.parameters[1].value"
+                    p:showLabel="true" p:label="Value" p:maxLength="255" p:render="@{#np.proposition.showCustomValue}">
+                <property name="control">
+                  <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:watermarkText="Enter a Literal Value" />
+                </property>
+              </bean>
+
+              <bean id="Default-Term-parameters" parent="Default-Term-parameters-parent"/>
+
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+  <bean id="parameter-parent" parent="Uif-InputField" p:propertyName="proposition.termParameter" p:render="false"
+        p:style="margin-left: 12pt" p:showLabel="true" p:maxLength="40"/>
+
+  <bean id="parameter-parent-dropdown" abstract="true" parent="parameter-parent">
+      <property name="control">
+          <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                p:onChangeScript="ajaxSubmitForm('updateDescription', null, jQuery(this).data('submitdata'), null, null, null);"/>
+      </property>
+  </bean>
+
+  <bean id="Default-Term-parameters-parent" parent="Uif-VerticalFieldGroup" >
+    <property name="items">
+      <list>
+
+        <bean id="course" parent="parameter-parent-dropdown" p:label="Course" p:render="@{#np.proposition.termSpecId eq '20002'}">
+          <property name="optionsFinder">
+              <bean class="org.kuali.rice.krms.impl.ui.CourseCodeValuesFinder"/>
+          </property>
+        </bean>
+
+       <bean id="courseList" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{#np.proposition.termSpecId eq '20000'}">
+         <property name="headerText" value="Selected Modules"/>
+         <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.ui.TermParameter"/>
+         <property name="propertyName" value="proposition.termParameterList"/>
+         <property name="layoutManager.richTable.render" value="false"/>
+         <property name="layoutManager.separateAddLine" value="true" />
+         <property name="items">
+           <list>
+             <bean parent="Uif-InputField" p:label="Module" p:propertyName="parameter" p:required="true" >
+               <property name="control">
+                 <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+               </property>
+               <property name="optionsFinder">
+                 <bean class="org.kuali.rice.krms.impl.ui.CourseCodeValuesFinder"/>
+               </property>
+             </bean>
+           </list>
+         </property>
+         <property name="addLineItems">
+           <list>
+             <bean parent="Uif-InputField" p:label="Module" p:propertyName="parameter" p:required="true" >
+               <property name="control">
+                 <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+               </property>
+               <property name="optionsFinder">
+                 <bean class="org.kuali.rice.krms.impl.ui.CourseCodeValuesFinder"/>
+               </property>
+             </bean>
+           </list>
+         </property>
+       </bean>
+
+        <bean id="org" parent="parameter-parent-dropdown" p:label="Organization" p:render="@{#np.proposition.termSpecId eq '20001'}">
+          <property name="optionsFinder">
+            <bean class="org.kuali.rice.krms.impl.ui.OrganizationCodeValuesFinder"/>
+          </property>
+        </bean>
+
+      </list>
+    </property>
+  </bean>
+
+    <bean id="PropositionBo-InquiryView-parameters" parent="PropositionBo-InquiryView-parameters-parentBean"/>
+  <bean id="PropositionBo-InquiryView-parameters-parentBean" abstract="true" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4">
+    <property name="headerText" value="Proposition Parameters"/>
+    <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.repository.PropositionParameterBo"/>
+    <property name="propertyName" value="parameters"/>
+    <property name="layoutManager.renderSequenceField" value="false"/>
+    <property name="items">
+    <list>
+      <bean parent="Uif-InputField" p:propertyName="id"/>
+      <bean parent="Uif-InputField" p:propertyName="value"/>
+      <bean parent="Uif-InputField" p:propertyName="parameterType"/>
+      <bean parent="Uif-InputField" p:propertyName="sequenceNumber"/>
+    </list>
+  </property>
+  </bean>
+
+  <bean id="PropositionBo-InquiryView-Custom" parent="PropositionBo-InquiryView-Custom-parentBean"/>
+  <bean id="PropositionBo-InquiryView-Custom-parentBean" abstract="true" parent="Uif-VerticalBoxGroup" p:cssClasses="editModeNode">
+    <property name="headerText" value="Proposition Custom"/>
+    <property name="layoutManager.orientation" value="VERTICAL"/>
+    <property name="items">
+      <list>
+
+      <!-- Hidden ID field -->
+        <bean parent="Uif-InputField" p:propertyName="id"
+            p:showLabel="false" p:label="id" p:maxLength="255">
+          <property name="control">
+            <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+          </property>
+        </bean>
+
+        <bean parent="Uif-InputField-LabelTop" p:propertyName="typeId"
+                p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:labelPlacement="TOP" p:maxLength="40">
+          <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+          </property>
+          <property name="optionsFinder">
+            <bean class="org.kuali.student.krms.service.impl.PropositionTypeValuesFinder"/>
+          </property>
+        </bean>
+
+        <!-- outer div containing the elements of the comparison: term, operator & constant-->
+        <bean parent="Uif-HorizontalBoxGroup">
+          <property name="items">
+            <list merge="true">
+
+              <bean parent="Uif-InputField-LabelTop" p:propertyName="typeId"
+                    p:style="margin-left: 12pt" p:showLabel="true" p:label="Type" p:labelPlacement="TOP" p:maxLength="40">
+                <property name="control">
+                  <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+            </property>
+            <property name="optionsFinder">
+              <bean class="org.kuali.student.krms.service.impl.PropositionTypeValuesFinder"/>
+            </property>
+          </bean>
+
+             <bean parent="selectedNodeQuickActions"/>
+
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>
