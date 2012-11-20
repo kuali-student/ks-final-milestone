@@ -489,15 +489,11 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public List<String> getStateConstraintIdsByType(@WebParam(name = "stateConstraintTypeKey") String stateConstraintTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<StateConstraintEntity> stateChangeEntities = stateConstraintDao.getStateConstraintIdsByType(stateConstraintTypeKey);
-        List<String> stateConstraintIds = new ArrayList<String>();
+    public List<String> getStateConstraintIdsByType(@WebParam(name = "stateConstraintTypeKey") String stateConstraintTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> stateChangeIds = stateConstraintDao.getStateConstraintIdsByType(stateConstraintTypeKey);
 
-        for(StateConstraintEntity stateConstraintEntity : stateChangeEntities){
-            stateConstraintIds.add(stateConstraintEntity.getId());
-        }
-
-        return stateConstraintIds;
+        return stateChangeIds;
     }
 
     @Override

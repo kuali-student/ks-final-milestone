@@ -27,9 +27,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class StateConstraintDao  extends GenericEntityDao<StateConstraintEntity> {
-    public List<StateConstraintEntity> getStateConstraintIdsByType(String stateConstraintTypeKey) {
-        return (List<StateConstraintEntity>) em.createQuery("from StateConstraintEntity sce where sce.typeKey = :stateConstraintTypeKey")
-                .setParameter("typeKey", stateConstraintTypeKey)
-                .getResultList();
+    public List<String> getStateConstraintIdsByType(String stateConstraintTypeKey) {
+        return (List<String>) em.createNamedQuery("Sce.getStateConstraintIdsByType").setParameter("typeKey", stateConstraintTypeKey).getResultList();
     }
 }

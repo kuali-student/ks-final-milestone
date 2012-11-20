@@ -29,6 +29,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -43,6 +45,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "KSEN_STATE_CNSTRNT")
+@NamedQueries({
+        @NamedQuery(name="Sce.getStateConstraintIdsByType", query="Select sce.id from StateConstraintEntity sce where sce.typeKey = :stateConstraintTypeKey")
+})
 public class StateConstraintEntity extends MetaEntity implements AttributeOwner<StateConstraintAttributeEntity> {
     @Column(name = "AGENDA_ID:")
     private String agendaId;
