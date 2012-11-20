@@ -19,8 +19,19 @@ public class SocRolloverResultDao extends GenericEntityDao<SocRolloverResultEnti
 
     }
 
+    public List<String> getSocRolloverResultIdsBySourceSocId(String sourceSocId) {
+        return (List<String>) em.createNamedQuery("SocRor.getSocRolloverResultIdsBySourceSocId").setParameter("sourceSocId", sourceSocId).getResultList();
+
+    }
+
     public List<SocRolloverResultEntity> getByTargetSocId(String targetSocId) {
         return (List<SocRolloverResultEntity>) em.createNamedQuery("SocRor.getSocRorsByTargetSocId").setParameter("targetSocId", targetSocId).getResultList();
 
     }
+
+    public List<String> getSocRolloverResultIdsByTargetSocId(String targetSocId) {
+        return (List<String>) em.createNamedQuery("SocRor.getSocRolloverResultIdsByTargetSocId").setParameter("targetSocId", targetSocId).getResultList();
+
+    }
+
 }
