@@ -5,438 +5,438 @@
     <KSEN_ROOM_BUILDING BUILDING_CD="034"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="034"
+        CREATEID="admin" CREATETIME="20121120000851" ID="034"
         NAME="JIMENEZ HALL"
-        OBJ_ID="ea8cea2d-aef8-477f-9eb6-0bef9bb0a7af" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="12b109b7-7aa3-4041-8655-1438a54d224e" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="036"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="036"
+        CREATEID="admin" CREATETIME="20121120000851" ID="036"
         NAME="PLANT SCIENCES BUILDING "
-        OBJ_ID="58c04f4c-79a2-402d-807f-6e45a95a6489" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="3b5a3329-ba6e-4036-b176-e3f41b43c22f" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="038"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="038"
-        NAME="LEFRAK HALL" OBJ_ID="50d431e1-f385-4506-aed8-6cc9e37c4e75"
-        UPDATEID="admin" UPDATETIME="20121119233957" VER_NBR="0"/>
+        CREATEID="admin" CREATETIME="20121120000851" ID="038"
+        NAME="LEFRAK HALL" OBJ_ID="b8069077-f696-4124-b64e-d854de1faf39"
+        UPDATEID="admin" UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="039"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="039"
+        CREATEID="admin" CREATETIME="20121120000851" ID="039"
         NAME="VAN MUNCHING HALL"
-        OBJ_ID="3f4e8be1-0aed-4506-81e3-2323a061e2cd" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="7b8df8e5-95b3-4336-adb3-c922b6e709f6" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="042"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="042"
+        CREATEID="admin" CREATETIME="20121120000851" ID="042"
         NAME="TYDINGS HALL"
-        OBJ_ID="cc1932ee-1f72-42ea-8f74-a1085edca192" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="b7c20148-635a-4bab-9aa5-636d692cc5c8" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="043"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="043"
+        CREATEID="admin" CREATETIME="20121120000851" ID="043"
         NAME="TALIAFERRO HALL"
-        OBJ_ID="b940cb94-9e1a-4e21-89c9-ddc481c75328" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="413ad237-2d36-499a-854e-0e9fdb7857f9" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="044"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="044"
+        CREATEID="admin" CREATETIME="20121120000851" ID="044"
         NAME="SKINNER BUILDING"
-        OBJ_ID="e44b9030-6dec-4dfa-a338-c1dc79120f4f" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="dce49b19-aab8-4e0e-8144-daf4cb4692eb" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="045"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="045"
+        CREATEID="admin" CREATETIME="20121120000851" ID="045"
         NAME="INSTRUCTIONAL TELEVISION FACIL"
-        OBJ_ID="96c03fd1-a401-485b-8126-761ee2e85bef" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="15f67e17-a9be-492a-b65d-8fd93f96005f" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="046"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="046"
+        CREATEID="admin" CREATETIME="20121120000851" ID="046"
         NAME="MARIE MOUNT HALL"
-        OBJ_ID="a76738a1-3c25-4354-9c1f-ffe9ae18685d" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="3850c870-c38a-48bd-861c-ff1095d976a3" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="047"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="047"
-        NAME="WOODS HALL" OBJ_ID="1ea30bf8-1529-436d-9c37-9888cde1cb1f"
-        UPDATEID="admin" UPDATETIME="20121119233957" VER_NBR="0"/>
+        CREATEID="admin" CREATETIME="20121120000851" ID="047"
+        NAME="WOODS HALL" OBJ_ID="ac6015d0-96fa-40ab-b11a-c5fa9a7abedb"
+        UPDATEID="admin" UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="048"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="048"
+        CREATEID="admin" CREATETIME="20121120000851" ID="048"
         NAME="FRANCIS SCOTT KEY HALL"
-        OBJ_ID="8b9f5be7-df67-401b-8a3c-5cf1d752c1ff" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="1d2fb5dd-b1ff-4c5e-8df5-db144a544939" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="073"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="073"
+        CREATEID="admin" CREATETIME="20121120000851" ID="073"
         NAME="H.J. PATTERSON HALL"
-        OBJ_ID="0ef3e830-f075-481a-a751-e9af0a029f58" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="85babb5c-d9c6-4efb-8039-9eddbc9dc1b7" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="074"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="074"
+        CREATEID="admin" CREATETIME="20121120000851" ID="074"
         NAME="HOLZAPFEL HALL"
-        OBJ_ID="944dcd6f-d827-494b-9344-73ceaec7a805" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="53dd61bf-16df-4e6c-93ae-5fba008b6ead" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="076"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="076"
+        CREATEID="admin" CREATETIME="20121120000851" ID="076"
         NAME="SYMONS HALL "
-        OBJ_ID="5dbf1f57-977f-4155-b274-0d1499de73e1" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="5fd8366f-1aaf-4ec5-8283-ec308508f470" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="078"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="078"
+        CREATEID="admin" CREATETIME="20121120000851" ID="078"
         NAME="RECKORD ARMORY"
-        OBJ_ID="8b392c5d-0a7d-4ca7-b007-c1de2870078c" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="b26bb4b2-1912-40c0-b385-a51e1c665ee0" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="082"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="082"
+        CREATEID="admin" CREATETIME="20121120000851" ID="082"
         NAME="JOHN S. TOLL PHYSICS BUILDING"
-        OBJ_ID="9b3fca97-983f-4b46-982b-c50b9b18d39c" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="cd345594-892d-4c92-9440-3715125dc084" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="083"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="083"
+        CREATEID="admin" CREATETIME="20121120000851" ID="083"
         NAME="J.M. PATTERSON BUILDING"
-        OBJ_ID="981c36f1-15af-4352-8185-143879ca35d2" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="9735843e-8714-4129-bda9-298e373dff1a" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="084"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="084"
+        CREATEID="admin" CREATETIME="20121120000851" ID="084"
         NAME="MATHEMATICS BUILDING"
-        OBJ_ID="c76dbe55-3329-43a2-8c54-849536631ae7" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="dc6330f0-6a33-401d-ad9a-c539fff3c8a8" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="088"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="088"
-        NAME="MARTIN HALL" OBJ_ID="4b0420a9-9cc2-4fe9-a5cb-2f0aa8fdf68a"
-        UPDATEID="admin" UPDATETIME="20121119233957" VER_NBR="0"/>
+        CREATEID="admin" CREATETIME="20121120000851" ID="088"
+        NAME="MARTIN HALL" OBJ_ID="c83afc49-745c-4e03-ae83-a1809acf876b"
+        UPDATEID="admin" UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="090"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="090"
+        CREATEID="admin" CREATETIME="20121120000851" ID="090"
         NAME="CHEMICAL &amp; NUCLEAR ENGINEERING"
-        OBJ_ID="71a3a251-be99-4e9d-8bac-aa0e838c7560" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="6ad965af-561f-48a3-b2ac-c544703da149" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="091"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="091"
+        CREATEID="admin" CREATETIME="20121120000851" ID="091"
         NAME="CHEMISTRY BUILDING"
-        OBJ_ID="9a61da6d-3b0d-41d1-8b10-5fde99450b55" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="5971ed30-45c3-451b-a135-a377432ce519" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="097"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="097"
+        CREATEID="admin" CREATETIME="20121120000851" ID="097"
         NAME="CAMBRIDGE COMMUNITY CENTER"
-        OBJ_ID="b98b070c-e0fd-41f0-9e90-ddd5873bad17" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="7f678814-1951-4613-8b53-7780b567aee5" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="141"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="141"
-        NAME="TAWES HALL " OBJ_ID="1a87d938-060c-4eda-bed8-d4cf1c55edaf"
-        UPDATEID="admin" UPDATETIME="20121119233957" VER_NBR="0"/>
+        CREATEID="admin" CREATETIME="20121120000851" ID="141"
+        NAME="TAWES HALL " OBJ_ID="ef5d01bf-7b75-4417-ba81-c367fac4ee48"
+        UPDATEID="admin" UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="142"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="142"
+        CREATEID="admin" CREATETIME="20121120000851" ID="142"
         NAME="ANIMAL SCIENCES/AGRIC. ENGRG B"
-        OBJ_ID="d742e447-641b-4790-b3d2-edfa1d197c20" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="678321d4-3f18-41a6-9a11-69c815bc9b46" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="143"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="143"
+        CREATEID="admin" CREATETIME="20121120000851" ID="143"
         NAME="BENJAMIN BUILDING"
-        OBJ_ID="81548d0f-f7c7-4a2e-8637-0b22c5cb9e1b" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="026a858b-9156-422b-96ab-eff0bd1a57f9" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="144"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="144"
+        CREATEID="admin" CREATETIME="20121120000851" ID="144"
         NAME="BIOLOGY-PSYCHOLOGY BUILDING"
-        OBJ_ID="65fd1e23-c26e-4bd0-9fc0-d1c46f5f92cf" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="5597efa0-b1a1-4f7b-9103-e7b42a6cccf2" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="145"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="145"
+        CREATEID="admin" CREATETIME="20121120000851" ID="145"
         NAME="ARCHITECTURE BUILDING"
-        OBJ_ID="442796a5-00be-42fd-81df-cf7247b65f94" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="f6a3c1c0-c88b-45db-8b1b-eca7353f5afc" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="146"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="146"
+        CREATEID="admin" CREATETIME="20121120000851" ID="146"
         NAME="ART-SOCIOLOGY BUILDING"
-        OBJ_ID="c3370cc1-64fa-49fe-a589-e47fd9054840" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="c842750d-0fc8-43f0-bd96-6926241e987f" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="147"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="147"
+        CREATEID="admin" CREATETIME="20121120000851" ID="147"
         NAME="HORNBAKE LIBRARY"
-        OBJ_ID="a80d849a-e80e-4357-bd22-5b304051f0d5" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="c091e3a8-c756-4b91-84c3-8478d86e0ac8" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="162"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="162"
+        CREATEID="admin" CREATETIME="20121120000851" ID="162"
         NAME="COLE STUDENT ACTIVITIES BUILDI"
-        OBJ_ID="e4bbfcea-eb38-4d93-9a4f-b666afe05adc" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="a9c9e87c-4046-41ae-a1dd-5c5ae4b76073" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="224"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="224"
+        CREATEID="admin" CREATETIME="20121120000851" ID="224"
         NAME="COMPUTER &amp; SPACE SCIENCES BUIL"
-        OBJ_ID="5e8a65d4-bde8-4022-8379-813063dea624" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="6ed60da3-6694-43f9-8a66-be51815132f4" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="225"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="225"
+        CREATEID="admin" CREATETIME="20121120000851" ID="225"
         NAME="KIM ENGINEERING BUILDING"
-        OBJ_ID="2031043c-5398-4500-9c7e-cddd728263eb" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="b6e19f59-b455-40f7-a534-99f2c053d5a5" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="227"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="227"
-        NAME="JULL HALL" OBJ_ID="82f8db1b-e90d-4d75-8518-9c4ea2e41250"
-        UPDATEID="admin" UPDATETIME="20121119233957" VER_NBR="0"/>
+        CREATEID="admin" CREATETIME="20121120000851" ID="227"
+        NAME="JULL HALL" OBJ_ID="04157457-f6d1-46ac-b96e-f3908bf67029"
+        UPDATEID="admin" UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="233"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="233"
+        CREATEID="admin" CREATETIME="20121120000851" ID="233"
         NAME="SUSQUEHANNA HALL"
-        OBJ_ID="b8eda8f6-2eee-468d-9461-abffa45b0800" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="aec53d2d-1d86-450b-ae59-f95575e80a46" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="255"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="255"
+        CREATEID="admin" CREATETIME="20121120000851" ID="255"
         NAME="SCHOOL OF PUBLIC HEALTH BUILDI"
-        OBJ_ID="0445da59-bbda-4dce-a9b1-a60d56525c42" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="1babf90f-897d-43e4-b693-5b9a296dc7e2" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="406"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="406"
+        CREATEID="admin" CREATETIME="20121120000851" ID="406"
         NAME="COMPUTER SCIENCE INSTRUCTIONAL"
-        OBJ_ID="6bad0171-6a84-4305-bdeb-dcaa1cb5ffa1" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="ad4b957e-4d8d-463a-b960-9241d56e28ef" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="417"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957" ID="417"
-        NAME="KNIGHT HALL" OBJ_ID="0455a08d-bdd9-4d7e-a628-ca59352b8045"
-        UPDATEID="admin" UPDATETIME="20121119233957" VER_NBR="0"/>
+        CREATEID="admin" CREATETIME="20121120000851" ID="417"
+        NAME="KNIGHT HALL" OBJ_ID="fef15a0c-39a9-4c63-9f13-cfbe20079290"
+        UPDATEID="admin" UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="ARC"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-ARC" NAME="Architecture Building"
-        OBJ_ID="1a3600a0-004a-4a0a-804b-8ef1d74399c5" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="129a033e-5432-4432-9a94-1bbb331938db" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="ARM"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-ARM" NAME="Reckord Armory"
-        OBJ_ID="a921732e-539c-45b8-bbdb-a50df898f8fb" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="a5bf7399-66a8-4b7f-a0c3-44d9a86fe1e4" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="ASY"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-ASY" NAME="Art-Sociology Building"
-        OBJ_ID="3d5ff3bd-0cf1-4bb9-9495-cd99ff8aeacd" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="9d740678-514a-42e1-9a57-77b9797d9a1c" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="BPS"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-BPS" NAME="Biology-Psychology Building"
-        OBJ_ID="782c60c3-8362-4cb5-9c4a-05bb6275de62" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="02d16506-6353-49a6-84a8-9fa3cfa8092b" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="BRB"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-BRB" NAME="Biosciences Research Building"
-        OBJ_ID="437c5736-e037-47ce-a7a6-cabc93efc2cb" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="f0fc554a-40b7-40bf-aa8b-8c6748d61f31" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="CCC"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-CCC" NAME="Cambridge Community Center"
-        OBJ_ID="56c9f1e4-e077-46c5-8b03-40d07ab03d5e" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="e6c7f469-1f50-41d9-9f1a-5835e81e108d" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="CHE"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-CHE"
         NAME="Chemical and Nuclear Engineering Building"
-        OBJ_ID="d1366bad-1732-4bd1-88ca-70a3721d08c4" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="80c75e41-bbe1-4560-b6c4-4d8d160cf4c9" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="CHM"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-CHM" NAME="Chemistry Building"
-        OBJ_ID="0e33b136-b6d0-4a6f-b85b-69c65199ca85" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="3f8666a4-0e95-424f-aaa0-8ba8ec229f9c" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="CSI"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-CSI"
         NAME="Computer Science Instructional Center"
-        OBJ_ID="e1533cd2-00ee-45ba-88cc-3270bdd55cf3" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="4b4a7914-b423-4382-9c6e-e8bb9c4f73a6" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="EDU"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-EDU" NAME="Benjamin Building"
-        OBJ_ID="f30304ae-4f79-4ee9-84c8-6a3a0ed41f8e" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="ca509a21-9cb6-46d6-8d58-757fb4d00d31" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="EGR"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-EGR" NAME="Martin Hall"
-        OBJ_ID="7533f159-6275-4c9c-bb64-38a5e1f1e54d" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="35e5ea72-7b21-476e-98ab-0ed789e34060" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="HBK"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-HBK" NAME="Hornbake Library"
-        OBJ_ID="d8dbe2c8-2c69-4d70-a44d-40c953ee0aa8" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="8d51aff5-82d9-419d-b1d5-252c95c0b949" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="HJP"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-HJP" NAME="H.J. Patterson Hall"
-        OBJ_ID="eb100a20-653c-4132-84a5-6726f4a5aab4" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="6dfc9e5f-758b-4d4a-9087-ab8af01ce772" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="JMZ"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-JMZ" NAME="Jimenez Hall"
-        OBJ_ID="d7a82617-e1bb-4c92-a2bb-f191bf448211" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="fedff8db-b886-40d9-99c2-59173b5f60c1" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="KEY"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-KEY" NAME="Francis Scott Key Hall"
-        OBJ_ID="f3851ec7-77fc-4021-b2ae-4543324772f2" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="2517a8b1-231f-462e-9adf-96c940d542ad" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="KNI"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-KNI" NAME="Knight Hall"
-        OBJ_ID="e69cdb77-4bc7-4818-8cba-d89f8ec4c24a" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="13272716-999e-40d2-a204-b5574376179f" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="LEF"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-LEF" NAME="LeFrak Hall"
-        OBJ_ID="fcee651b-519c-479c-85d8-c68e124868c3" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="ef594a5b-1f68-450b-a3d9-72a944ed9794" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="MMH"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-MMH" NAME="Marie Mount Hall"
-        OBJ_ID="73a66163-6fa5-4d0b-858a-01ec09934bf3" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="63e9f99b-d8ab-4101-b17c-dfa7e20e442c" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="PHY"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-PHY" NAME="Physics Building"
-        OBJ_ID="2ccac34c-99a7-4ac4-970d-227e7a7454b1" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="1587f7ae-0316-44c1-8327-7bf26c96a192" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="PLS"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-PLS" NAME="Plant Science Building"
-        OBJ_ID="7234d6a3-a10a-438e-8092-99f37e0da42b" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="bc05a974-892d-4324-a073-86097ffec925" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="SOM"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-SOM" NAME="Somerset Hall (Dorm)"
-        OBJ_ID="7f4f964e-03ac-4b40-956a-8d6aaa736811" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="545af477-12d8-4671-b8c9-c90c44363db0" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="SQH"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-SQH" NAME="Susquehanna Hall"
-        OBJ_ID="5665adce-623b-4534-8f49-ddf8f52e3991" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="4830049d-7b0b-440d-aca5-d563c304308d" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="TLF"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-TLF" NAME="Taliaferro Hall"
-        OBJ_ID="8b398508-4aca-4e90-bcdf-6f891783c6ea" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="4bf284a4-edcd-4da2-99b0-4d951b8f25e4" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="TWS"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-TWS" NAME="Tawes Fine Arts Building"
-        OBJ_ID="0134038f-5655-4de8-b6a8-074186b1c7a9" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="32d2ff4c-ab6c-4982-9cbf-68bc21ed4e49" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="TYD"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-TYD" NAME="Tydings Hall"
-        OBJ_ID="e25c3186-af5b-418f-99d2-6962737f0896" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="e33f01af-8fda-4328-a415-7611aa5592f6" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
     <KSEN_ROOM_BUILDING BUILDING_CD="WDS"
         BUILDING_STATE="kuali.room.building.state.active"
         BUILDING_TYPE="kuali.facility.type.building" CAMPUS_KEY="01"
-        CREATEID="admin" CREATETIME="20121119233957"
+        CREATEID="admin" CREATETIME="20121120000851"
         ID="BUILDING-ID-WDS" NAME="Woods Hall"
-        OBJ_ID="24a25e02-910a-48c6-84d9-faa007a96365" UPDATEID="admin"
-        UPDATETIME="20121119233957" VER_NBR="0"/>
+        OBJ_ID="d3cf832c-48ea-45b2-bcb8-975c5865a2b2" UPDATEID="admin"
+        UPDATETIME="20121120000851" VER_NBR="0"/>
 </dataset>
