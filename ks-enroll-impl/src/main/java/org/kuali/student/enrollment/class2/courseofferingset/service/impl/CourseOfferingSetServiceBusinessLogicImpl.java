@@ -19,7 +19,6 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -296,12 +295,8 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         // to delete all for a term or delete all for a subject area intead of doing it one by one
         List<String> ids = this.getCourseOfferingIdsBySoc(socId, context);
         for (String id : ids) {
-            try {
-                this.coService.deleteCourseOffering(socId, context);
-            } catch (DependentObjectsExistException e) {
-                throw new OperationFailedException(e.getMessage());
-            }
-        }
+            this.coService.deleteCourseOfferingCascaded(id, context);
+         }
         return ids.size();
     }
 
