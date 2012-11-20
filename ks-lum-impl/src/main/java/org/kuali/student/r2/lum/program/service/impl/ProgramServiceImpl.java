@@ -11,8 +11,6 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.r1.core.document.service.DocumentService;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
@@ -54,6 +52,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
 
 public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
@@ -391,12 +391,16 @@ public class ProgramServiceImpl implements ProgramService{
 		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(majorDiscipline.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", majorDiscipline.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", 
+                                        majorDiscipline.getId(), 
+                                        docRelation.getDocumentId(), 
+                                        docRelation.getTypeKey(), 
+                                        docRelation, contextInfo);
 			}
 		}
 	}
@@ -419,12 +423,17 @@ public class ProgramServiceImpl implements ProgramService{
 		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originaCredentialProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originaCredentialProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", 
+                                        originaCredentialProgram.getId(), 
+                                        docRelation.getDocumentId(), 
+                                        docRelation.getTypeKey(), 
+                                        docRelation,
+                                        contextInfo);
 			}
 		}
 	}
@@ -443,12 +452,17 @@ public class ProgramServiceImpl implements ProgramService{
 		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getStateKey(),contextInfo);
 
 		//Copy documents(create new relations to the new version)
-		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId);
+		List<RefDocRelationInfo> docRelations = documentService.getRefDocRelationsByRef("kuali.org.RefObjectType.ProposalInfo", originalId, contextInfo);
 		if(docRelations!=null){
 			for(RefDocRelationInfo docRelation:docRelations){
 				docRelation.setId(null);
 				docRelation.setRefObjectId(originalCoreProgram.getId());
-				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", originalCoreProgram.getId(), docRelation.getDocumentId(), docRelation.getType(), docRelation);
+				documentService.createRefDocRelation("kuali.org.RefObjectType.ProposalInfo", 
+                                        originalCoreProgram.getId(), 
+                                        docRelation.getDocumentId(), 
+                                        docRelation.getTypeKey(), 
+                                        docRelation,
+                                        contextInfo);
 			}
 		}
 	}
