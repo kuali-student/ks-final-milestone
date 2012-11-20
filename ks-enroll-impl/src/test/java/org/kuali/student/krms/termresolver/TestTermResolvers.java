@@ -1,6 +1,7 @@
 package org.kuali.student.krms.termresolver;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,14 +69,12 @@ public class TestTermResolvers {
 
         resolvedPrereqs = getDefaultPrerequisites();
         parameters = getDefaultParameters();
-
-        OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
-        orgDataLoader.loadData();
-
     }
 
     @Test
     public void testAdminOrgNumberTermResolver() {
+        OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
+        orgDataLoader.loadData();
         //Setup the term resolver
         AdminOrgNumberTermResolver termResolver = new AdminOrgNumberTermResolver();
         termResolver.setOrganizationService(organizationService);
@@ -121,7 +120,7 @@ public class TestTermResolvers {
     }
 
     @Test
-    private void testCompletedCourseNumberTermResolver(){
+    public void testCompletedCourseNumberTermResolver(){
         //Setup the term resolver
         CompletedCourseNumberTermResolver termResolver = new CompletedCourseNumberTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
@@ -295,12 +294,14 @@ public class TestTermResolvers {
 
     @Test
     public void testDeptNumberTermResolver(){
+        OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
+        orgDataLoader.loadData();
         //Setup the term resolver
         DeptNumberTermResolver termResolver = new DeptNumberTermResolver();
         termResolver.setOrganizationService(organizationService);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY, studentID);
+        parameters.put(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY, "1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -357,6 +358,9 @@ public class TestTermResolvers {
         //Setup the term resolver
         EnrolledCourseByTermTermResolver termResolver = new EnrolledCourseByTermTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
