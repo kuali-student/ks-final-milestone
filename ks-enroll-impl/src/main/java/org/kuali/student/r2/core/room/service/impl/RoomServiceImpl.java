@@ -429,7 +429,8 @@ public class RoomServiceImpl implements RoomService {
         checkValid(roomInfo, contextInfo);
 
         RoomEntity roomEntity = new RoomEntity(roomInfo); //create Entity from Info
-        roomEntity.setId(null); //ensure no id prior to persist
+        if (roomEntity.getId() != null && roomEntity.getId().isEmpty())
+            roomEntity.setId(null); //ensure no id prior to persist
         roomEntity.setEntityCreated(contextInfo); //set MetaInfo
         //override buildingId and roomTypeKey if they're provided
         if (buildingId != null && !buildingId.isEmpty()) {
@@ -720,7 +721,8 @@ public class RoomServiceImpl implements RoomService {
         checkValid(buildingInfo, contextInfo);
 
         RoomBuildingEntity buildingEntity = new RoomBuildingEntity(buildingInfo); //construct Entity from Info
-        buildingEntity.setId(null); //ensure no id
+        if (buildingEntity.getId() != null && buildingEntity.getId().isEmpty())
+            buildingEntity.setId(null); //ensure no id
         //override typeKey if specified
         if (buildingTypeKey != null && !buildingTypeKey.isEmpty()) {
             buildingEntity.setBuildingType(buildingTypeKey);
