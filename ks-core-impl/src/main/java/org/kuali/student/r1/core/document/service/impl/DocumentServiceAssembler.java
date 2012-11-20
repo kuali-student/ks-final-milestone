@@ -21,12 +21,7 @@ import java.util.List;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.r1.core.document.dao.DocumentDao;
-import org.kuali.student.r1.core.document.dto.DocumentBinaryInfo;
-import org.kuali.student.r1.core.document.dto.DocumentCategoryInfo;
-import org.kuali.student.r1.core.document.dto.DocumentInfo;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r1.core.document.entity.Document;
 import org.kuali.student.r1.core.document.entity.DocumentAttribute;
 import org.kuali.student.r1.core.document.entity.DocumentCategory;
@@ -36,7 +31,11 @@ import org.kuali.student.r1.core.document.entity.RefDocRelationAttribute;
 import org.kuali.student.r1.core.document.entity.RefDocRelationType;
 import org.kuali.student.r1.core.document.entity.RefObjectSubType;
 import org.kuali.student.r1.core.document.entity.RefObjectType;
-import org.springframework.beans.BeanUtils;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.service.assembly.BaseAssembler;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -49,15 +48,18 @@ public class DocumentServiceAssembler extends BaseAssembler {
 
     public static DocumentInfo toDocumentInfo(Document entity) {
         DocumentInfo dto = new DocumentInfo();
-
-        BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "metaInfo","type", "categoryList", "document" });
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setType(entity.getType().getId());
-        dto.setDocumentBinaryInfo(new DocumentBinaryInfo());
-        dto.getDocumentBinaryInfo().setBinary(entity.getDocument());
+        dto.setId(entity.getId());
+        dto.setTypeKey(entity.getType().getId());
+        dto.setStateKey(entity.getState());
+        dto.setName(entity.getName());
+        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setFileName(entity.getFileName());
+        dto.setDocumentBinary(new DocumentBinaryInfo());
+        dto.getDocumentBinary().setBinary(entity.getDocument());
+        dto.setEffectiveDate(entity.getEffectiveDate());
+        dto.setExpirationDate(entity.getExpirationDate());
+        dto.setMeta(toMetaInfo(entity));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         return dto;
     }
     
@@ -72,29 +74,39 @@ public class DocumentServiceAssembler extends BaseAssembler {
     }
 
     public static Document toDocument(Document entity, DocumentInfo dto, DocumentDao dao) throws InvalidParameterException {
-        BeanUtils.copyProperties(dto, entity,
-                new String[] { "desc", "attributes", "metaInfo", "type", "id", "documentBinaryInfo" });
-        entity.setDescr(toRichText(DocumentRichText.class, dto.getDesc()));
-        entity.setDocument(dto.getDocumentBinaryInfo().getBinary());
+        
+        entity.setId(dto.getId());
+        entity.setState(dto.getStateKey());
+        entity.setName(dto.getName());
+        entity.setDescr(toRichText(DocumentRichText.class, dto.getDescr()));
+        entity.setFileName(dto.getFileName());
+        if (dto.getDocumentBinary() == null) {
+            entity.setDocument(null);
+        } else {
+            entity.setDocument(dto.getDocumentBinary().getBinary());
+        }
+        entity.setEffectiveDate(dto.getEffectiveDate());
+        entity.setExpirationDate(dto.getExpirationDate());
         entity.setAttributes(toGenericAttributes(DocumentAttribute.class, dto.getAttributes(), entity, dao));
         return entity;
     }
 
-    public static DocumentCategoryInfo toDocumentCategoryInfo(DocumentCategory entity) {
-        DocumentCategoryInfo dto = new DocumentCategoryInfo();
-
-        BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "type", "documents" });
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+    public static TypeInfo toDocumentCategoryTypeInfo(DocumentCategory entity) {
+        TypeInfo dto = new TypeInfo();
+        dto.setKey(entity.getId());
+        dto.setName(entity.getName());
+        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setEffectiveDate(entity.getEffectiveDate());
+        dto.setExpirationDate(entity.getExpirationDate());
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         return dto;
     }
 
-    public static List<DocumentCategoryInfo> toDocumentCategoryInfos(List<DocumentCategory> entities) {
-        List<DocumentCategoryInfo> dtos = new ArrayList<DocumentCategoryInfo>();
+    public static List<TypeInfo> toDocumentCategoryTypeInfos(List<DocumentCategory> entities) {
+        List<TypeInfo> dtos = new ArrayList<TypeInfo>();
         if(entities!=null){
 	        for (DocumentCategory entity : entities) {
-	        	dtos.add(toDocumentCategoryInfo(entity));
+	        	dtos.add(toDocumentCategoryTypeInfo(entity));
 	        }
         }
         return dtos;
@@ -103,13 +115,13 @@ public class DocumentServiceAssembler extends BaseAssembler {
 	public static RefDocRelationInfo toRefDocRelationInfo(RefDocRelation entity) {
 		RefDocRelationInfo dto = new RefDocRelationInfo();
 		
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setDesc(toRichTextInfo(entity.getDescr()));
+		dto.setAttributes(toAttributeList(entity.getAttributes()));
+		dto.setDescr(toRichTextInfo(entity.getDescr()));
 		dto.setDocumentId(entity.getDocument().getId());
 		dto.setEffectiveDate(entity.getEffectiveDate());
 		dto.setExpirationDate(entity.getExpirationDate());
 		dto.setId(entity.getId());
-		dto.setMetaInfo(toMetaInfo(entity));
+		dto.setMeta(toMetaInfo(entity));
 		dto.setRefObjectId(entity.getRefObjectId());
 		dto.setRefObjectTypeKey(entity.getRefObjectType().getId());
 		dto.setState(entity.getState());
@@ -171,7 +183,7 @@ public class DocumentServiceAssembler extends BaseAssembler {
         
         //Copy the fields
         entity.setAttributes(toGenericAttributes(RefDocRelationAttribute.class, dto.getAttributes(), entity, dao));
-        entity.setDescr(toRichText(DocumentRichText.class, dto.getDesc()));
+        entity.setDescr(toRichText(DocumentRichText.class, dto.getDescr()));
         entity.setDocument(document);
         entity.setEffectiveDate(dto.getEffectiveDate());
         entity.setExpirationDate(dto.getExpirationDate());

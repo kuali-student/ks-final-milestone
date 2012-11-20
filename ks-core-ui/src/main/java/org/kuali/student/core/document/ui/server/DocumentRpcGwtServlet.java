@@ -19,48 +19,55 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.r1.core.document.dto.DocumentInfo;
-import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.r1.core.document.service.DocumentService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
 
 public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentService> implements DocumentRpcService{
 	private static final long serialVersionUID = 1L;
 	
 	@Override
-    public List<DocumentTypeInfo> getDocumentTypes() throws Exception {
-        return service.getDocumentTypes();
+    public List<TypeInfo> getDocumentTypes() throws Exception {
+        return service.getDocumentTypes(ContextUtils.getContextInfo());
     }
 	
+    @Override
 	public DocumentInfo getDocument(String documentId) throws Exception{
-		return service.getDocument(documentId);
+		return service.getDocument(documentId, ContextUtils.getContextInfo());
 		
 	}
 	
+    @Override
 	public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList)throws Exception{
-		return service.getDocumentsByIdList(documentIdList);
+		return service.getDocumentsByIds(documentIdList, ContextUtils.getContextInfo());
 	}
 	
+    @Override
 	public StatusInfo deleteDocument(String documentId) throws Exception{
-		return service.deleteDocument(documentId);
+		return service.deleteDocument(documentId, ContextUtils.getContextInfo());
 	}
 	
+    @Override
     public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws Exception{
-		return service.updateDocument(documentId, documentInfo);
+		return service.updateDocument(documentId, documentInfo, ContextUtils.getContextInfo());
     }
 	
+    @Override
 	public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws Exception{
-		return service.addDocumentCategoryToDocument(documentId, documentCategoryKey);
+		return service.addDocumentCategoryToDocument(documentId, documentCategoryKey, ContextUtils.getContextInfo());
 	}
 	
+    @Override
     public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws Exception{
-		return service.removeDocumentCategoryFromDocument(documentId, documentCategoryKey);
+		return service.removeDocumentCategoryFromDocument(documentId, documentCategoryKey, ContextUtils.getContextInfo());
     }
 
 	@Override
@@ -80,29 +87,29 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 
 	@Override
 	public StatusInfo deleteRefDocRelation(String documentId) throws Exception {
-		return service.deleteRefDocRelation(documentId);
+		return service.deleteRefDocRelation(documentId, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<RefDocRelationInfo> getRefDocIdsForRef(String refObjectTypeKey, String refObjectId) throws Exception{
-		return service.getRefDocRelationsByRef(refObjectTypeKey, refObjectId);
+		return service.getRefDocRelationsByRef(refObjectTypeKey, refObjectId, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public StatusInfo deleteRefDocRelationAndOrphanedDoc(String docRelationId, String documentId) throws Exception {
 		
 		//Delete the relation
-		service.deleteRefDocRelation(docRelationId);
+		service.deleteRefDocRelation(docRelationId, ContextUtils.getContextInfo());
 		
 		//Also delete the document if there are no more relations to it
 		try{
 			List<RefDocRelationInfo> allRelations = null;
-			service.getRefDocRelationsByDoc(documentId);
+			service.getRefDocRelationsByDocument(documentId, ContextUtils.getContextInfo());
 			if(allRelations == null || allRelations.isEmpty()){
-				service.deleteDocument(documentId);
+				service.deleteDocument(documentId, ContextUtils.getContextInfo());
 			}
 		}catch(DoesNotExistException e){
-			service.deleteDocument(documentId);
+			service.deleteDocument(documentId, ContextUtils.getContextInfo());
 		}
 		return new StatusInfo();
 	}   
