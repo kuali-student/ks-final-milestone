@@ -294,8 +294,14 @@ public class StateServiceMockImpl
             throw new DataValidationErrorException("attempt to set a lifecycle in state");
         }
 
-        this.stateMap.put(oldState.getKey(), stateInfo);
-        return stateInfo;
+        StateInfo copy = new StateInfo(stateInfo);
+
+        if (!oldState.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(oldState.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(oldState.getMeta(), contextInfo));
+        this.stateMap.put(stateInfo.getKey(), copy);
+        return new StateInfo(copy);
     }
 
     @Override
