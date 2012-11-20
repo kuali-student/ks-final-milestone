@@ -79,5 +79,21 @@
           class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceMockImpl">
     </bean>
 
+    <bean id="acadRecordService"
+          class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMockImpl">
+    </bean>
+
+    <bean id="courseRegistrationService"
+          class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl">
+    </bean>
+
+    <bean id="contextBoService"
+          class="org.kuali.rice.krms.impl.repository.ContextBoServiceImpl">
+    </bean>
+
+    <bean id="ksKRMSTermResolverTypeService"
+          class="org.kuali.student.krms.service.impl.KSTermResolverTypeService">
+    </bean>
+
 
 </beans>
