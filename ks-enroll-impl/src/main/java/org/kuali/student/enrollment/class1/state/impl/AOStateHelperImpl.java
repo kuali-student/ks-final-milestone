@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.state.StateHelper;
+package org.kuali.student.enrollment.class1.state.impl;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.class1.state.service.StateHelper;
 
 /**
  * @Version 2.0
@@ -24,7 +25,7 @@ public class AOStateHelperImpl implements StateHelper {
     public StatusInfo updateState(String id, String nextStateKey, ContextInfo contextInfo) {
         StatusInfo si = null;
         try {
-            si = courseOfferingService. updateActivityOfferingState(id, nextStateKey, contextInfo);
+            si = courseOfferingService.updateActivityOfferingState(id, nextStateKey, contextInfo);
             si.setSuccess(true);
         } catch (Exception e) {
             si.setSuccess(false);

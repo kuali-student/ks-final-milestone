@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.state.StateHelper;
+package org.kuali.student.enrollment.class1.state.impl;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.class1.state.service.StateHelper;
 
 /**
  * @Version 2.0

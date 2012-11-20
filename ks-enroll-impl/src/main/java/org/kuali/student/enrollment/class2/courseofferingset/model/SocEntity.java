@@ -27,10 +27,13 @@ import java.util.Set;
 @Table(name = "KSEN_SOC")
 @NamedQueries({
         @NamedQuery(name="Soc.getSocsBySocTypeId", query="Select a from SocEntity a where a.socType =:socType"),
+        @NamedQuery(name="Soc.getSocIdsByType", query="Select a.id from SocEntity a where a.socType =:socType"),
         @NamedQuery(name="Soc.getSocsByTerm", query="Select a from SocEntity a where a.termId =:termId"),
         @NamedQuery(name="Soc.getSocIdsByTerm", query="SELECT soc.id FROM SocEntity soc WHERE soc.termId = :termId"),
         @NamedQuery(name="Soc.getSocsByTermAndSubjectArea", query="Select a from SocEntity a where a.termId=:termId and a.subjectArea = :subjectArea"),
-        @NamedQuery(name="Soc.getSocsByTermAndUnitsContentOwner", query="Select a from SocEntity a where a.termId=:termId and a.unitsContentOwnerId = :unitsContentOwnerId")
+        @NamedQuery(name="Soc.getSocIdsByTermAndSubjectArea", query="Select soc.id from SocEntity soc where soc.termId=:termId and soc.subjectArea = :subjectArea"),
+        @NamedQuery(name="Soc.getSocsByTermAndUnitsContentOwner", query="Select a from SocEntity a where a.termId=:termId and a.unitsContentOwnerId = :unitsContentOwnerId"),
+        @NamedQuery(name="Soc.getSocIdsByTermAndUnitsContentOwner", query="Select a.id from SocEntity a where a.termId=:termId and a.unitsContentOwnerId = :unitsContentOwnerId")
 
 })
 public class SocEntity extends MetaEntity implements AttributeOwner<SocAttributeEntity> {

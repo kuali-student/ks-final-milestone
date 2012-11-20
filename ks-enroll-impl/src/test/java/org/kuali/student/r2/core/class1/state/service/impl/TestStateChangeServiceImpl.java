@@ -19,21 +19,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,17 +41,11 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(locations = {"classpath:state-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-public class TestStateChangeServiceImpl {
-    @Resource
-    protected StateService stateService;
-    private static String PRINCIPAL_ID = "123";
-    private ContextInfo callContext = null;
+public class TestStateChangeServiceImpl extends TestStateServiceMockImpl{
 
     @Before
     public void setUp() throws Exception {
-        callContext = new ContextInfo();
-        callContext.setPrincipalId(PRINCIPAL_ID);
-        callContext.setCurrentDate(new Date());
+        super.setUp();
         loadStateData();
     }
 
@@ -99,8 +88,54 @@ public class TestStateChangeServiceImpl {
     }
 
     @Test
+    public void testUpdateStateChange() throws Exception {
+        //TODO: implement StateServiceImpl.updateStateChange
+    }
+
+    @Test
+    public void testDeleteStateChange() throws Exception {
+        //TODO: implement StateServiceImpl.deleteStateChange
+    }
+
+    @Test
+    public void testUpdateStateConstraint() throws Exception {
+        //TODO: implement StateServiceImpl.updateStateChange
+    }
+
+    @Test
+    public void testDeleteStateConstraint() throws Exception {
+        //TODO: implement StateServiceImpl.deleteStateChange
+    }
+
+    @Test
+    public void testUpdateStatePropagation() throws Exception {
+        //TODO: implement StateServiceImpl.updateStateChange
+    }
+
+
+    @Test
+    public void testDeleteStatePropagation() throws Exception {
+        //TODO: remove this
+    }
+
+    @Test
+    public void testCRStatePropagation() throws Exception {
+      //TODO: remove this
+    }
+
+    @Test
+    public void testCRUDState() throws Exception {
+        //TODO: remove this
+    }
+
+    @Test
+       public void testCRStateConstraint() throws Exception {
+         //TODO: remove this
+    }
+
+    @Test
     public void testCRStateChange() throws Exception {
-        //create
+        // create
         StateChangeInfo orig = new StateChangeInfo();
         orig.setStateKey("Active");
         orig.setTypeKey("statechange");
@@ -113,7 +148,10 @@ public class TestStateChangeServiceImpl {
         orig.setExpirationDate(cal.getTime());
         orig.getStateConstraintIds().add("cnstrnt-1");
         orig.getStatePropagationIds().add("propagt-1");
-
+        AttributeInfo attr = new AttributeInfo();
+        attr.setKey("attribute.key");
+        attr.setValue("attribute value");
+        orig.getAttributes().add(attr);
         StateChangeInfo created = stateService.createStateChange(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, "statechange", orig, callContext);
         assertNotNull(created);
         assertEquals(orig.getStateKey(), created.getStateKey());
@@ -123,9 +161,18 @@ public class TestStateChangeServiceImpl {
         assertEquals(orig.getEffectiveDate(), created.getEffectiveDate());
         assertEquals(orig.getExpirationDate(), created.getExpirationDate());
         assertEquals(orig.getStateConstraintIds().size(), created.getStateConstraintIds().size());
-        assertTrue(orig.getStateConstraintIds().contains("cnstrnt-1"));
+        assertTrue(created.getStateConstraintIds().contains("cnstrnt-1"));
         assertEquals(orig.getStatePropagationIds().size(), created.getStatePropagationIds().size());
-        assertTrue(orig.getStatePropagationIds().contains("propagt-1"));
+        assertTrue(created.getStatePropagationIds().contains("propagt-1"));
+        assertEquals(orig.getAttributes().size(), created.getAttributes().size());
+        assertEquals(orig.getAttributes().get(0).getKey(), created.getAttributes().get(0).getKey());
+        assertEquals(orig.getAttributes().get(0).getValue(), created.getAttributes().get(0).getValue());
+        assertNotNull(created.getMeta());
+        assertNotNull(created.getMeta().getCreateId());
+        assertNotNull(created.getMeta().getCreateTime());
+        assertNotNull(created.getMeta().getUpdateId());
+        assertNotNull(created.getMeta().getUpdateTime());
+        assertNotNull(created.getMeta().getVersionInd());
 
         //get
         StateChangeInfo retrieved = stateService.getStateChange(created.getId(), callContext);
@@ -140,6 +187,15 @@ public class TestStateChangeServiceImpl {
         assertTrue(retrieved.getStateConstraintIds().contains("cnstrnt-1"));
         assertEquals(retrieved.getStatePropagationIds().size(), created.getStatePropagationIds().size());
         assertTrue(retrieved.getStatePropagationIds().contains("propagt-1"));
+        assertEquals(retrieved.getAttributes().size(), created.getAttributes().size());
+        assertEquals(retrieved.getAttributes().get(0).getKey(), created.getAttributes().get(0).getKey());
+        assertEquals(retrieved.getAttributes().get(0).getValue(), created.getAttributes().get(0).getValue());
+        assertNotNull(retrieved.getMeta());
+        assertNotNull(retrieved.getMeta().getCreateId());
+        assertNotNull(retrieved.getMeta().getCreateTime());
+        assertNotNull(retrieved.getMeta().getUpdateId());
+        assertNotNull(retrieved.getMeta().getUpdateTime());
+        assertNotNull(retrieved.getMeta().getVersionInd());
 
         //getbyFrom&ToStates
         List<StateChangeInfo> stateChangeInfoList = stateService.getStateChangesByFromStateAndToState(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, callContext);
@@ -155,7 +211,5 @@ public class TestStateChangeServiceImpl {
         assertTrue(info.getStateConstraintIds().contains("cnstrnt-1"));
         assertEquals(info.getStatePropagationIds().size(), created.getStatePropagationIds().size());
         assertTrue(info.getStatePropagationIds().contains("propagt-1"));
-
-
     }
 }

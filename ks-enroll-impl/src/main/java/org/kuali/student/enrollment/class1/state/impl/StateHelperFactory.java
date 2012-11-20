@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.state.StateHelper;
+package org.kuali.student.enrollment.class1.state.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -12,6 +12,8 @@ import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo;
 import org.kuali.student.r2.core.class1.state.dto.StatePropagationInfo;
 import org.kuali.student.r2.core.class1.state.infc.StateConstraintOperator;
+import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
+import org.kuali.student.r2.core.class1.state.service.StateHelper;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 
 import java.util.ArrayList;
@@ -85,8 +87,11 @@ public class StateHelperFactory {
         String fromStateKey = stateChangeHelper.getStateKey(entityId, context);
         List<StateChangeInfo> stateChangeInfos = stateService.getStateChangesByFromStateAndToState(fromStateKey, nextStateKey, context);
 
-        // If there are no StateChanges, the transition is allowed by default - otherwise we require a StateChange for every possible transition in the system
-        if (stateChangeInfos.size() > 1) {
+        if (stateChangeInfos.size() == 0) {
+            // If there are no StateChanges, the transition is allowed by default - otherwise we require a StateChange for every possible transition in the system
+            stateChangeHelper.updateState(entityId, nextStateKey, context);
+            return;
+        } else if (stateChangeInfos.size() > 1) {
             throw new OperationFailedException("Multiple StateChanges between two states is unsupported.");
         } else if (stateChangeInfos.size() == 1) {
             List<StateConstraintInfo> constraintInfos = null;
@@ -95,16 +100,16 @@ public class StateHelperFactory {
 
             if (constraintInfos != null) {
                 //  HashMap for related entity and related entity state keys. Map<entityKey, List<stateKey>>
-                Map<String, List<String>> entityKeyStatesMap = new HashMap<String, List<String>>();
+                Map<String, List<String>> relatedObjectStatesMap = new HashMap<String, List<String>>();
                 //  Parallel HashMap to store the StateConstraintInfo ffr.
                 Map<String, StateConstraintInfo> constraintsMap = new HashMap<String, StateConstraintInfo>();
                 for (StateConstraintInfo stateConstraintInfo : constraintInfos) {
                     List<String> relatedObjectStateKeyValues = stateConstraintInfo.getRelatedObjectStateKeys();
-                    mapStateKeys(relatedObjectStateKeyValues, entityKeyStatesMap, stateConstraintInfo, constraintsMap);
+                    mapStateKeys(relatedObjectStateKeyValues, relatedObjectStatesMap, stateConstraintInfo, constraintsMap);
                 }
 
                 //  Now check related objects constraints
-                for (Map.Entry<String, List<String>> c : entityKeyStatesMap.entrySet()) {
+                for (Map.Entry<String, List<String>> c : relatedObjectStatesMap.entrySet()) {
                     String relatedEntityKey = c.getKey();
                     StateConstraintOperator operator = constraintsMap.get(relatedEntityKey).getStateConstraintOperator();
                     RelatedObjectHelper relatedObjectHelper = makeRelatedObjectHelper(stateKeyPrefix, relatedEntityKey);
@@ -139,9 +144,7 @@ public class StateHelperFactory {
         }
     }
 
-    /**
-     * Coerces a list of state change
-     */
+
     private static void mapStateKeys(List<String> relatedObjectStateKeys, Map<String, List<String>> entityKeyStatesMap, StateConstraintInfo stateConstraintInfo, Map<String, StateConstraintInfo> constraintsMap) {
         for (String stateKey : relatedObjectStateKeys) {
             String stateKeyPrefix = findStateKeyPrefix(stateKey);

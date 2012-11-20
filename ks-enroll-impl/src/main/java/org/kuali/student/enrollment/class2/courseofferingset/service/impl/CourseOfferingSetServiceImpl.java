@@ -286,8 +286,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Transactional(readOnly = true)
     public List<String> getSocIdsByTerm(String termId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> ids = socDao.getSocIdsByTerm(termId);
-        return ids;
+        return socDao.getSocIdsByTerm(termId);
     }
 
     @Override
@@ -295,12 +294,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     public List<String> getSocIdsByTermAndSubjectArea(String termId, String subjectArea, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocEntity> entities = socDao.getByTermAndSubjectArea(termId, subjectArea);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+
+        return socDao.getSocIdsByTermAndSubjectArea(termId, subjectArea);
     }
 
     @Override
@@ -308,24 +303,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     public List<String> getSocIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocEntity> entities = socDao.getByTermAndUnitsContentOwner(termId, unitsContentOwnerId);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        return socDao.getSocIdsByTermAndUnitsContentOwner(termId, unitsContentOwnerId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<String> getSocIdsByType(String typeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocEntity> entities = socDao.getBySocTypeId(typeKey);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        return socDao.getSocIdsByType(typeKey);
     }
 
     @Override
@@ -411,24 +396,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Transactional(readOnly = true)
     public List<String> getSocRolloverResultIdsBySourceSoc(String sourceSocId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocRolloverResultEntity> entities = socRorDao.getBySourceSocId(sourceSocId);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocRolloverResultEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        return socRorDao.getSocRolloverResultIdsBySourceSocId(sourceSocId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<String> getSocRolloverResultIdsByTargetSoc(String targetSocId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocRolloverResultEntity> entities = socRorDao.getByTargetSocId(targetSocId);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocRolloverResultEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        return socRorDao.getSocRolloverResultIdsByTargetSocId(targetSocId);
     }
 
     @Override
