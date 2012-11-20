@@ -183,7 +183,7 @@ public class CourseOfferingTransformer {
         co.getStudentRegistrationGradingOptions().clear();
         co.setGradingOptionId(null);
 
-        for(String resultValueGroupKeyRef : rvgMap.keySet()){     // the rvgMap should now contain not the lui
+        for(String resultValueGroupKeyRef : lui.getResultValuesGroupKeys()){
             String resultValueGroupKey = new String(resultValueGroupKeyRef);   // values from the map are pass by ref so we need to create a new instance.
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
@@ -195,6 +195,11 @@ public class CourseOfferingTransformer {
             } else if(resultValueGroupKey!=null && resultValueGroupKey.startsWith("kuali.creditType.credit")){//There should be a better way of distinguishing credits from other results
                 co.setCreditOptionId(resultValueGroupKey);
             }
+        }
+
+        // we need to set the creditOptionId on the CO If it doesn't exist.
+        if(co.getCreditOptionId() == null || co.getCreditOptionId().equals("")){
+            co.setCreditOptionId(this.getCreditOptionId(co.getCourseId(), cluResultListMap));
         }
 
         co.setCreditCnt(getCreditCount(co.getCreditOptionId(), co.getCourseId(), cluResultListMap, rvgMap, resultValueMap));
@@ -341,19 +346,28 @@ public class CourseOfferingTransformer {
         }
     }
 
+    private String getCreditOptionId(String courseId, Map<String, List<CluResultInfo>> cluResultListMap){
+
+        String creditOptionId = "";
+        List<CluResultInfo> cluResults = cluResultListMap.get(courseId);
+        if(cluResults != null){
+            for(CluResultInfo cluResultInfo : cluResults){
+                if(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS.equals(cluResultInfo.getTypeKey())){
+                    creditOptionId = cluResultInfo.getResultOptions().get(0).getResultComponentId();
+                    break;
+                }
+            }
+        }
+        return creditOptionId;
+    }
+
     //get credit count from persisted COInfo or from CourseInfo
     private String getCreditCount(String creditOptionId, String courseId, Map<String, List<CluResultInfo>> cluResultListMap, Map<String, ResultValuesGroupInfo> rvgMap, Map<String, ResultValueInfo>resultValueMap) {
         String creditCount="";
         try{
             //Lookup persisted values (if the CO has a Credit set use that, otherwise look at the RVG of Course/Clu
             if (creditOptionId == null && courseId != null && cluResultListMap!=null ) {//TODO fix the tests and inject clu service then remove this line
-                List<CluResultInfo> cluResults = cluResultListMap.get(courseId);
-                for(CluResultInfo cluResultInfo : cluResults){
-                    if(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS.equals(cluResultInfo.getTypeKey())){
-                        creditOptionId = cluResultInfo.getResultOptions().get(0).getResultComponentId();
-                        break;
-                    }
-                }
+                creditOptionId = getCreditOptionId(courseId, cluResultListMap);
             }
 
             if(creditOptionId != null){
