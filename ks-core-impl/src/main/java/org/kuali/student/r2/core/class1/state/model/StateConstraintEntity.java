@@ -73,10 +73,10 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
     public StateConstraintEntity(StateConstraint stateConstraint) {
         super(stateConstraint);
         setId(stateConstraint.getId());
-        fromDTO(stateConstraint);
+        fromDto(stateConstraint);
     }
 
-    public void fromDTO(StateConstraint stateConstraint) {
+    public void fromDto(StateConstraint stateConstraint) {
         List<Object> orphansToDelete = new ArrayList<Object>();
 
         this.agendaId = stateConstraint.getAgendaId();

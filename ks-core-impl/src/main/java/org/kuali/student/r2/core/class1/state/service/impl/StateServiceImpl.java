@@ -517,13 +517,34 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public StateConstraintInfo updateStateConstraint(@WebParam(name = "stateConstraintId") String stateConstraintId, @WebParam(name = "stateConstraintInfo") StateConstraintInfo stateConstraintInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public StateConstraintInfo updateStateConstraint(@WebParam(name = "stateConstraintId") String stateConstraintId,
+                                                     @WebParam(name = "stateConstraintInfo") StateConstraintInfo stateConstraintInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        StateConstraintEntity entity = stateConstraintDao.find(stateConstraintId);
+        if (entity == null) {
+            throw new DoesNotExistException(stateConstraintId);
+        }
+        entity.fromDto(stateConstraintInfo);
+
+        entity.setEntityUpdated(contextInfo);
+
+        stateConstraintDao.merge(entity);
+        return entity.toDto();
     }
 
     @Override
-    public StatusInfo deleteStateConstraint(@WebParam(name = "stateConstraintId") String stateConstraintId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public StatusInfo deleteStateConstraint(@WebParam(name = "stateConstraintId") String stateConstraintId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StateConstraintEntity entity = stateConstraintDao.find(stateConstraintId);
+        if (entity == null) {
+            throw new DoesNotExistException(stateConstraintId);
+        }
+        stateConstraintDao.remove(entity);
+        StatusInfo deleteStatus = new StatusInfo();
+        deleteStatus.setSuccess(true);
+        return deleteStatus;
     }
 
     @Override
