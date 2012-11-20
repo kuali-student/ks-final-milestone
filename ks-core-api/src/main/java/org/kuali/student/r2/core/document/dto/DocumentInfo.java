@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
+/*
  * Refer to interface javadoc
  *
  * @version 2.0

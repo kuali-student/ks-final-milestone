@@ -1,7 +1,6 @@
 package org.kuali.student.r2.core.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
@@ -18,7 +17,6 @@ public class DocumentServiceConstants {
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "document";
     public static final String REF_OBJECT_URI_DOCUMENT = NAMESPACE + "/" + DocumentInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_DOCUMENT_CATEGORY = NAMESPACE + "/" + DocumentCategoryInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_DOCUMENT_REF_DOC_RELATION = NAMESPACE + "/" + RefDocRelationInfo.class.getSimpleName();
 
 }
