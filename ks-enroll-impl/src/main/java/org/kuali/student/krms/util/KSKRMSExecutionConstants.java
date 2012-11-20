@@ -71,6 +71,7 @@ public class KSKRMSExecutionConstants {
     public static final String EFFECTIVE_DATE_FROM_TERM_NAME = "effectiveDateFrom";
     public static final String EFFECTIVE_DATE_TO_TERM_NAME = "effectiveDateTo";
 
+    public static final String ENROLLED_COURSE_TERM_NAME = "enrolledCourse";
     public static final String ENROLLED_COURSE_BY_TERM_TERM_NAME = "enrolledCourseByTerm";
     public static final String ENROLLED_COURSE_CODE_TERM_NAME = "enrolledCourseCode";
     public static final String ENROLLED_COURSE_NUMBER_TERM_NAME = "enrolledCourseNumber";

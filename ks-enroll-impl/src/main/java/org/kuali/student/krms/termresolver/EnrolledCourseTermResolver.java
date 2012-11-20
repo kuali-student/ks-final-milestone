@@ -44,7 +44,7 @@ public class EnrolledCourseTermResolver extends EnrolledCoursesTermResolver {
 
     @Override
     public String getOutput() {
-        return this.getClass().getSimpleName();
+        return KSKRMSExecutionConstants.ENROLLED_COURSE_TERM_NAME;
     }
 
     @Override
