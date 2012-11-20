@@ -42,6 +42,12 @@ public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
 
     private OrganizationService organizationService;
 
+    private final static Set<String> prerequisites = new HashSet<String>(1);
+
+    static {
+        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    }
+
     public OrganizationService getOrganizationService() {
         return organizationService;
     }
@@ -52,17 +58,17 @@ public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return prerequisites;
     }
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.ADMIN_ORG_NUMBER_TERM_NAME;
+        return KSKRMSExecutionConstants.ADMIN_ORG_NUMBER_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(RulesExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
     }
 
     @Override
@@ -73,8 +79,8 @@ public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
 
     @Override
     public List<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String orgTypeKey = parameters.get(RulesExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String orgTypeKey = parameters.get(KSKRMSExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
         
         List<String> result = null;
         try {

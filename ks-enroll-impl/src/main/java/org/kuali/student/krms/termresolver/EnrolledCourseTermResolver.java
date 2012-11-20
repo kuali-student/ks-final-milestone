@@ -49,11 +49,7 @@ public class EnrolledCourseTermResolver extends EnrolledCoursesTermResolver {
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        temp.add(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
-
-        return Collections.unmodifiableSet(temp);
+        return Collections.singleton(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -66,7 +62,7 @@ public class EnrolledCourseTermResolver extends EnrolledCoursesTermResolver {
     public List<CourseRegistrationInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         // Get the list of course records from the superclass and then just return the one we need. (in this case we know there will only be one)
         List<CourseRegistrationInfo> enrolledCourseRecords = super.resolve(resolvedPrereqs, parameters);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String personId = parameters.get(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
 
         for (CourseRegistrationInfo courseRegistrationInfo : enrolledCourseRecords) {
             if (courseRegistrationInfo.getStudentId().equals(personId)) {

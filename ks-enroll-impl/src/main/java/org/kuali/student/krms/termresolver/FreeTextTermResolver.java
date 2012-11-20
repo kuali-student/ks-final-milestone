@@ -40,21 +40,25 @@ import java.util.Set;
 
 public class FreeTextTermResolver implements TermResolver<String> {
 
+    private final static Set<String> prerequisites = new HashSet<String>(2);
+
+    static {
+        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    }
+
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return prerequisites;
     }
 
     @Override
     public String getOutput() {
-        return "FreeTextTermResolver.getOutput()";
+        return KSKRMSExecutionConstants.FREE_TEXT_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return null;
     }
 
     @Override

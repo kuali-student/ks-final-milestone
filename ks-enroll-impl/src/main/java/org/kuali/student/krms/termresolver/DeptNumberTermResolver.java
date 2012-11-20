@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -42,7 +43,13 @@ import java.util.Set;
 public class DeptNumberTermResolver implements TermResolver<OrgInfo> {
 
     private OrganizationService organizationService;
-    
+
+    private final static Set<String> prerequisites = new HashSet<String>(2);
+
+    static {
+        prerequisites.add(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY);
+        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    }
     
     public OrganizationService getOrganizationService() {
         return organizationService;
@@ -54,19 +61,17 @@ public class DeptNumberTermResolver implements TermResolver<OrgInfo> {
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return prerequisites;
     }
 
     @Override
     public String getOutput() {
-        return "DeptNumberTermResolver.getOutput()";
+        return KSKRMSExecutionConstants.DEPT_NUMBER_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return null;
     }
 
     @Override
@@ -77,15 +82,24 @@ public class DeptNumberTermResolver implements TermResolver<OrgInfo> {
 
     @Override
     public OrgInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String orgId = parameters.get(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String orgId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY);
         
         OrgInfo result = null;
         try {
             result = organizationService.getOrg(orgId, context);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        } catch (InvalidParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (MissingParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (OperationFailedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (PermissionDeniedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (DoesNotExistException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
         }
+
         return result;
     }
 }

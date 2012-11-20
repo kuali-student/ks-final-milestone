@@ -43,14 +43,12 @@ public class GradeTypeTermResolver extends CompletedCoursesTermResolver {
 
     @Override
     public String getOutput() {
-        return "GradeTypeTermResolver.getOutput()";
+        return KSKRMSExecutionConstants.GRADE_TYPE_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return null;
     }
 
     @Override

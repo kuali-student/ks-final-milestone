@@ -42,14 +42,12 @@ public class GradeTermResolver extends CompletedCoursesTermResolver {
 
     @Override
     public String getOutput() {
-        return "GradeTermResolver.getOutput()";
+        return KSKRMSExecutionConstants.GRADE_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return null;
     }
 
     @Override

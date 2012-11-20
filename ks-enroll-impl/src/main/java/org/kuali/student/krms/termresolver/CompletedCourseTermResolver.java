@@ -33,16 +33,12 @@ public class CompletedCourseTermResolver extends CompletedCoursesTermResolver {
 
     @Override
     public String getOutput() {
-        return this.getClass().getSimpleName();
+        return KSKRMSExecutionConstants.COMPLETED_COURSE_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(2);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        temp.add(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
-
-        return Collections.unmodifiableSet(temp);
+        return null;
     }
 
     @Override

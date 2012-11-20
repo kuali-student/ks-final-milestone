@@ -42,7 +42,13 @@ import java.util.Set;
 public class EnrolledCoursesByTermTermResolver implements TermResolver<List<CourseRegistrationInfo>> {	
 
     private CourseRegistrationService courseRegistrationService;
-    
+
+    private final static Set<String> prerequisites = new HashSet<String>(2);
+
+    static {
+        prerequisites.add(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
+        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    }
     
     public CourseRegistrationService getAcademicRecordService() {
         return courseRegistrationService;
@@ -54,20 +60,17 @@ public class EnrolledCoursesByTermTermResolver implements TermResolver<List<Cour
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return prerequisites;
     }
 
     @Override
     public String getOutput() {
-        return "EnrolledCoursesByTermTermResolver.getOutput()";
+        return KSKRMSExecutionConstants.ENROLLED_COURSES_BY_TERM_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        temp.add(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return Collections.singleton(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -78,16 +81,23 @@ public class EnrolledCoursesByTermTermResolver implements TermResolver<List<Cour
 
     @Override
     public List<CourseRegistrationInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String studentId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
         String termId = parameters.get(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
         
         List<CourseRegistrationInfo> result = null;
         try {
-            result = courseRegistrationService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+            result = courseRegistrationService.getCourseRegistrationsByStudentAndTerm(studentId, termId, context);
+        } catch (InvalidParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (MissingParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (OperationFailedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (PermissionDeniedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
         }
+
         return result;
     }
 }
