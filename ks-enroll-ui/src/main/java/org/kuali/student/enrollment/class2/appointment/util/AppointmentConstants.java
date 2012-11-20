@@ -15,8 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.appointment.util;
 
-import org.kuali.rice.krad.util.KRADConstants;
-
 /**
  * This class //TODO ...
  *
@@ -28,10 +26,16 @@ public class AppointmentConstants {
     public static final String SELECT_TERM_PAGE = "selectTermForRegWindows";
     public static final String REGISTRATION_WINDOWS_MANAGEMENT_VIEW = "registrationWindowsManagementView";
 
+    public static final String REGISTRATION_WINDOWS_CONTROLLER_PATH = "registrationWindows";
+
+    // Dialogs
+    public static final String Registration_Windows_ConfirmDelete_Dialog = "KS-RegistrationWindowsManagement-ConfirmDelete-Dialog";
+    public static final String Registration_Windows_ConfirmBreak_Dialog = "KS-RegistrationWindowsManagement-ConfirmBreakAppointments-Dialog";
+
     //Message keys
-    public static final String APPOINTMENT_MSG_INFO_SAVED ="info.enroll.appointment.saved";
-    public static final String APPOINTMENT_MSG_INFO_ASSIGNED ="info.enroll.appointment.assigned";
-    public static final String APPOINTMENT_MSG_INFO_DELETED ="info.enroll.appointment.windowDeleted";
+    public static final String APPOINTMENT_MSG_INFO_SAVED = "info.enroll.appointment.saved";
+    public static final String APPOINTMENT_MSG_INFO_ASSIGNED = "info.enroll.appointment.assigned";
+    public static final String APPOINTMENT_MSG_INFO_DELETED = "info.enroll.appointment.windowDeleted";
     public static final String APPOINTMENT_MSG_ERROR_TOO_MANY_STUDENTS = "error.enroll.appointment.tooManyStudents";
     public static final String APPOINTMENT_MSG_INFO_BREAK_APPOINTMENTS_SUCCESS = "info.enroll.appointment.breakAppointmentsSuccess";
     public static final String APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE = "error.enroll.appointment.breakAppointmentsFailure";
