@@ -37,6 +37,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:krms-test-with-mocks-context.xml"})
+@Ignore
 public class TestTermResolvers {
 
     public ContextInfo contextInfo = null;
