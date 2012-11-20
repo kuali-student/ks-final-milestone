@@ -512,8 +512,22 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
-    public StateConstraintInfo createStateConstraint(@WebParam(name = "stateConstraintTypeKey") String stateConstraintTypeKey, @WebParam(name = "stateConstraintInfo") StateConstraintInfo stateConstraintInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public StateConstraintInfo createStateConstraint(@WebParam(name = "stateConstraintTypeKey") String stateConstraintTypeKey,
+                                                     @WebParam(name = "stateConstraintInfo") StateConstraintInfo stateConstraintInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException {
+        StateConstraintEntity entity = stateConstraintDao.find(stateConstraintTypeKey);
+        if (entity != null) {
+            throw new DataValidationErrorException(stateConstraintTypeKey);
+        }
+
+        entity = new StateConstraintEntity(stateConstraintInfo);
+
+        entity.setEntityCreated(contextInfo);
+
+        stateConstraintDao.persist(entity);
+        return entity.toDto();
     }
 
     @Override
