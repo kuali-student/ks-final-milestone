@@ -70,7 +70,7 @@ public class CompletedEffectiveDateFromTermResolver implements TermResolver<List
 
     @Override
     public Set<String> getParameterNames() {
-       return null;
+        return Collections.singleton(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -82,11 +82,11 @@ public class CompletedEffectiveDateFromTermResolver implements TermResolver<List
     @Override
     public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String studentId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
+        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         
         List<StudentCourseRecordInfo> result = null;
         try {
-            result = academicRecordService.getCompletedCourseRecords(studentId, context);
+            result = academicRecordService.getCompletedCourseRecords(personId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {

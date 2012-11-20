@@ -43,10 +43,9 @@ public class TestTermResolver implements TermResolver<List<StudentCourseRecordIn
 
     private AcademicRecordService academicRecordService;
 
-    private final static Set<String> prerequisites = new HashSet<String>(2);
+    private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
@@ -82,9 +81,9 @@ public class TestTermResolver implements TermResolver<List<StudentCourseRecordIn
     @Override
     public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         /*ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String studentId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
+        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         
-        List<StudentCourseRecordInfo> result = null;
+        List<StudentCourseRecordInfo> personId = null;
         try {
             result = academicRecordService.???(studentId, context);
         } catch (InvalidParameterException e) {

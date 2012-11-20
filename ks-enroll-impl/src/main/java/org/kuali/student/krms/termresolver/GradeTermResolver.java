@@ -47,7 +47,7 @@ public class GradeTermResolver extends CompletedCoursesTermResolver {
 
     @Override
     public Set<String> getParameterNames() {
-        return null;
+        return Collections.singleton(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
     }
 
     @Override

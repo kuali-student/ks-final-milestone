@@ -44,10 +44,9 @@ public class GPATermResolver implements TermResolver<GPAInfo> {
 
     private AcademicRecordService academicRecordService;
 
-    private final static Set<String> prerequisites = new HashSet<String>(2);
+    private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
@@ -71,7 +70,10 @@ public class GPATermResolver implements TermResolver<GPAInfo> {
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
+        Set<String> temp = new HashSet<String>(2);
+        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        temp.add(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
+        return Collections.unmodifiableSet(temp);
     }
 
     @Override
@@ -83,12 +85,12 @@ public class GPATermResolver implements TermResolver<GPAInfo> {
     @Override
     public GPAInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String studentId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
+        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         String calculationTypeKey = parameters.get(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
         
         GPAInfo result = null;
         try {
-            result = academicRecordService.getCumulativeGPA(studentId, calculationTypeKey, context);
+            result = academicRecordService.getCumulativeGPA(personId, calculationTypeKey, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {

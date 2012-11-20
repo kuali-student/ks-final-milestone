@@ -44,10 +44,9 @@ public class DeptNumberTermResolver implements TermResolver<OrgInfo> {
 
     private OrganizationService organizationService;
 
-    private final static Set<String> prerequisites = new HashSet<String>(2);
+    private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY);
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
@@ -71,7 +70,7 @@ public class DeptNumberTermResolver implements TermResolver<OrgInfo> {
 
     @Override
     public Set<String> getParameterNames() {
-        return null;
+        return Collections.singleton(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class DeptNumberTermResolver implements TermResolver<OrgInfo> {
     @Override
     public OrgInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String orgId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY);
+        String orgId = parameters.get(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY);
         
         OrgInfo result = null;
         try {
