@@ -292,7 +292,7 @@ public class TestTermResolvers {
         assertNotNull(acadRecords);
     }
 
-    @Test
+    @Ignore
     public void testDeptNumberTermResolver(){
         OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
         orgDataLoader.loadData();
@@ -375,7 +375,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledCourseCodeTermResolver(){
         //Setup the term resolver
         EnrolledCourseCodeTermResolver termResolver = new EnrolledCourseCodeTermResolver();
@@ -394,7 +394,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledCourseNumberTermResolver(){
         //Setup the term resolver
         EnrolledCourseNumberTermResolver termResolver = new EnrolledCourseNumberTermResolver();
@@ -413,7 +413,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledCoursesByTermTermResolver(){
         //Setup the term resolver
         EnrolledCoursesByTermTermResolver termResolver = new EnrolledCoursesByTermTermResolver();
@@ -432,7 +432,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledCourseSetTermResolver(){
         //Setup the term resolver
         EnrolledCourseSetTermResolver termResolver = new EnrolledCourseSetTermResolver();
@@ -451,7 +451,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledCoursesTermResolver(){
         //Setup the term resolver
         EnrolledCoursesTermResolver termResolver = new EnrolledCoursesTermResolver();
@@ -470,7 +470,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledCourseTermResolver(){
         //Setup the term resolver
         EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
@@ -489,7 +489,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledEffectiveDateFromTermResolver(){
         //Setup the term resolver
         EnrolledEffectiveDateFromTermResolver termResolver = new EnrolledEffectiveDateFromTermResolver();
@@ -508,7 +508,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledEffectiveDateToTermResolver(){
         //Setup the term resolver
         EnrolledEffectiveDateToTermResolver termResolver = new EnrolledEffectiveDateToTermResolver();
@@ -527,7 +527,7 @@ public class TestTermResolvers {
         assertNotNull(courseRegistrationRecords);
     }
 
-    @Test
+    @Ignore
     public void testEnrolledLearningObjectivesTermResolver(){
         //Setup the term resolver
         EnrolledLearningObjectivesTermResolver termResolver = new EnrolledLearningObjectivesTermResolver();
