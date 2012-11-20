@@ -43,10 +43,9 @@ public class CompletedEffectiveDateFromTermResolver implements TermResolver<List
 
     private AcademicRecordService academicRecordService;
 
-    private final static Set<String> prerequisites = new HashSet<String>(2);
+    private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
