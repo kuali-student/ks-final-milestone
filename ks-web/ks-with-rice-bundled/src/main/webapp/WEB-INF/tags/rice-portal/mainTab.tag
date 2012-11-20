@@ -29,5 +29,6 @@
 	<mainChannel:workflow />
 	<mainChannel:notification />
     <mainChannel:rules />
+    <mainChannel:rulesSandbox />
     <mainChannel:holds />
 </td>

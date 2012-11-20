@@ -148,6 +148,12 @@
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoCreateView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoSearchView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/check/CheckInfoView.xml</value>
+
+                <!-- Krms -->
+                <value>classpath:org/kuali/student/enrollment/krms/PropositionEditorView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/RuleStudentMaintenance.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/AgendaStudentEditorView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/AgendaStudentLookupView.xml</value>
                 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
