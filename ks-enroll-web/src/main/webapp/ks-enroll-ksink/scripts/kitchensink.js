@@ -3,9 +3,11 @@
 // Allow cross-domain scripting from wiki.kuali.org to work, hopefully:
 //if (document.domain != "localhost") document.domain = "kuali.org";
 if (window.self != window.top) { // must be in a frame
-   var dd=String(document.domain).match(/^(?:[a-z0-9-]+\.)*kuali\.org$/);
-   if(dd){document.domain="kuali.org";document.write("<!-- document.domain = 'kuali.org' -->");}
+    var dd=String(document.domain).match(/^(?:[a-z0-9-]+\.)*kuali\.org$/);
+    //if(dd)document.domain="kuali.org";
+    if(dd)document.write("<span style='color:white;'>document.domain = 'kuali.org'</span>");
 }
+
 
 var originalSelect;
 //var tempSelect;
