@@ -41,19 +41,13 @@ public class FakeDictionaryServiceDecoratorImpl extends AbstractFakeService impl
 	
 
 	@Override
-    @WebMethod
-    @RequestWrapper(className = "org.kuali.student.r1.common.dictionary.service.jaxws.GetObjectTypes", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
-    @ResponseWrapper(className = "org.kuali.student.r1.common.dictionary.service.jaxws.GetObjectTypesResponse", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
     public List<String> getObjectTypes() {
 	    // TODO Auto-generated method stub
 	    return null;
     }
 
 	@Override
-    @WebMethod
-    @RequestWrapper(className = "org.kuali.student.r1.common.dictionary.service.jaxws.GetObjectStructure", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
-    @ResponseWrapper(className = "org.kuali.student.r1.common.dictionary.service.jaxws.GetObjectStructureResponse", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
-    public ObjectStructureDefinition getObjectStructure(@WebParam(name = "objectTypeKey") String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
 	    // TODO Auto-generated method stub
 	    return null;
     }
