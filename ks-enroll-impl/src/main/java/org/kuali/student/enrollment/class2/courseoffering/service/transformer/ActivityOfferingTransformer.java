@@ -59,7 +59,9 @@ public class ActivityOfferingTransformer {
             List<String> scheduleIds = new ArrayList<String>();
             for (LuiInfo luiInfo : luiInfos) {
                 luiIds.add(luiInfo.getId());
-                scheduleIds.add(luiInfo.getScheduleId());
+                if (luiInfo.getScheduleId() != null) {
+                    scheduleIds.add(luiInfo.getScheduleId());
+                }
             }
 
             //Bulk load a list a lprs by a list of lui ids. Cache the results set in a map.
@@ -74,20 +76,24 @@ public class ActivityOfferingTransformer {
             }
 
             //Bulk load a list a ScheduleInfos by a list of scheduleIds. Cache the results set in a map.
-            List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(scheduleIds, context);
-            for (ScheduleInfo scheduleInfo : scheduleInfos) {
-                scheduleIdToScheduleMap.put(scheduleInfo.getId(), scheduleInfo);
+            if (scheduleIds != null && !scheduleIds.isEmpty()) {
+                List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(scheduleIds, context);
+                for (ScheduleInfo scheduleInfo : scheduleInfos) {
+                    scheduleIdToScheduleMap.put(scheduleInfo.getId(), scheduleInfo);
+                }
             }
 
             //Bulk load a list a ScheduleRequestInfos by a list of luiIds. Cache the results set in a map.
             List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByRefObjects(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, luiIds, context);
-            for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-                List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(scheduleRequestInfo.getRefObjectId());
-                if (scheduleRequestInfoList == null) {
-                    scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
-                    luiToScheduleRequestsMap.put(scheduleRequestInfo.getRefObjectId(), scheduleRequestInfoList);
+            if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
+                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                    List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(scheduleRequestInfo.getRefObjectId());
+                    if (scheduleRequestInfoList == null) {
+                        scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
+                        luiToScheduleRequestsMap.put(scheduleRequestInfo.getRefObjectId(), scheduleRequestInfoList);
+                    }
+                    scheduleRequestInfoList.add(scheduleRequestInfo);
                 }
-                scheduleRequestInfoList.add(scheduleRequestInfo);
             }
 
             for (LuiInfo luiInfo : luiInfos) {
@@ -154,8 +160,9 @@ public class ActivityOfferingTransformer {
 
         // build list of OfferingInstructors
         List<LprInfo> lprs = luiToLprsMap.get(ao.getId());
-
-        ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
+        if (lprs != null && !lprs.isEmpty()) {
+            ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
+        }
 
         // derive the scheduling state
 
@@ -184,7 +191,7 @@ public class ActivityOfferingTransformer {
             // get the schedule request for this AO
             List<ScheduleRequestInfo> requests = luiToScheduleRequestsMap.get(ao.getId());
 
-            if(requests.isEmpty()) {
+            if(requests == null || requests.isEmpty()) {
                 // if there are no requests, the AO scheduling state is Unscheduled
                 ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
             }
