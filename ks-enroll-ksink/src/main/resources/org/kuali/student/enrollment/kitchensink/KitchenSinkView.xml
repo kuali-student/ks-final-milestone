@@ -5,6 +5,23 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!-- test start
+    <bean id="KS-Uif-TableCollectionSection" parent="KS-KitchenSink-Collection-Base">
+        <property name="layoutManager">
+            <bean parent="Uif-TableCollectionLayout-parentBean">
+                <property name="richTable">
+                    <bean parent="Uif-RichTable-parentBean"
+                          class="org.kuali.student.enrollment.kitchensink.uif.TestRichTable">
+                        <property name="template" value="/ks-enroll-ksink/ftl/ksRichTable.ftl"/>
+                        <property name="templateName" value="ks_uif_richTable"/>
+                        <property name="selectableRows" value="true"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+test end -->
+
     <!-- View definitions -->
 
     <bean id="KS-KitchenSink-FormView" parent="KSFormView" abstract="true">

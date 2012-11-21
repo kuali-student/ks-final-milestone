@@ -45,6 +45,11 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkPopulationInfoMaintainableImpl"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <property name="singlePageView" value="true"/>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/scripts/kitchensink.js</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-GridSection">
@@ -123,6 +128,11 @@
                 <value>ks-enroll-ksink/css/kitchensink.css</value>
             </list>
         </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/scripts/kitchensink.js</value>
+            </list>
+        </property>
         <property name="page">
             <bean parent="Uif-LookupPage">
                 <property name="header">
@@ -158,7 +168,7 @@
         </property>
     </bean>
 
-    <!-- UIM lookup view for PopulationInfo, with header anda links -->
+    <!-- UIM lookup view for PopulationInfo, with header and links -->
     <bean id="KS-KitchenSink-Population-LookupView-Uim" parent="KS-KitchenSink-Population-LookupView-Base">
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.population.dto.PopulationInfo"/>
         <property name="viewName" value="KS-KitchenSink-Population-LookupView-Uim"/>
