@@ -42,10 +42,11 @@ import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus.UploadTransferStatus;
-import org.kuali.student.r1.core.document.dto.DocumentBinaryInfo;
-import org.kuali.student.r1.core.document.dto.DocumentInfo;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.r1.core.document.service.DocumentService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
 
 public class UploadServlet extends HttpServlet{
 	final Logger LOG = Logger.getLogger(UploadServlet.class);
@@ -117,7 +118,7 @@ public class UploadServlet extends HttpServlet{
 			        if(name.equals("documentDescription")){
 			        	RichTextInfo text = new RichTextInfo();
 			        	text.setPlain(value);
-			        	info.setDesc(text);
+			        	info.setDescr(text);
 			        }
 			    } else {
 			    	String fullFileName = item.getName();
@@ -142,8 +143,8 @@ public class UploadServlet extends HttpServlet{
 				    	fileStatus.setStatus(FileTransferStatus.UPLOAD_FINISHED);
 				    	bInfo.setBinary(new String(Base64.encodeBase64(bytes.toByteArray())));
 				    	
-				    	info.setDocumentBinaryInfo(bInfo);
-				    	info.setState(DtoState.ACTIVE.toString());
+				    	info.setDocumentBinary(bInfo);
+				    	info.setStateKey(DtoState.ACTIVE.toString());
 				    	info.setFileName(filename);
 				    	
 				    	int extSeperator = filename.lastIndexOf(".");
@@ -151,7 +152,7 @@ public class UploadServlet extends HttpServlet{
 				    	
 				    	//FIXME Probably temporary solution for type on document info
 				    	String type = "documentType." + filename.substring(extSeperator + 1);
-				    	info.setType(type);
+				    	info.setTypeKey(type);
 			    	}
 			    	else{
 			    		//No file specified error
@@ -159,13 +160,13 @@ public class UploadServlet extends HttpServlet{
 			    	}
 			    }
 			     
-		    	if(info.getDesc() != null 
-		    	   && info.getDocumentBinaryInfo() != null && 
+		    	if(info.getDescr() != null 
+		    	   && info.getDocumentBinary() != null && 
 		    	   info.getType() != null){
 		    		//FileStatus fileStatus = status.getFileStatusMap().get(info.getFileName());
 		    		FileStatus fileStatus = status.getFileStatusList().get(currentItem);
 		    		try{
-		    		    DocumentInfo createdDoc = documentService.createDocument(info.getType(), "documentCategory.proposal", info);
+		    		    DocumentInfo createdDoc = documentService.createDocument(info.getTypeKey(), "documentCategory.proposal", info, ContextUtils.getContextInfo());
 			    		fileStatus.setStatus(FileTransferStatus.COMMIT_FINISHED);
 			    		if(createdDoc != null){
 			    			status.getCreatedDocIds().add(createdDoc.getId());
@@ -173,14 +174,19 @@ public class UploadServlet extends HttpServlet{
 			    		}
 			    		
 			    		RefDocRelationInfo relationInfo = new RefDocRelationInfo();
-			    		relationInfo.setState(DtoState.ACTIVE.toString());
-			    		relationInfo.setDesc(info.getDesc());
+			    		relationInfo.setStateKey(DtoState.ACTIVE.toString());
+			    		relationInfo.setDescr(info.getDescr());
 			    		relationInfo.setRefObjectId(request.getParameter("referenceId"));
 			    		relationInfo.setRefObjectTypeKey(request.getParameter("refObjectTypeKey"));
 			    		relationInfo.setTitle(info.getFileName());
 			    		relationInfo.setDocumentId(createdDoc.getId());
 			    		relationInfo.setType(request.getParameter("refDocRelationTypeKey"));
-			    		documentService.createRefDocRelation(relationInfo.getRefObjectTypeKey(),relationInfo.getRefObjectId(),relationInfo.getDocumentId(),relationInfo.getType(), relationInfo);
+			    		documentService.createRefDocRelation(relationInfo.getRefObjectTypeKey(),
+                                                relationInfo.getRefObjectId(),
+                                                relationInfo.getDocumentId(),
+                                                relationInfo.getTypeKey(), 
+                                                relationInfo,
+                                                ContextUtils.getContextInfo());
 		    		}catch(Exception e){
 		    			fileError = true;
 		    			LOG.error(e);
@@ -210,20 +216,20 @@ public class UploadServlet extends HttpServlet{
 			throws ServletException, IOException {
 			DocumentInfo info = null;
 			try {
-				info = documentService.getDocument(request.getParameter("docId"));
+				info = documentService.getDocument(request.getParameter("docId"), ContextUtils.getContextInfo());
 			} catch (Exception e) {
 				LOG.error(e);
 			}
 			
 			if(info != null 
-			      && info.getDocumentBinaryInfo() != null 
-			      && info.getDocumentBinaryInfo().getBinary() != null 
-			      && !(info.getDocumentBinaryInfo().getBinary().isEmpty())
+			      && info.getDocumentBinary() != null 
+			      && info.getDocumentBinary().getBinary() != null 
+			      && !(info.getDocumentBinary().getBinary().isEmpty())
 			        ){
 				
 				ServletOutputStream op = response.getOutputStream();
 				try {
-				    byte[] fileBytes = Base64.decodeBase64(info.getDocumentBinaryInfo().getBinary().getBytes());
+				    byte[] fileBytes = Base64.decodeBase64(info.getDocumentBinary().getBinary().getBytes());
 					int length = fileBytes.length;
 			        
 			        ServletContext context = getServletConfig().getServletContext();

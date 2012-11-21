@@ -18,18 +18,17 @@ package org.kuali.student.core.document.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
-import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.core.document.dto.DocumentInfo;
-import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
 @RemoteServiceRelativePath("rpcservices/DocumentRpcService")
 public interface DocumentRpcService extends BaseRpcService {    
 
-    public List<DocumentTypeInfo> getDocumentTypes() throws Exception;
+    public List<TypeInfo> getDocumentTypes() throws Exception;
     
 	public DocumentInfo getDocument(String documentId) throws Exception;
 	

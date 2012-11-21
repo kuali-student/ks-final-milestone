@@ -57,8 +57,6 @@ import org.kuali.student.core.document.ui.client.service.UploadStatusRpcServiceA
 import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
-import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.NumberFormat;
@@ -72,6 +70,8 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
 /*
  * Messages hard-coded throughout since this can't access KSMG-MESSAGE
@@ -418,10 +418,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 
         try {
             
-            documentServiceAsync.getDocumentTypes(new KSAsyncCallback<List<DocumentTypeInfo>>(){
+            documentServiceAsync.getDocumentTypes(new KSAsyncCallback<List<TypeInfo>>(){
                 
                 @Override
-                public void onSuccess(List<DocumentTypeInfo> supportedDocumentTypeInfoResults){
+                public void onSuccess(List<TypeInfo> supportedDocumentTypeInfoResults){
                     String acceptableDocumentTypesString;
                     String maxFileSizeString= "10000000";   //from ks-document-dictionary-context.xml, inaccessible here (in a different service-loaded module?)
                     int maxFileSizeInt= Integer.parseInt(maxFileSizeString)/1048576;

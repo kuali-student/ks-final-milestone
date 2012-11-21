@@ -9,7 +9,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
-import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcServiceAsync;
 
@@ -20,6 +19,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 
 public class DocumentList extends Composite{
 	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
@@ -136,7 +136,7 @@ public class DocumentList extends Composite{
                 tableLayout.setWidget(rowIndex, columnIndex, name);
                 columnIndex++;
                 if(showDesc){
-                	documentText.setHTML(docInfo.getDesc().getPlain());
+                	documentText.setHTML(docInfo.getDescr().getPlain());
 	                documentText.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
 	                tableLayout.setWidget(rowIndex, columnIndex, documentText);
 	                columnIndex++;

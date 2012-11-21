@@ -24,7 +24,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
-import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,7 +101,7 @@ public class BaseAssembler {
      * @param typeEntity the typeEntity to copy from
      * @return a new TypeInfo
      */
-    public static <S extends Type<?>> TypeInfo toGenericTypeInfo(S typeEntity) {
+    public static TypeInfo toGenericTypeInfo(Type typeEntity) {
         if (typeEntity == null) {
             return null;
         }
@@ -112,16 +111,16 @@ public class BaseAssembler {
             // Create a new TypeInfo based on the <T> class and copy the
             // properties
             info = new TypeInfo();
-            BeanUtils.copyProperties(typeEntity, info,
-                    new String[] { "attributes", "descr" });
-
-        info.setKey(typeEntity.getId());
-
-        // Copy the attributes
-        info.setAttributes(toAttributeList(typeEntity.getAttributes()));
-        //Copy the description
-        info.setDescr(new RichTextHelper().fromPlain(typeEntity.getDescr()));
-        return info;
+//            BeanUtils.copyProperties(typeEntity, info,
+//                    new String[] { "attributes", "descr" });
+            // replace bean utils with actual copies so we get compile errors if any changes
+            info.setKey(typeEntity.getId());
+            info.setName(typeEntity.getName());
+            info.setDescr(new RichTextHelper().fromPlain(typeEntity.getDescr()));
+            info.setEffectiveDate(typeEntity.getEffectiveDate());
+            info.setExpirationDate(typeEntity.getExpirationDate());
+            info.setAttributes(toAttributeList(typeEntity.getAttributes()));
+            return info;
 
         } catch (Exception e) {
             logger.error("Exception occured: ", e);
@@ -130,10 +129,10 @@ public class BaseAssembler {
         return null;
     }
 
-    public static <S extends Type<?>> List<TypeInfo> toGenericTypeInfoList(List<S> typeEntities) {
+    public static List<TypeInfo> toGenericTypeInfoList(List<? extends Type> typeEntities) {
         List<TypeInfo> infos = new ArrayList<TypeInfo>();
         if (typeEntities != null) {
-            for (S typeEntity : typeEntities) {
+            for (Type typeEntity : typeEntities) {
                 infos.add(toGenericTypeInfo(typeEntity));
             }
         }
@@ -162,7 +161,12 @@ public class BaseAssembler {
         MetaInfo metaInfo = new MetaInfo();
         // If there was a meta passed in then copy the values
         if (meta != null) {
-            BeanUtils.copyProperties(meta, metaInfo);
+//            BeanUtils.copyProperties(meta, metaInfo);
+            // replace bean utils with actual copies so we get compile errors if any changes
+            metaInfo.setCreateId(meta.getCreateId());
+            metaInfo.setCreateTime(meta.getCreateTime());
+            metaInfo.setUpdateId(meta.getUpdateId());
+            metaInfo.setUpdateTime(meta.getUpdateTime());
         }
         if (versionInd == null) {
             metaInfo.setVersionInd(null);
@@ -182,7 +186,10 @@ public class BaseAssembler {
 
         try {
             richText = richTextClass.newInstance();
-            BeanUtils.copyProperties(richTextInfo, richText);
+//            BeanUtils.copyProperties(richTextInfo, richText);
+            // replace bean utils with actual copies so we get compile errors if any changes
+            richText.setPlain(richTextInfo.getPlain());
+            richText.setFormatted(richTextInfo.getFormatted());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
