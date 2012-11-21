@@ -247,6 +247,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView loadAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         Object selectedObject = _getSelectedObject(theForm, "Manage");
+
         if(selectedObject instanceof CourseOfferingEditWrapper){
             CourseOfferingEditWrapper coWrapper =  (CourseOfferingEditWrapper)selectedObject;
             CourseOfferingInfo theCourseOffering = coWrapper.getCoInfo();
@@ -259,6 +260,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             //TODO log error
             return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
         }
+
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOfferingCreateCopy")

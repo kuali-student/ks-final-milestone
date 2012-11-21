@@ -405,13 +405,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysForCourseOffering(String courseOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // Straight-forward implementation--might not be fully optimized
         List<ActivityOfferingInfo> aoInfos = getActivityOfferingsByCourseOffering(courseOfferingId, contextInfo);
-        List<ActivityOfferingDisplayInfo> aoDisplayInfos = new ArrayList<ActivityOfferingDisplayInfo>();
-        for (ActivityOfferingInfo aoInfo: aoInfos) {
-            ActivityOfferingDisplayInfo aoDisplayInfo =
-                    ActivityOfferingDisplayTransformer.ao2aoDisplay(aoInfo, schedulingService, stateService, typeService, contextInfo);
-            aoDisplayInfos.add(aoDisplayInfo);
-        }
-        return aoDisplayInfos;
+        List<ActivityOfferingDisplayInfo> aoDisplayInfos = ActivityOfferingDisplayTransformer.aos2aoDisplays(aoInfos, schedulingService, stateService, typeService, contextInfo);
+
+        return  aoDisplayInfos;
     }
 
     @Override
@@ -419,25 +415,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        /*
-        List<CourseOfferingInfo> results = new ArrayList<CourseOfferingInfo>();
-
-        if(courseOfferingIds != null && !courseOfferingIds.isEmpty()){
-            List<LuiInfo> luiInfos = getLuiService().getLuisByIds(courseOfferingIds, context);
-
-            for (LuiInfo lui : luiInfos) {
-                CourseOfferingInfo co = new CourseOfferingInfo();
-                //Associate instructors to the given CO
-                courseOfferingTransformer.lui2CourseOffering(lui, co, context);
-
-                //TODO: assembleInstructors is not efficient. LPR needs a getLPRsByLuiIds
-                courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
-                results.add(co);
-            }
-        }
-
-        return results;
-        */
         List<CourseOfferingInfo>courseOfferings = new ArrayList<CourseOfferingInfo>();
         if(courseOfferingIds != null && !courseOfferingIds.isEmpty()){
             courseOfferingTransformer.luis2CourseOfferings(courseOfferingIds, courseOfferings, context);
@@ -1070,16 +1047,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // Find all related luis to the course Offering
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo);
-        for (LuiInfo lui : luis) {
+        activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, contextInfo);
 
+        for (ActivityOfferingInfo ao : activityOfferings) {
             //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
-            if (_isActivityType(lui.getTypeKey(), contextInfo)) {
-                ActivityOfferingInfo activityOffering = new ActivityOfferingInfo();
-                ActivityOfferingTransformer.lui2Activity(activityOffering, lui, lprService, schedulingService, contextInfo);
-                _populateActivityOfferingRelationships(activityOffering, contextInfo);
-                activityOfferings.add(activityOffering);
+            if (_isActivityType(ao.getTypeKey(), contextInfo)) {
+                _populateActivityOfferingRelationships(ao, contextInfo);
+            } else {
+                activityOfferings.remove(ao);
             }
         }
+
         Collections.sort(activityOfferings, new Comparator<ActivityOfferingInfo>() {
             @Override
             public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
