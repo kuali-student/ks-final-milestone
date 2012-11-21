@@ -261,6 +261,89 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         return isValid;
     }
 
+    public boolean validateApptWidnow(AppointmentWindowWrapper apptWindow, int windowIndex) {
+        boolean isValid = true;
+        //  1) a window end date is not required for a One-Slot or Max Number Slot Allocation Method/Window Type
+        //  2) a window end date is required for uniform
+        String windowTypeKey = apptWindow.getWindowTypeKey();
+        if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)){
+            if(apptWindow.getEndDate() == null)   {
+                GlobalVariables.getMessageMap().putError("appointmentWindows["+windowIndex+"].endDate",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM);
+                isValid = false;
+            }
+            if(apptWindow.getEndTime() == null){
+                GlobalVariables.getMessageMap().putError( "appointmentWindows[windowIndex].endTime",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
+                isValid = false;
+            }
+            if  (apptWindow.getEndTime().isEmpty()){
+                GlobalVariables.getMessageMap().putError( "appointmentWindows["+windowIndex+"].endTimeAmPm",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM);
+                isValid = false;
+            }
+        }
+        // 3) when start/end date is not null, start/end date should be in the date range of the selected period
+        String periodId = apptWindow.getPeriodKey();
+        try {
+            KeyDateInfo period = getAcalService().getKeyDate(periodId,getContextInfo());
+            if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())){
+                GlobalVariables.getMessageMap().putError( "appointmentWindows["+windowIndex+"].startDate",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
+                isValid = false;
+            }
+            if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty() ){
+                if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate()) ){
+                    GlobalVariables.getMessageMap().putError("appointmentWindows["+windowIndex+"].endDate",
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
+                    isValid = false;
+                }
+            }
+        }catch (Exception e){
+            LOG.error("Fail to find periods for a selected term.",e);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
+            isValid = false;
+        }
+
+        //4)  when the start date and the end date are not null,  the start date should be before the end date
+        if (isValid){
+            try{
+                if (apptWindow.getEndDate() != null && !apptWindow.getEndTime().isEmpty() && !apptWindow.getEndTimeAmPm().isEmpty()){
+                    Date startDate = CommonUtils.getDateWithTime(apptWindow.getStartDate(), apptWindow.getStartTime(), apptWindow.getStartTimeAmPm());
+                    Date endDate = CommonUtils.getDateWithTime(apptWindow.getEndDate(), apptWindow.getEndTime(), apptWindow.getEndTimeAmPm());
+                    if(startDate.after(endDate)){
+                        GlobalVariables.getMessageMap().putError( "appointmentWindows["+windowIndex+"].endDate",
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                    }
+                }
+            } catch (Exception e){
+                LOG.error("Fail to find periods for a selected term.",e);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                isValid = false;
+            }
+        }
+
+        try {
+            Map<String, String> fieldValues = new HashMap<String, String>();
+            fieldValues.put("name", apptWindow.getAssignedPopulationName());
+            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+            List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, getContextInfo());
+
+            if(populationInfoList == null || populationInfoList.isEmpty()){
+                GlobalVariables.getMessageMap().putErrorForSectionId("addRegistrationWindowCollection", PopulationConstants.POPULATION_MSG_ERROR_POPULATION_NOT_FOUND, apptWindow.getAssignedPopulationName());
+                isValid = false;
+            } else {
+                apptWindow.setAssignedPopulationName(populationInfoList.get(0).getName());
+                apptWindow.getAppointmentWindowInfo().setAssignedPopulationId(populationInfoList.get(0).getId());
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return isValid;
+    }
+
     private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
         String populationName = fieldValues.get("name");
 
@@ -338,14 +421,15 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         boolean isApptWindowSaved = true;
         boolean allWindowsSaved = true;
         if(form.getAppointmentWindows()!=null){
-
+            int windowIndex = 0;
             for(AppointmentWindowWrapper appointmentWindowWrapper:form.getAppointmentWindows()){
-                boolean isValid = validateApptWidnow(appointmentWindowWrapper);
+                boolean isValid = validateApptWidnow(appointmentWindowWrapper,windowIndex);
                 if (isValid) {
                     isApptWindowSaved=saveApptWindow(appointmentWindowWrapper);
                     if(!isApptWindowSaved)
                         allWindowsSaved = isApptWindowSaved;
                 }
+                windowIndex++;
             }
             //Add a success message
             if (isApptWindowSaved)
