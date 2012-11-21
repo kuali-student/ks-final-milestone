@@ -45,5 +45,5 @@ public interface StateTransitionsHelper {
      * @impl  Service.updateEntityState is expected process the propagation status and make a decision on any roll backs
      */
     Map<String, StatusInfo> processStatePropagations(String entityId, String nextStateKey, ContextInfo context)
-                    throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException;
+            throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException;
 }
