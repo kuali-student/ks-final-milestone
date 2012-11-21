@@ -924,7 +924,7 @@ public class RoleAndPermissionServiceMockImpl implements RoleService, Permission
     }
 
     @Override
-    public TemplateQueryResults findPermissionTemplates(@WebParam(name = "query") QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+    public TemplateQueryResults findPermissionTemplates(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Find by criteria not supported yet.");
     }
 

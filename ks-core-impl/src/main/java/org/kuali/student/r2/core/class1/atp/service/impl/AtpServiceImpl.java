@@ -275,8 +275,8 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<AtpInfo> getAtpsByIds(@WebParam(name = "atpIds") List<String> atpIds,
-                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIds,
+                                      ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpEntity> atps = atpDao.findByIds(atpIds);
 
@@ -372,8 +372,8 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesForAtp(@WebParam(name = "atpId") String atpId,
-                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<MilestoneInfo> getMilestonesForAtp(String atpId,
+                                                   ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpEntity atp = atpDao.find(atpId);
         if (atp == null) {

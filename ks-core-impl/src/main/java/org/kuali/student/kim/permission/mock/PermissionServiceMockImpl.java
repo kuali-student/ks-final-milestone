@@ -320,22 +320,22 @@ public class PermissionServiceMockImpl implements PermissionService, MockService
     }
 
     @Override
-    public PermissionQueryResults findPermissions(@WebParam(name = "query") QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+    public PermissionQueryResults findPermissions(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Permission createPermission(@WebParam(name = "permission") Permission permission) throws RiceIllegalArgumentException, RiceIllegalStateException {
+    public Permission createPermission(Permission permission) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Permission updatePermission(@WebParam(name = "permission") Permission permission) throws RiceIllegalArgumentException, RiceIllegalStateException {
+    public Permission updatePermission(Permission permission) throws RiceIllegalArgumentException, RiceIllegalStateException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public TemplateQueryResults findPermissionTemplates(@WebParam(name = "query") QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
+    public TemplateQueryResults findPermissionTemplates(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }
