@@ -119,8 +119,8 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
                  *  Then apply the operator to the two lists and either pass or fail the constraint.
                  */
                 List<String> constraintObjectStateKeys = stateConstraintInfo.getRelatedObjectStateKeys();
-                if ( ! (constraintObjectStateKeys.size() > 0)) {
-                    statusInfo.setSuccess(Boolean.FALSE);
+                if (constraintObjectStateKeys.size() == 0) {
+                    statusInfo.setSuccess(Boolean.TRUE);
                     statusInfo.setMessage(String.format("State constraint [%s] has no related state keys defined.", stateConstraintInfo.getId()));
                     return statusInfo;
                 }
