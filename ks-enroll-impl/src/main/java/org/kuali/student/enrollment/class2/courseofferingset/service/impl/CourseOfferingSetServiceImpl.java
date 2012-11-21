@@ -676,7 +676,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
+    public List<String> searchForSocRolloverResultIds(QueryByCriteria criteria,  ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException { 
         GenericQueryResults<String> results = criteriaLookupService.lookupIds(SocRolloverResultEntity.class,
                 criteria);
@@ -685,7 +685,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
+    public List<SocRolloverResultInfo> searchForSocRolloverResults(QueryByCriteria criteria,  ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         GenericQueryResults<SocRolloverResultEntity> results = criteriaLookupService.lookup(SocRolloverResultEntity.class,
                 criteria);
@@ -703,9 +703,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo updateSocState(String socId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -743,9 +743,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     public StatusInfo updateSocRolloverResultState(
-            @WebParam(name = "socId") String socId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String socId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -754,9 +754,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     public StatusInfo updateSocRolloverResultItemState(
-            @WebParam(name = "socId") String socId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String socId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

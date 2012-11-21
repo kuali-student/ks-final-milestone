@@ -128,9 +128,9 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "termId") String termId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String termId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -143,8 +143,8 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public List<StudentCourseRecordInfo> getCompletedCourseRecords(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -157,9 +157,9 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public List<StudentCourseRecordInfo> getCompletedCourseRecordsForCourse(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "courseId") String courseId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String courseId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -191,9 +191,9 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "termId") String termId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String termId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -205,10 +205,10 @@ public class AcademicRecordServiceClass2MockImpl implements
      * @see org.kuali.student.enrollment.academicrecord.service.AcademicRecordService#getGPAForTerm(java.lang.String, java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
-    public GPAInfo getGPAForTerm(@WebParam(name = "personId") String personId,
-            @WebParam(name = "termId") String termId,
-            @WebParam(name = "calculationTypeKey") String calculationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public GPAInfo getGPAForTerm( String personId,
+            String termId,
+            String calculationTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -221,9 +221,9 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public GPAInfo getCumulativeGPA(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "calculationTypeKey") String calculationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String calculationTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -236,10 +236,10 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public GPAInfo getCumulativeGPAForProgram(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "programId") String programId,
-            @WebParam(name = "calculationTypeKey") String calculationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String programId,
+            String calculationTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -252,11 +252,11 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public GPAInfo getCumulativeGPAForTermAndProgram(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "programId") String programId,
-            @WebParam(name = "termKey") String termKey,
-            @WebParam(name = "calculationTypeKey") String calculationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String programId,
+            String termKey,
+            String calculationTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -269,10 +269,10 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public LoadInfo getLoadForTerm(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "termId") String termId,
-            @WebParam(name = "calculationTypeKey") String calculationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String termId,
+            String calculationTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -285,8 +285,8 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public List<StudentProgramRecordInfo> getProgramRecords(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -299,8 +299,8 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public List<StudentCredentialRecordInfo> getAwardedCredentials(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -313,8 +313,8 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public List<StudentTestScoreRecordInfo> getTestScoreRecords(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -327,9 +327,9 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public List<StudentTestScoreRecordInfo> getTestScoreRecordsByType(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "testTypeKey") String testTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String testTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -342,10 +342,10 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public String getEarnedCreditsForTerm(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "termId") String termId,
-            @WebParam(name = "calculationTypeKey") String calculationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String termId,
+            String calculationTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -358,9 +358,9 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public String getEarnedCredits(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "calculationTypeKey") String calculationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String calculationTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -373,11 +373,11 @@ public class AcademicRecordServiceClass2MockImpl implements
      */
     @Override
     public String getEarnedCumulativeCreditsForProgramAndTerm(
-            @WebParam(name = "personId") String personId,
-            @WebParam(name = "programId") String programId,
-            @WebParam(name = "termId") String termId,
-            @WebParam(name = "calculationTypeKey") String calculationTypeKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+             String personId,
+            String programId,
+            String termId,
+            String calculationTypeKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

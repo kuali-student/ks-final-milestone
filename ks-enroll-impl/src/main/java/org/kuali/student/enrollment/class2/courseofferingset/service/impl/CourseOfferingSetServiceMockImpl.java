@@ -132,12 +132,12 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public List<SocInfo> searchForSocs(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<SocInfo> searchForSocs(QueryByCriteria criteria,  ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("To be Implemented by services team");
     }
 
     @Override
-    public List<String> searchForSocIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForSocIds(QueryByCriteria criteria,  ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("To be Implemented by services team");
     }
 
@@ -587,13 +587,13 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
+    public List<String> searchForSocRolloverResultIds(QueryByCriteria criteria,  ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
+    public List<SocRolloverResultInfo> searchForSocRolloverResults(QueryByCriteria criteria,  ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //throw new UnsupportedOperationException("Not supported yet.");
         List<SocRolloverResultInfo> socRolloverResultInfos = new ArrayList<SocRolloverResultInfo>();
@@ -640,9 +640,9 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     }
 
     @Override
-    public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo updateSocState(String socId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -678,9 +678,9 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
     
     @Override
     public StatusInfo updateSocRolloverResultState(
-            @WebParam(name = "socRolloverResultId") String socRolloverResultId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String socRolloverResultId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -704,9 +704,9 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
 
     @Override
     public StatusInfo updateSocRolloverResultItemState(
-            @WebParam(name = "socRolloverResultItemId") String socRolloverResultItemId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String socRolloverResultItemId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

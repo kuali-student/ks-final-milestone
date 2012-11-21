@@ -1136,10 +1136,10 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ValidationResultInfo> validateActivityOfferingCluster(
-            @WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "formatOfferingId") String formatOfferingId,
-            @WebParam(name = "activityOfferingClusterInfo") ActivityOfferingClusterInfo activityOfferingClusterInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String validationTypeKey,
+            String formatOfferingId,
+            ActivityOfferingClusterInfo activityOfferingClusterInfo,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // Note: validation is handled in the CourseOfferingServiceValidationDecorator
@@ -1148,8 +1148,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo deleteActivityOfferingClusterCascaded(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1699,48 +1699,48 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     }
 
     @Override
-    public ColocatedOfferingSetInfo getColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public ColocatedOfferingSetInfo getColocatedOfferingSet(String colocatedOfferingSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(@WebParam(name = "colocatedOfferingSetIds") List<String> colocatedOfferingSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(List<String> colocatedOfferingSetIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> getColocatedOfferingSetIdsByType(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getColocatedOfferingSetIdsByType(String colocatedOfferingSetTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> searchForColocatedOfferingSetIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForColocatedOfferingSetIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");    }
 
     @Override
-    public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");    }
 
     @Override
-    public List<ValidationResultInfo> validateColocatedOfferingSet(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateColocatedOfferingSet( String validationTypeKey,  String colocatedOfferingSetTypeKey,  ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");   }
 
     @Override
-    public ColocatedOfferingSetInfo createColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetTypeKey") String colocatedOfferingSetTypeKey, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public ColocatedOfferingSetInfo createColocatedOfferingSet(String colocatedOfferingSetTypeKey, ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("Not supported yet.");    }
 
     @Override
-    public ColocatedOfferingSetInfo updateColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "colocatedOfferingSetInfo") ColocatedOfferingSetInfo colocatedOfferingSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public ColocatedOfferingSetInfo updateColocatedOfferingSet( String colocatedOfferingSetId,  ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public StatusInfo deleteColocatedOfferingSet(@WebParam(name = "colocatedOfferingSetId") String colocatedOfferingSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> getColocatedOfferingSetIdsForActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getColocatedOfferingSetIdsForActivityOffering(String activityOfferingId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -1773,9 +1773,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo updateCourseOfferingState(
-            @WebParam(name = "courseOfferingId") String courseOfferingId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String courseOfferingId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -1800,9 +1800,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo updateFormatOfferingState(
-            @WebParam(name = "formatOfferingId") String formatOfferingId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String formatOfferingId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException {
         try {
             /*
@@ -1825,9 +1825,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo updateActivityOfferingState(
-            @WebParam(name = "activityOfferingId") String activityOfferingId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -1852,9 +1852,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo updateRegistrationGroupState(
-            @WebParam(name = "registrationGroupId") String registrationGroupId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String registrationGroupId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         try {
@@ -1878,9 +1878,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo updateActivityOfferingClusterState(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         try {
@@ -1904,9 +1904,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public StatusInfo updateSeatPoolDefinitionState(
-            @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String seatPoolDefinitionId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         try {
@@ -1930,8 +1930,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOfferingCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1949,8 +1949,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1971,8 +1971,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<String> getActivityOfferingClustersIdsByFormatOffering(
-            @WebParam(name = "formatOfferingId") String formatOfferingId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String formatOfferingId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1992,8 +1992,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     
     @Override
     public StatusInfo generateRegistrationGroupsForCluster(
-            @WebParam(name = "activityOfferingClusterId") String activityOfferingClusterId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String activityOfferingClusterId,
+             ContextInfo contextInfo)
             throws DoesNotExistException, 
             DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -2023,8 +2023,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsForSeatPoolDefinition(
-            @WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId,
-            @WebParam(name = "context") ContextInfo context)
+            String seatPoolDefinitionId,
+             ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

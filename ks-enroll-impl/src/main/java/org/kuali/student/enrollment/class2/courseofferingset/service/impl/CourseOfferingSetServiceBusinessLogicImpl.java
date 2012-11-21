@@ -405,7 +405,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     }
 
     @Override
-    public StatusInfo startScheduleSoc(@WebParam(name = "socId") String socId, @WebParam(name = "optionKeys") List<String> optionKeys, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo startScheduleSoc(String socId, List<String> optionKeys,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //  Validate SOC. Ensure there is a valid Soc for the given id and make sure the state and scheduling state are correct.
         SocInfo socInfo = this._getSocService().getSoc(socId, context);
         if ( ! StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)) {
