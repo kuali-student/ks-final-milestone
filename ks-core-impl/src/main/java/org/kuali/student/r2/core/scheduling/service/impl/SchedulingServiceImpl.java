@@ -299,7 +299,8 @@ public class SchedulingServiceImpl implements SchedulingService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-       throw new UnsupportedOperationException("not implemented");
+        List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByRefObjects(refObjectType, refObjectIds);
+        return getScheduleRequestsInfoList(entityList);
     }
 
     @Override
