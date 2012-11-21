@@ -517,12 +517,7 @@ public class StateServiceImpl implements StateService {
                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             ReadOnlyException {
-        StateConstraintEntity entity = stateConstraintDao.find(stateConstraintTypeKey);
-        if (entity != null) {
-            throw new DataValidationErrorException(stateConstraintTypeKey);
-        }
-
-        entity = new StateConstraintEntity(stateConstraintInfo);
+        StateConstraintEntity entity = new StateConstraintEntity(stateConstraintInfo);
 
         entity.setEntityCreated(contextInfo);
 

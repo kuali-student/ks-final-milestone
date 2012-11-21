@@ -98,6 +98,7 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
         StateConstraintInfo info = new StateConstraintInfo();
         info.setId(getId());
         info.setAgendaId(getAgendaId());
+        info.setStateConstraintOperator(getStateConstraintOperator());
         info.setStateKey(getStateKey());
         info.setTypeKey(getTypeKey());
         info.setMeta(super.toDTO());
