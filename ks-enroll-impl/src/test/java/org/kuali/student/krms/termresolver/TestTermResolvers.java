@@ -37,6 +37,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:krms-test-with-mocks-context.xml"})
+//TODO KSENROLL-3833
 @Ignore
 public class TestTermResolvers {
 
@@ -76,6 +77,7 @@ public class TestTermResolvers {
     public void testAdminOrgNumberTermResolver() {
         OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
         orgDataLoader.loadData();
+
         //Setup the term resolver
         AdminOrgNumberTermResolver termResolver = new AdminOrgNumberTermResolver();
         termResolver.setOrganizationService(organizationService);
@@ -353,8 +355,8 @@ public class TestTermResolvers {
 
         assertNotNull(acadRecords);
     }
-
-    @Test
+    //TODO KSENROLL-3833
+    @Ignore
      public void testEnrolledCourseByTermTermResolver(){
         //Setup the term resolver
         EnrolledCourseByTermTermResolver termResolver = new EnrolledCourseByTermTermResolver();
@@ -375,12 +377,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledCourseCodeTermResolver(){
         //Setup the term resolver
         EnrolledCourseCodeTermResolver termResolver = new EnrolledCourseCodeTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -394,12 +399,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledCourseNumberTermResolver(){
         //Setup the term resolver
         EnrolledCourseNumberTermResolver termResolver = new EnrolledCourseNumberTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -413,12 +421,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledCoursesByTermTermResolver(){
         //Setup the term resolver
         EnrolledCoursesByTermTermResolver termResolver = new EnrolledCoursesByTermTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -432,12 +443,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledCourseSetTermResolver(){
         //Setup the term resolver
         EnrolledCourseSetTermResolver termResolver = new EnrolledCourseSetTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -451,12 +465,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledCoursesTermResolver(){
         //Setup the term resolver
         EnrolledCoursesTermResolver termResolver = new EnrolledCoursesTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -470,12 +487,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledCourseTermResolver(){
         //Setup the term resolver
         EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -489,12 +509,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledEffectiveDateFromTermResolver(){
         //Setup the term resolver
         EnrolledEffectiveDateFromTermResolver termResolver = new EnrolledEffectiveDateFromTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -508,12 +531,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledEffectiveDateToTermResolver(){
         //Setup the term resolver
         EnrolledEffectiveDateToTermResolver termResolver = new EnrolledEffectiveDateToTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -527,12 +553,15 @@ public class TestTermResolvers {
 
         assertNotNull(courseRegistrationRecords);
     }
-
+    //TODO KSENROLL-3833
     @Ignore
     public void testEnrolledLearningObjectivesTermResolver(){
         //Setup the term resolver
         EnrolledLearningObjectivesTermResolver termResolver = new EnrolledLearningObjectivesTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Create parameters
         parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
@@ -755,7 +784,7 @@ public class TestTermResolvers {
 
     private Map<String, Object> getDefaultPrerequisites(){
         Map<String, Object> resolvedPrereqs = new HashMap<String, Object>();
-        resolvedPrereqs.put(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME, contextInfo);
+        resolvedPrereqs.put(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME, contextInfo);
         return resolvedPrereqs;
     }
 
