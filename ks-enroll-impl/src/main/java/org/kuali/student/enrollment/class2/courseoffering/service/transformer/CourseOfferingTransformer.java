@@ -55,6 +55,19 @@ public class CourseOfferingTransformer {
 
     final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
 
+    /**
+     * Transform a list of LuiInfos into CourseOfferingInfos. It is the bulk version of lui2CourseOffering transformer
+     *
+     * @param courseOfferingIds     the list of courseOfferingIds which is used to retrieve the list of LuiInfos
+     * @param cos                   the reference of CourseOfferingInfo list whith points to the transformed CourseOfferingInfo list
+     * @param context               information containing the principalId and locale
+     *                              information about the caller of service operation
+     * @throws DoesNotExistException     ActivityOfferingDisplayInfo is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseOfferingIds, cos, stateService, or context is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
     public void luis2CourseOfferings(List<String> courseOfferingIds, List<CourseOfferingInfo>cos, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if(courseOfferingIds == null || courseOfferingIds.isEmpty()){
             LOG.warn("invalid courseOfferingIds");
@@ -87,6 +100,7 @@ public class CourseOfferingTransformer {
             luiIds.add(lui.getId());
         }
 
+        //retrieve a list of CluResultInfo by a list of cluId and generate the map of cluId to CluResultInfo list
         List<CluResultInfo> cluResults = cluService.getCluResultsByClus(cluIds, context);
         for (CluResultInfo cluResultInfo : cluResults) {
             List<CluResultInfo> resultsList = cluResultListMap.get(cluResultInfo.getCluId());
@@ -99,6 +113,7 @@ public class CourseOfferingTransformer {
             totalResultValueGroupKeySet.add(cluResultInfo.getResultOptions().get(0).getResultComponentId());
         }
 
+        //retrieve a list of ResultValuesGroupInfo by a list of result value group key and generate the map of rvg key to ResultValuesGroupInfo
         List<String>totalResultValueGroupKeyList = new ArrayList<String>(totalResultValueGroupKeySet);
         List<ResultValuesGroupInfo> rvgList = lrcService.getResultValuesGroupsByKeys(totalResultValueGroupKeyList, context);
         for (ResultValuesGroupInfo rvg : rvgList) {
@@ -108,6 +123,7 @@ public class CourseOfferingTransformer {
             totalResultValueKeySet.addAll(rvg.getResultValueKeys());
         }
 
+        //retrieve a list of ResultValueInfo by a list of result value key and generate the map of result value key to ResultValueInfo
         List<String> totalResultValueKeyList = new ArrayList<String>(totalResultValueKeySet);
         List<ResultValueInfo> resultValues = lrcService.getResultValuesByKeys(totalResultValueKeyList, context);
         if (resultValues != null && resultValues.size() > 0) {
@@ -116,6 +132,7 @@ public class CourseOfferingTransformer {
             }
         }
 
+        //retrieve a list of LprInfo by a list of luiIds and generate the map of luiId to LprInfo
         List<LprInfo> lprs = lprService.getLprsByLuis(luiIds, context);
         Map<String, List<LprInfo>>luiToLprListMap = new HashMap<String, List<LprInfo>>();
         for (LprInfo lprInfo : lprs) {
@@ -138,6 +155,18 @@ public class CourseOfferingTransformer {
         }
     }
 
+    /**
+     * Transform a LuiInfo into an CourseOfferingInfo. It takes cached maps of cluResultListMap,
+     * rvgMap and resultValueMap as the params instead of doing
+     * service calls inside to retrieve CluResultInfo, ResultValuesGroupInfo and ResultValueInfo
+     *
+     * @param lui                   the LuiInfo that is transformed into CourseOfferingInfo
+     * @param co                    the reference of CourseOfferingInfo that is transformed from LuiInfo
+     * @param cluResultListMap      the cached map of cluID to CluResultInfo list
+     * @param rvgMap                the cached map of rvg key to ResultValuesGroupInfo
+     * @param resultValueMap        the cached map of result value key to ResultValueInfo
+     *
+     */
     private void lui2CourseOffering(LuiInfo lui, CourseOfferingInfo co, Map<String, List<CluResultInfo>> cluResultListMap, Map<String, ResultValuesGroupInfo> rvgMap, Map<String, ResultValueInfo> resultValueMap) {
         co.setId(lui.getId());
         co.setTypeKey(lui.getTypeKey());
@@ -782,9 +811,14 @@ public class CourseOfferingTransformer {
 
     }
 
-    /*
- * Get the list of values from the cached map of results.
- */
+    /**
+     * Get the list of values from the cached map of results.
+     *
+     * @param resultValueKeys       the list of result value keys
+     * @param resultValueMap        the cached map of result value key to ResultValueInfo
+     * @return                      ResultValueInfo list
+     *
+     */
     private List<ResultValueInfo> getResultValuesByKeys(List<String> resultValueKeys,
                                                         Map<String, ResultValueInfo>resultValueMap) {
 
