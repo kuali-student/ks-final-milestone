@@ -53,7 +53,8 @@ public class CourseOfferingServiceStateHelper {
      *
      * @return a reference to the updated Activity Offering
      */
-    public static ActivityOfferingInfo updateScheduledActivityOffering(ActivityOfferingInfo activityOfferingInfo, CourseOfferingService coService, CourseOfferingSetService socService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+    public static ActivityOfferingInfo updateScheduledActivityOffering(ActivityOfferingInfo activityOfferingInfo, CourseOfferingService coService, CourseOfferingSetService socService, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
 
         // Keep track of the state before any changes, to avoid extra processing if the AO state does not change
         String oldState = activityOfferingInfo.getStateKey();
