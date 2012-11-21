@@ -12,12 +12,19 @@ import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -25,6 +32,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,6 +129,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
     }
 
     @Test
@@ -139,6 +151,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
     }
 
     @Test
@@ -158,6 +173,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
     }
 
     @Test
@@ -177,6 +195,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
     }
 
     @Test
@@ -197,6 +218,8 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(1, acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
     }
 
     @Test
@@ -216,6 +239,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
     }
 
     @Test
@@ -235,6 +261,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
     }
 
     @Test
@@ -254,6 +283,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
     }
 
     @Test
@@ -273,6 +305,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.size());
+        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
     }
 
     @Ignore
@@ -295,7 +330,7 @@ public class TestTermResolvers {
         assertNotNull(acadRecords);
     }
 
-    @Ignore
+    @Test
     public void testDeptNumberTermResolver(){
         OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
         orgDataLoader.loadData();
@@ -314,6 +349,8 @@ public class TestTermResolvers {
         OrgInfo orgRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(orgRecords);
+        assertTrue(orgRecords.getShortName().equals("KUSystem"));
+        assertTrue(orgRecords.getTypeKey().equals("kuali.org.CorporateEntity"));
     }
 
     @Ignore
@@ -559,6 +596,9 @@ public class TestTermResolvers {
         //Setup the term resolver
         EnrolledLearningObjectivesTermResolver termResolver = new EnrolledLearningObjectivesTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //ADd prerequisite
+        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
 
         //Add prerequisites
         resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
