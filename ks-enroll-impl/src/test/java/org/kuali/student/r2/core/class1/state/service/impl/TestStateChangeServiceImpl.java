@@ -20,15 +20,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
+import org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.infc.StateConstraintOperator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -99,12 +103,108 @@ public class TestStateChangeServiceImpl extends TestStateServiceMockImpl{
 
     @Test
     public void testUpdateStateConstraint() throws Exception {
-        //TODO: implement StateServiceImpl.updateStateChange
+        StateConstraintInfo orig = new StateConstraintInfo();
+        orig.setId("testConstraintId");
+        orig.setAgendaId("test-agendaId");
+        StateConstraintOperator operator =  StateConstraintOperator.ALL;
+        orig.setStateConstraintOperator(operator);
+        orig.setStateKey("testConstraintStateKey");
+        orig.setTypeKey("testTypeKey");
+        List<StateInfo> stateInfoList = stateService.getStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, callContext);
+        assertTrue(stateInfoList.size() > 0);
+        List<String>  relatedStateKeys = new ArrayList<String>();
+        for(StateInfo info : stateInfoList) {
+            relatedStateKeys.add(info.getKey());
+        }
+        orig.setRelatedObjectStateKeys(relatedStateKeys);
+
+        //Create
+        StateConstraintInfo constraintInfo = stateService.createStateConstraint(orig.getId(), orig, callContext);
+        assertNotNull(constraintInfo);
+        // Read
+        StateConstraintInfo readInfo = stateService.getStateConstraint(orig.getId(), callContext);
+        assertNotNull(readInfo);
+        assertEquals(orig.getId(), readInfo.getId());
+        assertEquals(orig.getAgendaId(), readInfo.getAgendaId());
+        assertEquals(orig.getStateKey(), readInfo.getStateKey());
+        assertEquals(orig.getTypeKey(), readInfo.getTypeKey());
+        assertEquals(orig.getStateConstraintOperator().toString(), readInfo.getStateConstraintOperator().toString());
+        assertEquals(orig.getRelatedObjectStateKeys(), readInfo.getRelatedObjectStateKeys());
+        //update
+        readInfo.setStateKey("testUpdateConstraintStateKey");
+        readInfo.setTypeKey("testUpdateTypeKey");
+        StateConstraintInfo updated = stateService.updateStateConstraint(readInfo.getId(), readInfo, callContext);
+        assertNotNull(updated);
+        assertEquals(orig.getId(), readInfo.getId());
+        assertEquals(orig.getAgendaId(), readInfo.getAgendaId());
+        assertEquals("testUpdateConstraintStateKey", readInfo.getStateKey());
+        assertEquals("testUpdateTypeKey", readInfo.getTypeKey());
+        assertEquals(orig.getStateConstraintOperator().toString(), readInfo.getStateConstraintOperator().toString());
+        assertEquals(orig.getRelatedObjectStateKeys(), readInfo.getRelatedObjectStateKeys());
+
+        // delete
+        StatusInfo statusInfo =  stateService.deleteStateConstraint(readInfo.getId(), callContext);
+        assertNotNull(statusInfo);
+        assertTrue(statusInfo.getIsSuccess());
+
     }
 
     @Test
     public void testDeleteStateConstraint() throws Exception {
-        //TODO: implement StateServiceImpl.deleteStateChange
+        StateConstraintInfo orig = new StateConstraintInfo();
+        orig.setId("testConstraintId");
+        orig.setAgendaId("test-agendaId");
+        StateConstraintOperator operator =  StateConstraintOperator.ALL;
+        orig.setStateConstraintOperator(operator);
+        orig.setStateKey("testConstraintStateKey");
+        orig.setTypeKey("testTypeKey");
+        List<StateInfo> stateInfoList = stateService.getStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, callContext);
+        assertTrue(stateInfoList.size() > 0);
+        List<String>  relatedStateKeys = new ArrayList<String>();
+        for(StateInfo info : stateInfoList) {
+            relatedStateKeys.add(info.getKey());
+        }
+        orig.setRelatedObjectStateKeys(relatedStateKeys);
+
+        //Create
+        StateConstraintInfo constraintInfo = stateService.createStateConstraint(orig.getId(), orig, callContext);
+        assertNotNull(constraintInfo);
+        // delete
+        StatusInfo statusInfo =  stateService.deleteStateConstraint(constraintInfo.getId(), callContext);
+        assertNotNull(statusInfo);
+        assertTrue(statusInfo.getIsSuccess());
+
+    }
+
+    @Test
+    public void testCRStateConstraint() throws Exception {
+        StateConstraintInfo orig = new StateConstraintInfo();
+        orig.setId("testConstraintId");
+        orig.setAgendaId("test-agendaId");
+        StateConstraintOperator operator =  StateConstraintOperator.ALL;
+        orig.setStateConstraintOperator(operator);
+        orig.setStateKey("testConstraintStateKey");
+        orig.setTypeKey("testTypeKey");
+        List<StateInfo> stateInfoList = stateService.getStatesByLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, callContext);
+        assertTrue(stateInfoList.size() > 0);
+        List<String>  relatedStateKeys = new ArrayList<String>();
+        for(StateInfo info : stateInfoList) {
+            relatedStateKeys.add(info.getKey());
+        }
+        orig.setRelatedObjectStateKeys(relatedStateKeys);
+
+        //Create
+        StateConstraintInfo constraintInfo = stateService.createStateConstraint(orig.getId(), orig, callContext);
+        assertNotNull(constraintInfo);
+        // Read
+        StateConstraintInfo readInfo = stateService.getStateConstraint(orig.getId(), callContext);
+        assertNotNull(readInfo);
+        assertEquals(orig.getId(), readInfo.getId());
+        assertEquals(orig.getAgendaId(), readInfo.getAgendaId());
+        assertEquals(orig.getStateKey(), readInfo.getStateKey());
+        assertEquals(orig.getTypeKey(), readInfo.getTypeKey());
+        assertEquals(orig.getStateConstraintOperator().toString(), readInfo.getStateConstraintOperator().toString());
+        assertEquals(orig.getRelatedObjectStateKeys(), readInfo.getRelatedObjectStateKeys());
     }
 
     @Test
@@ -126,11 +226,6 @@ public class TestStateChangeServiceImpl extends TestStateServiceMockImpl{
     @Test
     public void testCRUDState() throws Exception {
         //TODO: remove this
-    }
-
-    @Test
-       public void testCRStateConstraint() throws Exception {
-         //TODO: remove this
     }
 
     @Test
