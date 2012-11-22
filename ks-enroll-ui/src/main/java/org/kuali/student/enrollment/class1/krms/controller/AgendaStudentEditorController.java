@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.class1.krms;
+package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -58,6 +58,7 @@ import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionNode;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
+import org.kuali.student.enrollment.class1.krms.AgendaStudentEditorMaintainable;
 import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.krms.service.impl.KrmsStudentMockServiceImpl;
 import org.springframework.stereotype.Controller;

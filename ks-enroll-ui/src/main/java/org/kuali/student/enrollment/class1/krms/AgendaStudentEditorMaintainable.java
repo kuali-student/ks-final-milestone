@@ -161,8 +161,8 @@ public class AgendaStudentEditorMaintainable extends MaintainableImpl {
      * @param namespace the  namespace of the term specification
      * @return the simples {@link org.kuali.rice.krms.api.repository.term.TermResolverDefinition} found, or null if none was found
      */
-    // package access so that AgendaEditorController can use it too
-    static TermResolverDefinition getSimplestTermResolver(String termSpecId,
+    // public access so that AgendaEditorController can use it too
+    public static TermResolverDefinition getSimplestTermResolver(String termSpecId,
             String namespace) {// Get the term resolver for the term spec
 
         List<TermResolverDefinition> resolvers =

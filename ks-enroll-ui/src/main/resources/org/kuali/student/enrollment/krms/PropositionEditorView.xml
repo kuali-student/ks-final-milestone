@@ -162,13 +162,13 @@
 
         <bean id="course" parent="parameter-parent-dropdown" p:label="Course" p:render="@{#np.proposition.termSpecId eq '20002'}">
           <property name="optionsFinder">
-              <bean class="org.kuali.rice.krms.impl.ui.CourseCodeValuesFinder"/>
+              <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
           </property>
         </bean>
 
        <bean id="courseList" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{#np.proposition.termSpecId eq '20000'}">
          <property name="headerText" value="Selected Modules"/>
-         <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.ui.TermParameter"/>
+         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.TermParameter"/>
          <property name="propertyName" value="proposition.termParameterList"/>
          <property name="layoutManager.richTable.render" value="false"/>
          <property name="layoutManager.separateAddLine" value="true" />
@@ -179,7 +179,7 @@
                  <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
                </property>
                <property name="optionsFinder">
-                 <bean class="org.kuali.rice.krms.impl.ui.CourseCodeValuesFinder"/>
+                 <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
                </property>
              </bean>
            </list>
@@ -191,7 +191,7 @@
                  <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
                </property>
                <property name="optionsFinder">
-                 <bean class="org.kuali.rice.krms.impl.ui.CourseCodeValuesFinder"/>
+                 <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
                </property>
              </bean>
            </list>
@@ -200,7 +200,7 @@
 
         <bean id="org" parent="parameter-parent-dropdown" p:label="Organization" p:render="@{#np.proposition.termSpecId eq '20001'}">
           <property name="optionsFinder">
-            <bean class="org.kuali.rice.krms.impl.ui.OrganizationCodeValuesFinder"/>
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.OrganizationCodeValuesFinder"/>
           </property>
         </bean>
 
