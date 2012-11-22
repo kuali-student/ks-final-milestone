@@ -978,13 +978,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> strings, ContextInfo contextInfo)
+    public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> luiIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingInfo> results = new ArrayList<ActivityOfferingInfo>();
 
-        if (strings != null && !strings.isEmpty()) {
-            List<LuiInfo> luiInfos = getLuiService().getLuisByIds(strings, contextInfo);
+        if (luiIds != null && !luiIds.isEmpty()) {
+            List<LuiInfo> luiInfos = getLuiService().getLuisByIds(luiIds, contextInfo);
 
             for (LuiInfo lui : luiInfos) {
                 ActivityOfferingInfo ao = new ActivityOfferingInfo();
@@ -1079,10 +1079,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         Set<String> aoIdsInClusters = new HashSet<String>();
         // For each cluster, find all AOs associated with it
         for (ActivityOfferingClusterInfo clusterInfo: clusters) {
-            List<ActivityOfferingInfo> aoInfos = getActivityOfferingsByCluster(clusterInfo.getId(), contextInfo);
-            for (ActivityOfferingInfo aoInfo: aoInfos) {
+            List<ActivityOfferingSetInfo> aoSets = clusterInfo.getActivityOfferingSets();
+            for (ActivityOfferingSetInfo set : aoSets) {
                 // Add the ids to a set
-                aoIdsInClusters.add(aoInfo.getId());
+                aoIdsInClusters.addAll(set.getActivityOfferingIds());
             }
         }
         List<ActivityOfferingInfo> aosNotInCluster = new ArrayList<ActivityOfferingInfo>();
