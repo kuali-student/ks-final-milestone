@@ -3823,8 +3823,8 @@
     <sequence name="KRMS_NL_TMPL_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_S" nextval="10000"/>
-    <sequence name="KRMS_PROP_PARM_S" nextval="10000"/>
-    <sequence name="KRMS_PROP_S" nextval="10000"/>
+    <sequence name="KRMS_PROP_PARM_S" nextval="10612"/>
+    <sequence name="KRMS_PROP_S" nextval="10204"/>
     <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10143"/>
     <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_RULE_S" nextval="10149"/>
