@@ -368,7 +368,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CourseOfferingInfo> coList = getCourseOfferingsByIds(courseOfferingIds, context);
         
-        return CourseOfferingDisplayTransformer.cos2coDisplays(coList, atpService, stateService, typeService, lrcService, context);
+        return CourseOfferingDisplayTransformer.cos2coDisplays(coList, atpService, stateService, typeService, context);
         
     }
 
