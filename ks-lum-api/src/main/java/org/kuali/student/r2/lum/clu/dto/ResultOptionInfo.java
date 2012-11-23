@@ -15,21 +15,23 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.MetaInfo;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.clu.infc.ResultOption;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.Date;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultOptionInfo", propOrder = {"id", "descr", "typeKey", "stateKey", "resultUsageTypeKey", "resultComponentId", "effectiveDate",
-        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "expirationDate", "meta", "attributes" , "_futureElements" }) 
 public class ResultOptionInfo extends IdNamelessEntityInfo implements ResultOption, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,9 +51,8 @@ public class ResultOptionInfo extends IdNamelessEntityInfo implements ResultOpti
     @XmlElement
     private Date expirationDate;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ResultOptionInfo() {
 

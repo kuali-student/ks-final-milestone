@@ -31,15 +31,14 @@ import org.kuali.student.r2.core.hold.infc.HoldIssue;
 @XmlType(name = "IssueInfo", propOrder = {
     "id", "typeKey", "stateKey", "name",
     "descr", "organizationId", "meta",
-    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+    "attributes", "_futureElements" }) 
 public class HoldIssueInfo extends IdEntityInfo implements HoldIssue, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
     private String organizationId;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public HoldIssueInfo() {
     }

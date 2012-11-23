@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluAccountingInfo", propOrder = {"id", "descr", "affiliatedOrgs", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "CluAccountingInfo", propOrder = {"id", "descr", "affiliatedOrgs", "attributes" , "_futureElements" }) 
 public class CluAccountingInfo extends HasAttributesInfo implements CluAccounting, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,9 +43,8 @@ public class CluAccountingInfo extends HasAttributesInfo implements CluAccountin
     private RichTextInfo descr;
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CluAccountingInfo() {
 

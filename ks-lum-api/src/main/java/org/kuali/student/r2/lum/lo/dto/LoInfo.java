@@ -31,7 +31,7 @@ import java.util.List;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 
-@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes" , "_futureElements" }) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoInfo extends IdEntityInfo implements Lo, Serializable {
 
@@ -46,9 +46,8 @@ public class LoInfo extends IdEntityInfo implements Lo, Serializable {
     @XmlElement
     private Date expirationDate;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     
     public LoInfo(){

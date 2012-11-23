@@ -33,7 +33,7 @@ import java.util.List;
                 "appliedPopulationId", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptible",
-                "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "meta", "attributes", "_futureElements" }) 
 
 public class InstructionInfo 
     extends RelationshipInfo 
@@ -72,9 +72,8 @@ public class InstructionInfo
     @XmlElement 
     private Boolean isExemptible;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     //////////////////////////
     // CONSTRUCTORS ETC.

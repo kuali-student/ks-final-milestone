@@ -17,9 +17,11 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
@@ -38,7 +40,7 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CurrencyAmountInfo", propOrder = {
                 "id", "currencyTypeKey", "currencyQuantity",
-                "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+                "meta", "_futureElements" }) 
 
 public class CurrencyAmountInfo 
     implements CurrencyAmount, Serializable {
@@ -57,9 +59,9 @@ public class CurrencyAmountInfo
     @XmlElement
     private MetaInfo meta;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    
+    @XmlAnyElement
+    private List<Object> _futureElements;
 
     /**
      * Constructs a new CurrencyAmount.

@@ -35,7 +35,7 @@ import org.kuali.student.r2.common.infc.Status;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message" , "_futureElements" }) 
 
 public class StatusInfo 
     implements Status, Serializable {
@@ -48,9 +48,8 @@ public class StatusInfo
     @XmlElement
     private String message;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;	
+    @XmlAnyElement
+    private List<Object> _futureElements;  	
 
     
     /**

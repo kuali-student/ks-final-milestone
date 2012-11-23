@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -79,7 +80,7 @@ import org.kuali.student.r2.lum.program.infc.ProgramVariation;
     "variations",
     "orgCoreProgram",
     "attributes",
-    "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "meta" , "_futureElements" }) 
     
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implements MajorDiscipline,
@@ -106,9 +107,8 @@ public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implemen
     private List<ProgramVariationInfo> variations;
     @XmlElement
     private CoreProgramInfo orgCoreProgram;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public MajorDisciplineInfo() {
     }

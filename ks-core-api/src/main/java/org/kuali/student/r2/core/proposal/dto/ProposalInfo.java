@@ -42,7 +42,7 @@ import org.kuali.student.r2.core.proposal.infc.Proposal;
         "expirationDate",
         "workflowId",
         "meta", 
-        "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "attributes", "_futureElements" }) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable {
 
@@ -72,9 +72,8 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
     @XmlElement
     private String workflowId;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ProposalInfo() {
 

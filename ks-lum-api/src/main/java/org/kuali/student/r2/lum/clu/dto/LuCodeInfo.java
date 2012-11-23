@@ -14,20 +14,20 @@
  */
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.MetaInfo;
-//import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about learning unit codes.
@@ -38,7 +38,7 @@ import org.kuali.student.r2.lum.clu.infc.LuCode;
     "descr",
     "value",
     "meta",
-    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+    "attributes", "_futureElements" }) 
     
 public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Serializable {
 
@@ -51,9 +51,8 @@ public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Seri
     private String value;
     @XmlElement
     private RichTextInfo descr;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public LuCodeInfo() {
     }

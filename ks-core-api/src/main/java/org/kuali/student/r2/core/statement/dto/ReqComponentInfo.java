@@ -15,29 +15,31 @@
 
 package org.kuali.student.r2.core.statement.dto;
 
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.core.statement.infc.ReqCompField;
-import org.kuali.student.r2.core.statement.infc.ReqComponent;
-//import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-//import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.statement.infc.ReqCompField;
+import org.kuali.student.r2.core.statement.infc.ReqComponent;
+//import org.w3c.dom.Element;
+//import javax.xml.bind.annotation.XmlAnyElement;
 
 /**
  * Information about a requirement component.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ReqComponentInfo", propOrder = {"id", "typeKey", "stateKey", "descr",
-        "reqCompFields", "naturalLanguageTranslation", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "reqCompFields", "naturalLanguageTranslation", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" }) 
 public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqComponent, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,9 +54,8 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     public ReqComponentInfo() {

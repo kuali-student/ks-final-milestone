@@ -16,6 +16,16 @@
  */
 package org.kuali.student.r2.core.scheduling.dto;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.infc.Type;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -27,14 +37,6 @@ import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class represents a reusable display object in the Scheduling Service for Schedule Request Component.
  *
@@ -44,7 +46,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRequestComponentDisplayInfo", propOrder = {"id",
         "rooms", "buildings", "timeSlots", "orgs", "resourceTypes", "isTBA"
-        })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        , "_futureElements" }) 
 public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestComponentDisplay, Serializable {
 
     ////////////////////////
@@ -72,9 +74,8 @@ public class ScheduleRequestComponentDisplayInfo implements ScheduleRequestCompo
     @XmlElement
     private Boolean isTBA;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     ////////////////////////
     // CONSTRUCTORS

@@ -40,7 +40,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "atpId", "scheduleComponents", "blackoutDates", "blackoutMilestoneIds", "additionalMeetingTimes",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        "meta", "attributes", "_futureElements" }) 
 public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable {
 
     @XmlElement
@@ -53,9 +53,8 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
     private List<String> blackoutMilestoneIds;
     @XmlElement
     private List<MeetingTimeInfo> additionalMeetingTimes;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ScheduleInfo() {
     }

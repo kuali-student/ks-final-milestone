@@ -17,12 +17,13 @@
 package org.kuali.student.r2.core.class1.state.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
 
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -32,7 +33,7 @@ import org.kuali.student.r2.core.class1.state.infc.Lifecycle;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LifecycleInfo", propOrder = {
                 "key", "name", "descr", "refObjectUri",
-                "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+                "meta", "attributes", "_futureElements" }) 
 
 public class LifecycleInfo 
     extends HasAttributesAndMetaInfo
@@ -52,9 +53,8 @@ public class LifecycleInfo
     @XmlElement
     private String refObjectUri;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;    
+    @XmlAnyElement
+    private List<Object> _futureElements;    
     
 
     /**

@@ -34,7 +34,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BuildingInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "buildingCode", "campusKey", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "name", "descr", "buildingCode", "campusKey", "meta", "attributes", "_futureElements" }) 
 public class BuildingInfo extends IdEntityInfo implements Building, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,9 +45,8 @@ public class BuildingInfo extends IdEntityInfo implements Building, Serializable
     @XmlElement
     private String campusKey;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public BuildingInfo() {
     }

@@ -34,7 +34,7 @@ import java.util.List;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "BulkStatusInfo", propOrder = {"id", "isSuccess", "message" })//, "_futureElements"}) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "BulkStatusInfo", propOrder = {"id", "isSuccess", "message", "_futureElements" }) 
 public class BulkStatusInfo 
     implements BulkStatus, Serializable {
 
@@ -49,9 +49,9 @@ public class BulkStatusInfo
     @XmlElement
     private String message;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;	
+    
+    @XmlAnyElement
+    private List<Object> _futureElements;	
 
     public BulkStatusInfo() {
     }

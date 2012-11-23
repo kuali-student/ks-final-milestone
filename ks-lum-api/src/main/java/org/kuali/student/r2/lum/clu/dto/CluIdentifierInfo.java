@@ -32,7 +32,7 @@ import java.util.Map;
  * Detailed information about the human readable form of a CLU Identifier
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluIdentifierInfo", propOrder = {"id", "typeKey", "stateKey", "code", "shortName", "longName", "level", "division", "variation", "suffixCode", "orgId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "CluIdentifierInfo", propOrder = {"id", "typeKey", "stateKey", "code", "shortName", "longName", "level", "division", "variation", "suffixCode", "orgId", "meta", "attributes" , "_futureElements" }) 
 public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdentifier, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,9 +61,8 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
     @XmlElement
     private String orgId;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CluIdentifierInfo() {
 

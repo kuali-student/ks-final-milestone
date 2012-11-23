@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MembershipQueryInfo", propOrder = {"id", "searchTypeKey", "queryParamValues" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "MembershipQueryInfo", propOrder = {"id", "searchTypeKey", "queryParamValues" , "_futureElements" }) 
 public class MembershipQueryInfo implements Serializable, MembershipQuery {
 
     private static final long serialVersionUID = 1L;
@@ -40,8 +40,8 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
     @XmlElement
     private List<SearchParamInfo> queryParamValues;
 
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;
 
     public MembershipQueryInfo() {
 

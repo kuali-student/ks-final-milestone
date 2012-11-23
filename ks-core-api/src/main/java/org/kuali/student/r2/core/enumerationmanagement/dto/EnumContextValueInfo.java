@@ -15,22 +15,22 @@
 
 package org.kuali.student.r2.core.enumerationmanagement.dto;
 
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
+import java.io.Serializable;
+import java.util.List;
 
-import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.List;
+
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EnumContextValueInfo", propOrder = {"key", "value", "meta"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "EnumContextValueInfo", propOrder = {"key", "value", "meta", "_futureElements" }) 
 public class EnumContextValueInfo implements EnumContextValue, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,9 +41,8 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
     private String value;
     @XmlElement
     private MetaInfo meta;
-    //  TODO KSCM-372: Non-GWT translatable code
-    //  @XmlAnyElement
-    //    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public EnumContextValueInfo() {
     }

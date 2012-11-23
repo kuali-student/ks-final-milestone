@@ -26,7 +26,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessInfo", propOrder = { "key", "typeKey", "stateKey",
-                "name", "descr", "ownerOrgId", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "name", "descr", "ownerOrgId", "meta", "attributes", "_futureElements" }) 
 
 public class ProcessInfo 
     extends KeyEntityInfo 
@@ -41,9 +41,8 @@ public class ProcessInfo
     @XmlElement 
     private String ownerOrgId;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     //////////////////////////
     // CONSTRUCTORS ETC.
@@ -88,8 +87,6 @@ public class ProcessInfo
     @Override
     public String toString() {
         return "ProcessInfo{" +
-                "ownerOrgId='" + ownerOrgId + '\'' +
-                // "_futureElements=" + _futureElements + TODO KSCM-372: Non-GWT translatable code
-                '}';
+                "ownerOrgId='" + ownerOrgId + "' }";
     }
 }

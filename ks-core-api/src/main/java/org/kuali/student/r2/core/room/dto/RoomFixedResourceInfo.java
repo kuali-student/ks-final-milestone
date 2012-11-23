@@ -29,7 +29,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoomFixedResourceInfo", propOrder = {"id", "quantity", "resourceTypeKey", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "RoomFixedResourceInfo", propOrder = {"id", "quantity", "resourceTypeKey", "meta", "attributes", "_futureElements" }) 
 
 public class RoomFixedResourceInfo 
     extends HasAttributesAndMetaInfo 
@@ -44,9 +44,8 @@ public class RoomFixedResourceInfo
     @XmlElement
     private String resourceTypeKey;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public RoomFixedResourceInfo() {
     }

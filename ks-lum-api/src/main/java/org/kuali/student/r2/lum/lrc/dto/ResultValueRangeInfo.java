@@ -31,7 +31,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultValueRangeInfo", propOrder = {
-        "minValue", "maxValue", "increment" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        "minValue", "maxValue", "increment" , "_futureElements" }) 
 
 public class ResultValueRangeInfo implements ResultValueRange, Serializable {
     private static final long serialVersionUID = 1L;
@@ -45,9 +45,8 @@ public class ResultValueRangeInfo implements ResultValueRange, Serializable {
     @XmlElement
     private String increment;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ResultValueRangeInfo() {
         minValue = null;

@@ -36,7 +36,7 @@ import java.util.List;
 @XmlType(name = "CommentInfo", propOrder = {"id", "typeKey", "stateKey",
                 "commentText", "commenterId", "referenceTypeKey", 
                 "referenceId", "effectiveDate",
-                "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+                "expirationDate", "meta", "attributes", "_futureElements" }) 
 
 public class CommentInfo 
     extends IdNamelessEntityInfo 
@@ -62,9 +62,8 @@ public class CommentInfo
     @XmlElement
     private Date expirationDate;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CommentInfo() {
     }

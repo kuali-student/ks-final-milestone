@@ -42,7 +42,7 @@ import org.kuali.student.r2.core.organization.infc.OrgCode;
     "id", "typeKey", "stateKey", "longName", "longDescr",
     "shortName", "sortName", "shortDescr", "orgCodes",
     "effectiveDate", "expirationDate",
-    "meta", "attributes"/*, "_futureElements"*/})
+    "meta", "attributes", "_futureElements" }) 
 public class OrgInfo
         extends IdNamelessEntityInfo
         implements Org, Serializable {
@@ -64,9 +64,8 @@ public class OrgInfo
     private Date expirationDate;
     @XmlElement
     private List<OrgCodeInfo> orgCodes;
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     /**
      * Constructs a new OrgInfo.
