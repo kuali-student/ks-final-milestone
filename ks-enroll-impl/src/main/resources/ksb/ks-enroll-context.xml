@@ -25,8 +25,8 @@
     value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" /> <property name="arguments"> <list><ref bean="bootstrapConfig"/></list>
     </property> </bean> <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer"> <property
     name="localServiceName" value="KSLumContext"/> </bean> -->
-  <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
-  <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+  <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
+  <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:enrollDao.xml" />
   <import resource="classpath:ksb/ks-lu-no-tx-context.xml" />
   <import resource="classpath:statement-context.xml" />
