@@ -54,6 +54,27 @@ public class CourseOfferingServiceValidationDecorator
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
+
+            if (errors.isEmpty()) {
+                // Check for uniqueness in the course offering code
+                List<CourseOfferingInfo> existingCos = null;
+                try {
+                    existingCos = getCourseOfferingsByCourseAndTerm(courseOfferingInfo.getCourseId(), courseOfferingInfo.getTermId(), context);
+                } catch (PermissionDeniedException e) {
+                    throw new OperationFailedException("Error validating", e);
+                }
+                for (CourseOfferingInfo existingCo : existingCos) {
+
+                    if (StringUtils.equals(existingCo.getCourseOfferingCode(), courseOfferingInfo.getCourseOfferingCode())) {
+                        ValidationResultInfo validationResult = new ValidationResultInfo();
+                        validationResult.setError(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_UNIQUENESS_VALIDATION_MESSAGE);
+                        validationResult.setElement(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_VALIDATION_ELEMENT);
+                        errors.add(validationResult);
+                        break;
+                    }
+                }
+            }
+
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
@@ -91,26 +112,6 @@ public class CourseOfferingServiceValidationDecorator
             errors.addAll(nextDecoratorErrors);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
-        }
-
-        if (errors.isEmpty()) {
-            // Check for uniqueness in the course offering code
-            List<CourseOfferingInfo> existingCos = null;
-            try {
-                existingCos = getCourseOfferingsByCourseAndTerm(courseOfferingInfo.getCourseId(), courseOfferingInfo.getTermId(), context);
-            } catch (PermissionDeniedException e) {
-                throw new OperationFailedException("Error validating", e);
-            }
-            for (CourseOfferingInfo existingCo : existingCos) {
-
-                if (StringUtils.equals(existingCo.getCourseOfferingCode(), courseOfferingInfo.getCourseOfferingCode())) {
-                    ValidationResultInfo validationResult = new ValidationResultInfo();
-                    validationResult.setError(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_UNIQUENESS_VALIDATION_MESSAGE);
-                    validationResult.setElement(CourseOfferingServiceConstants.COURSE_OFFERING_CODE_VALIDATION_ELEMENT);
-                    errors.add(validationResult);
-                    break;
-                }
-            }
         }
 
         return errors;
