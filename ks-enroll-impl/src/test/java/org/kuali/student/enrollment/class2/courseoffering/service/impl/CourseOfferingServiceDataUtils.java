@@ -192,6 +192,7 @@ public final class CourseOfferingServiceDataUtils {
 
         orig.setCourseOfferingCode(courseOffering.getCourseOfferingCode());
         orig.setCourseOfferingTitle(courseOffering.getCourseOfferingTitle());
+        orig.setIsPartOfColocatedOfferingSet(false);
 
         return orig;
     }
@@ -359,6 +360,7 @@ public final class CourseOfferingServiceDataUtils {
         // this is the canonical course id
         orig.setCourseId(canonicalCourse.getId());
         orig.setTermId(termId);
+        orig.setCourseCode(canonicalCourse.getCode());
 
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0]);

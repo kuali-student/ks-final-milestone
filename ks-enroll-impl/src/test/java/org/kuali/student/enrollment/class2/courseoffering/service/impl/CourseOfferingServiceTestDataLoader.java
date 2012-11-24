@@ -112,8 +112,12 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     protected AtpTestDataLoader atpDataLoader;
     protected AcalTestDataLoader acalDataLoader;
 
+    TermInfo fall2012 = null;
+    TermInfo spring2012 = null;
 
-	/**
+
+
+    /**
 	 * @param coService 
 	 * @param acalService 
 	 * @param canonicalCourseService 
@@ -140,12 +144,13 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 		//acalDataLoader.loadData();
 		
 		// load in custom dates for use in the courses
-		 TermInfo fall2012 = createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
+		 fall2012 = createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
 		
-		 TermInfo spring2012 = createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
+		 spring2012 = createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
 		
 		// load the canonical course data
-		
+
+        createCourse(fall2012, "CHEM", "123", context);
 		createCourseCHEM123(fall2012, context);
 		
 		createCourseENG101(spring2012, context);
@@ -215,8 +220,135 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 	}
 
 
-		
 
+
+    protected void createCourseByTemplaate(TermInfo term, String subjectCode, String courseNumberCode, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        String courseCode =     subjectCode + courseNumberCode;
+        String courseId =     courseCode + "-ID";
+
+        CourseInfo canonicalCourse = buildCanonicalCourse(courseId, term.getId(), subjectCode, courseCode, subjectCode + " " + courseCode, courseCode + " description 1");
+
+        FormatInfo canonicalLectureOnlyFormat = buildCanonicalFormat(courseCode + ":LEC-ONLY", canonicalCourse);
+
+        ActivityInfo canonicalLectureOnlyLectureActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, canonicalLectureOnlyFormat);
+
+        FormatInfo canonicalLectureAndLabFormat = buildCanonicalFormat(courseCode +  ":LEC-AND-LAB", canonicalCourse);
+
+        ActivityInfo canonicalLectureAndLabFormatLectureActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, canonicalLectureAndLabFormat);
+        ActivityInfo canonicalLectureAndLabFormatLabActivity = buildCanonicalActivity(LuServiceConstants.COURSE_ACTIVITY_LAB_TYPE_KEY, canonicalLectureAndLabFormat);
+
+        courseService.createCourse(canonicalCourse, context);
+
+
+        // course offering
+        CourseOfferingInfo courseOffering = CourseOfferingServiceDataUtils.createCourseOffering(canonicalCourse, term.getId());
+
+        courseOffering.setId(courseId);
+
+        coService.createCourseOffering(canonicalCourse.getId(), term.getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, new ArrayList<String>(), context);
+
+        // FO-1: lecture only format
+        FormatOfferingInfo lectureOnlyFormatOffering = CourseOfferingServiceDataUtils.createFormatOffering(courseOffering.getId(), canonicalLectureOnlyFormat.getId(), term.getId(), "Lecture", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
+
+        lectureOnlyFormatOffering.setId(courseId +  ":LEC-ONLY");
+
+        coService.createFormatOffering(courseOffering.getId(), canonicalLectureOnlyFormat.getId(), LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, lectureOnlyFormatOffering, context);
+
+        // FO-2: lab and lecture format
+        FormatOfferingInfo lectureAndLabFormatOffering = CourseOfferingServiceDataUtils.createFormatOffering(courseOffering.getId(), canonicalLectureAndLabFormat.getId(), term.getId(), "Lab & Lecture", new String[] {LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY});
+
+        lectureAndLabFormatOffering.setId(courseId +  ":LEC-AND-LAB");
+
+        coService.createFormatOffering(courseOffering.getId(), canonicalLectureAndLabFormat.getId(), LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, lectureAndLabFormatOffering, context);
+
+        List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+
+        instructors.add(CourseOfferingServiceDataUtils.createInstructor("p1", "Instructor", 100.00F));
+
+
+        // Format 1 Lecture offering A
+        ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), null, canonicalLectureOnlyLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+
+        lectureOnlyFormatLectureA.setId(courseId +  ":LEC-ONLY:LEC-A");
+
+        coService.createActivityOffering(lectureOnlyFormatOffering.getId(), canonicalLectureOnlyLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureA, context);
+
+        // Format 1 Lecture Offering B
+        ActivityOfferingInfo lectureOnlyFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), null, canonicalLectureOnlyLectureActivity.getId(), "Lecture B", "B", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+
+        lectureOnlyFormatLectureB.setId(courseId +  ":LEC-ONLY:LEC-B");
+
+        coService.createActivityOffering(lectureOnlyFormatOffering.getId(), canonicalLectureOnlyLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureOnlyFormatLectureB, context);
+
+        // Format 2:
+
+        // Lecture A
+        ActivityOfferingInfo lectureAndLabFormatLectureA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture A", "C", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+
+        lectureAndLabFormatLectureA.setId(courseId +  ":LEC-AND-LAB:LEC-A");
+
+        coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLectureA, context);
+
+        // Lecture B
+        ActivityOfferingInfo lectureAndLabFormatLectureB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLectureActivity.getId(), "Lecture B", "D", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+
+        lectureAndLabFormatLectureB.setId(courseId +  ":LEC-AND-LAB:LEC-B");
+
+        coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLectureActivity.getId(), LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLectureB, context);
+
+
+
+
+        // Lab A
+        ActivityOfferingInfo lectureAndLabFormatLabA = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLabActivity.getId(), "Lab A", "E", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+
+        lectureAndLabFormatLabA.setId(courseId +  ":LEC-AND-LAB:LAB-A");
+
+        coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLabActivity.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLabA, context);
+
+
+        // Lab B
+        ActivityOfferingInfo lectureAndLabFormatLabB = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLabActivity.getId(), "Lab B", "F", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+
+        lectureAndLabFormatLabB.setId(courseId +  ":LEC-AND-LAB:LAB-B");
+
+        coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLabActivity.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLabB, context);
+
+        // Lab C
+
+
+        ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceDataUtils.createActivityOffering(term.getId(), courseOffering, lectureAndLabFormatOffering.getId(), null, canonicalLectureAndLabFormatLabActivity.getId(), "Lab C", "G", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+
+        lectureAndLabFormatLabC.setId(courseId +  ":LEC-AND-LAB:LAB-C");
+
+        coService.createActivityOffering(lectureAndLabFormatOffering.getId(), canonicalLectureAndLabFormatLabActivity.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, lectureAndLabFormatLabC, context);
+
+
+    }
+
+    protected String createCourse(TermInfo term, String subjectCode, String courseNumberCode, ContextInfo context) throws AlreadyExistsException,  VersionMismatchException,  CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        String courseCode =     subjectCode + courseNumberCode;
+        String courseId =     courseCode + "-ID";
+
+        CourseInfo canonicalCourse = buildCanonicalCourse(courseId, term.getId(), subjectCode, courseCode, subjectCode + " " + courseCode, courseCode + " description 1");
+        courseService.createCourse(canonicalCourse, context);
+
+        return courseId;
+    }
+
+        protected void createCourseOffering(TermInfo term, CourseInfo canonicalCourse, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // course offering
+        CourseOfferingInfo courseOffering = CourseOfferingServiceDataUtils.createCourseOffering(canonicalCourse, term.getId());
+
+        courseOffering.setId("CO:" + canonicalCourse.getId());
+
+        coService.createCourseOffering(canonicalCourse.getId(), term.getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, new ArrayList<String>(), context);
+
+
+
+    }
 
 		protected void createCourseCHEM123(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 	    	
@@ -503,7 +635,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 	    	info.setId(CourseOfferingServiceDataUtils.createCanonicalActivityId(format.getId(), activityTypeKey));
 	    	info.setTypeKey(activityTypeKey);
 	    	info.setState(DtoConstants.STATE_ACTIVE);
-	    	
+
 	    	format.getActivities().add(info);
 	    	
 			return info;
@@ -550,4 +682,20 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 	            throw new IllegalArgumentException("Bad date " + str + " in " + context);
 	        }
 	    }
+
+    public TermInfo getFall2012() {
+        return fall2012;
+    }
+
+    public void setFall2012(TermInfo fall2012) {
+        this.fall2012 = fall2012;
+    }
+
+    public TermInfo getSpring2012() {
+        return spring2012;
+    }
+
+    public void setSpring2012(TermInfo spring2012) {
+        this.spring2012 = spring2012;
+    }
 }
