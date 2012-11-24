@@ -4,7 +4,7 @@
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <import resource="classpath:ks-dictionary-file-locations.xml"/>
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
 
     <!--LPR Service-->
     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
@@ -45,6 +45,12 @@
         <property name="serviceNamespaceSuffix" value="schedule" />
         <property name="dictionaryLocations" ref="schedulingServiceDictionaryLocations" />
    </bean>
+    <!-- Course Offering Service -->
+    <bean id="dataDictionaryServiceForCourseOffering" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="courseOffering" />
+        <property name="dictionaryLocations" ref="courseOfferingInfoDictionaryLocation" />
+    </bean>
+
 
     <!--All Objects Data Dictionary Service used by Rice-->
     <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
