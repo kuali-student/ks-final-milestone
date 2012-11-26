@@ -5719,12 +5719,12 @@
     <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10143"/>
     <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_RULE_S" nextval="10149"/>
-    <sequence name="KRMS_TERM_PARM_S" nextval="10204"/>
+    <sequence name="KRMS_TERM_PARM_S" nextval="10217"/>
     <sequence name="KRMS_TERM_RSLVR_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_INPUT_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_PARM_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_S" nextval="10203"/>
+    <sequence name="KRMS_TERM_S" nextval="10204"/>
     <sequence name="KRMS_TERM_SPEC_S" nextval="10013"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_TYP_RELN_S" nextval="10113"/>
