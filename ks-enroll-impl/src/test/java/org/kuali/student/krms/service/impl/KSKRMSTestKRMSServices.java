@@ -9,7 +9,6 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
 import org.kuali.student.krms.termresolver.AdminOrgNumberTermResolver;
-import org.kuali.student.krms.termresolver.CompletedCourseCodeTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseNumberTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseSetTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
@@ -381,19 +380,6 @@ public class KSKRMSTestKRMSServices {
 
 			Map<String, String> parameters = new HashMap<String, String>();
 			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234113");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testCompletedCourseCodeTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COMPLETED_COURSE_CODE);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CompletedCourseCodeTermResolver> termResolverInstance = (TermResolver<CompletedCourseCodeTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234114");
 
 			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
 		}

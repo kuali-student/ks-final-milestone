@@ -6,7 +6,6 @@ import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.termresolver.AdminOrgNumberTermResolver;
-import org.kuali.student.krms.termresolver.CompletedCourseCodeTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseNumberTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseSetTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
@@ -137,10 +136,6 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			CompletedCourseNumberTermResolver resolver = new CompletedCourseNumberTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_COURSES)) {
-			CompletedCourseCodeTermResolver resolver = new CompletedCourseCodeTermResolver();
-			resolver.setAcademicRecordService(acadRecordService);
-			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_COURSE_SET)) {
 			CompletedCourseSetTermResolver resolver = new CompletedCourseSetTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
@@ -156,14 +151,6 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_LEARNING_OBJ_DESCR)) {
 			CompletedLearningObjectivesTermResolver resolver = new CompletedLearningObjectivesTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
-			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_ENROLLED_COURSE)) {
-			EnrolledCourseTermResolver resolver = new EnrolledCourseTermResolver();
-			resolver.setCourseRegistrationService(courseRegistrationService);
-			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_ENROLLED_COURSE_NUMBER_RANGE)) {
-			EnrolledCourseNumberTermResolver resolver = new EnrolledCourseNumberTermResolver();
-			resolver.setCourseRegistrationService(courseRegistrationService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_ENROLLED_COURSE_NUMBER_SUBJECT_CODE)) {
 			EnrolledCourseCodeTermResolver resolver = new EnrolledCourseCodeTermResolver();
