@@ -38,6 +38,7 @@ import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.model.RoomBuildingEntity;
 import org.kuali.student.r2.core.room.model.RoomEntity;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
@@ -95,6 +96,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public RoomInfo getRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("id", roomId, contextInfo);
 
@@ -126,6 +128,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<RoomInfo> getRoomsByIds(List<String> roomIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("id", roomIds, contextInfo);
 
@@ -158,6 +161,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomIdsByBuilding(String buildingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("buildingId", buildingId, contextInfo);
 
@@ -185,6 +189,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomIdsByBuildingAndFloor(String buildingId, String floor, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("buildingId", buildingId, "floor", floor, contextInfo);
 
@@ -212,6 +217,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomIdsByType(String roomTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("roomType", roomTypeKey, contextInfo);
 
@@ -239,6 +245,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomIdsByBuildingAndRoomType(String buildingId, String roomTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("buildingId", buildingId, "roomType", roomTypeKey, contextInfo);
 
@@ -266,6 +273,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomsByBuildingAndRoomUsageTypes(String buildingId, List<String> roomUsageTypeKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         /*
         This method is not implemented because there is no Room Usage Type in the schema, yet
@@ -294,6 +302,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomIdsByBuildingAndRoomTypes(String buildingId, List<String> roomTypeKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("buildingId", buildingId, "roomType", roomTypeKeys, contextInfo);
 
@@ -320,6 +329,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForRoomIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         /*
         Not implementing QueryByCriteria, yet
@@ -347,6 +357,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<RoomInfo> searchForRooms(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         /*
         Not implementing QueryByCriteria, yet
@@ -391,6 +402,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<ValidationResultInfo> validateRoom(String validationTypeKey, String buildingId, String roomTypeKey, RoomInfo roomInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -425,6 +437,7 @@ public class RoomServiceImpl implements RoomService {
      *          designated as read-only
      */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {AlreadyExistsException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public RoomInfo createRoom(String buildingId, String roomTypeKey, RoomInfo roomInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         checkValid(roomInfo, contextInfo);
 
@@ -476,6 +489,7 @@ public class RoomServiceImpl implements RoomService {
      *          of date version.
      */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public RoomInfo updateRoom(String roomId, RoomInfo roomInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         checkValid(roomInfo, contextInfo);
 
@@ -506,6 +520,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("id", roomId, contextInfo);
 
@@ -536,6 +551,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public BuildingInfo getBuilding(String buildingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("id", buildingId, contextInfo);
 
@@ -568,6 +584,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<BuildingInfo> getBuildingsByIds(List<String> buildingIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("id", buildingIds, contextInfo);
 
@@ -594,6 +611,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getBuildingIdsByCampus(String campusKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("campusKey", campusKey, contextInfo);
 
@@ -620,6 +638,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> searchForBuildingIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -644,6 +663,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<BuildingInfo> searchForBuildings(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -684,7 +704,8 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
-    public List<ValidationResultInfo> validateBuilding( String buildingTypeKey, String validationTypeKey,  BuildingInfo buildingInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<ValidationResultInfo> validateBuilding(@WebParam(name = "buildingTypeKey") String buildingTypeKey, @WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
@@ -717,6 +738,7 @@ public class RoomServiceImpl implements RoomService {
      *          designated as read-only
      */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {AlreadyExistsException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public BuildingInfo createBuilding(String buildingTypeKey, BuildingInfo buildingInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         checkValid(buildingInfo, contextInfo);
 
@@ -765,6 +787,7 @@ public class RoomServiceImpl implements RoomService {
      *          of date version.
      */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public BuildingInfo updateBuilding(String buildingId, BuildingInfo buildingInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         checkValid(buildingInfo, contextInfo);
 
@@ -795,6 +818,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteBuilding(String buildingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("id", buildingId, contextInfo);
 
@@ -827,6 +851,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public RoomResponsibleOrgInfo getRoomResponsibleOrg(String roomResponsibleOrgId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -852,6 +877,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<RoomResponsibleOrgInfo> getRoomResponsibleOrgsByIds(List<String> roomResponsibleOrgIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -875,6 +901,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomResponsibleOrgIdsByType(String roomResponsibleOrgTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -899,6 +926,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomResponsibleOrgIdsByRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -923,6 +951,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<String> getRoomResponsibleOrgIdsForBuilding(String buildingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
@@ -947,7 +976,8 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
-    public List<String> searchForRoomResponsibleOrgIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<String> searchForRoomResponsibleOrgIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
@@ -971,7 +1001,8 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
-    public List<RoomResponsibleOrgInfo> searchForRoomResponsibleOrgs(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<RoomResponsibleOrgInfo> searchForRoomResponsibleOrgs(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
@@ -1013,7 +1044,8 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
-    public List<ValidationResultInfo> validateRoomResponsibleOrg(String validationTypeKey, String roomId,  String orgId, String roomResponsibleOrgTypeKey, RoomResponsibleOrgInfo roomResponsibleOrgInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly = true)
+    public List<ValidationResultInfo> validateRoomResponsibleOrg(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "roomId") String roomId, @WebParam(name = "orgId") String orgId, @WebParam(name = "roomResponsibleOrgTypeKey") String roomResponsibleOrgTypeKey, @WebParam(name = "roomResponsibleOrgInfo") RoomResponsibleOrgInfo roomResponsibleOrgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
@@ -1132,6 +1164,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<BuildingInfo> getBuildingsByBuildingCode(String buildingCode, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("buildingCode", buildingCode, contextInfo);
 
@@ -1162,6 +1195,7 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = true)
     public List<RoomInfo> getRoomsByBuildingAndRoomCode(String buildingCode, String roomCode, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkValid("buildingCode", buildingCode, "roomCode", roomCode, contextInfo);
 
