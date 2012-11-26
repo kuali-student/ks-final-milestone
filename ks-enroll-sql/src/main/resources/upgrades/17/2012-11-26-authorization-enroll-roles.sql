@@ -157,6 +157,34 @@ INSERT INTO
     )
     VALUES
     (
+        'admin',
+        'P',
+        SYS_GUID(),
+        (
+            SELECT
+                ROLE_ID
+            FROM
+                KRIM_ROLE_T
+            WHERE
+                ROLE_NM='KS Schedule Coordinator (open+edit view)'
+            AND NMSPC_CD='KS-ENR'
+        ),
+        KRIM_ROLE_MBR_ID_S.NEXTVAL,
+        1
+)
+/
+INSERT INTO
+    KRIM_ROLE_MBR_T
+    (
+        MBR_ID,
+        MBR_TYP_CD,
+        OBJ_ID,
+        ROLE_ID,
+        ROLE_MBR_ID,
+        VER_NBR
+    )
+    VALUES
+    (
         'eric',
         'P',
         SYS_GUID(),
