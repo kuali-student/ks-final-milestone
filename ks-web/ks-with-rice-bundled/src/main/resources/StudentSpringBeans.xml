@@ -57,6 +57,9 @@
                 <value>classpath:ks-BuildingInfo-dictionary.xml</value>
                 <value>classpath:ks-RoomInfo-dictionary.xml</value>
 
+                <!-- KIM Attributes -->
+                <value>classpath:org/kuali/rice/student/bo/datadictionary/KualiStudentKimAttributes.xml</value>
+
                 <!-- Acal -->
                 <value>classpath:org/kuali/student/enrollment/main/EnrollmentHomeView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchView.xml</value>
@@ -221,6 +224,13 @@
 				<value>org.kuali.student.enrollment.</value>				
 			</list>
 		</property>
+        <!-- add in the student attributes to the kim module configuration -->
+        <property name="externalizableBusinessObjectImplementations">
+            <map>
+                <entry key="org.kuali.rice.student.bo.KualiStudentKimAttributes"
+                       value="org.kuali.rice.student.bo.KualiStudentKimAttributes"/>
+            </map>
+        </property>
 	</bean>
 
 <!-- KNS POC configuration starts -->
