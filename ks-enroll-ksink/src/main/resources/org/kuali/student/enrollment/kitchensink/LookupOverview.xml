@@ -246,11 +246,13 @@
                 <value>uif-ks-kitchensink-marginTop</value>
             </list>
         </property>
+        <!--
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-enroll-ksink/scripts/crossdomain.js</value>
             </list>
         </property>
+        -->
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">

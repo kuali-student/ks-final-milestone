@@ -50,11 +50,13 @@ test end -->
                 <value>uif-ks-kitchensink-marginTop</value>
             </list>
         </property>
+        <!--
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-enroll-ksink/scripts/crossdomain.js</value>
             </list>
         </property>
+        -->
     </bean>
 
     <bean id="KS-KitchenSink-InquiryView-NoHeaderButtons" parent="KSInquiryView">
