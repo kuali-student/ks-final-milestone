@@ -34,7 +34,7 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
 
     private static final Logger LOGGER = Logger.getLogger(StateTransitionsHelperImpl.class);
      /**
-      * The following are Maps injected through Spring config.
+      * The following are Maps injected via Spring config.
       *
       * The key of the StateHelperMap is the prefix of the state key(s) for the entity
       * which means everything before .state, so the key for a SOC as derived from
@@ -100,32 +100,37 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
         }
 
         String fromStateKey = stateChangeHelper.getStateKey(entityId, context);
-        List<StateChangeInfo> stateChangeInfos = this.stateService.getStateChangesByFromStateAndToState(fromStateKey, nextStateKey, context);
+        //  Allow the constraint to pass if the from and to states are the same.
+        if (StringUtils.equals(fromStateKey, nextStateKey)) {
+            statusInfo.setMessage("To and from state were the same.");
+            return statusInfo;
+        }
 
-        if (stateChangeInfos.size() == 0) {
+        List<StateChangeInfo> stateChanges = this.stateService.getStateChangesByFromStateAndToState(fromStateKey, nextStateKey, context);
+        if (stateChanges.size() == 0) {
             statusInfo.setSuccess(Boolean.FALSE);
             statusInfo.setMessage(String.format("No state change is defined for [%s] to [%s].", fromStateKey, nextStateKey));
             return statusInfo;
         }
 
         //  Verify that related object constraints are met.
-        List<StateConstraintInfo> constraintInfos = getStateService().getStateConstraintsByIds(stateChangeInfos.iterator().next().getStateConstraintIds(), context);
-        if (constraintInfos != null) {
-            for (StateConstraintInfo stateConstraintInfo : constraintInfos) {
+        List<StateConstraintInfo> constraints = getStateService().getStateConstraintsByIds(stateChanges.iterator().next().getStateConstraintIds(), context);
+        if (constraints != null) {
+            for (StateConstraintInfo constraint : constraints) {
                 /*
                  *  Get the related object state keys provided by the constraint.
                  *  Determine the related object state key prefix and combine that with the entity state key prefix to lookup the related object helper.
                  *  Lookup the actual state key values of the related objects.
                  *  Then apply the operator to the two lists and either pass or fail the constraint.
                  */
-                List<String> constraintObjectStateKeys = stateConstraintInfo.getRelatedObjectStateKeys();
+                List<String> constraintObjectStateKeys = constraint.getRelatedObjectStateKeys();
                 if (constraintObjectStateKeys.size() == 0) {
                     statusInfo.setSuccess(Boolean.TRUE);
-                    statusInfo.setMessage(String.format("State constraint [%s] has no related state keys defined.", stateConstraintInfo.getId()));
+                    statusInfo.setMessage(String.format("State constraint [%s] has no related state keys defined.", constraint.getId()));
                     return statusInfo;
                 }
                 String relatedObjStateKeyPrefix = findStateKeyPrefix(constraintObjectStateKeys.get(0));
-                StateConstraintOperator operator = stateConstraintInfo.getStateConstraintOperator();
+                StateConstraintOperator operator = constraint.getStateConstraintOperator();
                 String roHelperKey =  makeRelatedObjectHelperKey(stateKeyPrefix, relatedObjStateKeyPrefix);
                 RelatedObjectHelper relatedObjectHelper = this.relatedObjectHelperMap.get(roHelperKey);
                 if (relatedObjectHelper == null) {
@@ -144,40 +149,41 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
         return statusInfo;
     }
 
+    /**
+     * Process state propagations.
+     * @param entityId The ID of then entity to state change.
+     * @param stateKeys The from and to state keys in the format "from:to".
+     * @param context
+     * @return A Map of StatusInfos with the related object id as the key.
+     */
     @Override
-    public Map<String, StatusInfo> processStatePropagations(String entityId, String nextStateKey, ContextInfo context)
+    public Map<String, StatusInfo> processStatePropagations(String entityId, String stateKeys, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
 
         Map<String, StatusInfo> resultMap = new HashMap<String, StatusInfo>();
 
+        //  Parse from and to states
+        String tokens[] = stateKeys.split(":");
+        String fromStateKey = tokens[0];
+        String nextStateKey =  tokens[1];
+
         String stateKeyPrefix = findStateKeyPrefix(nextStateKey);
-        StateHelper stateChangeHelper = this.stateHelperMap.get(stateKeyPrefix);
-        if (stateChangeHelper == null) {
-            StatusInfo si = new StatusInfo();
-            si.setSuccess(Boolean.FALSE);
-            si.setMessage(String.format("No state helper was registered for key [%s].", stateKeyPrefix));
-            resultMap.put(stateKeyPrefix, si);
-            return resultMap;
-        }
-        String fromStateKey = stateChangeHelper.getStateKey(entityId, context);
-        List<StateChangeInfo> stateChangeInfos = this.stateService.getStateChangesByFromStateAndToState(fromStateKey, nextStateKey, context);
+        List<StateChangeInfo> stateChanges = this.stateService.getStateChangesByFromStateAndToState(fromStateKey, nextStateKey, context);
         //  If no StateChange is defined here just log and return.
-        if (stateChangeInfos.size() == 0) {
-            LOGGER.warn(String.format("No state change was defined from [%s] to [%s]. It doesn't make sense to call this method unless a state change is defined.",
-                    fromStateKey, nextStateKey));
+        if (stateChanges.size() == 0) {
+            LOGGER.warn(String.format("No state change was defined from [%s] to [%s].", fromStateKey, nextStateKey));
             return resultMap;
-        } else if (stateChangeInfos.size() > 1) {
+        } else if (stateChanges.size() > 1) {
             throw new OperationFailedException("Multiple StateChanges between two states is unsupported.");
         }
-        List<StatePropagationInfo> propagations = this.stateService.getStatePropagationsByIds(stateChangeInfos.iterator().next().getStatePropagationIds(), context);
+        List<StatePropagationInfo> propagations = this.stateService.getStatePropagationsByIds(stateChanges.iterator().next().getStatePropagationIds(), context);
         if (propagations != null) {
-            for (StatePropagationInfo statePropagationInfo : propagations) {
-                StateChangeInfo stateChangeInfo = this.stateService.getStateChange(statePropagationInfo.getTargetStateChangeId(), context);
+            for (StatePropagationInfo propagation : propagations) {
+                StateChangeInfo stateChangeInfo = this.stateService.getStateChange(propagation.getTargetStateChangeId(), context);
                 if (stateChangeInfo == null) {
                     StatusInfo si = new StatusInfo();
                     si.setSuccess(Boolean.FALSE);
-                    si.setMessage(String.format("Unable to find target state change for propagation [%s]. This state change is most likely misconfigured.",
-                            statePropagationInfo.getId()));
+                    si.setMessage(String.format("Unable to find target state change for propagation [%s]. This state change is most likely misconfigured.", propagation.getId()));
                     resultMap.put(stateKeyPrefix, si);
                     continue;
                 }
@@ -200,8 +206,8 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
                     continue;
                 }
                 for (String id : relatedObjectHelper.getRelatedObjectIds(entityId, context)) {
-                    StatusInfo statusInfo = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);
-                    resultMap.put(id, statusInfo);
+                    StatusInfo si = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);
+                    resultMap.put(id, si);
                 }
             }
         }
@@ -209,7 +215,7 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
     }
 
     /**
-     * Evaluate relatd object state constraints.
+     * Evaluate related object state constraints.
      * @param actualStateKeySet The actual values of the state keys of related objects.
      * @param constraintStateKeys The state key values defined by the constraint.
      * @param operator The operator to apply when comparing the the two collections.
