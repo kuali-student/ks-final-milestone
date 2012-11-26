@@ -29,8 +29,6 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -45,18 +43,15 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "KSEN_STATE_CNSTRNT")
-@NamedQueries({
-        @NamedQuery(name="Sce.getStateConstraintIdsByType", query="Select sce.id from StateConstraintEntity sce where sce.typeKey = :stateConstraintTypeKey")
-})
 public class StateConstraintEntity extends MetaEntity implements AttributeOwner<StateConstraintAttributeEntity> {
     @Column(name = "AGENDA_ID:")
     private String agendaId;
     @Column(name = "STATE_CNSTRNT_OPERATOR", nullable = false)
     private StateConstraintOperator stateConstraintOperator;
     @Column(name = "STATE_CNSTRNT_TYPE", nullable = false)
-    private String typeKey;
+    private String stateConstraintTypeKey;
     @Column(name = "STATE_CNSTRNT_STATE", nullable = false)
-    private String stateKey;
+    private String stateConstraintStateKey;
 
     @ElementCollection
     @CollectionTable(name ="KSEN_STATE_CNSTRNT_ROS",joinColumns = @JoinColumn(name = "STATE_CNSTRNT_ID"))
@@ -81,8 +76,8 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
 
         this.agendaId = stateConstraint.getAgendaId();
         this.stateConstraintOperator = stateConstraint.getStateConstraintOperator();
-        this.typeKey = stateConstraint.getTypeKey();
-        this.stateKey = stateConstraint.getStateKey();
+        this.stateConstraintTypeKey = stateConstraint.getTypeKey();
+        this.stateConstraintStateKey = stateConstraint.getStateKey();
         this.relatedObjectStateKeys = stateConstraint.getRelatedObjectStateKeys();
         if (stateConstraint.getRelatedObjectStateKeys() != null) {
             relatedObjectStateKeys = new ArrayList<String>(stateConstraint.getRelatedObjectStateKeys());
@@ -99,8 +94,8 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
         info.setId(getId());
         info.setAgendaId(getAgendaId());
         info.setStateConstraintOperator(getStateConstraintOperator());
-        info.setStateKey(getStateKey());
-        info.setTypeKey(getTypeKey());
+        info.setStateKey(getStateConstraintStateKey());
+        info.setTypeKey(getStateConstraintTypeKey());
         info.setMeta(super.toDTO());
         info.setAttributes(TransformUtility.toAttributeInfoList(this));
 
@@ -128,20 +123,20 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
         this.stateConstraintOperator = stateConstraintOperator;
     }
 
-    public String getTypeKey() {
-        return typeKey;
+    public String getStateConstraintTypeKey() {
+        return stateConstraintTypeKey;
     }
 
-    public void setTypeKey(String typeKey) {
-        this.typeKey = typeKey;
+    public void setStateConstraintTypeKey(String stateConstraintTypeKey) {
+        this.stateConstraintTypeKey = stateConstraintTypeKey;
     }
 
-    public String getStateKey() {
-        return stateKey;
+    public String getStateConstraintStateKey() {
+        return stateConstraintStateKey;
     }
 
-    public void setStateKey(String stateKey) {
-        this.stateKey = stateKey;
+    public void setStateConstraintStateKey(String stateConstraintStateKey) {
+        this.stateConstraintStateKey = stateConstraintStateKey;
     }
 
     public List<String> getRelatedObjectStateKeys() {

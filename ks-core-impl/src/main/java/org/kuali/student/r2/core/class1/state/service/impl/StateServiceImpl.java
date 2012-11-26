@@ -513,6 +513,7 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
+    @Transactional
     public StateConstraintInfo createStateConstraint(String stateConstraintTypeKey,
                                                      StateConstraintInfo stateConstraintInfo,
                                                      ContextInfo contextInfo)
@@ -527,6 +528,7 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
+    @Transactional
     public StateConstraintInfo updateStateConstraint(String stateConstraintId,
                                                      StateConstraintInfo stateConstraintInfo,
                                                      ContextInfo contextInfo)
@@ -545,6 +547,7 @@ public class StateServiceImpl implements StateService {
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteStateConstraint(String stateConstraintId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StateConstraintEntity entity = stateConstraintDao.find(stateConstraintId);

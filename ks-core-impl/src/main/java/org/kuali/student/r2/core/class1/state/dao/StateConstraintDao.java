@@ -28,6 +28,8 @@ import java.util.List;
  */
 public class StateConstraintDao  extends GenericEntityDao<StateConstraintEntity> {
     public List<String> getStateConstraintIdsByType(String stateConstraintTypeKey) {
-        return (List<String>) em.createNamedQuery("Sce.getStateConstraintIdsByType").setParameter("typeKey", stateConstraintTypeKey).getResultList();
+        return (List<String>) em.createQuery("Select sce.id from StateConstraintEntity sce where sce.stateConstraintTypeKey = :stateConstraintTypeKey")
+                .setParameter("stateConstraintTypeKey", stateConstraintTypeKey)
+                .getResultList();
     }
 }
