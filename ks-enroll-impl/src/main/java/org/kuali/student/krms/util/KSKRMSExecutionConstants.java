@@ -59,6 +59,7 @@ public class KSKRMSExecutionConstants {
     public static final String COMPLETED_COURSE_SET_TERM_NAME = "completedCourseSet";
     public static final String COMPLETED_COURSES_TERM_NAME = "completedCourses";
     public static final String COMPLETED_COURSE_TERM_NAME = "completedCourse";
+    public static final String COMPLETED_COURSE_CREDITS_TERM_NAME = "completedCourseCredits";
 
     public static final String COMPLETED_EFFECTIVE_DATE_FROM_TERM_NAME = "completedEffectiveDateFrom";
     public static final String COMPLETED_EFFECTIVE_DATE_TO_TERM_NAME = "completedEffectiveDateTo";

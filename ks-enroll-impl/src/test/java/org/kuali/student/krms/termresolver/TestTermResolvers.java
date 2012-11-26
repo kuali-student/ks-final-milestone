@@ -35,8 +35,6 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:krms-test-with-mocks-context.xml"})
-//TODO KSENROLL-3833
-@Ignore
 public class TestTermResolvers {
 
     public ContextInfo contextInfo = null;
@@ -102,91 +100,26 @@ public class TestTermResolvers {
     }
 
     @Test
-    public void testCompletedCourseCodeTermResolver(){
-        //Setup the term resolver
-        CompletedCourseCodeTermResolver termResolver = new CompletedCourseCodeTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_COURSE_CODE_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
-        assertEquals(2,acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
-        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
-    }
-
-    @Test
     public void testCompletedCourseNumberTermResolver(){
         //Setup the term resolver
         CompletedCourseNumberTermResolver termResolver = new CompletedCourseNumberTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
 
+        //Add prerequisite
+        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101,DTC102");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSExecutionConstants.COMPLETED_COURSE_NUMBER_TERM_NAME);
 
         //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
+        Integer acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
-        assertEquals(2,acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
-        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
-    }
-
-    @Test
-    public void testCompletedCourseSetTermResolver(){
-        //Setup the term resolver
-        CompletedCourseSetTermResolver termResolver = new CompletedCourseSetTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_COURSE_SET_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
-        assertEquals(2,acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
-        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
-    }
-
-    @Test
-    public void testCompletedCoursesTermResolver(){
-        //Setup the term resolver
-        CompletedCoursesTermResolver termResolver = new CompletedCoursesTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_COURSES_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
-        assertEquals(2,acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
-        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
+        assertEquals(2,acadRecords.intValue());
     }
 
     @Test
@@ -195,345 +128,92 @@ public class TestTermResolvers {
         CompletedCourseTermResolver termResolver = new CompletedCourseTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
 
+        //Add prerequisite
+        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101");
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101,DTC102");
+
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_COURSE_TERM_NAME);
+                KSKRMSExecutionConstants.COMPLETED_COURSES_TERM_NAME);
 
         //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
+        Boolean acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
-        assertEquals(1, acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
+        assertTrue(acadRecords);
     }
 
     @Test
-    public void testCompletedEffectiveDateFromTermResolver(){
+    public void testCompletedCourseCreditsTermResolver(){
         //Setup the term resolver
-        CompletedEffectiveDateFromTermResolver termResolver = new CompletedEffectiveDateFromTermResolver();
+        CompletedCourseCreditsTermResolver termResolver = new CompletedCourseCreditsTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
 
+        //Add prerequisite
+        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC102");
+        parameters.put(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY, "boo");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_EFFECTIVE_DATE_FROM_TERM_NAME);
+                KSKRMSExecutionConstants.COMPLETED_COURSE_CREDITS_TERM_NAME);
 
         //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
+        Integer acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(acadRecords);
-        assertEquals(2,acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
-        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
-    }
-
-    @Test
-    public void testCompletedEffectiveDateToTermResolver(){
-        //Setup the term resolver
-        CompletedEffectiveDateToTermResolver termResolver = new CompletedEffectiveDateToTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_EFFECTIVE_DATE_TO_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
-        assertEquals(2,acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
-        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
-    }
-
-    @Test
-    public void testCompletedLearningObjectivesTermResolver(){
-        //Setup the term resolver
-        CompletedLearningObjectivesTermResolver termResolver = new CompletedLearningObjectivesTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_LEARNING_OBJECTIVES_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
-        assertEquals(2,acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
-        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
-    }
-
-    @Test
-    public void testCompletedCourseNumberRangeTermResolver(){
-        //Setup the term resolver
-        CourseNumberRangeTermResolver termResolver = new CourseNumberRangeTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COURSE_NUMBER_RANGE_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
-        assertEquals(2,acadRecords.size());
-        assertTrue(acadRecords.get(0).getCourseCode().contains("DTC101"));
-        assertTrue(acadRecords.get(1).getCourseCode().contains("DTC102"));
-    }
-
-    @Ignore
-    public void testCourseSetTermResolver(){
-        //Setup the term resolver
-        CourseSetTermResolver termResolver = new CourseSetTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        //TODO change values being sent
-        parameters.put(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME, "kuali.org.Office");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COURSE_SET_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
-    }
-
-    @Test
-    public void testDeptNumberTermResolver(){
-        OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
-        orgDataLoader.loadData();
-        //Setup the term resolver
-        DeptNumberTermResolver termResolver = new DeptNumberTermResolver();
-        termResolver.setOrganizationService(organizationService);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.ORG_ID_TERM_PROPERTY, "1");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.DEPT_NUMBER_TERM_NAME);
-
-        //Evaluate term Resolver
-        OrgInfo orgRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(orgRecords);
-        assertTrue(orgRecords.getShortName().equals("KUSystem"));
-        assertTrue(orgRecords.getTypeKey().equals("kuali.org.CorporateEntity"));
-    }
-
-    @Ignore
-    public void testEffectiveDateFromTermResolver(){
-        //Setup the term resolver
-        EffectiveDateFromTermResolver termResolver = new EffectiveDateFromTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        //TODO change values being sent
-        parameters.put(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME, "kuali.org.Office");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.EFFECTIVE_DATE_FROM_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
-    }
-
-    @Ignore
-    public void testEffectiveDateToTermResolver(){
-        //Setup the term resolver
-        EffectiveDateToTermResolver termResolver = new EffectiveDateToTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        //TODO change values being sent
-        parameters.put(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME, "kuali.org.Office");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.EFFECTIVE_DATE_TO_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(acadRecords);
+        assertEquals(2,acadRecords.intValue());
     }
     //TODO KSENROLL-3833
-    @Ignore
-     public void testEnrolledCourseByTermTermResolver(){
-        //Setup the term resolver
-        EnrolledCourseByTermTermResolver termResolver = new EnrolledCourseByTermTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
-
-        //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ENROLLED_COURSE_BY_TERM_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(courseRegistrationRecords);
-    }
-    //TODO KSENROLL-3833
-    @Ignore
-    public void testEnrolledCourseCodeTermResolver(){
-        //Setup the term resolver
-        EnrolledCourseCodeTermResolver termResolver = new EnrolledCourseCodeTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
-
-        //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ENROLLED_COURSE_CODE_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(courseRegistrationRecords);
-    }
-    //TODO KSENROLL-3833
-    @Ignore
+    @Test
     public void testEnrolledCourseNumberTermResolver(){
         //Setup the term resolver
         EnrolledCourseNumberTermResolver termResolver = new EnrolledCourseNumberTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
+        termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
+        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSExecutionConstants.ENROLLED_COURSE_NUMBER_TERM_NAME);
 
         //Evaluate term Resolver
-        List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
+        Integer academicRecord = termResolver.resolve(resolvedPrereqs, parameters);
 
-        assertNotNull(courseRegistrationRecords);
+        assertNotNull(academicRecord);
+        assertEquals(1,academicRecord.intValue());
     }
     //TODO KSENROLL-3833
-    @Ignore
-    public void testEnrolledCoursesByTermTermResolver(){
-        //Setup the term resolver
-        EnrolledCoursesByTermTermResolver termResolver = new EnrolledCoursesByTermTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
-
-        //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ENROLLED_COURSES_BY_TERM_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(courseRegistrationRecords);
-    }
-    //TODO KSENROLL-3833
-    @Ignore
-    public void testEnrolledCourseSetTermResolver(){
-        //Setup the term resolver
-        EnrolledCourseSetTermResolver termResolver = new EnrolledCourseSetTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
-
-        //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ENROLLED_COURSE_SET_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(courseRegistrationRecords);
-    }
-    //TODO KSENROLL-3833
-    @Ignore
-    public void testEnrolledCoursesTermResolver(){
-        //Setup the term resolver
-        EnrolledCoursesTermResolver termResolver = new EnrolledCoursesTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
-
-        //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ENROLLED_COURSES_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(courseRegistrationRecords);
-    }
-    //TODO KSENROLL-3833
-    @Ignore
+    @Test
     public void testEnrolledCourseTermResolver(){
         //Setup the term resolver
         EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
+        termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
+        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC102");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSExecutionConstants.ENROLLED_COURSE_TERM_NAME);
 
         //Evaluate term Resolver
-        List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
+        boolean academicRecord = termResolver.resolve(resolvedPrereqs, parameters);
 
-        assertNotNull(courseRegistrationRecords);
+        assertNotNull(academicRecord);
+        assertTrue(academicRecord);
     }
     //TODO KSENROLL-3833
     @Ignore
@@ -573,31 +253,6 @@ public class TestTermResolvers {
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSExecutionConstants.ENROLLED_EFFECTIVE_DATE_TO_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(courseRegistrationRecords);
-    }
-    //TODO KSENROLL-3833
-    @Ignore
-    public void testEnrolledLearningObjectivesTermResolver(){
-        //Setup the term resolver
-        EnrolledLearningObjectivesTermResolver termResolver = new EnrolledLearningObjectivesTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
-
-        //ADd prerequisite
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
-
-        //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, termID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ENROLLED_LEARNING_OBJECTIVES_TERM_NAME);
 
         //Evaluate term Resolver
         List<CourseRegistrationInfo> courseRegistrationRecords = termResolver.resolve(resolvedPrereqs, parameters);
@@ -648,7 +303,7 @@ public class TestTermResolvers {
         assertEquals(result.getValue(), "3.9");
     }
 
-    @Test
+    /*@Test
     public void testGradeTermResolver(){
         //Setup the term resolver
         GradeTermResolver termResolver = new GradeTermResolver();
@@ -665,9 +320,9 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> gradeRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(gradeRecords);
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testGradeTypeTermResolver(){
         //Setup the term resolver
         GradeTypeTermResolver termResolver = new GradeTypeTermResolver();
@@ -684,7 +339,7 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> gradeTypeRecords = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(gradeTypeRecords);
-    }
+    }*/
 
     @Test
     public void testKSKRMSTermResolver(){
@@ -692,67 +347,7 @@ public class TestTermResolvers {
         assertNotNull(ksKRMSTermResolverTypeService);
     }
 
-    @Ignore
-    public void testLearningObjectivesTermResolver(){
-        //Setup the term resolver
-        LearningObjectivesTermResolver termResolver = new LearningObjectivesTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        //TODO change values being sent
-        parameters.put(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME, "kuali.org.Office");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.LEARNING_OBJECTIVES_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> result = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNull(result);
-    }
-
-    @Ignore
-    public void testNumberOfCoursesTermResolver(){
-        //Setup the term resolver
-        LearningObjectivesTermResolver termResolver = new LearningObjectivesTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        //TODO change values being sent
-        parameters.put(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME, "kuali.org.Office");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.LEARNING_OBJECTIVES_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> result = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNull(result);
-    }
-
-    @Test
-    public void testNumberOfCreditsTermResolver(){
-        //Setup the term resolver
-        NumberOfCreditsTermResolver termResolver = new NumberOfCreditsTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-        parameters.put(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.NUMBER_OF_CREDITS_TERM_NAME);
-
-        //Evaluate term Resolver
-        String result = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(result);
-    }
-
-    @Ignore
+    /*@Ignore
     public void testScoreTermResolver(){
         //Setup the term resolver
         ScoreTermResolver termResolver = new ScoreTermResolver();
@@ -770,27 +365,7 @@ public class TestTermResolvers {
         List<StudentCourseRecordInfo> records = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNull(records);
-    }
-
-    @Ignore
-    public void testSubjectCodeTermResolver(){
-        //Setup the term resolver
-        SubjectCodeTermResolver termResolver = new SubjectCodeTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        //TODO change values being sent
-        parameters.put(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME, "kuali.org.Office");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.SUBJECT_CODE_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> records = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNull(records);
-    }
+    }*/
 
     private void validateTermResolver(TermResolver termResolver, Map<String, Object> prereqs, Map<String, String> parameters, String output){
 

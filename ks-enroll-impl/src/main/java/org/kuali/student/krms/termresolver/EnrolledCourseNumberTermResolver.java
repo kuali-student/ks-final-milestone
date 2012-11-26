@@ -19,6 +19,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
@@ -40,23 +41,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EnrolledCourseNumberTermResolver implements TermResolver<List<CourseRegistrationInfo>> {	
+public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
 
-    private CourseRegistrationService courseRegistrationService;
+    private AcademicRecordService academicRecordService;
 
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
+        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
-    public CourseRegistrationService getAcademicRecordService() {
-        return courseRegistrationService;
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
     }
 
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
     }
 
     @Override
@@ -71,7 +72,7 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<List<Cours
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
     }
 
     @Override
@@ -81,14 +82,15 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<List<Cours
     }
 
     @Override
-    public List<CourseRegistrationInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String studentId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.STUDENT_ID_TERM_NAME);
-        String termId = parameters.get(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
+        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String courseCodes = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
         
-        List<CourseRegistrationInfo> result = null;
+        List<StudentCourseRecordInfo> recordInfoList = null;
+        Integer result = 0;
         try {
-            result = courseRegistrationService.getCourseRegistrationsByStudentAndTerm(studentId, termId, context);
+            recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {
@@ -97,6 +99,26 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<List<Cours
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (PermissionDeniedException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (DoesNotExistException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        }
+        courseCodes.trim();
+        String[] courseCode = courseCodes.split(",");
+
+        if(courseCodes.contains(",")) {
+            for(StudentCourseRecordInfo si : recordInfoList) {
+                for(String cc : courseCode) {
+                    if(cc.equals(si.getCourseCode())){
+                        result++;
+                    }
+                }
+            }
+        } else {
+            for(StudentCourseRecordInfo temp : recordInfoList) {
+                if(temp.getCourseCode().equals(courseCodes)){
+                    result++;
+                }
+            }
         }
 
         return result;

@@ -150,6 +150,7 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService, Moc
         courseRecord.setAdministrativeGradeScaleKey("1");
         courseRecord.setCalculatedGradeValue("3.0");
         courseRecord.setCalculatedGradeScaleKey("1");
+        courseRecord.setCreditsEarned("5");
         courseRecordInfoList.add(courseRecord);
         courseRecord = new StudentCourseRecordInfo();
         courseRecord.setCourseRegistrationId(Integer.toString(courseRecordInfoList.size()+1));
@@ -168,6 +169,7 @@ public class AcademicRecordServiceMockImpl implements AcademicRecordService, Moc
         courseRecord.setAdministrativeGradeScaleKey("1");
         courseRecord.setCalculatedGradeValue("3.0");
         courseRecord.setCalculatedGradeScaleKey("1");
+        courseRecord.setCreditsEarned("2");
         courseRecordInfoList.add(courseRecord);
 
     }

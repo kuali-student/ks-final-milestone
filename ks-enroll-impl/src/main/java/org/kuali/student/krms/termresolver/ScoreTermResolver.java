@@ -19,6 +19,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
@@ -39,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ScoreTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {	
+public class ScoreTermResolver implements TermResolver<List<StudentTestScoreRecordInfo>> {
 
     private AcademicRecordService academicRecordService;
 
@@ -79,13 +80,13 @@ public class ScoreTermResolver implements TermResolver<List<StudentCourseRecordI
     }
 
     @Override
-    public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        /*ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    public List<StudentTestScoreRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         
-        List<StudentCourseRecordInfo> result = null;
+        List<StudentTestScoreRecordInfo> result = null;
         try {
-            result = academicRecordService.???(personId, context);
+            result = academicRecordService.getTestScoreRecords(personId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {
@@ -98,7 +99,6 @@ public class ScoreTermResolver implements TermResolver<List<StudentCourseRecordI
             throw new TermResolutionException(e.getMessage(), this, parameters);
         }
 
-        return result;*/
-    	return null;
+        return result;
     }
 }

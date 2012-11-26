@@ -39,13 +39,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CompletedCourseNumberTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {	
+public class CompletedCourseNumberTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
 
     private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
+        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
@@ -69,7 +70,7 @@ public class CompletedCourseNumberTermResolver implements TermResolver<List<Stud
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
     }
 
     @Override
@@ -79,13 +80,15 @@ public class CompletedCourseNumberTermResolver implements TermResolver<List<Stud
     }
 
     @Override
-    public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        
-        List<StudentCourseRecordInfo> result = null;
+        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String courseCodes = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+
+        List<StudentCourseRecordInfo> recordInfoList = null;
+        Integer result = 0;
         try {
-            result = academicRecordService.getCompletedCourseRecords(personId, context);
+            recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {
@@ -96,6 +99,25 @@ public class CompletedCourseNumberTermResolver implements TermResolver<List<Stud
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (DoesNotExistException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
+        }
+
+        courseCodes.trim();
+        String[] courseCode = courseCodes.split(",");
+
+        if(courseCodes.contains(",")) {
+            for(StudentCourseRecordInfo si : recordInfoList) {
+                for(String cc : courseCode) {
+                    if(cc.equals(si.getCourseCode())){
+                        result++;
+                    }
+                }
+            }
+        } else {
+            for(StudentCourseRecordInfo temp : recordInfoList) {
+                if(temp.getCourseCode().equals(courseCodes)){
+                    result++;
+                }
+            }
         }
 
         return result;
