@@ -327,7 +327,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public void setLprService(LprService lprService) {
         this.lprService = lprService;
     }
-
     public void setSeatPoolDefinitionDao(SeatPoolDefinitionDaoApi seatPoolDefinitionDao) {
         this.seatPoolDefinitionDao = seatPoolDefinitionDao;
     }
@@ -367,9 +366,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CourseOfferingInfo> coList = getCourseOfferingsByIds(courseOfferingIds, context);
-        
+
         return CourseOfferingDisplayTransformer.cos2coDisplays(coList, atpService, stateService, typeService, context);
-        
+
     }
 
     @Override
@@ -1623,7 +1622,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> getRegistrationGroupsForCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO: implement LuiService.getLuiIdsByRelatedLuiAndRelationType and call it instead
+        // TODO: implement LuiService.getLuiIdsByRelatedLuiAndRelationType and call it instead   << tried and tested - since
+        // this function's parameter is the relatedLuiId at the end it is more expensive than the code below
         List<RegistrationGroupInfo> rgs = new ArrayList<RegistrationGroupInfo>();
         List<String> rgIds = new ArrayList<String>();
         List<LuiLuiRelationInfo> rels = luiService.getLuiLuiRelationsByLui(courseOfferingId, context);
@@ -1698,6 +1698,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<RegistrationGroupInfo> getRegistrationGroupsByFormatOffering(String formatOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+        // TODO: implement LuiService.getLuiIdsByRelatedLuiAndRelationType and call it instead  << tried and tested - since
+        // this function's parameter is the relatedLuiId at the end it is more expensive than the code below
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
         // Find all related luis to the format offering
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
