@@ -44,7 +44,7 @@ import java.util.Set;
 @Entity
 @Table(name = "KSEN_STATE_CNSTRNT")
 public class StateConstraintEntity extends MetaEntity implements AttributeOwner<StateConstraintAttributeEntity> {
-    @Column(name = "AGENDA_ID:")
+    @Column(name = "AGENDA_ID")
     private String agendaId;
     @Column(name = "STATE_CNSTRNT_OPERATOR", nullable = false)
     private StateConstraintOperator stateConstraintOperator;
