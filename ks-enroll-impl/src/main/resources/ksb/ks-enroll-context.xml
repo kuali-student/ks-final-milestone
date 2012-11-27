@@ -590,14 +590,11 @@
             </map>
         </property>
     </bean>
-    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl">
-    </bean>
+    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
 
-    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" >
-    </bean>
+    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" />
 
-    <bean id="aoToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoCOImpl">
-    </bean>
+    <bean id="aoToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoCOImpl"/>
 
     <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl">
     </bean>

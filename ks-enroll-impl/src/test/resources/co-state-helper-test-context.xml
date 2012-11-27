@@ -201,21 +201,13 @@
         <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
     </util:map>
 
-    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl">
-        <constructor-arg><ref bean="coService"></ref></constructor-arg>
-    </bean>
+    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
 
-    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl">
-        <constructor-arg><ref bean="coService"></ref></constructor-arg>
-    </bean>
+    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl"/>
 
-    <bean id="aoToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoCOImpl">
-        <constructor-arg><ref bean="coService"></ref></constructor-arg>
-    </bean>
+    <bean id="aoToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoCOImpl"/>
 
-    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl">
-        <constructor-arg><ref bean="coService"></ref></constructor-arg>
-    </bean>
+    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
 
     <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
         <property name="atpService" ref="atpService" />
