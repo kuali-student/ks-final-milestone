@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.state.impl;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -9,8 +10,10 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,16 +28,14 @@ public class RelatedObjectHelperAOtoFOImpl implements RelatedObjectHelper {
 
     private CourseOfferingService courseOfferingService;
 
-    public RelatedObjectHelperAOtoFOImpl(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
+    public RelatedObjectHelperAOtoFOImpl() {
     }
 
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
+    protected CourseOfferingService getCourseOfferingService(){
+        if (courseOfferingService == null){
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return  courseOfferingService;
     }
 
     @Override
@@ -61,8 +62,8 @@ public class RelatedObjectHelperAOtoFOImpl implements RelatedObjectHelper {
 
         FormatOfferingInfo formatOfferingInfo = null;
 
-        ActivityOfferingInfo activityOfferingInfo = this.courseOfferingService.getActivityOffering(activityOfferingId, contextInfo);
-        formatOfferingInfo = courseOfferingService.getFormatOffering(activityOfferingInfo.getFormatOfferingId(), contextInfo);
+        ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityOfferingId, contextInfo);
+        formatOfferingInfo = getCourseOfferingService().getFormatOffering(activityOfferingInfo.getFormatOfferingId(), contextInfo);
 
         return formatOfferingInfo;
     }

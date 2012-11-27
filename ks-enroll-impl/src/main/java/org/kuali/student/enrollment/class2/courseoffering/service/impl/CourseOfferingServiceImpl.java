@@ -43,6 +43,7 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -85,6 +86,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private LRCService lrcService;
     private CriteriaLookupService criteriaLookupService;
     private RoomService roomService;
+    private StateTransitionsHelper stateTransitionsHelper;
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceImpl.class);
 
@@ -2974,6 +2976,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
              ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+
         //TODO validation and state lifecylce checks
         LuiInfo lui = luiService.getLui(courseOfferingId, contextInfo);
         lui.setStateKey(nextStateKey);
@@ -2982,6 +2985,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }catch(Exception e){
             throw new OperationFailedException("Failed to update State", e);
         }
+
+        /*StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(courseOfferingId,nextStateKey,contextInfo);
+        if (statusInfo.getIsSuccess()){
+
+            lui.setStateKey(nextStateKey);
+            try{
+                luiService.updateLui(lui.getId(), lui, contextInfo);
+            }catch(Exception e){
+                throw new OperationFailedException("Failed to update State", e);
+            }
+
+            Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(courseOfferingId,nextStateKey,contextInfo);
+            for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
+                if (!statusInfo1.getIsSuccess()){
+                    throw new OperationFailedException(statusInfo1.getMessage());
+                }
+            }
+        }*/
+
         return new StatusInfo();
     }
 
@@ -3272,5 +3294,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
+    }
+
+    public StateTransitionsHelper getStateTransitionsHelper() {
+        return stateTransitionsHelper;
+    }
+
+    public void setStateTransitionsHelper(StateTransitionsHelper stateTransitionsHelper) {
+        this.stateTransitionsHelper = stateTransitionsHelper;
     }
 }

@@ -125,6 +125,7 @@
     
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao" />
+        <property name="statePropagationDao" ref="statePropagationDao"/>
         <property name="lifecycleDao" ref="lifecycleDao" />
         <property name="stateChangeDao" ref="stateChangeDao" />
         <property name="stateConstraintDao" ref="stateConstraintDao" />
@@ -132,15 +133,15 @@
             <bean parent="criteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="true">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
 <!--                                Also scan the key and the lifecyle key when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value> 
-                                    <value>lifecycleKey</value>                        
+                                    <value>key</value>
+                                    <value>lifecycleKey</value>
                                 </list>
                             </property>
-                        </bean> 
+                        </bean>
                         <ref bean="key2IdTransform"/>
                     </list>
                 </property>
@@ -150,15 +151,15 @@
             <bean parent="criteriaLookupService">
                 <property name="predicateTransforms">
                     <list merge="true">
-                        <bean parent="keyword2LikeTransform">                               
+                        <bean parent="keyword2LikeTransform">
                             <property name="likeAttributes">
 <!--                                Also scan the key and the refObjectUri when doing a keyword search-->
                                 <list merge="true">
-                                    <value>key</value> 
-                                    <value>refObjectUri</value>                        
+                                    <value>key</value>
+                                    <value>refObjectUri</value>
                                 </list>
                             </property>
-                        </bean> 
+                        </bean>
                         <ref bean="key2IdTransform"/>
                     </list>
                 </property>
@@ -169,6 +170,11 @@
     <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
         <property name="em" ref="entityManager" />
     </bean>
+
+    <bean id="statePropagationDao" class="org.kuali.student.r2.core.class1.state.dao.StatePropagationDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
     <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="entityManager" />
     </bean>

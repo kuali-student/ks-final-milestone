@@ -29,6 +29,13 @@
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
         <class>org.kuali.student.r2.core.class1.state.model.LifecycleAttributeEntity</class>
 
+        <class>org.kuali.student.r2.core.class1.state.model.StateChangeEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateChangeAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateConstraintEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateConstraintAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StatePropagationEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StatePropagationAttributeEntity</class>
+
         <class>org.kuali.student.r2.common.class1.type.model.TypeEntity</class>
         <class>org.kuali.student.r2.common.class1.type.model.TypeAttributeEntity</class>
         <class>org.kuali.student.r2.common.class1.type.model.TypeTypeRelationEntity</class>
