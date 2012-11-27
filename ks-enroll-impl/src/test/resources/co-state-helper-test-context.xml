@@ -158,6 +158,7 @@
         <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao"/>
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="schedulingService" ref="schedulingService"/>
+        <property name="stateTransitionsHelper" ref="stateTransitionsHelper" />
     </bean>
 
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
@@ -182,6 +183,35 @@
     </bean>
 
     <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
+    </bean>
+    <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
+        <property name="stateHelperMap">
+            <map>
+                <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+                <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
+            </map>
+        </property>
+        <property name="relatedObjectHelperMap">
+            <map>
+                <entry key="kuali.lui.activity.offering:kuali.lui.course.offering" value-ref="aoToCoRelatedObjHelper"/>
+                <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl">
+        <constructor-arg><ref bean="coService"></ref></constructor-arg>
+    </bean>
+
+    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl">
+        <constructor-arg><ref bean="coService"></ref></constructor-arg>
+    </bean>
+
+    <bean id="aoToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoCOImpl">
+        <constructor-arg><ref bean="coService"></ref></constructor-arg>
+    </bean>
+
+    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl">
+        <constructor-arg><ref bean="coService"></ref></constructor-arg>
     </bean>
 
     <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
