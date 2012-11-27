@@ -45,23 +45,25 @@ public class AgendaStudentLookupableHelperServiceImpl extends LookupableImpl {
 
     @Override
     public boolean allowsMaintenanceEditAction(Object dataObject) {
-        boolean allowsEdit = false;
-
-        AgendaBo agenda = (AgendaBo) dataObject;
-        allowsEdit = KrmsRepositoryServiceLocator.getAgendaAuthorizationService().isAuthorized(KrmsConstants.MAINTAIN_KRMS_AGENDA, agenda.getContextId());
-
-        return allowsEdit;
+//        boolean allowsEdit = false;
+//
+//        AgendaBo agenda = (AgendaBo) dataObject;
+//        allowsEdit = KrmsRepositoryServiceLocator.getAgendaAuthorizationService().isAuthorized(KrmsConstants.MAINTAIN_KRMS_AGENDA, agenda.getContextId());
+//
+//        return allowsEdit;
+        return true;
     }
 
     @Override
     public boolean allowsMaintenanceDeleteAction(Object dataObject) {
-        boolean allowsMaintain = false;
-        boolean allowsDelete = false;
-
-        AgendaBo agenda = (AgendaBo) dataObject;
-        allowsMaintain = KrmsRepositoryServiceLocator.getAgendaAuthorizationService().isAuthorized(KrmsConstants.MAINTAIN_KRMS_AGENDA, agenda.getContextId());
-
-        return allowsDelete && allowsMaintain;
+//        boolean allowsMaintain = false;
+//        boolean allowsDelete = false;
+//
+//        AgendaBo agenda = (AgendaBo) dataObject;
+//        allowsMaintain = KrmsRepositoryServiceLocator.getAgendaAuthorizationService().isAuthorized(KrmsConstants.MAINTAIN_KRMS_AGENDA, agenda.getContextId());
+//
+//        return allowsDelete && allowsMaintain;
+        return true;
     }
 
     @Override
