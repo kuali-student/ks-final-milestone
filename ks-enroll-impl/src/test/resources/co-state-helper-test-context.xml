@@ -2,12 +2,12 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
 
-          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <context:annotation-config />
 
@@ -184,21 +184,23 @@
 
     <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
     </bean>
+
     <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
         <property name="stateService" ref="stateService"/>
-        <property name="stateHelperMap">
-            <map>
-                <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
-                <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
-            </map>
-        </property>
-        <property name="relatedObjectHelperMap">
-            <map>
-                <entry key="kuali.lui.activity.offering:kuali.lui.course.offering" value-ref="aoToCoRelatedObjHelper"/>
-                <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
-            </map>
-        </property>
+        <property name="stateHelperMap" ref="stateHelperMap" />
+        <property name="relatedObjectHelperMap" ref="relatedObjectHelperMap"/>
     </bean>
+
+    <util:map id="stateHelperMap" map-class="java.util.HashMap">
+        <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+        <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
+    </util:map>
+
+    <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
+        <entry key="kuali.lui.activity.offering:kuali.lui.course.offering" value-ref="aoToCoRelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
+    </util:map>
+
     <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl">
         <constructor-arg><ref bean="coService"></ref></constructor-arg>
     </bean>
