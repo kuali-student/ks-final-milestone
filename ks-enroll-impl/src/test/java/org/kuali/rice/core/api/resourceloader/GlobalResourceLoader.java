@@ -1,50 +1,19 @@
 package org.kuali.rice.core.api.resourceloader;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.exception.RiceRemoteServiceConnectionException;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-
-import javax.xml.namespace.QName;
+import org.kuali.student.common.test.mock.MockGlobalResourceLoader;
 
 /**
  * Created with IntelliJ IDEA.
- * User: swedev
+ * User: gtaylor
  * Date: 11/21/12
  * Time: 11:04 AM
- * To change this template use File | Settings | File Templates.
+ * This is a stripped down local copy of the GlobalResourceLoader. Because of our dependency on rice, we have to put
+ * this in our local classpath, otherwise the real rice one is used, which breaks because rice isn't running.
+ *
+ * If you can think of a way to do this VERY simple mock wiring in Spring, please do so. Thanks!
  */
-public class GlobalResourceLoader implements ApplicationContextAware{
+public class GlobalResourceLoader extends MockGlobalResourceLoader{
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GlobalResourceLoader.class);
 
-    static ApplicationContext applicationContext = null;
 
-    public static <T extends Object> T getService(QName serviceName) {
-        if (serviceName == null) {
-            throw new IllegalArgumentException("The service name must be non-null.");
-        }
-        LOG.debug("GlobalResourceLoader fetching service " + serviceName);
-        try {
-            return getService(serviceName);
-        } catch (RiceRemoteServiceConnectionException ex) {
-            LOG.warn(ex.getMessage());
-            return null;
-        }
-    }
-
-    public static <T extends Object> T getService(String localServiceName) {
-        if (StringUtils.isEmpty(localServiceName)) {
-            throw new IllegalArgumentException("The service name must be non-null.");
-        }
-        //ApplicationContext applicationContext = new AnnotationConfigApplicationContext(GlobalResourceLoader.class);
-          return (T)applicationContext.getBean(localServiceName);
-
-
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }
