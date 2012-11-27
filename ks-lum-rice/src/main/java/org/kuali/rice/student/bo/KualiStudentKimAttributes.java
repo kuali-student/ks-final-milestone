@@ -18,12 +18,13 @@ package org.kuali.rice.student.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
 import org.kuali.rice.krad.bo.TransientBusinessObjectBase;
 /**
  * Data Dictionary entries for Kuali Student attributes needed by KIM
  * 
  */
-public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
+public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
 
 	private static final long serialVersionUID = 6969156403877595025L;
 
@@ -230,4 +231,13 @@ public class KualiStudentKimAttributes extends TransientBusinessObjectBase {
         this.ksReferenceTypeKey = ksReferenceTypeKey;
     }
 
+    @Override
+    public void refresh() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String toString() {
+        return "Fill Me Out";  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
