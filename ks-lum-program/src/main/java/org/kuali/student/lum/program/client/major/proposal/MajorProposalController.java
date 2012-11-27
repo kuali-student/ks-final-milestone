@@ -52,11 +52,11 @@ import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
 import java.util.*;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 /**
  * @author Igor

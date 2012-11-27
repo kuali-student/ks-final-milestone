@@ -26,9 +26,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
-import org.kuali.student.r2.lum.clu.CLUConstants;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -88,7 +88,7 @@ public class CopyCourseServiceImpl {
     private ProposalInfo copyProposal(String originalProposalId, String documentType, ContextInfo contextInfo) throws Exception {
         try {
             //Get the original Proposal
-            ProposalInfo originalProposal = proposalService.getProposal(originalProposalId);
+            ProposalInfo originalProposal = proposalService.getProposal(originalProposalId, ContextUtils.getContextInfo());
 
             //Copy the course from the original Proposal
             String originalCluId = originalProposal.getProposalReference().get(0);
@@ -105,7 +105,7 @@ public class CopyCourseServiceImpl {
             originalProposal.setName(null);
 
             //Create the proposal
-            ProposalInfo copiedProposal = proposalService.createProposal(documentType, originalProposal);
+            ProposalInfo copiedProposal = proposalService.createProposal(documentType, originalProposal, ContextUtils.getContextInfo());
 
             return copiedProposal;
 

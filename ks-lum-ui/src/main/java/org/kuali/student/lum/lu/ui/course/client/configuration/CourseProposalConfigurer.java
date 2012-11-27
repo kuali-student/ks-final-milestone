@@ -241,10 +241,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         VerticalSectionView section = initSectionView(CourseSections.CLU_BEGIN, LUUIConstants.START_LABEL_KEY);
         section.setController(layout);
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUUIConstants.PROPOSAL_TITLE_LABEL_KEY));
-        addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY));
-        //addField(section, "proposal/rationale", generateMessageInfo(LUConstants.PROPOSAL_RATIONALE_LABEL_KEY));
-        //addField(section, PROPOSAL + "/" + PROPOSER_PERSON, generateMessageInfo(LUConstants.PROPOSAL_PERSON_LABEL_KEY), new PersonList()) ;
-        layout.addStartViewPopup(section);
+        addField(section, COURSE + "/" + COURSE_TITLE, generateMessageInfo(LUUIConstants.COURSE_TITLE_LABEL_KEY));        layout.addStartViewPopup(section);
         layout.getStartPopup().setMaxHeight(600);
     }
 
@@ -488,8 +485,8 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
         //FIXME [KSCOR-225] Temporary fix til we have a real rich text editor
         //addField(description, COURSE + "/" + DESCRIPTION, null);
         addField(description, COURSE + "/" + DESCRIPTION + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY));
-        addField(description, "proposal/rationale", generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY),
-                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse("proposal/rationale"))));
+        addField(description, PROPOSAL_PATH + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY),
+                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse(PROPOSAL_PATH + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN))));
 
         return description;
     }

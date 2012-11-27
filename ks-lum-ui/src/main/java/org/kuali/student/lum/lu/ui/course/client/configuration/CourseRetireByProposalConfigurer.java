@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
 
 
 /**
@@ -121,8 +122,8 @@ public class CourseRetireByProposalConfigurer extends CourseProposalConfigurer {
         fd.hideLabel();
         
         addField(section, PROPOSAL_TITLE_PATH, generateMessageInfo(LUUIConstants.PROPOSED_PROPOSAL_TITLE_LABEL_KEY));
-        addField(section, PROPOSAL_PATH + "/" + PROPOSED_RATIONALE, generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY),
-                new KSCharCount(modelDefinition.getMetadata(QueryPath.parse(PROPOSAL_PATH + "/" + PROPOSED_RATIONALE))));        
+        addField(section, PROPOSAL_PATH + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN, generateMessageInfo(LUUIConstants.RETIREMENT_RATIONALE_LABEL_KEY),
+        new KSCharCount(modelDefinition.getMetadata(QueryPath.parse(PROPOSAL_PATH + "/" + PROPOSED_RATIONALE+ "/" + RichTextInfoConstants.PLAIN))));        
         addReadOnlyField(section, COURSE + "/" + START_TERM, generateMessageInfo(LUUIConstants.START_TERM_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + PROPOSED_END_TERM, generateMessageInfo(LUUIConstants.PROPOSED_END_TERM_LABEL_KEY));
         addField(section, PROPOSAL_PATH + "/" + PROPOSED_LAST_TERM_OFFERED, generateMessageInfo(LUUIConstants.PROPOSED_LAST_TERM_OFFERED_LABEL_KEY));

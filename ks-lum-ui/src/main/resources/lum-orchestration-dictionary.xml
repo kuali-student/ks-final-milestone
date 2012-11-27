@@ -5590,8 +5590,34 @@ Questions please contact Norm Wright.
 			</list>
 		</property>
 	</bean>
+
 	<bean id="proposal.rationale" parent="dataFieldDescriptor">
 		<property name="name" value="rationale" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataObjectStructure" ref="rationale" />
+		<property name="dataType" value="DATA" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.single" />
+				<ref bean="constraint.required" />
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.single" />
+			</list>
+		</property>
+	</bean>  
+	<bean id="rationale" parent="rationale-parent" />        
+	<bean id="rationale-parent" abstract="true" parent="dataObjectStructure">
+		<property name="name" value="rationale" />
+		<property name="fields">
+			<list>
+				<ref bean="rationale.plain" />
+				<ref bean="rationale.formatted" />
+			</list>
+		</property>
+	</bean>
+	<bean id="rationale.plain" parent="dataFieldDescriptor">
+		<property name="name" value="plain" />
 		<property name="writeAccess" value="ALWAYS" />
 		<property name="onChangeRefreshMetadata" value="false" />
 		<property name="dataType" value="STRING" />
@@ -5603,6 +5629,23 @@ Questions please contact Norm Wright.
 				<ref bean="constraint.single" />
 				<ref bean="constraint.multi.line.text" />
 				<ref bean="constraint.defaultVarCharLength"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="rationale.formatted" parent="dataFieldDescriptor">
+		<property name="name" value="formatted" />
+		<property name="writeAccess" value="ALWAYS" />
+		<property name="onChangeRefreshMetadata" value="false" />
+		<property name="dataType" value="STRING" />
+		<property name="constraints">
+			<list>
+				<ref bean="constraint.optional" />
+				<ref bean="constraint.single" />
+				<ref bean="constraint.rich.text" />
+				<bean parent="constraint">
+					<property name="serverSide" value="false" />
+				</bean>
+				<ref bean="constraint.defaultLongVarCharLength"/>
 			</list>
 		</property>
 	</bean>

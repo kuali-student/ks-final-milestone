@@ -46,9 +46,11 @@ import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.core.proposal.ProposalConstants;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.AttributeHelper;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 public class KualiStudentPostProcessorBase implements PostProcessor{
 
@@ -74,7 +76,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         String actionTakeCode = actionTakenEvent.getActionTaken().getActionTaken().getCode();
 		// on a save action we may not have access to the proposal object because the transaction may not have committed
 		if (!StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, actionTakeCode)) {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString());
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString(), ContextUtils.getContextInfo());
             if (actionTaken == null) {
                 throw new OperationFailedException("No action taken found for document id " + actionTakenEvent.getDocumentId());
             }
@@ -114,7 +116,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     }
 
     protected void processActionTakenOnAdhocRequest(ActionTakenEvent actionTakenEvent, ActionRequest actionRequest) throws Exception {
-        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId());
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId(), ContextUtils.getContextInfo());
         WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), proposalInfo.getType());
         LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
         removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
@@ -138,7 +140,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 
     @Override
     public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
-        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId());
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), ContextUtils.getContextInfo());
 
         // if this is the initial route then clear only edit permissions as per KSLUM-192
         if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME,documentRouteLevelChange.getOldNodeName())) {
@@ -164,8 +166,8 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 			DocumentRouteLevelChange documentRouteLevelChange,
 			ProposalInfo proposalInfo) throws Exception {
 		//Update the proposal with the new node name
-		proposalInfo.getAttributes().put("workflowNode", documentRouteLevelChange.getNewNodeName());
-		getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
+		new AttributeHelper (proposalInfo.getAttributes()).put("workflowNode", documentRouteLevelChange.getNewNodeName());
+		getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.getContextInfo());
         return true;
     }
     
@@ -178,7 +180,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
             // assume the proposal status is already correct
             success = processCustomRouteStatusSavedStatusChange(documentRouteStatusChange);
         } else {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId());
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteStatusChange.getDocumentId(), ContextUtils.getContextInfo());
             
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
             String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), documentRouteStatusChange.getNewRouteStatus());
@@ -289,7 +291,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         }
         requiresSave |= preProcessProposalSave(iDocumentEvent, proposalInfo);
         if (requiresSave) {
-            getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
+            getProposalService().updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.getContextInfo());
         }
     }
 

@@ -31,14 +31,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataFormatter;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
