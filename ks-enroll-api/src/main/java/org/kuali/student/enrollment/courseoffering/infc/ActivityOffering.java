@@ -113,7 +113,7 @@ public interface ActivityOffering extends IdEntity {
      * Indicates that the course is an Honors Course.
      *
      * @name Is Honors Offering
-     * @required
+     *
      */
     public Boolean getIsHonorsOffering();
 
@@ -255,7 +255,6 @@ public interface ActivityOffering extends IdEntity {
      * Indicates whether a RegistrationGroup has a waitlist.
      *
      * @name Has Waitlist
-     * @required
      * @impl maps to Lui.hasWaitlist
      */
     public Boolean getHasWaitlist();
@@ -281,7 +280,6 @@ public interface ActivityOffering extends IdEntity {
      * Indicates if the waitlist requires checkin.
      *
      * @name Is Waitlist Checkin Required
-     * @required
      * @impl maps to Lui.isWaitlistCheckinRequired
      */
     public Boolean getIsWaitlistCheckinRequired();
@@ -296,7 +294,6 @@ public interface ActivityOffering extends IdEntity {
 
     /**
      * Indicates that the activity offering is part of a ColocatedOfferingSet.
-     * @required
      */
     public Boolean getIsPartOfColocatedOfferingSet();
 
