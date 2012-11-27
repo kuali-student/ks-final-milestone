@@ -19,12 +19,17 @@ package org.kuali.student.r2.core.class1.state.model;
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * State propagation attribute entity
  *
  * @author Kuali Student Team
  */
 
+@Entity
+@Table(name = "KSEN_STATE_PROPAGT_ATTR")
 public class StatePropagationAttributeEntity  extends BaseAttributeEntity<StatePropagationEntity> {
 
 	public StatePropagationAttributeEntity() {
