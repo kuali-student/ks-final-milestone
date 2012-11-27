@@ -24,7 +24,6 @@ import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -34,7 +33,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 /**
@@ -81,13 +79,12 @@ public interface ProposalService extends DictionaryService, SearchService {
      * 
      * @param proposalTypeKey key of the proposal type
      * @return List of proposal information
-     * @throws DoesNotExistException proposalTypeKey not found
      * @throws InvalidParameterException invalid proposalTypeKey
      * @throws MissingParameterException missing proposalTypeKey
      * @throws OperationFailedException unable to complete request
      */
     public List<ProposalInfo> getProposalsByProposalType(@WebParam(name = "proposalTypeKey") String proposalTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the list of Proposals for the specified Reference Type and
@@ -165,7 +162,6 @@ public interface ProposalService extends DictionaryService, SearchService {
      *            being created
      * @param proposalInfo information about the Proposal being created
      * @return the created Proposal information
-     * @throws AlreadyExistsException Proposal already exists
      * @throws DataValidationErrorException One or more values invalid for this
      *             operation
      * @throws DoesNotExistException proposalTypeKey not found
@@ -175,7 +171,7 @@ public interface ProposalService extends DictionaryService, SearchService {
      * @throws PermissionDeniedException authorization failure
      */
     public ProposalInfo createProposal(@WebParam(name = "proposalTypeKey") String proposalTypeKey, @WebParam(name = "proposalInfo") ProposalInfo proposalInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
@@ -191,12 +187,21 @@ public interface ProposalService extends DictionaryService, SearchService {
      * @throws MissingParameterException missing proposalId, proposalInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws ReadOnlyException if attempting to update a read-only field like the type
      * @throws VersionMismatchException The action was attempted on an out of
      *             date version.
      */
-    public ProposalInfo updateProposal(@WebParam(name = "proposalId") String proposalId, @WebParam(name = "proposalInfo") ProposalInfo proposalInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public ProposalInfo updateProposal(@WebParam(name = "proposalId") String proposalId, 
+            @WebParam(name = "proposalInfo") ProposalInfo proposalInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DataValidationErrorException, 
+            DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException,
+            OperationFailedException, 
+            PermissionDeniedException, 
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Deletes an existing Proposal
