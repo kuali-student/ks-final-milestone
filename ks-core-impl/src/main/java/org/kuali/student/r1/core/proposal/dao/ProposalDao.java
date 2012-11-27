@@ -36,7 +36,7 @@ import org.kuali.student.r1.core.proposal.entity.ProposalType;
 @Deprecated
 public interface ProposalDao extends CrudDao {
     public List<Proposal> getProposalsByIdList(List<String> idList);
-    public List<Proposal> getProposalsByProposalType(String proposalTypeId) throws DoesNotExistException;
+    public List<Proposal> getProposalsByProposalType(String proposalTypeId);
     public List<Proposal> getProposalsByReference(String referenceTypeId, String referenceId) throws DoesNotExistException;
     public List<Proposal> getProposalsByState(String proposalState, String proposalTypeId) throws DoesNotExistException;
     public Proposal getProposalByWorkflowId(String workflowId) throws DoesNotExistException;

@@ -152,12 +152,6 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertEquals(2, proposals.size());
 
         try {
-            assertEquals(null, client.getProposalsByProposalType("proposalType.courseCorrection-XXX", ContextUtils.getContextInfo()));
-        } catch (DoesNotExistException e) {
-            assertTrue(false);
-        }
-
-        try {
             client.getProposalsByProposalType(null, ContextUtils.getContextInfo());
             assertTrue(false);
         } catch (MissingParameterException e) {

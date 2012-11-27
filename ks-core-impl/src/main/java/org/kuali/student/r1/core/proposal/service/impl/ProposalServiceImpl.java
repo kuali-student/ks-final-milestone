@@ -70,8 +70,7 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ProposalInfo createProposal(String proposalTypeKey, ProposalInfo proposalInfo, ContextInfo contextInfo) 
-            throws AlreadyExistsException, 
-            DataValidationErrorException, 
+            throws DataValidationErrorException, 
             DoesNotExistException, 
             InvalidParameterException, 
             MissingParameterException, 
@@ -194,7 +193,7 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     @Transactional(readOnly=true)
     public List<ProposalInfo> getProposalsByProposalType(String proposalTypeKey, ContextInfo contextInfo) 
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
 
         List<Proposal> proposals = proposalDao.getProposalsByProposalType(proposalTypeKey);
@@ -260,7 +259,7 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ProposalInfo updateProposal(String proposalId, ProposalInfo proposalInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+            throws ReadOnlyException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(proposalId, "proposalId");
         checkForMissingParameter(proposalInfo, "proposalInfo");
 

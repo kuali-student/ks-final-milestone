@@ -55,7 +55,7 @@ public class ProposalDaoImpl extends AbstractCrudDaoImpl implements ProposalDao 
     }
 
     @Override
-    public List<Proposal> getProposalsByProposalType(String proposalTypeId) throws DoesNotExistException{
+    public List<Proposal> getProposalsByProposalType(String proposalTypeId) {
         Query query = em.createNamedQuery("Proposal.getProposalsByProposalType");
         query.setParameter("proposalTypeId", proposalTypeId);
         @SuppressWarnings("unchecked")
