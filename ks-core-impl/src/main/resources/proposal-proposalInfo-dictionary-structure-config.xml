@@ -33,10 +33,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.proposalInfo -->
 <!-- **************************************** -->
 <!-- Detailed information about a proposal. -->
-<dict:objectStructure key="org.kuali.student.r1.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.core.proposal.dto.ProposalInfo" id="object.proposalInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.proposalInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.r1.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.core.proposal.dto.ProposalInfo" id="object.proposalInfo" parent="object.proposalInfo.abstract"/>
 
 <dict:type key="*" id="type.proposalInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -57,7 +57,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:fieldRef bean="field.proposalInfo.proposalReferenceType"/>
 	<dict:fieldRef bean="field.proposalInfo.proposalReference"/>
 	<dict:fieldRef bean="field.proposalInfo.rationale"/>
-	<dict:fieldRef bean="field.proposalInfo.detailDesc"/>
+	<dict:fieldRef bean="field.proposalInfo.descr"/>
 	<dict:fieldRef bean="field.proposalInfo.effectiveDate"/>
 	<dict:fieldRef bean="field.proposalInfo.expirationDate"/>
 	<dict:fieldRef bean="field.proposalInfo.metaInfo"/>
@@ -182,24 +182,24 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:constraintDescriptor key="rationale" id="field.proposalInfo.rationale.cd" parent="field.proposalInfo.rationale.cd.abstract"/>
 
 <!-- Made this optional even though the service says its requried -->
-<dict:field key="detailDesc" id="field.proposalInfo.detailDesc.abstract" abstract="true">
-	<dict:fieldDescriptorRef bean="field.proposalInfo.detailDesc.fd"/>
-	<dict:constraintDescriptorRef bean="field.proposalInfo.detailDesc.cd"/>
+<dict:field key="descr" id="field.proposalInfo.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.proposalInfo.descr.fd"/>
+	<dict:constraintDescriptorRef bean="field.proposalInfo.descr.cd"/>
 </dict:field>
-<dict:field key="detailDesc" id="field.proposalInfo.detailDesc" parent="field.proposalInfo.detailDesc.abstract"/>
-<dict:fieldDescriptor id="field.proposalInfo.detailDesc.fd.abstract" abstract="true">
+<dict:field key="descr" id="field.proposalInfo.descr" parent="field.proposalInfo.descr.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.descr.fd.abstract" abstract="true">
 	<dict:name>Detailed Description</dict:name>
 	<dict:desc>Detailed description of the proposed changes.</dict:desc>
 	<dict:dataType>string</dict:dataType>
 </dict:fieldDescriptor>
-<dict:fieldDescriptor id="field.proposalInfo.detailDesc.fd" parent="field.proposalInfo.detailDesc.fd.abstract"/>
+<dict:fieldDescriptor id="field.proposalInfo.descr.fd" parent="field.proposalInfo.descr.fd.abstract"/>
 <!-- Optional; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
-<dict:constraintDescriptor id="field.proposalInfo.detailDesc.cd.abstract" abstract="true">
+<dict:constraintDescriptor id="field.proposalInfo.descr.cd.abstract" abstract="true">
 	<dict:constraintRef bean="constraint.optional"/>
 	<dict:constraintRef bean="constraint.single"/>
 	<dict:constraintRef bean="constraint.multi.line.text"/>
 </dict:constraintDescriptor>
-<dict:constraintDescriptor key="detailDesc" id="field.proposalInfo.detailDesc.cd" parent="field.proposalInfo.detailDesc.cd.abstract"/>
+<dict:constraintDescriptor key="descr" id="field.proposalInfo.descr.cd" parent="field.proposalInfo.descr.cd.abstract"/>
 
 <dict:field key="effectiveDate" id="field.proposalInfo.effectiveDate.abstract" abstract="true">
 	<dict:fieldDescriptorRef bean="field.proposalInfo.effectiveDate.fd"/>

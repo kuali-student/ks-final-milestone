@@ -11,13 +11,12 @@ import org.kuali.student.r1.common.assembly.transform.AbstractDataFilter;
 import org.kuali.student.r1.common.assembly.transform.DataBeanMapper;
 import org.kuali.student.r1.common.assembly.transform.DefaultDataBeanMapper;
 import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.core.rice.authorization.CollaboratorHelper;
 import org.kuali.student.r1.core.workflow.dto.CollaboratorInfo;
 import org.kuali.student.r1.core.workflow.dto.WorkflowPersonInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 /**
  * Filter can be used to add authors and collaborators to a workflow process. The filter must be
@@ -92,7 +91,7 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 
         // Update proposal with new authors (if any)
         if (updateProposal) {
-            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
+            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.getContextInfo());
             properties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
             
     		//Note: A proposalInfo conversion for data sent to UI happens in PropoposalWorkflowFilter as well. It

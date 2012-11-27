@@ -16,10 +16,10 @@
 package org.kuali.student.core.proposal.ui.client.service;
 
 import org.kuali.student.common.ui.client.service.BaseRpcService;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 /**
  * For now this class is used to expose the search/dictionary operations from

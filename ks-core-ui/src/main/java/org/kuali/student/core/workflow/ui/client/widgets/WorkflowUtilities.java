@@ -71,7 +71,6 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
@@ -88,6 +87,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 public class WorkflowUtilities{
 

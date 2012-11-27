@@ -36,9 +36,12 @@ import org.kuali.student.r1.common.assembly.transform.IdTranslatorFilter;
 import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
 import org.kuali.student.r1.common.assembly.transform.TransformFilter;
 import org.kuali.student.r1.common.assembly.util.IdTranslator;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
+import org.kuali.student.r2.common.util.AttributeHelper;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -102,12 +105,12 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         }
         
         //Set proposal type
-        if (proposalInfo.getType() == null){
+        if (proposalInfo.getTypeKey() == null){
             String proposalType = (String)properties.get(WORKFLOW_DOC_TYPE);
             if (proposalType == null){
                 proposalType = getDefaultDocType();
             }
-            proposalInfo.setType(proposalType);
+            proposalInfo.setTypeKey(proposalType);
         }           
 
         properties.put(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, proposalInfo.getType());
@@ -131,36 +134,36 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         if (TransformFilterAction.SAVE == properties.get(TransformFilter.FILTER_ACTION)){
             //If new proposal create proposal 
             if (proposalInfo.getId() == null){
-                String docType = proposalInfo.getType();
+                String docType = proposalInfo.getTypeKey();
                 DocumentTypeConfiguration docTypeConfig = getDocTypeConfig(docType);
                 String referenceId = data.query("id");
                 proposalInfo.setProposalReferenceType(getProposalReferenceType());
                 proposalInfo.getProposalReference().add(referenceId);
                 
                 // TODO: this needs to be defined as a constant where all references will resolve
-                if ("kuali.proposal.type.course.modify".equals(proposalInfo.getType())||
-                    "kuali.proposal.type.course.modify.admin".equals(proposalInfo.getType())||
-                    "kuali.proposal.type.course.retire".equals(proposalInfo.getType())||
-                    "kuali.proposal.type.majorDiscipline.modify".equals(proposalInfo.getType())) {
+                if ("kuali.proposal.type.course.modify".equals(proposalInfo.getTypeKey())||
+                    "kuali.proposal.type.course.modify.admin".equals(proposalInfo.getTypeKey())||
+                    "kuali.proposal.type.course.retire".equals(proposalInfo.getTypeKey())||
+                    "kuali.proposal.type.majorDiscipline.modify".equals(proposalInfo.getTypeKey())) {
                     proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
                 }
                 
                 Map<String, String> proposalAttributes = (Map<String, String>) properties.get(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES);
 
                 if(proposalAttributes!=null){
-                	proposalInfo.getAttributes().putAll(proposalAttributes);
+                	putAllAttributes (proposalInfo.getAttributes(), proposalAttributes);
                 }
                 
-                proposalInfo.setState("Saved");
+                proposalInfo.setStateKey("Saved");
                                 
-                proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);            
+                proposalInfo = proposalService.createProposal(proposalInfo.getTypeKey(), proposalInfo, ContextUtils.getContextInfo());            
             } 
                 
             //Update the workflow process for this proposal
             proposalInfo = updateWorkflow(proposalInfo, data, properties);
     
             //Update the propsal service with new proposal info
-            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
+            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo, ContextUtils.getContextInfo());
 
             //Place updated info in properties in case other filters wish to make use of it
             properties.put(PROPOSAL_INFO, proposalInfo);
@@ -244,7 +247,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             proposalInfo.setWorkflowId(workflowId);
             
             //Set the node attribute on the proposal to preroute as an initial value
-            proposalInfo.getAttributes().put("workflowNode", "PreRoute");
+            putAttribute (proposalInfo.getAttributes(), "workflowNode", "PreRoute");
             
             //Lookup the workflow document detail to see if create was successful
             try {
@@ -302,6 +305,14 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         }
         
         return docTitle;        
+    }
+    
+    private void putAllAttributes (List<AttributeInfo> attrs, Map<String, String> map) {
+        new AttributeHelper (attrs).putAll (map);
+    }
+    
+    private void putAttribute (List<AttributeInfo> attrs, String key, String value) {
+        new AttributeHelper (attrs).put (key, value);
     }
     
     /**

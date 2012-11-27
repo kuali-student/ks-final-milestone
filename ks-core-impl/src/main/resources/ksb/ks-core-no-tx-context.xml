@@ -828,7 +828,7 @@
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
                 <property name="service" ref="proposalServiceImpl" />
-                <property name="serviceInterface" value="org.kuali.student.r1.core.proposal.service.ProposalService"/>
+                <property name="serviceInterface" value="org.kuali.student.r2.core.proposal.service.ProposalService"/>
                 <property name="localServiceName" value="ProposalService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/proposal" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
@@ -900,7 +900,7 @@
                     pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
                     method="afterThrowing" throwing="ex" />
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.r1.core.proposal.service.*.*(..))"
+                    pointcut="execution(* org.kuali.student.r2.core.proposal.service.*.*(..))"
                     method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>

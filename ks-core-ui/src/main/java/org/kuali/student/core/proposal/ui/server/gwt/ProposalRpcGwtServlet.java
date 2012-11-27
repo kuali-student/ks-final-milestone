@@ -17,9 +17,10 @@ package org.kuali.student.core.proposal.ui.server.gwt;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 /**
  * For now this servlet just exposes the dictionary and search methods of the Proposal Service 
@@ -36,7 +37,7 @@ public class ProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<ProposalSer
     @Override
     public ProposalInfo getProposalByWorkflowId(String workflowId) throws Exception {
         try {
-            return service.getProposalByWorkflowId(workflowId);
+            return service.getProposalByWorkflowId(workflowId, ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOGGER.error(e);
             throw e;

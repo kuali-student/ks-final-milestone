@@ -61,7 +61,7 @@
 		<dict:type key="kuali.org.Document">
 			<dict:state id="kuali.org.documentInfo.Document.active"
 				key="active">
-				<dict:field key="desc">
+				<dict:field key="descr">
 					<dict:fieldDescriptor>
 						<dict:dataType>complex</dict:dataType>
 						<dict:objectStructureRef bean="richTextInfo" />
