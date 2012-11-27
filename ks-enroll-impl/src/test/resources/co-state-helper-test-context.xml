@@ -185,6 +185,7 @@
     <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
     </bean>
     <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
+        <property name="stateService" ref="stateService"/>
         <property name="stateHelperMap">
             <map>
                 <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
