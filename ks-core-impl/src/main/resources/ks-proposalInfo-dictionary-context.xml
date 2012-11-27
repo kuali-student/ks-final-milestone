@@ -364,8 +364,69 @@
           parent="richTextInfo.formatted-parent">
         <property name="name" value="plain" />
         <property name="maxOccurs" value="1" />
-        <property name="minOccurs" value="1" />
-        <property name="maxLength" value="255" />
+        <property name="minOccurs" value="0" />
+        <property name="maxLength" value="255"/>
+        <property name="caseConstraint">
+            <bean parent="caseConstraint">
+                <property name="operator" value="EQUALS"/>
+                <property name="fieldPath" value="state"/>
+                <property name="caseSensitive" value="false"/>
+                <property name="whenConstraint">
+                    <list>
+                        <bean parent="whenConstraint">
+                            <property name="values">
+                                <list>
+                                    <value>DRAFT</value>
+                                </list>
+                            </property>
+                            <property name="constraint">
+                                <bean parent="baseKualiDescription">
+                                    <property name="maxOccurs" value="1" />
+                                    <property name="maxLength" value="255"/>
+                                    <property name="caseConstraint">
+                                        <bean parent="caseConstraint">
+                                            <property name="operator" value="EQUALS"/>
+                                            <property name="caseSensitive" value="false"/>
+                                            <property name="fieldPath" value="proposal/workflowNode"/>
+                                            <property name="whenConstraint">
+                                                <list>
+                                                    <bean parent="whenConstraint">
+                                                        <property name="values" ref="proposalInfo.rationale.requiredByNode"/>
+                                                        <property name="constraint">
+                                                            <bean parent="baseKualiDescription">
+                                                                <property name="maxOccurs" value="1" />
+                                                                <property name="minOccurs" value="1" />
+                                                                <property name="maxLength" value="255"/>
+                                                            </bean>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                        <bean parent="whenConstraint">
+                            <property name="values">
+                                <list>
+                                    <value>ENROUTE</value>
+                                    <value>APPROVED</value>
+                                    <value>RETIRED</value>
+                                </list>
+                            </property>
+                            <property name="constraint">
+                                <bean parent="baseKualiDescription">
+                                    <property name="maxOccurs" value="1" />
+                                    <property name="minOccurs" value="1" />
+                                    <property name="maxLength" value="255"/>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
     <bean id="proposalInfo.rationale.plain" parent="proposalInfo.rationale.plain-parent" />
 
