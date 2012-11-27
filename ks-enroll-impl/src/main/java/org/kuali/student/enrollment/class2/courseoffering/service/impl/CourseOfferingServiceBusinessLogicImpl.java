@@ -309,6 +309,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         StringUtils.equals(sourceAo.getTypeKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
                     continue;
                 }
+
+                sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
+
                 ActivityOfferingInfo targetAo =
                         _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermId, optionKeys, context);
                 sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
