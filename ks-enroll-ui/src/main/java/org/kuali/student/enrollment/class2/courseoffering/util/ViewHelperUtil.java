@@ -211,8 +211,7 @@ public class ViewHelperUtil {
         String oldCoState = coInfo.getStateKey();
         String newCoState = getNewCoState(formatOfferings);
         if (newCoState != null && !StringUtils.equals(oldCoState, newCoState)) {
-            coInfo.setStateKey(newCoState);
-            coService.updateCourseOffering(coInfo.getId(), coInfo, context);
+            coService.updateCourseOfferingState(coInfo.getId(), newCoState, context);
         }
     }
 

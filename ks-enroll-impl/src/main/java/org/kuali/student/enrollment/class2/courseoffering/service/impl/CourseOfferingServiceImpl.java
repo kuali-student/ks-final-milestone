@@ -2977,16 +2977,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        //TODO validation and state lifecylce checks
         LuiInfo lui = luiService.getLui(courseOfferingId, contextInfo);
-        lui.setStateKey(nextStateKey);
-        try{
-            luiService.updateLui(lui.getId(), lui, contextInfo);
-        }catch(Exception e){
-            throw new OperationFailedException("Failed to update State", e);
-        }
 
-        /*StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(courseOfferingId,nextStateKey,contextInfo);
+        StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(courseOfferingId,nextStateKey,contextInfo);
         if (statusInfo.getIsSuccess()){
 
             lui.setStateKey(nextStateKey);
@@ -2996,15 +2989,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new OperationFailedException("Failed to update State", e);
             }
 
-            Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(courseOfferingId,nextStateKey,contextInfo);
+            /*Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(courseOfferingId,nextStateKey,contextInfo);
             for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
                 if (!statusInfo1.getIsSuccess()){
                     throw new OperationFailedException(statusInfo1.getMessage());
                 }
-            }
-        }*/
+            }*/
+            return new StatusInfo();
+        }else{
+            return statusInfo;
+        }
 
-        return new StatusInfo();
     }
 
     @Override
