@@ -1,3 +1,5 @@
+select krim_entity_id_s.nextval from dual
+/
 insert into KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT) values (KRIM_ENTITY_ID_S.NEXTVAL, SYS_GUID(), 1, 'Y', SYSDATE)
 /
 insert into KRIM_PRNCPL_T (PRNCPL_ID, OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT) values ( 'martha', SYS_GUID(), 1, 'martha', KRIM_ENTITY_ID_S.CURRVAL, 'martha', 'Y', SYSDATE)
