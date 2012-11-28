@@ -112,13 +112,13 @@
                                         <bean parent="Uif-InputField" p:propertyName="gradeRosterLevelTypeKey"
                                               p:label="Grade Roster Level">
                                             <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingTypeKeyValues"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField" p:propertyName="finalExamLevelTypeKey"
                                               p:label="Final Exam Driver" p:render="@{#dp.coInfo.finalExamType eq 'STANDARD'}">
                                             <property name="optionsFinder">
-                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingTypeKeyValues"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:label="Final Exam Driver"
