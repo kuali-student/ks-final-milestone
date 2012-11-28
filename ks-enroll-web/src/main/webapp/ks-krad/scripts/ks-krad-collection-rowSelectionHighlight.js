@@ -10,6 +10,7 @@ function ks_krad_collection_rowSelectionPrep() {
     // Add a click handler to all non-addLine rows
     jQuery('table.ks-krad-collection-rowSelectionHighlight tr:not(.uif-collectionAddItem)').click( function(event) {
         if (event.target.nodeName == "A") return;  // ignore click event bubbled up from A/anchor link
+        // NOTE: if used on editable collection, INPUT, SELECT and TEXTAREA should also be skipped
 
         // if only one row is selectable, remove the currently highlighted row
         jQuery('table.ks-krad-collection-allowOneRow tr.ks-krad-selected:first')
