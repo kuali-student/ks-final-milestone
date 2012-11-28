@@ -2989,12 +2989,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new OperationFailedException("Failed to update State", e);
             }
 
-            /*Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(courseOfferingId,nextStateKey,contextInfo);
+            String propagationKey = lui.getStateKey() + ":" + nextStateKey;
+            Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(courseOfferingId,propagationKey,contextInfo);
             for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
                 if (!statusInfo1.getIsSuccess()){
                     throw new OperationFailedException(statusInfo1.getMessage());
                 }
-            }*/
+            }
             return new StatusInfo();
         }else{
             return statusInfo;
