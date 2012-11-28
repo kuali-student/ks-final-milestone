@@ -1,5 +1,8 @@
 package org.kuali.student.enrollment.main.view;
 
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.krad.util.KRADConstants;
+
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.view.View;
@@ -36,6 +39,9 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                     }
                     additionalRoleQualifications.put("org", orgIds.get(0));
                 }
+            }
+            else if(theForm.getAdminOrg() != null){
+                additionalRoleQualifications.put("org", theForm.getAdminOrg());
             }
         }
         // Make the actual call to is authorized by template
