@@ -72,9 +72,9 @@ public class KitchenSinkController extends UifControllerBase {
                                    HttpServletRequest request, HttpServletResponse response) {
 
         List<KitchenSinkFormCollection1> collectionList = new ArrayList<KitchenSinkFormCollection1>();
-        collectionList.add(new KitchenSinkFormCollection1("Item #1", "This is the first item", "2001-01-01"));
-        collectionList.add(new KitchenSinkFormCollection1("John Adams", "POTUS #2", "1735-10-30"));
-        collectionList.add(new KitchenSinkFormCollection1("Big Bang Theory", "A funny television show", "2007-09-24"));
+        collectionList.add(new KitchenSinkFormCollection1("Item #1", "A primary item", "2001-01-01"));
+        collectionList.add(new KitchenSinkFormCollection1("John Adams", "A founding father", "1735-10-30"));
+        collectionList.add(new KitchenSinkFormCollection1("Big Bang Theory", "A funny show", "2007-09-24"));
         collectionList.add(new KitchenSinkFormCollection1("Chainbreaker IPA", "A tasty beverage", "2011-06-09"));
         form.setCollection(collectionList);
 
@@ -158,6 +158,27 @@ public class KitchenSinkController extends UifControllerBase {
         // Code goes here to save form to database
         //
         GlobalVariables.getMessageMap().addGrowlMessage("NOTE", "kitchensink.saveForm");
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=processFormRowSelection")
+    public ModelAndView processFormRowSelection(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) {
+        //
+        // This method should do something with the selected rows, like send them to another page or maybe
+        // save them, or...  For this example the selected row name will just be added to a growl message.
+        //
+        StringBuilder sb = new StringBuilder();
+        for (KitchenSinkFormCollection1 collection : form.getCollection()) {
+            if (collection.getSelected()) {
+                // do something with the selected rows
+                if (sb.length() > 0) {
+                    sb.append(", ");
+                }
+                sb.append(collection.getName());
+            }
+        }
+        GlobalVariables.getMessageMap().addGrowlMessage("PROCESSED:", "kitchensink.custom", sb.toString());
         return getUIFModelAndView(form);
     }
 
