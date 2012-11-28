@@ -63,7 +63,7 @@
       SELECT SYSDATE FROM DUAL
     </ks.impex.oracle.sql.validate>
         <!-- Drop the user, ignoring the Oracle error code for "user does not exist" -->
-    <ks.impex.oracle.sql.drop>
+        <ks.impex.oracle.sql.drop>
       BEGIN
         FOR SESSIONS IN ( SELECT SID, SERIAL#
           FROM   V$SESSION
@@ -79,7 +79,7 @@
       END;
       /
     </ks.impex.oracle.sql.drop>
-    <ks.impex.oracle.sql.clearschema>
+        <ks.impex.oracle.sql.clearschema>
         BEGIN
         for rec in (select table_name from all_tables where owner='${ks.impex.username}')
         loop
@@ -620,7 +620,6 @@
                 </plugins>
             </build>
         </profile>
-
         <profile>
             <!--
         This profile generates XML files by inspecting a database materialized from the
