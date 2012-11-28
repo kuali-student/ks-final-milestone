@@ -580,6 +580,7 @@
         <property name="stateHelperMap">
             <map>
                 <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+                <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
                 <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
             </map>
         </property>
@@ -587,16 +588,21 @@
             <map>
                 <entry key="kuali.lui.activity.offering:kuali.lui.course.offering" value-ref="aoToCoRelatedObjHelper"/>
                 <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
+                <entry key="kuali.lui.activity.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
             </map>
         </property>
     </bean>
     <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
 
+    <bean id="foStateHelper" class="org.kuali.student.enrollment.class1.state.impl.FOStateHelperImpl"/>
+
     <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" />
 
     <bean id="aoToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoCOImpl"/>
 
-    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl">
+    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
+
+    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl">
     </bean>
 
     <!-- Right now the top level is the validation service so the alias points to it -->

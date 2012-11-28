@@ -193,11 +193,13 @@
 
     <util:map id="stateHelperMap" map-class="java.util.HashMap">
         <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+        <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
         <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
     </util:map>
 
     <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
         <entry key="kuali.lui.activity.offering:kuali.lui.course.offering" value-ref="aoToCoRelatedObjHelper"/>
+        <entry key="kuali.lui.activity.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
         <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
     </util:map>
 
@@ -205,9 +207,13 @@
 
     <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl"/>
 
+    <bean id="foStateHelper" class="org.kuali.student.enrollment.class1.state.impl.FOStateHelperImpl"/>
+
     <bean id="aoToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoCOImpl"/>
 
     <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
+
+    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl"/>
 
     <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
         <property name="atpService" ref="atpService" />
