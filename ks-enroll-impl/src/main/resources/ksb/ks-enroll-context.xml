@@ -594,8 +594,8 @@
      <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
          <entry key="kuali.lui.activity.offering:kuali.lui.course.offering" value-ref="aoToCoRelatedObjHelper"/>
          <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
-         <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
-         <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="foToCoRelatedObjHelper"/>
+         <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
+         <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
      </util:map>
 
     <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
@@ -608,7 +608,9 @@
 
     <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
 
-    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl">
+    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl"/>
+
+    <bean id="coToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoFOImpl">
     </bean>
 
     <!-- Right now the top level is the validation service so the alias points to it -->

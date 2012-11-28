@@ -122,7 +122,7 @@ public class CourseOfferingServiceStateHelper {
 
             if (newFoState != null && !StringUtils.equals(oldFoState, newFoState)) {
                 fo.setStateKey(newFoState);
-                coService.updateFormatOffering(fo.getId(), fo, context);
+                coService.updateFormatOfferingState(fo.getId(), newFoState, context);
             }
         }
 
