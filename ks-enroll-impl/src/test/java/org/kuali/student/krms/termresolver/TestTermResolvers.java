@@ -206,7 +206,7 @@ public class TestTermResolvers {
                 KSKRMSExecutionConstants.FREE_TEXT_TERM_NAME);
 
         //Evaluate term Resolver
-        String result =  termResolver.resolve(resolvedPrereqs,parameters );
+        Boolean result =  termResolver.resolve(resolvedPrereqs,parameters );
 
         assertNull(result);
     }
