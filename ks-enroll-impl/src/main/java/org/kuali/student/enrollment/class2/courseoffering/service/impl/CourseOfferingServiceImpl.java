@@ -3026,22 +3026,36 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo updateActivityOfferingState(
             String activityOfferingId,
             String nextStateKey,
             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-
-        //TODO validation and state lifecylce checks
         LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
-        // TODO: Determine if this lui has AO type--throw exception if not
-        lui.setStateKey(nextStateKey);
-        try{
-            luiService.updateLui(lui.getId(), lui, contextInfo);
-        }catch(Exception e){
-            throw new OperationFailedException("Failed to update State", e);
+
+        StatusInfo scStatus = stateTransitionsHelper.processStateConstraints(activityOfferingId, nextStateKey, contextInfo);
+        if(scStatus.getIsSuccess()) {
+            //update entity
+            lui.setStateKey(nextStateKey);
+            try{
+                luiService.updateLui(lui.getId(), lui, contextInfo);
+            }catch(Exception e){
+                throw new OperationFailedException("Failed to update State", e);
+            }
+
+            //propagation
+            Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(activityOfferingId, nextStateKey, contextInfo);
+            for (StatusInfo statusInfo : spStatusMap.values()) {
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException(statusInfo.getMessage());
+                }
+            }
+        } else{
+            throw new OperationFailedException(scStatus.getMessage());
         }
+
         return new StatusInfo();
     }
 
