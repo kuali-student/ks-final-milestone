@@ -2127,6 +2127,33 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/courseOfferingSet/SocInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService"
         TYPE_KEY="kuali.soc.type.units.deployment.owner" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120910000000"
+        DESCR_FORMATTED="State Change Type"
+        DESCR_PLAIN="State Change Type" NAME="State Change Type"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/state/StateChangeInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/state/StateService"
+        TYPE_KEY="kuali.state.change.type" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120910000000"
+        DESCR_FORMATTED="State constraint precondition Type"
+        DESCR_PLAIN="State constraint precondition Type"
+        NAME="State constraint precondition Type"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/state/StateConstraintInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/state/StateService"
+        TYPE_KEY="kuali.state.constraint.type.precondition" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120910000000"
+        DESCR_FORMATTED="State constraint propagation Type"
+        DESCR_PLAIN="State constraint propagation Type"
+        NAME="State constraint propagation Type"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/state/StateConstraintInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/state/StateService"
+        TYPE_KEY="kuali.state.constraint.type.propagation" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120910000000"
+        DESCR_FORMATTED="State Propagation Type"
+        DESCR_PLAIN="State Propagation Type"
+        NAME="State Propagation Type"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/state/StatePropagationInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/state/StateService"
+        TYPE_KEY="kuali.state.propagation.type" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Type specifies which types can go together"
         DESCR_PLAIN="Type specifies which types can go together"
