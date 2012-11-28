@@ -215,4 +215,16 @@
     <bean id="roomServiceDao" class="org.kuali.student.r2.core.room.dao.RoomServiceDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
+
+    <bean id="stateChangeDao" class="org.kuali.student.r2.core.class1.state.dao.StateChangeDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="stateConstraintDao" class="org.kuali.student.r2.core.class1.state.dao.StateConstraintDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
+    <bean id="statePropagationDao" class="org.kuali.student.r2.core.class1.state.dao.StatePropagationDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
 </beans>
