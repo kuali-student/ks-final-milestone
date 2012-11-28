@@ -79,16 +79,23 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) form;
+        // set adminOrg to the form to temporarily overcome that we actually need page level authorization but not view 
+        // level authorization.
+        String inputValue = request.getParameter("adminOrg");
+        if ((inputValue != null) && !inputValue.isEmpty()){
+            theForm.setAdminOrg(inputValue);
+        }
 
         // check view authorization
         // TODO: this needs to be invoked for each request
         if (form.getView() != null) {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
             checkViewAuthorization(theForm, methodToCall);
+
         }
         
         // check if the view is invoked within portal or not
-        String inputValue = request.getParameter("withinPortal");
+        inputValue = request.getParameter("withinPortal");
         if ((inputValue != null) && !inputValue.isEmpty()){
             boolean withinPortal = Boolean.valueOf(request.getParameter("withinPortal"));
             theForm.setWithinPortal(withinPortal);

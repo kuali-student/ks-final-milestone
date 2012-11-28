@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseOfferingManagementForm extends UifFormBase {
+    //for authorization purpose
+    private String adminOrg;
 
     private String termCode;
     private TermInfo termInfo;
@@ -262,4 +264,11 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.withinPortal = withinPortal;
     }
 
+    public String getAdminOrg() {
+        return adminOrg;
+    }
+
+    public void setAdminOrg(String adminOrg) {
+        this.adminOrg = adminOrg;
+    }
 }
