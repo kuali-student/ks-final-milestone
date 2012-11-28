@@ -24,8 +24,11 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -47,6 +50,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     private CourseService courseService;
     private LRCService lrcService;
+    private AtpService atpService;
 
 
     public List<TermInfo> findTermByTermCode(String termCode) throws Exception {
@@ -210,7 +214,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     public void createActivityOfferings(String formatId, String activityId, int noOfActivityOfferings, CourseOfferingManagementForm form){
-
+        String termcode;
         FormatInfo format = null;
         CourseInfo course;
         CourseOfferingInfo courseOffering = form.getTheCourseOffering();
@@ -268,6 +272,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             throw new RuntimeException(e);
         }
 
+        try {
+            AtpInfo termAtp = getAtpService().getAtp(courseOffering.getTermId(), contextInfo);
+            termcode = termAtp.getCode();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         for (int i=0;i<noOfActivityOfferings;i++){
             ActivityOfferingInfo aoInfo = new ActivityOfferingInfo();
             aoInfo.setActivityId(activityId);
@@ -275,6 +286,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             aoInfo.setTypeKey(activityOfferingType.getKey());
             aoInfo.setCourseOfferingId(courseOffering.getId());
             aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+            aoInfo.setTermId(courseOffering.getTermId());
+            aoInfo.setTermCode(termcode);
+            aoInfo.setFormatOfferingName(formatOfferingInfo.getName());
+            aoInfo.setCourseOfferingTitle(courseOffering.getCourseOfferingTitle());
+            aoInfo.setCourseOfferingCode(courseOffering.getCourseOfferingCode());
+
             try {
                 ActivityOfferingInfo activityOfferingInfo = _getCourseOfferingService().createActivityOffering(formatOfferingInfo.getId(), activityId, activityOfferingType.getKey(), aoInfo, contextInfo);
                 ActivityOfferingWrapper wrapper = new ActivityOfferingWrapper(activityOfferingInfo);
@@ -426,7 +443,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
     }
 
-    private CourseOfferingService _getCourseOfferingService() {
+    private CourseOfferingService   _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -459,5 +476,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             lrcService = (LRCService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/lrc", "LrcService"));
         }
         return this.lrcService;
+    }
+
+    public AtpService getAtpService() {
+        if (atpService == null) {
+            Object o = GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE,
+                    AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+            atpService = (AtpService) o;
+        }
+        return atpService;
     }
 }
