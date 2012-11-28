@@ -39,13 +39,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class NumberOfCreditsTermResolver implements TermResolver<String> {	
+public class NumberOfCreditsTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
 
-    private final static Set<String> prerequisites = new HashSet<String>(1);
+    private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
+        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
@@ -69,10 +70,7 @@ public class NumberOfCreditsTermResolver implements TermResolver<String> {
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(2);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        temp.add(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return Collections.singleton(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
     }
 
     @Override
@@ -82,14 +80,14 @@ public class NumberOfCreditsTermResolver implements TermResolver<String> {
     }
 
     @Override
-    public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String calcTypeKeyId = parameters.get(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
-        
-        String result = null;
+        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String calculationTypeKey = parameters.get(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
+
+        String credits;
         try {
-            result = academicRecordService.getEarnedCredits(personId, calcTypeKeyId, context);
+            credits = academicRecordService.getEarnedCredits(personId, calculationTypeKey, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {
@@ -102,6 +100,6 @@ public class NumberOfCreditsTermResolver implements TermResolver<String> {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         }
 
-        return result;
+        return Integer.parseInt(credits);
     }
 }

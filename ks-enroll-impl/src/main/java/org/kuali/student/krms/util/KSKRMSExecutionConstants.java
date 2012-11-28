@@ -50,6 +50,8 @@ public class KSKRMSExecutionConstants {
 	public static final String TERM_ID_TERM_PROPERTY = "termIdProperty";
 	public static final String CALC_TYPE_KEY_TERM_PROPERTY = "calculationTypeKeyProperty";
     public static final String ORG_ID_TERM_PROPERTY = "orgIdProperty";
+    public static final String GRADE_TYPE_TERM_PROPERTY = "gradeTypeProperty";
+    public static final String GRADE_TERM_PROPERTY = "gradeProperty";
 
     public static final String ORG_TYPE_KEY_TERM_PROPERTY = "orgTypeKey";
     public static final String ADMIN_ORG_NUMBER_TERM_NAME = "adminOrgNumber";

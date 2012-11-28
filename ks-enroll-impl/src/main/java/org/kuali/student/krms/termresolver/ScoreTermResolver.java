@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ScoreTermResolver implements TermResolver<List<StudentTestScoreRecordInfo>> {
+public class ScoreTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
 
@@ -70,7 +70,7 @@ public class ScoreTermResolver implements TermResolver<List<StudentTestScoreReco
 
     @Override
     public Set<String> getParameterNames() {
-    	return null;
+        return Collections.singleton(KSKRMSExecutionConstants.TEST_SET_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -80,13 +80,15 @@ public class ScoreTermResolver implements TermResolver<List<StudentTestScoreReco
     }
 
     @Override
-    public List<StudentTestScoreRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String testIds = parameters.get(KSKRMSExecutionConstants.TEST_SET_ID_TERM_PROPERTY);
         
-        List<StudentTestScoreRecordInfo> result = null;
+        Integer result = 0;
+        List<StudentTestScoreRecordInfo> recordInfoList = null;
         try {
-            result = academicRecordService.getTestScoreRecords(personId, context);
+            recordInfoList = academicRecordService.getTestScoreRecords(personId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {

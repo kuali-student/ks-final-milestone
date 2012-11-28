@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FreeTextTermResolver implements TermResolver<String> {
+public class FreeTextTermResolver implements TermResolver<Boolean> {
 
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
@@ -68,7 +68,7 @@ public class FreeTextTermResolver implements TermResolver<String> {
     }
 
     @Override
-    public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        return null;
+    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        return true;
     }
 }

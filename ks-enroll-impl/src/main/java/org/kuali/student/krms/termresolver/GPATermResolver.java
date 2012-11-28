@@ -40,13 +40,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GPATermResolver implements TermResolver<GPAInfo> {	
+public class GPATermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
 
     private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
+        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
@@ -70,10 +71,7 @@ public class GPATermResolver implements TermResolver<GPAInfo> {
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(2);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        temp.add(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
     }
 
     @Override
@@ -83,14 +81,15 @@ public class GPATermResolver implements TermResolver<GPAInfo> {
     }
 
     @Override
-    public GPAInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String calculationTypeKey = parameters.get(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY);
+        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String courseCodes = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
         
-        GPAInfo result = null;
+        List<StudentCourseRecordInfo> studentCourseRecordInfoList = null;
+        Integer result = null;
         try {
-            result = academicRecordService.getCumulativeGPA(personId, calculationTypeKey, context);
+            studentCourseRecordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {
@@ -101,6 +100,25 @@ public class GPATermResolver implements TermResolver<GPAInfo> {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (DoesNotExistException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
+        }
+
+        courseCodes.trim();
+        String[] courseCode = courseCodes.split(",");
+
+        if(courseCodes.contains(",")) {
+            for(StudentCourseRecordInfo si : studentCourseRecordInfoList) {
+                for(String cc : courseCode) {
+                    if(cc.equals(si.getCourseCode())){
+                        result += Integer.parseInt(si.getCreditsForGPA());
+                    }
+                }
+            }
+        } else {
+            for(StudentCourseRecordInfo temp : studentCourseRecordInfoList) {
+                if(temp.getCourseCode().equals(courseCodes)){
+                    result = Integer.parseInt(temp.getCreditsForGPA());
+                }
+            }
         }
 
         return result;

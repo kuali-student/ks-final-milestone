@@ -7,40 +7,15 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
 import org.kuali.student.krms.termresolver.AdminOrgNumberTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseNumberTermResolver;
-import org.kuali.student.krms.termresolver.CompletedCourseSetTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
-import org.kuali.student.krms.termresolver.CompletedCoursesTermResolver;
-import org.kuali.student.krms.termresolver.CompletedEffectiveDateFromTermResolver;
-import org.kuali.student.krms.termresolver.CompletedEffectiveDateToTermResolver;
-import org.kuali.student.krms.termresolver.CompletedLearningObjectivesTermResolver;
-import org.kuali.student.krms.termresolver.CourseNumberRangeTermResolver;
-import org.kuali.student.krms.termresolver.CourseSetTermResolver;
-import org.kuali.student.krms.termresolver.DeptNumberTermResolver;
-import org.kuali.student.krms.termresolver.EffectiveDateFromTermResolver;
-import org.kuali.student.krms.termresolver.EffectiveDateToTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledCourseByTermTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledCourseCodeTermResolver;
 import org.kuali.student.krms.termresolver.EnrolledCourseNumberTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledCourseSetTermResolver;
 import org.kuali.student.krms.termresolver.EnrolledCourseTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledCoursesByTermTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledCoursesTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledEffectiveDateFromTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledEffectiveDateToTermResolver;
-import org.kuali.student.krms.termresolver.EnrolledLearningObjectivesTermResolver;
 import org.kuali.student.krms.termresolver.FreeTextTermResolver;
 import org.kuali.student.krms.termresolver.GPATermResolver;
-import org.kuali.student.krms.termresolver.GradeTermResolver;
-import org.kuali.student.krms.termresolver.GradeTypeTermResolver;
-import org.kuali.student.krms.termresolver.LearningObjectivesTermResolver;
-import org.kuali.student.krms.termresolver.NumberOfCoursesTermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCreditsTermResolver;
 import org.kuali.student.krms.termresolver.ScoreTermResolver;
-import org.kuali.student.krms.termresolver.SubjectCodeTermResolver;
-import org.kuali.student.krms.termresolver.TestTermResolver;
 import org.kuali.student.krms.util.KSKRMSConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -121,111 +96,10 @@ public class KSKRMSTestKRMSServices {
 	public void testCompletedCourseTermResolver() {
 		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COMPLETED_COURSES);
 		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CompletedCoursesTermResolver> termResolverInstance = (TermResolver<CompletedCoursesTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
+			TermResolver<CompletedCourseTermResolver> termResolverInstance = (TermResolver<CompletedCourseTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
 
 			Map<String, String> parameters = new HashMap<String, String>();
 		    parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234102");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testCompletedCoursesTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COMPLETED_COURSES);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CompletedCoursesTermResolver> termResolverInstance = (TermResolver<CompletedCoursesTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-		    parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234103");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testEnrolledCourseByTermTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_COURSE_BY_TERM);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EnrolledCourseByTermTermResolver> termResolverInstance = (TermResolver<EnrolledCourseByTermTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-		    parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234104");
-		    parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "101");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testEnrolledCoursesByTermTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_COURSES_BY_TERM);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EnrolledCoursesByTermTermResolver> termResolverInstance = (TermResolver<EnrolledCoursesByTermTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-		    parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234105");
-		    parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "102");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testCourseNumberRangeTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COURSE_NUMBER_RANGE);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CourseNumberRangeTermResolver> termResolverInstance = (TermResolver<CourseNumberRangeTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-    @Test
-	public void testSubjectCodeTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_SUBJECT_CODE);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<SubjectCodeTermResolver> termResolverInstance = (TermResolver<SubjectCodeTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testCourseSetTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COURSE_SET);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CourseSetTermResolver> termResolverInstance = (TermResolver<CourseSetTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testEffectioveDateFromTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_EFFECTIVE_DATE_FROM);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EffectiveDateFromTermResolver> termResolverInstance = (TermResolver<EffectiveDateFromTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testEffectioveDateToTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_EFFECTIVE_DATE_TO);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EffectiveDateToTermResolver> termResolverInstance = (TermResolver<EffectiveDateToTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
 
 			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
 		}
@@ -259,56 +133,6 @@ public class KSKRMSTestKRMSServices {
 	}
 
 	@Test
-	public void testGradeTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_GRADE);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<GradeTermResolver> termResolverInstance = (TermResolver<GradeTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234108");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testGradeTypeTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_GRADE_TYPE);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<GradeTypeTermResolver> termResolverInstance = (TermResolver<GradeTypeTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234109");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testLearningObjectivesTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_LEARNING_OBJECTIVES);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<LearningObjectivesTermResolver> termResolverInstance = (TermResolver<LearningObjectivesTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testNumberOfCoursesTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_NUMBER_OF_COURSES);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<NumberOfCoursesTermResolver> termResolverInstance = (TermResolver<NumberOfCoursesTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
 	public void testNumberOfCreditsTermResolver() {
 		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_NUMBER_OF_CREDITS);
 		if (ksKRMSTermResolverTypeService != null) {
@@ -329,31 +153,6 @@ public class KSKRMSTestKRMSServices {
 			TermResolver<ScoreTermResolver> termResolverInstance = (TermResolver<ScoreTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
 
 			Map<String, String> parameters = new HashMap<String, String>();
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testTestTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_TEST);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<TestTermResolver> termResolverInstance = (TermResolver<TestTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testDeptNumberTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_DEPT_NUMBER);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<DeptNumberTermResolver> termResolverInstance = (TermResolver<DeptNumberTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234111");
 
 			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
 		}
@@ -386,58 +185,6 @@ public class KSKRMSTestKRMSServices {
 	}
 
 	@Test
-	public void testCompletedCourseSetTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COMPLETED_COURSE_SET);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CompletedCourseSetTermResolver> termResolverInstance = (TermResolver<CompletedCourseSetTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234115");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testCompletedEffectiveDateFromTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COMPLETED_EFFECTIVE_DATE_FROM);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CompletedEffectiveDateFromTermResolver> termResolverInstance = (TermResolver<CompletedEffectiveDateFromTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234116");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testCompletedEffectiveDateToTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COMPLETED_EFFECTIVE_DATE_TO);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CompletedEffectiveDateToTermResolver> termResolverInstance = (TermResolver<CompletedEffectiveDateToTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234117");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testCompletedLearningObjectivesTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_COMPLETED_LEARNING_OBJ_DESCR);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<CompletedLearningObjectivesTermResolver> termResolverInstance = (TermResolver<CompletedLearningObjectivesTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234118");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
 	public void testEnrolledCourseTermResolver() {
 		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_COURSE);
 		if (ksKRMSTermResolverTypeService != null) {
@@ -461,90 +208,6 @@ public class KSKRMSTestKRMSServices {
 			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234119");
 			parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "110");
 
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testEnrolledCourseCodeTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_COURSE_NUMBER_SUBJECT_CODE);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EnrolledCourseCodeTermResolver> termResolverInstance = (TermResolver<EnrolledCourseCodeTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234120");
-			parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "111");
-
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-
-	@Test
-	public void testEnrolledCourseSetTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_SET);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EnrolledCourseSetTermResolver> termResolverInstance = (TermResolver<EnrolledCourseSetTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-		   			
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234121");
-			parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "112");
-			
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-	
-	@Test
-	public void testEnrolledCoursesTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_COURSES);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EnrolledCoursesTermResolver> termResolverInstance = (TermResolver<EnrolledCoursesTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-		   			
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234122");
-			parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "113");
-			
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-	
-	@Test
-	public void testEnrolledEffectiveDateFromTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_EFFECTIVE_DATE_FROM);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EnrolledEffectiveDateFromTermResolver> termResolverInstance = (TermResolver<EnrolledEffectiveDateFromTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-		   			
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234123");
-			parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "114");
-			
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-	
-	@Test
-	public void testEnrolledEffectiveDateToTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_EFFECTIVE_DATE_TO);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EnrolledEffectiveDateToTermResolver> termResolverInstance = (TermResolver<EnrolledEffectiveDateToTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-		   			
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234124");
-			parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "115");
-			
-			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
-		}
-	}
-	
-	@Test
-	public void EnrolledLearningObjectivesTermResolver() {
-		TermResolverDefinition termResolver = krmsTermResolverLookup(KSKRMSConstants.TERM_SPEC_RESOLVER_ENROLLED_LEARNING_OBJ_DESCR);
-		if (ksKRMSTermResolverTypeService != null) {
-			TermResolver<EnrolledLearningObjectivesTermResolver> termResolverInstance = (TermResolver<EnrolledLearningObjectivesTermResolver>) ksKRMSTermResolverTypeService.loadTermResolver(termResolver);
-		   			
-			Map<String, String> parameters = new HashMap<String, String>();
-			parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, "1234125");
-			parameters.put(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY, "116");
-			
 			termResolverInstance.resolve(setupTermResolverResolvedPrereqs(), parameters);
 		}
 	}

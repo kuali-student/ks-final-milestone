@@ -16,37 +16,91 @@
 package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
+import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GradeTypeTermResolver extends CompletedCoursesTermResolver {
+public class GradeTypeTermResolver implements TermResolver<Integer> {
+
+    private AcademicRecordService academicRecordService;
+
+    private final static Set<String> prerequisites = new HashSet<String>(1);
+
+    static {
+        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    }
+    
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
+
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
+    }
+
+    @Override
+    public Set<String> getPrerequisites() {
+        return prerequisites;
+    }
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.GRADE_TYPE_TERM_NAME;
+        return KSKRMSExecutionConstants.GPA_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        Set<String> temp = new HashSet<String>(3);
+        temp.add(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        temp.add(KSKRMSExecutionConstants.GRADE_TERM_PROPERTY);
+        temp.add(KSKRMSExecutionConstants.GRADE_TYPE_TERM_PROPERTY);
+        return Collections.unmodifiableSet(temp);
     }
 
     @Override
     public int getCost() {
         // TODO Analyze, though probably not much to check here
-        return 0;
+        return 5;
     }
 
-    /*@Override
-    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        // Get the list of course records from the superclass and then just return the one we need. (in this case we know there will only be one)
-        List<StudentCourseRecordInfo> gradeTypeRecords = super.resolve(resolvedPrereqs, parameters);
+    @Override
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String courseCodes = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        String gradeType = parameters.get(KSKRMSExecutionConstants.GRADE_TYPE_TERM_PROPERTY);
+        String grade = parameters.get(KSKRMSExecutionConstants.GRADE_TERM_PROPERTY);
+        
+        List<StudentCourseRecordInfo> studentCourseRecordInfoList = null;
+        Integer result = null;
+        /*try {
+            studentCourseRecordInfoList = academicRecordService.??(personId, context);
+        } catch (InvalidParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (MissingParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (OperationFailedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (PermissionDeniedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (DoesNotExistException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        }*/
 
-        return gradeTypeRecords;
-    }*/
+        return result;
+    }
 }

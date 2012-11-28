@@ -43,7 +43,7 @@ import java.util.Set;
 
 public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
 
-    private AcademicRecordService academicRecordService;
+    private CourseRegistrationService courseRegistrationService;
 
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
@@ -52,12 +52,12 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
     
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
+    public CourseRegistrationService getCourseRegistrationService() {
+        return courseRegistrationService;
     }
 
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -85,12 +85,12 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String courseCodes = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        String courseOfferingIds = parameters.get(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
         
-        List<StudentCourseRecordInfo> recordInfoList = null;
+        List<CourseRegistrationInfo> recordInfoList = null;
         Integer result = 0;
         try {
-            recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
+            recordInfoList = courseRegistrationService.getCourseRegistrationsByStudent(personId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {
@@ -99,23 +99,22 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (PermissionDeniedException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (DoesNotExistException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
         }
-        courseCodes.trim();
-        String[] courseCode = courseCodes.split(",");
 
-        if(courseCodes.contains(",")) {
-            for(StudentCourseRecordInfo si : recordInfoList) {
-                for(String cc : courseCode) {
-                    if(cc.equals(si.getCourseCode())){
+        courseOfferingIds.trim();
+        String[] courseOfferingId = courseOfferingIds.split(",");
+
+        if(courseOfferingIds.contains(",")) {
+            for(CourseRegistrationInfo cri : recordInfoList) {
+                for(String cc : courseOfferingId) {
+                    if(cc.equals(cri.getCourseOfferingId())){
                         result++;
                     }
                 }
             }
         } else {
-            for(StudentCourseRecordInfo temp : recordInfoList) {
-                if(temp.getCourseCode().equals(courseCodes)){
+            for(CourseRegistrationInfo temp : recordInfoList) {
+                if(temp.getCourseOfferingId().equals(courseOfferingIds)){
                     result++;
                 }
             }
