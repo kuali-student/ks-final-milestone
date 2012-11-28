@@ -63,5 +63,5 @@ insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_
 /
 
 --Role Member Details
-insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ('KRIM_ATTR_DATA_ID_S.NEXTVAL',  SYS_GUID(), 1, (SELECT ROLE_MBR_ID from KRIM_ROLE_MBR_T where ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T where role_nm = 'KS Department Schedule Coordinator - Org ' and nmspc_cd = 'KS-ENR') AND MBR_ID = 'carol'), (SELECT kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'), (SELECT MIN(TO_NUMBER(kim_attr_defn_id)) from krim_attr_defn_t where nm = 'org' and nmspc_cd = 'KS-ENR'), '1000ENGL')
+insert into KRIM_ROLE_MBR_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, ROLE_MBR_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values (KRIM_ATTR_DATA_ID_S.NEXTVAL,  SYS_GUID(), 1, (SELECT ROLE_MBR_ID from KRIM_ROLE_MBR_T where ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T where role_nm = 'KS Department Schedule Coordinator - Org ' and nmspc_cd = 'KS-ENR') AND MBR_ID = 'carol'), (SELECT kim_typ_id from krim_typ_t where nm = 'Organization Role Type' and nmspc_cd = 'KS-SYS'), (SELECT MIN(TO_NUMBER(kim_attr_defn_id)) from krim_attr_defn_t where nm = 'org' and nmspc_cd = 'KS-SYS'), '1000ENGL')
 /
