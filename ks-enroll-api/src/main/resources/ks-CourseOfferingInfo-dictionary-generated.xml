@@ -559,7 +559,7 @@ on the canonical activity. For example: an id might point to
 Pass/Fail or Letter Graded option.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="CourseOfferingInfo.gradingOptionName-generated" abstract="true" parent="BaseKuali.string">
@@ -649,7 +649,7 @@ ResultValuesGroup could contain a range (with increments) or
 even a discrete list of possible credit values.
 			</value>
 		</property>
-		<property name="required" value="true"/>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="CourseOfferingInfo.waitlistLevelTypeKey-generated" abstract="true" parent="BaseKuali.string">

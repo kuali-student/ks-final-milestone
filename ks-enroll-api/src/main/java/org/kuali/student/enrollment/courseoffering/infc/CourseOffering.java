@@ -200,7 +200,6 @@ public interface CourseOffering
      * Pass/Fail or Letter Graded option.
      * 
      * @name: Grading Option Id
-     * @required
      * @impl Lui.resultOptionIds of type ???
      */
     public String getGradingOptionId();
@@ -235,7 +234,6 @@ public interface CourseOffering
      * even a discrete list of possible credit values.
      *
      * @name Credit Option Id
-     * @required
      * @impl Lui.resultOptionIds returns a list of
      *       resultOptions. Filter option with credit type and that
      *       should give the resultValueGroup.
