@@ -260,3 +260,5 @@ insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('eb22207
 /
 insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('ec1897ca-ee8e-482d-acae-8ae3aa75c786','kuali.creditType.credit.degree.3.0')
 /
+insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('1a402ea2-cf09-45bc-bf93-82b715bdf7d6','kuali.creditType.credit.degree.1.0-25.0')
+/

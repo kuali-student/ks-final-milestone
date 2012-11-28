@@ -228,13 +228,18 @@ public class CourseOfferingTransformer {
 
         // we need to set the creditOptionId on the CO If it doesn't exist.
         if(co.getCreditOptionId() == null || co.getCreditOptionId().equals("")){
-            co.setCreditOptionId(this.getCreditOptionId(co.getCourseId(), cluResultListMap));
+            //co.setCreditOptionId(this.getCreditOptionId(co.getCourseId(), cluResultListMap));
+            LOG.error("This course offering ("+co.getCourseOfferingCode()+") is invalid. Credit option must have a value. ");
+            throw new NullPointerException("This course offering ("+co.getCourseOfferingCode()+") is invalid. Credit option must have a value. ");
         }
 
         co.setCreditCnt(getCreditCount(co.getCreditOptionId(), co.getCourseId(), cluResultListMap, rvgMap, resultValueMap));
 
         if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
             co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
+        } else {
+            LOG.error("This course offering ("+co.getCourseOfferingCode()+") is invalid. Grading option must have a value. ");
+            throw new NullPointerException("This course offering ("+co.getCourseOfferingCode()+") is invalid. Grading option must have a value. ");
         }
 
         LuiIdentifierInfo identifier = lui.getOfficialIdentifier();
@@ -390,16 +395,15 @@ public class CourseOfferingTransformer {
         return creditOptionId;
     }
 
-    //get credit count from persisted COInfo or from CourseInfo
+    //get credit count from persisted COInfo
     private String getCreditCount(String creditOptionId, String courseId, Map<String, List<CluResultInfo>> cluResultListMap, Map<String, ResultValuesGroupInfo> rvgMap, Map<String, ResultValueInfo>resultValueMap) {
         String creditCount="";
         try{
-            //Lookup persisted values (if the CO has a Credit set use that, otherwise look at the RVG of Course/Clu
-            if (creditOptionId == null && courseId != null && cluResultListMap!=null ) {//TODO fix the tests and inject clu service then remove this line
-                creditOptionId = getCreditOptionId(courseId, cluResultListMap);
-            }
-
-            if(creditOptionId != null){
+            //Lookup persisted values (if the CO has a Credit set use that, otherwise the CO is invalid)
+            if(creditOptionId == null || creditOptionId.equals("")){
+                LOG.info("Credit is missing for this course offering");
+                return creditCount = "N/A";
+            } else {
                 ResultValuesGroupInfo resultValuesGroupInfo = rvgMap.get(creditOptionId);
                 String typeKey = resultValuesGroupInfo.getTypeKey();
                 if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
