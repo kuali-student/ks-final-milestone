@@ -48,6 +48,8 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionInForm-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection row selection and toggle"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelection-View&methodToCall=collection" /></li>
+        <li><portal:portalLink displayTitle="true" title="Collection row selection highlighting"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionRowSelectionHighlight-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection table options"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionOptions-View&methodToCall=collection" /></li>
         <li><portal:portalLink displayTitle="true" title="Collection Group Table Layout"
