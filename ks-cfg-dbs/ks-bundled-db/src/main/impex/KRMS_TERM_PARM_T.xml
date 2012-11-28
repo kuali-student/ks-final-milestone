@@ -703,6 +703,4 @@
     <KRMS_TERM_PARM_T NM="kuali.reqComponent.field.type.grade.id"
         TERM_ID="10203" TERM_PARM_ID="10216"
         VAL="kuali.result.value.grade.letter.b" VER_NBR="1"/>
-    <KRMS_TERM_PARM_T NM="Campus Code" TERM_ID="T1000"
-        TERM_PARM_ID="T1000" VAL="BL" VER_NBR="1"/>
 </dataset>

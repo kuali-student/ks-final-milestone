@@ -9354,7 +9354,7 @@
     <sequence name="KREW_ACTN_RQST_S" nextval="2369"/>
     <sequence name="KREW_ACTN_TKN_S" nextval="2332"/>
     <sequence name="KREW_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KREW_DOC_HDR_S" nextval="3031"/>
+    <sequence name="KREW_DOC_HDR_S" nextval="3050"/>
     <sequence name="KREW_DOC_LNK_S" nextval="2000"/>
     <sequence name="KREW_DOC_NTE_S" nextval="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" nextval="2010"/>
@@ -9380,27 +9380,27 @@
     <sequence name="KRIM_DLGN_ID_S" nextval="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_ADDR_ID_S" nextval="10001"/>
-    <sequence name="KRIM_ENTITY_AFLTN_ID_S" nextval="10000"/>
+    <sequence name="KRIM_ENTITY_AFLTN_ID_S" nextval="10005"/>
     <sequence name="KRIM_ENTITY_CTZNSHP_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_EMAIL_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_EMP_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_ETHNIC_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_EXT_ID_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ENTITY_NM_ID_S" nextval="10000"/>
+    <sequence name="KRIM_ENTITY_ID_S" nextval="10006"/>
+    <sequence name="KRIM_ENTITY_NM_ID_S" nextval="10005"/>
     <sequence name="KRIM_ENTITY_PHONE_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_RESIDENCY_ID_S" nextval="10000"/>
     <sequence name="KRIM_ENTITY_VISA_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_ID_S" nextval="10000"/>
     <sequence name="KRIM_GRP_MBR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_ID_S" nextval="10062"/>
+    <sequence name="KRIM_PERM_ID_S" nextval="10063"/>
     <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" nextval="10000"/>
-    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10005"/>
+    <sequence name="KRIM_PERM_TMPL_ID_S" nextval="10006"/>
     <sequence name="KRIM_PRNCPL_ID_S" nextval="10000"/>
-    <sequence name="KRIM_ROLE_ID_S" nextval="10036"/>
-    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10035"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1115"/>
+    <sequence name="KRIM_ROLE_ID_S" nextval="10037"/>
+    <sequence name="KRIM_ROLE_MBR_ID_S" nextval="10036"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" nextval="1116"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" nextval="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" nextval="10000"/>
     <sequence name="KRIM_RSP_ID_S" nextval="10000"/>
@@ -9429,7 +9429,7 @@
     <sequence name="KRMS_NL_USAGE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_S" nextval="10000"/>
     <sequence name="KRMS_PROP_PARM_S" nextval="10612"/>
-    <sequence name="KRMS_PROP_S" nextval="10204"/>
+    <sequence name="KRMS_PROP_S" nextval="10247"/>
     <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10143"/>
     <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_RULE_S" nextval="10149"/>
