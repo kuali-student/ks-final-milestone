@@ -3034,6 +3034,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
+        String thisStateKey = lui.getStateKey();
 
         StatusInfo scStatus = stateTransitionsHelper.processStateConstraints(activityOfferingId, nextStateKey, contextInfo);
         if(scStatus.getIsSuccess()) {
@@ -3046,7 +3047,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
 
             //propagation
-            Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(activityOfferingId, nextStateKey, contextInfo);
+            Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(activityOfferingId, thisStateKey + ":" + nextStateKey, contextInfo);
             for (StatusInfo statusInfo : spStatusMap.values()) {
                 if (!statusInfo.getIsSuccess()){
                     throw new OperationFailedException(statusInfo.getMessage());
