@@ -43,7 +43,6 @@ public interface ActivityOffering extends IdEntity {
      * Format offering Name used to create this activity
      *
      * @name Format Offering Name
-     * @required
      * @readonly
      */
     public String getFormatOfferingName();
@@ -64,7 +63,6 @@ public interface ActivityOffering extends IdEntity {
      * offering.
      * 
      * @name Term Id
-     * @required
      * @readonly
      * @impl map to Lui.getAtpId
      */
@@ -77,7 +75,6 @@ public interface ActivityOffering extends IdEntity {
      * offering.
      *
      * @name Term Code
-     * @required
      * @readonly
      * @impl map to Lui.getAtpCode
      */
@@ -150,7 +147,6 @@ public interface ActivityOffering extends IdEntity {
      * Course Offering code the activity is being offered in.
      *
      * @name Course Offering Code
-     * @required
      * @readonly
      * @impl maps to the containing formatOffering's courseOffering's code
      */
@@ -160,7 +156,6 @@ public interface ActivityOffering extends IdEntity {
      * Course Offering title the activity is being offered in.
      *
      * @name Course Offering Title
-     * @required
      * @readonly
      * @impl maps to the containing formatOffering's courseOffering's title
      */

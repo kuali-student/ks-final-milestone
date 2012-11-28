@@ -209,7 +209,7 @@ plus any of its dependencies -->
                 Format offering Name used to create this activity
             </value>
         </property>
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
     </bean>
 
     <bean id="ActivityOfferingInfo.activityId-generated" abstract="true" parent="BaseKuali.string">
@@ -248,7 +248,7 @@ plus any of its dependencies -->
                 offering.
             </value>
         </property>
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
     </bean>
 
     <bean id="ActivityOfferingInfo.termCode-generated" abstract="true" parent="BaseKuali.code">
@@ -270,7 +270,7 @@ plus any of its dependencies -->
                 offering.
             </value>
         </property>
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
     </bean>
 
     <bean id="ActivityOfferingInfo.activityCode-generated" abstract="true" parent="BaseKuali.code">
@@ -616,7 +616,7 @@ plus any of its dependencies -->
                 Course Offering title the activity is being offered in.
             </value>
         </property>
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
     </bean>
 
     <bean id="ActivityOfferingInfo.courseOfferingCode-generated" abstract="true" parent="BaseKuali.code">
@@ -633,7 +633,7 @@ plus any of its dependencies -->
                 Course Offering code the activity is being offered in.
             </value>
         </property>
-        <property name="required" value="true"/>
+        <property name="required" value="false"/>
     </bean>
 
     <bean id="ActivityOfferingInfo.hasWaitlist-generated" abstract="true" parent="BaseKuali.boolean">
