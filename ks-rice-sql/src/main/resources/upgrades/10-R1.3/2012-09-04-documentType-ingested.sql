@@ -1,6 +1,19 @@
+select krew_doc_hdr_s.nextval from dual
+/
+select krew_doc_hdr_s.nextval from dual
+/
+select krew_doc_hdr_s.nextval from dual
+/
+select krew_doc_hdr_s.nextval from dual
+/
+select krew_doc_hdr_s.nextval from dual
+/
+
+
 UPDATE KREW_DOC_TYP_T SET PARNT_ID='2680',DOC_TYP_NM='KualiStudentDocument',DOC_TYP_VER_NBR='0',ACTV_IND=1,CUR_IND=0,DOC_TYP_DESC='Kuali Student Parent Document',LBL='Kuali Student Parent Document',PREV_DOC_TYP_VER_NBR='',DOC_HDR_ID='',DOC_HDLR_URL='',HELP_DEF_URL='',DOC_SEARCH_HELP_URL='',POST_PRCSR='',GRP_ID='',BLNKT_APPR_GRP_ID='',BLNKT_APPR_PLCY='',RPT_GRP_ID='',RTE_VER_NBR='2',NOTIFY_ADDR='',SEC_XML='',EMAIL_XSL='',APPL_ID='',OBJ_ID='142727E5-233B-94EC-1A79-828BA4933243',VER_NBR='3' WHERE DOC_TYP_ID = '3000'  AND VER_NBR = '2'
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3036','2680','KualiStudentDocument','1',1,1,'Kuali Student Parent Document','Kuali Student Parent Document','3000','','','','','','','','','','2','','','','','2c6d23f4-7092-4d3b-b762-78b27b113ecb','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'2680','KualiStudentDocument','1',1,1,'Kuali Student Parent Document','Kuali Student Parent Document','3000','','','','','','','','','','2','','','','','2c6d23f4-7092-4d3b-b762-78b27b113ecb','1')
 /
 UPDATE KREW_DOC_TYP_T SET PARNT_ID='3036',DOC_TYP_NM='CluCreditCourseParentDocument',DOC_TYP_VER_NBR='0',ACTV_IND=1,CUR_IND=1,DOC_TYP_DESC='Kuali Student Credit Course Parent Document',LBL='Kuali Student Credit Course Parent Document',PREV_DOC_TYP_VER_NBR='',DOC_HDR_ID='',DOC_HDLR_URL='${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&idType=documentNumber',HELP_DEF_URL='',DOC_SEARCH_HELP_URL='',POST_PRCSR='',GRP_ID='',BLNKT_APPR_GRP_ID='',BLNKT_APPR_PLCY='',RPT_GRP_ID='',RTE_VER_NBR='2',NOTIFY_ADDR='',SEC_XML='',EMAIL_XSL='',APPL_ID='',OBJ_ID='DE30C093-E98A-2AFF-7DA8-5818E1A39D1C',VER_NBR='2' WHERE DOC_TYP_ID = '3001'  AND VER_NBR = '1' 
 /
@@ -26,7 +39,8 @@ UPDATE KREW_RTE_NODE_CFG_PARM_T SET RTE_NODE_ID='2840',KEY_CD='ruleSelector',VAL
 /
 UPDATE KREW_DOC_TYP_PROC_T SET DOC_TYP_ID='2680',INIT_RTE_NODE_ID='2840',NM='PRIMARY',INIT_IND=1,VER_NBR='3' WHERE DOC_TYP_PROC_ID = '2841'  AND VER_NBR = '2' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3037','3036','CluParentDocument','0',1,1,'Kuali Student Clu Parent Document','Kuali Student Clu Parent Document','','','','','','','','','','','2','','','','','c22704a1-13eb-42f4-b29e-26ba4cd25984','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3036','CluParentDocument','0',1,1,'Kuali Student Clu Parent Document','Kuali Student Clu Parent Document','','','','','','','','','','','2','','','','','c22704a1-13eb-42f4-b29e-26ba4cd25984','1')
 /
 INSERT INTO KREW_DOC_TYP_ATTR_T (DOC_TYP_ATTRIB_ID,DOC_TYP_ID,RULE_ATTR_ID,ORD_INDX) VALUES ('2010','3037','1645','1') 
 /
@@ -36,7 +50,8 @@ UPDATE KREW_DOC_TYP_T SET PARNT_ID='3036',DOC_TYP_NM='CluCreditCourseParentDocum
 /
 UPDATE KREW_DOC_TYP_ATTR_T SET DOC_TYP_ID='3001',RULE_ATTR_ID='1645',ORD_INDX='1' WHERE DOC_TYP_ATTRIB_ID = '2009' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3038','3037','CluCreditCourseParentDocument','1',1,1,'Kuali Student Credit Course Parent Document','Kuali Student Credit Course Parent Document','3001','','${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&idType=documentNumber','','','','','','','','2','','','','','f0c6caf6-32c5-4def-998c-826ceeb75e71','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3037','CluCreditCourseParentDocument','1',1,1,'Kuali Student Credit Course Parent Document','Kuali Student Credit Course Parent Document','3001','','${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&idType=documentNumber','','','','','','','','2','','','','','f0c6caf6-32c5-4def-998c-826ceeb75e71','1')
 /
 UPDATE KRSB_QRTZ_SCHEDULER_STATE SET LAST_CHECKIN_TIME = 1346685664129 WHERE INSTANCE_NAME = 'Paul-HP1346682116829'
 /
@@ -92,7 +107,8 @@ UPDATE KREW_DOC_TYP_T SET PARNT_ID='3036',DOC_TYP_NM='CluParentDocument',DOC_TYP
 /
 UPDATE KREW_DOC_TYP_ATTR_T SET DOC_TYP_ID='3037',RULE_ATTR_ID='1645',ORD_INDX='1' WHERE DOC_TYP_ATTRIB_ID = '2010' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3039','3037','CluMajorDisciplineParentDocument','0',1,1,'Kuali Student Major Discipline Parent Document','Kuali Student Major Discipline Parent Document','','','${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=PROGRAM_PROPOSAL&idType=documentNumber','','','','','','','','2','','','','','a2d9776b-e132-42de-914c-e0e54b3a1f6d','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3037','CluMajorDisciplineParentDocument','0',1,1,'Kuali Student Major Discipline Parent Document','Kuali Student Major Discipline Parent Document','','','${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=PROGRAM_PROPOSAL&idType=documentNumber','','','','','','','','2','','','','','a2d9776b-e132-42de-914c-e0e54b3a1f6d','1')
 /
 UPDATE KREW_DOC_TYP_T SET PARNT_ID='3036',DOC_TYP_NM='CluParentDocument',DOC_TYP_VER_NBR='0',ACTV_IND=1,CUR_IND=1,DOC_TYP_DESC='Kuali Student Clu Parent Document',LBL='Kuali Student Clu Parent Document',PREV_DOC_TYP_VER_NBR='',DOC_HDR_ID='',DOC_HDLR_URL='',HELP_DEF_URL='',DOC_SEARCH_HELP_URL='',POST_PRCSR='',GRP_ID='',BLNKT_APPR_GRP_ID='',BLNKT_APPR_PLCY='',RPT_GRP_ID='',RTE_VER_NBR='2',NOTIFY_ADDR='',SEC_XML='',EMAIL_XSL='',APPL_ID='',OBJ_ID='c22704a1-13eb-42f4-b29e-26ba4cd25984',VER_NBR='3' WHERE DOC_TYP_ID = '3037'  AND VER_NBR = '2' 
 /
@@ -124,7 +140,8 @@ UPDATE KREW_RTE_NODE_CFG_PARM_T SET RTE_NODE_ID='2913',KEY_CD='ruleSelector',VAL
 /
 UPDATE KREW_DOC_TYP_PROC_T SET DOC_TYP_ID='3002',INIT_RTE_NODE_ID='2912',NM='PRIMARY',INIT_IND=1,VER_NBR='3' WHERE DOC_TYP_PROC_ID = '2915'  AND VER_NBR = '2' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3040','3038','kuali.proposal.type.course.retire','1',0,1,'Credit Course Retirement','Credit Course Retirement','3002','','${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_RETIRE_BY_PROPOSAL&idType=documentNumber','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','c04d2afa-d83a-4d17-bfef-92ef8df0b2bb','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3038','kuali.proposal.type.course.retire','1',0,1,'Credit Course Retirement','Credit Course Retirement','3002','','${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_RETIRE_BY_PROPOSAL&idType=documentNumber','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','c04d2afa-d83a-4d17-bfef-92ef8df0b2bb','1')
 /
 INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID,DOC_TYP_ID,NM,TYP,RTE_MTHD_NM,FNL_APRVR_IND,MNDTRY_RTE_IND,GRP_ID,RTE_MTHD_CD,ACTVN_TYP,BRCH_PROTO_ID,NEXT_DOC_STAT,VER_NBR) VALUES ('2971','3040','PreRoute','org.kuali.rice.kew.engine.node.InitialNode','',0,0,'','','P','','','1') 
 /
@@ -281,7 +298,8 @@ UPDATE KREW_RTE_NODE_CFG_PARM_T SET RTE_NODE_ID='2944',KEY_CD='ruleSelector',VAL
 /
 UPDATE KREW_DOC_TYP_PROC_T SET DOC_TYP_ID='3003',INIT_RTE_NODE_ID='2943',NM='PRIMARY',INIT_IND=1,VER_NBR='3' WHERE DOC_TYP_PROC_ID = '2951'  AND VER_NBR = '2' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3041','3038','kuali.proposal.type.course.modify','1',1,1,'Credit Course Modification','Credit Course Modification','3003','','','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','d8211168-d209-4fcd-b754-08ae15f7d642','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3038','kuali.proposal.type.course.modify','1',1,1,'Credit Course Modification','Credit Course Modification','3003','','','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','d8211168-d209-4fcd-b754-08ae15f7d642','1')
 /
 INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID,DOC_TYP_ID,NM,TYP,RTE_MTHD_NM,FNL_APRVR_IND,MNDTRY_RTE_IND,GRP_ID,RTE_MTHD_CD,ACTVN_TYP,BRCH_PROTO_ID,NEXT_DOC_STAT,VER_NBR) VALUES ('2978','3041','PreRoute','org.kuali.rice.kew.engine.node.InitialNode','',0,0,'','','P','','','1') 
 /
@@ -478,7 +496,8 @@ UPDATE KREW_RTE_NODE_CFG_PARM_T SET RTE_NODE_ID='2937',KEY_CD='ruleSelector',VAL
 /
 UPDATE KREW_DOC_TYP_PROC_T SET DOC_TYP_ID='3004',INIT_RTE_NODE_ID='2936',NM='PRIMARY',INIT_IND=1,VER_NBR='3' WHERE DOC_TYP_PROC_ID = '2942'  AND VER_NBR = '2' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3042','3038','kuali.proposal.type.course.create','1',1,1,'Credit Course Proposal','Credit Course Proposal','3004','','','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','cc274bad-8b2e-4792-8b34-56602d06fc03','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3038','kuali.proposal.type.course.create','1',1,1,'Credit Course Proposal','Credit Course Proposal','3004','','','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','cc274bad-8b2e-4792-8b34-56602d06fc03','1')
 /
 INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID,DOC_TYP_ID,NM,TYP,RTE_MTHD_NM,FNL_APRVR_IND,MNDTRY_RTE_IND,GRP_ID,RTE_MTHD_CD,ACTVN_TYP,BRCH_PROTO_ID,NEXT_DOC_STAT,VER_NBR) VALUES ('2987','3042','PreRoute','org.kuali.rice.kew.engine.node.InitialNode','',0,0,'','','P','','','1') 
 /
@@ -605,7 +624,8 @@ INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_PROC_ID,DOC_TYP_ID,INIT_RTE_NODE_ID,NM,
 /
 UPDATE KREW_DOC_TYP_T SET PARNT_ID='3037',DOC_TYP_NM='CluCreditCourseParentDocument',DOC_TYP_VER_NBR='1',ACTV_IND=1,CUR_IND=1,DOC_TYP_DESC='Kuali Student Credit Course Parent Document',LBL='Kuali Student Credit Course Parent Document',PREV_DOC_TYP_VER_NBR='3001',DOC_HDR_ID='',DOC_HDLR_URL='${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&idType=documentNumber',HELP_DEF_URL='',DOC_SEARCH_HELP_URL='',POST_PRCSR='',GRP_ID='',BLNKT_APPR_GRP_ID='',BLNKT_APPR_PLCY='',RPT_GRP_ID='',RTE_VER_NBR='2',NOTIFY_ADDR='',SEC_XML='',EMAIL_XSL='',APPL_ID='',OBJ_ID='f0c6caf6-32c5-4def-998c-826ceeb75e71',VER_NBR='4' WHERE DOC_TYP_ID = '3038'  AND VER_NBR = '3' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3043','3038','kuali.proposal.type.course.create.admin','0',1,1,'Credit Course Admin Proposal','Credit Course Admin Proposal','','','','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','ed80a491-cfd0-48b0-9256-ddd6b32ebc1e','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3038','kuali.proposal.type.course.create.admin','0',1,1,'Credit Course Admin Proposal','Credit Course Admin Proposal','','','','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','ed80a491-cfd0-48b0-9256-ddd6b32ebc1e','1')
 /
 INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID,DOC_TYP_ID,NM,TYP,RTE_MTHD_NM,FNL_APRVR_IND,MNDTRY_RTE_IND,GRP_ID,RTE_MTHD_CD,ACTVN_TYP,BRCH_PROTO_ID,NEXT_DOC_STAT,VER_NBR) VALUES ('2994','3043','PreRoute','org.kuali.rice.kew.engine.node.InitialNode','',0,0,'','','P','','','1') 
 /
@@ -628,7 +648,8 @@ INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_PROC_ID,DOC_TYP_ID,INIT_RTE_NODE_ID,NM,
 /
 UPDATE KREW_DOC_TYP_T SET PARNT_ID='3037',DOC_TYP_NM='CluCreditCourseParentDocument',DOC_TYP_VER_NBR='1',ACTV_IND=1,CUR_IND=1,DOC_TYP_DESC='Kuali Student Credit Course Parent Document',LBL='Kuali Student Credit Course Parent Document',PREV_DOC_TYP_VER_NBR='3001',DOC_HDR_ID='',DOC_HDLR_URL='${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&idType=documentNumber',HELP_DEF_URL='',DOC_SEARCH_HELP_URL='',POST_PRCSR='',GRP_ID='',BLNKT_APPR_GRP_ID='',BLNKT_APPR_PLCY='',RPT_GRP_ID='',RTE_VER_NBR='2',NOTIFY_ADDR='',SEC_XML='',EMAIL_XSL='',APPL_ID='',OBJ_ID='f0c6caf6-32c5-4def-998c-826ceeb75e71',VER_NBR='5' WHERE DOC_TYP_ID = '3038'  AND VER_NBR = '4' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3044','3038','kuali.proposal.type.course.modify.admin','0',1,1,'Modify Credit Course Admin Proposal','Modify Credit Course Admin Proposal','','','','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','9d3b6471-7208-4ef8-876b-64ee5df16b12','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3038','kuali.proposal.type.course.modify.admin','0',1,1,'Modify Credit Course Admin Proposal','Modify Credit Course Admin Proposal','','','','','','org.kuali.student.lum.workflow.CoursePostProcessorBase','','','','','2','','','','','9d3b6471-7208-4ef8-876b-64ee5df16b12','1')
 /
 INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID,DOC_TYP_ID,NM,TYP,RTE_MTHD_NM,FNL_APRVR_IND,MNDTRY_RTE_IND,GRP_ID,RTE_MTHD_CD,ACTVN_TYP,BRCH_PROTO_ID,NEXT_DOC_STAT,VER_NBR) VALUES ('2996','3044','PreRoute','org.kuali.rice.kew.engine.node.InitialNode','',0,0,'','','P','','','1') 
 /
@@ -651,7 +672,8 @@ INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_PROC_ID,DOC_TYP_ID,INIT_RTE_NODE_ID,NM,
 /
 UPDATE KREW_DOC_TYP_T SET PARNT_ID='3037',DOC_TYP_NM='CluCreditCourseParentDocument',DOC_TYP_VER_NBR='1',ACTV_IND=1,CUR_IND=1,DOC_TYP_DESC='Kuali Student Credit Course Parent Document',LBL='Kuali Student Credit Course Parent Document',PREV_DOC_TYP_VER_NBR='3001',DOC_HDR_ID='',DOC_HDLR_URL='${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=COURSE_PROPOSAL&idType=documentNumber',HELP_DEF_URL='',DOC_SEARCH_HELP_URL='',POST_PRCSR='',GRP_ID='',BLNKT_APPR_GRP_ID='',BLNKT_APPR_PLCY='',RPT_GRP_ID='',RTE_VER_NBR='2',NOTIFY_ADDR='',SEC_XML='',EMAIL_XSL='',APPL_ID='',OBJ_ID='f0c6caf6-32c5-4def-998c-826ceeb75e71',VER_NBR='6' WHERE DOC_TYP_ID = '3038'  AND VER_NBR = '5' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3045','3039','kuali.proposal.type.majorDiscipline.create','0',1,1,'Create Major Discipline Proposal','Create Major Discipline Proposal','','','','','','org.kuali.student.lum.workflow.ProgramPostProcessorBase','','','','','2','','','','','eee0417e-971d-4099-a264-71fc658b4a1f','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3039','kuali.proposal.type.majorDiscipline.create','0',1,1,'Create Major Discipline Proposal','Create Major Discipline Proposal','','','','','','org.kuali.student.lum.workflow.ProgramPostProcessorBase','','','','','2','','','','','eee0417e-971d-4099-a264-71fc658b4a1f','1')
 /
 INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID,DOC_TYP_ID,NM,TYP,RTE_MTHD_NM,FNL_APRVR_IND,MNDTRY_RTE_IND,GRP_ID,RTE_MTHD_CD,ACTVN_TYP,BRCH_PROTO_ID,NEXT_DOC_STAT,VER_NBR) VALUES ('2998','3045','PreRoute','org.kuali.rice.kew.engine.node.InitialNode','',0,0,'','','P','','','1') 
 /
@@ -696,7 +718,8 @@ INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_PROC_ID,DOC_TYP_ID,INIT_RTE_NODE_ID,NM,
 /
 UPDATE KREW_DOC_TYP_T SET PARNT_ID='3037',DOC_TYP_NM='CluMajorDisciplineParentDocument',DOC_TYP_VER_NBR='0',ACTV_IND=1,CUR_IND=1,DOC_TYP_DESC='Kuali Student Major Discipline Parent Document',LBL='Kuali Student Major Discipline Parent Document',PREV_DOC_TYP_VER_NBR='',DOC_HDR_ID='',DOC_HDLR_URL='${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=PROGRAM_PROPOSAL&idType=documentNumber',HELP_DEF_URL='',DOC_SEARCH_HELP_URL='',POST_PRCSR='',GRP_ID='',BLNKT_APPR_GRP_ID='',BLNKT_APPR_PLCY='',RPT_GRP_ID='',RTE_VER_NBR='2',NOTIFY_ADDR='',SEC_XML='',EMAIL_XSL='',APPL_ID='',OBJ_ID='a2d9776b-e132-42de-914c-e0e54b3a1f6d',VER_NBR='2' WHERE DOC_TYP_ID = '3039'  AND VER_NBR = '1' 
 /
-INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR) VALUES ('3046','3039','kuali.proposal.type.majorDiscipline.modify','0',1,1,'Modify Major Discipline Proposal','Modify Major Discipline Proposal','','','','','','org.kuali.student.lum.workflow.ProgramPostProcessorBase','','','','','2','','','','','97ec4bca-6817-44af-ae69-77d1c8231335','1') 
+INSERT INTO KREW_DOC_TYP_T (DOC_TYP_ID,PARNT_ID,DOC_TYP_NM,DOC_TYP_VER_NBR,ACTV_IND,CUR_IND,DOC_TYP_DESC,LBL,PREV_DOC_TYP_VER_NBR,DOC_HDR_ID,DOC_HDLR_URL,HELP_DEF_URL,DOC_SEARCH_HELP_URL,POST_PRCSR,GRP_ID,BLNKT_APPR_GRP_ID,BLNKT_APPR_PLCY,RPT_GRP_ID,RTE_VER_NBR,NOTIFY_ADDR,SEC_XML,EMAIL_XSL,APPL_ID,OBJ_ID,VER_NBR)
+VALUES (krew_doc_hdr_s.nextval,'3039','kuali.proposal.type.majorDiscipline.modify','0',1,1,'Modify Major Discipline Proposal','Modify Major Discipline Proposal','','','','','','org.kuali.student.lum.workflow.ProgramPostProcessorBase','','','','','2','','','','','97ec4bca-6817-44af-ae69-77d1c8231335','1')
 /
 INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID,DOC_TYP_ID,NM,TYP,RTE_MTHD_NM,FNL_APRVR_IND,MNDTRY_RTE_IND,GRP_ID,RTE_MTHD_CD,ACTVN_TYP,BRCH_PROTO_ID,NEXT_DOC_STAT,VER_NBR) VALUES ('3001','3046','PreRoute','org.kuali.rice.kew.engine.node.InitialNode','',0,0,'','','P','','','1') 
 /
