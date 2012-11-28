@@ -139,4 +139,22 @@
         DESCR_PLAIN="Set of Courses Scheduling State Lifecycle"
         ID="kuali.soc.scheduling.process"
         NAME="kuali.soc.scheduling.process" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121102000000"
+        DESCR_FORMATTED="State Change Lifecycle"
+        DESCR_PLAIN="state change lifecycle"
+        ID="kuali.state.change.lifecycle"
+        NAME="kuali.state.change.lifecycle" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121102000000"
+        DESCR_FORMATTED="State constraint Lifecycle"
+        DESCR_PLAIN="state constraint lifecycle"
+        ID="kuali.state.constraint.lifecycle"
+        NAME="kuali.state.constraint.lifecycle" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121102000000"
+        DESCR_FORMATTED="State Propagation Lifecycle"
+        DESCR_PLAIN="state Propagation lifecycle"
+        ID="kuali.state.propagation.lifecycle"
+        NAME="kuali.state.propagation.lifecycle" VER_NBR="1"/>
 </dataset>

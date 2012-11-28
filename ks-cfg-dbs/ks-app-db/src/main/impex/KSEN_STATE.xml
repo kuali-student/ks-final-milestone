@@ -394,4 +394,19 @@
         ID="kuali.soc.state.publishing"
         LIFECYCLE_KEY="kuali.soc.lifecycle"
         NAME="Publishing In Progress" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="State Change is active"
+        DESCR_PLAIN="State Change is active"
+        ID="kuali.state.change.state.active"
+        LIFECYCLE_KEY="kuali.state.change.lifecycle" NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="State constraint is active"
+        DESCR_PLAIN="State constraint is active"
+        ID="kuali.state.constraint.state.active"
+        LIFECYCLE_KEY="kuali.state.constraint.lifecycle" NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121102000000"
+        DESCR_FORMATTED="State Propagation is active"
+        DESCR_PLAIN="State Propagation is active"
+        ID="kuali.state.propagation.state.active"
+        LIFECYCLE_KEY="kuali.state.propagation.lifecycle" NAME="Active" VER_NBR="0"/>
 </dataset>
