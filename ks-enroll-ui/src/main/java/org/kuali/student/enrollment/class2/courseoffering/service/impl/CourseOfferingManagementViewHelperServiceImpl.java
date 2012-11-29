@@ -357,8 +357,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     if (StringUtils.equals(wrapper.getAoInfo().getStateKey(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
                         wrapper.setStateName(draftState.getName());
-                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),contextInfo);
-                        wrapper.setAoInfo(updatedAO);
+                        getCourseOfferingService().updateActivityOfferingState(wrapper.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, contextInfo);
+//                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),contextInfo);
+//                        wrapper.setAoInfo(updatedAO);
                         if ( ! hasStateChangedAO) hasStateChangedAO = true;
                     } else {
                         if ( ! hasBadStateWarning) hasBadStateWarning = true;
@@ -368,8 +369,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, wrapper.getAoInfo().getStateKey())) {
                         wrapper.getAoInfo().setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
                         wrapper.setStateName(approvedState.getName());
-                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),contextInfo);
-                        wrapper.setAoInfo(updatedAO);
+                        getCourseOfferingService().updateActivityOfferingState(wrapper.getAoInfo().getId(), LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY, contextInfo);
+//                        ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(wrapper.getAoInfo().getId(),wrapper.getAoInfo(),contextInfo);
+//                        wrapper.setAoInfo(updatedAO);
                         if ( ! hasStateChangedAO) hasStateChangedAO = true;
                     } else {
                         if ( ! hasBadStateWarning) hasBadStateWarning = true;
