@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
@@ -1029,7 +1030,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
 
     private void _performMaxEnrollmentValidation(String formateOfferingId, ActivityOfferingClusterInfo aoCluster, int clusterIndex) throws Exception{
         List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
-                "validation on max enroll totals", formateOfferingId, aoCluster, ContextUtils.createDefaultContextInfo());
+                DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formateOfferingId, aoCluster, ContextUtils.createDefaultContextInfo());
 
         if (validationResultInfoList.get(0).isError())  {
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
@@ -1045,7 +1046,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
             int rgIndex = 0;
             for (RegistrationGroupInfo registrationGroupInfo : registrationGroupInfos) {
                 List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateRegistrationGroup(
-                        "validation on AO time conflict check in a RG", aoCluster.getId(), registrationGroupInfo.getTypeKey(), registrationGroupInfo, ContextUtils.createDefaultContextInfo());
+                        DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), aoCluster.getId(), registrationGroupInfo.getTypeKey(), registrationGroupInfo, ContextUtils.createDefaultContextInfo());
 
                 if (validationResultInfoList.get(0).isError())  {
                     getCourseOfferingService().updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,ContextUtils.createDefaultContextInfo());
