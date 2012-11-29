@@ -51,11 +51,12 @@ public class CourseOfferingServiceValidationDecorator
             List<ValidationResultInfo> errors =
                     this.validateCourseOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             courseOfferingInfo, context);
-            if (!errors.isEmpty()) {
+            boolean errorCheck = checkForErrors(errors);
+            if (errorCheck) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
 
-            if (errors.isEmpty()) {
+            if (!errorCheck) {
                 // Check for uniqueness in the course offering code
                 List<CourseOfferingInfo> existingCos;
                 try {
@@ -91,7 +92,7 @@ public class CourseOfferingServiceValidationDecorator
             List<ValidationResultInfo> errors =
                     this.validateCourseOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             courseOfferingInfo, context);
-            if (!errors.isEmpty()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -126,7 +127,7 @@ public class CourseOfferingServiceValidationDecorator
             List<ValidationResultInfo> errors =
                     this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             formatOfferingInfo, context);
-            if (!errors.isEmpty()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -144,7 +145,7 @@ public class CourseOfferingServiceValidationDecorator
             List<ValidationResultInfo> errors =
                     this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             formatOfferingInfo, context);
-            if (!errors.isEmpty()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -178,7 +179,7 @@ public class CourseOfferingServiceValidationDecorator
             List<ValidationResultInfo> errors =
                     this.validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             activityOfferingInfo, context);
-            if (!errors.isEmpty()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -197,7 +198,7 @@ public class CourseOfferingServiceValidationDecorator
             List<ValidationResultInfo> errors =
                     this.validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             activityOfferingInfo, context);
-            if (!errors.isEmpty()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -233,7 +234,7 @@ public class CourseOfferingServiceValidationDecorator
                             activityOfferingClusterId,
                             registrationGroupType,
                             registrationGroupInfo, context);
-            if (errors != null && !errors.isEmpty() && errors.get(0).isError()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -253,7 +254,7 @@ public class CourseOfferingServiceValidationDecorator
                             null,
                             null,
                             registrationGroupInfo, context);
-            if (errors != null && !errors.isEmpty() && errors.get(0).isError()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -295,7 +296,7 @@ public class CourseOfferingServiceValidationDecorator
 //		try {
 //		    List<ValidationResultInfo> errors = 
 //		      this.validateRegistrationGroupTemplate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), registrationGroupTemplateInfo, context);
-//		    if (!errors.isEmpty()) {
+//		    if (checkForErrors(errors)) {
 //		       throw new DataValidationErrorException("Error(s) occurred validating", errors);
 //		    }
 //		} catch (DoesNotExistException ex) {
@@ -309,10 +310,10 @@ public class CourseOfferingServiceValidationDecorator
             PermissionDeniedException, ReadOnlyException {
         // create 
         try {
-            List<ValidationResultInfo> errors;
-            errors = this.validateSeatPoolDefinition(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                    seatPoolDefinitionInfo, context);
-            if (!errors.isEmpty()) {
+            List<ValidationResultInfo> errors =
+                    this.validateSeatPoolDefinition(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
+                            seatPoolDefinitionInfo, context);
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -330,7 +331,7 @@ public class CourseOfferingServiceValidationDecorator
             List<ValidationResultInfo> errors =
                     this.validateSeatPoolDefinition(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             seatPoolDefinitionInfo, context);
-            if (!errors.isEmpty()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -477,7 +478,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingId, activityOfferingClusterInfo, contextInfo);
-            if (errors!= null && !errors.isEmpty() && errors.get(0).isError()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -502,7 +503,7 @@ public class CourseOfferingServiceValidationDecorator
         try {
             List<ValidationResultInfo> errors =
                     this.validateActivityOfferingCluster(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingId, activityOfferingClusterInfo, contextInfo);
-            if (errors != null && !errors.isEmpty() && errors.get(0).isError()) {
+            if (checkForErrors(errors)) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
@@ -530,5 +531,16 @@ public class CourseOfferingServiceValidationDecorator
         return getNextDecorator().deleteActivityOfferingCluster(activityOfferingClusterId, context);
     }
 
+    private static boolean checkForErrors(List<ValidationResultInfo> errors) {
 
+        if (errors != null && !errors.isEmpty()) {
+            for (ValidationResultInfo error : errors) {
+                if (error.isError()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
