@@ -122,26 +122,6 @@ public class ProposalServiceDecorator implements ProposalService {
     }
 
     @Override
-    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().getSearchTypesByResult(searchResultTypeKey, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().getSearchResultTypes(contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator ().getSearchCriteriaTypes(contextInfo);
-    }
-
-    @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator ().search(searchRequestInfo, contextInfo);
     }

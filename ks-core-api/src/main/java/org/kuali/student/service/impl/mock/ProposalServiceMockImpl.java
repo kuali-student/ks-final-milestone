@@ -237,26 +237,6 @@ public class ProposalServiceMockImpl implements MockService, ProposalService {
     }
 
     @Override
-    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }

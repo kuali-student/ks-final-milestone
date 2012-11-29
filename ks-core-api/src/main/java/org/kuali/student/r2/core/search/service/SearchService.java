@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.search.service;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -27,109 +26,74 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
+/**
+ * The Search Service supports the creation of typed searches that query the
+ * underlying data store and return results in tabular form. Conceptually it can
+ * be viewed as a wrapper for predefined (typed) SQL statements. It has two main
+ * purposes:
+ *
+ * (1) The definitions of searches to meet specific purposes without modifying
+ * the contract. (2) The definition of searches that return data other than
+ * objects and their attributes, for example counts or sums.
+ *
+ * @version 2.0
+ * @author Kuali Student Team
+ */
 @WebService(name = "SearchService", targetNamespace = SearchServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-
 public interface SearchService {
 
-    /** 
+    /**
      * Retrieves the list of search types known by this service.
      *
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
+     * @param contextInfo information containing the principalId and locale
+     * information about the caller of service operation
      * @return list of search type information
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException contextInfo
-     *         is missing or null
+     * @throws MissingParameterException contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      */
-    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException;
 
-    /** 
+    /**
      * Retrieves information about a particular search type.
      *
      * @param searchTypeKey identifier of the search type
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
+     * @param contextInfo information containing the principalId and locale
+     * information about the caller of service operation
      * @return information on the search type
      * @throws DoesNotExistException specified searchTypeKey not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException searchTypeKey or contextInfo
-     *         is missing or null
+     * @throws MissingParameterException searchTypeKey or contextInfo is missing
+     * or null
      * @throws OperationFailedException unable to complete request
      */
-    public TypeInfo getSearchType(@WebParam(name="searchTypeKey")String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException;
 
-    /** 
-     * Retrieves the list of search types which return results in the
-     * specified format.
-     *
-     * @param searchResultTypeKey identifier of the search result type
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return list of search type information
-     * @throws DoesNotExistException specified searchResultTypeKey not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException searchResultTypeKey or contextInfo
-     *         is missing or null
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<TypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of search types which use criteria in the
-     * specified format.
-     *
-     * @param searchCriteriaTypeKey identifier of the search criteria
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return list of search type information
-     * @throws DoesNotExistException specified searchCriteriaTypeKey not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException searchCriteriaTypeKey or
-     *         contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of search result types known by this
-     * service. Search result types describe the return structure for
-     * a search.
-     *
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of search criteria types known by this
-     * service.
-     *
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return list of search criteria type information
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
+    /**
      * Performs a search.
      *
      * @param searchRequestInfo the search request
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
+     * @param contextInfo information containing the principalId and locale
+     * information about the caller of service operation
      * @return the results of the search
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException searchRequestInfo or
-     *         contextInfo is missing or null
+     * @throws MissingParameterException searchRequestInfo or contextInfo is
+     * missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 }

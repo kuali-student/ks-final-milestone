@@ -14,11 +14,6 @@
  */
 package org.kuali.student.r2.lum.clu.service;
 
-import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchRequest;
-import org.kuali.student.r1.common.search.dto.SearchResult;
-import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
