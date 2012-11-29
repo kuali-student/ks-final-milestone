@@ -15,24 +15,24 @@
 
 package org.kuali.student.core.comments.ui.server;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-
-
-import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.r1.core.comment.dto.CommentInfo;
-import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.r1.core.comment.service.CommentService;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.comment.service.CommentService;
+
+import javax.naming.OperationNotSupportedException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentService> implements CommentRpcService {
 
@@ -50,40 +50,40 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
     @Override
 	public CommentInfo addComment(String referenceId, String referenceTypeKey,
 			CommentInfo commentInfo) throws Exception {
-    	return service.addComment(referenceId, referenceTypeKey, commentInfo);
+    	return service.createComment(referenceId, referenceTypeKey, commentInfo.getType(), commentInfo, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<CommentInfo> getComments(String referenceId,
 			String referenceTypeKey) throws Exception {
-		return service.getComments(referenceId, referenceTypeKey);
+		return service.getCommentsByReferenceAndType(referenceId, referenceTypeKey, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<CommentInfo> getCommentsByType(String referenceId,
 			String referenceTypeKey, String commentTypeKey) throws Exception {
-		return service.getCommentsByType(referenceId, referenceTypeKey, commentTypeKey);
+		return service.getCommentsByReferenceAndType(referenceId, referenceTypeKey, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public CommentInfo updateComment(String referenceId,
 			String referenceTypeKey, CommentInfo commentInfo) throws Exception {
-		return service.updateComment(referenceId, referenceTypeKey, commentInfo);
+		return service.updateComment(commentInfo.getId(), commentInfo, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public StatusInfo removeComment(String commentId, String referenceId,
 			String referenceTypeKey) throws Exception {
-		return service.removeComment(commentId, referenceId, referenceTypeKey);
+		return service.deleteComment(commentId, ContextUtils.getContextInfo());
 	}
 
-	@Override
-	public List<CommentTypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception {
-		return service.getCommentTypesForReferenceType(referenceTypeKey);
-	}
+//	@Override
+//	public List<TypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception {
+//		// return service.getCommentTypesForReferenceType(referenceTypeKey);
+//        throw new OperationNotSupportedException("This method has been dropped in R2");
+//	}
 
-	@Override
-    public Boolean isAuthorizedAddComment(String id, String referenceTypeKey) {
+	@Override    public Boolean isAuthorizedAddComment(String id, String referenceTypeKey) {
 		if (id != null && (!"".equals(id.trim()))) {
 			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
                         permissionDetails.put (StudentIdentityConstants.KS_REFERENCE_TYPE_KEY, referenceTypeKey);

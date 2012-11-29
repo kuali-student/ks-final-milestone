@@ -32,7 +32,7 @@ import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
-import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -142,8 +142,8 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 	private void getPersonNames(final List<CommentInfo> comments) {
 		personIds = new ArrayList<String>();
 		for (CommentInfo comment : comments) {
-			if(comment.getMetaInfo().getCreateId()!=null){
-				personIds.add(comment.getMetaInfo().getCreateId());
+			if(comment.getMeta().getCreateId()!=null){
+				personIds.add(comment.getMeta().getCreateId());
 			}
 			else{
 				personIds.add("");
@@ -184,13 +184,13 @@ public class DecisionPanel implements HasReferenceId, ToolView {
                     theRow.setValue("Decision", drDetails.getLabel());
                     SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
                     StringBuilder rationaleDate = new StringBuilder(dateformat
-                            .format(commentInfo.getMetaInfo().getCreateTime()));
+                            .format(commentInfo.getMeta().getCreateTime()));
     				theRow.setId(commentInfo.getId());
     				theRow.setValue("Date", rationaleDate.toString());
     
-    				if (members.get(commentInfo.getMetaInfo().getCreateId()) != null) {
+    				if (members.get(commentInfo.getMeta().getCreateId()) != null) {
     					MembershipInfo memberInfo = members.get(commentInfo
-    							.getMetaInfo().getCreateId());
+    							.getMeta().getCreateId());
     					StringBuilder memberName = new StringBuilder();
     					memberName.append(memberInfo.getFirstName());
     					memberName.append(" ");

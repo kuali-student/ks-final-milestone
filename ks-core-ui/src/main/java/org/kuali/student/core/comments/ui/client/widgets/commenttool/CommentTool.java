@@ -29,8 +29,8 @@ import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
-import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
@@ -348,7 +348,7 @@ public class CommentTool implements HasReferenceId {
                 }
                 VerticalFlowPanel userNameAndTime = new VerticalFlowPanel();
                 final HTML userNameLabel = new HTML();
-                final String principalId = commentInfo.getMetaInfo().getUpdateId();
+                final String principalId = commentInfo.getMeta().getUpdateId();
                 commentServiceAsync.getUserRealNameByPrincipalId(principalId, new AsyncCallback<String>() {
                     @Override
                     public void onFailure(Throwable caught) {
@@ -363,7 +363,7 @@ public class CommentTool implements HasReferenceId {
                         }
                     }
                 });
-                Date createTime = commentInfo.getMetaInfo().getCreateTime();
+                Date createTime = commentInfo.getMeta().getCreateTime();
                 userNameAndTime.add(userNameLabel);
                 DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
                 userNameAndTime.add(new KSLabel(df.format(createTime)));
@@ -524,10 +524,10 @@ public class CommentTool implements HasReferenceId {
                             @Override
                             public int compare(CommentInfo comment1, CommentInfo comment2) {
 
-                                if(comment1.getMetaInfo().getCreateTime().after(comment2.getMetaInfo().getCreateTime())){
+                                if(comment1.getMeta().getCreateTime().after(comment2.getMeta().getCreateTime())){
                                     return -1;
                                 }
-                                else if(comment1.getMetaInfo().getCreateTime().before(comment2.getMetaInfo().getCreateTime())){
+                                else if(comment1.getMeta().getCreateTime().before(comment2.getMeta().getCreateTime())){
                                     return 1;
                                 }
                                 else{

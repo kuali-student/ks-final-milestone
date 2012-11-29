@@ -43,10 +43,9 @@
 	<inherits name="org.kuali.student.r1.common.Validator"/>
 
 	<!--&lt;!&ndash; Core Inherits &ndash;&gt;-->
-	<inherits name="org.kuali.student.r1.core.comment.Comment" />
+	<inherits name="org.kuali.student.r2.core.comment.Comment" />
     <inherits name="org.kuali.student.r2.core.document.Document" />
 	<inherits name="org.kuali.student.r1.core.statement.Statement" />
-
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
     <inherits name='com.google.gwt.gen2.table.ScrollTable'/>

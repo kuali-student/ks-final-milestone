@@ -20,7 +20,6 @@ import java.util.Map;
 
 import javax.persistence.NoResultException;
 
-import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
@@ -36,7 +35,6 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.service.assembly.BaseAssembler;
-import org.springframework.beans.BeanUtils;
 
 /**
  * Convert between DTO and enties

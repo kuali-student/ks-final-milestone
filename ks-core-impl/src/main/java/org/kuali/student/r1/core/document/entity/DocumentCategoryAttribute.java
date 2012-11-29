@@ -15,12 +15,12 @@
 
 package org.kuali.student.r1.core.document.entity;
 
+import org.kuali.student.r1.common.entity.Attribute;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.kuali.student.r1.common.entity.Attribute;;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -1505,7 +1505,7 @@ public class WorkflowUtilities{
     
     /**
      * Use to set the data model path to retrieve the propsal data to use for this workflow. 
-     * @param idPath
+     * @param proposalPath
      */
     public void setProposalPath(String proposalPath) {
         this.proposalPath = proposalPath;

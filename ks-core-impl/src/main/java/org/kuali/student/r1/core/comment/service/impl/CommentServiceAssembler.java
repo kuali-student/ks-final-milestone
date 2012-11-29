@@ -15,28 +15,17 @@
 
 package org.kuali.student.r1.core.comment.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
+import org.kuali.student.r1.core.comment.dao.CommentDao;
+import org.kuali.student.r1.core.comment.entity.*;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r1.common.service.impl.BaseAssembler;
-import org.kuali.student.r1.core.comment.dao.CommentDao;
-import org.kuali.student.r1.core.comment.dto.CommentInfo;
-import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.r1.core.comment.dto.TagInfo;
-import org.kuali.student.r1.core.comment.dto.TagTypeInfo;
-import org.kuali.student.r1.core.comment.entity.Comment;
-import org.kuali.student.r1.core.comment.entity.CommentAttribute;
-import org.kuali.student.r1.core.comment.entity.CommentRichText;
-import org.kuali.student.r1.core.comment.entity.CommentType;
-import org.kuali.student.r1.core.comment.entity.Reference;
-import org.kuali.student.r1.core.comment.entity.ReferenceType;
-import org.kuali.student.r1.core.comment.entity.Tag;
-import org.kuali.student.r1.core.comment.entity.TagAttribute;
-import org.kuali.student.r1.core.comment.entity.TagType;
-import org.springframework.beans.BeanUtils;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.TagInfo;
+import org.kuali.student.r2.core.service.assembly.BaseAssembler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -50,14 +39,20 @@ public class CommentServiceAssembler extends BaseAssembler {
     public static CommentInfo toCommentInfo(Comment entity) {
         CommentInfo dto = new CommentInfo();
 
-        BeanUtils.copyProperties(entity, dto,
-                new String[] { "commentText", "attributes", "type", "metaInfo" });
-
+        dto.setId(entity.getId());
+        dto.setTypeKey(entity.getType().getId());
+        dto.setStateKey(entity.getState());
         dto.setCommentText(toRichTextInfo(entity.getCommentText()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setType(entity.getType().getId());
-
+        // TODO: this needs to be persisted separately than assuming the commenter IS the person who creates the thing
+        if (entity.getMeta() != null) {
+          dto.setCommenterId(entity.getMeta().getCreateId());
+        }
+        dto.setReferenceTypeKey(entity.getReference().getReferenceType().getId());
+        dto.setReferenceId(entity.getReference().getReferenceId());
+        dto.setEffectiveDate(entity.getEffectiveDate());
+        dto.setExpirationDate(entity.getExpirationDate());
+        dto.setMeta(toMetaInfo(entity));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         return dto;
     }
 
@@ -71,11 +66,18 @@ public class CommentServiceAssembler extends BaseAssembler {
 
     public static TagInfo toTagInfo(Tag entity) {
         TagInfo dto = new TagInfo();
-        BeanUtils.copyProperties(entity, dto, new String[]{"attributes","type","reference"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setType(entity.getType().getId());
-        dto.setReferenceId(entity.getReferennce().getReferenceId());
+        dto.setId(entity.getId());
+        dto.setTypeKey(entity.getType().getId());
+        dto.setStateKey(entity.getState());
+        dto.setNamespace(entity.getNamespace());
+        dto.setPredicate(entity.getPredicate());
+        dto.setValue(entity.getValue());
         dto.setReferenceTypeKey(entity.getReferennce().getReferenceType().getId());
+        dto.setReferenceId(entity.getReferennce().getReferenceId());
+        dto.setEffectiveDate(entity.getEffectiveDate());
+        dto.setExpirationDate(entity.getExpirationDate());
+        dto.setMeta(toMetaInfo (entity));
+        dto.setAttributes(toAttributeList(entity.getAttributes()));
         return dto;
 
     }
@@ -88,140 +90,131 @@ public class CommentServiceAssembler extends BaseAssembler {
         return dtos;
     }
 
-    public static TagTypeInfo toTagTypeInfo(TagType entity){
-        TagTypeInfo dto = new TagTypeInfo();
-        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        return dto;
+    public static TypeInfo toTagTypeInfo(TagType entity){
+        return toGenericTypeInfo(entity);
     }
 
-    public static List<TagTypeInfo> toTagTypeInfos(List<TagType> entries){
-        List<TagTypeInfo> dtos = new ArrayList<TagTypeInfo>(entries.size());
-        for(TagType entity: entries){
-            dtos.add(toTagTypeInfo(entity));
-        }
+    public static List<TypeInfo> toTagTypeInfos(List<TagType> entries){
 
-        return dtos;
-    }
-
-    public static List<CommentTypeInfo> toCommentTypeInfos(List<CommentType> entities) {
-        List<CommentTypeInfo> dtos = new ArrayList<CommentTypeInfo>(entities.size());
-        for (CommentType entity : entities) {
-            dtos.add(toCommentTypeInfo(entity));
+        List<TypeInfo> dtos = new ArrayList<TypeInfo>();
+        if(entries!=null){
+            for (TagType entity : entries) {
+                dtos.add(toTagTypeInfo(entity));
+            }
         }
         return dtos;
     }
 
-    private static CommentTypeInfo toCommentTypeInfo(CommentType entity) {
-    	CommentTypeInfo dto = new CommentTypeInfo();
-        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        return dto;
+    public static List<TypeInfo> toCommentTypeInfos(List<CommentType> entities) {
+        List<TypeInfo> dtos = new ArrayList<TypeInfo>();
+        if(entities!=null){
+            for (CommentType entity : entities) {
+                dtos.add(toCommentTypeInfo(entity));
+            }
+        }
+        return dtos;
+    }
+    private static TypeInfo toCommentTypeInfo(CommentType entity) {
+        return toGenericTypeInfo(entity);
     }
 
-    public static Comment toComment(boolean isUpdate,CommentInfo dto,CommentDao dao) throws InvalidParameterException, DoesNotExistException{
 
+    public static Comment toComment (boolean isUpdate,CommentInfo dto,CommentDao commentDao) throws InvalidParameterException, DoesNotExistException{
         Comment entity = new Comment();
-        BeanUtils.copyProperties(dto,entity,new String[]{"reference","commentText", "attributes", "type", "metaInfo"});
-        entity.setAttributes(toGenericAttributes(CommentAttribute.class,dto.getAttributes(),entity,dao));
-        Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
-        if (reference == null) {
-            throw new InvalidParameterException(
-                    "Reference does not exist for id: " + dto.getReferenceId());
-        }
-        entity.setReference(reference);
-        CommentType type = dao.fetch(CommentType.class,dto.getType());
+        entity.setId(dto.getId());
+        CommentType type = commentDao.fetch(CommentType.class, dto.getTypeKey());
         if (type == null) {
-            throw new InvalidParameterException(
-                    "Tag Type does not exist for id: " + dto.getType());
+            throw new InvalidParameterException("Comment Type does not exist for id: " + dto.getTypeKey());
         }
         entity.setType(type);
+        entity.setState(dto.getStateKey());
         entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
-        entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, dao));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        return entity;
-    }
-    public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
-
-        Tag entity = new Tag();
-        BeanUtils.copyProperties(dto,entity,new String[]{"reference","type","attributes"});
-        entity.setAttributes(toGenericAttributes(TagAttribute.class,dto.getAttributes(),entity,dao));
-
-        Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
+        Reference reference = commentDao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
         if (reference == null) {
             throw new InvalidParameterException(
                     "Reference does not exist for id: " + dto.getReferenceId());
         }
         entity.setReference(reference);
-        TagType type = dao.fetch(TagType.class,dto.getType());
-        if (type == null) {
-            throw new InvalidParameterException(
-                    "Tag Type does not exist for id: " + dto.getType());
-        }
-        entity.setType(type);
+        entity.setEffectiveDate(dto.getEffectiveDate());
+        entity.setExpirationDate(dto.getExpirationDate());
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, commentDao));
         return entity;
     }
-
-    public static Comment toComment(String referenceId,
-			String referenceTypeKey, CommentInfo dto,
-			CommentDao commentDao) throws InvalidParameterException, DoesNotExistException {
-    	Comment entity = new Comment();
-
-    	return toComment(entity, referenceId, referenceTypeKey, dto, commentDao);
+    
+    public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
+        Tag entity = new Tag();
+        entity.setId(dto.getId());
+        TagType type = dao.fetch(TagType.class,dto.getTypeKey());
+        if (type == null) {
+            throw new InvalidParameterException(
+                    "Tag Type does not exist for id: " + dto.getTypeKey());
+        }
+        entity.setType(type);
+        entity.setState(dto.getStateKey());
+        entity.setNamespace(dto.getNamespace());
+        entity.setPredicate(dto.getPredicate());
+        entity.setValue (dto.getValue());
+        Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
+        if (reference == null) {
+            throw new InvalidParameterException(
+                    "Reference does not exist for id: " + dto.getReferenceId());
+        }
+        entity.setEffectiveDate(dto.getEffectiveDate());
+        entity.setExpirationDate(dto.getExpirationDate ());
+        entity.setReference(reference);
+        entity.setAttributes(toGenericAttributes(TagAttribute.class,dto.getAttributes(),entity,dao));
+        return entity;
     }
 
     public static Comment toComment(Comment entity, String referenceId,
-			String referenceTypeKey, CommentInfo dto, CommentDao commentDao)
-			throws InvalidParameterException, DoesNotExistException {
-		BeanUtils.copyProperties(dto, entity, new String[] { "id, reference",
-				"commentText", "attributes", "type", "metaInfo" });
-		entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
+            String referenceTypeKey, CommentInfo dto, CommentDao commentDao)
+            throws InvalidParameterException, DoesNotExistException {
 
-		entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto
-				.getAttributes(), entity, commentDao));
-		CommentType type = commentDao.fetch(CommentType.class, dto.getType());
-		if (type == null) {
-			throw new InvalidParameterException(
-					"Tag Type does not exist for id: " + dto.getType());
-		}
-		entity.setType(type);
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-
-		Reference reference = commentDao.getReference(referenceId,
-				referenceTypeKey);
-		if (reference == null) {
+        entity.setId(dto.getId());
+        CommentType type = commentDao.fetch(CommentType.class, dto.getType());
+        if (type == null) {
+            throw new InvalidParameterException(
+                    "Comment Type does not exist for id: " + dto.getType());
+        }
+        entity.setType(type);
+        entity.setState(dto.getStateKey());
+        entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
+        Reference reference = commentDao.getReference(referenceId, referenceTypeKey);
+        if (reference == null) {
             reference = new Reference();
             reference.setReferenceId(referenceId);
-			try {
-				ReferenceType referenceType = commentDao.fetch(ReferenceType.class, referenceTypeKey);
-	            reference.setReferenceType(referenceType);
-	            commentDao.create(reference);
-			} catch (DoesNotExistException e) {
-				throw new InvalidParameterException(e.getMessage());
-			}
-
-		}
-		entity.setReference(reference);
-
-		return entity;
+            try {
+                ReferenceType referenceType = commentDao.fetch(ReferenceType.class, referenceTypeKey);
+                reference.setReferenceType(referenceType);
+                commentDao.create(reference);
+            } catch (DoesNotExistException e) {
+                throw new InvalidParameterException(e.getMessage());
+            }
+        }
+        entity.setReference(reference);
+        entity.setEffectiveDate(dto.getEffectiveDate());
+        entity.setExpirationDate(dto.getExpirationDate());
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, commentDao));
+        return entity;
     }
+//
+//	public static List<ReferenceTypeInfo> toReferenceTypeInfos(
+//			List<ReferenceType> entities) {
+//		List<ReferenceTypeInfo> dtos = new ArrayList<ReferenceTypeInfo>(entities.size());
+//		for (ReferenceType entity : entities) {
+//			dtos.add(toReferenceType(entity));
+//		}
+//		return dtos;
+//
+//	}
+//
+//	private static ReferenceTypeInfo toReferenceType(ReferenceType entity) {
+//		ReferenceTypeInfo dto = new ReferenceTypeInfo();
+//        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
+//        // dto.setAttributes(toAttributeList(entity.getAttributes()));
+//        return dto;
+//	}
 
-	public static List<ReferenceTypeInfo> toReferenceTypeInfos(
-			List<ReferenceType> entities) {
-		List<ReferenceTypeInfo> dtos = new ArrayList<ReferenceTypeInfo>(entities.size());
-		for (ReferenceType entity : entities) {
-			dtos.add(toReferenceType(entity));
-		}
-		return dtos;
-
-	}
-
-	private static ReferenceTypeInfo toReferenceType(ReferenceType entity) {
-		ReferenceTypeInfo dto = new ReferenceTypeInfo();
-
-        BeanUtils.copyProperties(entity, dto,new String[]{"attributes"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        return dto;
-	}
-	
 }
