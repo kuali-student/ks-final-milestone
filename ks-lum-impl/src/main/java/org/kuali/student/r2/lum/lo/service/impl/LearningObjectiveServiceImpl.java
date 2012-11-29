@@ -758,25 +758,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 //        return dictionaryServiceDelegate.getObjectTypes();
 //    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
-	 */
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return searchManager.getSearchCriteriaTypes(contextInfo);
-    }
-
-
-
-    /* (non-Javadoc)
-      * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
-      */
-    @Override
-    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return searchManager.getSearchResultTypes(contextInfo);
-    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
@@ -789,12 +770,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
-    @Override
-    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
-    }
-
     /* (non-Javadoc)
       * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
       */
@@ -804,17 +779,6 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return searchManager.getSearchTypes(contextInfo);
     }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
-	 */
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
-    }
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})

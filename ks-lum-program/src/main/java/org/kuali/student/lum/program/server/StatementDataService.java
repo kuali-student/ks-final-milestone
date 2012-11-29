@@ -145,28 +145,6 @@ public class StatementDataService implements StatementRpcService{
 	}
 
 	@Override
-	public List<TypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public List<TypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public List<TypeInfo> getSearchResultTypes() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public List<TypeInfo> getSearchCriteriaTypes() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public SearchResultInfo search(SearchRequestInfo searchRequest) {
 		throw new UnsupportedOperationException();
 	}
