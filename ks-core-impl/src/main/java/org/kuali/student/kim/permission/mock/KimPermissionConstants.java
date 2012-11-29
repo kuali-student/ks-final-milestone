@@ -25,7 +25,7 @@ public class KimPermissionConstants {
      */
     public static final String KS_ENRL_NAMESPACE = "KS-ENRL";
     public static final String KS_SYS_NAMESPACE = "KS-SYS";
-    public static final String KS_LUM_NAMESPACE = "KS-LUM";
+    public static final String KS_LUM_NAMESPACE = "KS-CM";
     public static final String KUALI_NAMESPACE = "KUALI";
     public static final String KR_BUS_NAMESPACE = "KR-BUS";
     public static final String KR_IDM_NAMESPACE = "KR-IDM";
