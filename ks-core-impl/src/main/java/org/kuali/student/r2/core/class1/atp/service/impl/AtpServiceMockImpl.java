@@ -644,18 +644,6 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     }
 
     @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return searchManager.getSearchCriteriaTypes(contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return searchManager.getSearchResultTypes(contextInfo);
-    }
-
-    @Override
     public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
@@ -667,24 +655,6 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
             throws OperationFailedException, InvalidParameterException, MissingParameterException {
         return searchManager.getSearchTypes(contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
     public SearchManager getSearchManager() {

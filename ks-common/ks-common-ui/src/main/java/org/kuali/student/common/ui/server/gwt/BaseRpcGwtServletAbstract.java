@@ -78,41 +78,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         return ((DictionaryService) getService()).getObjectTypes();
     }
 
-    /**
-     * @throws OperationFailedException
-     * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
-     */
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes() {
-        try {
-            return ((SearchService) getService()).getSearchCriteriaTypes(ContextUtils.getContextInfo());
-        } catch (InvalidParameterException e) {
-            LOG.error(e);
-        } catch (MissingParameterException e) {
-            LOG.error(e);
-        } catch (OperationFailedException e) {
-            LOG.error(e);
-        }
-        return null;
-    }
 
-    /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
-     */
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes() {
-        try {
-            return ((SearchService) getService()).getSearchResultTypes(ContextUtils.getContextInfo());
-        } catch (OperationFailedException e) {
-            LOG.error(e);
-        } catch (MissingParameterException e) {
-            LOG.error(e);
-        } catch (InvalidParameterException e) {
-            LOG.error(e);
-        }
-        return null;
-    }
 
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
@@ -142,44 +108,6 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     public List<TypeInfo> getSearchTypes() {
         try {
             return ((SearchService) getService()).getSearchTypes(ContextUtils.getContextInfo());
-        } catch (InvalidParameterException e) {
-            LOG.error(e);
-        } catch (MissingParameterException e) {
-            LOG.error(e);
-        } catch (OperationFailedException e) {
-            LOG.error(e);
-        }
-        return null;
-    }
-
-    /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
-     */
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) {
-        try {
-            return ((SearchService) getService()).getSearchTypes(ContextUtils.getContextInfo());
-        } catch (InvalidParameterException e) {
-            LOG.error(e);
-        } catch (MissingParameterException e) {
-            LOG.error(e);
-        } catch (OperationFailedException e) {
-            LOG.error(e);
-        }
-        return null;
-    }
-
-    /**
-     * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
-     */
-
-    @Override
-    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey) {
-        try {
-            return ((SearchService) getService()).getSearchTypesByResult(searchResultTypeKey, ContextUtils.getContextInfo());
-        } catch (DoesNotExistException e) {
-            LOG.error(e);
         } catch (InvalidParameterException e) {
             LOG.error(e);
         } catch (MissingParameterException e) {

@@ -373,21 +373,6 @@ public class ProposalServiceImpl implements ProposalService {
         return dictionaryServiceDelegate.getObjectTypes();
     }
 
-    /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchCriteriaTypes(ContextInfo)
-     */
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return searchManager.getSearchCriteriaTypes(contextInfo);
-    }
-
-    /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchResultTypes(ContextInfo)
-     */
-    @Override
-    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return searchManager.getSearchResultTypes(contextInfo);
-    }
 
     /**
      * @see org.kuali.student.r2.common.search.service.SearchService#getSearchType(java.lang.String, ContextInfo)
@@ -404,22 +389,6 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public List<TypeInfo> getSearchTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
         return searchManager.getSearchTypes(contextInfo);
-    }
-
-    /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String,ContextInfo)
-     */
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
-    }
-
-    /**
-     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByResult(java.lang.String,ContextInfo)
-     */
-    @Override
-    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
 	@Override

@@ -86,18 +86,6 @@ public class SearchManagerImpl implements SearchManager {
     }
 
     @Override
-    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-		//TODO: return searchCriteriaTypeMap.values();
-        return null;
-	}
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        //TODO return searchResultTypeInfoMap.values();
-        return null;
-	}
-
-    @Override
     public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return toTypeInfo(searchInfoTypeMap.get(searchTypeKey));
 	}
@@ -126,30 +114,6 @@ public class SearchManagerImpl implements SearchManager {
         typeInfo.setDescr(textInfo);
         return typeInfo;
     }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		List<TypeInfo> searchTypesByCriteria = new ArrayList<TypeInfo>();
-		for (SearchTypeInfo searchTypeInfo : searchInfoTypeMap.values()) {
-			if (searchCriteriaTypeKey.equals(searchTypeInfo
-					.getSearchCriteriaTypeInfo().getKey())) {
-				searchTypesByCriteria.add(toTypeInfo(searchTypeInfo));
-			}
-		}
-		return searchTypesByCriteria;
-	}
-
-    @Override
-    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		List<TypeInfo> searchTypesByResult = new ArrayList<TypeInfo>();
-		for (SearchTypeInfo searchTypeInfo : searchInfoTypeMap.values()) {
-			if (searchResultTypeKey.equals(searchTypeInfo
-					.getSearchResultTypeInfo().getKey())) {
-				searchTypesByResult.add(toTypeInfo(searchTypeInfo));
-			}
-		}
-		return searchTypesByResult;
-	}
 
 	public String getSearchContextFile() {
 		return searchContextFile;

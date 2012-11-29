@@ -35,17 +35,9 @@ public interface BaseRpcServiceAsync {
 
     public void getObjectStructure(String objectTypeKey, AsyncCallback<ObjectStructure> callback);
 
-    void getSearchCriteriaTypes(AsyncCallback<List<TypeInfo>> callback);
-    
-    void getSearchResultTypes(AsyncCallback<List<TypeInfo>> callback);
-    
     void getSearchType(String searchTypeKey, AsyncCallback<TypeInfo> callback);
     
     void getSearchTypes(AsyncCallback<List<TypeInfo>> callback);
-    
-    void getSearchTypesByCriteria(String searchCriteriaTypeKey, AsyncCallback<List<TypeInfo>> callback);
-    
-    void getSearchTypesByResult(String searchResultTypeKey, AsyncCallback<List<TypeInfo>> callback);
     
     public void search(SearchRequestInfo searchRequest, AsyncCallback<SearchResultInfo> callback);
 }

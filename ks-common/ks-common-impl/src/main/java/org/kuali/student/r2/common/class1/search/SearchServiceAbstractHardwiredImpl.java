@@ -67,40 +67,6 @@ public abstract class SearchServiceAbstractHardwiredImpl
         return Arrays.asList(this.getSearchType());
     }
 
-    @Override
-    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        throw new UnsupportedOperationException("Method is not implemented.");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo)
-            throws
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        throw new UnsupportedOperationException("Method is not implemented.");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        throw new UnsupportedOperationException("Method is not implemented.");
-    }
-
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        throw new UnsupportedOperationException("Method is not implemented.");
-    }
 
     @Override
     public abstract SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
