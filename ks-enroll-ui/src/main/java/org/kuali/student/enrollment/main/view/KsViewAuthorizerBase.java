@@ -1,8 +1,5 @@
 package org.kuali.student.enrollment.main.view;
 
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.krad.util.KRADConstants;
-
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.view.View;
@@ -20,6 +17,23 @@ import java.util.Map;
  * (object.field1[3].field2->qualifierId)
  */
 public class KsViewAuthorizerBase extends ViewAuthorizerBase {
+    @Override
+    protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
+        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof CourseOfferingManagementForm) {
+            CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) primaryDataObjectOrDocument;
+            if(theForm.getTheCourseOffering() != null){
+                //Pull out the org ids and pass in the first one as a role qualifier
+                List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();
+                if(orgIds !=null && !orgIds.isEmpty()){
+                    attributes.put("org", orgIds.get(0));
+                }
+            }
+            else if(theForm.getAdminOrg() != null){
+                attributes.put("org", theForm.getAdminOrg());
+            }
+        }
+        super.addRoleQualification(primaryDataObjectOrDocument, attributes);
+    }
 
     /**
      * This method resolves the unitsDeploymentOrgId from the CourseOffering Model and passes it in as
@@ -27,23 +41,12 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
      */
     @Override
     protected boolean isAuthorizedByTemplate(View view, Component component, ViewModel model, String permissionTemplateName, Person user, Map<String, String> additionalPermissionDetails, Map<String, String> additionalRoleQualifications, boolean checkPermissionExistence) {
-        if (model !=null && model instanceof CourseOfferingManagementForm) {
-            CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) model;
-            if(theForm.getTheCourseOffering() != null){
-                //Pull out the org ids and pass in the first one as a role qualifier
-                List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();
-                if(orgIds !=null && !orgIds.isEmpty()){
-                    if(additionalRoleQualifications == null){
-                        //Instantiate if null was passed in
-                        additionalRoleQualifications = new HashMap<String, String>();
-                    }
-                    additionalRoleQualifications.put("org", orgIds.get(0));
-                }
-            }
-            else if(theForm.getAdminOrg() != null){
-                additionalRoleQualifications.put("org", theForm.getAdminOrg());
-            }
+        if(additionalRoleQualifications == null){
+            //Instantiate if null was passed in
+            additionalRoleQualifications = new HashMap<String, String>();
         }
+        addRoleQualification(model, additionalRoleQualifications);
+
         // Make the actual call to is authorized by template
         return super.isAuthorizedByTemplate(view, component, model, permissionTemplateName, user, additionalPermissionDetails, additionalRoleQualifications, checkPermissionExistence);
     }
