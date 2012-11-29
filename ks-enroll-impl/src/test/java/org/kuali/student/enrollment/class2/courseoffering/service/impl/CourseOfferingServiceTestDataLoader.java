@@ -15,18 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import org.joda.time.DateTime;
-import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.TestAwareDataLoader;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -71,8 +60,16 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+
+import javax.annotation.Resource;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -118,10 +115,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
 
     /**
-	 * @param coService 
-	 * @param acalService 
-	 * @param canonicalCourseService 
-	 * 
+	 *
 	 */
 	public CourseOfferingServiceTestDataLoader() {
 	    super();
@@ -625,6 +619,10 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 	        info.setType(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
 	        info.setState(DtoConstants.STATE_ACTIVE);
 	        info.setFormats(new ArrayList<FormatInfo>());
+            ResultValuesGroupInfo rvg = new ResultValuesGroupInfo();
+            rvg.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0);
+            info.getCreditOptions().add(rvg);
+            info.getGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
 			return info;
 	    }
 	    

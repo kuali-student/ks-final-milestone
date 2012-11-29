@@ -394,7 +394,8 @@ public final class CourseOfferingServiceDataUtils {
         // orig.setCreditOptionId(creditOptionId);
 
         orig.setDescr(new RichTextInfo(canonicalCourse.getCourseTitle(), "<b>" + canonicalCourse.getCourseTitle() + "<b>"));
-
+        orig.setCreditOptionId(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0);
+        orig.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
         orig.getStudentRegistrationGradingOptions().add(
                 LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
         orig.getStudentRegistrationGradingOptions().add(
