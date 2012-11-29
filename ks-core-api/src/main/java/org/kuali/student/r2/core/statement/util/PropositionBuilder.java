@@ -357,6 +357,8 @@ public class PropositionBuilder {
 
             // TODO
             // result = new OrgPermissionProposition(orgId);
+        } else {
+            // result = new InstructorPermissionProposition();
         }
 
         return result;

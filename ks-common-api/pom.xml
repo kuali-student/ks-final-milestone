@@ -4,21 +4,10 @@
     <parent>
         <groupId>org.kuali.student.api</groupId>
         <artifactId>ks-api</artifactId>
-        <version>2.0.0-M6-CM20-SNAPSHOT</version>
+        <version>2.0.0-M7-SNAPSHOT</version>
     </parent>
     <artifactId>ks-common-api</artifactId>
     <name>KS Common API</name>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <forkMode>always</forkMode>
-                    <argLine>-Xms256m -Xmx512m</argLine>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

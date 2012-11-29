@@ -208,31 +208,6 @@ public interface LprService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    
-    /**
-     * Retrieves LUI Person Relations for a list of Lui ids
-     * 
-     * Example Use Case: Can be used to get all the people and their relationships to a particular
-     * list of course offering's.
-     *
-     * @param luiIds   Identifiers for LUI's that we want to load the related LPR's 
-     * @param contextInfo Context information containing the principalId and locale
-     *                information about the caller of service operation
-     * @return List of LUI Person Relation info
-     * @throws DoesNotExistException     one or more of the provided luiId's are not found
-     * @throws InvalidParameterException invalid luiIds or contextInfo
-     * @throws MissingParameterException one or more missing parameters.
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public List<LprInfo> getLprsByLuis(@WebParam (name="luiIds")List<String>luiIds, 
-    								   @WebParam(name = "contextInfo") ContextInfo contextInfo) 
-    										   throws DoesNotExistException, 
-    										          InvalidParameterException,
-    										          MissingParameterException,
-    										          OperationFailedException, 
-    										          PermissionDeniedException;
-    
     /**
      * Retrieves LUI Person Relation for a particular type and specified LUI
      *

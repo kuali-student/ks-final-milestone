@@ -942,7 +942,7 @@
   </wsdl:binding>
   <wsdl:service name="simpleDocumentActionsService">
     <wsdl:port binding="tns:simpleDocumentActionsServiceSoapBinding" name="simpleDocumentActionsServicePort">
-      <soap:address location="http://localhost:8081/ks-rice-standalone-dev/remoting/simpleDocumentActionsService"/>
+      <soap:address location="http://localhost:8081/ks-rice-dev/remoting/simpleDocumentActionsService"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
