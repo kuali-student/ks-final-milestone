@@ -242,38 +242,13 @@ public class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "context") ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchTypesByResult(searchResultTypeKey, context);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getSearchTypesByCriteria(searchCriteriaTypeKey, context);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "context") ContextInfo context)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return getNextDecorator().getSearchResultTypes(context);
-    }
-
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "context") ContextInfo context)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException {
-        return getNextDecorator().getSearchCriteriaTypes(context);
-    }
-
-    @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo context) throws MissingParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo context) throws PermissionDeniedException, MissingParameterException {
         SearchResultInfo sr = null;
         try {
             sr =  getNextDecorator().search(searchRequest, context);
         } catch (OperationFailedException ox){
             throw new MissingParameterException(ox.getMessage());
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();
-        }
+        } 
         return sr;
     }
 
