@@ -40,14 +40,10 @@ import java.util.List;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
+ * The Document Service supports the management of document objects as well 
+ * as the relationship between those documents and external entities.
  *
- * The Document Service supports the management of document objects. Relations
- * between stored documents and external entities are managed through
- *
- * the respective entity service.
- *
- * @Version 2.0
- * @Author tom
+ * @version 2.0
  * @Author Sri komandur@uw.edu
  *
  */

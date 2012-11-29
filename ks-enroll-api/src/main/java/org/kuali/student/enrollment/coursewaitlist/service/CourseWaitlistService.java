@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.util.constants.CourseWaitlistServiceConstants
  * part of negotiating the student's registration, operations are provided to
  * manage related exceptions and holds related to registration.
  * 
+ * @version 0.0.7
  * @author Kuali Student Team (sambit)
  */
 

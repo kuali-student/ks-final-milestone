@@ -52,8 +52,7 @@ import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
  * Learning Unit (LU) Service
  *
  * @Author Kamal
- * @Version 2.0
- * @Author Sri komandur@uw.edu
+ * @version 2.0
  */
 @WebService(name = "CluService", targetNamespace = CluServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)

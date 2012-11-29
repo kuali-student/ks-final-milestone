@@ -36,6 +36,7 @@ import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
  * Hold is one that has been released or canceled. The state of the Hold needs
  * to be checked to determine if the restriction still exists.
  *
+ * @version 0.0.7
  * @author tom
  * @since Sun May 1 14:22:34 EDT 2011
  */

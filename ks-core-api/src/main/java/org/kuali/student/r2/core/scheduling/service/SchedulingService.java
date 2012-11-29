@@ -37,7 +37,12 @@ import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
- * @Version 1.0
+ * The scheduling service has two main responsibilities (1) Manage the scheduling 
+ * information for activity offerings Scheduling requests, one off and en masse, to be sent to scheduler
+ * Display the results from the scheduler including individual meetings. 
+ * (2) Manage the interactions with an external scheduling system such as R25 or AdAstra
+ * 
+ * @version 0.0.7
  * @Author Sri komandur@uw.edu
  * @Author Mezba Mahtab mezba.mahtab@utoronto.ca
  */

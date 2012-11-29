@@ -61,7 +61,7 @@ import java.util.List;
  * lecture with any lab, as well as specific matching, e.g., lecture 1 with lab
  * A or B, and lecture 2 with lab C or D.
  * <p/>
- * Version: 1.0 (Dev)
+ * @version: 0.0.7
  *
  * @author Kuali Student Team (Kamal)
  */

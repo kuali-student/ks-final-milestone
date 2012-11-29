@@ -37,7 +37,7 @@ import java.util.List;
  * By default there is one main Soc per term that includes all the courses 
  * in that term.
  * 
- * @version 1.0
+ * @version 0.0.7
  *
  * @author nwright
  */
