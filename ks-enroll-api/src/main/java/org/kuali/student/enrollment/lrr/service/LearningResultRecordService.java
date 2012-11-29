@@ -42,7 +42,7 @@ import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
  * 
  * The Learning Result Record Service supports the management of results earned through a person's participation in a learning unit instance. 
  * 
- * @Version: 1.0 (Dev) DRAFT - NOT READY FOR RELEASE.
+ * @version: 0.0.7
  * @author Kuali Student Team (Kamal)
  */
 @WebService(name = "LearningResultRecordService", targetNamespace = LrrServiceConstants.NAMESPACE) // TODO CHECK THESE VALUES

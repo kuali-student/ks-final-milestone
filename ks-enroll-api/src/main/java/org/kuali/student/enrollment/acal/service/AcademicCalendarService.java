@@ -78,7 +78,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
  * AcalEvent: A milestone used with AcademicCalendars (e.g. Commencement). 3.
  * KeyDate:   A milestone used with Terms (e.g. Registration Period).
  * <p/>
- * Version: 1.0 (Dev)
+ * @version: 0.0.7
  *
  * @author tom
  * @since Sun Apr 10 14:22:34 EDT 2011

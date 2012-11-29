@@ -41,7 +41,7 @@ import javax.jws.soap.SOAPBinding;
  * The Message Service allows for the creation and management of
  * messages.
  *
- * @Version 2.0
+ * @version 2.0
  * @Author Sri komandur@uw.edu
  */
 

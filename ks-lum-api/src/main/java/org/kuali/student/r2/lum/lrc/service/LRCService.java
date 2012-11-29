@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
@@ -47,6 +47,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
  * Group, and Result Value Range.
  *
  * @Author sambit
+ * @version 2.0 
  * @Since Tue May 10 14:09:46 PDT 2011
  */
 @WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)

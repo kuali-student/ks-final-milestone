@@ -47,7 +47,7 @@ import java.util.List;
  * individual slots, finally students from that population get attached to those
  * slots.
  *
- * @Version 1.0
+ * @version 0.0.7
  * @Author Sri komandur@uw.edu
  */
 @WebService(name = "AppointmentService", serviceName = "AppointmentService", portName = "AppointmentService", targetNamespace = AppointmentServiceConstants.NAMESPACE)

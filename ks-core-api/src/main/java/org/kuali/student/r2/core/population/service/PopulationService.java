@@ -37,7 +37,7 @@ import java.util.List;
  *
  * This service supports the management of people sets.
  *
- * Version: 1.0 (Dev)
+ * @version 0.0.7
  *
  * @Author tom
  * @Author Mezba

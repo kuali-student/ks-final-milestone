@@ -50,8 +50,21 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
 
 /**
- * The Program Service allows for the creation and management of courses.
+ * A course is a specified area of knowledge contained and taught independently 
+ * from other areas of knowledge that may or may not be related. Courses typically 
+ * have specific learning objectives, defined student learning outcomes and assessments.
+ * They can be recognized for academic credit or not. Courses can be delivered in
+ * various instructional formats such as lecture, lab, discussion, seminar, colloquium,
+ * etc. A course would utilize at least one instructional format, but often will 
+ * use more than one.
  * 
+ * Course is pre-configured type of CLU (Canonical Learning Unit) that represents
+ * a credit course. The courseInfo object supports a number of complex course
+ * options – cross-listed, joint and variations. Course can have any number of associated 
+ * learning objectives and requisites (rules that model pre-, co-, anti-requisites
+ * and enrollment restrictions).
+ * 
+ * @version 2.0 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 @WebService(name = "CourseService", targetNamespace = CourseServiceConstants.NAMESPACE)

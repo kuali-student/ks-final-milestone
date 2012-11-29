@@ -45,9 +45,8 @@ import java.util.List;
 /**
  * Provides a state management and state flow information.
  *
- * @version 1.0 (Dev)
+ * @version 2.0
  * @author kamal
- * @Version 2.0 State Management: constraints and propagations
  * @Author Sri komandur@uw.edu
  */
 

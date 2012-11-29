@@ -47,6 +47,7 @@ import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
 /**
  * The LprRoster service maintains ordered collections of Lprs for
  * various applications such as waitlists and grading sheets.
+ * @version 0.0.7
  */
 
 @WebService(name = "LprRosterService", serviceName = "LprRosterService", portName = "LprRosterService", targetNamespace = LprRosterServiceConstants.NAMESPACE)

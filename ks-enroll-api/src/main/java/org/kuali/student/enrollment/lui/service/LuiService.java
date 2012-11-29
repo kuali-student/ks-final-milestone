@@ -43,7 +43,7 @@ import java.util.List;
  * This includes course and section offerings as well as program
  * offerings
  * 
- * @version 1.0 (Dev)
+ * @version 0.0.7
  *
  * @author tom
  */

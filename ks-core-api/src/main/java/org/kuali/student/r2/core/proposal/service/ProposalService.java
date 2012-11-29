@@ -36,9 +36,18 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 /**
- * This is a description of what this class does - sambit don't forget to fill
- * this in.
+ * The Proposal Service supports the management of Proposals. The proposal is 
+ * general and can be associated with any arbitrary entity in the system, for 
+ * example, a learning unit. Proposals have types that capture the activity being 
+ * proposed, for example, Creating a new course or Updating the prefix for a set 
+ * of courses or Launching a new student club.
  * 
+ * A proposal may reference more than one (1) object, provided that the objects 
+ * are all of the same reference type and that the other data contained in the 
+ * proposal applies to all of the objects referenced. An object (e.g. CLU) is 
+ * involved in only one active proposal at a time.
+ * 
+ * @version 2.0
  * @author Sambit (sambitpa@kuali.org)
  */
 @WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
