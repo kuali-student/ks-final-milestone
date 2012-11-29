@@ -3012,7 +3012,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
 
         LuiInfo lui = luiService.getLui(courseOfferingId, contextInfo);
-
+        String thisStateKey = lui.getStateKey();
         StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(courseOfferingId,nextStateKey,contextInfo);
         if (statusInfo.getIsSuccess()){
 
@@ -3023,7 +3023,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new OperationFailedException("Failed to update State", e);
             }
 
-            String propagationKey = lui.getStateKey() + ":" + nextStateKey;
+            String propagationKey = thisStateKey + ":" + nextStateKey;
             Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(courseOfferingId,propagationKey,contextInfo);
             for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
                 if (!statusInfo1.getIsSuccess()){
@@ -3047,6 +3047,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
 
         LuiInfo lui = luiService.getLui(formatOfferingId, contextInfo);
+        String thisStateKey = lui.getStateKey();
+
         StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(formatOfferingId,nextStateKey,contextInfo);
         if (statusInfo.getIsSuccess()){
             lui.setStateKey(nextStateKey);
@@ -3056,7 +3058,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new OperationFailedException("Failed to update State", e);
             }
 
-            String propagationKey = lui.getStateKey() + ":" + nextStateKey;
+            String propagationKey = thisStateKey + ":" + nextStateKey;
             Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(formatOfferingId,propagationKey,contextInfo);
             for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
                 if (!statusInfo1.getIsSuccess()){
