@@ -84,7 +84,7 @@
 
   <bean id="PropositionMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
     <property name="dataObjectClass" value="org.kuali.rice.krms.impl.repository.PropositionBo"/>
-    <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.PropositionMaintainable"/>
+    <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.PropositionMaintainable"/>
     <property name="documentTypeName" value="PropositionMaintenanceDocument"/>
     <property name="lockingKeys">
       <list>
@@ -99,7 +99,7 @@
       <bean parent="Uif-KradTheme"/>
     </property>
     <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.PropositionBo"/>
-    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.PropositionTemplateServiceMockImpl"/>
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.PropositionViewHelperServiceImpl"/>
     <property name="formPostUrl" value="krmsProposition" />
     <property name="items">
         <list>

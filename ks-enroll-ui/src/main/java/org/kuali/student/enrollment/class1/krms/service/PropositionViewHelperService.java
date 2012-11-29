@@ -14,13 +14,6 @@ import java.util.List;
  * Time: 10:25 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface PropositionTemplateService extends ViewHelperService {
+public interface PropositionViewHelperService extends ViewHelperService, TemplateResolverService {
 
-    public String getTermSpecificationForType(String type);
-
-    public String getOperationForType(String type);
-
-    public String getValueForType(String type);
-
-    public String getComponentForTermSpec(String termSpecId);
 }

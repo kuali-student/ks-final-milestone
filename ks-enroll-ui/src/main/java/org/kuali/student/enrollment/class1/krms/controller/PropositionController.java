@@ -25,13 +25,10 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.framework.engine.expression.ComparisonOperator;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.TermBoService;
-import org.kuali.rice.krms.impl.util.KrmsImplConstants;
-import org.kuali.student.enrollment.class1.krms.service.PropositionTemplateService;
-import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
+import org.kuali.student.enrollment.class1.krms.service.PropositionViewHelperService;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.stereotype.Controller;
@@ -101,7 +98,7 @@ public class PropositionController extends MaintenanceDocumentController {
 
     private void configureProposition(UifFormBase form) {
 
-        PropositionTemplateService viewHelper = (PropositionTemplateService) KSControllerHelper.getViewHelperService(form);
+        PropositionViewHelperService viewHelper = (PropositionViewHelperService) KSControllerHelper.getViewHelperService(form);
 
         Component customGroup = ComponentUtils.findNestedComponentById(form.getView(), "Default-Term-parameters");
         FieldGroup fieldGroup = (FieldGroup) customGroup;

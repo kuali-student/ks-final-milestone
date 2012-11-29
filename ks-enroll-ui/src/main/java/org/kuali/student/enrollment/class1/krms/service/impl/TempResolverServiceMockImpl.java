@@ -1,17 +1,16 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krms.framework.engine.expression.ComparisonOperator;
-import org.kuali.student.enrollment.class1.krms.service.PropositionTemplateService;
+import org.kuali.student.enrollment.class1.krms.service.TemplateResolverService;
 
 /**
  * Created with IntelliJ IDEA.
  * User: SW
  * Date: 2012/11/29
- * Time: 10:25 AM
+ * Time: 4:23 PM
  * To change this template use File | Settings | File Templates.
  */
-public class PropositionTemplateServiceMockImpl extends ViewHelperServiceImpl implements PropositionTemplateService{
+public class TempResolverServiceMockImpl implements TemplateResolverService {
 
     public String getTermSpecificationForType(String type){
         if( "10016".equals(type)){
