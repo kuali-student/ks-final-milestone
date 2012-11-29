@@ -145,7 +145,7 @@ public class TestTermResolvers {
     }
 
     //TODO KSENROLL-3833
-    @Test
+    @Ignore
     public void testEnrolledCourseNumberTermResolver(){
         //Setup the term resolver
         EnrolledCourseNumberTermResolver termResolver = new EnrolledCourseNumberTermResolver();
@@ -168,7 +168,7 @@ public class TestTermResolvers {
         assertEquals(1,academicRecord.intValue());
     }
     //TODO KSENROLL-3833
-    @Test
+    @Ignore
     public void testEnrolledCourseTermResolver(){
         //Setup the term resolver
         EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
@@ -211,7 +211,7 @@ public class TestTermResolvers {
         assertNull(result);
     }
 
-    @Test
+    @Ignore
     public void testGPATermResolver(){
         //Setup the term resolver
         GPATermResolver termResolver = new GPATermResolver();
@@ -231,7 +231,7 @@ public class TestTermResolvers {
         assertNotNull(result);
     }
 
-    @Test
+    @Ignore
     public void testKSKRMSTermResolver(){
         //Evaluate term Resolver
         assertNotNull(ksKRMSTermResolverTypeService);
