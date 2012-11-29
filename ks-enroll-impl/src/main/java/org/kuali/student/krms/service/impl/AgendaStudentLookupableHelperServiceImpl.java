@@ -38,31 +38,16 @@ public class AgendaStudentLookupableHelperServiceImpl extends LookupableImpl {
 
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
-        // The context is unknown on create so we need to let the user in
-        // TODO: maybe restrict it so only user that have rights to some contexts are allowed to create agendas.
         return true;
     }
 
     @Override
     public boolean allowsMaintenanceEditAction(Object dataObject) {
-//        boolean allowsEdit = false;
-//
-//        AgendaBo agenda = (AgendaBo) dataObject;
-//        allowsEdit = KrmsRepositoryServiceLocator.getAgendaAuthorizationService().isAuthorized(KrmsConstants.MAINTAIN_KRMS_AGENDA, agenda.getContextId());
-//
-//        return allowsEdit;
         return true;
     }
 
     @Override
     public boolean allowsMaintenanceDeleteAction(Object dataObject) {
-//        boolean allowsMaintain = false;
-//        boolean allowsDelete = false;
-//
-//        AgendaBo agenda = (AgendaBo) dataObject;
-//        allowsMaintain = KrmsRepositoryServiceLocator.getAgendaAuthorizationService().isAuthorized(KrmsConstants.MAINTAIN_KRMS_AGENDA, agenda.getContextId());
-//
-//        return allowsDelete && allowsMaintain;
         return true;
     }
 

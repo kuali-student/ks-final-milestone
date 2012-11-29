@@ -99,7 +99,7 @@
       <bean parent="Uif-KradTheme"/>
     </property>
     <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.PropositionBo"/>
-    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.PropositionMaintainable"/>
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.PropositionTemplateServiceMockImpl"/>
     <property name="formPostUrl" value="krmsProposition" />
     <property name="items">
         <list>
