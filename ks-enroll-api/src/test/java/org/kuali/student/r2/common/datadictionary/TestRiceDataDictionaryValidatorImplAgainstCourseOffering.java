@@ -130,7 +130,6 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
      * Test of validate method, of class RiceValidatorImpl.
      */
     @Test
-    @Ignore ("This test crashes the JVM at the CI. Not sure the reason for its failure atm. http://ci.rice.kuali.org/view/ks-all/job/ks-enr-1.0-unit-test/1188/console")
     public void testValidate1() throws Exception {
         System.out.println("tests basic validation");
         DataDictionaryValidator.ValidationType validationType = null;
