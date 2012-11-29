@@ -2343,8 +2343,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
 
         try {
-            ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterInfo.getId(), contextInfo);
-            List<ActivityOfferingSetInfo> aoSetInfos = aoCInfo.getActivityOfferingSets();
+            List<ActivityOfferingSetInfo> aoSetInfos = new ArrayList<ActivityOfferingSetInfo>();
+            if (activityOfferingClusterInfo.getId() != null) {
+                ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterInfo.getId(), contextInfo);
+                aoSetInfos = aoCInfo.getActivityOfferingSets();
+            } else {
+                aoSetInfos = activityOfferingClusterInfo.getActivityOfferingSets();
+            }
 
             Integer aoSetMaxEnrollNumber = 0;
             Map<String, Integer> aoSetMaxEnrollNumberMap = new HashMap<String, Integer>(aoSetInfos.size());
