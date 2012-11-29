@@ -14,7 +14,7 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 
-@PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/enroll-persistence.xml")
 public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao", testSqlFile = "classpath:ks-atp.sql")
     private AtpAtpRelationDao dao;

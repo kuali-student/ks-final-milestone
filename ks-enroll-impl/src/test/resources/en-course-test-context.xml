@@ -55,8 +55,8 @@
     </bean>
 
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
-        <property name="persistenceUnitName" value="Acal" />
-        <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml" />
+        <property name="persistenceUnitName" value="Enum" />
+        <property name="persistenceXmlLocation" value="classpath:META-INF/en-persistence.xml" />
         <property name="dataSource" ref="dataSource" />
     </bean>
 

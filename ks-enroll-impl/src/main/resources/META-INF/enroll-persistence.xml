@@ -6,7 +6,7 @@
              version="1.0">
 
     <!-- JPA test "unit" -->
-    <persistence-unit name="Acal" transaction-type="JTA">
+    <persistence-unit name="Enr" transaction-type="JTA">
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprAttributeEntity</class>

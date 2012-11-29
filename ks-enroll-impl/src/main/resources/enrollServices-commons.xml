@@ -28,8 +28,8 @@
     </bean>
 
     <bean id="enrollEntityManagerFactory" parent="enrollDefaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Acal"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml"/>
+        <property name="persistenceUnitName" value="Enr"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/enroll-persistence.xml"/>
         <property name="dataSource" ref="enrollDataSource"/>
     </bean>
 
