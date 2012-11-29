@@ -4,7 +4,7 @@
 //if (document.domain != "localhost") document.domain = "kuali.org";
 if (window.self != window.top) { // must be in a frame
     var dd=String(document.domain).match(/^(?:[a-z0-9-]+\.)*kuali\.org$/);
-    if(dd)document.domain="kuali.org";
+    //if(dd)document.domain="kuali.org";
     if(dd)document.write("<span style='color:white;'>document.domain = 'kuali.org'</span>");
 }
 
