@@ -128,6 +128,8 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
             return ((SearchService) getService()).search(searchRequest, ContextUtils.getContextInfo());
         } catch (OperationFailedException e) {
             LOG.error(e);
+        } catch (InvalidParameterException e) {
+            LOG.error(e);
         } catch (PermissionDeniedException e) {
             LOG.error(e);
         } catch (MissingParameterException e) {

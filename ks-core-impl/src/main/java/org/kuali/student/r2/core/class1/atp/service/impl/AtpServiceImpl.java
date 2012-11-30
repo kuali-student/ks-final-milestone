@@ -133,7 +133,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
         SearchResultInfo searchResult = this.searchManager.search(searchRequest, contextInfo);
 //        if (searchRequest.getSearchKey().equals("atp.search.advancedAtpSearch")){
             //TODO: populate the duration en seasonal types.

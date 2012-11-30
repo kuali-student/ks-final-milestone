@@ -662,7 +662,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
         checkForMissingParameter(searchRequestInfo, "searchRequest");
         if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequestInfo.getSearchKey())){
         	//Special case for dependency analysis.

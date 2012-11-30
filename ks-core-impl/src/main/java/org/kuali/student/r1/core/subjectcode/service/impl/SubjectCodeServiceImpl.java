@@ -62,7 +62,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 
 	@Override
 	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo)
-            throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+            throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
 		String searchKey = searchRequest.getSearchKey();
 		//Check Params
 		if(searchKey==null||searchKey.isEmpty()){
@@ -102,7 +102,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		return searchResult;
 	}
 	
-    private SearchResultInfo doOrgsForSubjectCodeSearch(Map<String, Object> paramMap, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private SearchResultInfo doOrgsForSubjectCodeSearch(Map<String, Object> paramMap, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
 		SearchResultInfo searchResult = new SearchResultInfo();
 		Map<String,Object> queryMap = new HashMap<String,Object>();
 		String codeParam = (String) paramMap.get("subjectCode.queryParam.code");

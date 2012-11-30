@@ -392,7 +392,7 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
 	@Override
-	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
 		if("proposal.search.proposalsForReferenceIds".equals(searchRequest.getSearchKey())){
 			return doSearchProposalsForReferenceIds(searchRequest);
 		}else{

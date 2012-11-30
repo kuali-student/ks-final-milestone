@@ -38,7 +38,7 @@ public class MockSearch implements SearchService {
 
 
 	@Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
 		if("test.search1".equals(searchRequestInfo.getSearchKey())){
 			SearchResultInfo searchResult = new SearchResultInfo();
 			SearchResultRowInfo row = new SearchResultRowInfo();

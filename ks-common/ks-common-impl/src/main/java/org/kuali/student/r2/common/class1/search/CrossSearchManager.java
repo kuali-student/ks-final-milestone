@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 
 /**
  * This still needs a few things
@@ -58,7 +59,7 @@ import java.util.Map;
 public class CrossSearchManager {
 	private SearchService searchDispatcher;
 
-	public SearchResultInfo doCrossSearch(SearchRequestInfo searchRequest, CrossSearchTypeInfo crossSearchType, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+	public SearchResultInfo doCrossSearch(SearchRequestInfo searchRequest, CrossSearchTypeInfo crossSearchType, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
 		SearchResultInfo searchResult = new SearchResultInfo();
 		
 		Map<String,SearchResultInfo> subSearchResults = new HashMap<String,SearchResultInfo>();

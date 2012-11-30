@@ -975,7 +975,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(searchRequest, "searchRequest");
 
         // Look for a Organization Search instance.

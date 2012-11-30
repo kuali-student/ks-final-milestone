@@ -666,7 +666,7 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
         return this.searchDispatcher.search(searchRequest, contextInfo);
     }
 }

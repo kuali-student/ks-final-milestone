@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
@@ -47,7 +48,7 @@ public class TestPersonSearchServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void testCall() throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public void testCall() throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
         SearchResultInfo result = client.search(new SearchRequestInfo(), context);
         assertNotNull(result);
     }

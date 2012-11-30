@@ -343,7 +343,7 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException {
         try {
             return getNextDecorator().search(searchRequest, contextInfo);
         } catch (OperationFailedException e) {

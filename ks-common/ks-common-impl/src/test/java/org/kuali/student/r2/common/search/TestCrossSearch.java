@@ -9,11 +9,12 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
 import static org.junit.Assert.assertNotNull;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 
 public class TestCrossSearch {
 
 	@Test
-	public void testCrossSearchUnion() throws MissingParameterException, PermissionDeniedException, OperationFailedException {
+	public void testCrossSearchUnion() throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
 		MockSearch search = new MockSearch();
 		SearchRequestInfo searchRequest = new SearchRequestInfo();
 		searchRequest.setSearchKey("test.crossSearch");

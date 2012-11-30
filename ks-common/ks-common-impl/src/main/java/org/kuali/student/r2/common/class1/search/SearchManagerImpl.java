@@ -124,7 +124,7 @@ public class SearchManagerImpl implements SearchManager {
 	}
 
 	@Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
     	if(searchRequestInfo == null){
 			throw new MissingParameterException("Search Request can not be null.");
 		}
