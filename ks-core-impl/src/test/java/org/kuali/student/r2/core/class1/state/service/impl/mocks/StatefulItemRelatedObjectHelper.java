@@ -36,9 +36,9 @@ public class StatefulItemRelatedObjectHelper implements RelatedObjectHelper {
     }
 
     @Override
-    public List<String> getRelatedObjectIds(String entityId, ContextInfo contextInfo)
+    public Set<String> getRelatedObjectIds(String entityId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> ids = new ArrayList<String>();
+        Set<String> ids = new HashSet<String>();
         for (String key : service.getIds()) {
             ids.add(key);
         }
