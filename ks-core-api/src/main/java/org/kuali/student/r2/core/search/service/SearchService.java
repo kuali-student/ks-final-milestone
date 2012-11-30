@@ -94,6 +94,7 @@ public interface SearchService {
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws MissingParameterException,
+            InvalidParameterException,
             OperationFailedException,
             PermissionDeniedException;
 }

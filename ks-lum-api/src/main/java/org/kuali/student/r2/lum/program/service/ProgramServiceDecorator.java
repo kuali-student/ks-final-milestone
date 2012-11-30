@@ -288,19 +288,10 @@ public class ProgramServiceDecorator implements ProgramService {
         return this.getNextDecorator().getSearchType(searchTypeKey, contextInfo);
     }
 
-
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException {
-
-        SearchResultInfo sr = null;
-        try {
-            sr = this.getNextDecorator().search(searchRequestInfo, contextInfo);
-        } catch (OperationFailedException e) {
-            e.printStackTrace();
-        } catch (PermissionDeniedException e) {
-            e.printStackTrace();
-        }
-
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+       
+        SearchResultInfo sr = this.getNextDecorator().search(searchRequestInfo, contextInfo);
         return sr;
     }
 

@@ -398,7 +398,8 @@ public class OrganizationServiceDecorator
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, 
+            InvalidParameterException,OperationFailedException, PermissionDeniedException {
         return getNextDecorator().search(searchRequestInfo, contextInfo);
     }
 }
