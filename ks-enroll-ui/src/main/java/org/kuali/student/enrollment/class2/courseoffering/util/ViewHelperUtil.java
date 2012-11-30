@@ -20,6 +20,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -179,6 +180,21 @@ public class ViewHelperUtil {
         return result;
     }
 
+    public static   CourseOfferingListSectionWrapper convertCourseOffering2ListSectionWrapper(CourseOfferingInfo coInfo){
+        CourseOfferingListSectionWrapper coWrapper = new CourseOfferingListSectionWrapper();
+        coWrapper.setSubjectArea(coInfo.getSubjectArea());
+        coWrapper.setCourseOfferingCode(coInfo.getCourseOfferingCode());
+        coWrapper.setCourseOfferingCreditOptionKey(coInfo.getCreditOptionId());
+        coWrapper.setCourseOfferingGradingOptionKey(coInfo.getGradingOptionId());
+        coWrapper.setCourseOfferingStateKey(coInfo.getStateKey());
+        coWrapper.setCourseOfferingDesc(coInfo.getCourseOfferingTitle());
+        return coWrapper;
+    }
+
+    public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingInfo coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+       updateCourseOfferingStateFromActivityOfferingStateChange(convertCourseOffering2ListSectionWrapper(coInfo),context);
+    }
+
     /**
      * Evaluates whether to update the state of a Course Offering (and possibly its Format Offerings) based on
      * the state of its Activity Offerings
@@ -188,11 +204,11 @@ public class ViewHelperUtil {
      *
      * @param coInfo the Course Offering to evaluate
      */
-    public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingInfo coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+    public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingListSectionWrapper coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
 
         CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
 
-        List<FormatOfferingInfo> formatOfferings = coService.getFormatOfferingsByCourseOffering(coInfo.getId(), context);
+        List<FormatOfferingInfo> formatOfferings = coService.getFormatOfferingsByCourseOffering(coInfo.getCourseOfferingId(), context);
 
         String oldFoState, newFoState;
         // Verify each FO, CO state with AO state consistence
@@ -208,10 +224,10 @@ public class ViewHelperUtil {
             }
         }
 
-        String oldCoState = coInfo.getStateKey();
+        String oldCoState = coInfo.getCourseOfferingStateKey();
         String newCoState = getNewCoState(formatOfferings);
         if (newCoState != null && !StringUtils.equals(oldCoState, newCoState)) {
-            coService.updateCourseOfferingState(coInfo.getId(), newCoState, context);
+            coService.updateCourseOfferingState(coInfo.getCourseOfferingId(), newCoState, context);
         }
     }
 

@@ -77,6 +77,9 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         if(coInfoId == null || "".equals(coInfoId)){
             coInfoId = parameters.get("theCourseOffering.id");
         }
+        if(coInfoId == null || "".equals(coInfoId)){
+            coInfoId = parameters.get("courseOfferingId");
+        }
         //ResultValuesGroup rvGroup = null;
 
         try {

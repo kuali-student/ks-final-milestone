@@ -9,7 +9,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
@@ -26,15 +27,20 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -47,6 +53,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
     private AcademicCalendarService acalService = null;
     private CourseOfferingService coService = null;
+    private SearchService searchService = null;
 
     private CourseService courseService;
     private LRCService lrcService;
@@ -73,20 +80,66 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         List<String> courseOfferingIds = _getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectCode, contextInfo);
 
         if(courseOfferingIds.size()>0){
-            List<CourseOfferingInfo>   courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,contextInfo);
-            form.getCourseOfferingEditWrapperList().clear();
-            for(CourseOfferingInfo coInfo: courseOfferingList){
-                CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
-                courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
-                StateInfo state = getStateService().getState(coInfo.getStateKey(),contextInfo);
-                courseOfferingEditWrapper.setStateName(state.getName());
-                form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
-            }
+            loadCourseOfferingsByIds(courseOfferingIds,form);
         } else {
             LOG.error("Error: Can't find any Course Offering for a Subject Code: "+subjectCode+" in term: "+termId);
             GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Subject", subjectCode, termId);
-            form.getCourseOfferingEditWrapperList().clear();
+            form.clearCourseOfferingResultList();
         }
+    }
+
+    private void loadCourseOfferingsByIds(List<String> courseOfferingIds, CourseOfferingManagementForm form) throws Exception{
+        if(courseOfferingIds.size() > 0){
+
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+            org.kuali.student.r2.core.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r2.core.search.dto.SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
+            searchRequest.addParam(CourseOfferingManagementSearchImpl.COURSE_IDS, courseOfferingIds);
+            org.kuali.student.r2.core.search.dto.SearchResultInfo searchResult = getSearchService().search(searchRequest, contextInfo);
+
+            List<CourseOfferingListSectionWrapper>  coListWrapperList = new ArrayList<CourseOfferingListSectionWrapper>();
+            for (org.kuali.student.r2.core.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
+                CourseOfferingListSectionWrapper coListWrapper = new CourseOfferingListSectionWrapper();
+
+                for(SearchResultCellInfo cellInfo : row.getCells()){
+
+                    String value = new String(cellInfo.getValue());
+
+                    if("courseOfferingCode".equals(cellInfo.getKey())){
+                        coListWrapper.setCourseOfferingCode(value);
+                    }
+                    else if("courseOfferingDesc".equals(cellInfo.getKey())){
+                        coListWrapper.setCourseOfferingDesc(value);
+                    }
+                    else if("courseOfferingState".equals(cellInfo.getKey())){
+                        coListWrapper.setCourseOfferingStateKey(value);
+                        coListWrapper.setCourseOfferingStateDisplay(getStateService().getState(value, contextInfo).getName());
+                    }
+                    else if("courseOfferingCreditOption".equals(cellInfo.getKey())){
+                        coListWrapper.setCourseOfferingCreditOptionKey(value);
+                        coListWrapper.setCourseOfferingCreditOptionDisplay(getCreditCount(value, getLrcService(),contextInfo));
+
+                    }
+                    else if("courseOfferingGradingOption".equals(cellInfo.getKey())){
+                        coListWrapper.setCourseOfferingGradingOptionKey(value);
+                        ResultValuesGroupInfo rvgInfo = getLrcService().getResultValuesGroup(value, contextInfo);
+                        coListWrapper.setCourseOfferingGradingOptionDisplay(rvgInfo.getName());
+                    }
+                    else if("courseOfferingId".equals(cellInfo.getKey())){
+                        coListWrapper.setCourseOfferingId(value);
+                    }
+                    else if("subjectArea".equals(cellInfo.getKey())){
+                        coListWrapper.setSubjectArea(value);
+                    }
+
+                }
+                coListWrapperList.add(coListWrapper);
+            }
+
+            form.setCourseOfferingResultList(Collections.unmodifiableList(coListWrapperList));
+
+        }
+
     }
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, CourseOfferingManagementForm form) throws Exception {
@@ -102,19 +155,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
 
         if(courseOfferingIds.size() > 0){
-            List<CourseOfferingInfo> courseOfferingList = _getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds,contextInfo);
-            form.getCourseOfferingEditWrapperList().clear();
-            for(CourseOfferingInfo coInfo: courseOfferingList){
-                CourseOfferingEditWrapper courseOfferingEditWrapper = new CourseOfferingEditWrapper(coInfo);
-                courseOfferingEditWrapper.setGradingOption(getGradingOption(coInfo.getGradingOptionId()));
-                StateInfo state = getStateService().getState(coInfo.getStateKey(),contextInfo);
-                courseOfferingEditWrapper.setStateName(state.getName());
-                form.getCourseOfferingEditWrapperList().add(courseOfferingEditWrapper);
-            }
+
+            loadCourseOfferingsByIds(courseOfferingIds,form);
+
         } else {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Code", courseCode, termId);
-            form.getCourseOfferingEditWrapperList().clear();
+            form.clearCourseOfferingResultList();
         }
     }
 
@@ -390,7 +437,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      *  Same as markCourseOfferingsForScheduling() but defaults isChecked() == true.
      *  @param coWrappers The list of CourseOffering wrappers.
      */
-    public void  markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers) throws Exception {
+    public void  markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers) throws Exception {
         markCourseOfferingsForScheduling(coWrappers, true);
     }
 
@@ -402,12 +449,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
      * @param coWrappers The list of CourseOfferings.
      * @param checkedOnly True if the CO wrapper isChecked() flag should be respected.
      */
-    public void markCourseOfferingsForScheduling(List<CourseOfferingEditWrapper> coWrappers, boolean checkedOnly) throws Exception {
+    public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, boolean checkedOnly) throws Exception {
         boolean hasAOWarning = false, hasStateChangedAO = false;
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        for (CourseOfferingEditWrapper coWrapper : coWrappers) {
+        for (CourseOfferingListSectionWrapper coWrapper : coWrappers) {
             if (coWrapper.getIsChecked() || ! checkedOnly) {
-                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCoInfo().getId(),contextInfo);
+                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(coWrapper.getCourseOfferingId(),contextInfo);
                 if (activityOfferingInfos.size() == 0) {
                     if ( ! hasAOWarning) hasAOWarning = true;
                     continue;
@@ -426,7 +473,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     }
                 }
                 // check for changes to states in CO and related FOs
-                ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coWrapper.getCoInfo(), contextInfo);
+                ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coWrapper, contextInfo);
             }
         }
         //  Set feedback messages.
@@ -439,7 +486,60 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
     }
 
-    private CourseOfferingService   _getCourseOfferingService() {
+    public static String getCreditCount(String creditOptionId, LRCService lrcService, ContextInfo contextInfo) {
+
+        String creditCount="";
+        try{
+
+            if(creditOptionId != null){
+                ResultValuesGroupInfo resultValuesGroupInfo = lrcService.getResultValuesGroup(creditOptionId, contextInfo);
+                String typeKey = resultValuesGroupInfo.getTypeKey();
+                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    //Get the actual values with a service call
+                    List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                    creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
+                    //Use the min/max values from the RVG
+                    creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
+                            trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
+                    //Get the actual values with a service call
+                    List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                    if (!resultValueInfos.isEmpty()) {
+                        //Convert to floats and sort
+                        List<Float> creditValuesF = new ArrayList<Float>();
+                        for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
+                            creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
+                        }
+                        Collections.sort(creditValuesF); //Do the sort
+
+                        //Convert back to strings and concatenate to one field
+                        for (Float creditF : creditValuesF ){
+                            creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
+                        }
+                        if(creditCount.length() >=  2)  {
+                            creditCount =  creditCount.substring(2);  //trim leading ", "
+                        }
+                    }
+                } else {
+                    //no credit option
+                    creditCount = "N/A";
+                }
+            }
+            return creditCount;
+        }catch (Exception e){
+            throw new RuntimeException("Error getting credit count for course offering", e);
+        }
+    }
+    public static String trimTrailing0(String creditValue){
+        if (creditValue.indexOf(".0") > 0) {
+            return creditValue.substring(0, creditValue.length( )- 2);
+        } else {
+            return creditValue;
+        }
+    }
+
+    private CourseOfferingService _getCourseOfferingService() {
         if (coService == null) {
             coService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
                     CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -474,6 +574,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         return this.lrcService;
     }
 
+    protected SearchService getSearchService() {
+        if(searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
+    }
     public AtpService getAtpService() {
         if (atpService == null) {
             Object o = GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE,

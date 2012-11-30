@@ -42,8 +42,8 @@
                 <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
                       p:actionLabel="Approve Subject Code for Scheduling" />
-                <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingEditWrapperList.empty}"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingEditWrapperList.empty}"/>
+                <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingResultList.empty}"/>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingResultList.empty}"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
                 <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
             </list>
@@ -51,8 +51,8 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
-        <property name="propertyName" value="courseOfferingEditWrapperList" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper" />
+        <property name="propertyName" value="courseOfferingResultList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
@@ -72,23 +72,23 @@
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="coInfo.courseOfferingCode">
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode">
                     <property name="inquiry">
-                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="coInfo.id" />
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="courseOfferingId" />
                     </property>
                 </bean>
                 <bean parent="Uif-DataField"
                       p:label="STATUS"
-                      p:propertyName="stateName"/>
+                      p:propertyName="courseOfferingStateDisplay"/>
                 <bean parent="Uif-DataField"
                       p:label="TITLE"
-                      p:propertyName="coInfo.courseOfferingTitle"/>
+                      p:propertyName="courseOfferingDesc"/>
                 <bean parent="Uif-DataField"
                       p:label="CREDITS"
-                      p:propertyName="coInfo.creditCnt"/>
+                      p:propertyName="courseOfferingCreditOptionDisplay"/>
                 <bean parent="Uif-DataField"
                       p:label="GRADING"
-                      p:propertyName="gradingOption"/>
+                      p:propertyName="courseOfferingGradingOptionDisplay"/>
                 <!--<bean parent="Uif-DataField"-->
                       <!--p:label="STATUS"-->
                       <!--p:propertyName="stateKey"/>-->

@@ -6,6 +6,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
@@ -25,11 +26,22 @@ public class CourseOfferingManagementForm extends UifFormBase {
     private String selectedOfferingAction;
     private CourseOfferingInfo theCourseOffering;
     private String coViewLinkWrapper = "View"; // temp var to hold/store the View Details Link
+    private CourseOfferingEditWrapper courseOfferingEditWrapper = null;
 
     private List<ActivityOfferingWrapper> activityWrapperList;
     private List<ActivityOfferingWrapper> selectedToDeleteList;
-    private List<CourseOfferingEditWrapper> courseOfferingEditWrapperList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
+
+
+    /**
+     * The courseOfferingResultList once created is unmodifiable. This had to be done because various
+     * methods were illegally modifying the list throughout the app and it took me forever to track down.
+     * Since the screen needs the list to be not null and the list.clear() method cannot be called we
+     * have created an empty version of the list. There is a helper method to "clear"  courseOfferingResultList
+     * which really just sets the "empty" list in it's place.
+     */
+    private List<CourseOfferingListSectionWrapper> courseOfferingResultList;
+    private List<CourseOfferingListSectionWrapper> courseOfferingResultListEmpty;  // look at definition above.
 
     //For Adding Activity
     private String formatIdForNewAO;
@@ -50,7 +62,8 @@ public class CourseOfferingManagementForm extends UifFormBase {
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
-        courseOfferingEditWrapperList = new ArrayList<CourseOfferingEditWrapper>();
+        courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
+        courseOfferingResultListEmpty = new ArrayList<CourseOfferingListSectionWrapper>();
         setCourseOfferingCopyWrapper(null);
     }
 
@@ -166,14 +179,6 @@ public class CourseOfferingManagementForm extends UifFormBase {
         this.coViewLinkWrapper = coViewLinkWrapper;
     }
 
-    public List<CourseOfferingEditWrapper> getCourseOfferingEditWrapperList() {
-        return courseOfferingEditWrapperList;
-    }
-
-    public void setCourseOfferingEditWrapperList(List<CourseOfferingEditWrapper> courseOfferingEditWrapperList) {
-        this.courseOfferingEditWrapperList = courseOfferingEditWrapperList;
-    }
-
     public CourseOfferingCopyWrapper getCourseOfferingCopyWrapper() {
         return courseOfferingCopyWrapper;
     }
@@ -270,5 +275,23 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setAdminOrg(String adminOrg) {
         this.adminOrg = adminOrg;
+    }
+    
+    public List<CourseOfferingListSectionWrapper> getCourseOfferingResultList() {
+        return courseOfferingResultList;
+    }
+    public void setCourseOfferingResultList(List<CourseOfferingListSectionWrapper> courseOfferingResultList) {
+        this.courseOfferingResultList = courseOfferingResultList;
+    }
+    public void clearCourseOfferingResultList(){
+        this.courseOfferingResultList = courseOfferingResultListEmpty;
+    }
+
+    public CourseOfferingEditWrapper getCourseOfferingEditWrapper() {
+        return courseOfferingEditWrapper;
+    }
+
+    public void setCourseOfferingEditWrapper(CourseOfferingEditWrapper courseOfferingEditWrapper) {
+        this.courseOfferingEditWrapper = courseOfferingEditWrapper;
     }
 }

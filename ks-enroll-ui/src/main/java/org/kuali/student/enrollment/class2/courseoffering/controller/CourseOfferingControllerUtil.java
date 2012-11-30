@@ -142,8 +142,7 @@ public class CourseOfferingControllerUtil {
     public static void _prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(coToShow);
 
-        theForm.getCourseOfferingEditWrapperList().clear();
-        theForm.getCourseOfferingEditWrapperList().add(wrapper);
+        theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(coToShow);
         theForm.setFormatIdForNewAO(null);
         theForm.setActivityIdForNewAO(null);

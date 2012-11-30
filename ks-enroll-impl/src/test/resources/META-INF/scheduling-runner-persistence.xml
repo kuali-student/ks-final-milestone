@@ -221,6 +221,7 @@
 
         <class>org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemEntity</class>
         <class>org.kuali.student.enrollment.class2.courseofferingset.model.SocRolloverResultItemAttributeEntity</class>
+        <class>org.kuali.student.r2.lum.lu.entity.LuiResultValueGroupEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

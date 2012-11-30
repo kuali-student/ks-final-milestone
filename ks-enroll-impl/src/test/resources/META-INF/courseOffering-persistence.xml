@@ -58,6 +58,7 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupAttributeEntity</class>
+        <class>org.kuali.student.r2.lum.lu.entity.LuiResultValueGroupEntity</class>
 
         <!--<class>org.kuali.student.common.entity.Type</class>-->
         <!--<class>org.kuali.student.common.entity.Attribute</class>-->
