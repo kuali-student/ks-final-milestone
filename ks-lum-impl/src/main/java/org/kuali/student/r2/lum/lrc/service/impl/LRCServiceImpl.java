@@ -694,7 +694,7 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
         if (searchRequest==null) {
             throw new MissingParameterException(searchRequest + " can not be null");
         }

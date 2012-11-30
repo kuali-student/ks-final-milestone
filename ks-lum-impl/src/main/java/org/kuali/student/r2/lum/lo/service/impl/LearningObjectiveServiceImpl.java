@@ -695,7 +695,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
      * @throws MissingParameterException,OperationFailedException
      */
     private boolean doesLoCategoryExist(String loRepositoryKey, LoCategoryInfo loCategoryInfo, String loCategoryId,ContextInfo contextInfo)
-            throws MissingParameterException, DataValidationErrorException, PermissionDeniedException, OperationFailedException {
+            throws MissingParameterException, DataValidationErrorException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
     if (loCategoryInfo.getName() == null)
     {
      return false;
@@ -952,7 +952,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
         checkForMissingParameter(searchRequestInfo, "searchRequest");
         SearchResultInfo result =  searchManager.search(searchRequestInfo, contextInfo);
         if("lo.search.loByCategory".equals(searchRequestInfo.getSearchKey())){
