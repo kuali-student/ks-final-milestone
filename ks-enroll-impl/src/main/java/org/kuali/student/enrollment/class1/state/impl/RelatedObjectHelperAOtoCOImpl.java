@@ -47,8 +47,8 @@ public class RelatedObjectHelperAOtoCOImpl implements RelatedObjectHelper {
     }
 
     @Override
-    public List<String> getRelatedObjectIds(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> coIdList = new ArrayList<String>();
+    public Set<String> getRelatedObjectIds(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Set<String> coIdList = new HashSet<String>();
 
         coIdList.add(getCourseOfferingInfoByActivityOfferingId(activityOfferingId, contextInfo).getId());
 

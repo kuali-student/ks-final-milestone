@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class1.state.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -29,6 +30,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,23 +40,28 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class RelatedObjectHelperCOtoFOImpl implements RelatedObjectHelper {
+public class RelatedObjectHelperFOtoAOImpl implements RelatedObjectHelper {
 
     private CourseOfferingService courseOfferingService;
 
     @Override
     public Set<String> getRelatedObjectStateKeys(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<FormatOfferingInfo> formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(entityId, contextInfo);
+        List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByFormatOffering(entityId, contextInfo);
         Set<String> stateKeys = new HashSet<String>();
-        for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
-             stateKeys.add(formatOfferingInfo.getStateKey());
+        for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
+             stateKeys.add(activityOfferingInfo.getStateKey());
         }
         return stateKeys;
     }
 
     @Override
     public Set<String> getRelatedObjectIds(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByFormatOffering(entityId, contextInfo);
+        Set<String> aoIds = new HashSet<String>();
+        for (ActivityOfferingInfo activityOfferingInfo : activityOfferingInfos) {
+            aoIds.add(activityOfferingInfo.getId());
+        }
+        return aoIds;
     }
 
     protected CourseOfferingService getCourseOfferingService(){

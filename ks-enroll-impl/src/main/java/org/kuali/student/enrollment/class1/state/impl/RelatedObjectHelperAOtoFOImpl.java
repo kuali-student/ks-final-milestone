@@ -49,9 +49,9 @@ public class RelatedObjectHelperAOtoFOImpl implements RelatedObjectHelper {
     }
 
     @Override
-    public List<String> getRelatedObjectIds(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Set<String> getRelatedObjectIds(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<String> coIdList = new ArrayList<String>();
+        Set<String> coIdList = new HashSet<String>();
 
         coIdList.add(getFormatOfferingInfoByActivityOfferingId(activityOfferingId, contextInfo).getId());
 

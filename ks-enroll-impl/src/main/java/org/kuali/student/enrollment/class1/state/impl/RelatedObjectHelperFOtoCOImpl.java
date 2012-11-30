@@ -64,8 +64,8 @@ public class RelatedObjectHelperFOtoCOImpl implements RelatedObjectHelper {
     }
 
     @Override
-    public List<String> getRelatedObjectIds(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> coIdList = new ArrayList<String>();
+    public Set<String> getRelatedObjectIds(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Set<String> coIdList = new HashSet<String>();
 
         coIdList.add(getCourseOfferingInfoByFormatOfferingId(formatOfferingId, contextInfo).getId());
 

@@ -596,6 +596,7 @@
          <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
          <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
          <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
+         <entry key="kuali.lui.format.offering:kuali.lui.activity.offering" value-ref="foToAoRelatedObjHelper"/>
      </util:map>
 
     <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
@@ -610,11 +611,12 @@
 
     <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl"/>
 
-    <bean id="coToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoFOImpl">
-    </bean>
+    <bean id="coToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoFOImpl"/>
+
+    <bean id="foToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoAOImpl"/>
 
     <!-- Right now the top level is the validation service so the alias points to it -->
-    <alias name="coServiceValidation" alias="CourseOfferingService" />
+    <alias name="coServiceImpl" alias="CourseOfferingService" />
 
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
