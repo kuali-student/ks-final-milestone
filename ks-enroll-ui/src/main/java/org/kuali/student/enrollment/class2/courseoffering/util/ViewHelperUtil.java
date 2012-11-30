@@ -188,6 +188,7 @@ public class ViewHelperUtil {
         coWrapper.setCourseOfferingGradingOptionKey(coInfo.getGradingOptionId());
         coWrapper.setCourseOfferingStateKey(coInfo.getStateKey());
         coWrapper.setCourseOfferingDesc(coInfo.getCourseOfferingTitle());
+        coWrapper.setCourseOfferingId(coInfo.getId());
         return coWrapper;
     }
 
