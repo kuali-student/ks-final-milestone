@@ -3089,27 +3089,28 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
         String thisStateKey = lui.getStateKey();
 
-        StatusInfo scStatus = stateTransitionsHelper.processStateConstraints(activityOfferingId, nextStateKey, contextInfo);
-        if(scStatus.getIsSuccess()) {
-            //update entity
-            lui.setStateKey(nextStateKey);
-            try{
-                luiService.updateLui(lui.getId(), lui, contextInfo);
-            }catch(Exception e){
-                throw new OperationFailedException("Failed to update State", e);
-            }
-
-            //propagation
-            Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(activityOfferingId, thisStateKey + ":" + nextStateKey, contextInfo);
-            for (StatusInfo statusInfo : spStatusMap.values()) {
-                if (!statusInfo.getIsSuccess()){
-                    throw new OperationFailedException(statusInfo.getMessage());
+        if(!StringUtils.isEmpty(nextStateKey) && !thisStateKey.equals(nextStateKey)){
+            StatusInfo scStatus = stateTransitionsHelper.processStateConstraints(activityOfferingId, nextStateKey, contextInfo);
+            if(scStatus.getIsSuccess()) {
+                //update entity
+                lui.setStateKey(nextStateKey);
+                try{
+                    luiService.updateLui(lui.getId(), lui, contextInfo);
+                }catch(Exception e){
+                    throw new OperationFailedException("Failed to update State", e);
                 }
-            }
-        } else{
-            throw new OperationFailedException(scStatus.getMessage());
-        }
 
+                //propagation
+                Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(activityOfferingId, thisStateKey + ":" + nextStateKey, contextInfo);
+                for (StatusInfo statusInfo : spStatusMap.values()) {
+                    if (!statusInfo.getIsSuccess()){
+                        throw new OperationFailedException(statusInfo.getMessage());
+                    }
+                }
+            } else{
+                throw new OperationFailedException(scStatus.getMessage());
+            }
+        }
         return new StatusInfo();
     }
 
