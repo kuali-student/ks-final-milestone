@@ -242,7 +242,8 @@ public class LRCServiceDecorator implements LRCService {
     }
 
     @Override
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo context) throws PermissionDeniedException, MissingParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo context) throws PermissionDeniedException, 
+            InvalidParameterException,MissingParameterException {
         SearchResultInfo sr = null;
         try {
             sr =  getNextDecorator().search(searchRequest, context);
