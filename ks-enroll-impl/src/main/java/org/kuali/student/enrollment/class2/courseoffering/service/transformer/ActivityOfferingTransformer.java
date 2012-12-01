@@ -49,57 +49,60 @@ public class ActivityOfferingTransformer {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public static List<ActivityOfferingInfo> luis2AOs(List<LuiInfo> luiInfos, LprService lprService, SchedulingService schedulingService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        if (luiInfos == null || luiInfos.isEmpty())
+            return new ArrayList<ActivityOfferingInfo>(0);
+
         List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>(luiInfos.size());
-        if (luiInfos != null && !luiInfos.isEmpty()) {
-            Map<String, List<LprInfo>> luiToLprsMap = new HashMap<String, List<LprInfo>>();
-            Map<String, ScheduleInfo> scheduleIdToScheduleMap = new HashMap<String, ScheduleInfo>();
-            Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = new HashMap<String, List<ScheduleRequestInfo>>();
 
-            List<String> luiIds = new ArrayList<String>();
-            List<String> scheduleIds = new ArrayList<String>();
-            for (LuiInfo luiInfo : luiInfos) {
-                luiIds.add(luiInfo.getId());
-                if (luiInfo.getScheduleId() != null) {
-                    scheduleIds.add(luiInfo.getScheduleId());
-                }
-            }
+        Map<String, List<LprInfo>> luiToLprsMap = new HashMap<String, List<LprInfo>>();
+        Map<String, ScheduleInfo> scheduleIdToScheduleMap = new HashMap<String, ScheduleInfo>();
+        Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = new HashMap<String, List<ScheduleRequestInfo>>();
 
-            //Bulk load a list a lprs by a list of lui ids. Cache the results set in a map.
-            List<LprInfo> lprs = lprService.getLprsByLuis(luiIds, context);
-            for (LprInfo lprInfo : lprs) {
-                List<LprInfo> lprList = luiToLprsMap.get(lprInfo.getLuiId());
-                if (lprList == null) {
-                    lprList = new ArrayList<LprInfo>();
-                    luiToLprsMap.put(lprInfo.getLuiId(), lprList);
-                }
-                lprList.add(lprInfo);
-            }
-
-            //Bulk load a list a ScheduleInfos by a list of scheduleIds. Cache the results set in a map.
-            if (scheduleIds != null && !scheduleIds.isEmpty()) {
-                List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(scheduleIds, context);
-                for (ScheduleInfo scheduleInfo : scheduleInfos) {
-                    scheduleIdToScheduleMap.put(scheduleInfo.getId(), scheduleInfo);
-                }
-            }
-
-            //Bulk load a list a ScheduleRequestInfos by a list of luiIds. Cache the results set in a map.
-            List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByRefObjects(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, luiIds, context);
-            if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
-                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-                    List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(scheduleRequestInfo.getRefObjectId());
-                    if (scheduleRequestInfoList == null) {
-                        scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
-                        luiToScheduleRequestsMap.put(scheduleRequestInfo.getRefObjectId(), scheduleRequestInfoList);
-                    }
-                    scheduleRequestInfoList.add(scheduleRequestInfo);
-                }
-            }
-
-            for (LuiInfo luiInfo : luiInfos) {
-                aoInfos.add(lui2Activity(luiInfo, luiToLprsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap));
+        List<String> luiIds = new ArrayList<String>();
+        List<String> scheduleIds = new ArrayList<String>();
+        for (LuiInfo luiInfo : luiInfos) {
+            luiIds.add(luiInfo.getId());
+            if (luiInfo.getScheduleId() != null) {
+                scheduleIds.add(luiInfo.getScheduleId());
             }
         }
+
+        //Bulk load a list a lprs by a list of lui ids. Cache the results set in a map.
+        List<LprInfo> lprs = lprService.getLprsByLuis(luiIds, context);
+        for (LprInfo lprInfo : lprs) {
+            List<LprInfo> lprList = luiToLprsMap.get(lprInfo.getLuiId());
+            if (lprList == null) {
+                lprList = new ArrayList<LprInfo>();
+                luiToLprsMap.put(lprInfo.getLuiId(), lprList);
+            }
+            lprList.add(lprInfo);
+        }
+
+        //Bulk load a list a ScheduleInfos by a list of scheduleIds. Cache the results set in a map.
+        if (scheduleIds != null && !scheduleIds.isEmpty()) {
+            List<ScheduleInfo> scheduleInfos = schedulingService.getSchedulesByIds(scheduleIds, context);
+            for (ScheduleInfo scheduleInfo : scheduleInfos) {
+                scheduleIdToScheduleMap.put(scheduleInfo.getId(), scheduleInfo);
+            }
+        }
+
+        //Bulk load a list a ScheduleRequestInfos by a list of luiIds. Cache the results set in a map.
+        List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByRefObjects(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, luiIds, context);
+        if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
+            for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(scheduleRequestInfo.getRefObjectId());
+                if (scheduleRequestInfoList == null) {
+                    scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
+                    luiToScheduleRequestsMap.put(scheduleRequestInfo.getRefObjectId(), scheduleRequestInfoList);
+                }
+                scheduleRequestInfoList.add(scheduleRequestInfo);
+            }
+        }
+
+        for (LuiInfo luiInfo : luiInfos) {
+            aoInfos.add(lui2Activity(luiInfo, luiToLprsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap));
+        }
+
 
         return aoInfos;
     }
