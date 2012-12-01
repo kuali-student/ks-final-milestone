@@ -77,6 +77,13 @@
             <ref bean="deleteScheduleConfirmDialog"/>
           </list>
         </property>-->
+        <property name="viewHelperService.helperClasses">
+              <map>
+                <entry key="scheduleHelper">
+                  <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelperImpl</value>
+                  </entry>
+            </map>
+        </property>
     </bean>
 
     <bean id="deleteScheduleConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"

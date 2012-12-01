@@ -3009,35 +3009,36 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     @Override
-    public StatusInfo updateCourseOfferingState(
-            String courseOfferingId,
-            String nextStateKey,
-             ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo updateCourseOfferingState(String courseOfferingId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         LuiInfo lui = luiService.getLui(courseOfferingId, contextInfo);
         String thisStateKey = lui.getStateKey();
-        StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(courseOfferingId,nextStateKey,contextInfo);
-        if (statusInfo.getIsSuccess()){
 
-            lui.setStateKey(nextStateKey);
-            try{
-                luiService.updateLui(lui.getId(), lui, contextInfo);
-            }catch(Exception e){
-                throw new OperationFailedException("Failed to update State", e);
-            }
+        if (StringUtils.isNotBlank(nextStateKey) && !StringUtils.equals(thisStateKey,nextStateKey)){
+            StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(courseOfferingId,nextStateKey,contextInfo);
+            if (statusInfo.getIsSuccess()){
 
-            String propagationKey = thisStateKey + ":" + nextStateKey;
-            Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(courseOfferingId,propagationKey,contextInfo);
-            for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
-                if (!statusInfo1.getIsSuccess()){
-                    throw new OperationFailedException(statusInfo1.getMessage());
+                lui.setStateKey(nextStateKey);
+                try{
+                    luiService.updateLui(lui.getId(), lui, contextInfo);
+                }catch(Exception e){
+                    throw new OperationFailedException("Failed to update State", e);
                 }
+
+                String propagationKey = thisStateKey + ":" + nextStateKey;
+                Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(courseOfferingId,propagationKey,contextInfo);
+                for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
+                    if (!statusInfo1.getIsSuccess()){
+                        throw new OperationFailedException(statusInfo1.getMessage());
+                    }
+                }
+                return new StatusInfo();
+            }else{
+                return statusInfo;
             }
-            return new StatusInfo();
-        }else{
-            return statusInfo;
+        } else {
+            throw new OperationFailedException("Either current and next state key are same or the next state key is empty");
         }
 
     }

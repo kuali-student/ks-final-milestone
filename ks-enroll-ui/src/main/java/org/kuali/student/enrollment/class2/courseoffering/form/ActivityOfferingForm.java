@@ -40,6 +40,13 @@ public class ActivityOfferingForm extends MaintenanceForm {
         return StringUtils.equals(view.getCurrentPageId(),MAIN_PAGE);
     }
 
+    /**
+    * By default, the new schedule request add button will be 'Add'.
+    *
+    * Note: References can be found only at the view xml (ActivityOfferingEdit-SchedulePage.xml), not on the java code
+    *
+    */
+   @SuppressWarnings("unused")
     public String getDeliveryLogisiticsAddButtonText() {
         if (isMainPage()){
             return "Add";
@@ -64,6 +71,13 @@ public class ActivityOfferingForm extends MaintenanceForm {
         this.scheduleEditInProgress = scheduleEditInProgress;
     }
 
+    /**
+     * This is to whether display the new schedule request section or not.
+     *
+     * Note: References can be found only at the view xml (ActivityOfferingEdit-SchedulePage.xml), not on the java code
+     *
+     */
+    @SuppressWarnings("unused")
     public boolean isScheduleCompleted(){
         ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)getDocument().getNewMaintainableObject().getDataObject();
         if (wrapper.getSocInfo() != null){

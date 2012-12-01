@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -53,11 +54,11 @@ public class CourseOfferingServiceStateHelper {
      *
      * @return a reference to the updated Activity Offering
      */
-    public static ActivityOfferingInfo updateScheduledActivityOffering(ActivityOfferingInfo activityOfferingInfo, CourseOfferingService coService, CourseOfferingSetService socService, ContextInfo context)
+    /*public static ActivityOfferingInfo updateScheduledActivityOffering(ActivityOfferingInfo activityOfferingInfo, CourseOfferingService coService, CourseOfferingSetService socService, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
 
         // Keep track of the state before any changes, to avoid extra processing if the AO state does not change
-        String oldState = activityOfferingInfo.getStateKey();
+        String aoCurrentState = activityOfferingInfo.getStateKey();
 
         // Find the term-level SOC for this activity offering and find out its state
         List<String> socIds = socService.getSocIdsByTerm(activityOfferingInfo.getTermId(), context);
@@ -69,37 +70,36 @@ public class CourseOfferingServiceStateHelper {
 
         SocInfo socInfo = socService.getSoc(socIds.get(0), context);
 
+        String aoNextState = null;
+
         // If the SOC is in Final Edits state, and the Scheduled Activity Offering is in Draft state, set the Activity Offering state to Approved
         if (socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)) {
             if (LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY.equals(activityOfferingInfo.getStateKey())) {
-                activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+                aoNextState = LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY;
             }
         }
         // If the SOC is in Final Edits state, and the Scheduled Activity Offering is in Draft state, AND the Activity Offering is Scheduled, then set the Activity Offering State to Offered
         else if (socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
             if (LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY.equals(activityOfferingInfo.getStateKey())) {
                 if(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY.equals(activityOfferingInfo.getSchedulingStateKey())) {
-                    activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
+                    aoNextState = LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY;
                 }
             }
         }
 
-        if (oldState.equals(activityOfferingInfo.getStateKey())) {
+        if (StringUtils.equals(aoCurrentState,aoNextState)) {
             return activityOfferingInfo;
         }
         else {
-            coService.updateActivityOffering(activityOfferingInfo.getId(), activityOfferingInfo, context);
-
-            FormatOfferingInfo fo = coService.getFormatOffering(activityOfferingInfo.getFormatOfferingId(), context);
-            CourseOfferingInfo co = coService.getCourseOffering(fo.getCourseOfferingId(), context);
-
-            updateCourseOfferingStateFromActivityOfferingStateChange(co, coService, context);
-
+            StatusInfo statusInfo = coService.updateActivityOfferingState(activityOfferingInfo.getId(), aoCurrentState, context);
+            if (!statusInfo.getIsSuccess()){
+                throw new OperationFailedException("Error updating Activity offering state to " + aoNextState + " " + statusInfo);
+            }
             return coService.getActivityOffering(activityOfferingInfo.getId(), context);
         }
     }
 
-    /**
+    *//**
      * Evaluates whether to update the state of a Course Offering (and possibly its Format Offerings) based on
      * the state of its Activity Offerings
      *
@@ -107,7 +107,7 @@ public class CourseOfferingServiceStateHelper {
      * Activity Offerings is changed.
      *
      * @param coInfo the Course Offering to evaluate
-     */
+     *//*
     public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingInfo coInfo, CourseOfferingService coService, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
 
         List<FormatOfferingInfo> formatOfferings = coService.getFormatOfferingsByCourseOffering(coInfo.getId(), context);
@@ -218,6 +218,6 @@ public class CourseOfferingServiceStateHelper {
         }
         // Something wrong return null
         return null;
-    }
+    }*/
 
 }
