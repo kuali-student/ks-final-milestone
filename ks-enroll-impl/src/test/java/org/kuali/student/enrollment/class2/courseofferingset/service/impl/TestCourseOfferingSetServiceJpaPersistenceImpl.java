@@ -6,8 +6,8 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;

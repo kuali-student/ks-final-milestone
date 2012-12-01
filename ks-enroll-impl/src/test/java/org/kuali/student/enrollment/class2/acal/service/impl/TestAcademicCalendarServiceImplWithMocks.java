@@ -4,6 +4,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
@@ -11,7 +12,6 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.test.util.AttributeTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -1044,5 +1044,9 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertNotNull(kdInfo);
         assertNotNull(kdInfo.getId());
         assertEquals(kd.getName(), kdInfo.getName());
+
+        // clean up for other tests
+        acalService.deleteKeyDate(kdInfo.getId(), callContext);
+        acalService.deleteTerm(termInfo.getId(), callContext);
     }
 }

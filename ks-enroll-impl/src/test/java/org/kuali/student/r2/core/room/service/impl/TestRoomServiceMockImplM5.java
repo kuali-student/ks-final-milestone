@@ -19,7 +19,7 @@ package org.kuali.student.r2.core.room.service.impl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.test.util.CrudInfoTester;
+import org.kuali.student.common.test.util.CrudInfoTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
