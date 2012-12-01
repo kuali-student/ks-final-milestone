@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomFixedResourceInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
+import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.dto.RoomUsageInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.springframework.test.context.ContextConfiguration;
@@ -109,6 +110,20 @@ public class TestRoomServiceImpl {
     }
 
     @Ignore
+    private RoomResponsibleOrgInfo createRoomResponsibleOrgInfo(String roomId, String orgId, String state, String type, Date effDate, Date expDate) {
+        RoomResponsibleOrgInfo roomResponsibleOrgInfo = new RoomResponsibleOrgInfo();
+
+        roomResponsibleOrgInfo.setRoomId(roomId);
+        roomResponsibleOrgInfo.setOrgId(orgId);
+        roomResponsibleOrgInfo.setStateKey(state);
+        roomResponsibleOrgInfo.setTypeKey(type);
+        roomResponsibleOrgInfo.setEffectiveDate( effDate );
+        roomResponsibleOrgInfo.setExpirationDate( expDate );
+
+        return roomResponsibleOrgInfo;
+    }
+
+    @Ignore
     private BuildingInfo addAttributeInfo(BuildingInfo buildingInfo, String name, String value) {
         if (buildingInfo.getAttributes() == null) {
             buildingInfo.setAttributes(new ArrayList<AttributeInfo>(1));
@@ -128,6 +143,16 @@ public class TestRoomServiceImpl {
         room.getAttributes().add(new AttributeInfo(name, value));
 
         return room;
+    }
+
+    @Ignore RoomResponsibleOrgInfo addAttributeInfo(RoomResponsibleOrgInfo info, String name, String value) {
+        if (info.getAttributes() == null) {
+            info.setAttributes( new ArrayList<AttributeInfo>(1));
+        }
+
+        info.getAttributes().add(new AttributeInfo(name, value));
+
+        return info;
     }
 
     @Ignore
@@ -243,6 +268,51 @@ public class TestRoomServiceImpl {
             fail(t.toString());
         }
 
+        try {
+            roomService.getBuilding(buildingInfo.getId(), null);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        try {
+            roomService.getBuilding(buildingInfo.getId(), t1);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        try {
+            roomService.getBuilding(buildingInfo.getId(), t2);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        try {
+            roomService.getBuilding(null, contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        try {
+            roomService.getBuilding("", contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
         BuildingInfo getBuildingInfo = null;
 
         try {
@@ -251,7 +321,7 @@ public class TestRoomServiceImpl {
             fail(t.toString());
         }
 
-        assert equals(buildingInfo, getBuildingInfo);
+        assertTrue(equals(buildingInfo, getBuildingInfo));
     }
 
     @Test
@@ -1667,5 +1737,532 @@ public class TestRoomServiceImpl {
             fail(t.toString());
         }
     }
+
+    @Test
+    public void testCreateRoomResponsibleOrg() {
+        contextInfo.setPrincipalId("testCreateRoomResponsibleOrg");
+        contextInfo.setCurrentDate( new Date() );
+
+        String type = "kuali.roomresponsibleorg.type.Owner";
+        String roomId = "1";
+        String orgId = "1";
+        String state = "kuali.roomresponsibleorg.state.Active";
+        Date effDate = new Date( new Date().getTime() - 86400);
+        Date expDate = new Date( new Date().getTime() + 86400);
+        RoomResponsibleOrgInfo i = createRoomResponsibleOrgInfo(roomId, orgId, state, type, effDate, expDate);
+
+        //test null contextInfo
+        try {
+            roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), i.getTypeKey(), i, null);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test invalid principalId
+        try {
+            roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), i.getTypeKey(), i, t1);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test invalid date
+        try {
+            roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), i.getTypeKey(), i, t2);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test null info
+        try {
+            roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), i.getTypeKey(), null, contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test null typeKey
+        RoomResponsibleOrgInfo i2 = null;
+        try {
+            i2 = roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), null, i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getOrgId(), i.getOrgId());
+        assertEquals(i2.getTypeKey(), i.getTypeKey());
+        assertEquals(i2.getRoomId(), i.getRoomId());
+        assertEquals(i2.getEffectiveDate(), i.getEffectiveDate());
+        assertEquals(i2.getExpirationDate(), i.getExpirationDate());
+        assertEquals(i2.getStateKey(), i.getStateKey());
+
+        //test blank typeKey
+        i2 = null;
+        try {
+            i2 = roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), "", i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getTypeKey(), i.getTypeKey());
+
+        //test new typeKey
+        i2 = null;
+        String newTypeKey = i.getTypeKey() + "_new";
+        try {
+            i2 = roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), newTypeKey, i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getTypeKey(), newTypeKey);
+
+        //test null orgId
+        i2 = null;
+        try {
+            i2 = roomService.createRoomResponsibleOrg(i.getRoomId(), null, i.getTypeKey(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getOrgId(), i.getOrgId());
+
+        //test blank orgId
+        i2 = null;
+        try {
+            i2 = roomService.createRoomResponsibleOrg(i.getRoomId(), "", i.getTypeKey(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getOrgId(), i.getOrgId());
+
+        //test new orgId
+        i2 = null;
+        String newOrgId = i.getOrgId() + "_new";
+        try {
+            i2 = roomService.createRoomResponsibleOrg(i.getRoomId(), newOrgId, i.getTypeKey(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getOrgId(), newOrgId);
+
+        //test null roomId
+        i2 = null;
+        try {
+            i2 = roomService.createRoomResponsibleOrg(null, i.getOrgId(), i.getTypeKey(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getRoomId(), i.getRoomId());
+
+        //test blank orgId
+        i2 = null;
+        try {
+            i2 = roomService.createRoomResponsibleOrg("", i.getOrgId(), i.getTypeKey(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getRoomId(), i.getRoomId());
+
+        //test new orgId
+        i2 = null;
+        String newRoomId = i.getRoomId() + "_new";
+        try {
+            i2 = roomService.createRoomResponsibleOrg(newRoomId, i.getOrgId(), i.getTypeKey(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getRoomId(), newRoomId);
+
+        //test nominal usage
+        i2 = null;
+        try {
+            i2 = roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), i.getTypeKey(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(i2.getRoomId(), roomId);
+        assertEquals(i2.getOrgId(), orgId);
+        assertEquals(i2.getTypeKey(), type);
+        assertEquals(i2.getStateKey(), state);
+        assertEquals(i2.getEffectiveDate(), effDate);
+        assertEquals(i2.getExpirationDate(), expDate);
+    }
+
+    @Test
+    public void testGetRoomResponsibleOrg() {
+        contextInfo.setPrincipalId("testGetRoomResponsibleOrg");
+        contextInfo.setCurrentDate(new Date());
+
+        String type = "kuali.roomresponsibleorg.type.Owner";
+        String roomId = "1";
+        String orgId = "1";
+        String state = "kuali.roomresponsibleorg.state.Active";
+        Date effDate = new Date( new Date().getTime() - 86400);
+        Date expDate = new Date( new Date().getTime() + 86400);
+        RoomResponsibleOrgInfo i = createRoomResponsibleOrgInfo(roomId, orgId, state, type, effDate, expDate);
+
+        try {
+            i = roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), i.getTypeKey(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        //test null contextInfo
+        RoomResponsibleOrgInfo i2 = null;
+        try {
+            i2 = roomService.getRoomResponsibleOrg(i.getId(), null);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test invalid principalId
+        try {
+            i2 = roomService.getRoomResponsibleOrg(i.getId(), t1);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test invalid date
+        try {
+            i2 = roomService.getRoomResponsibleOrg(i.getId(), t2);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test null id
+        try {
+            roomService.getRoomResponsibleOrg(null, contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test blank id
+        try {
+            roomService.getRoomResponsibleOrg("", contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //nominal
+        try {
+            i2 = roomService.getRoomResponsibleOrg(i.getId(), contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        assertEquals(i2.getId(), i.getId());
+        assertEquals(i2.getOrgId(), i.getOrgId());
+        assertEquals(i2.getRoomId(), i.getRoomId());
+        assertEquals(i2.getEffectiveDate(), i.getEffectiveDate());
+        assertEquals(i2.getExpirationDate(), i.getExpirationDate());
+        assertEquals(i2.getStateKey(), i.getStateKey());
+        assertEquals(i2.getTypeKey(), i.getTypeKey());
+    }
+
+    @Test
+    public void testUpdateRoomResponsibleOrg() {
+        contextInfo.setCurrentDate( new Date() );
+        contextInfo.setPrincipalId( "createRoomResponsibleOrg" );
+
+        String roomId = "roomId";
+        String orgId = "orgId";
+        String state = "state";
+        String type = "type";
+        Date effDate = new Date( new Date().getTime() - 86400);
+        Date expDate = new Date( new Date().getTime() + 86400);
+
+        RoomResponsibleOrgInfo i = null;
+        try {
+            i = roomService.createRoomResponsibleOrg("", "", "", createRoomResponsibleOrgInfo(roomId, orgId, state, type, effDate, expDate), contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        RoomResponsibleOrgInfo originalInfo = null;
+        try {
+            originalInfo = roomService.getRoomResponsibleOrg(i.getId(), contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test missing ContextInfo
+        try {
+            roomService.updateRoomResponsibleOrg(i.getId(), i, null);
+            fail("Expected exception not thrown"); //shouldn't get here
+        } catch(MissingParameterException e) {
+            //exception we're expecting
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test no principal id
+        try {
+            roomService.updateRoomResponsibleOrg(i.getId(), i, t1);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test no current date
+        try {
+            roomService.updateRoomResponsibleOrg(i.getId(), i, t2);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //exception if no RoomResponsibleOrgInfo
+        try {
+            roomService.updateRoomResponsibleOrg(i.getId(), null, contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test 5, an actual update
+        i.setTypeKey(i.getTypeKey() + "_new");
+        i.setStateKey(i.getStateKey() + "_new");
+        i.setOrgId(i.getOrgId() + "_new");
+        i.setRoomId(i.getRoomId() + "_new");
+        i.setEffectiveDate(new Date(i.getEffectiveDate().getTime() - 86400));
+        i.setExpirationDate(new Date(i.getExpirationDate().getTime() + 86400));
+
+        contextInfo.setPrincipalId("testUpdateRoomResponsibleOrg");
+        //sleep for 1 sec to allow Time to change
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        contextInfo.setCurrentDate(new Date());
+
+        RoomResponsibleOrgInfo newInfo = null;
+        try {
+            newInfo = roomService.updateRoomResponsibleOrg(i.getId(), i, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(originalInfo.getId(), newInfo.getId());
+
+        MetaInfo metaInfo = originalInfo.getMeta();
+        MetaInfo newMetaInfo = newInfo.getMeta();
+        assertEquals(newMetaInfo.getCreateId(), metaInfo.getCreateId());
+        assertEquals(newMetaInfo.getCreateTime(), metaInfo.getCreateTime());
+        assertFalse(newMetaInfo.getUpdateId().equals(metaInfo.getUpdateId()));
+        assertFalse(newMetaInfo.getUpdateTime().equals(metaInfo.getUpdateTime()));
+
+        assertFalse(originalInfo.getRoomId().equals(i.getRoomId()));
+        assertFalse(originalInfo.getStateKey().equals(i.getStateKey()));
+        assertFalse(originalInfo.getOrgId().equals(i.getOrgId()));
+        assertFalse(originalInfo.getExpirationDate().equals(i.getExpirationDate()));
+        assertFalse(originalInfo.getEffectiveDate().equals(i.getEffectiveDate()));
+        assertFalse(originalInfo.getTypeKey().equals(i.getTypeKey()));
+
+        //ok if no Id specified
+        //sleep for 1 sec to allow Time to change
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        contextInfo.setCurrentDate(new Date());
+        RoomResponsibleOrgInfo newnewInfo = null;
+        try {
+            newnewInfo = roomService.updateRoomResponsibleOrg(null, newInfo, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertFalse(newnewInfo.getMeta().getUpdateTime().equals(newInfo.getMeta().getUpdateTime()));
+
+        //test ok if Id is blank
+        //sleep for 1 sec to allow Time to change
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        contextInfo.setCurrentDate(new Date());
+
+        RoomResponsibleOrgInfo newnewnewInfo = null;
+        try {
+            newnewnewInfo = roomService.updateRoomResponsibleOrg("", newnewInfo, contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertFalse(newnewnewInfo.getMeta().getUpdateTime().equals(newnewInfo.getMeta().getUpdateTime()));
+
+    }
+
+    @Test
+    public void testSearchAndDeleteRoomResponsibleOrg() {
+        RoomResponsibleOrgInfo i1 = createRoomResponsibleOrgInfo("roomId1", "orgId1", "state1", "type1", new Date(), new Date());
+        RoomResponsibleOrgInfo i2 = createRoomResponsibleOrgInfo("roomId1", "orgId2", "state2", "type2", new Date(), new Date());
+
+        try {
+            i1 = roomService.createRoomResponsibleOrg(null, null, null, i1, contextInfo);
+            i1 = roomService.getRoomResponsibleOrg(i1.getId(), contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        try {
+            i2 = roomService.createRoomResponsibleOrg(null, null, null, i2, contextInfo);
+            i2 = roomService.getRoomResponsibleOrg(i2.getId(), contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test null contextInfo
+        try {
+            roomService.getRoomResponsibleOrgIdsByRoom("roomId1", null);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test empty principalId
+        try {
+            roomService.getRoomResponsibleOrgIdsByRoom("roomId2", t1);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch(Throwable t) {
+            fail(t.toString());
+        }
+
+        //test null date
+        try {
+            roomService.getRoomResponsibleOrgIdsByRoom("roomId1", t2);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test null id
+        try {
+            roomService.getRoomResponsibleOrgIdsByRoom(null, contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test blank id
+        try {
+            roomService.getRoomResponsibleOrgIdsByRoom("", contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        List<String> ids = null;
+        try {
+            ids = roomService.getRoomResponsibleOrgIdsByRoom("roomId1", contextInfo);
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+        assertEquals(2, ids.size());
+
+        //test null contextInfo
+        try {
+            roomService.deleteRoomResponsibleOrg(i2.getId(), null);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test invalid principalId
+        try {
+            roomService.deleteRoomResponsibleOrg(i1.getId(), t1);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e){
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test invalid currentDate
+        try {
+            roomService.deleteRoomResponsibleOrg(i1.getId(), t2);
+            fail("Expected exception not thrown");
+        } catch (InvalidParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test null key
+        try {
+            roomService.deleteRoomResponsibleOrg(null, contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //test blank key
+        try {
+            roomService.deleteRoomResponsibleOrg("", contextInfo);
+            fail("Expected exception not thrown");
+        } catch (MissingParameterException e) {
+            //this is the exception we expect
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //normal delete
+        try {
+            StatusInfo statusInfo = roomService.deleteRoomResponsibleOrg(i2.getId(), contextInfo);
+            assertTrue(statusInfo.getIsSuccess());
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+        //double-check record was deleted
+        ids = null;
+        try {
+            ids = roomService.getRoomResponsibleOrgIdsByRoom("roomId1", contextInfo);
+            assertEquals(1, ids.size());
+        } catch (Throwable t) {
+            fail(t.toString());
+        }
+
+    }
+
+
 }
 

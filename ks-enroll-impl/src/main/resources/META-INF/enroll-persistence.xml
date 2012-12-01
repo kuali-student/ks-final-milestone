@@ -205,6 +205,8 @@
         <class>org.kuali.student.r2.core.room.model.RoomAttributeEntity</class>
         <class>org.kuali.student.r2.core.room.model.RoomBuildingEntity</class>
         <class>org.kuali.student.r2.core.room.model.RoomBuildingAttributeEntity</class>
+        <class>org.kuali.student.r2.core.room.model.RoomResponsibleOrgEntity</class>
+        <class>org.kuali.student.r2.core.room.model.RoomResponsibleOrgAttributeEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

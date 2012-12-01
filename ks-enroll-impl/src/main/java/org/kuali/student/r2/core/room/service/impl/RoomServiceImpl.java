@@ -30,12 +30,14 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.room.dao.BuildingServiceDao;
+import org.kuali.student.r2.core.room.dao.RoomResponsibleOrgDao;
 import org.kuali.student.r2.core.room.dao.RoomServiceDao;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.model.RoomBuildingEntity;
 import org.kuali.student.r2.core.room.model.RoomEntity;
+import org.kuali.student.r2.core.room.model.RoomResponsibleOrgEntity;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +58,9 @@ public class RoomServiceImpl implements RoomService {
     @Resource
     private BuildingServiceDao buildingServiceDao;
 
+    @Resource
+    private RoomResponsibleOrgDao roomResponsibleOrgDao;
+
     public RoomServiceDao getRoomServiceDao() {
         return roomServiceDao;
     }
@@ -64,12 +69,20 @@ public class RoomServiceImpl implements RoomService {
         return buildingServiceDao;
     }
 
+    public RoomResponsibleOrgDao getRoomResponsibleOrgDao() {
+        return roomResponsibleOrgDao;
+    }
+
     public void setRoomServiceDao(RoomServiceDao roomServiceDao) {
         this.roomServiceDao = roomServiceDao;
     }
 
     public void setBuildingServiceDao(BuildingServiceDao buildingServiceDao) {
         this.buildingServiceDao = buildingServiceDao;
+    }
+
+    public void setRoomResponsibleOrgDao(RoomResponsibleOrgDao roomResponsibleOrgDao) {
+        this.roomResponsibleOrgDao = roomResponsibleOrgDao;
     }
 
     /**
@@ -849,7 +862,9 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public RoomResponsibleOrgInfo getRoomResponsibleOrg(String roomResponsibleOrgId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        checkValid("roomResponsibleOrgId", roomResponsibleOrgId, contextInfo);
+
+        return roomResponsibleOrgDao.find(roomResponsibleOrgId).toDto();
     }
 
     /**
@@ -924,7 +939,8 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public List<String> getRoomResponsibleOrgIdsByRoom(String roomId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<String>();
+        checkValid("roomId", roomId, contextInfo);
+        return roomResponsibleOrgDao.findRoomResponsibleOrgIdsByRoom(roomId);
     }
 
     /**
@@ -1076,8 +1092,28 @@ public class RoomServiceImpl implements RoomService {
      *          designated as read-only
      */
     @Override
-    public RoomResponsibleOrgInfo createRoomResponsibleOrg( String roomId,  String orgId,  String roomResponsibleOrgTypeKey, RoomResponsibleOrgInfo roomResponsibleOrgInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException();
+    @Transactional(readOnly = false, noRollbackFor = {AlreadyExistsException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
+    public RoomResponsibleOrgInfo createRoomResponsibleOrg(String roomId,  String orgId,  String roomResponsibleOrgTypeKey, RoomResponsibleOrgInfo roomResponsibleOrgInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        checkValid(roomResponsibleOrgInfo, contextInfo);
+        RoomResponsibleOrgEntity e = new RoomResponsibleOrgEntity(roomResponsibleOrgInfo);
+
+        if (roomId != null && !roomId.isEmpty()) {
+            e.setRoomId( roomId );
+        }
+
+        if (orgId != null && !orgId.isEmpty()) {
+            e.setOrgId( orgId );
+        }
+
+        if (roomResponsibleOrgTypeKey != null && !roomResponsibleOrgTypeKey.isEmpty()) {
+            e.setRespOrgType( roomResponsibleOrgTypeKey );
+        }
+
+        e.setEntityCreated( contextInfo );
+
+        roomResponsibleOrgDao.persist(e);
+
+        return e.toDto();
     }
 
     /**
@@ -1111,8 +1147,20 @@ public class RoomServiceImpl implements RoomService {
      *          of date version.
      */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public RoomResponsibleOrgInfo updateRoomResponsibleOrg(String roomResponsibleOrgId, RoomResponsibleOrgInfo roomResponsibleOrgInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new UnsupportedOperationException();
+        checkValid(roomResponsibleOrgInfo, contextInfo);
+        RoomResponsibleOrgEntity e = new RoomResponsibleOrgEntity(roomResponsibleOrgInfo);
+
+        if (roomResponsibleOrgId != null && !roomResponsibleOrgId.isEmpty()) {
+            e.setId( roomResponsibleOrgId );
+        }
+
+        e.setEntityUpdated(contextInfo);
+
+        roomResponsibleOrgDao.update(e);
+
+        return e.toDto();
     }
 
     /**
@@ -1135,8 +1183,15 @@ public class RoomServiceImpl implements RoomService {
      *          authorization failure
      */
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, InvalidParameterException.class, MissingParameterException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteRoomResponsibleOrg(String roomResponsibleOrgId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        checkValid("roomResponsibleOrgId", roomResponsibleOrgId, contextInfo);
+
+        RoomResponsibleOrgEntity e = roomResponsibleOrgDao.find(roomResponsibleOrgId);
+
+        roomResponsibleOrgDao.remove(e);
+
+        return new StatusInfo();
     }
 
     /**

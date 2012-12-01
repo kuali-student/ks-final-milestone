@@ -144,8 +144,10 @@ public class RoomEntity extends MetaEntity implements AttributeOwner<RoomAttribu
         roomInfo.setMeta( super.toDTO() );
 
         // Finally, attributes
-        for (RoomAttributeEntity att: getAttributes()) {
-            roomInfo.getAttributes().add( att.toDto() );
+        if (getAttributes() != null) {
+            for (RoomAttributeEntity att: getAttributes()) {
+                roomInfo.getAttributes().add( att.toDto() );
+            }
         }
 
         return roomInfo;

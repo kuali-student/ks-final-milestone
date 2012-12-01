@@ -70,14 +70,16 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="buildingServiceDao" class="org.kuali.student.r2.core.room.dao.BuildingServiceDao"/>
-    <bean id="roomServiceDao" class="org.kuali.student.r2.core.room.dao.RoomServiceDao" />
+    <bean id="buildingServiceDao"    class="org.kuali.student.r2.core.room.dao.BuildingServiceDao"/>
+    <bean id="roomServiceDao"        class="org.kuali.student.r2.core.room.dao.RoomServiceDao" />
+    <bean id="roomResponsibleOrgDao" class="org.kuali.student.r2.core.room.dao.RoomResponsibleOrgDao" />
+
     <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceImpl">
-        <property name="buildingServiceDao" ref="buildingServiceDao"/>
-        <property name="roomServiceDao" ref="roomServiceDao" />
+        <property name="buildingServiceDao"    ref="buildingServiceDao"/>
+        <property name="roomServiceDao"        ref="roomServiceDao" />
+        <property name="roomResponsibleOrgDao" ref="roomResponsibleOrgDao"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="JtaTxManager"
-                          order="1000" />
+    <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
 </beans>

@@ -216,6 +216,10 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="roomResponsibleOrgDao" class="org.kuali.student.r2.core.room.dao.RoomResponsibleOrgDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
     <bean id="stateChangeDao" class="org.kuali.student.r2.core.class1.state.dao.StateChangeDao">
         <property name="em" ref="enrollEntityManager" />
     </bean>
