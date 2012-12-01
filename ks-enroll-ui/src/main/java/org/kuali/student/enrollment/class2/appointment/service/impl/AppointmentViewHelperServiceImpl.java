@@ -231,6 +231,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     if(startDate.after(endDate)){
                         GlobalVariables.getMessageMap().putError( "newCollectionLines['appointmentWindows'].endDate",
                                 AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                        isValid = false;
                     }
                 }
             } catch (Exception e){
@@ -314,6 +315,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                     if(startDate.after(endDate)){
                         GlobalVariables.getMessageMap().putError( "appointmentWindows["+windowIndex+"].endDate",
                                 AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                        isValid = false;
                     }
                 }
             } catch (Exception e){
