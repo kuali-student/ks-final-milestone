@@ -684,7 +684,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().deleteActivityOfferingCascaded(activityOfferingClusterId, contextInfo);
+        return getNextDecorator().deleteActivityOfferingClusterCascaded(activityOfferingClusterId, contextInfo);
     }
 
     @Override
