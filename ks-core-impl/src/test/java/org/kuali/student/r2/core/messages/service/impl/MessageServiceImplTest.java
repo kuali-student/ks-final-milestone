@@ -28,7 +28,6 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
-import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -100,7 +99,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
             //
             assertEquals(message.getLocale().getLocaleLanguage(), "US");
             assertEquals(message.getGroupName(), "Address");
-            assertEquals(message.getKey(), "State");
+            assertEquals(message.getMessageKey(), "State");
             assertEquals(message.getValue(), "State:");
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -122,7 +121,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
             assertEquals(message.getLocale().getLocaleRegion(), "CA");
             assertEquals(message.getLocale().getLocaleLanguage(), "CA");
             assertEquals(message.getGroupName(), "Address");
-            assertEquals(message.getKey(), "State");
+            assertEquals(message.getMessageKey(), "State");
             assertEquals(message.getValue(), "Province:");
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -149,7 +148,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
             for(MessageInfo m: messages){
                 assertEquals(m.getLocale().getLocaleLanguage(), "US");
                 assertEquals(m.getGroupName(), "Address");
-                assertTrue(m.getKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
+                assertTrue(m.getMessageKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
             }
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -171,7 +170,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
             for(MessageInfo m: messages){
                 assertEquals(m.getLocale().getLocaleLanguage(), "CA");
                 assertEquals(m.getGroupName(), "Address");
-                assertTrue(m.getKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
+                assertTrue(m.getMessageKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
             }
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -263,14 +262,14 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 		LocaleInfo localeInfo = new LocaleInfo();
 		localeInfo.setLocaleLanguage("US");  // part of the where kry
 		m.setGroupName("Name");  // part of the where key
-		m.setKey("Grading");
+		m.setMessageKey("Grading");
 		m.setValue("Grading Scale");
 		m.setLocale(localeInfo);
 		try {
-            messageService.updateMessage(localeInfo, "Last", m, contextInfo);
+            messageService.updateMessage(localeInfo, m.getGroupName(), "Last", m, contextInfo);
             MessageInfo result = messageService.getMessage(localeInfo, "Name", "Grading", contextInfo );
             assertEquals(result.getLocale().getLocaleLanguage(), m.getLocale().getLocaleLanguage());
-            assertEquals(result.getKey(), m.getKey());
+            assertEquals(result.getMessageKey(), m.getMessageKey());
             assertEquals(result.getValue(), m.getValue());
             assertEquals(result.getGroupName(), m.getGroupName());
             result = messageService.getMessage(localeInfo , "Name", "Last", contextInfo);

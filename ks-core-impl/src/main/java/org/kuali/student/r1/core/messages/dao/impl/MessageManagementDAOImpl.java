@@ -22,9 +22,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.r1.common.messages.MessageException;
 import org.kuali.student.r1.core.messages.dao.MessageManagementDAO;
 import org.kuali.student.r1.core.messages.entity.MessageEntity;
+import org.kuali.student.r2.common.exceptions.MessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

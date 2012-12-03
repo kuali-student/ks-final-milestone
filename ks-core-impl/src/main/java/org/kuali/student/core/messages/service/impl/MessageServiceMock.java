@@ -21,6 +21,7 @@ import org.kuali.student.r1.core.messages.entity.MessageEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -163,7 +164,7 @@ public class MessageServiceMock implements MessageService {
         MessageInfo m = new MessageInfo();
         m.setGroupName(messageGroupKey);
         m.setLocale(localeInfo);
-        m.setKey(messageKey);
+        m.setMessageKey(messageKey);
         m.setValue(this.messages.get(localeInfo.getLocaleLanguage()).getMessages(messageGroupKey).get(messageKey));
 
         return m;
@@ -183,7 +184,7 @@ public class MessageServiceMock implements MessageService {
             String id = i.next();
             MessageInfo m = new MessageInfo();
             m.setGroupName(messageGroupKey);
-            m.setKey(id);
+            m.setMessageKey(id);
             m.setValue(groupMessages.get(id));
             LocaleInfo locale = new LocaleInfo();
             locale.setLocaleLanguage(localeInfo.getLocaleLanguage());
@@ -211,31 +212,40 @@ public class MessageServiceMock implements MessageService {
      *      java.lang.String, org.kuali.student.common.messages.dto.Message)
      */
     @Override
-    public MessageInfo updateMessage(LocaleInfo localeInfo, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        if (getMessage(localeInfo, messageInfo.getGroupName(), messageKey, contextInfo) != null) {
+    public MessageInfo updateMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        if (getMessage(localeInfo, messageGroupKey, messageKey, contextInfo) != null) {
             putMessage(localeInfo.getLocaleLanguage(), messageInfo.getGroupName(), messageKey, messageInfo.getValue());
         }
         return messageInfo;
     }
 
     @Override
-    public StatusInfo deleteMessage(LocaleInfo localeInfo, String messageKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO pctsw - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-
+    
     @Override
-    public StatusInfo addMessage(LocaleInfo localeInfo, String messageGroupKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        LocaleMessages localeMessages = this.messages.get(messageInfo.getLocale());
+    public StatusInfo createMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        LocaleMessages localeMessages = this.messages.get(messageInfo.getLocale().getLocaleLanguage());
         if (localeMessages == null) {
             localeMessages = new LocaleMessages();
         }
-        localeMessages.putMessage(messageInfo.getGroupName(), messageInfo.getKey(), messageInfo.getValue());
+        localeMessages.putMessage(messageInfo.getGroupName(), messageInfo.getMessageKey(), messageInfo.getValue());
         this.messages.put(messageInfo.getLocale().getLocaleLanguage(), localeMessages);
 
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
     }
+
+    @Override
+    public List<ValidationResultInfo> validateProposal(String validationTypeKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new OperationFailedException ("Not supported yet.");
+    }
+    
+    
+    
+    
 
 }

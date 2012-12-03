@@ -25,7 +25,6 @@ import java.util.Map.Entry;
 
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
-import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
@@ -106,8 +105,8 @@ public class ApplicationContext {
 	            group = new HashMap<String, String>();
 	            this.messages.put(groupName, group);
 	        }
-	        group.put(m.getKey(), m.getValue());
-	        flatMessages.put(m.getKey(), m.getValue());
+	        group.put(m.getMessageKey(), m.getValue());
+	        flatMessages.put(m.getMessageKey(), m.getValue());
 	    }
 	}
 	

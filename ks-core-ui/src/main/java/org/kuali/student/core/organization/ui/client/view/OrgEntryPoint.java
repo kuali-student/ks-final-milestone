@@ -27,7 +27,6 @@ import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
 import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
 import org.kuali.student.core.organization.ui.client.theme.OrgTheme;
-import org.kuali.student.r1.common.messages.dto.MessageList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -37,6 +36,8 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.ui.SimplePanel;
+import java.util.List;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 public class OrgEntryPoint implements EntryPoint{
 
@@ -45,6 +46,7 @@ public class OrgEntryPoint implements EntryPoint{
     SimplePanel content = new SimplePanel();
 //    private OrgMenu orgMenu = new OrgMenu(content);;
 
+    @Override
     public void onModuleLoad() {
         final ApplicationContext context = Application.getApplicationContext();
         final String injectString = OrgTheme.INSTANCE.getOrgCss().getCssString();
@@ -53,8 +55,8 @@ public class OrgEntryPoint implements EntryPoint{
         loadApp(context);
 
         try {
-            MessageList messageList =  getSerializedObject( "i18nMessages");
-            context.addMessages(messageList.getMessages());
+            List<MessageInfo> messages =  getSerializedObject( "i18nMessages");
+            context.addMessages(messages);
 
         } catch (Exception e) {
             GWT.log("Error on ModuleLoad",e);

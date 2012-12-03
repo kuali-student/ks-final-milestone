@@ -293,7 +293,7 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         orgs.add("ubc");
         createdProposalInfo.setProposerOrg(orgs);
         try {
-            client.updateProposal(id, createdProposalInfo, ContextUtils.getContextInfo());
+           client.updateProposal(id, createdProposalInfo, ContextUtils.getContextInfo());
             assertTrue(false); // Can't have both person and org proposers
         } catch (InvalidParameterException e) {
             assertTrue(true);
@@ -301,18 +301,24 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
             assertTrue(false);
         }
         createdProposalInfo.setProposerPerson(null);
+        Map<String,String> map = new HashMap<String,String> ();
+        map.put ("key", "Differentvalue");
+        map.put ("key2", "value2");
+        map.put ("key3", "value3");
+        new AttributeHelper (createdProposalInfo.getAttributes()).putAll(map);
         try {
-            client.updateProposal(id, createdProposalInfo, ContextUtils.getContextInfo());
-            ProposalInfo updatedProposalInfo = client.getProposal(id, ContextUtils.getContextInfo());
+            ProposalInfo updatedProposalInfo = client.updateProposal(id, createdProposalInfo, ContextUtils.getContextInfo());
             checkProposalCrud(createdProposalInfo, updatedProposalInfo);
+            ProposalInfo fetchedProposalInfo = client.getProposal(id, ContextUtils.getContextInfo());
+            checkProposalCrud(createdProposalInfo, fetchedProposalInfo);
 
             List<String> proposalReferences = new ArrayList<String>();
             proposalReferences.add("doc-2");
 
-            updatedProposalInfo.setProposalReference(proposalReferences);
-            client.updateProposal(id, updatedProposalInfo, ContextUtils.getContextInfo());
+            fetchedProposalInfo.setProposalReference(proposalReferences);
+            client.updateProposal(id, fetchedProposalInfo, ContextUtils.getContextInfo());
             ProposalInfo updatedProposalInfo2 = client.getProposal(id, ContextUtils.getContextInfo());
-            checkProposalCrud(updatedProposalInfo, updatedProposalInfo2);
+            checkProposalCrud(fetchedProposalInfo, updatedProposalInfo2);
         } catch (InvalidParameterException e) {
             assertTrue(false);
         } catch (VersionMismatchException e) {

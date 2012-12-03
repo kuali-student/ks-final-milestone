@@ -26,6 +26,8 @@ import org.kuali.student.r1.core.messages.entity.MessageEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -125,40 +127,80 @@ public class MessageServiceImpl implements MessageService{
     
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public MessageInfo updateMessage(LocaleInfo localeInfo, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+	public MessageInfo updateMessage(LocaleInfo localeInfo, 
+        String messageGroupKey,
+        String messageKey, 
+        MessageInfo messageInfo, 
+        ContextInfo contextInfo) 
+                throws DoesNotExistException, 
+                InvalidParameterException, 
+                MissingParameterException, 
+                OperationFailedException, 
+                PermissionDeniedException, 
+                ReadOnlyException, 
+                VersionMismatchException {
 		
-		if(localeInfo == null || messageInfo.getGroupName() == null || messageKey == null || messageInfo == null){
-			return null;
+		if(localeInfo == null || messageGroupKey == null || messageKey == null || messageInfo == null){
+			throw new MissingParameterException ();
 		}
 		else{
 		    MessageEntity messageEntity = new MessageEntity();    
 		    MessageAssembler.toMessageEntity( messageInfo, messageEntity);
-		    messageEntity =  messageDAO.updateMessage(localeInfo.getLocaleLanguage(), messageInfo.getGroupName(), messageKey, messageEntity);
+		    messageEntity =  messageDAO.updateMessage(localeInfo.getLocaleLanguage(), messageGroupKey, messageKey, messageEntity);
 		    MessageAssembler.toMessage( messageEntity,messageInfo);
 		    return messageInfo;
 		}        
 	}
 
-	@Override
-	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo addMessage(LocaleInfo localeInfo, String messageGroupKey, MessageInfo messageInfo, ContextInfo contextInfo)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		if(messageInfo != null)	{
-			MessageEntity messageEntity = new MessageEntity();    
-			MessageAssembler.toMessageEntity(messageInfo, messageEntity);
-			messageEntity =  messageDAO.addMessage(messageEntity);
-			MessageAssembler.toMessage(messageEntity, messageInfo);
-		}
-		StatusInfo status = new StatusInfo();
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public StatusInfo createMessage(LocaleInfo localeInfo,
+            String messageGroupKey,
+            String messageKey,
+            MessageInfo messageInfo,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        if (messageInfo != null) {
+            MessageEntity messageEntity = new MessageEntity();
+            MessageAssembler.toMessageEntity(messageInfo, messageEntity);
+            messageEntity = messageDAO.addMessage(messageEntity);
+            MessageAssembler.toMessage(messageEntity, messageInfo);
+        }
+        StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
-		return status;
-	}
+        return status;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateProposal(String validationTypeKey,
+            MessageInfo messageInfo,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        throw new OperationFailedException("Not supported yet.");
+    }
 
     
 
     @Override
-    public StatusInfo deleteMessage(LocaleInfo localeInfo, String messageKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteMessage(LocaleInfo localeInfo, 
+    String messageGroupKey, 
+    String messageKey, 
+    ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException {
         // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        throw new OperationFailedException ("not implemented");
     }
     
 }

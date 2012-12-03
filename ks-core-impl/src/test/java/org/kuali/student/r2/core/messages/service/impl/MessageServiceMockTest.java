@@ -77,12 +77,12 @@ public class MessageServiceMockTest {
         MessageInfo message = messageService.getMessage(usLocale, "Address", "State", contextInfo);
         assertEquals(message.getLocale().getLocaleLanguage(), "US");
         assertEquals(message.getGroupName(), "Address");
-        assertEquals(message.getKey(), "State");
+        assertEquals(message.getMessageKey(), "State");
         assertEquals(message.getValue(), "State:");
         message = messageService.getMessage(caLocale, "Address", "State", contextInfo);
         assertEquals(message.getLocale().getLocaleLanguage(), "CA");
         assertEquals(message.getGroupName(), "Address");
-        assertEquals(message.getKey(), "State");
+        assertEquals(message.getMessageKey(), "State");
         assertEquals(message.getValue(), "Province:");
     }
     
@@ -99,14 +99,14 @@ public class MessageServiceMockTest {
         for(MessageInfo m: messages){
             assertEquals(m.getLocale().getLocaleLanguage(), "US");
             assertEquals(m.getGroupName(), "Address");
-            assertTrue(m.getKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
+            assertTrue(m.getMessageKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
         }
         messages = messageService.getMessages(caLocale, "Address", contextInfo);
         assertEquals(2, messages.size());
         for(MessageInfo m: messages){
             assertEquals(m.getLocale().getLocaleLanguage(), "CA");
             assertEquals(m.getGroupName(), "Address");
-            assertTrue(m.getKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
+            assertTrue(m.getMessageKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
         }
         messages = messageService.getMessages(usLocale, "Name", contextInfo);
         assertEquals(1, messages.size());
@@ -154,13 +154,13 @@ public class MessageServiceMockTest {
         MessageInfo m = new MessageInfo();
         m.setGroupName("Name");
         m.setLocale(localeInfo);
-        m.setKey("Grading");
+        m.setMessageKey("Grading");
         m.setValue("Grading Value");
 
-        messageService.updateMessage(localeInfo, "Grading", m, contextInfo);
+        messageService.updateMessage(localeInfo, m.getGroupName(), "Grading", m, contextInfo);
         MessageInfo result = messageService.getMessage(localeInfo, "Name", "Grading", contextInfo);
         assertTrue(StringUtils.equals(result.getLocale().getLocaleLanguage(), m.getLocale().getLocaleLanguage()));
-        assertEquals(result.getKey(), m.getKey());
+        assertEquals(result.getMessageKey(), m.getMessageKey());
         assertEquals(result.getValue(), m.getValue());
         assertEquals(result.getGroupName(), m.getGroupName());
     }

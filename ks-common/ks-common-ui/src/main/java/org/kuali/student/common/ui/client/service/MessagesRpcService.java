@@ -18,9 +18,6 @@ package org.kuali.student.common.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.messages.dto.Message;
-import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.r1.common.messages.dto.MessageList;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -36,6 +33,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 
 @RemoteServiceRelativePath("rpcservices/MessagesRpcService")
 public interface MessagesRpcService extends RemoteService {
@@ -50,8 +48,11 @@ public interface MessagesRpcService extends RemoteService {
     
     public List<LocaleInfo> getLocales() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
- // TODO fix merge
-    //public MessageGroupKeyList getMessageGroups();
+    public List<String> getMessageGroups() 
+            throws InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException;
 
     public MessageInfo getMessage(String localeKey, 
             String messageGroupKey, 
@@ -60,14 +61,14 @@ public interface MessagesRpcService extends RemoteService {
     public List<MessageInfo> getMessages(String localeKey, 
             String messageGroupKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
-    public MessageList getMessagesByGroups(String localeKey, 
-            MessageGroupKeyList messageGroupKeyList)throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<MessageInfo> getMessagesByGroups(String localeKey, 
+            List<String> messageGroupKeys)throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
     public MessageInfo updateMessage(String localeKey, 
             String messageGroupKey, 
             String messageKey,
-            Message messageInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+            MessageInfo messageInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
     
-    public StatusInfo addMessage(Message messageInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo createMessage(MessageInfo messageInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     
 }
