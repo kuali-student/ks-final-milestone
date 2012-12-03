@@ -106,23 +106,63 @@ function renameDialogButtons(labelsToReplace) {
 }
 
 function validateCredits(textBox, url, courseTypeKey) {
+    var table = jQuery('<table id="errorTable" style="display: none; position: absolute;"/>');
+    var tbody = jQuery('<tbody/>');
+    jQuery(table).append(tbody);
+    var tr1 = jQuery('<tr/>');
+    jQuery(tr1).append('<td class="jquerybubblepopup-top-left" style="background-image:url(../krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/top-left.png); padding : 0px;"/>');
+    jQuery(tr1).append('<td class="jquerybubblepopup-top-middle" style="background-image:url(../krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/top-middle.png); padding : 0px;"/>');
+    jQuery(tr1).append('<td class="jquerybubblepopup-top-right" style="background-image:url(../krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/top-right.png); padding : 0px;"/>');
+    var tr2 = jQuery('<tr/>');
+    jQuery(tr2).append('<td class="jquerybubblepopup-middle-left" style="background-image:url(../krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/middle-left.png); padding : 0px;"/>');
+    var td2 = jQuery('<td class="jquerybubblepopup-innerHtml" style="padding : 0px;" />');
+    jQuery(tr2).append(td2);
+    var div2 = jQuery('<div class="uif-clientMessageItems uif-clientErrorDiv"/>');
+    jQuery(td2).append(div2);
+    var ul = jQuery('<ul style="padding : 0px;">');
+    jQuery(div2).append(ul);
+    var li = jQuery('<li class="uif-errorMessageItem-field"/>');
+    jQuery(ul).append(li);
+    var image2 = jQuery('<img class="uif-validationImage" src="' + url + '/krad/images/validation/error.png" alt="Error" />');
+    jQuery(li).append(image2);
+    jQuery(tr2).append('<td class="jquerybubblepopup-middle-right" style="background-image:url(../krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/middle-right.png); padding : 0px;"/>');
+
+    var tr3 = jQuery('<tr/>');
+    jQuery(tr3).append('<td class="jquerybubblepopup-bottom-left" style="background-image:url(../krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/bottom-left.png); padding : 0px;"/>');
+    var td3 = jQuery('<td class="jquerybubblepopup-bottom-middle" style="background-image: url(http://localhost:8081/ks-with-rice-bundled-dev/krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/bottom-middle.png); text-align: left; padding : 0px; "/>');
+    var image3 = jQuery('<img src="../krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/tail-bottom.png" alt="" class="jquerybubblepopup-tail"/>');
+    jQuery(td3).append(image3);
+    jQuery(tr3).append(td3);
+    jQuery(tr3).append('<td class="jquerybubblepopup-bottom-right" style="background-image:url(../krad/plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/bottom-right.png); padding : 0px;"/>');
+    jQuery(tbody).append(tr1);
+    jQuery(tbody).append(tr2);
+    jQuery(tbody).append(tr3);
+    jQuery(document).append(table);
+
     if (courseTypeKey) {
         if (jQuery(textBox).val().trim() != '') {
             var foundMatch = false;
             var textValue;
             var labelValue;
+            var allowedValues = '';
             jQuery("input[name='document.newMaintainableObject.dataObject.creditOption.credits']").each(function () {
                 var labelForId = jQuery(this).attr("id");
                 textValue = jQuery(textBox).val().trim();
                 var label = jQuery("label[for='" + labelForId + "']");
                 labelValue = parseFloat(jQuery(label).text());
+                allowedValues += labelValue + ', ';
                 if (textValue == labelValue) {
                     foundMatch = true;
                 }
             });
 
-            var div = jQuery(jQuery(textBox)).closest('div');
+            var lastComaIndex = allowedValues.lastIndexOf(',');
+            if (lastComaIndex > 0) {
+                allowedValues = allowedValues.substring(0, lastComaIndex);
+            }
 
+            var div = jQuery(jQuery(textBox)).closest('div');
+            div.find('#errorTable').remove();
             if (!foundMatch) {
                 jQuery(textBox).addClass("error").removeClass("valid");
                 jQuery(textBox).attr("aria-invalid", "true");
@@ -130,6 +170,19 @@ function validateCredits(textBox, url, courseTypeKey) {
                 if (jQuery(div).find('img').length == 0) {
                     jQuery(div).append('<img class="uif-validationImage" src="' + url + '/krad/images/validation/error.png" alt="Error" />');
                 }
+                // jQuery(div).attr('title', 'Allowed values are: ' + allowedValues);
+                jQuery(li).append("Please enter one of the values: " + allowedValues);
+                jQuery(div).prepend(table);
+                var moveLeft = -20;
+                var moveDown = -60;
+                jQuery(div).hover(
+                    function (e) {
+                        jQuery('table#errorTable').show().css('top', jQuery(textBox).offset().top + moveDown).css('left', jQuery(textBox).offset().left + moveLeft);
+                    },
+                    function (e) {
+                        jQuery('table#errorTable').hide();
+                    }
+                );
             } else {
                 if (jQuery(textBox).attr("aria-invalid") != undefined) {
                     jQuery(textBox).attr("aria-invalid").remove();
@@ -137,6 +190,7 @@ function validateCredits(textBox, url, courseTypeKey) {
                 jQuery(textBox).addClass("valid").removeClass("error");
                 jQuery(div).removeClass("uif-hasError");
                 jQuery(div).find('img').remove();
+                jQuery(div).unbind('mouseenter mouseleave');
             }
         }
     }
