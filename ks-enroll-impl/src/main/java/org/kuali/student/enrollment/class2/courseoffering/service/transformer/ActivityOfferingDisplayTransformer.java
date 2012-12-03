@@ -20,7 +20,11 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayIn
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -197,12 +201,16 @@ public class ActivityOfferingDisplayTransformer {
 
             List<String> aoTypeKeys = new ArrayList<String>(aoInfos.size());
             List<String> aoStateKeys = new ArrayList<String>(aoInfos.size());
-            List<String> aoScheduleIds = new ArrayList<String>(aoInfos.size());
+            List<String> aoScheduleIds = new ArrayList<String>();   /// not setting the size because the dao id search uses the size for the  ids passed in.
 
             for (ActivityOfferingInfo aoInfo : aoInfos) {
                 aoTypeKeys.add(aoInfo.getTypeKey());
                 aoStateKeys.add(aoInfo.getStateKey());
-                aoScheduleIds.add(aoInfo.getScheduleId());
+                if(aoInfo.getScheduleId() != null)     {
+                    // we can't have any nulls passed into the dao search or it will break.
+                    // are the schedule Ids required?
+                    aoScheduleIds.add(aoInfo.getScheduleId());
+                }
             }
 
             List<TypeInfo> typeInfos = typeService.getTypesByKeys(aoTypeKeys, contextInfo);
