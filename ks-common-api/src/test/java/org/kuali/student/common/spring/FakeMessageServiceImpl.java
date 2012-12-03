@@ -18,11 +18,12 @@ package org.kuali.student.common.spring;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.jws.WebParam;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -47,115 +48,52 @@ public class FakeMessageServiceImpl  extends AbstractFakeService implements Mess
 		// TODO Auto-generated constructor stub
 	}
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.r2.common.messages.service.MessageService#getLocales(org.kuali.student.r2.common.dto.ContextInfo)
-	 */
-	@Override
-	public List<LocaleInfo> getLocales(@WebParam(name = "contextInfo") ContextInfo contextInfo)
-	        throws InvalidParameterException, MissingParameterException,
-	        OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<LocaleInfo> getLocales(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.r2.common.messages.service.MessageService#getMessageGroupKeys(org.kuali.student.r2.common.dto.ContextInfo)
-	 */
-	@Override
-	public List<String> getMessageGroupKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo)
-	        throws InvalidParameterException, MissingParameterException,
-	        OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<String> getMessageGroupKeys(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.r2.common.messages.service.MessageService#getMessage(org.kuali.student.r2.common.dto.LocaleInfo, java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-	 */
-	@Override
-	public MessageInfo getMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo,
-	        @WebParam(name = "messageGroupKey") String messageGroupKey,
-	        @WebParam(name = "messageKey") String messageKey,
-	        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-	        throws DoesNotExistException, InvalidParameterException,
-	        MissingParameterException, OperationFailedException,
-	        PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public MessageInfo getMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.r2.common.messages.service.MessageService#getMessages(org.kuali.student.r2.common.dto.LocaleInfo, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-	 */
-	@Override
-	public List<MessageInfo> getMessages(@WebParam(name = "localeInfo") LocaleInfo localeInfo,
-	        @WebParam(name = "messageGroupKey") String messageGroupKey,
-	        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-	        throws DoesNotExistException, InvalidParameterException,
-	        MissingParameterException, OperationFailedException,
-	        PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<MessageInfo> getMessages(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.r2.common.messages.service.MessageService#getMessagesByGroups(org.kuali.student.r2.common.dto.LocaleInfo, java.util.List, org.kuali.student.r2.common.dto.ContextInfo)
-	 */
-	@Override
-	public List<MessageInfo> getMessagesByGroups(@WebParam(name = "localeInfo") LocaleInfo localeInfo,
-	        @WebParam(name = "messageGroupKeys") List<String> messageGroupKeys,
-	        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-	        throws DoesNotExistException, InvalidParameterException,
-	        MissingParameterException, OperationFailedException,
-	        PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<MessageInfo> getMessagesByGroups(LocaleInfo localeInfo, List<String> messageGroupKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.r2.common.messages.service.MessageService#updateMessage(org.kuali.student.r2.common.dto.LocaleInfo, java.lang.String, org.kuali.student.r2.common.messages.dto.MessageInfo, org.kuali.student.r2.common.dto.ContextInfo)
-	 */
-	@Override
-	public MessageInfo updateMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo,
-	        @WebParam(name = "messageKey") String messageKey,
-	        @WebParam(name = "messageInfo") MessageInfo messageInfo,
-	        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-	        throws DoesNotExistException, InvalidParameterException,
-	        MissingParameterException, OperationFailedException,
-	        PermissionDeniedException, ReadOnlyException,
-	        VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public MessageInfo updateMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.r2.common.messages.service.MessageService#deleteMessage(org.kuali.student.r2.common.dto.LocaleInfo, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
-	 */
-	@Override
-	public StatusInfo deleteMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo,
-	        @WebParam(name = "messageKey") String messageKey,
-	        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-	        throws DoesNotExistException, InvalidParameterException,
-	        MissingParameterException, OperationFailedException,
-	        PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo deleteMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.kuali.student.r2.common.messages.service.MessageService#addMessage(org.kuali.student.r2.common.dto.LocaleInfo, java.lang.String, org.kuali.student.r2.common.messages.dto.MessageInfo, org.kuali.student.r2.common.dto.ContextInfo)
-	 */
-	@Override
-	public StatusInfo addMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo,
-	        @WebParam(name = "messageGroupKey") String messageGroupKey,
-	        @WebParam(name = "messageInfo") MessageInfo messageInfo,
-	        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-	        throws DoesNotExistException, InvalidParameterException,
-	        MissingParameterException, OperationFailedException,
-	        PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public StatusInfo createMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateProposal(String validationTypeKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;
+    }
+
+    
 
 	@Override
     public String toString() {

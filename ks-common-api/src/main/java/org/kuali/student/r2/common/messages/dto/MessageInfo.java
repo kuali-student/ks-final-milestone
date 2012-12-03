@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.messages.infc.Message;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MessageInfo", propOrder = { 
-                "key", "locale", "groupName", "value" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "messageKey", "locale", "groupName", "value" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class MessageInfo 
     implements Message, Serializable {
@@ -48,7 +48,7 @@ public class MessageInfo
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String key;
+    private String messageKey;
 
     @XmlElement
     private LocaleInfo locale;
@@ -80,19 +80,19 @@ public class MessageInfo
             if (message.getLocale() != null) {
                 this.locale = new LocaleInfo(message.getLocale());
             }
-
+            this.messageKey = message.getMessageKey();
             this.groupName = message.getGroupName();
             this.value = message.getValue();
         }
     }
 
     @Override
-    public String getKey() {
-        return this.key;
+    public String getMessageKey() {
+        return this.messageKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setMessageKey(String messageKey) {
+        this.messageKey = messageKey;
     }
 
     @Override
