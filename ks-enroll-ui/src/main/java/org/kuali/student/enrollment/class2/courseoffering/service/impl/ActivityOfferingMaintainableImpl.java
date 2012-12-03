@@ -72,7 +72,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     @Override
     public void saveDataObject() {
-        if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
+        if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
 
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -131,11 +131,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             wrapper.setHasWaitList(courseOfferingInfo.getHasWaitlist());
             if (!wrapper.getHasWaitList())
                 wrapper.setWaitListText("There is no wait list for this offering.");
-            if (wrapper.getWaitListLevelTypeKey().equals("Course Offering")){
+            if (wrapper.getWaitListLevelTypeKey().equals("Course Offering")) {
                 wrapper.setWaitListText("This waitlist is managed at the Course Offering level.");
                 wrapper.setToolTipText("There is one waitlist for all Activity Offerings");
             }
-            if (wrapper.getWaitListLevelTypeKey().equals("Activity Offering")){
+            if (wrapper.getWaitListLevelTypeKey().equals("Activity Offering")) {
                 wrapper.setWaitListText("This waitlist is managed at the Activity Offering level.");
                 wrapper.setToolTipText("Each Activity Offering has its own wait list.");
             }
@@ -187,7 +187,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             List<SeatPoolWrapper> seatPoolWrapperList = new ArrayList<SeatPoolWrapper>();
 
-            for(SeatPoolDefinitionInfo seatPoolDefinitionInfo :  seatPoolDefinitionInfoList){
+            for (SeatPoolDefinitionInfo seatPoolDefinitionInfo : seatPoolDefinitionInfoList) {
                 SeatPoolWrapper spWrapper = new SeatPoolWrapper();
 
                 PopulationInfo pInfo = getPopulationService().getPopulation(seatPoolDefinitionInfo.getPopulationId(), contextInfo);
@@ -213,12 +213,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      * @param seatPoolWrappers list of SeatPoolWrappers to unwrap
      * @return list of SeatPoolDefinitionInfo objects derived from the wrappers
      */
-    private List<SeatPoolDefinitionInfo> getSeatPoolDefinitions(List<SeatPoolWrapper> seatPoolWrappers)   {
+    private List<SeatPoolDefinitionInfo> getSeatPoolDefinitions(List<SeatPoolWrapper> seatPoolWrappers) {
 
         List<SeatPoolDefinitionInfo> spRet = new ArrayList<SeatPoolDefinitionInfo>();
 
-        if(seatPoolWrappers != null){
-            for(SeatPoolWrapper seatPoolWrapper : seatPoolWrappers){
+        if (seatPoolWrappers != null) {
+            for (SeatPoolWrapper seatPoolWrapper : seatPoolWrappers) {
                 SeatPoolDefinitionInfo seatPool = seatPoolWrapper.getSeatPool();
                 seatPool.setPopulationId(seatPoolWrapper.getSeatPoolPopulation().getId());
                 spRet.add(seatPool);
@@ -230,24 +230,24 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     private String getTermDisplayString(String termId, TermInfo term) {
         // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
-        StringBuilder    stringBuilder = new StringBuilder();
-        Formatter        formatter     = new Formatter(stringBuilder, Locale.US);
-        String           displayString = termId; // use termId as a default.
+        StringBuilder stringBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(stringBuilder, Locale.US);
+        String displayString = termId; // use termId as a default.
         if (term != null) {
-            String           startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
-            String           endDate   = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
-            String           termType  = term.getName();
+            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
+            String termType = term.getName();
             formatter.format("%s (%s to %s)", termType, startDate, endDate);
             displayString = stringBuilder.toString();
         }
         return displayString;
     }
 
-    private void assembleInstructorWrapper(List<OfferingInstructorInfo> instructors, ActivityOfferingWrapper wrapper){
-        if(instructors!= null && !instructors.isEmpty()){
-            for(OfferingInstructorInfo instructor : instructors){
+    private void assembleInstructorWrapper(List<OfferingInstructorInfo> instructors, ActivityOfferingWrapper wrapper) {
+        if (instructors != null && !instructors.isEmpty()) {
+            for (OfferingInstructorInfo instructor : instructors) {
                 OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructor);
-                if(instructor.getPercentageEffort() != null){
+                if (instructor.getPercentageEffort() != null) {
                     instructorWrapper.setsEffort(Integer.toString(instructor.getPercentageEffort().intValue()));
                 }
                 wrapper.getInstructors().add(instructorWrapper);
@@ -255,23 +255,23 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
     }
 
-    private void disassembleInstructorsWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo){
+    private void disassembleInstructorsWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo) {
         aoInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
-        if(instructors!= null && !instructors.isEmpty()){
-            for(OfferingInstructorWrapper instructor : instructors){
+        if (instructors != null && !instructors.isEmpty()) {
+            for (OfferingInstructorWrapper instructor : instructors) {
                 aoInfo.getInstructors().add(disassembleInstructorWrapper(instructor));
             }
         }
     }
 
-    private OfferingInstructorInfo disassembleInstructorWrapper(OfferingInstructorWrapper instructor){
+    private OfferingInstructorInfo disassembleInstructorWrapper(OfferingInstructorWrapper instructor) {
         OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
-        if(!StringUtils.isBlank(instructor.getsEffort())){
+        if (!StringUtils.isBlank(instructor.getsEffort())) {
             instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
         }
 
 
-        if(StringUtils.isBlank(instructorInfo.getStateKey())) {
+        if (StringUtils.isBlank(instructorInfo.getStateKey())) {
             try {
                 StateInfo state = getStateService().getState(LprServiceConstants.TENTATIVE_STATE_KEY, ContextUtils.createDefaultContextInfo());
                 instructorInfo.setStateKey(state.getKey());
@@ -285,7 +285,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)document.getNewMaintainableObject().getDataObject();
+        ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) document.getNewMaintainableObject().getDataObject();
         document.getDocumentHeader().setDocumentDescription("Activity Offering");
         try {
             StateInfo state = getStateService().getState(wrapper.getAoInfo().getStateKey(), ContextUtils.createDefaultContextInfo());
@@ -300,18 +300,17 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         super.processAfterAddLine(view, collectionGroup, model, addLine);
 
         if (addLine instanceof ScheduleComponentWrapper) {
-            ScheduleComponentWrapper scheduleComponentWrapper = (ScheduleComponentWrapper)addLine;
+            ScheduleComponentWrapper scheduleComponentWrapper = (ScheduleComponentWrapper) addLine;
             if ("1".equals(scheduleComponentWrapper.getAddDaysSpecifiedBoolean())) {
                 if (null != scheduleComponentWrapper.getAddWeekDayOptions()) {
-                    List<String> weekDayLabels = Arrays.asList("Su ","M ","T ","W ","Th ","F ","Sa ");
+                    List<String> weekDayLabels = Arrays.asList("Su ", "M ", "T ", "W ", "Th ", "F ", "Sa ");
                     StringBuilder weekDays = new StringBuilder();
                     for (Integer day : scheduleComponentWrapper.getAddWeekDayOptions()) {
                         weekDays.append(weekDayLabels.get(day));
                     }
                     scheduleComponentWrapper.setWeekDays(weekDays.toString());
                 }
-            }
-            else {
+            } else {
                 scheduleComponentWrapper.setWeekDays("To Be Announced");
             }
             if (null != scheduleComponentWrapper.getAddRoomResources()) {
@@ -324,8 +323,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
                 scheduleComponentWrapper.setRoomFeatures(resources.toString());
             }
-        }
-        else if(addLine instanceof OfferingInstructorWrapper) {
+        } else if (addLine instanceof OfferingInstructorWrapper) {
             // set the person name if it's null, in the case of user-input personell id
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
             if (instructor.getOfferingInstructorInfo().getPersonName() == null && instructor.getOfferingInstructorInfo().getPersonId() != null) {
@@ -339,16 +337,16 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     @Override
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof OfferingInstructorWrapper){   //Personnel
+        if (addLine instanceof OfferingInstructorWrapper) {   //Personnel
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
 
             //check duplication
-            MaintenanceForm form = (MaintenanceForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            MaintenanceForm form = (MaintenanceForm) model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             List<OfferingInstructorWrapper> instructors = activityOfferingWrapper.getInstructors();
-            if(instructors != null && !instructors.isEmpty()){
-                for(OfferingInstructorWrapper thisInst : instructors){
-                    if(instructor.getOfferingInstructorInfo().getPersonId().equals(thisInst.getOfferingInstructorInfo().getPersonId())){
+            if (instructors != null && !instructors.isEmpty()) {
+                for (OfferingInstructorWrapper thisInst : instructors) {
+                    if (instructor.getOfferingInstructorInfo().getPersonId().equals(thisInst.getOfferingInstructorInfo().getPersonId())) {
                         GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_DUPLICATE, instructor.getOfferingInstructorInfo().getPersonId());
                         return false;
                     }
@@ -357,20 +355,19 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             //validate ID
             List<Person> lstPerson = ViewHelperUtil.getInstructorByPersonId(instructor.getOfferingInstructorInfo().getPersonId());
-            if(lstPerson == null || lstPerson.isEmpty()){
+            if (lstPerson == null || lstPerson.isEmpty()) {
                 GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructor.getOfferingInstructorInfo().getPersonId());
                 return false;
             }
-        }
-        else if (addLine instanceof SeatPoolWrapper){   //Seat Pool
+        } else if (addLine instanceof SeatPoolWrapper) {   //Seat Pool
             SeatPoolWrapper seatPool = (SeatPoolWrapper) addLine;
             //check duplication
-            MaintenanceForm form = (MaintenanceForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            MaintenanceForm form = (MaintenanceForm) model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             List<SeatPoolWrapper> pools = activityOfferingWrapper.getSeatpools();
-            if(pools != null && !pools.isEmpty()){
-                for (SeatPoolWrapper pool : pools ) {
-                    if (seatPool.getSeatPoolPopulation().getId().equals( pool.getSeatPoolPopulation().getId())) {
+            if (pools != null && !pools.isEmpty()) {
+                for (SeatPoolWrapper pool : pools) {
+                    if (seatPool.getSeatPoolPopulation().getId().equals(pool.getSeatPoolPopulation().getId())) {
                         GlobalVariables.getMessageMap().putErrorForSectionId("ao-seatpoolgroup", ActivityOfferingConstants.MSG_ERROR_SEATPOOL_DUPLICATE, pool.getSeatPoolPopulation().getName());
                         return false;
                     }
@@ -382,7 +379,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof OfferingInstructorWrapper){
+        if (addLine instanceof OfferingInstructorWrapper) {
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
             instructor.setOfferingInstructorInfo(disassembleInstructorWrapper(instructor));
         }
@@ -391,29 +388,29 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     @Override
     public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
 
-        if (StringUtils.endsWith(collectionPath, "revisedScheduleRequestComponents")){
-            ActivityOfferingForm form = (ActivityOfferingForm)model;
-            if(form.isScheduleEditInProgress()){
+        if (StringUtils.endsWith(collectionPath, "revisedScheduleRequestComponents")) {
+            ActivityOfferingForm form = (ActivityOfferingForm) model;
+            if (form.isScheduleEditInProgress()) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Editing a schedule request in progress. Please update it first before processing");
                 return;
             }
-            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             wrapper.setSchedulesRevised(true);
             wrapper.getRevisedScheduleRequestComponents().remove(lineIndex);
-        }else {
-            super.processCollectionDeleteLine(view,model,collectionPath,lineIndex);
+        } else {
+            super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
         }
     }
 
     public TypeService getTypeService() {
-        if(typeService == null) {
+        if (typeService == null) {
             typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return this.typeService;
     }
 
     public StateService getStateService() {
-        if(stateService == null) {
+        if (stateService == null) {
             stateService = CourseOfferingResourceLoader.loadStateService();
         }
         return stateService;
@@ -427,7 +424,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     private AcademicCalendarService getAcademicCalendarService() {
-        if(academicCalendarService == null) {
+        if (academicCalendarService == null) {
             academicCalendarService = CourseOfferingResourceLoader.loadAcademicCalendarService();
         }
 

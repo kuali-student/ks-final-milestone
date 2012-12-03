@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -33,9 +34,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,14 +59,14 @@ import static org.junit.Assert.fail;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestCourseOfferingServiceImpl {
-   private static final Logger log = Logger
+    private static final Logger log = Logger
             .getLogger(TestCourseOfferingServiceImpl.class);
 
     @Resource
     protected CourseOfferingService coService;
 
     @Resource
-   protected CourseService courseService;
+    protected CourseService courseService;
 
     @Resource
     protected CourseOfferingServiceTestDataLoader dataLoader;
@@ -81,12 +79,12 @@ public class TestCourseOfferingServiceImpl {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
 
-	    // load in custom dates for use in the courses
-		TermInfo fall2012 = dataLoader.createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), callContext);
+        // load in custom dates for use in the courses
+        TermInfo fall2012 = dataLoader.createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), callContext);
         createCourseCHEM123(fall2012, callContext);
     }
 
-    private void createCourseCHEM123(TermInfo term, ContextInfo context) throws Exception{
+    private void createCourseCHEM123(TermInfo term, ContextInfo context) throws Exception {
 
         CourseInfo canonicalCourse = buildCanonicalCourse("CLU-1", term.getId(), "CHEM", "CHEM123", "Chemistry 123", "description 1");
 
@@ -134,7 +132,7 @@ public class TestCourseOfferingServiceImpl {
 
     }
 
-    private FormatInfo buildCanonicalFormat (String formatId, CourseInfo course) {
+    private FormatInfo buildCanonicalFormat(String formatId, CourseInfo course) {
 
         FormatInfo info = new FormatInfo();
         info.setId(formatId);
@@ -163,16 +161,15 @@ public class TestCourseOfferingServiceImpl {
     }
 
     private Date str2Date(String str, String context) {
-	        if (str == null) {
-	            return null;
-	        }
-	        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
-	        try {
-	            Date date = df.parse(str);
-	            return date;
-	        } catch (ParseException ex) {
-	            throw new IllegalArgumentException("Bad date " + str + " in " + context);
-	        }
+        if (str == null) {
+            return null;
+        }
+        try {
+            Date date = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(str);
+            return date;
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException("Bad date " + str + " in " + context);
+        }
     }
 
     @Test
@@ -183,7 +180,7 @@ public class TestCourseOfferingServiceImpl {
         testDeleteCourseOffering(coId);
     }
 
-    private CourseOfferingInfo createCourseOffering() throws Exception{
+    private CourseOfferingInfo createCourseOffering() throws Exception {
         List<String> optionKeys = new ArrayList<String>();
         CourseInfo canonicalCourse = courseService
                 .getCourse("CLU-1", callContext);
@@ -273,38 +270,38 @@ public class TestCourseOfferingServiceImpl {
         }
     }
 
-	private void testSearchForCourseOfferings() throws Exception {
-		try {
+    private void testSearchForCourseOfferings() throws Exception {
+        try {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.and(
                     PredicateFactory.like("courseOfferingCode", "CHEM%"),
                     PredicateFactory.equalIgnoreCase("atpId", "2012FA")));
             QueryByCriteria criteria = qbcBuilder.build();
 
-			List<CourseOfferingInfo> coList = coService
-					.searchForCourseOfferings(criteria, callContext);
-			assertNotNull(coList);
-			assertEquals(1, coList.size());
-			CourseOfferingInfo coInfo = coList.get(0);
-			assertEquals("CHEM123", coInfo.getCourseOfferingCode());
+            List<CourseOfferingInfo> coList = coService
+                    .searchForCourseOfferings(criteria, callContext);
+            assertNotNull(coList);
+            assertEquals(1, coList.size());
+            CourseOfferingInfo coInfo = coList.get(0);
+            assertEquals("CHEM123", coInfo.getCourseOfferingCode());
             assertEquals("2012FA", coInfo.getTermId());
-		} catch (Exception ex) {
-			fail("Exception from service call :" + ex.getMessage());
-		}
-	}
+        } catch (Exception ex) {
+            fail("Exception from service call :" + ex.getMessage());
+        }
+    }
 
     private void testDeleteCourseOffering(String coId) throws Exception {
-         try {
+        try {
             // Delete the course offering and check that the status returned was
             // a success
             StatusInfo delResult = coService.deleteCourseOffering(coId, callContext);
             assertTrue(delResult.getIsSuccess());
 
-             try{
+            try {
                 coService.getCourseOffering(coId, callContext);
-             }catch(DoesNotExistException ex){
-                 //expected
-             }
+            } catch (DoesNotExistException ex) {
+                //expected
+            }
 
         } catch (Exception ex) {
             log.error("exception due to ", ex);
@@ -315,21 +312,21 @@ public class TestCourseOfferingServiceImpl {
 
     @Test
     public void testCRFormatOffering() throws Exception {
-       CourseOfferingInfo co = createCourseOffering();
+        CourseOfferingInfo co = createCourseOffering();
         FormatOfferingInfo created = createFormatOffering(co.getId(), co.getTermId());
 
         assertNotNull(created);
         assertEquals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY,
-             created.getStateKey());
+                created.getStateKey());
         assertEquals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,
-             created.getTypeKey());
+                created.getTypeKey());
         assertEquals("TEST FORMAT OFFERING", created.getDescr().getPlain());
 
-        FormatOfferingInfo retrieved =  coService.getFormatOffering(created.getId(), callContext);
+        FormatOfferingInfo retrieved = coService.getFormatOffering(created.getId(), callContext);
         assertEquals(retrieved.getStateKey(),
-             created.getStateKey());
+                created.getStateKey());
         assertEquals(retrieved.getTypeKey(),
-             created.getTypeKey());
+                created.getTypeKey());
         assertEquals(retrieved.getDescr().getPlain(), created.getDescr().getPlain());
         assertEquals(retrieved.getTermId(), created.getTermId());
     }
@@ -355,15 +352,15 @@ public class TestCourseOfferingServiceImpl {
 
     private ActivityOfferingInfo createActivityOffering(CourseOfferingInfo courseOffering, String foId) throws Exception {
         String activityId = CourseOfferingServiceDataUtils
-            .createCanonicalActivityId("CHEM123:LEC-ONLY",
-                    LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
+                .createCanonicalActivityId("CHEM123:LEC-ONLY",
+                        LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
 
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
         ActivityOfferingInfo ao = CourseOfferingServiceDataUtils
-            .createActivityOffering("2012FA", courseOffering, foId,
-                    null, activityId, "Lecture", "A",
-                    LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
-                    instructors);
+                .createActivityOffering("2012FA", courseOffering, foId,
+                        null, activityId, "Lecture", "A",
+                        LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
+                        instructors);
 
         ActivityOfferingInfo created = coService.createActivityOffering(
                 foId, activityId,
@@ -419,8 +416,8 @@ public class TestCourseOfferingServiceImpl {
         }
     }
 
-   @Test
-   public void testDeleteCourseOfferingCascaded() throws Exception {
+    @Test
+    public void testDeleteCourseOfferingCascaded() throws Exception {
         CourseOfferingInfo courseOffering = createCourseOffering();
         FormatOfferingInfo fo = createFormatOffering(courseOffering.getId(), courseOffering.getTermId());
         ActivityOfferingInfo ao = createActivityOffering(courseOffering, fo.getId());
@@ -439,10 +436,10 @@ public class TestCourseOfferingServiceImpl {
         List<ActivityOfferingInfo> activities = coService.getActivityOfferingsByCourseOffering(courseOffering.getId(), callContext);
         assertEquals(0, activities.size());
 
-        try{
+        try {
             coService.getCourseOffering(courseOffering.getId(), callContext);
-        }catch(DoesNotExistException ex){
-           //expected
+        } catch (DoesNotExistException ex) {
+            //expected
         }
     }
 }

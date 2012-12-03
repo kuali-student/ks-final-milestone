@@ -19,11 +19,23 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
+
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -91,20 +103,19 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getSubjectArea(), info.getSubjectArea());
         assertEquals(orig.getUnitsContentOwnerId(), info.getUnitsContentOwnerId());
         List<AttributeInfo> attrs = info.getAttributes();
-        List<AttributeInfo> attrs2 = new ArrayList<AttributeInfo> ();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        List<AttributeInfo> attrs2 = new ArrayList<AttributeInfo>();
         Date date = null;
         for (AttributeInfo attr : attrs) {
             if (attr.getKey().equals(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)) {
                 if (date != null) {
-                    fail ("should only be one dynamic attribute for draft state");
+                    fail("should only be one dynamic attribute for draft state");
                 }
-                date = formatter.parse(attr.getValue());
+                date = DateFormatters.STATE_CHANGE_DATE_FORMATTER.parse(attr.getValue());
             } else {
                 attrs2.add(attr);
             }
         }
-        assertNotNull (date);        
+        assertNotNull(date);
         new AttributeTester().check(orig.getAttributes(), attrs2);
         assertNotNull(info.getMeta());
         assertNotNull(info.getMeta().getCreateId());
@@ -136,7 +147,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue(
                 "value1Updated");
         info = this.socService.updateSoc(orig.getId(), orig, callContext);
-        assertNotSame (orig, info);
+        assertNotSame(orig, info);
         assertEquals(orig.getId(), info.getId());
         assertEquals(orig.getName(), info.getName());
         assertNotNull(info.getDescr());
@@ -156,7 +167,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         // test get after you do the update
         orig = info;
         info = this.socService.getSoc(orig.getId(), callContext);
-        assertNotSame (orig, info);
+        assertNotSame(orig, info);
         assertEquals(orig.getId(), info.getId());
         assertEquals(orig.getName(), info.getName());
         assertNotNull(info.getDescr());
@@ -175,7 +186,7 @@ public class TestCourseOfferingSetServiceMockImpl {
 
         // update the state
         orig = info;
-        orig.setStateKey(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY);        
+        orig.setStateKey(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY);
         try {
             info = this.socService.updateSoc(orig.getId(), orig, callContext);
             fail("should have gotten readonly exception");
@@ -183,9 +194,9 @@ public class TestCourseOfferingSetServiceMockImpl {
             // expected
         }
         StatusInfo status = this.socService.updateSocState(orig.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, callContext);
-        assertEquals (Boolean.TRUE, status.getIsSuccess());
+        assertEquals(Boolean.TRUE, status.getIsSuccess());
         info = this.socService.getSoc(orig.getId(), callContext);
-        assertNotSame (orig, info);
+        assertNotSame(orig, info);
         assertEquals(orig.getId(), info.getId());
         assertEquals(orig.getName(), info.getName());
         assertNotNull(info.getDescr());
@@ -195,8 +206,8 @@ public class TestCourseOfferingSetServiceMockImpl {
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getTermId(), info.getTermId());
         assertEquals(orig.getSubjectArea(), info.getSubjectArea());
-        assertEquals (4, info.getAttributes().size());
-        assertNotNull (info.getAttributeValue(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY));
+        assertEquals(4, info.getAttributes().size());
+        assertNotNull(info.getAttributeValue(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY));
 //        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
         assertNotNull(info.getMeta());
         assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
@@ -506,7 +517,7 @@ public class TestCourseOfferingSetServiceMockImpl {
         Collections.sort(lst1);
         List lst2 = new ArrayList(list2);
         Collections.sort(lst2);
-        for (int i = 0; i < lst1.size(); i ++) {
+        for (int i = 0; i < lst1.size(); i++) {
             assertEquals(i + "", lst1.get(i), lst2.get(i));
         }
     }

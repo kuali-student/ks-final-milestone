@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
@@ -44,8 +45,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -424,8 +423,7 @@ public class RegistrationWindowsController extends UifControllerBase {
         if (date == null) {
             return "";
         }
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        return df.format(date);
+        return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(date);
     }
 
     private void _loadWindowsInfoForm(List<KeyDateInfo> periods, RegistrationWindowsManagementForm form) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -467,16 +465,14 @@ public class RegistrationWindowsController extends UifControllerBase {
         if (date == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("a");
-        return df.format(date);
+        return DateFormatters.AM_PM_TIME_FORMATTER.format(date);
     }
 
     private String _parseTime(Date date) {
         if (date == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("hh:mm");
-        return df.format(date);
+        return DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(date);
     }
 
     public AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm) {

@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -45,7 +46,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -68,8 +68,8 @@ import static org.junit.Assert.fail;
 @Transactional
 public class TestAcademicCalendarServiceImpl {
 
-	private static final Logger log = LoggerFactory.getLogger(TestAcademicCalendarServiceImpl.class);
-	
+    private static final Logger log = LoggerFactory.getLogger(TestAcademicCalendarServiceImpl.class);
+
     @Autowired
     @Qualifier("acalServiceAuthDecorator")
     private AcademicCalendarService acalService;
@@ -919,16 +919,16 @@ public class TestAcademicCalendarServiceImpl {
         final String originalCalendarKey = "ACADEMICCALENDAR1990";
 
         AcademicCalendar originalCalendar = acalService.getAcademicCalendar(originalCalendarKey, callContext);
-        Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse("2008-09-01");
-        Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse("2009-08-31");
+        Date startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse("2008-09-01");
+        Date endDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse("2009-08-31");
 
         AcademicCalendar copiedCalendar = null;
-		try {
-			copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
-		} catch (OperationFailedException e) {
-			log.error("copy Academic Calendar failed ", e);
-			throw e;
-		}
+        try {
+            copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
+        } catch (OperationFailedException e) {
+            log.error("copy Academic Calendar failed ", e);
+            throw e;
+        }
 
         assertNotNull(originalCalendar.getId());
         assertNotNull(copiedCalendar.getId());
@@ -1025,7 +1025,7 @@ public class TestAcademicCalendarServiceImpl {
             assertEquals("testId2", acalEventInfo.getId());
             assertEquals("testId2", acalEventInfo.getName());
         } catch (Exception e) {
-        	log.error("testSearchForAcalEvents failed", e);
+            log.error("testSearchForAcalEvents failed", e);
             fail(e.getMessage());
         }
 
@@ -1062,7 +1062,7 @@ public class TestAcademicCalendarServiceImpl {
             assertEquals("testId2", holidayInfo.getName());
 
         } catch (Exception e) {
-        	log.error("testSearchForHolidays failed", e);
+            log.error("testSearchForHolidays failed", e);
             fail(e.getMessage());
         }
 
@@ -1109,20 +1109,20 @@ public class TestAcademicCalendarServiceImpl {
 
     @Test   // Jira - KSENROLL-530
     public void testGetKeyDateTypesForTermType()
-           throws AlreadyExistsException, DataValidationErrorException,
-           InvalidParameterException, MissingParameterException, OperationFailedException,
-           PermissionDeniedException, DoesNotExistException, ReadOnlyException, VersionMismatchException {
+            throws AlreadyExistsException, DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, ReadOnlyException, VersionMismatchException {
 
-       String termType = AtpServiceConstants.ATP_FALL_TYPE_KEY;
-       List<TypeInfo> types = this.acalService.getKeyDateTypesForTermType(termType, callContext);
-       assertNotNull(types);
-       if (types.size () < 2) {
-           fail ("too few key date types");
-       }
-       System.out.println ("Found " + types.size() + " keydate types for " + termType);
-       for (TypeInfo type : types) {
-           System.out.println(type.getKey() + " " + type.getName());
-       }
+        String termType = AtpServiceConstants.ATP_FALL_TYPE_KEY;
+        List<TypeInfo> types = this.acalService.getKeyDateTypesForTermType(termType, callContext);
+        assertNotNull(types);
+        if (types.size() < 2) {
+            fail("too few key date types");
+        }
+        System.out.println("Found " + types.size() + " keydate types for " + termType);
+        for (TypeInfo type : types) {
+            System.out.println(type.getKey() + " " + type.getName());
+        }
     }
 
     @Test //Jira - KSENROLL-679
@@ -1144,25 +1144,25 @@ public class TestAcademicCalendarServiceImpl {
         AcademicCalendarInfo info = acalService.createAcademicCalendar(orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
-        assertEquals (orig.getName(), info.getName());
-        assertEquals (orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
-        assertEquals (orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
+        assertEquals(orig.getName(), info.getName());
+        assertEquals(orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
+        assertEquals(orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
 
 
         orig = info;
         info = acalService.getAcademicCalendar(info.getId(), callContext);
         assertNotNull(info);
-        assertEquals (orig.getName(), info.getName());
-        assertEquals (orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
-        assertEquals (orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
+        assertEquals(orig.getName(), info.getName());
+        assertEquals(orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
+        assertEquals(orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
 
         orig = info;
         orig.setName("testNewAcal name");
         info = acalService.updateAcademicCalendar(info.getId(), info, callContext);
         assertNotNull(info);
-        assertEquals (orig.getName(), info.getName());
-        assertEquals (orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
-        assertEquals (orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
+        assertEquals(orig.getName(), info.getName());
+        assertEquals(orig.getHolidayCalendarIds().size(), info.getHolidayCalendarIds().size());
+        assertEquals(orig.getHolidayCalendarIds().get(0), info.getHolidayCalendarIds().get(0));
     }
 
     private void populateRequiredFields(AcademicCalendarInfo acal) {

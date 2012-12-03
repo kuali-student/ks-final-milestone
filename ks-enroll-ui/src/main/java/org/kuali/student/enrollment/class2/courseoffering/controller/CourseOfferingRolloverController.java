@@ -41,6 +41,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
@@ -54,7 +55,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -86,13 +86,13 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
-        if (!(form instanceof CourseOfferingRolloverManagementForm)){
-            throw new RuntimeException("Form object passed into start method was not of expected type CourseOfferingRolloverManagementForm. Got "+form.getClass().getSimpleName());
+        if (!(form instanceof CourseOfferingRolloverManagementForm)) {
+            throw new RuntimeException("Form object passed into start method was not of expected type CourseOfferingRolloverManagementForm. Got " + form.getClass().getSimpleName());
         }
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
         Map paramMap = request.getParameterMap();
         if (paramMap.containsKey("pageId")) {
-            String pageId = ((String []) paramMap.get("pageId"))[0];
+            String pageId = ((String[]) paramMap.get("pageId"))[0];
             if (pageId.equals("selectTermsForRollover")) {
                 return _startPerformRollover(form, result, request, response);
             } else if (pageId.equals("releaseToDepts")) {
@@ -106,7 +106,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     private ModelAndView _startPerformRollover(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
         LOGGER.info("startPerformRollover");
         return getUIFModelAndView(theForm);
@@ -114,7 +114,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     private ModelAndView _startRolloverDetails(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
         LOGGER.info("startRolloverDetails");
         String rolloverTerm = theForm.getRolloverTargetTermCode();
@@ -123,7 +123,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             if (rolloverTerm != null && !"".equals(rolloverTerm)) {
                 return showRolloverResults(theForm, result, request, response);
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return getUIFModelAndView(theForm);
         }
 
@@ -131,7 +131,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     private ModelAndView _startReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
-                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         LOGGER.info("startReleaseToDepts");
         form.computeReleaseToDeptsDisabled();
         return getUIFModelAndView(form);
@@ -157,12 +157,11 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             form.setDisplayedTargetTermCode(targetTermCode);
             // Set the start date
             Date startDate = matchingTerm.getStartDate();
-            SimpleDateFormat format = new SimpleDateFormat("EEE, MMMMM d, yyyy");
-            String startDateStr = format.format(startDate);
+            String startDateStr = DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER.format(startDate);
             form.setTargetTermStartDate(startDateStr);
             // Set the end date
             Date endDate = matchingTerm.getEndDate();
-            String endDateStr = format.format(endDate);
+            String endDateStr = DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER.format(endDate);
             form.setTargetTermEndDate(endDateStr);
             // TODO: Put in last rollover date (Kirk says this may be unnecessary in new wireframes 5/18/2012)
             form.setTargetTerm(matchingTerm);
@@ -188,7 +187,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
         CourseOfferingViewHelperService helper = getViewHelperService(form);
-        
+
         // validation to check for like terms and target term year comes before source term year.
         String targetTermCd = form.getTargetTermCode();
         String sourceTermCd = form.getSourceTermCode();
@@ -196,12 +195,12 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         List<TermInfo> sourceTermsByCode = helper.findTermByTermCode(sourceTermCd);
 
         //Check that the source and target terms exist in the db
-        if(sourceTermsByCode.isEmpty()){
+        if (sourceTermsByCode.isEmpty()) {
             GlobalVariables.getMessageMap().putError("sourceTermCode", "error.courseoffering.sourceTerm.inValid");
             form.setIsRolloverButtonDisabled(true);
             return getUIFModelAndView(form);
         }
-        if(targetTermsByCode.isEmpty()){
+        if (targetTermsByCode.isEmpty()) {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
             form.setIsRolloverButtonDisabled(true);
             return getUIFModelAndView(form);
@@ -234,12 +233,11 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             form.setDisplayedSourceTermCode(sourceTermCode);
             // Set the start date
             Date startDate = matchingTerm.getStartDate();
-            SimpleDateFormat format = new SimpleDateFormat("EEE, MMMMM d, yyyy");
-            String startDateStr = format.format(startDate);
+            String startDateStr = DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER.format(startDate);
             form.setSourceTermStartDate(startDateStr);
             // Set the end date
             Date endDate = matchingTerm.getEndDate();
-            String endDateStr = format.format(endDate);
+            String endDateStr = DateFormatters.COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER.format(endDate);
             form.setSourceTermEndDate(endDateStr);
             form.setSourceTerm(matchingTerm);
             form.setIsRolloverButtonDisabled(false); // Enable the button
@@ -271,7 +269,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             // Switch to rollover details page
             return start(form, result, request, response);
             //return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
-        } else{
+        } else {
             // Had problems, stay in the same screen
             return getUIFModelAndView(form);
         }
@@ -310,7 +308,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private void _disableReleaseToDeptsIfNeeded(CourseOfferingViewHelperService helper, String targetTermId,
                                                 CourseOfferingRolloverManagementForm form) {
         SocInfo socInfo = helper.getMainSoc(targetTermId);
-        if (socInfo == null) { 
+        if (socInfo == null) {
             // Disable if no term found
             form.setReleaseToDeptsInvalidTerm(true);
         } else {
@@ -321,14 +319,14 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             } else { // In draft state
                 form.setSocReleasedToDepts(false);
             }
-        } 
+        }
     }
 
     private String _computeRolloverDuration(Date dateInitiated, Date dateCompleted) {
         long diffInMillis = dateCompleted.getTime() - dateInitiated.getTime();
         long diffInSeconds = diffInMillis / 1000;
-        int minutes = (int)(diffInSeconds / 60);
-        int seconds = (int)(diffInSeconds % 60);
+        int minutes = (int) (diffInSeconds / 60);
+        int seconds = (int) (diffInSeconds % 60);
         int hours = minutes / 60;
         minutes = minutes % 60;
         String result = seconds + "s";
@@ -344,7 +342,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private String _createPlural(int count) {
         return count == 1 ? "" : "s";
     }
-     
+
     private String _createStatusString(SocRolloverResultInfo socRolloverResultInfo) {
         String status = "";
         String stateKey = socRolloverResultInfo.getStateKey();
@@ -356,7 +354,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         }
         return status;
     }
-    
+
     private void _setStatus(String stateKey, CourseOfferingRolloverManagementForm form) {
         if (CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY.equals(stateKey)) {
             form.setStatusField("Finished");
@@ -402,7 +400,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         // The status displays whether the time is in progress or aborted or nothing if it's completed.
         String status = _createStatusString(socRolloverResultInfo);
         if ((CourseOfferingSetServiceConstants.SUBMITTED_RESULT_STATE_KEY.equals(stateKey) ||
-                CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY.equals(stateKey)) ) {
+                CourseOfferingSetServiceConstants.RUNNING_RESULT_STATE_KEY.equals(stateKey))) {
             form.setDateCompleted("Rollover in progress");  // DanS doesn't want a date completed if still in progress
         } else {
             form.setDateCompleted(updatedDateStr + status);
@@ -425,7 +423,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 socRolloverResultItemInfos.remove(socRolloverResultItemInfo);
             } else {
                 String courseOfferingId = socRolloverResultItemInfo.getTargetCourseOfferingId();
-                if (courseOfferingId == null || courseOfferingId.isEmpty()){
+                if (courseOfferingId == null || courseOfferingId.isEmpty()) {
                     courseOfferingId = socRolloverResultItemInfo.getSourceCourseOfferingId();
                 }
 
@@ -439,10 +437,10 @@ public class CourseOfferingRolloverController extends UifControllerBase {
 
                 try {
                     StateInfo stateInfo = this._getStateService().getState(socRolloverResultItemInfo.getStateKey(), ContextUtils.getContextInfo());
-                    if (stateInfo != null){
+                    if (stateInfo != null) {
                         socRolloverResultItemWrapper.setStateName((stateInfo.getName() != null) ? stateInfo.getName() : socRolloverResultItemInfo.getStateKey());
                     }
-                } catch (DoesNotExistException ex){
+                } catch (DoesNotExistException ex) {
                     socRolloverResultItemWrapper.setStateName(socRolloverResultItemInfo.getStateKey());
                 }
 
@@ -451,6 +449,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             }
         }
     }
+
     // This method displays rollover result Infos for specific target term.
     @RequestMapping(params = "methodToCall=showRolloverResults")
     public ModelAndView showRolloverResults(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
@@ -487,7 +486,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 SocInfo socInfo = _getSocService().getSoc(socRolloverResultInfo.getSourceSocId(), new ContextInfo());
                 // Put info in the display fields on the left hand side
                 _displayRolloverInfo(socInfo, socRolloverResultInfo, form, helper, stateKey, targetTermId);
-              
+
                 // CourseOfferingSet service to get Soc Rollover ResultItems by socResultItemInfo id
                 try {
                     List<SocRolloverResultItemInfo> socRolloverResultItemInfos =
@@ -501,8 +500,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 } catch (DoesNotExistException dne) {
                     throw new RuntimeException(dne);
                 }
-            } 
-        } 
+            }
+        }
         return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
     }
 
@@ -512,7 +511,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=releaseToDepts")
     public ModelAndView releaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
-                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("releaseToDepts");
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         boolean accept = form.getAcceptIndicator();
@@ -543,14 +542,14 @@ public class CourseOfferingRolloverController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=checkApproval")
     public ModelAndView checkApproval(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
-                                            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("checkApproval " + form.getAcceptIndicator());
         return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=redoRollover")
     public ModelAndView redoRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
-                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("redoRollover ");
         return getUIFModelAndView(form);
     }

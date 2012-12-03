@@ -44,6 +44,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
@@ -53,7 +54,6 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -331,7 +331,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     private String millisToTime(long milliseconds){
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(milliseconds);
-        return new SimpleDateFormat("hh:mm a").format(cal.getTime());
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(cal.getTime());
 
     }
 

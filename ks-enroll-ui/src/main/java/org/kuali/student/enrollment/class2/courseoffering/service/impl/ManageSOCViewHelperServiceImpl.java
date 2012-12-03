@@ -42,7 +42,6 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.date.DateFormatters;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -392,8 +391,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     protected String formatScheduleDate(Date date){
         if (date != null){
-           DateFormat dateFormat = new SimpleDateFormat(ManageSocConstants.SCHEDULE_DATE_FORMAT);
-           return dateFormat.format(date);
+           return DateFormatters.DEFAULT_MONTH_YEAR_TIME_DATE_FORMATTER.format(date);
         }
         return StringUtils.EMPTY;
     }

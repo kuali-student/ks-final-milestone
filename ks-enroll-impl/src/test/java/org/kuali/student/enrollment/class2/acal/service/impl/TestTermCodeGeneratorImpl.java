@@ -18,9 +18,9 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 import org.junit.Test;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.acal.service.TermCodeGenerator;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -39,8 +39,7 @@ public class TestTermCodeGeneratorImpl {
         term.setTypeKey(AtpServiceConstants.ATP_WINTER_TYPE_KEY);
         String termCode =  tcg.generateTermCode(term);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy");
-        String startYear = formatter.format(new Date());
+        String startYear = DateFormatters.DEFULT_YEAR_FORMATTER.format(new Date());
         assertEquals(startYear + "1",termCode);
     }
 }

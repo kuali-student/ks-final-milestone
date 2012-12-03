@@ -4,18 +4,16 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
+import java.util.Date;
+
 /**
- *
  * @author nwright
  */
 public class AcalTestDataLoader {
@@ -43,17 +41,17 @@ public class AcalTestDataLoader {
     }
 
     public TermInfo loadTerm(String id,
-            String name,
-            String description,
-            String type,
-            String startDate,
-            String endDate) {
+                             String name,
+                             String description,
+                             String type,
+                             String startDate,
+                             String endDate) {
 
         TermInfo info = new TermInfo();
         info.setId(id);
         info.setCode(id);// use id for code
         info.setName(name);
-        info.setDescr(new RichTextHelper ().fromPlain(description));
+        info.setDescr(new RichTextHelper().fromPlain(description));
         info.setTypeKey(type);
         info.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         info.setStartDate(str2Date(startDate, id));
@@ -75,11 +73,10 @@ public class AcalTestDataLoader {
         if (str == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
         try {
-            Date date = df.parse(str);
+            Date date = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(str);
             return date;
-        } catch (ParseException ex) {
+        } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("Bad date " + str + " in " + context);
         }
     }
