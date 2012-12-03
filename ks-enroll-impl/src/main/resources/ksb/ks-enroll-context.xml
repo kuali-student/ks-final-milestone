@@ -613,7 +613,7 @@
     <bean id="foToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoAOImpl"/>
 
     <!-- Right now the top level is the validation service so the alias points to it -->
-    <alias name="coServiceImpl" alias="CourseOfferingService" />
+    <alias name="coServiceValidation" alias="CourseOfferingService" />
 
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
