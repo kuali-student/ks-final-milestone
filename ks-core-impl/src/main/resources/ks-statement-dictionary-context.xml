@@ -480,8 +480,7 @@
 						<bean parent="whenConstraint">
 							<property name="values">
 								<list>
-									<value>kuali.reqComponent.field.type.value.positive.integer
-									</value>
+									<value>kuali.reqComponent.field.type.value.positive.integer</value>
 								</list>
 							</property>
 							<property name="constraint">
@@ -625,8 +624,7 @@
 						<bean parent="whenConstraint">
 							<property name="values">
 								<list>
-									<value>kuali.reqComponent.field.type.value.positive.integer
-									</value>
+									<value>kuali.reqComponent.field.type.value.positive.integer</value>
 								</list>
 							</property>
 							<property name="constraint">
@@ -764,7 +762,7 @@
 
 	<bean id="reqCompFieldInfo.value.positive.integer-parent"
 		abstract="true" parent="baseString">
-		<property name="minOccurs" value="1" />
+        <property name="minOccurs" value="1" />
 		<property name="minLength" value="1" />
 		<property name="maxLength" value="6" />
 		<property name="validChars" ref="positive.integer" />
