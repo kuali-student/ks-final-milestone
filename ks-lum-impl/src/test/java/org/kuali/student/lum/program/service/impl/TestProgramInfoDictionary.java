@@ -93,13 +93,13 @@ public class TestProgramInfoDictionary {
         l.setLocaleVariant("en");
         
         message.setLocale(l);
-        message.setKey("validation.programManagingBodiesMatch");
+        message.setMessageKey("validation.programManagingBodiesMatch");
         //message.setId("validation.programManagingBodiesMatch");
         message.setValue("validation.programManagingBodiesMatch");
         //message.setValue("validation.programManagingBodiesMatch");
         
         try {
-			messageServiceMock.addMessage(l,"validation.programManagingBodiesMatch", message, new ContextInfo());
+			messageServiceMock.createMessage(l,message.getGroupName(), message.getMessageKey(), message, new ContextInfo());
 		} catch (DoesNotExistException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
