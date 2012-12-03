@@ -3038,7 +3038,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 return statusInfo;
             }
         } else {
-            throw new OperationFailedException("Either current and next state key are same or the next state key is empty");
+            if(StringUtils.isBlank(nextStateKey)) {
+                throw new OperationFailedException("The next state key is empty");
+            }
+            StatusInfo statusInfo =  new StatusInfo();
+            statusInfo.setSuccess(true);
+            return  statusInfo;
         }
 
     }
