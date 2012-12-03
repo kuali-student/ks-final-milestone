@@ -36,6 +36,8 @@ import org.kuali.student.r2.common.util.constants.MessageServiceConstants;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 
 /**
  * The Message Service allows for the creation and management of
@@ -140,6 +142,8 @@ public interface MessageService {
      * Update message associated with a locale and group.
      *
      * @param localeInfo the locale information
+     * @param messageGroupKey an identifier for the message group to
+     *        which the messages belong
      * @param messageKey the indentifier for the message
      * @param messageInfo the message information to be updated
      * @param contextInfo information containing the principalId and
@@ -157,13 +161,26 @@ public interface MessageService {
      * @throws VersionMismatchException an optimistic locking failure
      *         or the action was attempted on an out of date version
      */
-    public MessageInfo updateMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public MessageInfo updateMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, 
+            @WebParam(name = "messageGroupKey") String messageGroupKey,
+            @WebParam(name = "messageKey") String messageKey, 
+            @WebParam(name = "messageInfo") MessageInfo messageInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException, 
+            ReadOnlyException, 
+            VersionMismatchException;
 
     /**
      * Deletes the message associated with a locale and group for a
      * message key
      *
      * @param localeInfo the locale information
+     * @param messageGroupKey an identifier for the message group to
+     *        which the messages belong
      * @param messageKey an identifier for the Message to be deleted
      * @param contextInfo information containing the principalId and
      *        information about the caller of service operation
@@ -176,17 +193,28 @@ public interface MessageService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, 
+            @WebParam(name = "messageGroupKey") String messageGroupKey,
+            @WebParam(name = "messageKey") String messageKey, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            PermissionDeniedException;
 
     /**
-     * Adds a message to the locale and group.
+     * Create a new message for a locale and group.
      *
      * @param localeInfo the locale information
      * @param messageGroupKey an identifier for the message group
+     * @param messageKey an identifier for the message within the group
      * @param messageInfo the message information to be added
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the status of the operation. This must always be true.
+     * @throws DataValidationErrorException One or more values invalid for this
+     *             operation
      * @throws DoesNotExistException messageGroupKey is not found
      * @throws InvalidParameterException localeInfo or contetInfo is
      *         not valid
@@ -195,5 +223,49 @@ public interface MessageService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo addMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo createMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo,             
+            @WebParam(name = "messageGroupKey") String messageGroupKey,             
+            @WebParam(name = "messageKey") String messageKey, 
+            @WebParam(name = "messageInfo") MessageInfo messageInfo, 
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException, 
+            DataValidationErrorException,
+            PermissionDeniedException;
+    
+    
+    /**
+     * Validates a message.
+     * 
+     * Depending on the value of validationType, this
+     * validation could be limited to tests on just the current object and its
+     * directly contained subobjects or expanded to perform all tests related to
+     * this object. If an identifier is present for the message and a record is
+     * found for that identifier, the validation checks if the message can be
+     * shifted to the new values. If a record cannot be found for the
+     * identifier, it is assumed that the record does not exist and as such, the
+     * checks performed will be much shallower, typically mimicking those
+     * performed by setting the validationType to the current object. This is a
+     * slightly different pattern from the standard validation as the caller
+     * provides the identifier in the create statement instead of the server
+     * assigning an identifier.
+     * 
+     * @param validationTypeKey Identifier of the extent of validation
+     * @param messageInfo The message information to be tested.
+     * @return Results from performing the validation
+     * @throws DoesNotExistException validationTypeKey not found
+     * @throws InvalidParameterException invalid validationTypeKey, messageInfo
+     * @throws MissingParameterException missing validationTypeKey, messageInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateProposal(@WebParam(name = "validationTypeKey") String validationTypeKey,
+            @WebParam(name = "messageInfo") MessageInfo messageInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws DoesNotExistException, 
+            InvalidParameterException, 
+            MissingParameterException, 
+            OperationFailedException;
+
 }

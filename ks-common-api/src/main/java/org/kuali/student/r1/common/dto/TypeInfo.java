@@ -30,6 +30,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
+@Deprecated
 public abstract class TypeInfo implements Serializable, Idable, HasAttributes {
 	
 	@XmlAttribute(name="key")
