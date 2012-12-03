@@ -1194,6 +1194,7 @@
     <bean id="roomServiceImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceImpl">
         <property name="buildingServiceDao" ref="buildingServiceDao" />
         <property name="roomServiceDao" ref="roomServiceDao" />
+        <property name="roomResponsibleOrgDao" ref="roomResponsibleOrgDao" />
     </bean>
 
     <bean id="ks.exp.roomService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
