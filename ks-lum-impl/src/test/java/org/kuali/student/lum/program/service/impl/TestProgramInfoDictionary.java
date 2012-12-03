@@ -1,7 +1,6 @@
 package org.kuali.student.lum.program.service.impl;
 
 import org.junit.Test;
-import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.core.messages.service.impl.MessageServiceMock;
 import org.kuali.student.lum.course.service.impl.MockSearchDispatcher;
@@ -18,7 +17,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.infc.Locale;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.common.validator.Validator;
@@ -34,6 +32,7 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 
 public class TestProgramInfoDictionary {
 
@@ -76,7 +75,7 @@ public class TestProgramInfoDictionary {
 
     @Test
     public void testMajorDisciplineInfoValidation() throws
-            OperationFailedException {
+            OperationFailedException, DataValidationErrorException {
         System.out.println("h1. Validation results");
         ApplicationContext ac = new ClassPathXmlApplicationContext(
                 "classpath:ks-programInfo-dictionary-context.xml");
