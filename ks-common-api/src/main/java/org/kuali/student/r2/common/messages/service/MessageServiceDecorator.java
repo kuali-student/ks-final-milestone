@@ -67,8 +67,8 @@ public class MessageServiceDecorator implements MessageService {
     }
 
     @Override
-    public List<MessageInfo> getMessages(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getMessages(localeInfo, messageGroupKey, contextInfo);
+    public List<MessageInfo> getMessagesByGroup(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getMessagesByGroup(localeInfo, messageGroupKey, contextInfo);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class MessageServiceDecorator implements MessageService {
     }
 
     @Override
-    public MessageInfo updateMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public MessageInfo updateMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return getNextDecorator().updateMessage(localeInfo, messageGroupKey, messageKey, messageInfo, contextInfo);
     }
 
