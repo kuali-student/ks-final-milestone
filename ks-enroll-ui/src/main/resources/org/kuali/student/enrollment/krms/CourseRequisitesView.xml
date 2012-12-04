@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="CourseRequisites-ManageView" parent="KSFormView">
+        <property name="id" value="manageCourseRequisitesView"/>
+        <property name="headerText" value="Manage Course Requisites"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.CourseRequisitesForm" />
+        <property name="singlePageView" value="true"/>
+        <property name="page">
+            <bean parent="Uif-Page"/>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="Requisites-ManageSection" />
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="Requisites-ManageSection" parent="Uif-VerticalBoxSection">
+        <!--<property name="disclosure.render" value="false"/>-->
+        <!--<property name="style" value="margin-bottom:0;"/>-->
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-MessageField" p:messageText="@{courseName}" />
+
+                <bean parent="Uif-InputField-LabelTop" p:label="Select Agenda" p:propertyName="agendaType">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RequisiteAgendaTypeKeyValues"/>
+                    </property>
+                </bean>
+
+                <bean id="Enrollment-Eligibility-TabSection" parent="Uif-TabSection" p:progressiveRender="@{agendaType eq '1'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Student-Eligibility-Section" />
+                            <bean parent="Prerequisites-Section" />
+                            <bean parent="Corequisite-Section" />
+                            <bean parent="Antirequisite-Section" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="Credit-Constraints-TabSection" parent="Uif-TabSection" p:progressiveRender="@{agendaType eq '2'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Repeatable-for-Credit-Section" />
+                            <bean parent="Course-that-Restricts-Credits-Section" />
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="Student-Eligibility-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Student Eligibility" p:header.render="false">
+        <property name="items">
+            <list>
+                <!--<ref bean="KS-KitchenSink-Select-Example1"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Prerequisites-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Prerequisites" p:header.render="false">
+        <property name="items">
+            <list>
+                <!--<ref bean="KS-KitchenSink-Select-Example1"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Corequisite-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Corequisite" p:header.render="false">
+        <property name="items">
+            <list>
+                <!--<ref bean="KS-KitchenSink-Select-Example1"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Antirequisite-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Antirequisite" p:header.render="false">
+        <property name="items">
+            <list>
+                <!--<ref bean="KS-KitchenSink-Select-Example1"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="Repeatable-for-Credit-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Repeatable for Credits" p:header.render="false">
+        <property name="items">
+            <list>
+                <!--<ref bean="KS-KitchenSink-Select-Example1"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Course-that-Restricts-Credits-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Course that Restricts Credits" p:header.render="false">
+        <property name="items">
+            <list>
+                <!--<ref bean="KS-KitchenSink-Select-Example1"/>-->
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-KitchenSink-Select-Example1" parent="Uif-InputField-LabelTop">
+        <property name="propertyName" value="dropdownSelection"/>
+        <property name="label" value="Dropdown Select Label"/>
+        <property name="width" value="auto"/>
+        <!--
+        <property name="labelPlacement" value="RIGHT"/>
+        <property name="instructionalText" value="Additional instruction can go here."/>
+        <property name="helpSummary" value="Additional help or information for this field can go here."/>
+        <property name="constraintText" value="Constraint instruction can go here."/>
+        -->
+        <property name="control">
+            <bean parent="Uif-DropdownControl"
+                  p:options-ref="KS-KitchenSink-Select-Example1-Options"/>
+        </property>
+    </bean>
+
+</beans>

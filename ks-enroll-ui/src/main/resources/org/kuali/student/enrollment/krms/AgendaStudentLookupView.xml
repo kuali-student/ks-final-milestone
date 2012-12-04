@@ -22,7 +22,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="AgendaBo-LookupView" parent="Uif-LookupView">
+  <!--<bean id="AgendaBo-LookupView" parent="Uif-LookupView">
     <property name="headerText" value="Agenda Lookup" />
     <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.AgendaBo" />
     <property name="viewHelperServiceClass" value="org.kuali.rice.krms.impl.repository.AgendaLookupableHelperServiceImpl" />
@@ -72,7 +72,7 @@
     </property>
     <property name="singlePageView" value="false"/>
     <property name="entryPageId" value="AgendaEditorView-Agenda-Page"/>
-  </bean>
+  </bean>-->
 
   <bean id="AgendaBo-Student-LookupView" parent="Uif-LookupView">
     <property name="title" value="Agenda Lookup"/>
@@ -83,25 +83,25 @@
     <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.AgendaBo"/>
     <property name="viewHelperServiceClass" value="org.kuali.student.krms.service.impl.AgendaStudentLookupableHelperServiceImpl"/>
     <property name="criteriaFields">
-          <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeId"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="contextId"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
-            </list>
-        </property>
-        <property name="resultFields">
+        <list>
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id"/>
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeId"/>
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="contextId"/>
+            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+        </list>
+    </property>
+    <property name="resultFields">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="id">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:viewName="StudentInquiryView"/>
                     </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="name"/>
-        <bean parent="Uif-InputField" p:propertyName="typeId"/>
-        <bean parent="Uif-InputField" p:propertyName="contextId"/>
-      </list>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="name"/>
+                <bean parent="Uif-InputField" p:propertyName="typeId"/>
+                <bean parent="Uif-InputField" p:propertyName="contextId"/>
+            </list>
     </property>
   </bean>
 
