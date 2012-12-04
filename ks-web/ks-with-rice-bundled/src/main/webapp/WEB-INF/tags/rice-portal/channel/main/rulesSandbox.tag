@@ -25,6 +25,7 @@
         <li><portal:portalLink displayTitle="true" title="Proposition Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.rice.krms.impl.repository.PropositionBo&showMaintenanceLinks=true&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
         <li><portal:portalLink displayTitle="true" title="Proposition Edit" url="${ConfigProperties.application.url}/kr-krad/krmsProposition?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.rice.krms.impl.repository.PropositionBo&id=10186"/></li>
         <li><portal:portalLink displayTitle="true" title="Rule Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&viewName=StudentRuleLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+        <li><portal:portalLink displayTitle="true" title="Manage Course Requisites" url="${ConfigProperties.application.url}/kr-krad/courseRequisitesController?viewId=manageCourseRequisitesView&methodToCall=start&cluId=REFERENCECOURSEMATH140"/></li>
     </ul>
 </div>
 <channel:portalChannelBottom />
