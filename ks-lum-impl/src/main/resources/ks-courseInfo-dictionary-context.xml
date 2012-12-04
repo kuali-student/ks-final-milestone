@@ -2186,7 +2186,6 @@
 	parent="baseString">
 	<property name="minOccurs" value="1" />
     <property name="maxOccurs" value="unbounded" />
-    <property name="validChars" ref="numeric"/>
  </bean>
  <bean id="resultValuesGroupInfo.credit.multiple-constraint" parent="resultValuesGroupInfo.credit.multiple-constraint-parent" />
  
