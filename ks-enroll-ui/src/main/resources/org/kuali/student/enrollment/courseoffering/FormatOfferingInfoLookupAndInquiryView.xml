@@ -22,15 +22,39 @@
     <!--<import resource="classpath:ks-FormatOfferingInfo-dictionary.xml"/>-->
     <!--<import resource="classpath:UifKSDefinitions.xml"/>-->
 
+
     <!-- LookupView -->
-    <bean id="KS-FormatOfferingInfo-LookupView" parent="KSLookupView"
-        p:headerText="Format Offering Info Lookup"
-        p:dataObjectClassName="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo">
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl"/>
+    <bean id="KS-FormatOfferingInfo-LookupView" parent="KSLookupView">
+        <property name="headerText" value="Format Offering Info Lookup " />
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl" />
 
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseOfferingId"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="id" />
+                <bean parent="Uif-DataField" p:propertyName="name" />
+                <bean parent="Uif-DataField" p:propertyName="formatId" />
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingId" />
+                <bean parent="Uif-DataField" p:propertyName="termId" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- LookupView By Type -->
+    <bean id="KS-FormatOfferingInfoByType-LookupView" parent="KSLookupView">
+        <property name="headerText" value="Format Offering Info Lookup by Type" />
+        <property name="viewName" value="KS-FormatOfferingInfoByType-LookupView"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl"/>
+
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
             </list>
         </property>
         <property name="resultFields">
