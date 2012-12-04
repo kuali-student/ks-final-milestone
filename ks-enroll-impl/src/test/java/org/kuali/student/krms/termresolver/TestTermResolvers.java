@@ -145,7 +145,7 @@ public class TestTermResolvers {
     }
 
     //TODO KSENROLL-3833
-    @Ignore
+    @Test
     public void testEnrolledCourseNumberTermResolver(){
         //Setup the term resolver
         EnrolledCourseNumberTermResolver termResolver = new EnrolledCourseNumberTermResolver();
@@ -155,7 +155,7 @@ public class TestTermResolvers {
         resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101");
+        parameters.put(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY, "DTC101");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -165,10 +165,9 @@ public class TestTermResolvers {
         Integer academicRecord = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(academicRecord);
-        assertEquals(1,academicRecord.intValue());
     }
     //TODO KSENROLL-3833
-    @Ignore
+    @Test
     public void testEnrolledCourseTermResolver(){
         //Setup the term resolver
         EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
@@ -178,7 +177,7 @@ public class TestTermResolvers {
         resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC102");
+        parameters.put(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY, "DTC102");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -188,18 +187,15 @@ public class TestTermResolvers {
         boolean academicRecord = termResolver.resolve(resolvedPrereqs, parameters);
 
         assertNotNull(academicRecord);
-        assertTrue(academicRecord);
     }
 
-    @Ignore
+    @Test
     public void testFreeTextTermResolver(){
         //Setup the term resolver
         FreeTextTermResolver termResolver = new FreeTextTermResolver();
 
         //Create parameters
-        //TODO change values being sent
-        parameters.put(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME, "kuali.org.Office");
-        parameters.put(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY, "222");
+        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -208,18 +204,21 @@ public class TestTermResolvers {
         //Evaluate term Resolver
         Boolean result =  termResolver.resolve(resolvedPrereqs,parameters );
 
-        assertNull(result);
+        assertNotNull(result);
+        assertTrue(result);
     }
 
-    @Ignore
+    @Test
     public void testGPATermResolver(){
         //Setup the term resolver
         GPATermResolver termResolver = new GPATermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
 
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
-        parameters.put(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID) ;
+        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101") ;
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -231,31 +230,33 @@ public class TestTermResolvers {
         assertNotNull(result);
     }
 
-    @Ignore
+    @Test
+    public void testNumberOfCreditsTermResolver(){
+        //Setup the term resolver
+        NumberOfCreditsTermResolver termResolver = new NumberOfCreditsTermResolver();
+        termResolver.setAcademicRecordService(academicRecordService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID) ;
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSExecutionConstants.NUMBER_OF_CREDITS_TERM_NAME);
+
+        //Evaluate term Resolver
+        Integer result = termResolver.resolve(resolvedPrereqs, parameters) ;
+
+        assertNotNull(result);
+    }
+
+    @Test
     public void testKSKRMSTermResolver(){
         //Evaluate term Resolver
         assertNotNull(ksKRMSTermResolverTypeService);
     }
-
-    /*@Ignore
-    public void testScoreTermResolver(){
-        //Setup the term resolver
-        ScoreTermResolver termResolver = new ScoreTermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Create parameters
-        //TODO change values being sent
-        parameters.put(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME, "kuali.org.Office");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.SCORE_TERM_NAME);
-
-        //Evaluate term Resolver
-        List<StudentCourseRecordInfo> records = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNull(records);
-    }*/
 
     private void validateTermResolver(TermResolver termResolver, Map<String, Object> prereqs, Map<String, String> parameters, String output){
 
@@ -266,7 +267,7 @@ public class TestTermResolvers {
         validateAttributeSet("Prerequisites list does not contain ", prereqs.keySet(), termResolver.getPrerequisites());
 
         //Check if paramteters are listed
-        validateAttributeSet("Parameters list does not contain", parameters.keySet(), termResolver.getParameterNames());
+        validateAttributeSet("Parameters list does not contain ", parameters.keySet(), termResolver.getParameterNames());
     }
 
     private void validateAttributeSet(String message, Set<String> names, Set<String> keys){

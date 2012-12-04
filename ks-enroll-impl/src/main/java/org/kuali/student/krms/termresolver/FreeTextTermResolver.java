@@ -40,7 +40,7 @@ import java.util.Set;
 
 public class FreeTextTermResolver implements TermResolver<Boolean> {
 
-    private final static Set<String> prerequisites = new HashSet<String>(2);
+    private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
         prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
@@ -58,7 +58,7 @@ public class FreeTextTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Set<String> getParameterNames() {
-        return null;
+        return Collections.singleton(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -69,6 +69,9 @@ public class FreeTextTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+
         return true;
     }
 }
