@@ -648,8 +648,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             RegistrationGroupInfo rg = _gRGFC_makeRegGroup(regGroupCode, activityOfferingPermutation, fo, cluster.getId());
 
             try {
-                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(),
-                        LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
+                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
                 // Now determine if this registration group is in a valid state
                 List<ValidationResultInfo> validations =
                     coService.validateRegistrationGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),

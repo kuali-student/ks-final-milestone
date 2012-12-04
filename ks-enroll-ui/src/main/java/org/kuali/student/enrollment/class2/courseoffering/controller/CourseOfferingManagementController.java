@@ -94,7 +94,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             checkViewAuthorization(theForm, methodToCall);
 
         }
-        
+
         // check if the view is invoked within portal or not
         inputValue = request.getParameter("withinPortal");
         if ((inputValue != null) && !inputValue.isEmpty()){

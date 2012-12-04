@@ -1032,7 +1032,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
                 DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formateOfferingId, aoCluster, ContextUtils.createDefaultContextInfo());
 
-        if (validationResultInfoList.get(0).isError())  {
+        if (validationResultInfoList.get(0).isWarn())  {
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
             GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
         }

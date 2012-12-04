@@ -2348,6 +2348,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
 
         try {
+            //retrieve the list of aoSetInfos associated with the given AOC
             List<ActivityOfferingSetInfo> aoSetInfos = new ArrayList<ActivityOfferingSetInfo>();
             if (activityOfferingClusterInfo.getId() != null) {
                 ActivityOfferingClusterInfo aoCInfo = getActivityOfferingCluster(activityOfferingClusterInfo.getId(), contextInfo);
@@ -2357,9 +2358,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             }
 
             Integer aoSetMaxEnrollNumber = 0;
+
+            //Map aoSet id to the max enrollment number of that aoSet
             Map<String, Integer> aoSetMaxEnrollNumberMap = new HashMap<String, Integer>(aoSetInfos.size());
 
+            //To check if the max enrollment number of each aoSet of the given AOC is equal
             for (ActivityOfferingSetInfo aoSetInfo : aoSetInfos ){
+                //Store the max enrollment number of an aoSet into variable aoSetMaxEnrollNumber
                 for (String aoId : aoSetInfo.getActivityOfferingIds()) {
                     ActivityOfferingInfo aoInfo = getActivityOffering(aoId, contextInfo);
                     if (aoInfo != null &&  aoInfo.getMaximumEnrollment() != null) {
@@ -2367,11 +2372,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     }
                 }
 
+                //To check if the max enrollment number of the current aoSet is not equal with the one of any aoSet that has been in the map.
+                //If the inequality exists, the validation fails. Set the error level to WARN and return the validationResultInfos
                 if (!aoSetMaxEnrollNumberMap.isEmpty()) {
                     for (Integer tempAoSetMaxEnrollNumber : aoSetMaxEnrollNumberMap.values()) {
                         if (aoSetMaxEnrollNumber.compareTo(tempAoSetMaxEnrollNumber) != 0) {
                             //validationResultInfo.setError("");
-                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
                             validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
                             validationResultInfos.add(validationResultInfo);
 
@@ -2388,6 +2395,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new OperationFailedException("unexpected", ex);
         }
 
+        //The max enrollment numbers of all the aoSets in the given AOC are the same. The validation passes.
         validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
         validationResultInfo.setMessage("Sum of enrollment for each AO type is equal");
         validationResultInfos.add(validationResultInfo);

@@ -174,7 +174,7 @@ public class CourseOfferingServiceValidationDecorator
     public ActivityOfferingInfo createActivityOffering(String formatOfferingId, String activityId, String activityOfferingTypeKey, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // create 
+        // create
         try {
             List<ValidationResultInfo> errors =
                     this.validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
