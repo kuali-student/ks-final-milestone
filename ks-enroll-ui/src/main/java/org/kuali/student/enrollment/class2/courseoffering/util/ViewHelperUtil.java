@@ -192,9 +192,9 @@ public class ViewHelperUtil {
         return coWrapper;
     }
 
-    /*public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingInfo coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+    public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingInfo coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
        updateCourseOfferingStateFromActivityOfferingStateChange(convertCourseOffering2ListSectionWrapper(coInfo),context);
-    }*/
+    }
 
     /**
      * Evaluates whether to update the state of a Course Offering (and possibly its Format Offerings) based on
@@ -204,7 +204,7 @@ public class ViewHelperUtil {
      * Activity Offerings is changed.
      *
      */
-    /*public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingListSectionWrapper coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
+    public static void updateCourseOfferingStateFromActivityOfferingStateChange(CourseOfferingListSectionWrapper coInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
 
         CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
 
@@ -224,12 +224,12 @@ public class ViewHelperUtil {
             }
         }
 
-        String oldCoState = coInfo.getCourseOfferingStateKey();
+        /*String oldCoState = coInfo.getCourseOfferingStateKey();
         String newCoState = getNewCoState(formatOfferings);
         if (newCoState != null && !StringUtils.equals(oldCoState, newCoState)) {
             coService.updateCourseOfferingState(coInfo.getCourseOfferingId(), newCoState, context);
-        }
-    }*/
+        }*/
+    }
 
     // if all of the AO states are Draft or Approved, the FO that owns the AO's cannot be Offered.  
     // If no FO is Offered, then the CO which owns the FO's cannot be Offered.  

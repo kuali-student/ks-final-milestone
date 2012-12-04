@@ -67,7 +67,7 @@ insert into KSEN_STATE_CHG_PROPAGT(STATE_CHG_ID, STATE_PROPAGT_ID)values('kuali.
 -- COs
 INSERT INTO KSEN_STATE_CNSTRNT (ID,OBJ_ID,STATE_CNSTRNT_TYPE,STATE_CNSTRNT_STATE,STATE_CNSTRNT_OPERATOR,AGENDA_ID,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.stateconstraint.courseoffering.draft.planned',null,'kuali.state.constraint.type.precondition','kuali.state.constraint.state.active','EXISTS',null,1,TIMESTAMP '1970-01-01 00:00:00','SYSTEMLOADER',TIMESTAMP '1970-01-01 00:00:00','SYSTEMLOADER')
 /
-INSERT INTO KSEN_STATE_CNSTRNT (ID,OBJ_ID,STATE_CNSTRNT_TYPE,STATE_CNSTRNT_STATE,STATE_CNSTRNT_OPERATOR,AGENDA_ID,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.stateconstraint.courseoffering.planned.draft',null,'kuali.state.constraint.type.precondition','kuali.state.constraint.state.active','EXISTS',null,1,TIMESTAMP '1970-01-01 00:00:00','SYSTEMLOADER',TIMESTAMP '1970-01-01 00:00:00','SYSTEMLOADER')
+INSERT INTO KSEN_STATE_CNSTRNT (ID,OBJ_ID,STATE_CNSTRNT_TYPE,STATE_CNSTRNT_STATE,STATE_CNSTRNT_OPERATOR,AGENDA_ID,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.stateconstraint.courseoffering.planned.draft',null,'kuali.state.constraint.type.precondition','kuali.state.constraint.state.active','NONE',null,1,TIMESTAMP '1970-01-01 00:00:00','SYSTEMLOADER',TIMESTAMP '1970-01-01 00:00:00','SYSTEMLOADER')
 /
 INSERT INTO KSEN_STATE_CNSTRNT (ID,OBJ_ID,STATE_CNSTRNT_TYPE,STATE_CNSTRNT_STATE,STATE_CNSTRNT_OPERATOR,AGENDA_ID,VER_NBR,CREATETIME,CREATEID,UPDATETIME,UPDATEID) VALUES ('kuali.stateconstraint.courseoffering.planned.offered',null,'kuali.state.constraint.type.precondition','kuali.state.constraint.state.active','EXISTS',null,1,TIMESTAMP '1970-01-01 00:00:00','SYSTEMLOADER',TIMESTAMP '1970-01-01 00:00:00','SYSTEMLOADER')
 /
@@ -77,7 +77,7 @@ insert into KSEN_STATE_CNSTRNT (ID, OBJ_ID, STATE_CNSTRNT_TYPE, STATE_CNSTRNT_ST
 /
 insert into KSEN_STATE_CNSTRNT (ID, OBJ_ID, STATE_CNSTRNT_TYPE, STATE_CNSTRNT_STATE, STATE_CNSTRNT_OPERATOR, AGENDA_ID, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.stateconstraint.formatoffering.planned.draft', null, 'kuali.state.constraint.type.precondition', 'kuali.state.constraint.state.active', 'NONE', null, 1, to_date('2012-11-26', 'YYYY-MM-DD'), 'SYSTEMLOADER', to_date('2012-11-26', 'YYYY-MM-DD'), 'SYSTEMLOADER')
 /
-insert into KSEN_STATE_CNSTRNT (ID, OBJ_ID, STATE_CNSTRNT_TYPE, STATE_CNSTRNT_STATE, STATE_CNSTRNT_OPERATOR, AGENDA_ID, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.stateconstraint.formatoffering.planned.offered', null, 'kuali.state.constraint.type.precondition', 'kuali.state.constraint.state.active', 'NONE', null, 1, to_date('2012-11-26', 'YYYY-MM-DD'), 'SYSTEMLOADER', to_date('2012-11-26', 'YYYY-MM-DD'), 'SYSTEMLOADER')
+insert into KSEN_STATE_CNSTRNT (ID, OBJ_ID, STATE_CNSTRNT_TYPE, STATE_CNSTRNT_STATE, STATE_CNSTRNT_OPERATOR, AGENDA_ID, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.stateconstraint.formatoffering.planned.offered', null, 'kuali.state.constraint.type.precondition', 'kuali.state.constraint.state.active', 'EXISTS', null, 1, to_date('2012-11-26', 'YYYY-MM-DD'), 'SYSTEMLOADER', to_date('2012-11-26', 'YYYY-MM-DD'), 'SYSTEMLOADER')
 /
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -86,18 +86,18 @@ insert into KSEN_STATE_CNSTRNT (ID, OBJ_ID, STATE_CNSTRNT_TYPE, STATE_CNSTRNT_ST
 -- COs
 INSERT INTO KSEN_STATE_CNSTRNT_ROS (STATE_CNSTRNT_ID,REL_OBJ_STATE_ID) VALUES ('kuali.stateconstraint.courseoffering.draft.planned','kuali.lui.format.offering.state.planned')
 /
-INSERT INTO KSEN_STATE_CNSTRNT_ROS (STATE_CNSTRNT_ID,REL_OBJ_STATE_ID) VALUES ('kuali.stateconstraint.courseoffering.planned.draft','kuali.lui.format.offering.state.draft')
+INSERT INTO KSEN_STATE_CNSTRNT_ROS (STATE_CNSTRNT_ID,REL_OBJ_STATE_ID) VALUES ('kuali.stateconstraint.courseoffering.planned.draft','kuali.lui.format.offering.state.planned')
 /
 INSERT INTO KSEN_STATE_CNSTRNT_ROS (STATE_CNSTRNT_ID,REL_OBJ_STATE_ID) VALUES ('kuali.stateconstraint.courseoffering.planned.offered','kuali.lui.format.offering.state.offered')
 /
 
 
 --FOs
-insert into KSEN_STATE_CNSTRNT_ROS(STATE_CNSTRNT_ID, REL_OBJ_STATE_ID)  values ('kuali.stateconstraint.formatoffering.draft.planned', 'kuali.lui.activity.offering.state.draft')
+insert into KSEN_STATE_CNSTRNT_ROS(STATE_CNSTRNT_ID, REL_OBJ_STATE_ID)  values ('kuali.stateconstraint.formatoffering.draft.planned', 'kuali.lui.activity.offering.state.approved')
 /
 insert into KSEN_STATE_CNSTRNT_ROS(STATE_CNSTRNT_ID, REL_OBJ_STATE_ID)  values ('kuali.stateconstraint.formatoffering.planned.draft', 'kuali.lui.activity.offering.state.approved')
 /
-insert into KSEN_STATE_CNSTRNT_ROS(STATE_CNSTRNT_ID, REL_OBJ_STATE_ID)  values ('kuali.stateconstraint.formatoffering.planned.offered', 'kuali.lui.activity.offering.state.approved')
+insert into KSEN_STATE_CNSTRNT_ROS(STATE_CNSTRNT_ID, REL_OBJ_STATE_ID)  values ('kuali.stateconstraint.formatoffering.planned.offered', 'kuali.lui.activity.offering.state.offered')
 /
 
 
