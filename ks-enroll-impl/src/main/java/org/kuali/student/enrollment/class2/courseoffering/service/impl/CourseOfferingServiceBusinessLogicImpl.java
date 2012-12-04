@@ -549,7 +549,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 coService.verifyActivityOfferingClusterForGeneration(activityOfferingClusterId, contextInfo);
         List<ValidationResultInfo> resultInfos = result.getValidationResults();
         for (ValidationResultInfo vri: resultInfos) {
-            if (vri.isError()) {
+            if (vri.isWarn()) {
                 throw new DataValidationErrorException("One or more AOsets in the cluster is empty--can't generate reg groups");
             }
         }
@@ -654,7 +654,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     coService.validateRegistrationGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
                             rgInfo.getActivityOfferingClusterId(), rgInfo.getTypeKey(), rgInfo, contextInfo);
                 for (ValidationResultInfo validation: validations) {
-                    if (validation.isError()) {
+                    if (validation.isWarn()) {
                         // If any validation is an error, then make this invalid
                         coService.updateRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, contextInfo);
                         break;

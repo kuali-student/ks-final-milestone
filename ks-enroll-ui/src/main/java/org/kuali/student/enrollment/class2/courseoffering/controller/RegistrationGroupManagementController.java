@@ -426,7 +426,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         ActivityOfferingClusterWrapper selectedClusterWrapper = (ActivityOfferingClusterWrapper)_getSelectedObject(theForm, "Generate Registration Groups");
         String selectedClusterId = selectedClusterWrapper.getAoCluster().getId();
         AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = getCourseOfferingService().verifyActivityOfferingClusterForGeneration(selectedClusterId,ContextUtils.createDefaultContextInfo());
-        if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isError())  {
+        if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isWarn())  {
             getCourseOfferingService().generateRegistrationGroupsForCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
             List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
             if (rgInfos.size() > 0) {
@@ -483,7 +483,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
             AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = getCourseOfferingService().verifyActivityOfferingClusterForGeneration(selectedClusterId,ContextUtils.createDefaultContextInfo());
             List<RegistrationGroupInfo> rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
             //only generate for valid AOCs without RGs or partial RGs
-            if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isError() && !theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups())  {
+            if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isWarn() && !theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups())  {
                 getCourseOfferingService().generateRegistrationGroupsForCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
                 rgInfos = getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
                 if (rgInfos.size() > 0 ) {
@@ -532,7 +532,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
 
         AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = getCourseOfferingService().
                 verifyActivityOfferingClusterForGeneration(defaultCluster.getId(),ContextUtils.createDefaultContextInfo());
-        if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isError())  {
+        if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isWarn())  {
             //now create RGs for the default cluster
             getCourseOfferingService().generateRegistrationGroupsForCluster(defaultCluster.getId(), ContextUtils.createDefaultContextInfo());
 
@@ -1048,7 +1048,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
                 List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateRegistrationGroup(
                         DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), aoCluster.getId(), registrationGroupInfo.getTypeKey(), registrationGroupInfo, ContextUtils.createDefaultContextInfo());
 
-                if (validationResultInfoList.get(0).isError())  {
+                if (validationResultInfoList.get(0).isWarn())  {
                     getCourseOfferingService().updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,ContextUtils.createDefaultContextInfo());
                     rgIndexList.add(rgIndex);
                 }

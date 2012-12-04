@@ -2051,7 +2051,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         if (_checkTimeSlotsOverlap(timeSlotIdsFirst, timeSlotIdsSecond, context)) {
             ValidationResultInfo validationResultInfo = new ValidationResultInfo();
-            validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+            validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
             validationResultInfo.setMessage("time conflict between AO: " + aoIdFirst + " and AO: " + aoIdSecond);
             validationResultInfos.add(validationResultInfo);
             return validationResultInfos;
@@ -2346,6 +2346,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+        int aoSetMaxEnrollNumber = 0;
+        int currentAoSetMaxEnrollNumber = 0;
+        int listIndex = 0;
 
         try {
             //retrieve the list of aoSetInfos associated with the given AOC
@@ -2357,14 +2360,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 aoSetInfos = activityOfferingClusterInfo.getActivityOfferingSets();
             }
 
-            Integer aoSetMaxEnrollNumber = 0;
-
-            //Map aoSet id to the max enrollment number of that aoSet
-            Map<String, Integer> aoSetMaxEnrollNumberMap = new HashMap<String, Integer>(aoSetInfos.size());
 
             //To check if the max enrollment number of each aoSet of the given AOC is equal
+
             for (ActivityOfferingSetInfo aoSetInfo : aoSetInfos ){
-                //Store the max enrollment number of an aoSet into variable aoSetMaxEnrollNumber
+                //Store the max enrollment number of the currently iterated aoSet into variable aoSetMaxEnrollNumber
                 for (String aoId : aoSetInfo.getActivityOfferingIds()) {
                     ActivityOfferingInfo aoInfo = getActivityOffering(aoId, contextInfo);
                     if (aoInfo != null &&  aoInfo.getMaximumEnrollment() != null) {
@@ -2372,24 +2372,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     }
                 }
 
-                //To check if the max enrollment number of the current aoSet is not equal with the one of any aoSet that has been in the map.
-                //If the inequality exists, the validation fails. Set the error level to WARN and return the validationResultInfos
-                if (!aoSetMaxEnrollNumberMap.isEmpty()) {
-                    for (Integer tempAoSetMaxEnrollNumber : aoSetMaxEnrollNumberMap.values()) {
-                        if (aoSetMaxEnrollNumber.compareTo(tempAoSetMaxEnrollNumber) != 0) {
-                            //validationResultInfo.setError("");
-                            validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
-                            validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
-                            validationResultInfos.add(validationResultInfo);
+                //check if the max enrollment number of the currently iterated aoSet equals stored currentAoSetMaxEnrollNumber
+                //If no equal, valication fails and return validationResultInfos
+                if (listIndex == 0) {
+                    currentAoSetMaxEnrollNumber = aoSetMaxEnrollNumber;
+                } else {
+                    if (aoSetMaxEnrollNumber != currentAoSetMaxEnrollNumber) {
+                        validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
+                        validationResultInfo.setMessage("Sum of enrollment for each AO type is not equal");
+                        validationResultInfos.add(validationResultInfo);
 
-                            return validationResultInfos;
-
-                        }
+                        return validationResultInfos;
                     }
                 }
-
-                aoSetMaxEnrollNumberMap.put(aoSetInfo.getId(), aoSetMaxEnrollNumber);
                 aoSetMaxEnrollNumber = 0;
+                listIndex++;
             }
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
@@ -2418,7 +2415,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 List<String> aoIdList = aoSetInfo.getActivityOfferingIds();
                 if (aoIdList == null || aoIdList.isEmpty()) {
                     //invalidValidationInfo.setError("");
-                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
+                    validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
                     validationResultInfo.setMessage("AO type: " + aoSetInfo.getActivityOfferingType() + " doesn't have AOs attached to it");
                     validationResultInfos.add(validationResultInfo);
                     aoClusterVerifyResultsInfo.setValidationResults(validationResultInfos);
