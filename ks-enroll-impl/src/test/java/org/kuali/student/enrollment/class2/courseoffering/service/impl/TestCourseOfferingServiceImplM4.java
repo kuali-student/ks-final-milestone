@@ -7,6 +7,7 @@ import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
+import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -33,7 +34,6 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -84,15 +84,18 @@ public class TestCourseOfferingServiceImplM4 {
 
     @Resource
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
-    @Resource
-    private AtpTestDataLoader atpTestDataLoader = new AtpTestDataLoader(atpService);
+
+    private AcalTestDataLoader acalTestDataLoader;
 
     private void before() {
-        contextInfo = ContextUtils.createDefaultContextInfo();
-        contextInfo.setPrincipalId("admin");
-        contextInfo.setAuthenticatedPrincipalId("admin");
+        if(contextInfo == null) {
+            contextInfo = ContextUtils.createDefaultContextInfo();
+            contextInfo.setPrincipalId("admin");
+            contextInfo.setAuthenticatedPrincipalId("admin");
+            acalTestDataLoader = new AcalTestDataLoader(atpService);
+        }
         try {
-            atpTestDataLoader.loadDataOneRecord();
+            acalTestDataLoader.loadDataOneRecord();
             dataLoader.loadData();
             FormatOfferingInfo foInfo = coServiceImpl.getFormatOffering("Lui-6", contextInfo);
             if (foInfo.getActivityOfferingTypeKeys() == null |

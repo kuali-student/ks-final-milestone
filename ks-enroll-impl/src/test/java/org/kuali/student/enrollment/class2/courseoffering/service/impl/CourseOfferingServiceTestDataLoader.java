@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.TermCodeGenerator;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl;
+import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -54,23 +55,16 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
-import org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl;
 import org.kuali.student.r2.lum.lu.entity.CluResultType;
-import org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -87,7 +81,7 @@ import java.util.List;
  * <p/>
  * The data modeled here probably should have come from this picture in the CourseOfferingService documentation :
  * <p/>
- * {@link https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Seat+Pools+-+Reg+Groups#KSENRHLDS-SeatPools-RegGroups-DiagramofSeatPoolandRegGroupExamples}
+ * <a href="https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Seat+Pools+-+Reg+Groups#KSENRHLDS-SeatPools-RegGroups-DiagramofSeatPoolandRegGroupExamples">Documentation</a>
  * <p/>
  * We also define some methods that can be used to insert specific kinds of data into various spots for each example CourseOffering.
  *
@@ -115,7 +109,6 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
     protected LuDaoImpl luDaoImpl;
 
-    protected AtpTestDataLoader atpDataLoader;
     protected AcalTestDataLoader acalDataLoader;
 
     TermInfo fall2012 = null;
@@ -135,12 +128,10 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     @Override
     protected void initializeData() throws Exception {
 
-        this.atpDataLoader = new AtpTestDataLoader(atpService);
-        this.acalDataLoader = new AcalTestDataLoader(acalService);
+        this.acalDataLoader = new AcalTestDataLoader(atpService);
 
 
-        atpDataLoader.loadData();
-        //acalDataLoader.loadData();
+        acalDataLoader.loadData();
 
         // load in custom dates for use in the courses
         fall2012 = createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);

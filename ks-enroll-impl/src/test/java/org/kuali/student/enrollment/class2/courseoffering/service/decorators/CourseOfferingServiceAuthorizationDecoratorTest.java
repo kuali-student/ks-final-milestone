@@ -4,16 +4,11 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.common.template.Template;
 import org.kuali.rice.kim.api.permission.Permission;
@@ -23,8 +18,8 @@ import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
@@ -54,6 +49,19 @@ import org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  *
@@ -237,19 +245,19 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
-        AcalTestDataLoader acalLoader = new AcalTestDataLoader(this.acalService);
-        SP2011_TERM = acalLoader.loadTerm("2011SP", "Spring 2011", "Spring Term 2011", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
-                "2011-03-01 00:00:00.0", "2011-05-31 00:00:00.0");
-        FA2011_TERM = acalLoader.loadTerm("2011FA", "Fall 2011", "Fall Term 2011", AtpServiceConstants.ATP_FALL_TYPE_KEY,
-                "2011-09-01 00:00:00.0", "2011-12-31 00:00:00.0");
-        SP2012_TERM = acalLoader.loadTerm("2012SP", "Spring 2012", "Spring Term 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
-                "2012-03-01 00:00:00.0", "2012-05-31 00:00:00.0");
-        FA2012_TERM = acalLoader.loadTerm("2012FA", "Fall 2012", "Fall Term 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY,
-                "2012-09-01 00:00:00.0", "2012-12-31 00:00:00.0");
-        SP2013_TERM = acalLoader.loadTerm("2013SP", "Spring 2013", "Spring Term 2013", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
-                "2013-03-01 00:00:00.0", "2013-05-31 00:00:00.0");
-        FA2013_TERM = acalLoader.loadTerm("2013FA", "Fall 2013", "Fall Term 2013", AtpServiceConstants.ATP_FALL_TYPE_KEY,
-                "2013-09-01 00:00:00.0", "2013-12-31 00:00:00.0");
+        MockAcalTestDataLoader acalLoader = new MockAcalTestDataLoader(this.acalService);
+        SP2011_TERM = acalLoader.loadTerm("2011SP", "Spring 2011", "2011-03-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2011"
+        );
+        FA2011_TERM = acalLoader.loadTerm("2011FA", "Fall 2011", "2011-09-01 00:00:00.0", "2011-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Fall Term 2011"
+        );
+        SP2012_TERM = acalLoader.loadTerm("2012SP", "Spring 2012", "2012-03-01 00:00:00.0", "2012-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2012"
+        );
+        FA2012_TERM = acalLoader.loadTerm("2012FA", "Fall 2012", "2012-09-01 00:00:00.0", "2012-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Fall Term 2012"
+        );
+        SP2013_TERM = acalLoader.loadTerm("2013SP", "Spring 2013", "2013-03-01 00:00:00.0", "2013-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2013"
+        );
+        FA2013_TERM = acalLoader.loadTerm("2013FA", "Fall 2013", "2013-09-01 00:00:00.0", "2013-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Fall Term 2013"
+        );
     }
     private CourseInfo MATH101;
     private CourseInfo ENGL101;

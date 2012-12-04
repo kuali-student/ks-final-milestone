@@ -20,6 +20,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
+import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
+import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -36,7 +38,6 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -77,8 +78,8 @@ public class TestCourseOfferingDeleteCascadedWithMocks {
         try {
             new CourseR1TestDataLoader(this.courseService).loadData();
             new LuiServiceDataLoader(this.luiService).loadData();
-            new AcalTestDataLoader(this.acalService).loadData();
-            new AtpTestDataLoader(this.atpService).loadData();
+            new MockAcalTestDataLoader(this.acalService).loadData();
+            new AcalTestDataLoader(this.atpService).loadData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
