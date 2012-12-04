@@ -581,10 +581,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         return searchService;
     }
     public AtpService getAtpService() {
-        if (atpService == null) {
-            Object o = GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE,
-                    AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
-            atpService = (AtpService) o;
+        if (atpService == null){
+            atpService = CourseOfferingResourceLoader.loadAtpService();
         }
         return atpService;
     }
