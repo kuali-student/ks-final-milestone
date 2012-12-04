@@ -65,12 +65,11 @@ public class MessageRPCPreloader {
     public String getMessagesByGroupsEncodingString(String locale, String[] keys){
         Method serviceMethod;
         try {
-            serviceMethod = MessagesRpcGwtServlet.class.getMethod("getMessagesByGroups");
+            serviceMethod = MessagesRpcGwtServlet.class.getMethod("getMessagesByGroups", String.class, ArrayList.class);
             
             LocaleInfo localeInfo = new LocaleInfo();
             localeInfo.setLocaleLanguage(locale);
-            
-            List<String> messageGroupKeys = Arrays.asList(keys);
+            ArrayList<String> messageGroupKeys = new ArrayList (Arrays.asList(keys));
             ArrayList<MessageInfo> messages = new ArrayList<MessageInfo>();
             for (MessageInfo info : getMessageService().getMessagesByGroups(localeInfo, messageGroupKeys, ContextUtils.getContextInfo())){
                 messages.add(info);

@@ -94,21 +94,21 @@ public class MessageServiceMockTest {
         LocaleInfo caLocale = new LocaleInfo();
         caLocale.setLocaleLanguage("CA");
         
-        List<MessageInfo> messages = messageService.getMessages(usLocale, "Address", contextInfo);
+        List<MessageInfo> messages = messageService.getMessagesByGroup(usLocale, "Address", contextInfo);
         assertEquals(2, messages.size());
         for(MessageInfo m: messages){
             assertEquals(m.getLocale().getLocaleLanguage(), "US");
             assertEquals(m.getGroupName(), "Address");
             assertTrue(m.getMessageKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
         }
-        messages = messageService.getMessages(caLocale, "Address", contextInfo);
+        messages = messageService.getMessagesByGroup(caLocale, "Address", contextInfo);
         assertEquals(2, messages.size());
         for(MessageInfo m: messages){
             assertEquals(m.getLocale().getLocaleLanguage(), "CA");
             assertEquals(m.getGroupName(), "Address");
             assertTrue(m.getMessageKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
         }
-        messages = messageService.getMessages(usLocale, "Name", contextInfo);
+        messages = messageService.getMessagesByGroup(usLocale, "Name", contextInfo);
         assertEquals(1, messages.size());
         for(MessageInfo m: messages){
             assertEquals(m.getLocale().getLocaleLanguage(), "US");
@@ -147,7 +147,7 @@ public class MessageServiceMockTest {
     @Test
     //This test (copied from service test impl) is adding a new piece of message with key and value
     //Is this the behavior we want?
-    public void testUpdateMessage() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException{
+    public void testUpdateMessage() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException{
         LocaleInfo localeInfo = new LocaleInfo();
         localeInfo.setLocaleLanguage("US");
         

@@ -102,7 +102,7 @@ public class MessageServiceImpl implements MessageService{
 
     @Override
     @Transactional(readOnly=true)
-	public List<MessageInfo> getMessages(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public List<MessageInfo> getMessagesByGroup(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		if(localeInfo == null || messageGroupKey == null){
 			return new ArrayList<MessageInfo>();
 		}
@@ -133,6 +133,7 @@ public class MessageServiceImpl implements MessageService{
         MessageInfo messageInfo, 
         ContextInfo contextInfo) 
                 throws DoesNotExistException, 
+                DataValidationErrorException,
                 InvalidParameterException, 
                 MissingParameterException, 
                 OperationFailedException, 

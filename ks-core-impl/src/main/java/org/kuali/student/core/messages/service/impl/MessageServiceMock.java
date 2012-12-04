@@ -175,7 +175,7 @@ public class MessageServiceMock implements MessageService {
      * @see org.kuali.student.common.messages.service.MessageService#getMessages(java.lang.String, java.lang.String)
      */
     @Override
-    public List<MessageInfo> getMessages(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<MessageInfo> getMessagesByGroup(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Map<String, String> groupMessages = ((LocaleMessages) messages.get(localeInfo.getLocaleLanguage())).getMessages(messageGroupKey);
         List<MessageInfo> messageArrayList = new ArrayList<MessageInfo>();
@@ -203,17 +203,31 @@ public class MessageServiceMock implements MessageService {
     public List<MessageInfo> getMessagesByGroups(LocaleInfo localeInfo, List<String> messageGroupKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<MessageInfo> messageArrayList = new ArrayList<MessageInfo>();
         for (String groupKey : messageGroupKeys) {
-            List<MessageInfo> messageList = getMessages(localeInfo, groupKey, contextInfo);
+            List<MessageInfo> messageList = getMessagesByGroup(localeInfo, groupKey, contextInfo);
             messageArrayList.addAll(messageList);
         }
         return messageArrayList;    }
 
     /**
-     * @see org.kuali.student.common.messages.service.MessageService#updateMessage(java.lang.String, java.lang.String,
-     *      java.lang.String, org.kuali.student.common.messages.dto.Message)
+     * @see
+     * org.kuali.student.common.messages.service.MessageService#updateMessage(java.lang.String,
+     * java.lang.String, java.lang.String,
+     * org.kuali.student.common.messages.dto.Message)
      */
     @Override
-    public MessageInfo updateMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+    public MessageInfo updateMessage(LocaleInfo localeInfo,
+            String messageGroupKey,
+            String messageKey,
+            MessageInfo messageInfo,
+            ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
         if (getMessage(localeInfo, messageGroupKey, messageKey, contextInfo) != null) {
             putMessage(localeInfo.getLocaleLanguage(), messageInfo.getGroupName(), messageKey, messageInfo.getValue());
         }
