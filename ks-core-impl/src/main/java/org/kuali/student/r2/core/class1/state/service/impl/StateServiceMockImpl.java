@@ -313,7 +313,9 @@ public class StateServiceMockImpl
 
     @Override
     public List<StateChangeInfo> getStateChangesByFromStateAndToState( String fromStateKey, String toStateKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("This method has not yet been implemented.");
+        List<StateChangeInfo> stateChangeInfos = new ArrayList<StateChangeInfo>();
+        stateChangeInfos.add(new StateChangeInfo());
+        return stateChangeInfos;
     }
 
     @Override
@@ -353,7 +355,7 @@ public class StateServiceMockImpl
 
     @Override
     public List<StateConstraintInfo> getStateConstraintsByIds(List<String> stateConstraintIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("This method has not yet been implemented.");
+        return new ArrayList<StateConstraintInfo>();
     }
 
     @Override
@@ -398,7 +400,7 @@ public class StateServiceMockImpl
 
     @Override
     public List<StatePropagationInfo> getStatePropagationsByIds(List<String> statePropagationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("This method has not yet been implemented.");
+        return new ArrayList<StatePropagationInfo>();
     }
 
     @Override

@@ -28,7 +28,7 @@ public class MockGlobalResourceLoader implements ApplicationContextAware{
         }
         LOG.debug("GlobalResourceLoader fetching service " + serviceName);
         try {
-            return getService(serviceName);
+            return getService(serviceName.getLocalPart().toString());
         } catch (RiceRemoteServiceConnectionException ex) {
             LOG.warn(ex.getMessage());
             return null;
@@ -40,8 +40,7 @@ public class MockGlobalResourceLoader implements ApplicationContextAware{
             throw new IllegalArgumentException("The service name must be non-null.");
         }
         //ApplicationContext applicationContext = new AnnotationConfigApplicationContext(GlobalResourceLoader.class);
-          return (T)applicationContext.getBean(localServiceName);
-
+        return (T)applicationContext.getBean(localServiceName);
 
     }
 
