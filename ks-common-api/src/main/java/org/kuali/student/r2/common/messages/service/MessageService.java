@@ -114,7 +114,7 @@ public interface MessageService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<MessageInfo> getMessages(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<MessageInfo> getMessagesByGroup(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve messages associated with a locale from a specified
@@ -150,6 +150,7 @@ public interface MessageService {
      *        locale information about the caller of service operation
      * @return message information
      * @throws DoesNotExistException messageKey is not found
+     * @throws DataValidationErrorException if invalid data
      * @throws InvalidParameterException localeInfo, messageInfo, or
      *         contextInfo is not valid
      * @throws MissingParameterException localeInfo, messageKey, messageInfo, 
@@ -167,6 +168,7 @@ public interface MessageService {
             @WebParam(name = "messageInfo") MessageInfo messageInfo, 
             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
             throws DoesNotExistException, 
+            DataValidationErrorException,
             InvalidParameterException, 
             MissingParameterException, 
             OperationFailedException, 
