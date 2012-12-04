@@ -35,7 +35,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FeeInfo", propOrder = {"feeType", "rateType", "feeAmounts",
-        "descr", "key", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "descr", "key", "meta", "attributes" , "_futureElements" }) 
 public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,9 +50,8 @@ public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializab
     private RichTextInfo descr;
     @XmlAttribute
     private String key;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public FeeInfo() {
         this.feeAmounts = new ArrayList<CurrencyAmountInfo>();

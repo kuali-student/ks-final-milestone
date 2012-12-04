@@ -33,8 +33,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StatementInfo", propOrder = { "id", "typeKey", "stateKey",
 		"name", "descr", "operator", "statementIds", "reqComponentIds", "meta",
-		"attributes" })
-// , "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+		"attributes" , "_futureElements" }) 
 public class StatementInfo extends IdEntityInfo implements Statement,
 		Serializable {
 
@@ -47,9 +46,8 @@ public class StatementInfo extends IdEntityInfo implements Statement,
 	@XmlElement
 	private List<String> reqComponentIds;
 
-	// TODO KSCM-372: Non-GWT translatable code
-	// @XmlAnyElement
-	// private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 	public StatementInfo() {
 	}

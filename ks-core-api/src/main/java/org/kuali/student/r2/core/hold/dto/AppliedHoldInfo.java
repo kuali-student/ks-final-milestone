@@ -33,7 +33,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
                 "descr", "holdIssueId", "personId",  "effectiveDate", "releasedDate", 
-                "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+                "meta", "attributes", "_futureElements" }) 
 
 public class AppliedHoldInfo 
     extends IdEntityInfo 
@@ -53,9 +53,8 @@ public class AppliedHoldInfo
     @XmlElement
     private Date releasedDate;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

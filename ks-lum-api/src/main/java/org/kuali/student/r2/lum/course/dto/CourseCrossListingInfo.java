@@ -11,24 +11,24 @@
 package org.kuali.student.r2.lum.course.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
 /**
- * This is a description of what this class does - sambit don't forget to fill
- * this in.
+ * Implementation of {@link CourseCrossListing}.
  * 
- * @author Kuali Student Team (sambitpa@kuali.org)
+ * @author Kuali Student Team 
  */
 
-@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "typeKey", "stateKey", "code", "subjectArea", "department", "courseNumberSuffix", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "typeKey", "stateKey", "code", "subjectArea", "department", "courseNumberSuffix", "meta", "attributes" , "_futureElements" }) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseCrossListingInfo extends IdNamelessEntityInfo implements CourseCrossListing, Serializable {
 
@@ -45,6 +45,9 @@ public class CourseCrossListingInfo extends IdNamelessEntityInfo implements Cour
 
     @XmlElement
     private String courseNumberSuffix;
+    
+    @XmlAnyElement
+    private List<Object>_futureElements;
 
     public CourseCrossListingInfo() {
 

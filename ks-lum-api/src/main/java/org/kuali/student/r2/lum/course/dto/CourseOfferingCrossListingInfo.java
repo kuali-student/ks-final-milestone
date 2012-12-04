@@ -16,17 +16,17 @@
  */
 package org.kuali.student.r2.lum.course.dto;
 
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.lum.course.infc.CourseOfferingCrossListing;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
+
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.lum.course.infc.CourseOfferingCrossListing;
 
 /**
  * This class represents information of a Course Offering Cross Listing.
@@ -34,7 +34,7 @@ import java.io.Serializable;
  * @author Kuali Student Team
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "code", "subjectArea", "department", "courseNumberSuffix", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "CourseCrossListingInfo", propOrder = {"id", "code", "subjectArea", "department", "courseNumberSuffix", "meta", "attributes" , "_futureElements" }) 
 public class CourseOfferingCrossListingInfo extends HasAttributesAndMetaInfo implements CourseOfferingCrossListing, Serializable {
 
     ///////////////////////////////////
@@ -62,6 +62,9 @@ public class CourseOfferingCrossListingInfo extends HasAttributesAndMetaInfo imp
     @XmlAttribute
     private String id;
 
+    @XmlAttribute
+    private List<Object>_futureElements;
+    
     /////////////////////////////////
     // Constructors
     /////////////////////////////////

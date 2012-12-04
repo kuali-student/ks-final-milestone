@@ -33,7 +33,7 @@ import org.kuali.student.r2.common.dto.KeyEntityInfo;
 @XmlType(name = "AtpInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
                 "code", "startDate", "endDate", "adminOrgId", 
-                "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+                "meta", "attributes", "_futureElements" }) 
 
 public class AtpInfo 
     extends IdEntityInfo 
@@ -53,9 +53,8 @@ public class AtpInfo
     @XmlElement
     private String adminOrgId;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
     
     
     /**

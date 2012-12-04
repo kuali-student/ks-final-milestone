@@ -18,13 +18,6 @@ package org.kuali.student.r2.core.search.dto;
 
 //import org.kuali.student.r2.common.util.date.DateFormatters;
 
-import org.kuali.student.r2.core.search.infc.SearchResult;
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,12 +25,21 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
 //import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchResultInfo", propOrder = {
                 "startAt", "totalResults", "rows", "sortColumn",
-                "sortDirection"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "sortDirection", "_futureElements" }) 
 
 public class SearchResultInfo 
     implements SearchResult, Serializable {
@@ -59,9 +61,8 @@ public class SearchResultInfo
     @XmlElement    
     private SortDirection sortDirection;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

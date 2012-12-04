@@ -33,7 +33,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RevenueInfo", propOrder = {"id", "feeType", "affiliatedOrgs",
-        "attributes", "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "attributes", "meta" , "_futureElements" }) 
 public class RevenueInfo extends HasAttributesAndMetaInfo implements Revenue, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,9 +45,8 @@ public class RevenueInfo extends HasAttributesAndMetaInfo implements Revenue, Se
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public RevenueInfo() {
         this.affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();

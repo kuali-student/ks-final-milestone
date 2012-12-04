@@ -35,7 +35,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultScale;
 @XmlType(name = "ResultScaleInfo", propOrder = {
         "key", "typeKey", "stateKey", "name", "descr", 
         "resultValueRange", "effectiveDate", "expirationDate", 
-        "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "meta", "attributes" , "_futureElements" }) 
 
 public class ResultScaleInfo 
         extends KeyEntityInfo 
@@ -52,9 +52,8 @@ public class ResultScaleInfo
     @XmlElement
     private Date expirationDate;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ResultScaleInfo() {
         super();

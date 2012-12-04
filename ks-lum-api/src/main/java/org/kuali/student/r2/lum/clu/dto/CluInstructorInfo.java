@@ -11,23 +11,25 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.HasAttributesInfo;
-import org.kuali.student.r2.lum.clu.infc.CluInstructor;
-//import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.Map;
+
+import org.kuali.student.r2.common.dto.HasAttributesInfo;
+import org.kuali.student.r2.lum.clu.infc.CluInstructor;
+//import org.w3c.dom.Element;
 
 /**
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluInstructorInfo", propOrder = {"id", "orgId", "personId",
-        "personInfoOverride", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "personInfoOverride", "attributes" , "_futureElements" }) 
 public class CluInstructorInfo extends HasAttributesInfo implements CluInstructor, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,9 +42,8 @@ public class CluInstructorInfo extends HasAttributesInfo implements CluInstructo
     private String personId;
     @XmlElement
     private String personInfoOverride;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CluInstructorInfo() {
     }

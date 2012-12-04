@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
                 "id", "typeKey", "stateKey",
                 "orgId", "relatedOrgId",
                 "effectiveDate", "expirationDate",
-                "meta", "attributes"/*, "_futureElements"*/ })
+                "meta", "attributes", "_futureElements" }) 
 
 public class OrgOrgRelationInfo 
     extends RelationshipInfo
@@ -53,9 +53,8 @@ public class OrgOrgRelationInfo
 
     @XmlElement
     private String relatedOrgId;
-    //    TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

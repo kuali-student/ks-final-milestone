@@ -11,18 +11,19 @@
 package org.kuali.student.r2.lum.program.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
-import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
-import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
 import org.kuali.student.r2.lum.program.infc.CoreProgram;
 
 @XmlType(name = "CoreProgramInfo", propOrder = {"id",
@@ -48,7 +49,7 @@ import org.kuali.student.r2.lum.program.infc.CoreProgram;
         "catalogDescr",
         "catalogPublicationTargets",
         "meta",
-        "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+        "attributes" , "_futureElements" }) 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CoreProgramInfo extends CommonWithCoreProgramInfo
@@ -62,9 +63,9 @@ public class CoreProgramInfo extends CommonWithCoreProgramInfo
         Serializable {
 
     private static final long serialVersionUID = 1L;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CoreProgramInfo() {
     }

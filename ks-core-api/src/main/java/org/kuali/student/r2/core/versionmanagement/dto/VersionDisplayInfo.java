@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlAttribute;
         "currentVersionEnd",
         "currentVersionStart",
         "versionComment",
-        "versionedFromId"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "versionedFromId", "_futureElements" }) 
 public class VersionDisplayInfo implements VersionDisplay, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,9 +51,8 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
     private String versionComment;
     @XmlElement
     private String versionedFromId;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public VersionDisplayInfo() {
     }

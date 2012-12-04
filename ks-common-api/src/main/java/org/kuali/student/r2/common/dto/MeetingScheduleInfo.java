@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.infc.MeetingSchedule;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeetingScheduleInfo", propOrder = {
-                "id", "spaceId", "scheduleId" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "id", "spaceId", "scheduleId" , "_futureElements" }) 
 
 public class MeetingScheduleInfo 
     implements MeetingSchedule, Serializable {
@@ -53,9 +53,9 @@ public class MeetingScheduleInfo
     @XmlElement
     private String scheduleId;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;    
+    
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

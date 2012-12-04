@@ -17,14 +17,15 @@
 package org.kuali.student.r2.core.class1.type.dto;
 
 import java.io.Serializable;
-
-import org.kuali.student.r2.common.dto.RelationshipInfo;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
 //import org.w3c.dom.Element;
 
@@ -34,7 +35,7 @@ import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
                 "id", "typeKey", "stateKey",
                 "effectiveDate", "expirationDate", "ownerTypeKey", 
                 "relatedTypeKey", "rank", 
-                "attributes", "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+                "attributes", "meta", "_futureElements" }) 
 
 public class TypeTypeRelationInfo 
     extends RelationshipInfo
@@ -49,9 +50,8 @@ public class TypeTypeRelationInfo
     @XmlElement
     private Integer rank;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;    
+    @XmlAnyElement
+    private List<Object> _futureElements;    
 	
     /**
      * Constructs a new TypeTypeRelationInfo.

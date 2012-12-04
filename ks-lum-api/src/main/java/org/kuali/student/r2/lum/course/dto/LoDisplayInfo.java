@@ -37,7 +37,7 @@ import java.util.List;
  *      >LoDisplayInfo</>
  */
 @XmlType(name = "LoDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loInfo", "loDisplayInfoList", "parentRelType", "parentLoRelationid", "loCategoryInfoList", "meta",
-        "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "attributes", "_futureElements" }) 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializable {
 
@@ -58,9 +58,8 @@ public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializab
     @XmlElement
     private List<LoCategoryInfo> loCategoryInfoList;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public LoDisplayInfo() {
 

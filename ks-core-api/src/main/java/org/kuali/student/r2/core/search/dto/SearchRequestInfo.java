@@ -22,17 +22,18 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.core.search.infc.SearchRequest;
 import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.kuali.student.r2.core.search.infc.SearchRequest;
 //import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchRequestInfo", propOrder = {
                 "searchKey", "params", "sortColumn", "sortDirection",
-                "startAt", "maxResults", "neededTotalResults"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "startAt", "maxResults", "neededTotalResults", "_futureElements" }) 
 
 public class SearchRequestInfo 
     implements SearchRequest, Serializable {
@@ -60,9 +61,8 @@ public class SearchRequestInfo
     @XmlElement
     private Boolean neededTotalResults;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

@@ -29,7 +29,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "stateKey", "name", "descr", "meta", "attributes", "_futureElements" }) 
 
 public class ProcessCategoryInfo 
     extends IdEntityInfo 
@@ -37,9 +37,8 @@ public class ProcessCategoryInfo
 
     private static final long serialVersionUID = 1L;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
     
 
     /**
@@ -61,8 +60,6 @@ public class ProcessCategoryInfo
     @Override
     public String toString() {
         return "ProcessCategoryInfo{" +
-                "id='" + getId() + "' " +
-                // "_futureElements=" + _futureElements + TODO KSCM-372: Non-GWT translatable code
-                '}';
+                "id='" + getId() + "' }";
     }
 }

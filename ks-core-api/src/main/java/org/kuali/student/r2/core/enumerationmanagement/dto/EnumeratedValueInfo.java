@@ -38,7 +38,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EnumeratedValueInfo", propOrder = {"code", "abbrevValue", "value", "sortKey", "contexts", "enumerationKey", 
-        "effectiveDate", "expirationDate", "meta"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "effectiveDate", "expirationDate", "meta", "_futureElements" }) 
 public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,9 +61,9 @@ public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
     private Date expirationDate;
     @XmlElement
     private MetaInfo meta;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public EnumeratedValueInfo() {
     }

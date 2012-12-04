@@ -31,7 +31,7 @@ import org.kuali.student.r2.common.infc.OperationStatus;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OperationStatusInfo", propOrder = {
-                "status", "messages", "warnings", "errors" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+                "status", "messages", "warnings", "errors" , "_futureElements" }) 
 
 public class OperationStatusInfo 
     implements OperationStatus, Serializable {
@@ -50,9 +50,8 @@ public class OperationStatusInfo
     @XmlElement
     private List<String> errors;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     /**

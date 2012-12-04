@@ -15,21 +15,22 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.lum.clu.infc.CluLoRelation;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
-import java.util.Map;
+
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.lum.clu.infc.CluLoRelation;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluLoRelationInfo", propOrder = {"id", "typeKey",
         "stateKey", "cluId", "loId", "effectiveDate",
-        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+        "expirationDate", "meta", "attributes" , "_futureElements" }) 
 public class CluLoRelationInfo extends RelationshipInfo implements CluLoRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,9 +41,8 @@ public class CluLoRelationInfo extends RelationshipInfo implements CluLoRelation
     @XmlElement
     private String loId;
 
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public CluLoRelationInfo() {
 

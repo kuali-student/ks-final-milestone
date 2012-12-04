@@ -36,7 +36,7 @@ import org.kuali.student.r2.core.exemption.infc.ExemptionRequest;
     "requesterId", "requestDate",
     "approvedByPersonId", "approvedDate",
     "dateOverride", "milestoneOverride",
-    "learningResultOverride", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+    "learningResultOverride", "meta", "attributes", "_futureElements" }) 
 public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,9 +60,8 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     private MilestoneOverrideInfo milestoneOverride;
     @XmlElement
     private LearningResultOverrideInfo learningResultOverride;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public ExemptionRequestInfo() {
         super();
@@ -98,8 +97,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
             }
         }
 
-//      TODO KSCM-372: Non-GWT translatable code
-//        _futureElements = null;
+        _futureElements = null;
     }
 
     @Override

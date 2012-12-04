@@ -13,7 +13,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoomUsageInfo", propOrder = {"id", "usageTypeKey", "layoutTypeKey", "preferredCapacity", "hardCapacity", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "RoomUsageInfo", propOrder = {"id", "usageTypeKey", "layoutTypeKey", "preferredCapacity", "hardCapacity", "meta", "attributes", "_futureElements" }) 
 public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage, Serializable {
 
     @XmlElement
@@ -26,9 +26,8 @@ public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage
     private Integer preferredCapacity;
     @XmlElement
     private Integer hardCapacity;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
 
     public RoomUsageInfo() {

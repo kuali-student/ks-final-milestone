@@ -15,27 +15,29 @@
 
 package org.kuali.student.r2.common.dto;
 
-import org.kuali.student.r2.common.infc.TimeOfDay;
+import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
+
+import org.kuali.student.r2.common.infc.TimeOfDay;
 
 //import javax.xml.bind.Element;
 //import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TimeOfDayInfo", propOrder = {"milliSeconds"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
+@XmlType(name = "TimeOfDayInfo", propOrder = {"milliSeconds", "_futureElements" }) 
 public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     @XmlElement
     private Long milliSeconds;
     
-    //TODO KSCM-372: Non-GWT translatable code
-    //@XmlAnyElement
-    //private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     public TimeOfDayInfo() {
 

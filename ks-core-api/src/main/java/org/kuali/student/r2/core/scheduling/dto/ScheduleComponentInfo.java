@@ -15,15 +15,17 @@
 
 package org.kuali.student.r2.core.scheduling.dto;
 
-import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.core.scheduling.infc.ScheduleComponent;
 
 //import org.w3c.dom.Element;
 
@@ -32,7 +34,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleComponentInfo", propOrder = {"id", "roomId", "timeSlotIds", "isTBA" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
+@XmlType(name = "ScheduleComponentInfo", propOrder = {"id", "roomId", "timeSlotIds", "isTBA" , "_futureElements" }) 
 public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
 
     @XmlElement
@@ -41,9 +43,8 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
     private String roomId;
     @XmlElement
     private List<String> timeSlotIds;
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;  
 
     @XmlElement
     private Boolean isTBA;

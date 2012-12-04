@@ -17,13 +17,13 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-//import org.w3c.dom.Element;
 
 import org.kuali.student.r2.common.infc.Amount;
 
@@ -36,7 +36,7 @@ import org.kuali.student.r2.common.infc.Amount;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AmountInfo", propOrder = {
-                "unitTypeKey", "unitQuantity" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
+                "unitTypeKey", "unitQuantity" , "_futureElements" }) 
 
 public class AmountInfo 
     implements Amount, Serializable {
@@ -49,9 +49,8 @@ public class AmountInfo
     @XmlElement
     private String unitQuantity;
     
-//    TODO KSCM-372: Non-GWT translatable code
-//    @XmlAnyElement
-//    private List<Element> _futureElements;
+    @XmlAnyElement
+    private List<Object> _futureElements;
 
 
     /**
