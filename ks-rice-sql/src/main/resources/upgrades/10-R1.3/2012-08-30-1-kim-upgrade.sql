@@ -614,43 +614,22 @@ insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_
 values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_14', krim_role_id_s.currval, 'testuser6', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
 /
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_15', krim_role_id_s.currval, 'testuser7', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
+values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_15', krim_role_id_s.currval, 'user1', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
 /
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_16', krim_role_id_s.currval, 'testuser8', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
+values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_16', krim_role_id_s.currval, 'user2', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
 /
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_17', krim_role_id_s.currval, 'testuser9', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
+values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_17', krim_role_id_s.currval, 'user3', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
 /
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_18', krim_role_id_s.currval, 'user1', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
+values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_18', krim_role_id_s.currval, 'user4', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
 /
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_19', krim_role_id_s.currval, 'user2', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
+values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_19', krim_role_id_s.currval, 'admin', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
 /
 insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_20', krim_role_id_s.currval, 'user3', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
-/
-insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_21', krim_role_id_s.currval, 'user4', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
-/
-insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_22', krim_role_id_s.currval, 'user5', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
-/
-insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_23', krim_role_id_s.currval, 'user6', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
-/
-insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_24', krim_role_id_s.currval, 'user7', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
-/
-insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_25', krim_role_id_s.currval, 'user8', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
-/
-insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_26', krim_role_id_s.currval, 'admin', 'P', null, null, to_date('09-05-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
-/
-insert into KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_27', krim_role_id_s.currval, '5', 'P', null, null, to_date('18-06-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
+values (KRIM_ROLE_MBR_ID_S.NEXTVAL, 1, 'KS_SYS_KS_CM_ROLE_MEMBER_20', krim_role_id_s.currval, '5', 'P', null, null, to_date('18-06-2012 16:38:54', 'dd-mm-yyyy hh24:mi:ss'))
 /
 --Allows users to access the Create Course By Proposal screen 10018
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND)
