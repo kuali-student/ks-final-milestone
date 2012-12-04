@@ -7,7 +7,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.ActivityOfferingForm;
@@ -28,7 +28,7 @@ import java.util.List;
 public class ActivityOfferingController extends MaintenanceDocumentController {
 
     @Override
-    protected MaintenanceForm createInitialForm(HttpServletRequest request) {
+    protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
         return new ActivityOfferingForm();
     }
 
