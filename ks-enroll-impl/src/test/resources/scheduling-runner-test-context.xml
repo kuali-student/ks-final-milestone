@@ -3,10 +3,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <context:annotation-config />
 
@@ -111,18 +113,7 @@
         <property name="em" ref="entityManager" />
     </bean>
 
-    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
-        <property name="stateDao" ref="stateDao" />
-        <property name="lifecycleDao" ref="lifecycleDao" />
-    </bean>
-
-    <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
-        <property name="em" ref="entityManager" />
-    </bean>
-
-    <bean id="lifecycleDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
-        <property name="em" ref="entityManager" />
-    </bean>
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockImpl"/>
 
     <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
         <property name="typeDao" ref="typeDao"/>
@@ -146,7 +137,40 @@
         <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao"/>
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="schedulingService" ref="schedulingService"/>
+        <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
     </bean>
+    <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
+        <property name="stateService" ref="stateService"/>
+        <property name="stateHelperMap" ref="stateHelperMap" />
+        <property name="relatedObjectHelperMap" ref="relatedObjectHelperMap"/>
+    </bean>
+
+    <util:map id="stateHelperMap" map-class="java.util.HashMap">
+        <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+        <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
+        <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
+    </util:map>
+
+    <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
+        <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
+        <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
+        <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
+        <entry key="kuali.lui.format.offering:kuali.lui.activity.offering" value-ref="foToAoRelatedObjHelper"/>
+    </util:map>
+
+    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
+
+    <bean id="foStateHelper" class="org.kuali.student.enrollment.class1.state.impl.FOStateHelperImpl"/>
+
+    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" />
+
+    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
+
+    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl"/>
+
+    <bean id="coToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoFOImpl"/>
+
+    <bean id="foToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoAOImpl"/>
 
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
@@ -222,7 +246,11 @@
 
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
-    <bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetSchedulingRunnerDataLoader" autowire="byType" />
+    <bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetSchedulingRunnerDataLoader" autowire="byType" >
+        <property name="luDaoImpl" ref="luDao"/>
+    </bean>
+
+    <alias name="coService" alias="CourseOfferingService"/>
 
     <bean id="luiServiceDataLoader" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader" autowire="byType" />
     <bean id="atpTestDataLoader" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader" autowire="byType" />
@@ -275,6 +303,8 @@
     <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5"/>
 
     <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
+
+    <bean id="mockGlobalResourceLoader" class="org.kuali.student.common.test.mock.MockGlobalResourceLoader"/>
 
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

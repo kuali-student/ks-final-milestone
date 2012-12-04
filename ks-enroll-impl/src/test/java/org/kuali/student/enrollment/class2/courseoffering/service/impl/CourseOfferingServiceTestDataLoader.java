@@ -56,14 +56,25 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r2.lum.course.service.impl.CourseServiceImpl;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lu.dao.LuDao;
+import org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl;
+import org.kuali.student.r2.lum.lu.entity.CluResultType;
+import org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -102,6 +113,8 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     @Resource
     protected RegistrationGroupCodeGeneratorFactory registrationGroupCodeGeneratorFactory;
 
+    protected LuDaoImpl luDaoImpl;
+
     protected AtpTestDataLoader atpDataLoader;
     protected AcalTestDataLoader acalDataLoader;
 
@@ -135,7 +148,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
         spring2012 = createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
 
         // load the canonical course data
-
+        createCluResultTypes();
         createCourse(fall2012, "CHEM", "123", context);
         createCourseCHEM123(fall2012, context);
 
@@ -164,6 +177,25 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
         // for registration groups
 
+    }
+
+    @Transactional
+    private void createCluResultTypes() {
+        if(luDaoImpl != null){
+            EntityManager em = luDaoImpl.getEm();
+            if(em != null){
+                if(em.find(CluResultType.class,CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS) == null){
+                    CluResultType cluResultType = new CluResultType();
+                    cluResultType.setId(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS);
+                    em.persist(cluResultType);
+                }
+                if(em.find(CluResultType.class,CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE) == null){
+                    CluResultType cluResultType = new CluResultType();
+                    cluResultType.setId(CourseAssemblerConstants.COURSE_RESULT_TYPE_GRADE);
+                    em.persist(cluResultType);
+                }
+            }
+        }
     }
 
 
@@ -677,4 +709,9 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     public void setSpring2012(TermInfo spring2012) {
         this.spring2012 = spring2012;
     }
+
+    public void setLuDaoImpl(LuDaoImpl luDaoImpl) {
+        this.luDaoImpl = luDaoImpl;
+    }
+
 }

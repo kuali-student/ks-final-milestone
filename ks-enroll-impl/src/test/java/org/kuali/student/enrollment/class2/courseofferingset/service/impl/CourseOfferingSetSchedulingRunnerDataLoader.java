@@ -152,17 +152,12 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
 
     public void updateAOFOCOState(String aoId, String aoState, String foState, String coState) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
         ActivityOfferingInfo ao = coService.getActivityOffering(aoId, context);
-        ao.setStateKey(aoState);
-
         FormatOfferingInfo fo = coService.getFormatOffering(ao.getFormatOfferingId(), context);
-        fo.setStateKey(foState);
-
         CourseOfferingInfo co = coService.getCourseOffering(fo.getCourseOfferingId(), context);
-        co.setStateKey(coState);
 
-        coService.updateActivityOffering(ao.getId(), ao, context);
-        coService.updateFormatOffering(fo.getId(), fo, context);
-        coService.updateCourseOffering(co.getId(), co, context);
+        coService.updateActivityOfferingState(ao.getId(), aoState, context);
+        coService.updateFormatOfferingState(fo.getId(), foState, context);
+        coService.updateCourseOfferingState(co.getId(), coState, context);
     }
 
     private void loadTypes() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException, DoesNotExistException {

@@ -178,7 +178,11 @@ public class AtpTestDataLoader {
         context.setPrincipalId(principalId);
         context.setCurrentDate(new Date());
         CommonServiceConstants.setIsIdAllowedOnCreate(context, true);
-        this.atpService.createMilestone(type, info, context);
+        try{
+            this.atpService.createMilestone(type, info, context);
+        }catch (DataValidationErrorException e){
+            //if create milestone is called multiple times this will cause an exception
+        }
     }
 
     private void addM2A(String atpId,
@@ -191,7 +195,11 @@ public class AtpTestDataLoader {
         context.setPrincipalId(principalId);
         context.setCurrentDate(new Date());
         CommonServiceConstants.setIsIdAllowedOnCreate(context, true);
-        this.atpService.addMilestoneToAtp(milestoneId, atpId, context);
+        try{
+            this.atpService.addMilestoneToAtp(milestoneId, atpId, context);
+        }catch (AlreadyExistsException e){
+            //don't fret if the milestone has already been added
+        }
     }
 
     private void loadAtpAtpRel(String id,
