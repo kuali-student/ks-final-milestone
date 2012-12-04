@@ -1329,7 +1329,7 @@
     
         
  <!-- LuDocRelationInfo-->
-    <bean id="org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo-parent"
+    <!--<bean id="org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo-parent"
           abstract="true" parent="objectStructureDefinition">
         <property name="name" value="org.kuali.student.r2.lum.clu.dto.LuDocRelationInfo"/>
         <property name="attributes">
@@ -1394,7 +1394,7 @@
     <bean id="luDocRelationInfo.expirationDate-parent" abstract="true" parent="baseKualiExpirationDate">
         <property name="name" value="expirationDate"/>
     </bean>
-    <bean id="luDocRelationInfo.expirationDate" parent="luDocRelationInfo.expirationDate-parent"/>
+    <bean id="luDocRelationInfo.expirationDate" parent="luDocRelationInfo.expirationDate-parent"/>-->
     
             
  <!-- ResultOptionInfo-->

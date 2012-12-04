@@ -60,7 +60,7 @@ public class TestCluDTOEqualXMLBeanDefinition {
 		  startingClasses.add(FeeInfo.class.getName());
 		  startingClasses.add(FieldInfo.class.getName());
 		  startingClasses.add(LuCodeInfo.class.getName());
-		  startingClasses.add(LuDocRelationInfo.class.getName());
+		  // startingClasses.add(LuDocRelationInfo.class.getName());
 		  startingClasses.add(MembershipQueryInfo.class.getName());
 		  startingClasses.add(ResultOptionInfo.class.getName());
 		  startingClasses.add(RevenueInfo.class.getName());
