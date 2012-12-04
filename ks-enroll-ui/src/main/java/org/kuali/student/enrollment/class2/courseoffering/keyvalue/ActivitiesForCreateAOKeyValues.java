@@ -21,13 +21,15 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -42,11 +44,9 @@ import java.util.List;
  */
 public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
-
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         CourseOfferingManagementForm coForm = (CourseOfferingManagementForm) model;
-        CourseOfferingManagementViewHelperServiceImpl helperService = ((CourseOfferingManagementViewHelperServiceImpl)coForm.getPostedView().getViewHelperService());
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
@@ -56,7 +56,7 @@ public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase imple
 
         if(!StringUtils.isEmpty(formatId)) {
             try {
-                CourseInfo course = helperService.getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
+                CourseInfo course = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
                 FormatInfo foundFormat = null;
                 for (FormatInfo info : course.getFormats()) {
                     if (info.getId().equals(formatId)) {
@@ -73,7 +73,7 @@ public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase imple
 
                 List<ActivityInfo> activityInfos = foundFormat.getActivities();
                 for (ActivityInfo activityInfo : activityInfos) {
-                    TypeInfo activityType = helperService.getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
+                    TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
                     keyValues.add(new ConcreteKeyValue(activityInfo.getId(), activityType.getName()));
                 }
             } catch (Exception e) {
@@ -82,5 +82,13 @@ public class ActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase imple
         }
 
         return keyValues;
+    }
+
+    protected CourseService getCourseService() {
+        return CourseOfferingResourceLoader.loadCourseService();
+    }
+
+    protected TypeService getTypeService(){
+        return CourseOfferingResourceLoader.loadTypeService();
     }
 }

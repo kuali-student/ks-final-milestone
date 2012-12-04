@@ -155,7 +155,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             // check for changes to states in CO and related FOs (may happen in the case of deleted FOs)
-            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coInfo, contextInfo);
+//            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(coInfo, contextInfo);
 
         }   catch (Exception ex){
             throw new RuntimeException(ex);

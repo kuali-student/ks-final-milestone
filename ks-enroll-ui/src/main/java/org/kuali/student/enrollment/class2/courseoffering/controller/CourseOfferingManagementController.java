@@ -458,11 +458,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         try{
             for(ActivityOfferingWrapper ao : selectedAolist)  {
-                CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+                getCourseOfferingService().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
 
             // check for changes to states in CO and related FOs
-            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getTheCourseOffering(), ContextBuilder.loadContextInfo());
+//            ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getTheCourseOffering(), ContextBuilder.loadContextInfo());
 
         } catch (Exception e) {
             throw new RuntimeException(e);

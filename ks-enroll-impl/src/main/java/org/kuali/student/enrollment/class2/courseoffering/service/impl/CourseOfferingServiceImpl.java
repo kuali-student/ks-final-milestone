@@ -657,6 +657,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // get the backing lui
         LuiInfo lui = luiService.getLui(courseOfferingId, context);
+
+        //Move this to the validation decorator once we get the validations working
+        if (!StringUtils.equals(lui.getStateKey(),coInfo.getStateKey())){
+            throw new OperationFailedException("Changing the CourseOffering state is not supported with updateCourseOffering(). Please call updateCourseOfferingState() for state changes.");
+        }
         // copy fields and update
         courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
 

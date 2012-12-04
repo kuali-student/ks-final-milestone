@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -10,6 +9,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -35,7 +35,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceImpl implements CO_AO_RG_ViewHelperService{
+public abstract class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl implements CO_AO_RG_ViewHelperService{
 
     protected CourseService courseService;
     protected TypeService typeService;
@@ -47,12 +47,12 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
 
         ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
 
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        ContextInfo contextInfo = createContextInfo();
 
-        StateInfo state = getStateService().getState(aoInfo.getStateKey(), contextInfo);
+        StateInfo state = getStateInfo(aoInfo.getStateKey());
         aoWrapper.setStateName(state.getName());
 
-        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
+        TypeInfo typeInfo = getTypeInfo(aoInfo.getTypeKey());
         aoWrapper.setTypeName(typeInfo.getName());
 
         FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
@@ -209,20 +209,6 @@ public abstract class CO_AO_RG_ViewHelperServiceImpl extends ViewHelperServiceIm
         }
         // TODO implement TBA when service stores it.
         return dayOfWeek;
-    }
-
-    public TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = CourseOfferingResourceLoader.loadTypeService();
-        }
-        return this.typeService;
-    }
-
-    public StateService getStateService() {
-        if(stateService == null) {
-            stateService = CourseOfferingResourceLoader.loadStateService();
-        }
-        return stateService;
     }
 
     public CourseOfferingService getCourseOfferingService() {
