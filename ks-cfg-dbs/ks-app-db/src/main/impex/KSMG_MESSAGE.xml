@@ -32,11 +32,11 @@
         ID="01bcbc8f-2270-4b2a-9237-5664295e6158" LOCALE="en"
         MSG_ID="coursePublicationYear-instruct"
         MSG_VALUE="Last academic year for which this course will be published in the course catalog."
-        OBJ_ID="CFF9A6BEF62FB69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="7C83275FE6C74E2AB5DF842F0003F173" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="01d44d37-ddbe-48ec-aed3-2a34076fbe45" LOCALE="en"
         MSG_ID="retirement" MSG_VALUE="Retirement Information"
-        OBJ_ID="CFF9A6BEF633B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="E0E1CF93BBE945F2AE2A712976ABD4D9" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="0282bba0-e111-11df-85ca-0800200c9a66" LOCALE="en"
         MSG_ID="cluActionsLabel" MSG_VALUE="Course Actions" VER_NBR="1"/>
@@ -49,6 +49,11 @@
         MSG_ID="cluCurriculumOversight"
         MSG_VALUE="Descuido del plan de estudios"
         OBJ_ID="9982fee2-7e4b-41d5-bf14-997b014f33d7" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="033A2276DB0342199B21428D5EE02CBC" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="35866C86355040BCB08FCA4B0987437E" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="03579b0c-7ba6-470b-b3e6-2338bbadae7f" LOCALE="en"
         MSG_ID="toolsDesc"
@@ -145,7 +150,7 @@
     <KSMG_MESSAGE GRP_NAME="common"
         ID="0aa5f3f7-30c9-48ae-ba7d-32ee3e3bc091" LOCALE="en"
         MSG_ID="allFields" MSG_VALUE="Show all fields"
-        OBJ_ID="CFF9A6BEF639B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="7FB97C3DFC1A449087A752D490127B29" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="program"
         ID="0ab9c900-7542-4121-b4cd-eade41df6595" LOCALE="en"
         MSG_ID="catalogInformation.durationNotes"
@@ -500,7 +505,7 @@
         ID="2af23e4d-11af-4c7f-becb-51beecfd257c" LOCALE="en"
         MSG_ID="courseLastTermOffered-instruct"
         MSG_VALUE="Select the last term this course was or will be offered, if known."
-        OBJ_ID="CFF9A6BEF62DB69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="37306066DA534106A137A6DEAAFF35D0" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="2b4af2b3-7d44-408d-9dd5-5ea26e2406dc" LOCALE="en"
         MSG_ID="cluSuffixCode" MSG_VALUE="Suffix Code:"
@@ -791,7 +796,7 @@
         ID="3fb52d13-39cb-42ce-b4b4-352ba3654cf9" LOCALE="en"
         MSG_ID="validation.variationEndTerm"
         MSG_VALUE="The value in this field must equal to or earlier than the values in the corresponding fields in the parent major in order to submit this modification. Either change the value in this field or change the corresponding fields in the parent major."
-        OBJ_ID="CFF9A6BEF62BB69CE040007F01013E6A" VER_NBR="5"/>
+        OBJ_ID="DDFD14B80BFD45EF856A47D425A8A01C" VER_NBR="5"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="3fbd85d1-3bc4-4aca-aa9a-d49d8ecc12ee" LOCALE="es"
         MSG_ID="remove" MSG_VALUE="Quite"
@@ -858,7 +863,7 @@
         ID="435cefaf-45a2-4556-948b-752d995b9fda" LOCALE="en"
         MSG_ID="courseRetireRationale"
         MSG_VALUE="Rationale for Retirement"
-        OBJ_ID="CFF9A6BEF630B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="9DB56F5EBF354CA9AFE1079A586FE848" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="43c0df6a-3c2d-4302-ab94-1943eb51b2c5" LOCALE="en"
         MSG_ID="booleanTrue" MSG_VALUE="Yes"
@@ -923,7 +928,7 @@
     <KSMG_MESSAGE GRP_NAME="common"
         ID="47b901d4-cd65-4e6b-920d-f96a916f4eb1" LOCALE="en"
         MSG_ID="requiredFields" MSG_VALUE="No required fields.       "
-        OBJ_ID="CFF9A6BEF638B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="4F69ADED2630400EBE06C38A2E95D806" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="program"
         ID="47cafea3-3a5f-497e-9250-31a3d18d4908" LOCALE="en"
         MSG_ID="catalogInformation.catalogDescr"
@@ -1299,7 +1304,7 @@
         ID="673088c1-511b-48eb-aff0-797545321164" LOCALE="en"
         MSG_ID="validation.variationStartTerm"
         MSG_VALUE="The value in this field must equal to or greater than the values in the corresponding fields in the parent major in order to submit this modification. Either change the value in this field or change the corresponding fields in the parent major."
-        OBJ_ID="CFF9A6BEF628B69CE040007F01013E6A" VER_NBR="3"/>
+        OBJ_ID="E17E18F8B84D4506B3A6DCE840F4851C" VER_NBR="3"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="67709655-dcd0-4df4-ad43-347d48883a6d" LOCALE="en"
         MSG_ID="Cancelled" MSG_VALUE="Cancelled"
@@ -1369,7 +1374,7 @@
         ID="6b2fc022-cd8a-471c-9381-c35ffef1f8cd" LOCALE="en"
         MSG_ID="validation.programManagingBodiesMatch"
         MSG_VALUE="{0} is not a child of {1}."
-        OBJ_ID="CFF9A6BEF63AB69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="6C329EF0B416468C9C7B4A8345CACA2B" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="program"
         ID="6b6a57a2-1456-4e45-a075-19d5321b34d7" LOCALE="en"
         MSG_ID="descr-watermark"
@@ -1541,7 +1546,7 @@
         ID="78858cc2-cf6d-48c8-855c-102a7bef985e" LOCALE="en"
         MSG_ID="showingRequiredFields"
         MSG_VALUE="Showing only required fields.      "
-        OBJ_ID="CFF9A6BEF634B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="EF2C34C5824B410CB5BE31EA8A6FE097" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="792111fc-be37-41aa-9419-c9015c73ca30" LOCALE="en"
         MSG_ID="cluLearningResultsOutcomeMaxCredits"
@@ -1839,7 +1844,7 @@
         ID="93621a65-bb35-4532-912c-aa28814c39b8" LOCALE="en"
         MSG_ID="courseSpecialCircumstances"
         MSG_VALUE="Special Circumstances"
-        OBJ_ID="CFF9A6BEF631B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="F3CEAA16BECD456DB76035157BF110A4" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="program"
         ID="93a16588-d869-4f88-b61c-4d01413c991b" LOCALE="en"
         MSG_ID="major.variationsFailed"
@@ -2009,20 +2014,15 @@
         ID="CAF783BB01C846298C681EB1FCD4B0B9" LOCALE="en"
         MSG_ID="courseOtherComments" MSG_VALUE="Other Comments"
         OBJ_ID="381EDA4D3A5D4EF5B2ACE26D1CFAD576" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="CFF9A6BEF48FB69CE040007F01013E6A" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="CFF9A6BEF490B69CE040007F01013E6A" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="CFF9A6BEF491B69CE040007F01013E6A" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="CFF9A6BEF492B69CE040007F01013E6A" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="D9E0819F1C514D03B80772D22E6E2D2C" LOCALE="en"
         MSG_ID="collaboratorNameSuggest" MSG_VALUE="Name"
         OBJ_ID="7B5F42AD3B314226813877A185A2D5F0" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="EBB435B3F7BB42D0B556278E1E874024" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="DC61839584EF4818BE17861958653261" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"
@@ -2138,7 +2138,7 @@
         ID="a8dea7aa-276b-4b72-8101-9a63e2621227" LOCALE="en"
         MSG_ID="showRequiredFields"
         MSG_VALUE="Show only required fields"
-        OBJ_ID="CFF9A6BEF637B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="DA225788D89C4F4C981EBD3465C9FFBE" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="program"
         ID="a90a8698-dadf-45c9-a667-e56226af36a3" LOCALE="en"
         MSG_ID="proposedProgramModification"
@@ -2349,7 +2349,7 @@
         ID="b7f303e7-215b-4155-b637-db414a3cfffa" LOCALE="en"
         MSG_ID="validation.majorEndTermRequiresVariationStartTerm"
         MSG_VALUE="The value in this field must be equal to or less than the values in the corresponding fields in the associated specializations in order to submit this application."
-        OBJ_ID="CFF9A6BEF62AB69CE040007F01013E6A" VER_NBR="3"/>
+        OBJ_ID="3695CEF0DE4540C599CD6D33CE1D65EC" VER_NBR="3"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="b851b8fd-138b-407e-853d-7da42c3f472e" LOCALE="en"
         MSG_ID="cluSetApprovedProgram" MSG_VALUE="Approved Programs"
@@ -2426,7 +2426,7 @@
         ID="bf6713d4-793f-41ad-8c7a-b748b6bae8d6" LOCALE="en"
         MSG_ID="courseSpecialCircumstances-instruct"
         MSG_VALUE="Information about how the course should be treated (i.e. transferability, usage to meet major requirements, etc.) after it is retired."
-        OBJ_ID="CFF9A6BEF632B69CE040007F01013E6A" VER_NBR="2"/>
+        OBJ_ID="03909CC724204FBCBD4B40A376D4A172" VER_NBR="2"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="c069323c-5cd2-4c14-b762-7079dea98d4b" LOCALE="en"
         MSG_ID="Approved" MSG_VALUE="Approved"
@@ -2490,7 +2490,7 @@
         ID="c4ae799b-17b5-4d82-be47-22f5a3a74d57" LOCALE="en"
         MSG_ID="showingAllFields"
         MSG_VALUE="Showing required and optional fields.       "
-        OBJ_ID="CFF9A6BEF635B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="37221DAA248A41E6B61D84D2687332D5" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="c545e78b-5e88-44f5-bd93-4713aabc01cc" LOCALE="en"
         MSG_ID="actionList" MSG_VALUE="My Action List"
@@ -2581,7 +2581,7 @@
     <KSMG_MESSAGE GRP_NAME="course"
         ID="cde9a619-4d45-46e9-8b02-4b945700754c" LOCALE="en"
         MSG_ID="courseLastTermOffered" MSG_VALUE="Last Term Offered"
-        OBJ_ID="CFF9A6BEF62CB69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="661753BA29D04DA89C28050E77877076" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="ce1f2d44-f69f-46f9-9599-19986e5e30ea" LOCALE="en"
         MSG_ID="cluCourseFeesTitle-instruct"
@@ -2722,7 +2722,7 @@
         ID="d818d3ed-2c39-4454-991c-c28350229e25" LOCALE="en"
         MSG_ID="validation.variation"
         MSG_VALUE="Items in this specialization conflict with values in items in the parent major. Click on the specialization name to modify and resolve the conflict. You may also change the value in the parent major."
-        OBJ_ID="CFF9A6BEF629B69CE040007F01013E6A" VER_NBR="4"/>
+        OBJ_ID="A256C9A37FF441769B0C6043325CEDF7" VER_NBR="4"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="d8e5a303-10ef-45f4-b49b-30ba0cc911f4" LOCALE="en"
         MSG_ID="cluAddLearningResultAssessmentScale"
@@ -2902,7 +2902,7 @@
         ID="e6c5c30c-9a4a-4467-8323-03c248bfde4d" LOCALE="en"
         MSG_ID="coursePublicationYear"
         MSG_VALUE="Last Course Catalog Publication Year"
-        OBJ_ID="CFF9A6BEF62EB69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="96D0CB82502E4887879A963B2E9C127C" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="e776c9b7-7bfd-43de-86c4-639adf49efb3" LOCALE="en"
         MSG_ID="cluDescription-instruct"
@@ -2960,7 +2960,7 @@
         ID="ebd58a7d-2dfc-45ce-bb72-f5c270bbfe1f" LOCALE="en"
         MSG_ID="validation.majorEndTermRequiresVariationEndTerm"
         MSG_VALUE="The value in this field must be equal to or greater than the values in the corresponding fields in the associated specializations in order to submit this application."
-        OBJ_ID="CFF9A6BEF627B69CE040007F01013E6A" VER_NBR="3"/>
+        OBJ_ID="4A7B938DE9054002A2B96C919A9C706C" VER_NBR="3"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="ebee6673-bc26-440d-86f4-87dc05701003" LOCALE="en"
         MSG_ID="cluSetInformation" MSG_VALUE="CluSet Information"
@@ -3102,7 +3102,7 @@
     <KSMG_MESSAGE GRP_NAME="common"
         ID="fa234008-491f-4337-91ca-4720e1110dd4" LOCALE="en"
         MSG_ID="showAllFields" MSG_VALUE="Show all fields"
-        OBJ_ID="CFF9A6BEF636B69CE040007F01013E6A" VER_NBR="1"/>
+        OBJ_ID="90B8E44C0DC0434DB61870B85A65F227" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="course"
         ID="fa2c5475-5ae4-4be8-8ba4-a45ed21e9a76" LOCALE="es"
         MSG_ID="cluFormats" MSG_VALUE="Formatos del curso"
