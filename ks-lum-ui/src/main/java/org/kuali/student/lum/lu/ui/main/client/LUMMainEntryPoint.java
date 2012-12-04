@@ -39,8 +39,7 @@ import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.user.client.rpc.SerializationException;
 import com.google.gwt.user.client.rpc.SerializationStreamFactory;
 import com.google.gwt.user.client.rpc.SerializationStreamReader;
-import java.util.List;
-import org.kuali.rice.kns.util.MessageList;
+import java.util.ArrayList;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 public class LUMMainEntryPoint implements EntryPoint{
@@ -77,11 +76,11 @@ public class LUMMainEntryPoint implements EntryPoint{
     }
     
     private void loadMessages(final ApplicationContext context) throws SerializationException {
-        List<MessageInfo> commonMessageList =  getMsgSerializedObject("commonMessages" );
-        List<MessageInfo>  lumMessageList =  getMsgSerializedObject("luMessages" );
+        ArrayList<MessageInfo> commonMessageList =  getMsgSerializedObject("commonMessages" );
+        ArrayList<MessageInfo>  luMessageList =  getMsgSerializedObject("luMessages" );
 
         context.addMessages(commonMessageList);
-        context.addMessages(lumMessageList);
+        context.addMessages(luMessageList);
     }
 
     @SuppressWarnings("unchecked")
