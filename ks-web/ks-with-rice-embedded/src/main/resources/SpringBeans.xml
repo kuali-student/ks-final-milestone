@@ -70,7 +70,7 @@
 		<property name="dataDictionaryPackages">
 			<list>
                 <!-- rice and basic ks xmls -->
-				<value>classpath:org/kuali/rice/student/bo/datadictionary</value>
+				<value>classpath:org/kuali/rice/student/bo</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
                 <value>classpath:UifKradExtensionDefinitions.xml</value>
 				<value>classpath:UifKSDefinitions.xml</value>
