@@ -2772,7 +2772,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<String> searchForActivityOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override
