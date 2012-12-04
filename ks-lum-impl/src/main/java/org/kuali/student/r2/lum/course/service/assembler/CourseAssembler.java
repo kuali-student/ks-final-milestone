@@ -645,6 +645,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         resultValueRange.setMinValue(String.valueOf(minCredits));
                         resultValueRange.setMaxValue(String.valueOf(maxCredits));
                         resultValueRange.setIncrement(String.valueOf(increment));
+                    }else{
+                        resultValues = Collections.emptyList();
                     }
 
                     //Set the id
