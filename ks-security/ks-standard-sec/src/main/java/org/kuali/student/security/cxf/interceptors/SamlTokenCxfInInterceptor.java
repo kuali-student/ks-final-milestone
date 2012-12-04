@@ -16,9 +16,12 @@
 package org.kuali.student.security.cxf.interceptors;
 
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.wsdl.extensions.soap.SOAPBody;
+import javax.wsdl.extensions.soap.SOAPHeader;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -32,9 +35,11 @@ import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.headers.Header;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor;
+import org.apache.ws.security.WSSecurityEngineResult;
 import org.apache.ws.security.WSSecurityException;
 import org.apache.ws.security.handler.RequestData;
 import org.apache.ws.security.processor.SAMLTokenProcessor;
+import org.apache.ws.security.validate.Credential;
 import org.opensaml.SAMLAssertion;
 import org.springframework.security.cas.authentication.CasAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,13 +56,13 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor {
 	}
 
 	@Override
-	protected void computeAction(SoapMessage msg, RequestData reqData) {
+	protected void computeAction(SoapMessage msg, RequestData reqData) throws WSSecurityException {
 		super.computeAction(msg, reqData);
 	}
 
 	@Override
-	protected void doResults(SoapMessage msg, String actor, SOAPMessage doc, Vector wsResult) throws SOAPException, XMLStreamException, WSSecurityException {
-		super.doResults(msg, actor, doc, wsResult);
+    protected void doResults(SoapMessage msg, String actor, Element soapHeader, Element soapBody, List<WSSecurityEngineResult> wsResult) throws javax.xml.soap.SOAPException, javax.xml.stream.XMLStreamException, org.apache.ws.security.WSSecurityException {
+		super.doResults(msg, actor, soapHeader, soapBody, wsResult);
 
 		QName wsseQN = new QName("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd", "Security");
 		if (msg.hasHeader(wsseQN)) {
@@ -75,7 +80,8 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor {
 						SAMLTokenProcessor stp = new SAMLTokenProcessor();
 
 						try {
-							SAMLAssertion samlAssertion = stp.handleSAMLToken((Element) childNode);
+                            Credential credential = stp.handleSAMLToken((Element) childNode, null, null, null);
+							SAMLAssertion samlAssertion = null;
 
 							if (samlAssertion.getIssuer().equals(samlIssuerForUser)) {
 								CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -119,12 +125,12 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor {
 		super.setIgnoreActions(i);
 	}
 
-	public String getSamlIssuerForUser() {
-		return samlIssuerForUser;
-	}
-
 	public void setSamlIssuerForUser(String samlIssuerForUser) {
 		this.samlIssuerForUser = samlIssuerForUser;
 	}
+
+    public String getSamlIssuerForUser() {
+        return samlIssuerForUser;
+    }
 
 }
