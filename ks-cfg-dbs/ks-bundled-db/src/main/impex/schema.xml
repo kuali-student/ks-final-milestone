@@ -4475,6 +4475,11 @@
             <index-column name="OWNER_ID"/>
         </index>
     </table>
+    <table name="KSEN_CODE_GENERATOR_LOCKS">
+        <column name="CODE" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="UNIQUE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="NAMESPACE" primaryKey="true" size="255" type="VARCHAR"/>
+    </table>
     <table name="KSEN_COMM_STATE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
