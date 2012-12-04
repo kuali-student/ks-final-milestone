@@ -40,7 +40,7 @@
         PARM_DESC_TXT="Used as the default country code when relating records that do not have a country code to records that do have a country code, e.g. validating a zip code where the country is not collected."
         PARM_NM="DEFAULT_COUNTRY" PARM_TYP_CD="CONFG" VAL="US" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="All" EVAL_OPRTR_CD="A"
-        NMSPC_CD="KR-NS" OBJ_ID="3AA9AB3C237E483E8781F77CF18C0107"
+        NMSPC_CD="KR-NS" OBJ_ID="CFF9A6BEF73FB69CE040007F01013E6A"
         PARM_DESC_TXT="The locale code that should be used within the application when otherwise not specified."
         PARM_NM="DEFAULT_LOCALE_CODE" PARM_TYP_CD="CONFG" VAL="en-US" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="All" EVAL_OPRTR_CD="A"
@@ -58,6 +58,11 @@
         PARM_DESC_TXT="Maximum file upload size for the application. Used by PojoFormBase. Must be an integer, optionally followed by &quot;K&quot;, &quot;M&quot;, or &quot;G&quot;. Only used if no other upload limits are in effect."
         PARM_NM="MAX_FILE_SIZE_DEFAULT_UPLOAD" PARM_TYP_CD="CONFG"
         VAL="5M" VER_NBR="1"/>
+    <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="All" EVAL_OPRTR_CD="A"
+        NMSPC_CD="KR-NS" OBJ_ID="CFF9A6BEF769B69CE040007F01013E6A"
+        PARM_DESC_TXT="Default message to display when a module is locked"
+        PARM_NM="OLTP_LOCKOUT_DEFAULT_MESSAGE" PARM_TYP_CD="CONFG"
+        VAL="The module you are attempting to access has been locked for maintenance." VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="All" EVAL_OPRTR_CD="A"
         NMSPC_CD="KR-NS" OBJ_ID="5a5fbe94-846f-102c-8db0-c405cae621f3"
         PARM_DESC_TXT="A semi-colon delimted list of regular expressions that identify &#xa;potentially sensitive data in strings.  These patterns will be matched &#xa;against notes, document explanations, and routing annotations."
@@ -95,7 +100,7 @@
         PARM_DESC_TXT="The maximum number of role or group members to display at once on their documents. If the number is above this value, the document will switch into a paging mode with only this many rows displayed at a time."
         PARM_NM="MAX_MEMBERS_PER_PAGE" PARM_TYP_CD="CONFG" VAL="20" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="Document" EVAL_OPRTR_CD="A"
-        NMSPC_CD="KR-NS" OBJ_ID="F3CA168A6F874C79A34BF05E6EA2E47C"
+        NMSPC_CD="KR-NS" OBJ_ID="CFF9A6BEF550B69CE040007F01013E6A"
         PARM_DESC_TXT="Controls whether the nervous system will show the blanket approve button to a user who is authorized for blanket approval but is neither the initiator of the particular document nor the recipient of an active, pending, approve action request."
         PARM_NM="ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND"
         PARM_TYP_CD="CONFG" VAL="N" VER_NBR="1"/>
