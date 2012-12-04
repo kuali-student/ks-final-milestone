@@ -602,6 +602,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     String type = null;
                     List<String> resultValues = null;
                     ResultValueRangeInfo resultValueRange = null;
+                    String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
                     //Depending on the type, set the id, type and result values differently
                     if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(creditOption.getTypeKey())){
                         float fixedCreditValue = Float.parseFloat(creditOption.getResultValueRange().getMinValue());
@@ -616,7 +617,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         Collections.sort(creditOption.getResultValueKeys());
                         StringBuilder sb = new StringBuilder(CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX);
                         for(Iterator<String> iter = creditOption.getResultValueKeys().iterator();iter.hasNext();){
-                            sb.append(iter.next());
+                            String valueKey = iter.next();
+                            if(valueKey.startsWith(resultValueKeyPrefix)){
+                                valueKey = valueKey.replace(resultValueKeyPrefix,"");
+                            }
+                            float creditValue = Float.parseFloat(valueKey);
+                            sb.append(String.valueOf(creditValue));
                             if(iter.hasNext()){
                                 sb.append(",");
                             }
@@ -651,7 +657,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     creditOption.setKey(id);
 
                     //Ensure the resultValueKey has the proper prefix
-                    String resultValueKeyPrefix = "kuali.result.value.credit.degree.";
                     for(int i = 0; i < resultValues.size(); i++){
                         if (!resultValues.get(i).contains("kuali.result.value")){ //only add the prefix if this is not a proper key
                             resultValues.set(i,resultValueKeyPrefix+Float.parseFloat(resultValues.get(i)));

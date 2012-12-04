@@ -2186,7 +2186,11 @@
 	parent="baseString">
 	<property name="minOccurs" value="1" />
     <property name="maxOccurs" value="unbounded" />
-    <property name="validChars" ref="numeric"/>
+    <property name="validChars">
+     <bean parent="ValidCharDefinition">
+         <property name="value" value="regex:[A-Za-z0-9.]*"/>
+     </bean>
+    </property>
  </bean>
  <bean id="resultValuesGroupInfo.credit.multiple-constraint" parent="resultValuesGroupInfo.credit.multiple-constraint-parent" />
  
