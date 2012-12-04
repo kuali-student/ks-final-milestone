@@ -14,7 +14,7 @@
  *
  * Created by Paul on 2012/07/24
  */
-package org.kuali.student.krms.service.impl;
+package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.rice.krad.uif.component.Component;
@@ -71,6 +71,7 @@ public class RuleStudentInquiryViewHelperServiceImpl extends InquirableImpl {
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
         if (PROPOSITION_GROUP_ID.equals(container.getId())) {
+
             RuleBo ruleDataObj = (RuleBo)((InquiryForm)model).getDataObject();
             PropositionBo proposition = ruleDataObj.getProposition();
             if (proposition != null) {

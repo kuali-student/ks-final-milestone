@@ -11,7 +11,7 @@
         <property name="theme">
             <bean parent="Uif-KradTheme"/>
         </property>
-        <property name="viewHelperServiceClass" value="org.kuali.student.krms.service.impl.RuleStudentInquiryViewHelperServiceImpl"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentInquiryViewHelperServiceImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="items">
             <list>

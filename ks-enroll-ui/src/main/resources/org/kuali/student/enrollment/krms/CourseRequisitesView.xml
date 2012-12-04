@@ -8,6 +8,7 @@
         <property name="id" value="manageCourseRequisitesView"/>
         <property name="headerText" value="Manage Course Requisites"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.CourseRequisitesForm" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RequisitesViewHelperServiceImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>
@@ -78,7 +79,7 @@
           p:headerText="Student Eligibility" p:header.render="false">
         <property name="items">
             <list>
-                <!--<ref bean="KS-KitchenSink-Select-Example1"/>-->
+                <ref bean="propositionGroup"/>
             </list>
         </property>
     </bean>
@@ -131,20 +132,18 @@
     </bean>
 
 
-    <bean id="KS-KitchenSink-Select-Example1" parent="Uif-InputField-LabelTop">
+    <!--<bean id="KS-KitchenSink-Select-Example1" parent="Uif-InputField-LabelTop">
         <property name="propertyName" value="dropdownSelection"/>
         <property name="label" value="Dropdown Select Label"/>
         <property name="width" value="auto"/>
-        <!--
-        <property name="labelPlacement" value="RIGHT"/>
-        <property name="instructionalText" value="Additional instruction can go here."/>
-        <property name="helpSummary" value="Additional help or information for this field can go here."/>
-        <property name="constraintText" value="Constraint instruction can go here."/>
-        -->
         <property name="control">
             <bean parent="Uif-DropdownControl"
                   p:options-ref="KS-KitchenSink-Select-Example1-Options"/>
         </property>
+    </bean>-->
+
+    <bean id="propositionGroup" parent="Uif-GridGroup">
+        <property name="headerText" value="Rule" />
     </bean>
 
 </beans>
