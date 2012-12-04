@@ -21,7 +21,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -50,7 +50,7 @@ public class CourseOfferingIdFormatKeyValues extends UifKeyValuesFinderBase impl
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        MaintenanceForm form1 = (MaintenanceForm)model;
+        MaintenanceDocumentForm form1 = (MaintenanceDocumentForm)model;
         FormatOfferingInfo form = (FormatOfferingInfo)form1.getDocument().getDocumentDataObject();
 
         ContextInfo context = TestHelper.getContext1();

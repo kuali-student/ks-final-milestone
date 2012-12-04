@@ -25,7 +25,7 @@ import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -229,7 +229,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo) addLine;
 
             //check duplication
-            MaintenanceForm form = (MaintenanceForm)model;
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             List<OfferingInstructorWrapper> instructors = coEditWrapper.getInstructors();
             if(instructors != null && !instructors.isEmpty()){
@@ -257,7 +257,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         if (addLine instanceof FormatOfferingInfo){
             FormatOfferingInfo newLine = (FormatOfferingInfo)addLine;
             String formatId = newLine.getFormatId();
-            MaintenanceForm form = (MaintenanceForm)model;
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
             getFormatInfo(coEditWrapper, formatId);
             // TODO: fix R2 Format to include name and short name

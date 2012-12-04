@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.population.controller;
 
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PopulationController extends MaintenanceDocumentController {
 
     @RequestMapping(params = "methodToCall=createByRule")
-    public ModelAndView createByRule(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView createByRule(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         PopulationWrapper wrapper = (PopulationWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
@@ -33,7 +33,7 @@ public class PopulationController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=createByCombiningPopulations")
-    public ModelAndView createByCombiningPopulations (@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView createByCombiningPopulations (@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
                                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         PopulationWrapper wrapper = (PopulationWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setCreateByRule(false);
