@@ -33,14 +33,14 @@
     <KSEN_STATE_CNSTRNT CREATEID="SYSTEMLOADER"
         CREATETIME="20121126000000"
         ID="kuali.stateconstraint.formatoffering.planned.draft"
-        STATE_CNSTRNT_OPERATOR="EXISTS"
+        STATE_CNSTRNT_OPERATOR="NONE"
         STATE_CNSTRNT_STATE="kuali.state.constraint.state.active"
         STATE_CNSTRNT_TYPE="kuali.state.constraint.type.precondition"
         UPDATEID="SYSTEMLOADER" UPDATETIME="20121126000000" VER_NBR="1"/>
     <KSEN_STATE_CNSTRNT CREATEID="SYSTEMLOADER"
         CREATETIME="20121126000000"
         ID="kuali.stateconstraint.formatoffering.planned.offered"
-        STATE_CNSTRNT_OPERATOR="EXISTS"
+        STATE_CNSTRNT_OPERATOR="NONE"
         STATE_CNSTRNT_STATE="kuali.state.constraint.state.active"
         STATE_CNSTRNT_TYPE="kuali.state.constraint.type.precondition"
         UPDATEID="SYSTEMLOADER" UPDATETIME="20121126000000" VER_NBR="1"/>
