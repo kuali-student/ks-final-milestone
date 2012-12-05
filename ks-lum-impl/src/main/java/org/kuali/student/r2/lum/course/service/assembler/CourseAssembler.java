@@ -682,7 +682,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         }
                         id = sb.toString();
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE;
-                        resultValues = creditOption.getResultValueKeys();
                     }else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(creditOption.getTypeKey())){
                         /*
                                * For variable credits create a Result values that goes from min to max with the specified increment.
