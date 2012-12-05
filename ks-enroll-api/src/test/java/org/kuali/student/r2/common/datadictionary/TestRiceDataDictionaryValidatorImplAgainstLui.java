@@ -50,46 +50,6 @@ public class TestRiceDataDictionaryValidatorImplAgainstLui {
 
     public TestRiceDataDictionaryValidatorImplAgainstLui() {
     }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    protected Config getTestHarnessConfig() {
-        Config config = new JAXBConfigImpl(getConfigLocations(), System.getProperties());
-        try {
-            config.parseConfig();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        return config;
-    }
-
-    /**
-     * Subclasses may override this method to customize the location(s) of the Rice configuration.
-     * By default it is: classpath:META-INF/" + getModuleName().toLowerCase() + "-test-config.xml"
-     * @return List of config locations to add to this tests config location.
-     */
-    protected List<String> getConfigLocations() {
-        List<String> configLocations = new ArrayList<String>();
-//        configLocations.add(getRiceMasterDefaultConfigFile());
-        return configLocations;
-    }
-
-    @Before
-    public void setUp() {
-        Config config = getTestHarnessConfig();
-        ConfigContext.init(config);
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     private Date parseDate(String str) {
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
         Date date = null;
@@ -110,7 +70,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLui {
         if (validator == null) {
             ApplicationContext appContext =
                     new ClassPathXmlApplicationContext(new String[]{"classpath:testContext.xml"});
-            this.validator = (DataDictionaryValidator) appContext.getBean("testValidator");
+            validator = (DataDictionaryValidator) appContext.getBean("testValidator");
         }
         return validator;
     }
@@ -119,7 +79,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLui {
         if (validator2 == null) {
             ApplicationContext appContext =
                     new ClassPathXmlApplicationContext(new String[]{"classpath:test2Context.xml"});
-            this.validator2 = (DataDictionaryValidator) appContext.getBean("testValidator");
+            validator2 = (DataDictionaryValidator) appContext.getBean("testValidator");
         }
         return validator2;
     }

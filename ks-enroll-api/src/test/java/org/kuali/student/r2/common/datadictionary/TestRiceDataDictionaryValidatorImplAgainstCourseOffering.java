@@ -15,15 +15,7 @@
  */
 package org.kuali.student.r2.common.datadictionary;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -32,11 +24,9 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,45 +39,6 @@ import static org.junit.Assert.assertEquals;
 public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
 
     public TestRiceDataDictionaryValidatorImplAgainstCourseOffering() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    protected Config getTestHarnessConfig() {
-        Config config = new JAXBConfigImpl(getConfigLocations(), System.getProperties());
-        try {
-            config.parseConfig();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
-        return config;
-    }
-
-    /**
-     * Subclasses may override this method to customize the location(s) of the Rice configuration.
-     * By default it is: classpath:META-INF/" + getModuleName().toLowerCase() + "-test-config.xml"
-     * @return List of config locations to add to this tests config location.
-     */
-    protected List<String> getConfigLocations() {
-        List<String> configLocations = new ArrayList<String>();
-//        configLocations.add(getRiceMasterDefaultConfigFile());
-        return configLocations;
-    }
-
-    @Before
-    public void setUp() {
-        Config config = getTestHarnessConfig();
-        ConfigContext.init(config);
-    }
-
-    @After
-    public void tearDown() {
     }
 
     private Date parseDate(String str) {
@@ -110,7 +61,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
         if (validator == null) {
             ApplicationContext appContext =
                     new ClassPathXmlApplicationContext(new String[]{"classpath:testContext.xml"});
-            this.validator = (DataDictionaryValidator) appContext.getBean("testValidator");
+            validator = (DataDictionaryValidator) appContext.getBean("testValidator");
         }
         return validator;
     }
