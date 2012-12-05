@@ -49,6 +49,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
@@ -181,6 +182,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         //  1) a window end date is not required for a One-Slot or Max Number Slot Allocation Method/Window Type
         //  2) a window end date is required for uniform
         String windowTypeKey = apptWindow.getWindowTypeKey();
+
         if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)) {
             if (apptWindow.getEndDate() == null) {
                 GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
@@ -198,43 +200,64 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 isValid = false;
             }
         }
-        // 3) when start/end date is not null, start/end date should be in the date range of the selected period
-        String periodId = apptWindow.getPeriodKey();
-        try {
-            KeyDateInfo period = getAcalService().getKeyDate(periodId, getContextInfo());
-            if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())) {
-                GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].startDate",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
-                isValid = false;
+
+
+        if (apptWindow.getStartDate() == null || StringUtils.isEmpty(apptWindow.getStartTime()) || StringUtils.isEmpty(apptWindow.getStartTimeAmPm())) {
+            if (apptWindow.getStartDate() == null) {
+                GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].startDate",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_REQUIRED_FIELD);
+            } else if (apptWindow.getStartDate() == null) {
+                GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].startTime",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_REQUIRED_FIELD);
+            } else {
+                GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].startTimeAmPm",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_AM_PM_REQUIRED_FIELD);
             }
-            if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty()) {
-                if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate())) {
-                    GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
-                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
+            isValid = false;
+        }else{
+            // 4) when end date is not null, start/end date should be in the date range of the selected period
+            // Aslo check to make sure the end date is not before the start date
+            String periodId = apptWindow.getPeriodKey();
+            try {
+                KeyDateInfo period = getAcalService().getKeyDate(periodId, getContextInfo());
+                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().before(apptWindow.getStartDate())) {
+                    GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].endDate",
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
                     isValid = false;
                 }
-            }
-        } catch (Exception e) {
-            LOG.error("Fail to find periods for a selected term.", e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
-            isValid = false;
-        }
-
-        //4)  when the start date and the end date are not null,  the start date should be before the end date
-        if (isValid) {
-            try {
-                if (apptWindow.getEndDate() != null && !apptWindow.getEndTime().isEmpty() && !apptWindow.getEndTimeAmPm().isEmpty()) {
-                    Date startDate = CommonUtils.getDateWithTime(apptWindow.getStartDate(), apptWindow.getStartTime(), apptWindow.getStartTimeAmPm());
-                    Date endDate = CommonUtils.getDateWithTime(apptWindow.getEndDate(), apptWindow.getEndTime(), apptWindow.getEndTimeAmPm());
-                    if (startDate.after(endDate)) {
+                if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())) {
+                    GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].startDate",
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
+                    isValid = false;
+                }
+                if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty()) {
+                    if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate())) {
                         GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
-                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
+                        isValid = false;
+                    }
+                }
+
+                // 5) when end date is not null, end time cannot be before the start time
+                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm())) {
+                    Date start = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getStartTime());
+                    Date end = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getEndTime());
+                    if (end.before(start)) {
+                        GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].endTime",
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_BEFORE_START_TIME);
+                        isValid = false;
+                    }
+
+                    // 6) when end date is not null, end time AM-PM cannot be before the start time
+                    if (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) {
+                        GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].endTimeAmPm",
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_AM_PM_BEFORE_START_TIME_AM_PM);
                         isValid = false;
                     }
                 }
             } catch (Exception e) {
                 LOG.error("Fail to find periods for a selected term.", e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
                 isValid = false;
             }
         }
@@ -265,6 +288,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         //  1) a window end date is not required for a One-Slot or Max Number Slot Allocation Method/Window Type
         //  2) a window end date is required for uniform
         String windowTypeKey = apptWindow.getWindowTypeKey();
+
         if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)) {
             if (apptWindow.getEndDate() == null) {
                 GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endDate",
@@ -282,43 +306,65 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 isValid = false;
             }
         }
-        // 3) when start/end date is not null, start/end date should be in the date range of the selected period
-        String periodId = apptWindow.getPeriodKey();
-        try {
-            KeyDateInfo period = getAcalService().getKeyDate(periodId, getContextInfo());
-            if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())) {
+
+        // 3) start date, time and AmPm are a required field
+        if (apptWindow.getStartDate() == null || StringUtils.isEmpty(apptWindow.getStartTime()) || StringUtils.isEmpty(apptWindow.getStartTimeAmPm())) {
+            if (apptWindow.getStartDate() == null) {
                 GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].startDate",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
-                isValid = false;
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_REQUIRED_FIELD);
+            } else if (apptWindow.getStartDate() == null) {
+                GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].startTime",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_REQUIRED_FIELD);
+            } else {
+                GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].startTimeAmPm",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_AM_PM_REQUIRED_FIELD);
             }
-            if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty()) {
-                if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate())) {
+            isValid = false;
+        } else {
+            // 4) when end date is not null, start/end date should be in the date range of the selected period
+            // Aslo check to make sure the end date is not before the start date
+            String periodId = apptWindow.getPeriodKey();
+            try {
+                KeyDateInfo period = getAcalService().getKeyDate(periodId, getContextInfo());
+                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().before(apptWindow.getStartDate())) {
                     GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endDate",
-                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
                     isValid = false;
                 }
-            }
-        } catch (Exception e) {
-            LOG.error("Fail to find periods for a selected term.", e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
-            isValid = false;
-        }
-
-        //4)  when the start date and the end date are not null,  the start date should be before the end date
-        if (isValid) {
-            try {
-                if (apptWindow.getEndDate() != null && !apptWindow.getEndTime().isEmpty() && !apptWindow.getEndTimeAmPm().isEmpty()) {
-                    Date startDate = CommonUtils.getDateWithTime(apptWindow.getStartDate(), apptWindow.getStartTime(), apptWindow.getStartTimeAmPm());
-                    Date endDate = CommonUtils.getDateWithTime(apptWindow.getEndDate(), apptWindow.getEndTime(), apptWindow.getEndTimeAmPm());
-                    if (startDate.after(endDate)) {
+                if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())) {
+                    GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].startDate",
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
+                    isValid = false;
+                }
+                if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty()) {
+                    if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate())) {
                         GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endDate",
-                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
                         isValid = false;
                     }
                 }
+
+                // 5) when end date is not null, end time cannot be before the start time
+                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm())) {
+                    Date start = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getStartTime());
+                    Date end = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getEndTime());
+                    if (end.before(start)) {
+                        GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endTime",
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_BEFORE_START_TIME);
+                        isValid = false;
+                    }
+
+                    // 6) when end date is not null, end time AM-PM cannot be before the start time
+                    if (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) {
+                        GlobalVariables.getMessageMap().putError("appointmentWindows[" + windowIndex + "].endTimeAmPm",
+                                AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_AM_PM_BEFORE_START_TIME_AM_PM);
+                        isValid = false;
+                    }
+                }
+
             } catch (Exception e) {
                 LOG.error("Fail to find periods for a selected term.", e);
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, AppointmentConstants.APPOINTMENT_MSG_ERROR_NO_REG_PERIODS_FOR_TERM);
                 isValid = false;
             }
         }
