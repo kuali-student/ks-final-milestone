@@ -50,14 +50,18 @@ import org.kuali.rice.krms.impl.repository.RuleBoService;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermBoService;
 import org.kuali.rice.krms.impl.rule.AgendaEditorBusRule;
-import org.kuali.rice.krms.impl.ui.AgendaEditor;
 import org.kuali.rice.krms.impl.ui.CompoundOpCodeNode;
 import org.kuali.rice.krms.impl.ui.RuleTreeNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionNode;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
-import org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainable;
+import org.kuali.student.enrollment.class1.krms.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl;
+import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.krms.service.impl.KrmsStudentMockServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -79,6 +83,7 @@ import java.util.UUID;
 
 /**
  * Controller for the Test UI Page
+ *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
 @Controller
@@ -100,7 +105,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
 
         // handle return from context lookup
         MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        AgendaEditor agendaEditor = ((AgendaEditor) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject());
+        StudentAgendaEditor agendaEditor = ((StudentAgendaEditor) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject());
         AgendaEditorBusRule rule = new AgendaEditorBusRule();
         if (rule.validContext(agendaEditor) && rule.validAgendaName(agendaEditor)) {
             // update the namespace on all agenda related objects if the contest has been changed
@@ -130,7 +135,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public ModelAndView goToAddRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         setAgendaItemLine(form, null);
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         agendaEditor.setAddRuleInProgress(true);
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-AddRule-Page");
         return super.navigate(form, result, request, response);
@@ -145,7 +150,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
      * @param agendaItem
      */
     private void setAgendaItemLine(UifFormBase form, AgendaItemBo agendaItem) {
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         if (agendaItem == null) {
             RuleBo rule = new RuleBo();
             rule.setId(getSequenceAccessorService().getNextAvailableSequenceNumber("KRMS_RULE_S")
@@ -186,7 +191,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
      * @return selectedAgendaItemId
      */
     private String getSelectedAgendaItemId(UifFormBase form) {
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         return agendaEditor.getSelectedAgendaItemId();
     }
 
@@ -197,7 +202,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
      * @param cutAgendaItemId
      */
     private void setCutAgendaItemId(UifFormBase form, String cutAgendaItemId) {
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         agendaEditor.setCutAgendaItemId(cutAgendaItemId);
     }
 
@@ -208,7 +213,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
      * @return cutAgendaItemId
      */
     private String getCutAgendaItemId(UifFormBase form) {
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         return agendaEditor.getCutAgendaItemId();
     }
 
@@ -219,7 +224,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public ModelAndView goToEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         agendaEditor.setAddRuleInProgress(false);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
@@ -239,7 +244,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         AgendaBo agenda = agendaEditor.getAgenda();
         AgendaItemBo newAgendaItem = agendaEditor.getAgendaItemLine();
 
@@ -439,7 +444,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
             String termSpecificationId = termId.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
 
             TermResolverDefinition termResolverDefinition =
-                    AgendaStudentEditorMaintainable.getSimplestTermResolver(termSpecificationId, namespace);
+                    AgendaStudentEditorMaintainableImpl.getSimplestTermResolver(termSpecificationId, namespace);
 
             if (termResolverDefinition == null) {
                 GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
@@ -507,7 +512,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
         return agenda.getId();
     }
 
-    private void updateRuleAction(AgendaEditor agendaEditor) {
+    private void updateRuleAction(StudentAgendaEditor agendaEditor) {
         agendaEditor.getAgendaItemLine().getRule().setActions(new ArrayList<ActionBo>());
         if (StringUtils.isNotBlank(agendaEditor.getAgendaItemLineRuleAction().getTypeId())) {
             agendaEditor.getAgendaItemLineRuleAction().setAttributes(agendaEditor.getCustomRuleActionAttributesMap());
@@ -543,7 +548,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     @RequestMapping(params = "methodToCall=" + "editRule")
     public ModelAndView editRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
         AgendaItemBo node = getAgendaItemById(firstItem, getSelectedAgendaItemId(form));
@@ -661,7 +666,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
          *     move node up within its sibling group
          */
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
 
@@ -770,7 +775,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
          *     move node down within its sibling group
          */
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
 
@@ -864,7 +869,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
          * Move left means make it a younger sibling of it's parent.
          */
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
 
@@ -919,7 +924,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
          * moves to top of lower sibling's When TRUE branch
          */
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
 
@@ -1181,9 +1186,9 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
      * @param form
      * @return the {@link org.kuali.rice.krms.impl.ui.AgendaEditor} from the form
      */
-    private AgendaEditor getAgendaEditor(UifFormBase form) {
+    private StudentAgendaEditor getAgendaEditor(UifFormBase form) {
         MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        return ((AgendaEditor)maintenanceForm.getDocument().getDocumentDataObject());
+        return ((StudentAgendaEditor)maintenanceForm.getDocument().getDocumentDataObject());
     }
 
     private void treeToInOrderList(AgendaItemBo agendaItem, List<AgendaItemBo> listToBuild) {
@@ -1218,7 +1223,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
 
 
     private void deleteSelectedSubtree(UifFormBase form) {
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
 
         if (firstItem != null) {
@@ -1293,7 +1298,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public ModelAndView ajaxCut(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
         String selectedItemId = agendaEditor.getSelectedAgendaItemId();
@@ -1312,7 +1317,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public ModelAndView ajaxPaste(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
         String selectedItemId = agendaEditor.getSelectedAgendaItemId();
@@ -1390,15 +1395,15 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
 
             if (StringUtils.isBlank(categoryId)) { categoryId = null; }
 
-            AgendaEditor agendaEditor = getAgendaEditor(form);
+            StudentAgendaEditor agendaEditor = getAgendaEditor(form);
             RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
             String selectedPropId = agendaEditor.getSelectedPropositionId();
 
             // TODO: This should work even if the prop isn't selected!!!  Find the node in edit mode?
             if (!StringUtils.isBlank(selectedPropId)) {
-                Node<RuleTreeNode, String> selectedPropositionNode =
+                Node<RuleEditorTreeNode, String> selectedPropositionNode =
                         findPropositionTreeNode(rule.getPropositionTree().getRootElement(), selectedPropId);
-                selectedPropositionNode.getData().getProposition().setCategoryId(categoryId);
+                selectedPropositionNode.getData().getProposition().getProposition().setCategoryId(categoryId);
             }
         }
 
@@ -1608,7 +1613,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public ModelAndView copyRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         String name = agendaEditor.getCopyRuleName();
         String namespace = agendaEditor.getNamespace();
         // fetch existing rule and copy fields to new rule
@@ -1632,27 +1637,27 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // open the selected node for editing
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
         String selectedPropId = agendaEditor.getSelectedPropositionId();
 
-        Node<RuleTreeNode,String> root = rule.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode,String> root = rule.getPropositionTree().getRootElement();
         PropositionBo propositionToToggleEdit = null;
         boolean newEditMode = true;
 
         // find parent
-        Node<RuleTreeNode,String> parent = findParentPropositionNode( root, selectedPropId);
+        Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode( root, selectedPropId);
         if (parent != null){
-            List<Node<RuleTreeNode,String>> children = parent.getChildren();
+            List<Node<RuleEditorTreeNode,String>> children = parent.getChildren();
             for( int index=0; index< children.size(); index++){
-                Node<RuleTreeNode,String> child = children.get(index);
+                Node<RuleEditorTreeNode,String> child = children.get(index);
                 if (propIdMatches(child, selectedPropId)){
-                    PropositionBo prop = child.getData().getProposition();
+                    PropositionBo prop = child.getData().getProposition().getProposition();
                     propositionToToggleEdit = prop;
                     newEditMode =  !prop.getEditMode();
                     break;
                 } else {
-                    child.getData().getProposition().setEditMode(false);
+                    child.getData().getProposition().getProposition().setEditMode(false);
                 }
             }
         }
@@ -1673,22 +1678,21 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public ModelAndView addProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
         String selectedPropId = agendaEditor.getSelectedPropositionId();
 
-
         // find parent
-        Node<RuleTreeNode,String> root = agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement();
-        Node<RuleTreeNode,String> parent = findParentPropositionNode( root, selectedPropId);
+        Node<RuleEditorTreeNode,String> root = rule.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode( root, selectedPropId);
 
         resetEditModeOnPropositionTree(root);
 
         // add new child at appropriate spot
         if (parent != null){
-            List<Node<RuleTreeNode,String>> children = parent.getChildren();
+            List<Node<RuleEditorTreeNode,String>> children = parent.getChildren();
             for( int index=0; index< children.size(); index++){
-                Node<RuleTreeNode,String> child = children.get(index);
+                Node<RuleEditorTreeNode,String> child = children.get(index);
 
                 // if our selected node is a simple proposition, add a new one after
                 if (propIdMatches(child, selectedPropId)){
@@ -1701,7 +1705,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
                         SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()))){
 
                         // create a new compound proposition
-                        PropositionBo compound = PropositionBo.createCompoundPropositionBoStub(child.getData().getProposition(), true);
+                        PropositionBo compound = PropositionBo.createCompoundPropositionBoStub(child.getData().getProposition().getProposition(), true);
                         // don't set compound.setEditMode(true) as the Simple Prop in the compound prop is the only prop in edit mode
                         rule.setProposition(compound);
                         rule.refreshPropositionTree(null);
@@ -1711,9 +1715,9 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
                        SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType())){
 
                         // build new Blank Proposition
-                        PropositionBo blank = PropositionBo.createSimplePropositionBoStub(child.getData().getProposition(), PropositionType.SIMPLE.getCode());
+                        PropositionBo blank = PropositionBo.createSimplePropositionBoStub(child.getData().getProposition().getProposition(), PropositionType.SIMPLE.getCode());
                         //add it to the parent
-                        PropositionBo parentProp = parent.getData().getProposition();
+                        PropositionBo parentProp = parent.getData().getProposition().getProposition();
                         parentProp.getCompoundComponents().add(((index/2)+1), blank);
 
                         rule.refreshPropositionTree(true);
@@ -1760,8 +1764,8 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     }
 
 
-    private boolean propIdMatches(Node<RuleTreeNode, String> node, String propId){
-        if (propId!=null && node != null && node.getData() != null && propId.equalsIgnoreCase(node.getData().getProposition().getId())) {
+    private boolean propIdMatches(Node<RuleEditorTreeNode, String> node, String propId){
+        if (propId!=null && node != null && node.getData() != null && propId.equalsIgnoreCase(node.getData().getProposition().getProposition().getId())) {
             return true;
         }
         return false;
@@ -1771,49 +1775,29 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
      * disable edit mode for all Nodes beneath and including the passed in Node
      * @param currentNode
      */
-    private void resetEditModeOnPropositionTree(Node<RuleTreeNode, String> currentNode){
+    private void resetEditModeOnPropositionTree(Node<RuleEditorTreeNode, String> currentNode){
         if (currentNode.getData() != null){
-            RuleTreeNode dataNode = currentNode.getData();
-            dataNode.getProposition().setEditMode(false);
+            RuleEditorTreeNode dataNode = currentNode.getData();
+            dataNode.getProposition().getProposition().setEditMode(false);
         }
-        List<Node<RuleTreeNode,String>> children = currentNode.getChildren();
-        for( Node<RuleTreeNode,String> child : children){
+        List<Node<RuleEditorTreeNode,String>> children = currentNode.getChildren();
+        for( Node<RuleEditorTreeNode,String> child : children){
               resetEditModeOnPropositionTree(child);
         }
     }
 
-    private Node<RuleTreeNode, String> findPropositionTreeNode(Node<RuleTreeNode, String> currentNode, String selectedPropId){
-        Node<RuleTreeNode,String> bingo = null;
+    private Node<RuleEditorTreeNode, String> findPropositionTreeNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId){
+        Node<RuleEditorTreeNode,String> bingo = null;
         if (currentNode.getData() != null){
-            RuleTreeNode dataNode = currentNode.getData();
-            if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getId())){
+            RuleEditorTreeNode dataNode = currentNode.getData();
+            if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getProposition().getId())){
                 return currentNode;
             }
         }
-        List<Node<RuleTreeNode,String>> children = currentNode.getChildren();
-        for( Node<RuleTreeNode,String> child : children){
+        List<Node<RuleEditorTreeNode,String>> children = currentNode.getChildren();
+        for( Node<RuleEditorTreeNode,String> child : children){
               bingo = findPropositionTreeNode(child, selectedPropId);
               if (bingo != null) break;
-        }
-        return bingo;
-    }
-
-    private Node<RuleTreeNode, String> findParentPropositionNode(Node<RuleTreeNode, String> currentNode, String selectedPropId){
-        Node<RuleTreeNode,String> bingo = null;
-        if (selectedPropId != null) {
-            // if it's in children, we have the parent
-            List<Node<RuleTreeNode,String>> children = currentNode.getChildren();
-            for( Node<RuleTreeNode,String> child : children){
-                RuleTreeNode dataNode = child.getData();
-                if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getId()))
-                    return currentNode;
-            }
-
-            // if not found check grandchildren
-            for( Node<RuleTreeNode,String> kid : children){
-                  bingo = findParentPropositionNode(kid, selectedPropId);
-                  if (bingo != null) break;
-            }
         }
         return bingo;
     }
@@ -1824,11 +1808,11 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
      * @param propId
      * @return index if found, -1 if not found
      */
-    private int findChildIndex(Node<RuleTreeNode,String> parent, String propId){
+    private int findChildIndex(Node<RuleEditorTreeNode,String> parent, String propId){
         int index;
-        List<Node<RuleTreeNode,String>> children = parent.getChildren();
+        List<Node<RuleEditorTreeNode,String>> children = parent.getChildren();
         for(index=0; index< children.size(); index++){
-            Node<RuleTreeNode,String> child = children.get(index);
+            Node<RuleEditorTreeNode,String> child = children.get(index);
             // if our selected node is a simple proposition, add a new one after
             if (propIdMatches(child, propId)){
                 return index;
@@ -1865,18 +1849,18 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
          *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
          *
          */
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
         String selectedPropId = agendaEditor.getSelectedPropositionId();
 
         // find parent
-        Node<RuleTreeNode,String> parent = findParentPropositionNode(rule.getPropositionTree().getRootElement(), selectedPropId);
+        Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(rule.getPropositionTree().getRootElement(), selectedPropId);
 
         // add new child at appropriate spot
         if (parent != null){
-            List<Node<RuleTreeNode,String>> children = parent.getChildren();
+            List<Node<RuleEditorTreeNode,String>> children = parent.getChildren();
             for( int index=0; index< children.size(); index++){
-                Node<RuleTreeNode,String> child = children.get(index);
+                Node<RuleEditorTreeNode,String> child = children.get(index);
                 // if our selected node is a simple proposition, add a new one after
                 if (propIdMatches(child, selectedPropId)){
                     if(SimplePropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
@@ -1885,7 +1869,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
 
                         if (((index > 0) && up) || ((index <(children.size() - 1)&& !up))){
                             //remove it from its current spot
-                            PropositionBo parentProp = parent.getData().getProposition();
+                            PropositionBo parentProp = parent.getData().getProposition().getProposition();
                             PropositionBo workingProp = parentProp.getCompoundComponents().remove(index/2);
                             if (up){
                                 parentProp.getCompoundComponents().add((index/2)-1, workingProp);
@@ -1918,21 +1902,21 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
          *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
          *
          */
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
         String selectedPropId = agendaEditor.getSelectedPropositionId();
 
         // find agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement()parent
-        Node<RuleTreeNode,String> root = rule.getPropositionTree().getRootElement();
-        Node<RuleTreeNode,String> parent = findParentPropositionNode(root, selectedPropId);
+        Node<RuleEditorTreeNode,String> root = rule.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
         if ((parent != null) && (RuleTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(parent.getNodeType()))){
-            Node<RuleTreeNode,String> granny = findParentPropositionNode(root,parent.getData().getProposition().getId());
+            Node<RuleEditorTreeNode,String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getProposition().getId());
             if (granny != root){
                 int oldIndex = findChildIndex(parent, selectedPropId);
-                int newIndex = findChildIndex(granny, parent.getData().getProposition().getId());
+                int newIndex = findChildIndex(granny, parent.getData().getProposition().getProposition().getId());
                 if (oldIndex >= 0 && newIndex >= 0){
-                    PropositionBo prop = parent.getData().getProposition().getCompoundComponents().remove(oldIndex/2);
-                    granny.getData().getProposition().getCompoundComponents().add((newIndex/2)+1, prop);
+                    PropositionBo prop = parent.getData().getProposition().getProposition().getCompoundComponents().remove(oldIndex/2);
+                    granny.getData().getProposition().getProposition().getCompoundComponents().add((newIndex/2)+1, prop);
                     rule.refreshPropositionTree(false);
                 }
             } else {
@@ -1957,25 +1941,25 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
          *   nextSibling := the node after the selected node
          *
          */
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
         String selectedPropId = agendaEditor.getSelectedPropositionId();
 
         // find parent
-        Node<RuleTreeNode,String> parent = findParentPropositionNode(
+        Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(
                 rule.getPropositionTree().getRootElement(), selectedPropId);
         if (parent != null){
             int index = findChildIndex(parent, selectedPropId);
             // if we are the last child, do nothing, otherwise
             if (index >= 0 && index+1 < parent.getChildren().size()){
-                Node<RuleTreeNode,String> child = parent.getChildren().get(index);
-                Node<RuleTreeNode,String> nextSibling = parent.getChildren().get(index+2);
+                Node<RuleEditorTreeNode,String> child = parent.getChildren().get(index);
+                Node<RuleEditorTreeNode,String> nextSibling = parent.getChildren().get(index+2);
                 // if selected node above a compound node, move it into it as first child
                 if(RuleTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(nextSibling.getNodeType()) ){
                     // remove selected node from it's current spot
-                    PropositionBo prop = parent.getData().getProposition().getCompoundComponents().remove(index/2);
+                    PropositionBo prop = parent.getData().getProposition().getProposition().getCompoundComponents().remove(index/2);
                     // add it to it's siblings children
-                    nextSibling.getData().getProposition().getCompoundComponents().add(0, prop);
+                    nextSibling.getData().getProposition().getProposition().getCompoundComponents().add(0, prop);
                     rule.refreshPropositionTree(false);
                 }
             }
@@ -1993,7 +1977,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
         String selectedPropId = agendaEditor.getSelectedPropositionId();
 
@@ -2001,13 +1985,13 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
 
         if (!StringUtils.isBlank(selectedPropId)) {
             // find parent
-            Node<RuleTreeNode,String> parent = findParentPropositionNode(
+            Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(
                     rule.getPropositionTree().getRootElement(), selectedPropId);
             if (parent != null){
 
                 int index = findChildIndex(parent, selectedPropId);
 
-                PropositionBo propBo = parent.getChildren().get(index).getData().getProposition();
+                PropositionBo propBo = parent.getChildren().get(index).getData().getProposition().getProposition();
 
                 // create a new compound proposition
                 PropositionBo compound = PropositionBo.createCompoundPropositionBoStub(propBo, true);
@@ -2017,7 +2001,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
                 if (parent.getData() == null) { // SPECIAL CASE: this is the only proposition in the tree
                     rule.setProposition(compound);
                 } else {
-                    PropositionBo parentBo = parent.getData().getProposition();
+                    PropositionBo parentBo = parent.getData().getProposition().getProposition();
                     List<PropositionBo> siblings = parentBo.getCompoundComponents();
 
                     int propIndex = -1;
@@ -2043,7 +2027,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         String selectedPropId = agendaEditor.getSelectedPropositionId();
         agendaEditor.setCutPropositionId(selectedPropId);
 
@@ -2055,7 +2039,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
 
         // get selected id
@@ -2067,10 +2051,10 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
         } else {
 
             // proposition tree root
-            Node<RuleTreeNode, String> root = rule.getPropositionTree().getRootElement();
+            Node<RuleEditorTreeNode, String> root = rule.getPropositionTree().getRootElement();
 
             if (StringUtils.isNotBlank(selectedPropId) && StringUtils.isNotBlank(cutPropId)) {
-                Node<RuleTreeNode,String> parentNode = findParentPropositionNode(root, selectedPropId);
+                Node<RuleEditorTreeNode,String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
                 PropositionBo newParent;
                 if (parentNode == root){
                     // special case
@@ -2078,13 +2062,13 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
                     // add existing as first child
                     // then paste cut node as 2nd child
                     newParent = PropositionBo.createCompoundPropositionBoStub2(
-                            root.getChildren().get(0).getData().getProposition());
+                            root.getChildren().get(0).getData().getProposition().getProposition());
                     newParent.setEditMode(true);
                     rule.setProposition(newParent);
                 } else {
-                    newParent = parentNode.getData().getProposition();
+                    newParent = parentNode.getData().getProposition().getProposition();
                 }
-                PropositionBo oldParent = findParentPropositionNode(root, cutPropId).getData().getProposition();
+                PropositionBo oldParent = PropositionTreeUtil.findParentPropositionNode(root, cutPropId).getData().getProposition().getProposition();
 
                 PropositionBo workingProp = null;
                 // cut from old
@@ -2122,20 +2106,20 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public ModelAndView deleteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         String selectedPropId = agendaEditor.getSelectedPropositionId();
-        Node<RuleTreeNode, String> root = agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode, String> root = agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement();
 
-        Node<RuleTreeNode, String> parentNode = findParentPropositionNode(root, selectedPropId);
+        Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
 
         // what if it is the root?
         if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
-            PropositionBo parent = parentNode.getData().getProposition();
+            PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null){
-                List <PropositionBo> children = parent.getCompoundComponents();
+                List <PropositionBo> children = parent.getProposition().getCompoundComponents();
                 for( int index=0; index< children.size(); index++){
                     if (selectedPropId.equalsIgnoreCase(children.get(index).getId())){
-                        parent.getCompoundComponents().remove(index);
+                        parent.getProposition().getCompoundComponents().remove(index);
                         break;
                     }
                 }
@@ -2156,7 +2140,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
         rule.refreshPropositionTree(false);
 
@@ -2168,7 +2152,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        PropositionBo proposition = this.getProposition(form);
+        PropositionEditor proposition = this.getProposition(form);
         if (proposition != null){
             //String desc = proposition.getDescription().replaceAll("\\{[a-z]{2,}\\}", proposition.getTermParameter());
             //proposition.setDescription(desc);
@@ -2182,10 +2166,10 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        PropositionBo proposition = this.getProposition(form);
-        if ((proposition != null) && (proposition.getTypeId() != null)){
-            KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(proposition.getTypeId());
-            proposition.setDescription(type.getName());
+        PropositionEditor proposition = this.getProposition(form);
+        if ((proposition != null) && (proposition.getProposition().getTypeId() != null)){
+            KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(proposition.getProposition().getTypeId());
+            proposition.getProposition().setDescription(type.getName());
 
             setValueForProposition(proposition, "");
         }
@@ -2195,23 +2179,26 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
         return getUIFModelAndView(form);
     }
 
-    private void configureProposition(UifFormBase form, PropositionBo proposition) {
+    private void configureProposition(UifFormBase form, PropositionEditor proposition) {
 
         if (proposition != null){
 
             KrmsStudentMockServiceImpl studentService = new KrmsStudentMockServiceImpl();
+
+            String propositionTypeId = proposition.getProposition().getTypeId();
+
             //Set the term spec
-            String termSpecId = studentService.getTermForType(proposition.getTypeId());
+            String termSpecId = studentService.getTermForType(propositionTypeId);
             TermSpecificationDefinition termSpecification = getTermBoService().getTermSpecificationById(termSpecId);
             setTermForProposition(proposition, termSpecification.getDescription());
 
             //proposition.setTermSpecId(termSpecId);
 
             //Set the operation
-            setOperationForProposition(proposition, studentService.getOperationForType(proposition.getTypeId()));
+            setOperationForProposition(proposition, studentService.getOperationForType(propositionTypeId));
 
             //Set the value
-            String defaultValue = studentService.getValueForType(proposition.getTypeId());
+            String defaultValue = studentService.getValueForType(propositionTypeId);
             if ("?".equals(defaultValue)){
                 //proposition.setShowCustomValue(true);
             } else {
@@ -2222,24 +2209,24 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
         }
     }
 
-    private void setTermForProposition(PropositionBo proposition, String term){
-        proposition.getParameters().get(0).setValue(term);
+    private void setTermForProposition(PropositionEditor proposition, String term){
+        proposition.getProposition().getParameters().get(0).setValue(term);
     }
 
-    private void setOperationForProposition(PropositionBo proposition, String operation){
-        proposition.getParameters().get(2).setValue(operation);
+    private void setOperationForProposition(PropositionEditor proposition, String operation){
+        proposition.getProposition().getParameters().get(2).setValue(operation);
     }
 
-    private void setValueForProposition(PropositionBo proposition, String value){
-        proposition.getParameters().get(1).setValue(value);
+    private void setValueForProposition(PropositionEditor proposition, String value){
+        proposition.getProposition().getParameters().get(1).setValue(value);
     }
 
     /**
      * @param form
      * @return the {@link org.kuali.rice.krms.impl.repository.PropositionBo} from the form
      */
-    private PropositionBo getProposition(UifFormBase form) {
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+    private PropositionEditor getProposition(UifFormBase form) {
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
 
         if (rule != null){
@@ -2250,16 +2237,16 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
         return null;
     }
 
-    private PropositionBo findProposition(Node<RuleTreeNode, String> currentNode, String selectedPropId){
+    private PropositionEditor findProposition(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId){
 
         if (selectedPropId == null) {
             return null;
         }
 
         // if it's in children, we have the parent
-        for( Node<RuleTreeNode,String> child : currentNode.getChildren()){
-            PropositionBo proposition = child.getData().getProposition();
-            if (selectedPropId.equalsIgnoreCase(proposition.getId()))  {
+        for( Node<RuleEditorTreeNode,String> child : currentNode.getChildren()){
+            PropositionEditor proposition = child.getData().getProposition();
+            if (selectedPropId.equalsIgnoreCase(proposition.getProposition().getId()))  {
                 return proposition;
             } else {
                 // if not found check grandchildren
@@ -2280,4 +2267,5 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
     public TermBoService getTermBoService() {
         return KrmsRepositoryServiceLocator.getTermBoService();
     }
+
 }

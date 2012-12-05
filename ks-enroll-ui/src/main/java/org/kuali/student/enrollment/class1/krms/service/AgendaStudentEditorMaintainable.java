@@ -15,57 +15,10 @@
  */
 package org.kuali.student.enrollment.class1.krms.service;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.metadata.ClassNotPersistenceCapableException;
-import org.kuali.rice.core.api.uif.DataType;
-import org.kuali.rice.core.api.uif.RemotableAttributeField;
-import org.kuali.rice.core.api.uif.RemotableTextInput;
-import org.kuali.rice.core.api.util.tree.Node;
-import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.bo.Note;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.maintenance.MaintainableImpl;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.container.Container;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
-import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
-import org.kuali.rice.krms.impl.repository.ActionBo;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
-import org.kuali.rice.krms.impl.repository.AgendaItemBo;
-import org.kuali.rice.krms.impl.repository.ContextBoService;
-import org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionService;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
-import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
-import org.kuali.rice.krms.impl.repository.RuleBo;
-import org.kuali.rice.krms.impl.repository.TermBo;
-import org.kuali.rice.krms.impl.repository.TermParameterBo;
-import org.kuali.rice.krms.impl.ui.AgendaEditor;
-import org.kuali.rice.krms.impl.ui.KrmsMaintenanceConstants;
-import org.kuali.rice.krms.impl.ui.RuleTreeNode;
-import org.kuali.rice.krms.impl.util.KrmsImplConstants;
-import org.kuali.rice.krms.impl.util.KrmsRetriever;
 import org.kuali.student.enrollment.uif.service.KSMaintainable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * {@link Maintainable} for the {@link org.kuali.rice.krms.impl.ui.AgendaEditor}
+ * {@link org.kuali.rice.krad.maintenance.Maintainable} for the {@link org.kuali.rice.krms.impl.ui.AgendaEditor}
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *

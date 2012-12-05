@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.krms.service.impl;
+package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.uif.RemotableAttributeField;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;

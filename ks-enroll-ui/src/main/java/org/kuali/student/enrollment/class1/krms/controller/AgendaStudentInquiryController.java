@@ -30,6 +30,7 @@ import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.ui.AgendaEditor;
+import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -51,7 +52,7 @@ public class AgendaStudentInquiryController extends InquiryController {
     public ModelAndView viewRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        AgendaEditor agendaEditor = getAgendaEditor(form);
+        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
         agendaEditor.setAddRuleInProgress(false);
         // this is the root of the tree:
         AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
@@ -69,9 +70,9 @@ public class AgendaStudentInquiryController extends InquiryController {
      * @param form
      * @return the {@link org.kuali.rice.krms.impl.ui.AgendaEditor} from the form
      */
-    private AgendaEditor getAgendaEditor(UifFormBase form) {
+    private StudentAgendaEditor getAgendaEditor(UifFormBase form) {
         InquiryForm inquiryForm = (InquiryForm) form;
-        return ((AgendaEditor)inquiryForm.getDataObject());
+        return ((StudentAgendaEditor)inquiryForm.getDataObject());
     }
 
     /**

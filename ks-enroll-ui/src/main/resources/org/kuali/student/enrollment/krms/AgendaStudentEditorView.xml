@@ -29,8 +29,8 @@
    <bean id="Uif-Student-Inquiry"  parent="Uif-Inquiry" class="org.kuali.student.enrollment.class1.krms.StudentInquiry"/>
     
   <bean id="AgendaStudentEditorMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.rice.krms.impl.ui.AgendaEditor"/>
-    <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainable"/>
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.StudentAgendaEditor"/>
+    <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl"/>
     <property name="documentTypeName" value="AgendaEditorMaintenanceDocument"/>
     <property name="documentAuthorizerClass" value="org.kuali.rice.krms.impl.authorization.AgendaEditorAuthorizer"/>
     <property name="businessRulesClass" value="org.kuali.rice.krms.impl.rule.AgendaEditorBusRule" />
@@ -72,8 +72,8 @@
     <property name="theme">
       <bean parent="Uif-KradTheme"/>
     </property>
-    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.ui.AgendaEditor"/>
-    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainable"/>
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.StudentAgendaEditor"/>
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl"/>
     <property name="items">
       <list> 
         <bean id="AgendaStudentEditorView-Agenda-Page" parent="AgendaStudentEditorView-Agenda-Page-Parent"/>
