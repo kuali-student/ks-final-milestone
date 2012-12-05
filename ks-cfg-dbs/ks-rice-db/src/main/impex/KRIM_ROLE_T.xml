@@ -24,8 +24,8 @@
         ROLE_NM="Kuali Orgainzation Membership" VER_NBR="2"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role maintains KRMS agendas and rules."
-        KIM_TYP_ID="1" LAST_UPDT_DT="20121205170623" NMSPC_CD="KR-RULE"
-        OBJ_ID="D01EFA297C48F66CE040760A4A456A38" ROLE_ID="10003"
+        KIM_TYP_ID="1" LAST_UPDT_DT="20121205193559" NMSPC_CD="KR-RULE"
+        OBJ_ID="D02111F2A7E8BB3DE040760A4A450E35" ROLE_ID="10003"
         ROLE_NM="Kuali Rules Management System Administrator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y" KIM_TYP_ID="10002"
         LAST_UPDT_DT="20120509163854" NMSPC_CD="KS-SYS"
@@ -135,48 +135,48 @@
         ROLE_NM="Kuali Student CM User" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role is used for no login guest users."
-        KIM_TYP_ID="1" LAST_UPDT_DT="20121205170628" NMSPC_CD="KUALI"
-        OBJ_ID="D01EFA297C9EF66CE040760A4A456A38" ROLE_ID="10026"
+        KIM_TYP_ID="1" LAST_UPDT_DT="20121205193605" NMSPC_CD="KUALI"
+        OBJ_ID="D02111F2A83EBB3DE040760A4A450E35" ROLE_ID="10026"
         ROLE_NM="GuestRole" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role maintains KRMS agendas and rules."
-        KIM_TYP_ID="1" LAST_UPDT_DT="20121205170629" NMSPC_CD="KS-SYS"
-        OBJ_ID="D01EFA297CB9F66CE040760A4A456A38" ROLE_ID="10027"
+        KIM_TYP_ID="1" LAST_UPDT_DT="20121205193605" NMSPC_CD="KS-SYS"
+        OBJ_ID="D02111F2A859BB3DE040760A4A450E35" ROLE_ID="10027"
         ROLE_NM="Kuali Rules Management System Administrator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="KS Administrator with the ability to grant and assign permissions and roles for any KS permission namespace."
         KIM_TYP_ID="1" LAST_UPDT_DT="20121126000000" NMSPC_CD="KS-SYS"
-        OBJ_ID="D01EFA297DDBF66CE040760A4A456A38" ROLE_ID="10028"
+        OBJ_ID="D02111F2A97BBB3DE040760A4A450E35" ROLE_ID="10028"
         ROLE_NM="KS IDM Administrator " VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="KS Administrator with global abilities for the entirety of the KS Enrollment Module"
         KIM_TYP_ID="1" LAST_UPDT_DT="20121126000000" NMSPC_CD="KS-ENR"
-        OBJ_ID="D01EFA297DDCF66CE040760A4A456A38" ROLE_ID="10029"
+        OBJ_ID="D02111F2A97CBB3DE040760A4A450E35" ROLE_ID="10029"
         ROLE_NM="KS Enrollment System Administrator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="KS Administrator with the ability to grant and assign permissions and roles for the KS Enrollment Module. "
         KIM_TYP_ID="1" LAST_UPDT_DT="20121126000000" NMSPC_CD="KS-ENR"
-        OBJ_ID="D01EFA297DDDF66CE040760A4A456A38" ROLE_ID="10030"
+        OBJ_ID="D02111F2A97DBB3DE040760A4A450E35" ROLE_ID="10030"
         ROLE_NM="KS Enrollment IDM Administrator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="Central Schedule Coordinator for the Course Offering Process "
         KIM_TYP_ID="1" LAST_UPDT_DT="20121126000000" NMSPC_CD="KS-ENR"
-        OBJ_ID="D01EFA297DDEF66CE040760A4A456A38" ROLE_ID="10031"
+        OBJ_ID="D02111F2A97EBB3DE040760A4A450E35" ROLE_ID="10031"
         ROLE_NM="KS Schedule Coordinator " VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="Central Schedule Coordinator for the Course Offering Process "
         KIM_TYP_ID="1" LAST_UPDT_DT="20121126000000" NMSPC_CD="KS-ENR"
-        OBJ_ID="D01EFA297DDFF66CE040760A4A456A38" ROLE_ID="10032"
+        OBJ_ID="D02111F2A97FBB3DE040760A4A450E35" ROLE_ID="10032"
         ROLE_NM="KS Schedule Coordinator View Only" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="Department Schedule Coordinator -  restricted by CO administering organization - for the Course Offering Process"
         KIM_TYP_ID="114" LAST_UPDT_DT="20121126000000" NMSPC_CD="KS-ENR"
-        OBJ_ID="D01EFA297DE0F66CE040760A4A456A38" ROLE_ID="10033"
+        OBJ_ID="D02111F2A980BB3DE040760A4A450E35" ROLE_ID="10033"
         ROLE_NM="KS Department Schedule Coordinator - Org " VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="Department Schedule Coordinator - restricted by CO subject code - for the Course Offering Process"
         KIM_TYP_ID="1" LAST_UPDT_DT="20121126000000" NMSPC_CD="KS-ENR"
-        OBJ_ID="D01EFA297DE1F66CE040760A4A456A38" ROLE_ID="10034"
+        OBJ_ID="D02111F2A981BB3DE040760A4A450E35" ROLE_ID="10034"
         ROLE_NM="KS Department Schedule Coordinator - Subj " VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with that have received an action request for a given document."
@@ -318,8 +318,8 @@
         ROLE_NM="Initiator" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Route Document permission for a given document type."
-        KIM_TYP_ID="139" LAST_UPDT_DT="20121205170626"
-        NMSPC_CD="KR-WKFLW" OBJ_ID="D01EFA297C8EF66CE040760A4A456A38"
+        KIM_TYP_ID="139" LAST_UPDT_DT="20121205193602"
+        NMSPC_CD="KR-WKFLW" OBJ_ID="D02111F2A82EBB3DE040760A4A450E35"
         ROLE_ID="936" ROLE_NM="Document Router" VER_NBR="1"/>
     <KRIM_ROLE_T ACTV_IND="Y"
         DESC_TXT="This role derives its members from users with the Initiate Document permission for a given document type."
