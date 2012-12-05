@@ -139,6 +139,7 @@
         <opensaml.version>1.1</opensaml.version>
         <org.apache.poi.version>3.6</org.apache.poi.version>
         <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
+        <oracle.ojdbc.artifact>ojdbc14</oracle.ojdbc.artifact>
         <plugin.impex.version>1.0.31</plugin.impex.version>
         <plugin.enforcer.version>1.1.1</plugin.enforcer.version>
         <selenium.version>2.7.0</selenium.version>
@@ -284,7 +285,7 @@
                     <dependencies>
                         <dependency>
                             <groupId>com.oracle</groupId>
-                            <artifactId>ojdbc14</artifactId>
+                            <artifactId>${oracle.ojdbc.artifact}</artifactId>
                             <version>${oracle.ojdbc.version}</version>
                         </dependency>
                     </dependencies>
@@ -548,7 +549,7 @@
                     </exclusion>
                     <exclusion>
                         <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc14</artifactId>
+                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
                     </exclusion>
                     <exclusion>
                         <groupId>mysql</groupId>
@@ -1188,7 +1189,7 @@
             </dependency>
             <dependency>
                 <groupId>com.oracle</groupId>
-                <artifactId>ojdbc14</artifactId>
+                <artifactId>${oracle.ojdbc.artifact}</artifactId>
                 <version>${oracle.ojdbc.version}</version>
             </dependency>
             <dependency>
