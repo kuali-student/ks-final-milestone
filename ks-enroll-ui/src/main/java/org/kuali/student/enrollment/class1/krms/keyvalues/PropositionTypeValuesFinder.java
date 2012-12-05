@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.krms.service.impl;
+package org.kuali.student.enrollment.class1.krms.keyvalues;
 
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
@@ -24,8 +25,10 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 //import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.ui.AgendaEditor;
+import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,20 +43,25 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        AgendaEditor agendaEditor;
+        Object dataObject;
         if (model instanceof InquiryForm) {
             InquiryForm inquiryForm = (InquiryForm) model;
-            agendaEditor = ((AgendaEditor) inquiryForm.getDataObject());
+            dataObject = inquiryForm.getDataObject();
 
         } else {
             MaintenanceForm maintenanceForm = (MaintenanceForm) model;
-            agendaEditor = ((AgendaEditor) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject());
+            dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
         }
 
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
+        String ruleTypeId;
+        if (dataObject instanceof StudentAgendaEditor){
+            ruleTypeId = ((StudentAgendaEditor)dataObject).getAgendaItemLine().getRule().getTypeId();
+        }
+
+
 
        // if we have an agenda w/ a selected context
-        //Collection<TypeTypeRelation> typeRelations = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(rule.getTypeId());
+        //Collection<TypeTypeRelation> typeRelations = getTypeTypeRelationBoService().findTypeTypeRelationsByFromType(ruleTypeId);
         //for (TypeTypeRelation typeRelation : typeRelations) {
         //    keyValues.add(new ConcreteKeyValue(typeRelation.getToTypeId(), getKrmsTypeRepositoryService().getTypeById(typeRelation.getToTypeId()).getName()));
         //}

@@ -126,7 +126,7 @@
                         p:onChangeScript="ajaxSubmitForm('updateProposition', null, jQuery(this).data('submitdata'), null, null, null);"/>
                 </property>
                 <property name="optionsFinder">
-                  <bean class="org.kuali.student.krms.service.impl.PropositionTypeValuesFinder"/>
+                  <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.PropositionTypeValuesFinder"/>
                 </property>
               </bean>
 
@@ -245,7 +245,7 @@
             <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
           </property>
           <property name="optionsFinder">
-            <bean class="org.kuali.student.krms.service.impl.PropositionTypeValuesFinder"/>
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.PropositionTypeValuesFinder"/>
           </property>
         </bean>
 
@@ -260,7 +260,7 @@
                   <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
             </property>
             <property name="optionsFinder">
-              <bean class="org.kuali.student.krms.service.impl.PropositionTypeValuesFinder"/>
+              <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.PropositionTypeValuesFinder"/>
             </property>
           </bean>
 

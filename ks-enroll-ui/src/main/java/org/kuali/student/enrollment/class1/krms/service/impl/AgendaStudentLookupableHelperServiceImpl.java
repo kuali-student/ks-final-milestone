@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.krms.service.impl;
+package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.lookup.LookupableImpl;
@@ -23,14 +23,19 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.impl.repository.AgendaBo;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.rice.krms.impl.ui.AgendaEditor;
+import org.kuali.rice.krms.impl.util.KrmsImplConstants;
+import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
 import org.kuali.student.krms.KRMSConstants;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public class PropositionLookupableHelperServiceImpl extends LookupableImpl {
+public class AgendaStudentLookupableHelperServiceImpl extends LookupableImpl {
 
     @Override
     public boolean allowsMaintenanceNewOrCopyAction() {
@@ -64,9 +69,10 @@ public class PropositionLookupableHelperServiceImpl extends LookupableImpl {
             props.put(KRADConstants.RETURN_LOCATION_PARAMETER, lookupForm.getReturnLocation());
         }
 
-        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, PropositionBo.class.getName());
+        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, StudentAgendaEditor.class.getName());
         props.put(UifParameters.VIEW_TYPE_NAME, UifConstants.ViewType.MAINTENANCE.name());
+        props.put(UifParameters.VIEW_NAME, KRMSConstants.STUDENT_LOOKUP_VIEW);
 
-        return UrlFactory.parameterizeUrl(KRMSConstants.WebPaths.PROPOSITION_PATH, props);
+        return UrlFactory.parameterizeUrl(KRMSConstants.WebPaths.AGENDA_STUDENT_EDITOR_PATH, props);
     }
 }

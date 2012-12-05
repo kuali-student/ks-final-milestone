@@ -47,13 +47,15 @@ public final class KRMSConstants {
     
     public static final String FIELD_TYPE_PARAMETER = "kuali.krms.term.type.field";
 
+    public static final String STUDENT_VIEW = "StudentView";
     public static final String STUDENT_LOOKUP_VIEW = "StudentLookupView";
     public static final String STUDENT_INQUIRY_VIEW = "StudentInquiryView";
 
     public final static class WebPaths {
         public static final String AGENDA_STUDENT_INQUIRY_PATH = "krmsAgendaStudentInquiry";
         public static final String AGENDA_STUDENT_EDITOR_PATH = "krmsAgendaStudentEditor";
-        public static final String PROPOSITION_PATH = "krmsProposition";
+        public static final String RULE_STUDENT_INQUIRY_PATH = "krmsRuleStudentInquiry";
+        public static final String RULE_STUDENT_EDITOR_PATH = "krmsRuleStudentEditor";
     }
     
     private KRMSConstants() {

@@ -50,7 +50,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * {@link Maintainable} for the {@link org.kuali.rice.krms.impl.ui.AgendaEditor}
+ * {@link org.kuali.rice.krad.maintenance.Maintainable} for the {@link org.kuali.rice.krms.impl.ui.AgendaEditor}
  *
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
