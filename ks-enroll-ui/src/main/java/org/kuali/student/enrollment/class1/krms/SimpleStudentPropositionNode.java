@@ -34,7 +34,7 @@ import java.util.List;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public class SimpleStudentPropositionNode extends RuleTreeNode {
+public class SimpleStudentPropositionNode extends RuleEditorTreeNode {
     private static final long serialVersionUID = -629088492909384804L;
     public static final String NODE_TYPE = "ruleTreeNode simplePropositionNode";
     protected String parameterDisplayString;
@@ -43,17 +43,17 @@ public class SimpleStudentPropositionNode extends RuleTreeNode {
     public SimpleStudentPropositionNode() {
     }
 
-    public SimpleStudentPropositionNode(PropositionBo proposition){
+    public SimpleStudentPropositionNode(PropositionEditor proposition){
         super(proposition);
         setupParameterDisplayString();
     }
     
     private void setupParameterDisplayString(){
-        if (proposition != null && proposition.getPropositionTypeCode().equalsIgnoreCase(PropositionType.SIMPLE.getCode())){
+        if (proposition != null && proposition.getProposition().getPropositionTypeCode().equalsIgnoreCase(PropositionType.SIMPLE.getCode())){
            // proposition.getTypeId()
             // Simple Propositions should have 3 parameters ordered in reverse polish notation.
             // TODO: enhance to get term names for term type parameters.
-            List<PropositionParameterBo> parameters = proposition.getParameters();
+            List<PropositionParameterBo> parameters = proposition.getProposition().getParameters();
             if (parameters != null && parameters.size() == 3){
                 setParameterDisplayString(getParamValue(parameters.get(0)) 
                         + " " + getParamValue(parameters.get(2))

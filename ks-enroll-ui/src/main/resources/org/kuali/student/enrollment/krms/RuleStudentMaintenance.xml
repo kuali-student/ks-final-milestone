@@ -22,14 +22,13 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans 
                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="RuleMaintenanceDocument" parent="MaintenanceDocumentEntry">
-    <property name="businessObjectClass" value="org.kuali.rice.krms.impl.repository.RuleBo"/>
-    <property name="maintainableClass" value="org.kuali.rice.kns.maintenance.KualiMaintainableImpl" />
+  <bean id="RuleMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.RuleEditor"/>
+    <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleEditorMaintainableImpl"/>
     <property name="documentTypeName" value="RuleMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
-        <value>id</value>
+        <value>rule.id</value>
       </list>
     </property>
   </bean>
@@ -46,7 +45,8 @@
     <property name="theme">
       <bean parent="Uif-KradTheme"/>
     </property>
-    <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.RuleBo" />
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.RuleEditor" />
+    <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
     <property name="items">
       <list merge="false">
         <bean parent="ruleStudentEditorBody" />
@@ -72,7 +72,6 @@
     <property name="items">
       <list>
         <bean parent="ruleInfoStudentSection" />
-        <bean parent="ruleActionsSection" />
       </list>
     </property>
   </bean>
@@ -85,84 +84,17 @@
     <property name="disclosure.defaultOpen" value="true" />
     <property name="items">
       <list>
-        <bean parent="ruleInfoGrid"/>
-        <!--
-        <bean parent="ruleAttributesSection"/>
-        -->
         <bean id="propositionSection" parent="propositionStudentSection-parent" />
       </list>
     </property>
   </bean>
 
-  <bean id="ruleInfoGrid" parent="Uif-GridSection">
-    <property name="headerText" value="Rule Information" />
-    <property name="renderHeader" value="false" />
-    <property name="disclosure.render" value="false" />
-    <property name="items">
-      <list>
-
-        <bean parent="Uif-VerticalFieldGroup" p:label="Copy from Existing Rule"
-              p:progressiveRenderViaAJAX="true"
-              p:progressiveRender="@{#dp.addRuleInProgress == true}">
-          <property name="group.layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout"/>
-          </property>
-          <property name="items">
-            <list>
-              <bean parent="Uif-InputField" p:propertyName="copyRuleName" p:style="font-size: smaller;" p:showLabel="false">
-                <property name="label" value="Copy from Existing Rule" />
-                <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.krms.impl.repository.RuleBo"/>
-                <property name="quickfinder.fieldConversions">
-                  <map>
-                    <entry key="id" value="agendaItemLine.rule.id"/>
-                    <entry key="name" value="copyRuleName"/>
-                    <entry key="namespace" value="agendaItemLine.rule.namespace"/>
-                  </map>
-                </property>
-                <property name="quickfinder.lookupParameters">
-                  <map>
-                    <entry key="agendaItemLine.rule.id" value="id"/>
-                    <entry key="copyRuleName" value="name"/>
-                    <entry key="agendaItemLine.rule.namespace" value="namespace"/>
-                  </map>
-                </property>
-                <property name="control">
-                  <bean parent="Uif-TextControl" p:size="40" p:maxLength="100"
-                    p:watermarkText="Existing Rule Name"/>
-                  </property>
-              </bean>
-              <bean parent="Uif-PrimaryActionButton" p:methodToCall="copyRule" p:actionLabel="Copy Rule"
-                p:style="margin-right: 15pt; float: right;"/>
-            </list>
-          </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.namespace" p:label="Namespace" p:readOnly="true" />
-        <bean parent="ruleCustomAttributes"/>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.name" p:label="Name" p:required="true" p:constraintText="size 100">
-          <property name="control">
-            <bean parent="Uif-TextControl" p:size="40" p:maxLength="100" p:watermarkText="Enter a Rule Name" p:cssClasses="countdown"/>
-          </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.description" p:label="Description" p:labelColSpan="1" p:constraintText="size 4000" p:colSpan="5">
-          <property name="control">
-            <bean parent="Uif-TextAreaControl" p:rows="2" p:cols="60" p:textExpand="true" p:maxLength="4000" p:watermarkText="Enter a Rule Description" p:cssClasses="countdown"/>
-          </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.active" p:label="Active">
-          <property name="control">
-            <bean parent="Uif-CheckboxControl"/>
-          </property>
-        </bean>
-      </list>
-    </property>
-  </bean>
-
   <bean name="ruleCustomAttributes" parent="Uif-GridSection" p:colSpan="2" p:layoutManager.numberOfColumns="2"
-         p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.agendaItemLine.rule.typeId"
+         p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.rule.typeId"
          p:style="padding: 0px; border-style: hidden;">
     <property name="items">
       <list>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.typeId" p:label="Type" p:required="false">
+        <bean parent="Uif-InputField" p:propertyName="rule.typeId" p:label="Type" p:required="false">
           <property name="control">
             <bean parent="Uif-DropdownControl"/>
           </property>
@@ -225,7 +157,7 @@
     <property name="disclosure.render" value="false" />
     <property name="items">
       <list>
-        <bean parent="Uif-Message"  p:messageText="@{#dp.agendaItemLine.rule.propositionSummary}" />
+        <bean parent="Uif-Message"  p:messageText="@{#dp.rule.propositionSummary}" />
       </list>
     </property>
 
@@ -439,7 +371,7 @@
   <bean id="Uif-Student-TreeSection" parent="Uif-TreeSection-parentBean" class="org.kuali.rice.krad.uif.container.TreeGroup"/>
   <bean id="RuleStudentEditorView-Tree-parent" parent="Uif-Student-TreeSection" p:disclosure.render="false" p:header.render="false"
         p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
-    <property name="propertyName" value="agendaItemLine.rule.propositionTree"/>
+    <property name="propertyName" value="rule.propositionTree"/>
     <property name="validationMessages.displayMessages" value="true" />
     <property name="validationMessages.displayFieldLabelWithMessages" value="false" />
     <property name="tree">
@@ -458,10 +390,10 @@
     </property>
     <property name="nodePrototypeMap">
       <map key-type="java.lang.Class">
-        <entry key="#{ T(org.kuali.rice.krms.impl.ui.RuleTreeNode) }">
+        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.RuleEditorTreeNode) }">
           <bean parent="StudentRuleTreeNodePrototype"/>
         </entry>
-        <entry key="#{ T(org.kuali.rice.krms.impl.ui.SimplePropositionNode) }">
+        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.SimpleStudentPropositionNode) }">
           <bean parent="StudentSimplePropositionNodePrototype"/>
         </entry>
         <entry key="#{ T(org.kuali.rice.krms.impl.ui.SimplePropositionEditNode) }">
@@ -640,7 +572,7 @@
     <property name="headerText" value="Rule Attributes" />
     <property name="collectionObjectClass"
       value="org.kuali.rice.krms.impl.repository.RuleAttributeBo" />
-    <property name="propertyName" value="agendaItemLine.rule.attributeBos" />
+    <property name="propertyName" value="rule.attributeBos" />
     <property name="renderAddLine" value="false" />
     <property name="renderLineActions" value="false" />
     <property name="disclosure.render" value="false" />
@@ -656,12 +588,12 @@
     </property>   
     <property name="items">
       <list>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.attributeDefinition.name" p:readOnly="true">
+        <bean parent="Uif-InputField" p:propertyName="rule.attributeDefinition.name" p:readOnly="true">
           <property name="control">
             <bean parent="Uif-TextControl" p:size="20" p:readOnly="true" p:style="border: 0"/>
           </property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLine.rule.value" />
+        <bean parent="Uif-InputField" p:propertyName="rule.value" />
       </list>
     </property>
   </bean>
@@ -669,79 +601,4 @@
     </property>
   </bean>
  
-  <bean name="ruleActionsSection" parent="ruleActionsSection-parent"/>
-    <bean name="ruleActionsSection-parent" parent="Uif-Disclosure-VerticalBoxSection" p:style="width: 500;border: 1">
-      <property name="headerText" value="Action"/>
-      <property name="renderHeader" value="true" />
-      <property name="disclosure.render" value="true" />
-      <property name="disclosure.defaultOpen" value="true"/>
-      <property name="items">
-        <list>
-    <!-- Enable the ruleActionTable and disable/remove firstRuleAction to support multiple actions -->
-          <!--<bean parent="ruleActionTable"/>-->
-          <bean parent="firstRuleAction"/>
-        </list>
-      </property>
-    </bean>
-
-  <bean name="ruleActionTable" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3">
-    <property name="header.render" value="false"/>
-    <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.repository.ActionBo"/>
-    <property name="propertyName" value="agendaItemLine.rule.actions"/>
-    <property name="layoutManager.sequencePropertyName" value="sequenceNumber" />
-    <!--<property name="layoutManager.renderSequenceField" value="false"/> // if you want to hide the sequence number in the table-->
-    <property name="layoutManager.richTable.render" value="true"/>
-    <property name="collectionLookup.render" value="false"/>
-    <property name="items">
-      <list>
-        <bean parent="Uif-InputField" p:propertyName="name" p:label="Name" p:required="true" p:constraintText="size 40">
-          <property name="control">
-            <bean parent="Uif-TextControl" p:size="40" p:maxLength="40" p:watermarkText="Enter a Action Name" p:cssClasses="countdown"/>
-          </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="typeId" p:label="Type" p:required="true">
-          <property name="control">
-            <bean parent="Uif-DropdownControl"/>
-          </property>
-          <property name="optionsFinder">
-            <bean class="org.kuali.rice.krms.impl.repository.ActionTypeValuesFinder"/>
-          </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="description" p:label="Description" p:required="false"/>
-      </list>
-    </property>
-  </bean>
-
-  <bean name="firstRuleAction" parent="Uif-GridSection" p:layoutManager.numberOfColumns="2"
-        p:refreshWhenChangedPropertyNames="document.newMaintainableObject.dataObject.agendaItemLineRuleAction.typeId">
-    <property name="items">
-      <list>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLineRuleAction.typeId" p:label="Type" p:required="false">
-          <property name="control">
-            <bean parent="Uif-DropdownControl"/>
-          </property>
-          <property name="optionsFinder">
-            <bean class="org.kuali.rice.krms.impl.repository.ActionTypeValuesFinder"/>
-          </property>
-        </bean>
-        <bean parent="Uif-RemotableFieldsPlaceholderConfig" p:propertyName="customRuleActionAttributesMap"
-              p:fetchingMethodToCall="retrieveRuleActionCustomAttributes"/>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLineRuleAction.name" p:label="Name" p:required="true"
-              p:constraintText="size 40"
-              p:render="@{#dp.agendaItemLineRuleAction.typeId != ''}">
-          <property name="control">
-            <bean parent="Uif-TextControl" p:size="40" p:maxLength="40" p:watermarkText="Enter a Action Name" p:cssClasses="countdown"/>
-          </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="agendaItemLineRuleAction.description" p:label="Description" p:required="false"
-              p:render="@{#dp.agendaItemLineRuleAction.typeId != ''}" p:constraintText="size 4000">
-          <property name="control">
-            <bean parent="Uif-TextControl" p:size="40" p:maxLength="4000" p:watermarkText="Enter a Action Description" p:cssClasses="countdown"/>
-          </property>
-        </bean>
-              
-      </list>
-    </property>
-  </bean>
-
 </beans>
