@@ -86,6 +86,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if ((inputValue != null) && !inputValue.isEmpty()){
             theForm.setAdminOrg(inputValue);
         }
+        //clean up termCode, inputCode, and theCourseOffering value in the form to prevent the
+        //side effect of the authorization.
+        theForm.setTermCode(null);
+        theForm.setInputCode(null);
+        theForm.setTheCourseOffering(null);
 
         // check view authorization
         // TODO: this needs to be invoked for each request
@@ -415,6 +420,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.setSubjectCode(subjectCode);
         String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
         theForm.setSubjectCodeDescription(longNameDescr);
+        //clean up theCourseOffering value in the form to prevent the
+        //side effect of the authorization.
+        theForm.setTheCourseOffering(null);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
