@@ -3141,27 +3141,43 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
 
         LuiInfo lui = luiService.getLui(registrationGroupId, contextInfo);
-        lui.setStateKey(nextStateKey); // Only modify the state key, and nothing else
-        boolean exceptionOccurred = false;
-        String exceptionMessage = "None";
-        try {
-            luiService.updateLui(lui.getId(), lui, contextInfo);
-        } catch (DataValidationErrorException e) {
-            exceptionOccurred = true;
-            exceptionMessage = e.getMessage();
-        } catch (ReadOnlyException e) {
-            exceptionOccurred = true;
-            exceptionMessage = e.getMessage();
-        } catch (VersionMismatchException e) {
-            exceptionOccurred = true;
-            exceptionMessage = e.getMessage();
+        String thisStateKey = lui.getStateKey();
+        StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(registrationGroupId,nextStateKey,contextInfo);
+        if (statusInfo.getIsSuccess()){
+            lui.setStateKey(nextStateKey);
+            boolean exceptionOccurred = false;
+            String exceptionMessage = "None";
+            try{
+                luiService.updateLui(lui.getId(), lui, contextInfo);
+            } catch (DataValidationErrorException e) {
+                exceptionOccurred = true;
+                exceptionMessage = e.getMessage();
+            } catch (ReadOnlyException e) {
+                exceptionOccurred = true;
+                exceptionMessage = e.getMessage();
+            } catch (VersionMismatchException e) {
+                exceptionOccurred = true;
+                exceptionMessage = e.getMessage();
+            }catch(Exception e){
+                exceptionOccurred = true;
+                exceptionMessage = "Failed to update State" + e.getMessage();
+            }
+            if (exceptionOccurred) {
+                throw new OperationFailedException(exceptionMessage);
+            }
+
+            String propagationKey = thisStateKey + ":" + nextStateKey;
+            Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(registrationGroupId,propagationKey,contextInfo);
+            for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
+                if (!statusInfo1.getIsSuccess()){
+                    throw new OperationFailedException(statusInfo1.getMessage());
+                }
+            }
+
+            return new StatusInfo();
+        }else{
+            return statusInfo;
         }
-        if (exceptionOccurred) {
-            throw new OperationFailedException(exceptionMessage);
-        }
-        StatusInfo status = new StatusInfo ();
-        status.setSuccess(Boolean.TRUE);
-        return status;
     }
 
     @Override
