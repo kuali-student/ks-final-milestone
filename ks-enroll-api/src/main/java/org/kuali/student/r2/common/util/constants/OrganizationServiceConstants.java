@@ -44,4 +44,11 @@ public class OrganizationServiceConstants {
     public static final String REF_OBJECT_URI_ORG_PERSON_RELATION = NAMESPACE + "/" + OrgPersonRelationInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ORG_POSITION_RESTRICTION = NAMESPACE + "/" + OrgPositionRestrictionInfo.class.getSimpleName();
     public static final String SERVICE_NAME_LOCAL_PART = "OrganizationService";
+
+    /**
+     * Organization types (https://wiki.kuali.org/display/STUDENT/Organization+Types#)
+     * KSENROLL-3877
+     */
+    public static final String ORGANIZATION_COLLEGE_TYPE_KEY = "kuali.org.College";
+    public static final String ORGANIZATION_DEPARTMENT_TYPE_KEY = "kuali.org.Department";
 }
