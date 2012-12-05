@@ -64,7 +64,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
-                        <artifactId>ojdbc14</artifactId>
+                        <artifactId>${oracle.ojdbc.artifact}</artifactId>
                         <version>${oracle.ojdbc.version}</version>
                     </dependency>
                     <dependency>
