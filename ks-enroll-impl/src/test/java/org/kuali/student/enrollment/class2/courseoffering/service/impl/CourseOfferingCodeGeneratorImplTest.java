@@ -22,7 +22,7 @@ import java.util.List;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:co-test-with-class2-mock-context.xml"})
+@ContextConfiguration(locations = {"classpath:co-test-code-generator-context.xml"})
 public class CourseOfferingCodeGeneratorImplTest {
 
     private static final Logger log = Logger.getLogger(CourseOfferingCodeGeneratorImplTest.class);
