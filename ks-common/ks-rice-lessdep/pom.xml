@@ -140,7 +140,7 @@
                 </exclusion>
                 <exclusion>
                     <groupId>com.oracle</groupId>
-                    <artifactId>ojdbc14</artifactId>
+                    <artifactId>${oracle.ojdbc.artifact}</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>opensymphony</groupId>
