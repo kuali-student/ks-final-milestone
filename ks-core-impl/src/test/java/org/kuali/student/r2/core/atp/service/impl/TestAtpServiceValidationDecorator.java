@@ -18,6 +18,7 @@ package org.kuali.student.r2.core.atp.service.impl;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -65,6 +66,7 @@ public class TestAtpServiceValidationDecorator {
     }
 
     @Test
+    @Ignore
     public void testValidateMilestone()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -94,6 +96,7 @@ public class TestAtpServiceValidationDecorator {
     }
 
     @Test
+    @Ignore
     public void testValidateAtp()
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {

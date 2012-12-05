@@ -12,10 +12,6 @@
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <!--
-    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml"/>
-	<import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml"/>
-	-->
 	<import resource="classpath:search-test-context.xml"/>
 
     <bean id="systemPropertyConfigurer"
@@ -140,17 +136,11 @@
 
     <bean id="atpServiceAuthDecorator"
           class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">
-      <property name="nextDecorator" ref="atpServiceValidationDecorator"/>
+      <property name="nextDecorator" ref="atpServiceCalculationDecorator"/>
       <property name="permissionService" ref="permissionService"/>
     </bean>
     
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl"></bean>	
-    
-    <bean id="atpServiceValidationDecorator"
-          class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-      <property name="nextDecorator" ref="atpServiceCalculationDecorator"/>
-      <property name="validator" ref="validator"/>
-    </bean>
     
     <bean id="atpServiceCalculationDecorator" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceCalculationDecorator">
       <property name="nextDecorator" ref="atpServiceImpl"/>
@@ -332,5 +322,5 @@
             </list>
         </property>
     </bean>
-		
+
 </beans>

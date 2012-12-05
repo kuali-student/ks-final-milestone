@@ -38,7 +38,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:atp-jpa-persistence-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:atp-test-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 public class TestAtpServiceJpaPersistenceImpl {

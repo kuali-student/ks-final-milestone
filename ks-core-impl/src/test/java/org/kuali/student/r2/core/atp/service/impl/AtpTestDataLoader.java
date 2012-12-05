@@ -59,6 +59,14 @@ public class AtpTestDataLoader {
         loadAtp("termRelationTestingAcal1", "testingAcal1", "2000-09-01 00:00:00.0", "2001-06-01 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 3");
         loadAtp("termRelationTestingAcal2", "testingAcal2", "2001-09-01 00:00:00.0", "2002-06-01 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 4");
 
+        loadAtp("termRelationTestingTerm1", "testingTerm1", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 1");
+        loadAtp("termRelationTestingTerm2", "testingTerm2", "2001-01-01 00:00:00.0", "2001-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 2");
+        loadAtp("termRelationTestingTerm3", "testingTerm3", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc term rich text 7");
+        loadAtp("termRelationTestingTerm4", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 8");
+        loadAtp("termRelationTestingTerm5", "testingTerm3", "2000-09-01 00:00:00.0", "2000-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc term rich text 10");
+        loadAtp("termRelationTestingTerm6", "testingTerm4", "2011-01-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_HALF_FALL_2_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 11");
+        loadAtp("termRelationTestingTermDelete", "testingTermDelete", "2031-01-01 00:00:00.0", "2031-05-31 00:00:00.0", AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc term rich text 9");
+
         loadAtp("testEdgeAtpId1", "testEdgeAtpId1", "1980-06-01 00:00:00.0", "1980-06-30 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc 2001");
         loadAtp("testEdgeAtpId10", "testEdgeAtpId10", "1981-01-01 00:00:00.0", "1981-01-31 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc 2010");
         loadAtp("testEdgeAtpId2", "testEdgeAtpId2", "1979-12-01 00:00:00.0", "1981-01-31 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc 2002");
