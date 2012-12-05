@@ -7,11 +7,11 @@
     <KSEN_STATE_CNSTRNT_ROS
         REL_OBJ_STATE_ID="kuali.lui.activity.offering.state.approved" STATE_CNSTRNT_ID="kuali.stateconstraint.formatoffering.planned.draft"/>
     <KSEN_STATE_CNSTRNT_ROS
-        REL_OBJ_STATE_ID="kuali.lui.activity.offering.state.approved" STATE_CNSTRNT_ID="kuali.stateconstraint.formatoffering.planned.offered"/>
-    <KSEN_STATE_CNSTRNT_ROS
-        REL_OBJ_STATE_ID="kuali.lui.format.offering.state.draft" STATE_CNSTRNT_ID="kuali.stateconstraint.courseoffering.planned.draft"/>
+        REL_OBJ_STATE_ID="kuali.lui.activity.offering.state.offered" STATE_CNSTRNT_ID="kuali.stateconstraint.formatoffering.planned.offered"/>
     <KSEN_STATE_CNSTRNT_ROS
         REL_OBJ_STATE_ID="kuali.lui.format.offering.state.offered" STATE_CNSTRNT_ID="kuali.stateconstraint.courseoffering.planned.offered"/>
     <KSEN_STATE_CNSTRNT_ROS
         REL_OBJ_STATE_ID="kuali.lui.format.offering.state.planned" STATE_CNSTRNT_ID="kuali.stateconstraint.courseoffering.draft.planned"/>
+    <KSEN_STATE_CNSTRNT_ROS
+        REL_OBJ_STATE_ID="kuali.lui.format.offering.state.planned" STATE_CNSTRNT_ID="kuali.stateconstraint.courseoffering.planned.draft"/>
 </dataset>
