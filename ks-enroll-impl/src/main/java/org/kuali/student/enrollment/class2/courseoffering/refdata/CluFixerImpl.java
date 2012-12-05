@@ -44,6 +44,8 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,12 +70,13 @@ import java.util.regex.Pattern;
  *
  * @author Kuali Student Team
  */
-public class CluFixer {
+public class CluFixerImpl implements CluFixer {
     private CourseOfferingService coService;
     private CourseService courseService;
     private LrcService lrcService;
     private static final Logger LOGGER = Logger.getLogger(CluFixer.class);
     private String pathPrefix = "";
+
     private ContextInfo context = new ContextInfo();
 
     private static final String VALID_COURSE_CODES = "validCourseCodes.txt";
@@ -101,8 +104,14 @@ public class CluFixer {
      *                 which contains list of Course IDs, one per line;
      */
     public void cleanClus(String filePath) throws Exception {
-        setPathPrefix("C:/Users/Charles/Desktop/Kuali/RefData/");
+        context.setAuthenticatedPrincipalId("REF_DATA_BATCH");
+        context.setPrincipalId("REF_DATA_BATCH");
+
+        setPathPrefix("C:/work/ws/ks/enrollment/aggregate-umd-enr-data/ks-enroll/ks-enroll-impl/src/main/java/org/kuali/student/enrollment/class2/courseoffering/refdata/datafiles/");
+        _deleteUnusedCoursesDefault();
         _modifyFormatsForCourses();
+
+
     }
 
     private void _sortFile(String inputFileName) throws IOException {
@@ -295,6 +304,7 @@ public class CluFixer {
         return listOfMaps;
     }
 
+    @Transactional
     private void _modifyFormatsForCourse(String courseId,
                                         Map<String, List<String>> courseCodeToFormatList,
                                         Map<String, List<String>> shortNameToCluLuiTypes,
@@ -715,5 +725,10 @@ public class CluFixer {
     private List<String> _loadCourseIdsDefault() {
         return _loadDataFromFile("courseIds.txt");
     }
+
+    public ContextInfo getContext() {
+        return context;
+    }
+
 
 }

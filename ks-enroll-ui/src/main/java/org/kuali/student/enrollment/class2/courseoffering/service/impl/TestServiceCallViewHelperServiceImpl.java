@@ -51,6 +51,7 @@ public class TestServiceCallViewHelperServiceImpl extends ViewHelperServiceImpl 
     private CourseService courseService = null;
     private PopulationService populationService = null;
     private LRCService lrcService = null;
+    private CluFixer cluFixer;
     private ContextInfo contextInfo = new ContextInfo();
     private static final Logger LOG = Logger.getLogger(TestServiceCallViewHelperServiceImpl.class);
 
@@ -267,12 +268,26 @@ public class TestServiceCallViewHelperServiceImpl extends ViewHelperServiceImpl 
     public void verifyPopulations() throws Exception {
         //To change body of implemented methods use File | Settings | File Templates.
         _initServices();
-        CluFixer cluCleaner = new CluFixer();
-        cluCleaner.setCoService(coService);
-        cluCleaner.setCourseService(courseService);
-        cluCleaner.cleanClus("C:/Users/Charles/Desktop/Kuali/RefData/courseIds.txt");
+        //Run in a new thread
+        new Thread(new CluFixRunner(cluFixer)).start();
     }
 
+    public class CluFixRunner implements Runnable {
+        private CluFixer cluFixer;
+
+        public CluFixRunner(CluFixer cluFixer) {
+            this.cluFixer = cluFixer;
+        }
+
+        @Override
+        public void run() {
+            try {
+                cluFixer.cleanClus("C:/Users/Charles/Desktop/Kuali/RefData/courseIds.txt");
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }
+    }
 
     private void _initServices() {
         if (coService == null) {
@@ -304,6 +319,10 @@ public class TestServiceCallViewHelperServiceImpl extends ViewHelperServiceImpl 
         if (lrcService == null) {
             lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
                     LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+
+        if(cluFixer == null){
+            cluFixer = (CluFixer) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/cluFixer","CluFixer"));
         }
     }
 }

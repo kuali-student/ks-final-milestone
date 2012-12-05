@@ -1209,4 +1209,25 @@
             </bean>
         </property>
     </bean>
+
+
+    <!-- End Room Service Mock Impl -->
+
+
+    <!--This is a ref data utility that should be removed in the future -->
+    <bean id="CluFixer" class="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixerImpl">
+        <property name="coService" ref="CourseOfferingService"/>
+        <property name="courseService" ref="courseServiceImpl"/>
+    </bean>
+    <bean id="ks.exp.cluFixer" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="CluFixer" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer"/>
+                <property name="localServiceName" value="CluFixer" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/cluFixer" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
  </beans>
