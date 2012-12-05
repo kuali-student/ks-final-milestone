@@ -24,8 +24,8 @@
     </bean>
 
     <bean id="enrollEntityManagerFactory" parent="coreDefaultEntityManagerFactory">
-        <property name="persistenceUnitName" value="Enr"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/enroll-persistence.xml"/>
+        <property name="persistenceUnitName" value="Acal"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/acal-persistence.xml"/>
         <property name="dataSource" ref="coreDataSource"/>
     </bean>
 
@@ -738,18 +738,12 @@
         <property name="genericEntityDao" ref="searchDao"/>
         <property name="noOfYears" value="5"/>
     </bean>
-    <bean id="CourseOfferingManagementSearchImpl" class="org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl">
-        <property name="genericEntityDao" ref="searchDao"/>
-    </bean>
-
-
 
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
                 <ref bean="apptWindowCountsSearchImpl" />
                 <ref bean="courseOfferingHistorySearchImpl"/>
-                <ref bean="CourseOfferingManagementSearchImpl"/>
             </list>
         </property>
     </bean>
