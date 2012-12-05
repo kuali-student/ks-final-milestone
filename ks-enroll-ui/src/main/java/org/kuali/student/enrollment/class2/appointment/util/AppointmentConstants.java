@@ -44,6 +44,12 @@ public class AppointmentConstants {
     public static final String APPOINTMENT_MSG_ERROR_END_DATE_REQUIRED_FOR_UNIFORM = "error.enroll.appointment.endDate.requiredForUniform";
     public static final String APPOINTMENT_MSG_ERROR_END_TIME_REQUIRED_FOR_UNIFORM = "error.enroll.appointment.endTime.requiredForUniform";
     public static final String APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE = "error.enroll.appointment.startDate.outOfRange";
+    public static final String APPOINTMENT_MSG_ERROR_START_DATE_REQUIRED_FIELD = "error.enroll.appointment.startDate.required";
+    public static final String APPOINTMENT_MSG_ERROR_START_TIME_REQUIRED_FIELD = "error.enroll.appointment.startTime.required";
+    public static final String APPOINTMENT_MSG_ERROR_START_TIME_AM_PM_REQUIRED_FIELD = "error.enroll.appointment.startTimeAmPm.required";
+    public static final String APPOINTMENT_MSG_ERROR_END_TIME_BEFORE_START_TIME = "error.enroll.appointment.endtTime.beforeStartTime";
+    public static final String APPOINTMENT_MSG_ERROR_END_TIME_AM_PM_BEFORE_START_TIME_AM_PM = "error.enroll.appointment.endTimeAmPm.beforeStartTimeAmPm";
+
     public static final String APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE = "error.enroll.appointment.endDate.outOfRange";
     public static final String APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL = "error.enroll.appointment.windowSaveFailed";
     public static final String APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE = "error.enroll.appointment.window.endDateBeforeStartDate";

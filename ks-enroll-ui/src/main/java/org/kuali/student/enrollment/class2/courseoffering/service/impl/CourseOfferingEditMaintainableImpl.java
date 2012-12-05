@@ -83,7 +83,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     public void saveDataObject() {
         if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject(); 
-            updateCourseOffering(coEditWrapper);
+//            updateCourseOffering(coEditWrapper);
         }
         else{//for new and copy action, report error
              LOG.error(">>>Do not support!");
