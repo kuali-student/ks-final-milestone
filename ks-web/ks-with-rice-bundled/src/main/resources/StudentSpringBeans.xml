@@ -159,6 +159,7 @@
                 <value>classpath:org/kuali/student/enrollment/krms/AgendaStudentLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CourseRequisitesView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/RuleStudentView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/KrmsComponentsView.xml</value>
                 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
