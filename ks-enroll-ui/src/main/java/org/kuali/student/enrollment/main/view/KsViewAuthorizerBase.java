@@ -6,6 +6,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,19 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
     protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
         if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof CourseOfferingManagementForm) {
             CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) primaryDataObjectOrDocument;
+            if(theForm.getTheCourseOffering() != null){
+                //Pull out the org ids and pass in the first one as a role qualifier
+                List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();
+                if(orgIds !=null && !orgIds.isEmpty()){
+                    attributes.put("org", orgIds.get(0));
+                }
+            }
+            else if(theForm.getAdminOrg() != null){
+                attributes.put("org", theForm.getAdminOrg());
+            }
+        }
+        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof RegistrationGroupManagementForm) {
+            RegistrationGroupManagementForm theForm = (RegistrationGroupManagementForm) primaryDataObjectOrDocument;
             if(theForm.getTheCourseOffering() != null){
                 //Pull out the org ids and pass in the first one as a role qualifier
                 List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();

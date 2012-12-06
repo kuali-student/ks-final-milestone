@@ -111,12 +111,23 @@
                                                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="theCourseOffering.id" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
-                                        <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
-                                        <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
-                                        <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
-                                        <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}"/>
-                                        <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel="Manage Registration Groups" />
+                                        <bean parent="Uif-HorizontalBoxSection">
+                                            <property name="id" value="KS-CourseOfferingManagement-CourseOfferingManageRegGroups"/>
+                                            <property name="componentSecurity.viewAuthz" value="true" />
+                                            <property name="headerText" value=""/>
+                                            <property name="disclosure.render" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
+                                                    <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
+                                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
+                                                    <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
+                                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}"/>
+                                                    <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel="Manage Registration Groups" />
+                                                </list>
+                                            </property>
+                                        </bean>
+
                                     </list>
                                 </property>
                             </bean>
