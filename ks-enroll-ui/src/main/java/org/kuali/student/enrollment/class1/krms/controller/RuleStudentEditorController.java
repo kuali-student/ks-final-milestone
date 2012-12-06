@@ -18,12 +18,9 @@ package org.kuali.student.enrollment.class1.krms.controller;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
-import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
-import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -35,14 +32,12 @@ import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
-import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.ActionBo;
 import org.kuali.rice.krms.impl.repository.AgendaBo;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
-import org.kuali.rice.krms.impl.repository.KrmsAttributeDefinitionService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
@@ -56,13 +51,15 @@ import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionNode;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
-import org.kuali.student.enrollment.class1.krms.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
 import org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl;
+import org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
 import org.kuali.student.krms.KRMSConstants;
-import org.kuali.student.krms.service.impl.KrmsStudentMockServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -125,217 +122,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             }
         }
         return modelAndView;
-    }
-
-    /**
-     * This method updates the existing rule in the agenda.
-     */
-    @RequestMapping(params = "methodToCall=" + "goToAddRule")
-    public ModelAndView goToAddRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        setAgendaItemLine(form, null);
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        agendaEditor.setAddRuleInProgress(true);
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-AddRule-Page");
-        return super.navigate(form, result, request, response);
-    }
-
-    /**
-     * This method sets the agendaItemLine for adding/editing AgendaItems.
-     * The agendaItemLine is a copy of the agendaItem so that changes are not applied when
-     * they are abandoned.  If the agendaItem is null a new empty agendaItemLine is created.
-     *
-     * @param form
-     * @param agendaItem
-     */
-    private void setAgendaItemLine(UifFormBase form, AgendaItemBo agendaItem) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        if (agendaItem == null) {
-            RuleBo rule = new RuleBo();
-            rule.setId(getSequenceAccessorService().getNextAvailableSequenceNumber("KRMS_RULE_S")
-                    .toString());
-            if (StringUtils.isBlank(agendaEditor.getAgenda().getContextId())) {
-                rule.setNamespace("");
-            } else {
-                rule.setNamespace(getContextBoService().getContextByContextId(agendaEditor.getAgenda().getContextId()).getNamespace());
-            }
-            agendaItem = new AgendaItemBo();
-            agendaItem.setRule(rule);
-            agendaEditor.setAgendaItemLine(agendaItem);
-        } else {
-            // TODO: Add a copy not the reference
-            agendaEditor.setAgendaItemLine((AgendaItemBo) ObjectUtils.deepCopy(agendaItem));
-        }
-
-
-        if (agendaItem.getRule().getActions().isEmpty()) {
-            ActionBo actionBo = new ActionBo();
-            actionBo.setTypeId("");
-            actionBo.setNamespace(agendaItem.getRule().getNamespace());
-            actionBo.setRuleId(agendaItem.getRule().getId());
-            actionBo.setSequenceNumber(1);
-            agendaEditor.setAgendaItemLineRuleAction(actionBo);
-        } else {
-            agendaEditor.setAgendaItemLineRuleAction(agendaItem.getRule().getActions().get(0));
-        }
-
-        agendaEditor.setCustomRuleActionAttributesMap(agendaEditor.getAgendaItemLineRuleAction().getAttributes());
-        agendaEditor.setCustomRuleAttributesMap(agendaEditor.getAgendaItemLine().getRule().getAttributes());
-    }
-
-    /**
-     * This method returns the id of the selected agendaItem.
-     *
-     * @param form
-     * @return selectedAgendaItemId
-     */
-    private String getSelectedAgendaItemId(UifFormBase form) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        return agendaEditor.getSelectedAgendaItemId();
-    }
-
-    /**
-     * This method sets the id of the cut agendaItem.
-     *
-     * @param form
-     * @param cutAgendaItemId
-     */
-    private void setCutAgendaItemId(UifFormBase form, String cutAgendaItemId) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        agendaEditor.setCutAgendaItemId(cutAgendaItemId);
-    }
-
-    /**
-     * This method returns the id of the cut agendaItem.
-     *
-     * @param form
-     * @return cutAgendaItemId
-     */
-    private String getCutAgendaItemId(UifFormBase form) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        return agendaEditor.getCutAgendaItemId();
-    }
-
-    /**
-     * This method updates the existing rule in the agenda.
-     */
-    @RequestMapping(params = "methodToCall=" + "goToEditRule")
-    public ModelAndView goToEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        agendaEditor.setAddRuleInProgress(false);
-        // this is the root of the tree:
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-        String selectedItemId = agendaEditor.getSelectedAgendaItemId();
-        AgendaItemBo node = getAgendaItemById(firstItem, selectedItemId);
-
-        setAgendaItemLine(form, node);
-
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
-        return super.navigate(form, result, request, response);
-    }
-
-    /**
-     *  This method adds the newly create rule to the agenda.
-     */
-    @RequestMapping(params = "methodToCall=" + "addRule")
-    public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        AgendaBo agenda = agendaEditor.getAgenda();
-        AgendaItemBo newAgendaItem = agendaEditor.getAgendaItemLine();
-
-        if (!validateProposition(newAgendaItem.getRule().getProposition(), newAgendaItem.getRule().getNamespace())) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-AddRule-Page");
-            // NOTICE short circuit method on invalid proposition
-            return super.navigate(form, result, request, response);
-        }
-
-        newAgendaItem.getRule().setAttributes(agendaEditor.getCustomRuleAttributesMap());
-        updateRuleAction(agendaEditor);
-
-        if (agenda.getItems() == null) {
-            agenda.setItems(new ArrayList<AgendaItemBo>());
-        }
-
-        AgendaEditorBusRule rule = new AgendaEditorBusRule();
-        MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        MaintenanceDocument document = maintenanceForm.getDocument();
-        if (rule.processAgendaItemBusinessRules(document)) {
-            newAgendaItem.setId(getSequenceAccessorService().getNextAvailableSequenceNumber("KRMS_AGENDA_ITM_S")
-                    .toString());
-            newAgendaItem.setAgendaId(getCreateAgendaId(agenda));
-            if (agenda.getFirstItemId() == null) {
-                agenda.setFirstItemId(newAgendaItem.getId());
-            } else {
-                // insert agenda in tree
-                String selectedAgendaItemId = getSelectedAgendaItemId(form);
-                if (StringUtils.isBlank(selectedAgendaItemId)) {
-                    // add after the last root node
-                    AgendaItemBo node = getFirstAgendaItem(agenda);
-                    while (node.getAlways() != null) {
-                        node = node.getAlways();
-                    }
-                    node.setAlwaysId(newAgendaItem.getId());
-                    node.setAlways(newAgendaItem);
-                } else {
-                    // add after selected node
-                    AgendaItemBo firstItem = getFirstAgendaItem(agenda);
-                    AgendaItemBo node = getAgendaItemById(firstItem, selectedAgendaItemId);
-                    newAgendaItem.setAlwaysId(node.getAlwaysId());
-                    newAgendaItem.setAlways(node.getAlways());
-                    node.setAlwaysId(newAgendaItem.getId());
-                    node.setAlways(newAgendaItem);
-                }
-            }
-            // add it to the collection on the agenda too
-            agenda.getItems().add(newAgendaItem);
-            agendaEditor.setAddRuleInProgress(false);
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-Agenda-Page");
-        } else {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-AddRule-Page");
-        }
-        return super.navigate(form, result, request, response);
-    }
-
-    /**
-     * Validate the given proposition and its children.  Note that this method is side-effecting,
-     * when errors are detected with the proposition, errors are added to the error map.
-     * @param proposition the proposition to validate
-     * @param namespace the namespace of the parent rule
-     * @return true if the proposition and its children (if any) are considered valid
-     */
-    // TODO also wire up to proposition for faster feedback to the user
-    private boolean validateProposition(PropositionBo proposition, String namespace) {
-        boolean result = true;
-
-        if (proposition != null) { // Null props are allowed.
-
-            if (StringUtils.isBlank(proposition.getCompoundOpCode())) {
-                // then this is a simple proposition, validate accordingly
-
-                result &= validateSimpleProposition(proposition, namespace);
-
-            } else {
-                // this is a compound proposition (or it should be)
-                List<PropositionBo> compoundComponents = proposition.getCompoundComponents();
-
-                if (!CollectionUtils.isEmpty(proposition.getParameters())) {
-                    GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                            "error.rule.proposition.compound.invalidParameter", proposition.getDescription());
-                    result &= false;
-                }
-
-                // recurse
-                if (!CollectionUtils.isEmpty(compoundComponents)) for (PropositionBo childProp : compoundComponents) {
-                    result &= validateProposition(childProp, namespace);
-                }
-            }
-        }
-
-        return result;
     }
 
     /**
@@ -500,80 +286,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         }
     }
 
-
-    /**
-     * This method returns the agendaId of the given agenda.  If the agendaId is null a new id will be created.
-     */
-    private String getCreateAgendaId(AgendaBo agenda) {
-        if (agenda.getId() == null) {
-            agenda.setId(getSequenceAccessorService().getNextAvailableSequenceNumber("KRMS_AGENDA_S").toString());
-        }
-        return agenda.getId();
-    }
-
-    private void updateRuleAction(StudentAgendaEditor agendaEditor) {
-        agendaEditor.getAgendaItemLine().getRule().setActions(new ArrayList<ActionBo>());
-        if (StringUtils.isNotBlank(agendaEditor.getAgendaItemLineRuleAction().getTypeId())) {
-            agendaEditor.getAgendaItemLineRuleAction().setAttributes(agendaEditor.getCustomRuleActionAttributesMap());
-            agendaEditor.getAgendaItemLine().getRule().getActions().add(agendaEditor.getAgendaItemLineRuleAction());
-        }
-    }
-
-    /**
-     * Build a map from attribute name to attribute definition from all the defined attribute definitions for the
-     * specified rule action type
-     * @param actionTypeId
-     * @return
-     */
-    private Map<String, KrmsAttributeDefinition> buildAttributeDefinitionMap(String actionTypeId) {
-        KrmsAttributeDefinitionService attributeDefinitionService =
-            KrmsRepositoryServiceLocator.getKrmsAttributeDefinitionService();
-
-        // build a map from attribute name to definition
-        Map<String, KrmsAttributeDefinition> attributeDefinitionMap = new HashMap<String, KrmsAttributeDefinition>();
-
-        List<KrmsAttributeDefinition> attributeDefinitions =
-                attributeDefinitionService.findAttributeDefinitionsByType(actionTypeId);
-
-        for (KrmsAttributeDefinition attributeDefinition : attributeDefinitions) {
-            attributeDefinitionMap.put(attributeDefinition.getName(), attributeDefinition);
-        }
-        return attributeDefinitionMap;
-    }
-
-    /**
-     * This method updates the existing rule in the agenda.
-     */
-    @RequestMapping(params = "methodToCall=" + "editRule")
-    public ModelAndView editRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        // this is the root of the tree:
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-        AgendaItemBo node = getAgendaItemById(firstItem, getSelectedAgendaItemId(form));
-        AgendaItemBo agendaItemLine = agendaEditor.getAgendaItemLine();
-
-        if (!validateProposition(agendaItemLine.getRule().getProposition(), agendaItemLine.getRule().getNamespace())) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
-            // NOTICE short circuit method on invalid proposition
-            return super.navigate(form, result, request, response);
-        }
-
-        agendaItemLine.getRule().setAttributes(agendaEditor.getCustomRuleAttributesMap());
-        updateRuleAction(agendaEditor);
-
-        AgendaEditorBusRule rule = new AgendaEditorBusRule();
-        MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        MaintenanceDocument document = maintenanceForm.getDocument();
-        if (rule.processAgendaItemBusinessRules(document)) {
-            node.setRule(agendaItemLine.getRule());
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-Agenda-Page");
-        } else {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-EditRule-Page");
-        }
-        return super.navigate(form, result, request, response);
-    }
-
     /**
      * @return the ALWAYS {@link AgendaItemInstanceChildAccessor} for the last ALWAYS child of the instance accessed by the parameter.
      * It will by definition refer to null.  If the instanceAccessor parameter refers to null, then it will be returned.  This is useful
@@ -618,358 +330,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             throws Exception {
         // call the super method to avoid the agenda tree being reloaded from the db
         return getUIFModelAndView(form);
-    }
-
-    @RequestMapping(params = "methodToCall=" + "moveUp")
-    public ModelAndView moveUp(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        moveSelectedSubtreeUp(form);
-
-        return super.refresh(form, result, request, response);
-        }
-
-    @RequestMapping(params = "methodToCall=" + "ajaxMoveUp")
-    public ModelAndView ajaxMoveUp(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        moveSelectedSubtreeUp(form);
-
-        // call the super method to avoid the agenda tree being reloaded from the db
-        return getUIFModelAndView(form);
-    }
-
-    /**
-     *
-     * @param form
-     * @see AgendaItemChildAccessor for nomenclature explanation
-     */
-    private void moveSelectedSubtreeUp(UifFormBase form) {
-
-        /* Rough algorithm for moving a node up.  This is a "level order" move.  Note that in this tree,
-         * level order means something a bit funky.  We are defining a level as it would be displayed in the browser,
-         * so only the traversal of When FALSE or When TRUE links increments the level, since ALWAYS linked nodes are
-         * considered siblings.
-         *
-         * find the following:
-         *   node := the selected node
-         *   parent := the selected node's parent, its containing node (via when true or when false relationship)
-         *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
-         *
-         * if (node is first child in sibling group)
-         *     if (node is in When FALSE group)
-         *         move node to last position in When TRUE group
-         *     else
-         *         find youngest child of parentsOlderCousin and put node after it
-         * else
-         *     move node up within its sibling group
-         */
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        // this is the root of the tree:
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-
-        String selectedItemId = agendaEditor.getSelectedAgendaItemId();
-        AgendaItemBo node = getAgendaItemById(firstItem, selectedItemId);
-        AgendaItemBo parent = getParent(firstItem, selectedItemId);
-        AgendaItemBo parentsOlderCousin = (parent == null) ? null : getNextOldestOfSameGeneration(firstItem, parent);
-
-        StringBuilder ruleEditorMessage = new StringBuilder();
-        AgendaItemChildAccessor childAccessor = getOldestChildAccessor(node, parent);
-        if (childAccessor != null) { // node is first child in sibling group
-            if (childAccessor == AgendaItemChildAccessor.whenFalse) {
-                // move node to last position in When TRUE group
-                AgendaItemInstanceChildAccessor youngestWhenTrueSiblingInsertionPoint =
-                        getLastChildsAlwaysAccessor(new AgendaItemInstanceChildAccessor(AgendaItemChildAccessor.whenTrue, parent));
-                youngestWhenTrueSiblingInsertionPoint.setChild(node);
-                AgendaItemChildAccessor.whenFalse.setChild(parent, node.getAlways());
-                AgendaItemChildAccessor.always.setChild(node, null);
-
-                ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" up ");
-                ruleEditorMessage.append("to last position in When TRUE group of ").append(parent.getRule().getName());
-            } else if (parentsOlderCousin != null) {
-                // find youngest child of parentsOlderCousin and put node after it
-                AgendaItemInstanceChildAccessor youngestWhenFalseSiblingInsertionPoint =
-                        getLastChildsAlwaysAccessor(new AgendaItemInstanceChildAccessor(AgendaItemChildAccessor.whenFalse, parentsOlderCousin));
-                youngestWhenFalseSiblingInsertionPoint.setChild(node);
-                AgendaItemChildAccessor.whenTrue.setChild(parent, node.getAlways());
-                AgendaItemChildAccessor.always.setChild(node, null);
-                ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" up ");
-                ruleEditorMessage.append("to When FALSE group of ").append(parentsOlderCousin.getRule().getName());
-            }
-        } else if (!selectedItemId.equals(firstItem.getId())) { // conditional to miss special case of first node
-
-            AgendaItemBo bogusRootNode = null;
-            if (parent == null) {
-                // special case, this is a top level sibling. rig up special parent node
-                bogusRootNode = new AgendaItemBo();
-                AgendaItemChildAccessor.whenTrue.setChild(bogusRootNode, firstItem);
-                parent = bogusRootNode;
-            }
-
-            // move node up within its sibling group
-            AgendaItemInstanceChildAccessor accessorToSelectedNode = getInstanceAccessorToChild(parent, node.getId());
-            AgendaItemBo olderSibling = accessorToSelectedNode.getInstance();
-            AgendaItemInstanceChildAccessor accessorToOlderSibling = getInstanceAccessorToChild(parent, olderSibling.getId());
-
-            accessorToOlderSibling.setChild(node);
-            accessorToSelectedNode.setChild(node.getAlways());
-            AgendaItemChildAccessor.always.setChild(node, olderSibling);
-
-            ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" up ");
-
-            if (bogusRootNode != null) {
-                // clean up special case with bogus root node
-                agendaEditor.getAgenda().setFirstItemId(bogusRootNode.getWhenTrueId());
-                ruleEditorMessage.append(" to ").append(getFirstAgendaItem(agendaEditor.getAgenda()).getRule().getName()).append(" When TRUE group");
-            } else {
-                ruleEditorMessage.append(" within its sibling group, above " + olderSibling.getRule().getName());
-            }
-        }
-        agendaEditor.setRuleEditorMessage(ruleEditorMessage.toString());
-    }
-
-    @RequestMapping(params = "methodToCall=" + "moveDown")
-    public ModelAndView moveDown(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        moveSelectedSubtreeDown(form);
-
-        return super.refresh(form, result, request, response);
-    }
-
-    @RequestMapping(params = "methodToCall=" + "ajaxMoveDown")
-    public ModelAndView ajaxMoveDown(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        moveSelectedSubtreeDown(form);
-
-        // call the super method to avoid the agenda tree being reloaded from the db
-        return getUIFModelAndView(form);
-        }
-
-    /**
-     *
-     * @param form
-     * @see AgendaItemChildAccessor for nomenclature explanation
-     */
-    private void moveSelectedSubtreeDown(UifFormBase form) {
-
-        /* Rough algorithm for moving a node down.  This is a "level order" move.  Note that in this tree,
-         * level order means something a bit funky.  We are defining a level as it would be displayed in the browser,
-         * so only the traversal of When FALSE or When TRUE links increments the level, since ALWAYS linked nodes are
-         * considered siblings.
-         *
-         * find the following:
-         *   node := the selected node
-         *   parent := the selected node's parent, its containing node (via when true or when false relationship)
-         *   parentsYoungerCousin := the parent's level-order successor (sibling or cousin)
-         *
-         * if (node is last child in sibling group)
-         *     if (node is in When TRUE group)
-         *         move node to first position in When FALSE group
-         *     else
-         *         move to first child of parentsYoungerCousin
-         * else
-         *     move node down within its sibling group
-         */
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        // this is the root of the tree:
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-
-        String selectedItemId = agendaEditor.getSelectedAgendaItemId();
-        AgendaItemBo node = getAgendaItemById(firstItem, selectedItemId);
-        AgendaItemBo parent = getParent(firstItem, selectedItemId);
-        AgendaItemBo parentsYoungerCousin = (parent == null) ? null : getNextYoungestOfSameGeneration(firstItem, parent);
-
-        StringBuilder ruleEditorMessage = new StringBuilder();
-        if (node.getAlways() == null && parent != null) { // node is last child in sibling group
-            // set link to selected node to null
-            if (parent.getWhenTrue() != null && isSiblings(parent.getWhenTrue(), node)) { // node is in When TRUE group
-                // move node to first child under When FALSE
-                AgendaItemInstanceChildAccessor accessorToSelectedNode = getInstanceAccessorToChild(parent, node.getId());
-                accessorToSelectedNode.setChild(null);
-
-                AgendaItemBo parentsFirstChild = parent.getWhenFalse();
-                AgendaItemChildAccessor.whenFalse.setChild(parent, node);
-                AgendaItemChildAccessor.always.setChild(node, parentsFirstChild);
-
-                ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" down ");
-                ruleEditorMessage.append("to first child under When FALSE group of ").append(parent.getRule().getName());
-            } else if (parentsYoungerCousin != null) { // node is in the When FALSE group
-                // move to first child of parentsYoungerCousin under When TRUE
-                AgendaItemInstanceChildAccessor accessorToSelectedNode = getInstanceAccessorToChild(parent, node.getId());
-                accessorToSelectedNode.setChild(null);
-
-                AgendaItemBo parentsYoungerCousinsFirstChild = parentsYoungerCousin.getWhenTrue();
-                AgendaItemChildAccessor.whenTrue.setChild(parentsYoungerCousin, node);
-                AgendaItemChildAccessor.always.setChild(node, parentsYoungerCousinsFirstChild);
-
-                ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" down ");
-                ruleEditorMessage.append("to first child under When TRUE group of ").append(parentsYoungerCousin.getRule().getName());
-            }
-        } else if (node.getAlways() != null) { // move node down within its sibling group
-
-            AgendaItemBo bogusRootNode = null;
-            if (parent == null) {
-                // special case, this is a top level sibling. rig up special parent node
-
-                bogusRootNode = new AgendaItemBo();
-                AgendaItemChildAccessor.whenFalse.setChild(bogusRootNode, firstItem);
-                parent = bogusRootNode;
-            }
-
-            // move node down within its sibling group
-            AgendaItemInstanceChildAccessor accessorToSelectedNode = getInstanceAccessorToChild(parent, node.getId());
-            AgendaItemBo youngerSibling = node.getAlways();
-            accessorToSelectedNode.setChild(youngerSibling);
-            AgendaItemChildAccessor.always.setChild(node, youngerSibling.getAlways());
-            AgendaItemChildAccessor.always.setChild(youngerSibling, node);
-
-            if (bogusRootNode != null) {
-                // clean up special case with bogus root node
-                agendaEditor.getAgenda().setFirstItemId(bogusRootNode.getWhenFalseId());
-            }
-            ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" down ");
-            ruleEditorMessage.append(" within its sibling group, below ").append(youngerSibling.getRule().getName());
-        } // falls through if already bottom-most
-        agendaEditor.setRuleEditorMessage(ruleEditorMessage.toString());
-    }
-
-    @RequestMapping(params = "methodToCall=" + "moveLeft")
-    public ModelAndView moveLeft(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        moveSelectedSubtreeLeft(form);
-
-        return super.refresh(form, result, request, response);
-    }
-
-    @RequestMapping(params = "methodToCall=" + "ajaxMoveLeft")
-    public ModelAndView ajaxMoveLeft(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        moveSelectedSubtreeLeft(form);
-
-        // call the super method to avoid the agenda tree being reloaded from the db
-        return getUIFModelAndView(form);
-    }
-
-    /**
-     *
-     * @param form
-     * @see AgendaItemChildAccessor for nomenclature explanation
-     */
-    private void moveSelectedSubtreeLeft(UifFormBase form) {
-
-        /*
-         * Move left means make it a younger sibling of it's parent.
-         */
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        // this is the root of the tree:
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-
-        String selectedItemId = agendaEditor.getSelectedAgendaItemId();
-        AgendaItemBo node = getAgendaItemById(firstItem, selectedItemId);
-        AgendaItemBo parent = getParent(firstItem, selectedItemId);
-
-        if (parent != null) {
-            AgendaItemInstanceChildAccessor accessorToSelectedNode = getInstanceAccessorToChild(parent, node.getId());
-            accessorToSelectedNode.setChild(node.getAlways());
-            AgendaItemChildAccessor.always.setChild(node, parent.getAlways());
-            AgendaItemChildAccessor.always.setChild(parent, node);
-
-            StringBuilder ruleEditorMessage = new StringBuilder();
-            ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" left to be a sibling of its parent ").append(parent.getRule().getName());
-            agendaEditor.setRuleEditorMessage(ruleEditorMessage.toString());
-        }
-    }
-
-
-    @RequestMapping(params = "methodToCall=" + "moveRight")
-    public ModelAndView moveRight(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        moveSelectedSubtreeRight(form);
-
-        return super.refresh(form, result, request, response);
-    }
-
-    @RequestMapping(params = "methodToCall=" + "ajaxMoveRight")
-    public ModelAndView ajaxMoveRight(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        moveSelectedSubtreeRight(form);
-
-        // call the super method to avoid the agenda tree being reloaded from the db
-        return getUIFModelAndView(form);
-    }
-
-    /**
-     *
-     * @param form
-     * @see AgendaItemChildAccessor for nomenclature explanation
-     */
-    private void moveSelectedSubtreeRight(UifFormBase form) {
-
-        /*
-         * Move right prefers moving to bottom of upper sibling's When FALSE branch
-         * ... otherwise ..
-         * moves to top of lower sibling's When TRUE branch
-         */
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        // this is the root of the tree:
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-
-        String selectedItemId = agendaEditor.getSelectedAgendaItemId();
-        AgendaItemBo node = getAgendaItemById(firstItem, selectedItemId);
-        AgendaItemBo parent = getParent(firstItem, selectedItemId);
-
-        AgendaItemBo bogusRootNode = null;
-        if (parent == null) {
-            // special case, this is a top level sibling. rig up special parent node
-            bogusRootNode = new AgendaItemBo();
-            AgendaItemChildAccessor.whenFalse.setChild(bogusRootNode, firstItem);
-            parent = bogusRootNode;
-        }
-
-        AgendaItemInstanceChildAccessor accessorToSelectedNode = getInstanceAccessorToChild(parent, node.getId());
-        AgendaItemBo olderSibling = (accessorToSelectedNode.getInstance() == parent) ? null : accessorToSelectedNode.getInstance();
-
-        StringBuilder ruleEditorMessage = new StringBuilder();
-        if (olderSibling != null) {
-            accessorToSelectedNode.setChild(node.getAlways());
-            AgendaItemInstanceChildAccessor yougestWhenFalseSiblingInsertionPoint =
-                    getLastChildsAlwaysAccessor(new AgendaItemInstanceChildAccessor(AgendaItemChildAccessor.whenFalse, olderSibling));
-            yougestWhenFalseSiblingInsertionPoint.setChild(node);
-            AgendaItemChildAccessor.always.setChild(node, null);
-
-            ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" right to ");
-            ruleEditorMessage.append(olderSibling.getRule().getName()).append(" When FALSE group.");
-        } else if (node.getAlways() != null) { // has younger sibling
-            accessorToSelectedNode.setChild(node.getAlways());
-            AgendaItemBo childsWhenTrue = node.getAlways().getWhenTrue();
-            AgendaItemChildAccessor.whenTrue.setChild(node.getAlways(), node);
-            AgendaItemChildAccessor.always.setChild(node, childsWhenTrue);
-
-            ruleEditorMessage.append("Moved ").append(node.getRule().getName()).append(" right to ");
-            if (childsWhenTrue != null) { // childsWhenTrue is null if the topmost rule is moved right see bogusRootNode below
-                ruleEditorMessage.append(childsWhenTrue.getRule().getName()).append(" When TRUE group");
-            }
-        } // falls through if node is already the rightmost.
-
-        if (bogusRootNode != null) {
-            // clean up special case with bogus root node
-            agendaEditor.getAgenda().setFirstItemId(bogusRootNode.getWhenFalseId());
-            ruleEditorMessage.append(getFirstAgendaItem(agendaEditor.getAgenda()).getRule().getName()).append(" When TRUE group");
-        }
-        agendaEditor.setRuleEditorMessage(ruleEditorMessage.toString());
     }
 
     /**
@@ -1185,71 +545,9 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
      * @param form
      * @return the {@link org.kuali.rice.krms.impl.ui.AgendaEditor} from the form
      */
-    private StudentAgendaEditor getAgendaEditor(UifFormBase form) {
+    private RuleEditor getRuleEditor(UifFormBase form) {
         MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        return ((StudentAgendaEditor)maintenanceForm.getDocument().getDocumentDataObject());
-    }
-
-    private void treeToInOrderList(AgendaItemBo agendaItem, List<AgendaItemBo> listToBuild) {
-        listToBuild.add(agendaItem);
-        for (AgendaItemChildAccessor childAccessor : AgendaItemChildAccessor.linkedNodes) {
-            AgendaItemBo child = childAccessor.getChild(agendaItem);
-            if (child != null) treeToInOrderList(child, listToBuild);
-        }
-    }
-
-
-    @RequestMapping(params = "methodToCall=" + "delete")
-    public ModelAndView delete(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        deleteSelectedSubtree(form);
-
-        return super.refresh(form, result, request, response);
-    }
-
-    @RequestMapping(params = "methodToCall=" + "ajaxDelete")
-    public ModelAndView ajaxDelete(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        deleteSelectedSubtree(form);
-
-        // call the super method to avoid the agenda tree being reloaded from the db
-        return getUIFModelAndView(form);
-    }
-
-
-    private void deleteSelectedSubtree(UifFormBase form) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-
-        if (firstItem != null) {
-            String agendaItemSelected = agendaEditor.getSelectedAgendaItemId();
-            AgendaItemBo selectedItem = getAgendaItemById(firstItem, agendaItemSelected);
-
-            // need to handle the first item here, our recursive method won't handle it.
-            if (agendaItemSelected.equals(firstItem.getId())) {
-                agendaEditor.getAgenda().setFirstItemId(firstItem.getAlwaysId());
-            } else {
-                deleteAgendaItem(firstItem, agendaItemSelected);
-            }
-
-            StringBuilder ruleEditorMessage = new StringBuilder();
-            ruleEditorMessage.append("Deleted ").append(selectedItem.getRule().getName());
-            // remove agenda item and its whenTrue & whenFalse children from the list of agendaItems of the agenda
-            if (selectedItem.getWhenTrue() != null) {
-                removeAgendaItem(agendaEditor.getAgenda().getItems(), selectedItem.getWhenTrue());
-                ruleEditorMessage.append(" and its When TRUE ").append(selectedItem.getWhenTrue().getRule().getName());
-            }
-            if (selectedItem.getWhenFalse() != null) {
-                removeAgendaItem(agendaEditor.getAgenda().getItems(), selectedItem.getWhenFalse());
-                ruleEditorMessage.append(" and its When FALSE ").append(selectedItem.getWhenFalse().getRule().getName());
-            }
-            agendaEditor.getAgenda().getItems().remove(selectedItem);
-            agendaEditor.setRuleEditorMessage(ruleEditorMessage.toString());
-        }
+        return ((RuleEditor)maintenanceForm.getDocument().getDocumentDataObject());
     }
 
     private void deleteAgendaItem(AgendaItemBo root, String agendaItemIdToDelete) {
@@ -1293,83 +591,6 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         items.remove(removeAgendaItem);
     }
 
-    @RequestMapping(params = "methodToCall=" + "ajaxCut")
-    public ModelAndView ajaxCut(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        // this is the root of the tree:
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-        String selectedItemId = agendaEditor.getSelectedAgendaItemId();
-
-        AgendaItemBo selectedAgendaItem = getAgendaItemById(firstItem, selectedItemId);
-        setCutAgendaItemId(form, selectedItemId);
-
-        StringBuilder ruleEditorMessage = new StringBuilder();
-        ruleEditorMessage.append("Marked ").append(selectedAgendaItem.getRule().getName()).append(" for cutting.");
-        agendaEditor.setRuleEditorMessage(ruleEditorMessage.toString());
-        // call the super method to avoid the agenda tree being reloaded from the db
-        return getUIFModelAndView(form);
-    }
-
-    @RequestMapping(params = "methodToCall=" + "ajaxPaste")
-    public ModelAndView ajaxPaste(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        // this is the root of the tree:
-        AgendaItemBo firstItem = getFirstAgendaItem(agendaEditor.getAgenda());
-        String selectedItemId = agendaEditor.getSelectedAgendaItemId();
-
-        String agendaItemId = getCutAgendaItemId(form);
-        if (StringUtils.isNotBlank(selectedItemId) && StringUtils.isNotBlank(agendaItemId)) {
-            StringBuilder ruleEditorMessage = new StringBuilder();
-            AgendaItemBo node = getAgendaItemById(firstItem, agendaItemId);
-            AgendaItemBo orgRefNode = getReferringNode(firstItem, agendaItemId);
-            AgendaItemBo newRefNode = getAgendaItemById(firstItem, selectedItemId);
-
-            if (isSameOrChildNode(node, newRefNode)) {
-                // note if the cut agenda item is not cleared, then the javascript on the AgendaEditorView will need to be
-                // updated to deal with a paste that doesn't paste.  As the ui disables the paste button after it is clicked
-                ruleEditorMessage.append("Cannot paste ").append(node.getRule().getName()).append(" to itself.");
-            } else {
-                // remove node
-                if (orgRefNode == null) {
-                    agendaEditor.getAgenda().setFirstItemId(node.getAlwaysId());
-                } else {
-                    // determine if true, false or always
-                    // do appropriate operation
-                    if (node.getId().equals(orgRefNode.getWhenTrueId())) {
-                        orgRefNode.setWhenTrueId(node.getAlwaysId());
-                        orgRefNode.setWhenTrue(node.getAlways());
-                    } else if(node.getId().equals(orgRefNode.getWhenFalseId())) {
-                        orgRefNode.setWhenFalseId(node.getAlwaysId());
-                        orgRefNode.setWhenFalse(node.getAlways());
-                    } else {
-                        orgRefNode.setAlwaysId(node.getAlwaysId());
-                        orgRefNode.setAlways(node.getAlways());
-                    }
-                }
-
-                // insert node
-                node.setAlwaysId(newRefNode.getAlwaysId());
-                node.setAlways(newRefNode.getAlways());
-                newRefNode.setAlwaysId(node.getId());
-                newRefNode.setAlways(node);
-
-                ruleEditorMessage.append(" Pasted ").append(node.getRule().getName());
-                ruleEditorMessage.append(" to ").append(newRefNode.getRule().getName());
-                agendaEditor.setRuleEditorMessage(ruleEditorMessage.toString());
-
-            }
-            setCutAgendaItemId(form, null);
-        }
-
-
-        // call the super method to avoid the agenda tree being reloaded from the db
-        return getUIFModelAndView(form);
-    }
-
     /**
      * Updates to the category call back to this method to set the categoryId appropriately
      * TODO: shouldn't this happen automatically?  We're taking it out of the form by hand here
@@ -1394,14 +615,13 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
             if (StringUtils.isBlank(categoryId)) { categoryId = null; }
 
-            StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-            RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
-            String selectedPropId = agendaEditor.getSelectedPropositionId();
+            RuleEditor ruleEditor = getRuleEditor(form);
+            String selectedPropId = ruleEditor.getSelectedPropositionId();
 
             // TODO: This should work even if the prop isn't selected!!!  Find the node in edit mode?
             if (!StringUtils.isBlank(selectedPropId)) {
                 Node<RuleEditorTreeNode, String> selectedPropositionNode =
-                        findPropositionTreeNode(rule.getPropositionTree().getRootElement(), selectedPropId);
+                        findPropositionTreeNode(ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
                 selectedPropositionNode.getData().getProposition().getProposition().setCategoryId(categoryId);
             }
         }
@@ -1612,18 +832,15 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     public ModelAndView copyRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        String name = agendaEditor.getCopyRuleName();
-        String namespace = agendaEditor.getNamespace();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String name = ruleEditor.getCopyRuleName();
+        String namespace = ruleEditor.getNamespace();
         // fetch existing rule and copy fields to new rule
         RuleDefinition oldRuleDefinition = getRuleBoService().getRuleByNameAndNamespace(name, namespace);
         RuleBo oldRule = RuleBo.from(oldRuleDefinition);
         RuleBo newRule = RuleBo.copyRule(oldRule);
-        agendaEditor.getAgendaItemLine().setRule( newRule );
-        // hack to set ui action object to first action in the list
-        if (!newRule.getActions().isEmpty()) {
-            agendaEditor.setAgendaItemLineRuleAction( newRule.getActions().get(0));
-        }
+        ruleEditor.setRule( newRule );
+
         return super.refresh(form, result, request, response);
     }
 
@@ -1636,11 +853,10 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // open the selected node for editing
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
 
-        Node<RuleEditorTreeNode,String> root = rule.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode,String> root = ruleEditor.getPropositionTree().getRootElement();
         PropositionBo propositionToToggleEdit = null;
         boolean newEditMode = true;
 
@@ -1665,7 +881,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         if (propositionToToggleEdit != null) {
             propositionToToggleEdit.setEditMode(newEditMode);
             //refresh the tree
-            rule.refreshPropositionTree(null);
+            ruleEditor.refreshPropositionTree(null);
         }
 
         configureProposition(form, this.getProposition(form));
@@ -1677,12 +893,12 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     public ModelAndView addProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        RuleBo rule = ruleEditor.getRule();
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         // find parent
-        Node<RuleEditorTreeNode,String> root = rule.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode,String> root = ruleEditor.getPropositionTree().getRootElement();
         Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode( root, selectedPropId);
 
         resetEditModeOnPropositionTree(root);
@@ -1707,7 +923,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                         PropositionBo compound = PropositionBo.createCompoundPropositionBoStub(child.getData().getProposition().getProposition(), true);
                         // don't set compound.setEditMode(true) as the Simple Prop in the compound prop is the only prop in edit mode
                         rule.setProposition(compound);
-                        rule.refreshPropositionTree(null);
+                        ruleEditor.refreshPropositionTree(null);
                     }
                     // handle regular case of adding a simple prop to an existing compound prop
                     else if(SimplePropositionNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()) ||
@@ -1719,7 +935,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                         PropositionBo parentProp = parent.getData().getProposition().getProposition();
                         parentProp.getCompoundComponents().add(((index/2)+1), blank);
 
-                        rule.refreshPropositionTree(true);
+                        ruleEditor.refreshPropositionTree(true);
                     }
 
                     break;
@@ -1733,7 +949,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 blank.setRuleId(rule.getId());
                 rule.setPropId(blank.getId());
                 rule.setProposition(blank);
-                rule.refreshPropositionTree(true);
+                ruleEditor.refreshPropositionTree(true);
             }
         }
         return getUIFModelAndView(form);
@@ -1848,12 +1064,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
          *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
          *
          */
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         // find parent
-        Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(rule.getPropositionTree().getRootElement(), selectedPropId);
+        Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
 
         // add new child at appropriate spot
         if (parent != null){
@@ -1879,7 +1094,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                             // insert it in the new spot
                             // redisplay the tree (editMode = true)
                             boolean editMode = (SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
-                            rule.refreshPropositionTree(editMode);
+                            ruleEditor.refreshPropositionTree(editMode);
                         }
                     }
 
@@ -1901,12 +1116,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
          *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
          *
          */
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         // find agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement()parent
-        Node<RuleEditorTreeNode,String> root = rule.getPropositionTree().getRootElement();
+        Node<RuleEditorTreeNode,String> root = ruleEditor.getPropositionTree().getRootElement();
         Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
         if ((parent != null) && (RuleTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(parent.getNodeType()))){
             Node<RuleEditorTreeNode,String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getProposition().getId());
@@ -1916,7 +1130,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                 if (oldIndex >= 0 && newIndex >= 0){
                     PropositionBo prop = parent.getData().getProposition().getProposition().getCompoundComponents().remove(oldIndex/2);
                     granny.getData().getProposition().getProposition().getCompoundComponents().add((newIndex/2)+1, prop);
-                    rule.refreshPropositionTree(false);
+                    ruleEditor.refreshPropositionTree(false);
                 }
             } else {
                 // TODO: do we allow moving up to the root?
@@ -1940,13 +1154,12 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
          *   nextSibling := the node after the selected node
          *
          */
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         // find parent
         Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(
-                rule.getPropositionTree().getRootElement(), selectedPropId);
+                ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
         if (parent != null){
             int index = findChildIndex(parent, selectedPropId);
             // if we are the last child, do nothing, otherwise
@@ -1959,7 +1172,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                     PropositionBo prop = parent.getData().getProposition().getProposition().getCompoundComponents().remove(index/2);
                     // add it to it's siblings children
                     nextSibling.getData().getProposition().getProposition().getCompoundComponents().add(0, prop);
-                    rule.refreshPropositionTree(false);
+                    ruleEditor.refreshPropositionTree(false);
                 }
             }
         }
@@ -1976,16 +1189,16 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        RuleBo rule = ruleEditor.getRule();
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
 
-        resetEditModeOnPropositionTree(rule.getPropositionTree().getRootElement());
+        resetEditModeOnPropositionTree(ruleEditor.getPropositionTree().getRootElement());
 
         if (!StringUtils.isBlank(selectedPropId)) {
             // find parent
             Node<RuleEditorTreeNode,String> parent = PropositionTreeUtil.findParentPropositionNode(
-                    rule.getPropositionTree().getRootElement(), selectedPropId);
+                    ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
             if (parent != null){
 
                 int index = findChildIndex(parent, selectedPropId);
@@ -2016,7 +1229,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             }
         }
 
-        agendaEditor.getAgendaItemLine().getRule().refreshPropositionTree(true);
+        ruleEditor.getRule().refreshPropositionTree(true);
         return getUIFModelAndView(form);
     }
 
@@ -2026,9 +1239,9 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
-        agendaEditor.setCutPropositionId(selectedPropId);
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        ruleEditor.setCutPropositionId(selectedPropId);
 
         return getUIFModelAndView(form);
     }
@@ -2038,19 +1251,19 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        RuleBo rule = ruleEditor.getRule();
 
         // get selected id
-        String cutPropId = agendaEditor.getCutPropositionId();
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
+        String cutPropId = ruleEditor.getCutPropositionId();
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
 
         if (StringUtils.isNotBlank(selectedPropId) && selectedPropId.equals(cutPropId)) {
                 // do nothing; can't paste to itself
         } else {
 
             // proposition tree root
-            Node<RuleEditorTreeNode, String> root = rule.getPropositionTree().getRootElement();
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
 
             if (StringUtils.isNotBlank(selectedPropId) && StringUtils.isNotBlank(cutPropId)) {
                 Node<RuleEditorTreeNode,String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
@@ -2092,11 +1305,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
                     }
                 }
                 // TODO: determine edit mode.
-//                boolean editMode = (SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
-                rule.refreshPropositionTree(false);
+//                boolean editMode = (SimpleStudentPropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
+                ruleEditor.refreshPropositionTree(false);
             }
         }
-        agendaEditor.setCutPropositionId(null);
+        ruleEditor.setCutPropositionId(null);
         // call the super method to avoid the agenda tree being reloaded from the db
         return getUIFModelAndView(form);
     }
@@ -2105,9 +1318,9 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
     public ModelAndView deleteProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        String selectedPropId = agendaEditor.getSelectedPropositionId();
-        Node<RuleEditorTreeNode, String> root = agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        String selectedPropId = ruleEditor.getSelectedPropositionId();
+        Node<RuleEditorTreeNode, String> root = ruleEditor.getPropositionTree().getRootElement();
 
         Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedPropId);
 
@@ -2125,12 +1338,12 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             }
         } else { // no parent, it is the root
             parentNode.getChildren().clear();
-            agendaEditor.getAgendaItemLine().getRule().getPropositionTree().setRootElement(null);
-            agendaEditor.getAgendaItemLine().getRule().setPropId(null);
-            agendaEditor.getAgendaItemLine().getRule().setProposition(null);
+            ruleEditor.getPropositionTree().setRootElement(null);
+            ruleEditor.getRule().setPropId(null);
+            ruleEditor.getRule().setProposition(null);
         }
 
-        agendaEditor.getAgendaItemLine().getRule().refreshPropositionTree(false);
+        ruleEditor.getRule().refreshPropositionTree(false);
         return getUIFModelAndView(form);
     }
 
@@ -2139,8 +1352,8 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
+        RuleEditor ruleEditor = getRuleEditor(form);
+        RuleBo rule = ruleEditor.getRule();
         rule.refreshPropositionTree(false);
 
         return getUIFModelAndView(form);
@@ -2182,26 +1395,27 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
         if (proposition != null){
 
-            KrmsStudentMockServiceImpl studentService = new KrmsStudentMockServiceImpl();
+            //RuleStudentViewHelperService viewHelper = (RuleStudentViewHelperService) KSControllerHelper.getViewHelperService(form);
+            RuleStudentViewHelperService viewHelper = new RuleStudentViewHelperServiceImpl(); //TODO: fix this.
 
             String propositionTypeId = proposition.getProposition().getTypeId();
 
             //Set the term spec
-            String termSpecId = studentService.getTermForType(propositionTypeId);
+            String termSpecId = viewHelper.getTermSpecificationForType(propositionTypeId);
             TermSpecificationDefinition termSpecification = getTermBoService().getTermSpecificationById(termSpecId);
             setTermForProposition(proposition, termSpecification.getDescription());
 
-            //proposition.setTermSpecId(termSpecId);
+            proposition.setTermSpecId(termSpecId);
 
             //Set the operation
-            setOperationForProposition(proposition, studentService.getOperationForType(propositionTypeId));
+            setOperationForProposition(proposition, viewHelper.getOperationForType(propositionTypeId));
 
             //Set the value
-            String defaultValue = studentService.getValueForType(propositionTypeId);
+            String defaultValue = viewHelper.getValueForType(propositionTypeId);
             if ("?".equals(defaultValue)){
-                //proposition.setShowCustomValue(true);
+                proposition.setShowCustomValue(true);
             } else {
-                //proposition.setShowCustomValue(false);
+                proposition.setShowCustomValue(false);
                 setValueForProposition(proposition, defaultValue);
             }
 
@@ -2225,12 +1439,11 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
      * @return the {@link org.kuali.rice.krms.impl.repository.PropositionBo} from the form
      */
     private PropositionEditor getProposition(UifFormBase form) {
-        StudentAgendaEditor agendaEditor = getAgendaEditor(form);
-        RuleBo rule = agendaEditor.getAgendaItemLine().getRule();
+        RuleEditor ruleEditor = getRuleEditor(form);
 
-        if (rule != null){
-            String selectedPropId = agendaEditor.getSelectedPropositionId();
-            return findProposition(rule.getPropositionTree().getRootElement(), selectedPropId);
+        if (ruleEditor != null){
+            String selectedPropId = ruleEditor.getSelectedPropositionId();
+            return findProposition(ruleEditor.getPropositionTree().getRootElement(), selectedPropId);
     }
 
         return null;

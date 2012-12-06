@@ -168,7 +168,7 @@
 
        <bean id="courseList" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{#np.proposition.termSpecId eq '20000'}">
          <property name="headerText" value="Selected Modules"/>
-         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.TermParameter"/>
+         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.TermParameter"/>
          <property name="propertyName" value="proposition.termParameterList"/>
          <property name="layoutManager.richTable.render" value="false"/>
          <property name="layoutManager.separateAddLine" value="true" />

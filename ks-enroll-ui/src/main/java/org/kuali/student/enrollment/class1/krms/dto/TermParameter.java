@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.krms;
+package org.kuali.student.enrollment.class1.krms.dto;
 
 /**
  * Created with IntelliJ IDEA.

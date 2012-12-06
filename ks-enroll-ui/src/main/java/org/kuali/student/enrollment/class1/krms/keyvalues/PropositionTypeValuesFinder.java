@@ -15,9 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.krms.keyvalues;
 
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
@@ -25,13 +23,9 @@ import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 //import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.repository.PropositionBo;
-import org.kuali.rice.krms.impl.repository.RuleBo;
-import org.kuali.rice.krms.impl.ui.AgendaEditor;
-import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**

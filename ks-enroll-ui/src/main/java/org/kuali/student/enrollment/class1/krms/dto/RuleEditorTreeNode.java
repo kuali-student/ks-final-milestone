@@ -1,6 +1,4 @@
-package org.kuali.student.enrollment.class1.krms;
-
-import org.kuali.rice.krms.impl.repository.PropositionBo;
+package org.kuali.student.enrollment.class1.krms.dto;
 
 import java.io.Serializable;
 

@@ -50,11 +50,10 @@ import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.rice.krms.impl.repository.TermParameterBo;
 import org.kuali.rice.krms.impl.ui.KrmsMaintenanceConstants;
-import org.kuali.rice.krms.impl.ui.RuleTreeNode;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.rice.krms.impl.util.KrmsRetriever;
-import org.kuali.student.enrollment.class1.krms.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.service.AgendaStudentEditorMaintainable;
 
 import java.util.ArrayList;

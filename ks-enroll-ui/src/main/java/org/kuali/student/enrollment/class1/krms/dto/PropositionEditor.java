@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class1.krms;
+package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
@@ -26,6 +26,11 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     public PropositionEditor() {
         super();
         proposition = new PropositionBo();
+    }
+
+    public PropositionEditor(PropositionBo proposition) {
+        super();
+        this.proposition = proposition;
     }
 
     public PropositionBo getProposition() {
@@ -67,5 +72,18 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
     public void setTermParameterList(List<TermParameter> termParameterList) {
         this.termParameterList = termParameterList;
     }
+
+    public String getId(){
+        return proposition.getId();
+    }
+
+    public String getDescription(){
+        return proposition.getDescription();
+    }
+
+    public String getCompoundOpCode(){
+        return proposition.getCompoundOpCode();
+    }
+
 
 }

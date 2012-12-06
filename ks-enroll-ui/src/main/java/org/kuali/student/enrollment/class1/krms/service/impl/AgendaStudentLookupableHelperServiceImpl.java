@@ -23,12 +23,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.rice.krms.api.KrmsConstants;
-import org.kuali.rice.krms.impl.repository.AgendaBo;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.ui.AgendaEditor;
-import org.kuali.rice.krms.impl.util.KrmsImplConstants;
-import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.krms.KRMSConstants;
 
 import java.util.List;

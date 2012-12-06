@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
 import org.kuali.rice.core.api.util.tree.Node;
-import org.kuali.student.enrollment.class1.krms.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
 
 import java.util.List;
 

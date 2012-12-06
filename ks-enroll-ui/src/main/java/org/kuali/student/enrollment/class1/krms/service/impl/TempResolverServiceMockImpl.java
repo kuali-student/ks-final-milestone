@@ -18,7 +18,7 @@ public class TempResolverServiceMockImpl implements TemplateResolverService {
         } else if ( "10018".equals(type)){
             return "10002";
         }
-        return "";
+        return "10002";
     }
 
     public String getOperationForType(String type){
@@ -34,7 +34,7 @@ public class TempResolverServiceMockImpl implements TemplateResolverService {
         } else if ( "10018".equals(type)){
             return "?";
         }
-        return "";
+        return "true";
     }
 
     public String getComponentForTermSpec(String termSpecId){

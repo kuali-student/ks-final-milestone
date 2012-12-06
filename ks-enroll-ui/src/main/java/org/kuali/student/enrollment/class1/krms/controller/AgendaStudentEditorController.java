@@ -56,14 +56,14 @@ import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionNode;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.impl.util.KrmsImplConstants;
-import org.kuali.student.enrollment.class1.krms.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.RuleEditorTreeNode;
-import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode;
+import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.service.RuleStudentViewHelperService;
 import org.kuali.student.enrollment.class1.krms.service.impl.AgendaStudentEditorMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.util.PropositionTreeUtil;
+import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.krms.KRMSConstants;
-import org.kuali.student.krms.service.impl.KrmsStudentMockServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -2093,7 +2093,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
                     }
                 }
                 // TODO: determine edit mode.
-//                boolean editMode = (SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
+//                boolean editMode = (SimpleStudentPropositionEditNode.NODE_TYPE.equalsIgnoreCase(child.getNodeType()));
                 rule.refreshPropositionTree(false);
             }
         }
@@ -2183,26 +2183,26 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
 
         if (proposition != null){
 
-            KrmsStudentMockServiceImpl studentService = new KrmsStudentMockServiceImpl();
+            RuleStudentViewHelperService viewHelper = (RuleStudentViewHelperService) KSControllerHelper.getViewHelperService(form);
 
             String propositionTypeId = proposition.getProposition().getTypeId();
 
             //Set the term spec
-            String termSpecId = studentService.getTermForType(propositionTypeId);
+            String termSpecId = viewHelper.getTermSpecificationForType(propositionTypeId);
             TermSpecificationDefinition termSpecification = getTermBoService().getTermSpecificationById(termSpecId);
             setTermForProposition(proposition, termSpecification.getDescription());
 
-            //proposition.setTermSpecId(termSpecId);
+            proposition.setTermSpecId(termSpecId);
 
             //Set the operation
-            setOperationForProposition(proposition, studentService.getOperationForType(propositionTypeId));
+            setOperationForProposition(proposition, viewHelper.getOperationForType(propositionTypeId));
 
             //Set the value
-            String defaultValue = studentService.getValueForType(propositionTypeId);
+            String defaultValue = viewHelper.getValueForType(propositionTypeId);
             if ("?".equals(defaultValue)){
-                //proposition.setShowCustomValue(true);
+                proposition.setShowCustomValue(true);
             } else {
-                //proposition.setShowCustomValue(false);
+                proposition.setShowCustomValue(false);
                 setValueForProposition(proposition, defaultValue);
             }
 

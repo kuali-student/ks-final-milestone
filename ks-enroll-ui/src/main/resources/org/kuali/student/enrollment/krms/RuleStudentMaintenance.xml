@@ -23,7 +23,7 @@
                       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
   <bean id="RuleMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-    <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.RuleEditor"/>
+    <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleEditorMaintainableImpl"/>
     <property name="documentTypeName" value="RuleMaintenanceDocument"/>
     <property name="lockingKeys">
@@ -41,11 +41,20 @@
 
   <bean id="RuleBo-Student-MaintenanceView" parent="Uif-MaintenanceView">
     <property name="headerText" value="Rule Editor" />
-      <property name="viewName" value="StudentView" />
+    <property name="additionalScriptFiles">
+      <list>
+        <value>krms/scripts/agendaTree.js</value>
+        <value>krms/scripts/ruleStudentTree.js</value>
+        <value>krms/scripts/requiredAlerts.js</value>
+        <value>krms/scripts/disableButtons.js</value>
+        <value>krms/scripts/countdownInputs.js</value>
+      </list>
+    </property>
+    <property name="viewName" value="StudentView" />
     <property name="theme">
       <bean parent="Uif-KradTheme"/>
     </property>
-    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.RuleEditor" />
+    <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.RuleEditor" />
     <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentViewHelperServiceImpl"/>
     <property name="items">
       <list merge="false">
@@ -157,7 +166,7 @@
     <property name="disclosure.render" value="false" />
     <property name="items">
       <list>
-        <bean parent="Uif-Message"  p:messageText="@{#dp.rule.propositionSummary}" />
+        <bean parent="Uif-Message"  p:messageText="@{#dp.propositionSummary}" />
       </list>
     </property>
 
@@ -371,7 +380,7 @@
   <bean id="Uif-Student-TreeSection" parent="Uif-TreeSection-parentBean" class="org.kuali.rice.krad.uif.container.TreeGroup"/>
   <bean id="RuleStudentEditorView-Tree-parent" parent="Uif-Student-TreeSection" p:disclosure.render="false" p:header.render="false"
         p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
-    <property name="propertyName" value="rule.propositionTree"/>
+    <property name="propertyName" value="propositionTree"/>
     <property name="validationMessages.displayMessages" value="true" />
     <property name="validationMessages.displayFieldLabelWithMessages" value="false" />
     <property name="tree">

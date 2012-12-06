@@ -1,5 +1,6 @@
-package org.kuali.student.enrollment.class1.krms;
+package org.kuali.student.enrollment.class1.krms.dto;
 
+import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.ui.AgendaEditor;
@@ -20,5 +21,12 @@ public class StudentAgendaEditor extends AgendaEditor {
         return this.getAgendaItemLine().getRule();
     }
 
+    public String getPropositionSummary(){
+        return this.getRule().getPropositionSummary();
+    }
+
+    public Tree getPropositionTree(){
+        return this.getRule().getPropositionTree();
+    }
 
 }

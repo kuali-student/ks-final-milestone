@@ -30,7 +30,7 @@ import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.repository.RuleBo;
 import org.kuali.rice.krms.impl.ui.AgendaEditor;
-import org.kuali.student.enrollment.class1.krms.StudentAgendaEditor;
+import org.kuali.student.enrollment.class1.krms.dto.StudentAgendaEditor;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
