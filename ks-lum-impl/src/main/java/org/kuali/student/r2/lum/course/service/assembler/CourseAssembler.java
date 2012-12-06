@@ -613,17 +613,21 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
      * @return List of values
      */
     private List<String> _computeResultValues(List<String> resultValueKeys, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        String firstKey = resultValueKeys.get(0);
-        if (_checkIfSimpleFloat(firstKey)) {
-            // No modification needed
-            return resultValueKeys;
-        }
-        // Assume that resultValueKeys contains IDs
         List<String> values = new ArrayList<String>();
-        for (String key: resultValueKeys) {
-            ResultValueInfo rv = lrcService.getResultValue(key, contextInfo);
-            String value = rv.getValue();
-            values.add(value);
+        if(resultValueKeys!=null && !resultValueKeys.isEmpty()){
+            String firstKey = resultValueKeys.get(0);
+
+
+            if (_checkIfSimpleFloat(firstKey)) {
+                // No modification needed
+                return resultValueKeys;
+            }
+            // Assume that resultValueKeys contains IDs
+            for (String key: resultValueKeys) {
+                ResultValueInfo rv = lrcService.getResultValue(key, contextInfo);
+                String value = rv.getValue();
+                values.add(value);
+            }
         }
         return values;
     }
@@ -682,6 +686,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         }
                         id = sb.toString();
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE;
+                        resultValues = new ArrayList<String>();
+                        resultValues.addAll(resultVals);
                     }else if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(creditOption.getTypeKey())){
                         /*
                                * For variable credits create a Result values that goes from min to max with the specified increment.

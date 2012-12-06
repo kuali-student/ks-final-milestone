@@ -610,8 +610,8 @@ public class TestCourseServiceImpl{
             ResultValuesGroupInfo rc1 = new ResultValuesGroupInfo();
             rc1.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE);
             ResultValueRangeInfo resultValueRangeInfo = new ResultValueRangeInfo();
-            resultValueRangeInfo.setMinValue("1.0");
-            resultValueRangeInfo.setMaxValue("5.0");
+            resultValueRangeInfo.setMinValue("5.0");
+            resultValueRangeInfo.setMaxValue("6.0");
             resultValueRangeInfo.setIncrement("0.5");
             rc1.setResultValueRange(resultValueRangeInfo);
             
@@ -667,11 +667,11 @@ public class TestCourseServiceImpl{
                 
                 if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE.equals(rc.getTypeKey())){
                     if("kuali.creditType.credit.degree.1.0-5.0".equals(rc.getKey())) {
-                        assertEquals(9, rc.getResultValueKeys().size());
-                        assertTrue(rc.getResultValueKeys().contains("1.5"));
-                    } else {                        
                         assertEquals(5, rc.getResultValueKeys().size());
-                        assertTrue(rc.getResultValueKeys().contains("3.0"));
+                        assertTrue(rc.getResultValueKeys().contains("2.0"));
+                    } else {                        
+                        assertEquals(3, rc.getResultValueKeys().size());
+                        assertTrue(rc.getResultValueKeys().contains("5.5"));
                     }
                 }                
             }
