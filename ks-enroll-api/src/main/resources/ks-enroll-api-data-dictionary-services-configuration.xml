@@ -5,21 +5,12 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
+    <import resource="classpath:ks-core-api-data-dictionary-services-configuration.xml"/>
 
     <!--LPR Service-->
     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="luiPersonRelation" />
         <property name="dictionaryLocations" ref="luiPersonRelationServiceDictionaryLocations" />
-    </bean>
-    <!--ATP Service-->
-    <bean id="dataDictionaryServiceForAtp" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
-        <property name="serviceNamespaceSuffix" value="atp" />
-        <property name="dictionaryLocations" ref="atpServiceDictionaryLocations" />
-    </bean>
-    <!-- ACAL Service-->
-    <bean id="dataDictionaryServiceForAcal" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
-        <property name="serviceNamespaceSuffix" value="acal" />
-        <property name="dictionaryLocations" ref="acalServiceDictionaryLocations" />
     </bean>
 
     <!-- Hold Service-->

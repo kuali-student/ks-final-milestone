@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.acal.infc;
+package org.kuali.student.r2.core.acal.infc;
 
 import java.util.Date;
 
@@ -21,14 +21,23 @@ import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
- * Information about a milestone for an AcademicCalendar.
+ * Information about a holiday. Holdays are used to mark holidays and
+ * other non-instructional days on a HolidayCalendar.
  *
  * @author tom
  * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface AcalEvent 
+public interface Holiday 
     extends IdEntity {
+
+    /**
+     * Tests if this holiday is an instructional day.
+     *
+     * @name Is Instructional Day
+     * @required
+     */
+    public Boolean getIsInstructionalDay();
 
     /**
      * Tests if this key date is an all day event. An all-day event

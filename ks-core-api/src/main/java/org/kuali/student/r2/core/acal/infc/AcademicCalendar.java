@@ -13,32 +13,42 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.acal.infc;
+package org.kuali.student.r2.core.acal.infc;
 
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
- * Information about a Term.
- *
- * A term is the time period in which a  course may be offered.
+ * Information about an Academic Calendar.
  *
  * @author tom
  * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface Term 
+public interface AcademicCalendar 
     extends IdEntity {
-
+    
     /**
-     * Gets a display code for this Term.
+     * The holiday calendar id corresponding to this academic
+     * calendar. A multi-year academic calendar may have more than one
+     * holiday calendar.
      *
-     * @name Code
+     * @name Holiday Calendar Ids
+     * @impl Holiday Calendars are stored in the ATP service as an Associated ATP ATP relation
      */
-    public String getCode();
-
+    public List<String> getHolidayCalendarIds();
+    
+    /**
+     * The administrative organization responsible for maintaining
+     * this calendar.
+     *
+     * @name AdminOrg Id
+     */
+    public String getAdminOrgId();
+    
     /**
      * Date and time the term became effective. This
      * does not provide a bound on date ranges or milestones
@@ -51,7 +61,7 @@ public interface Term
      * @name Start Date
      */
     public Date getStartDate();
-  
+
     /**
      * Date and time the term expires. This does not
      * provide a bound on date ranges or milestones associated with
@@ -63,5 +73,5 @@ public interface Term
      *
      * @name End Date
      */
-    public Date getEndDate();  
+    public Date getEndDate();
 }

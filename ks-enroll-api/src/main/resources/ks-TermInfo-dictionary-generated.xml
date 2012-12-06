@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- TermInfo-->
 	<bean id="TermInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="termInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
 		<property name="objectLabel" value="Term"/>
 		<property name="objectDescription">
 			<value>
