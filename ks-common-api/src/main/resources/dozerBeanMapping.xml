@@ -43,20 +43,4 @@
 		</field>
 	</mapping>
 
-	<!-- ks-common-api: org.kuali.student.r*.common.messages.dto mappings -->
-	<mapping>
-		<class-a>org.kuali.student.r1.common.messages.dto.Message</class-a>
-		<class-b>org.kuali.student.r2.common.messages.dto.MessageInfo
-		</class-b>
-		<field>
-			<a>id</a>
-			<b>key</b>
-		</field>
-		<field
-			custom-converter="org.kuali.student.common.conversion.util.converter.LocaleInfoConverter">
-			<a>locale</a>
-			<b>locale</b>
-		</field>
-	</mapping>
-
 </mappings>
