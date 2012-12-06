@@ -2,11 +2,17 @@ package org.kuali.student.r2.common.class1.type.decorators;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import net.sf.ehcache.ObjectExistsException;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import java.util.List;
@@ -15,16 +21,9 @@ import java.util.List;
  * Decorator for TypeService to add caching to select type service methods.
  */
 public class TypeServiceCacheDecorator extends TypeServiceDecorator{
-    private String cacheName = "TypeServiceCache";
+    private static String cacheName = "TypeServiceCache";
     private CacheManager cacheManager;
 
-    public TypeServiceCacheDecorator(){
-        cacheManager = CacheManager.getInstance();
-        try {
-            cacheManager.addCache(cacheName);
-        } catch (ObjectExistsException e) {
-        }
-    }
 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -87,5 +86,16 @@ public class TypeServiceCacheDecorator extends TypeServiceDecorator{
         StatusInfo result = getNextDecorator().deleteType(typeKey, contextInfo);
         cacheManager.getCache(cacheName).removeAll();
         return result;
+    }
+
+    public CacheManager getCacheManager() {
+        if(cacheManager == null){
+            cacheManager = CacheManager.getInstance();
+        }
+        return cacheManager;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
     }
 }

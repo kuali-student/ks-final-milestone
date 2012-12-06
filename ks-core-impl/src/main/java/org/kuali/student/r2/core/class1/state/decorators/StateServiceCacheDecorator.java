@@ -35,9 +35,9 @@ public class StateServiceCacheDecorator extends StateServiceDecorator {
 
 
     public StateServiceCacheDecorator(){
-        cacheManager = CacheManager.getInstance();
+
         try {
-            cacheManager.addCache(STATE_SERVICE_CACHE);
+
 
             //Add LifecycleInfo Map to cache
             lifecycleInfoMap = new HashMap<String, LifecycleInfo>();
@@ -222,7 +222,19 @@ public class StateServiceCacheDecorator extends StateServiceDecorator {
 
         return (List<StateInfo>)result;
     }
-//
+
+    public CacheManager getCacheManager() {
+        if(cacheManager == null){
+            cacheManager = CacheManager.getInstance();
+        }
+        return cacheManager;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
+
+    //
 //    Commented out all the caching for the searchForXXX methods.
 //            See JIRA https://jira.kuali.org/browse/KSENROLL-2952
 // 
