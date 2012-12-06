@@ -14,4 +14,6 @@
         STATE_CHG_ID="kuali.statechange.formatoffering.planned.draft" STATE_CNSTRNT_ID="kuali.stateconstraint.formatoffering.planned.draft"/>
     <KSEN_STATE_CHG_CNSTRNT
         STATE_CHG_ID="kuali.statechange.formatoffering.planned.offered" STATE_CNSTRNT_ID="kuali.stateconstraint.formatoffering.planned.offered"/>
+    <KSEN_STATE_CHG_CNSTRNT
+        STATE_CHG_ID="kuali.statechange.registrationgroup.pending.offered" STATE_CNSTRNT_ID="kuali.stateconstraint.registrationgroup.pending.offered"/>
 </dataset>

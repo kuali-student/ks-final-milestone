@@ -44,4 +44,11 @@
         STATE_CNSTRNT_STATE="kuali.state.constraint.state.active"
         STATE_CNSTRNT_TYPE="kuali.state.constraint.type.precondition"
         UPDATEID="SYSTEMLOADER" UPDATETIME="20121126000000" VER_NBR="1"/>
+    <KSEN_STATE_CNSTRNT CREATEID="SYSTEMLOADER"
+        CREATETIME="20121126000000"
+        ID="kuali.stateconstraint.registrationgroup.pending.offered"
+        STATE_CNSTRNT_OPERATOR="ALL"
+        STATE_CNSTRNT_STATE="kuali.state.constraint.state.active"
+        STATE_CNSTRNT_TYPE="kuali.state.constraint.type.precondition"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="20121126000000" VER_NBR="1"/>
 </dataset>
