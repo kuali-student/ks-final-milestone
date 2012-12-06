@@ -911,7 +911,7 @@ public class TestLrcServiceMockImpl {
 
         rvg = lrcService.getCreateMultipleCreditResultValuesGroup(values,
                 LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, callContext);
-        assertEquals("kuali.creditType.credit.degree.1.12.16.33", rvg.getKey());
+        assertEquals("kuali.creditType.credit.degree.1,12,16,33", rvg.getKey());
         assertEquals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, rvg.getTypeKey());
         new ListOfStringTester().check(rvg.getResultValueKeys(), expValueKeys);
         for (String rvKey : rvg.getResultValueKeys()) {
@@ -924,7 +924,7 @@ public class TestLrcServiceMockImpl {
         // repeated calls should return the same thing without createing
         rvg = lrcService.getCreateMultipleCreditResultValuesGroup(values,
                 LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, callContext);
-        assertEquals("kuali.creditType.credit.degree.1.12.16.33", rvg.getKey());
+        assertEquals("kuali.creditType.credit.degree.1,12,16,33", rvg.getKey());
         assertEquals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, rvg.getTypeKey());
         new ListOfStringTester().check(rvg.getResultValueKeys(), expValueKeys);
         for (String rvKey : rvg.getResultValueKeys()) {
