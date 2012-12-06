@@ -19,6 +19,8 @@ package org.kuali.student.enrollment.kitchensink;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.uif.util.GrowlIcon;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -146,6 +148,41 @@ public class KitchenSinkController extends UifControllerBase {
         }
 
         form.setActivityList(activities);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=growl")
+    public ModelAndView growl(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        GlobalVariables.getMessageMap().addGrowlMessage("", "kitchensink.custom", "This is an example of a growl with no icon.");
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=growlError")
+    public ModelAndView growlError(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) {
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, "kitchensink.custom", "This is an example of an error growl.");
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=growlInfo")
+    public ModelAndView growlInfo(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) {
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, "kitchensink.custom", "This is an example of an information growl.");
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=growlSuccess")
+    public ModelAndView growlSuccess(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) {
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, "kitchensink.custom", "This is an example of a success growl.");
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=growlWarning")
+    public ModelAndView growlWarning(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) {
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, "kitchensink.custom", "This is an example of a warning growl.");
         return getUIFModelAndView(form);
     }
 
