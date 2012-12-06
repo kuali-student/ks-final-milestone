@@ -22,6 +22,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
+import javax.jws.WebParam;
 import java.util.Date;
 import java.util.List;
 
@@ -128,6 +129,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
+    public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String s, @WebParam(name = "nextStateKey") String s1, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeAcademicCalendarState");
+    }
+
+    @Override
     public StatusInfo deleteAcademicCalendar(String academicCalendarId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return (getNextDecorator().deleteAcademicCalendar(academicCalendarId, contextInfo));
@@ -224,6 +230,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     public HolidayCalendarInfo updateHolidayCalendar(String holidayCalendarId, HolidayCalendarInfo holidayCalendarInfo, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return (getNextDecorator().updateHolidayCalendar(holidayCalendarId, holidayCalendarInfo, contextInfo));
+    }
+
+    @Override
+    public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String s, @WebParam(name = "nextStateKey") String s1, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeHolidayCalendarState");
     }
 
     @Override

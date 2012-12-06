@@ -2,12 +2,6 @@ package org.kuali.student.r2.core.acal.service.decorators;
 
 import org.apache.commons.lang.time.FastDateFormat;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayInfo;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -18,8 +12,14 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
 import java.util.*;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -265,6 +266,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
     }
 
+    @Override
+    @Transactional(readOnly = false)
+    public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String s, @WebParam(name = "nextStateKey") String s1, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeAcademicCalendarState");
+    }
+
 
     @Override
     @Transactional(readOnly = false)
@@ -373,6 +380,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         } catch (ReadOnlyException e) {
             throw new OperationFailedException("Failed to update ATP - " + e.getMessage(), e);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String s, @WebParam(name = "nextStateKey") String s1, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeHolidayCalendarState");
     }
 
     @Override
