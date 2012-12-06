@@ -7,6 +7,8 @@
     <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.activityoffering.approved.offered" STATE_PROPAGT_ID="kuali.statepropagation.aotofo.approved.offered"/>
     <KSEN_STATE_CHG_PROPAGT
+        STATE_CHG_ID="kuali.statechange.activityoffering.approved.offered" STATE_PROPAGT_ID="kuali.statepropagation.aotorg.approved.offered"/>
+    <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.activityoffering.draft.approved" STATE_PROPAGT_ID="kuali.statepropagation.aotofo.draft.approved"/>
     <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.formatoffering.draft.planned" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.draft.planned"/>

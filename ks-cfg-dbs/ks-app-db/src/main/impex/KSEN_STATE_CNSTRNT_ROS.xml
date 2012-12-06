@@ -9,6 +9,8 @@
     <KSEN_STATE_CNSTRNT_ROS
         REL_OBJ_STATE_ID="kuali.lui.activity.offering.state.offered" STATE_CNSTRNT_ID="kuali.stateconstraint.formatoffering.planned.offered"/>
     <KSEN_STATE_CNSTRNT_ROS
+        REL_OBJ_STATE_ID="kuali.lui.activity.offering.state.offered" STATE_CNSTRNT_ID="kuali.stateconstraint.registrationgroup.pending.offered"/>
+    <KSEN_STATE_CNSTRNT_ROS
         REL_OBJ_STATE_ID="kuali.lui.format.offering.state.offered" STATE_CNSTRNT_ID="kuali.stateconstraint.courseoffering.planned.offered"/>
     <KSEN_STATE_CNSTRNT_ROS
         REL_OBJ_STATE_ID="kuali.lui.format.offering.state.planned" STATE_CNSTRNT_ID="kuali.stateconstraint.courseoffering.draft.planned"/>
