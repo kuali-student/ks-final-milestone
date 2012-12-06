@@ -49,6 +49,7 @@ public class AppointmentConstants {
     public static final String APPOINTMENT_MSG_ERROR_START_TIME_AM_PM_REQUIRED_FIELD = "error.enroll.appointment.startTimeAmPm.required";
     public static final String APPOINTMENT_MSG_ERROR_END_TIME_BEFORE_START_TIME = "error.enroll.appointment.endtTime.beforeStartTime";
     public static final String APPOINTMENT_MSG_ERROR_END_TIME_AM_PM_BEFORE_START_TIME_AM_PM = "error.enroll.appointment.endTimeAmPm.beforeStartTimeAmPm";
+    public static final String APPOINTMENT_MSG_ERROR_DUPLICATE_WINDOW_FOR_PERIOD = "error.enroll.appointment.duplicateWindowName.forPeriod";
 
     public static final String APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE = "error.enroll.appointment.endDate.outOfRange";
     public static final String APPOINTMENT_MSG_ERROR_WINDOW_SAVE_FAIL = "error.enroll.appointment.windowSaveFailed";

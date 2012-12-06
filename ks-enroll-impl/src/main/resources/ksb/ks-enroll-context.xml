@@ -946,6 +946,7 @@
         <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
         <property name="appointmentDao" ref="appointmentDao"/>
         <property name="populationService" ref="populationServiceMock"/>
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
     </bean>
 
     <bean id="ks.exp.appointmentWindowService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

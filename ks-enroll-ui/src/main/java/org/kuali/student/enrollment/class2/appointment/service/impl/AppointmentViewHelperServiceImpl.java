@@ -183,6 +183,20 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
         //  2) a window end date is required for uniform
         String windowTypeKey = apptWindow.getWindowTypeKey();
 
+        // Check to make sure the Window name is not duplicated with in the period
+        try {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal("periodMilestoneId", apptWindow.getPeriodKey()),PredicateFactory.equal("name", apptWindow.getWindowName()) ));
+            QueryByCriteria criteria = qbcBuilder.build();
+            if( getAppointmentService().searchForAppointmentWindows(criteria, new ContextInfo()).size() > 0){
+                GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].appointmentWindowInfo.name",
+                        AppointmentConstants.APPOINTMENT_MSG_ERROR_DUPLICATE_WINDOW_FOR_PERIOD);
+                isValid = false;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to search appointment windows by criteria", e);
+        }
+
         if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)) {
             if (apptWindow.getEndDate() == null) {
                 GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
@@ -214,7 +228,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                         AppointmentConstants.APPOINTMENT_MSG_ERROR_START_TIME_AM_PM_REQUIRED_FIELD);
             }
             isValid = false;
-        }else{
+        } else {
             // 4) when end date is not null, start/end date should be in the date range of the selected period
             // Aslo check to make sure the end date is not before the start date
             String periodId = apptWindow.getPeriodKey();
