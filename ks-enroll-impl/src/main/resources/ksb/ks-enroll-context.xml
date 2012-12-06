@@ -322,8 +322,13 @@
         </property>
     </bean>
 
+    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
+        <constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
+    </bean>
+
     <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
         <property name="nextDecorator" ref="stateService" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
@@ -393,6 +398,7 @@
 
   <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.common.class1.type.decorators.TypeServiceCacheDecorator">
      <property name="nextDecorator" ref="typeService" />
+     <property name="cacheManager" ref="ksCacheManager"/>
   </bean>
 
 
@@ -727,6 +733,7 @@
 
     <bean id="lrcServiceCache" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
         <property name="nextDecorator" ref="lrcPersistenceService" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
