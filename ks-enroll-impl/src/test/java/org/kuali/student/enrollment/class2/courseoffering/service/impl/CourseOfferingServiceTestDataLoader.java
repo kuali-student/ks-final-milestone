@@ -17,11 +17,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.joda.time.DateTime;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.service.TermCodeGenerator;
-import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
-import org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
@@ -53,6 +48,11 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
+import org.kuali.student.r2.core.acal.service.assembler.TermAssembler;
+import org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;

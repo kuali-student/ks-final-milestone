@@ -1,9 +1,5 @@
 package org.kuali.student.enrollment.class2.acal.util;
 
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.class2.acal.service.TermCodeGenerator;
-import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
-import org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -18,6 +14,10 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
+import org.kuali.student.r2.core.acal.service.assembler.TermAssembler;
+import org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;

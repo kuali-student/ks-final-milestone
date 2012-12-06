@@ -16,10 +16,10 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Date;

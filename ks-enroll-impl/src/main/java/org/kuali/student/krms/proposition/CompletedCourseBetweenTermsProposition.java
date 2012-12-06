@@ -32,7 +32,7 @@ import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;

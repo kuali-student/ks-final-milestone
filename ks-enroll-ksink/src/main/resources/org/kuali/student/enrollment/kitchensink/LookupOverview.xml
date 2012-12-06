@@ -61,7 +61,7 @@
         <property name="propertyName" value="stringField2"/>
         <property name="label" value="Basic Lookup"/>
         <property name="instructionalText" value="Use the &quot;Advanced Select&quot; link to perform a Term lookup"/>
-        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
         <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
         <property name="quickfinder.fieldConversions">
             <map>
@@ -80,7 +80,7 @@
 
     <bean id="KS-KitchenSink-LookupOverview-LookupView" parent="KSLookupView">
         <property name="headerText" value="Term Info Lookup" />
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
         <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkTermInfoLookupableImpl" />
         <property name="criteriaFields">
@@ -157,7 +157,7 @@
                   value="Click the book button to perform an inquiry on Terms for ID &quot;19974&quot;"/>
         <property name="propertyName" value="stringField5"/>
         <property name="defaultValue" value="19974"/>
-        <property name="inquiry.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <property name="inquiry.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
         <!-- inquiry view doesn't use "viewName" to find the correct inquiry view: -->
         <property name="inquiry.viewName" value="KS-KitchenSink-TermInfo-InquiryView"/>
         <property name="inquiry.inquiryParameters" value="stringField5:id"/>
@@ -174,7 +174,7 @@
     -->
     <!-- BUG: Direct Inquiry currently doesn't use "viewName" to find inquiry view bean -->
     <bean id="KS-KitchenSink-TermInfo-InquiryView-Base" parent="KS-KitchenSink-InquiryView-NoHeaderButtons">
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
         <property name="viewName" value="KS-KitchenSink-TermInfo-InquiryView"/>
         <!--
             org.kuali.rice.krad.inquiry.InquirableImpl's retrieveDataObject(..) is called in an inquiry

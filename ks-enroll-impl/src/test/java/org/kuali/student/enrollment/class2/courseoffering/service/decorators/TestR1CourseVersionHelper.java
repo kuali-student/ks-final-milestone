@@ -4,19 +4,16 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseR1TestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -24,11 +21,15 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *

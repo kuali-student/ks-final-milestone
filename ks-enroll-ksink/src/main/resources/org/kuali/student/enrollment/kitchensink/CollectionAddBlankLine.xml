@@ -37,7 +37,7 @@
                             <bean parent="Uif-InputField">
                                 <property name="propertyName" value="name"/>
                                 <property name="label" value="Term Name"/>
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
                                 <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>

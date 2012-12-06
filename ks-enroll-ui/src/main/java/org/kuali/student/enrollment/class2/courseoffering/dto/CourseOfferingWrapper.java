@@ -17,7 +17,7 @@
 
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 

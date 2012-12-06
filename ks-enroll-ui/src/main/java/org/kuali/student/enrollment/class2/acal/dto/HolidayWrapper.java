@@ -17,7 +17,7 @@ package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 
 import java.util.Date;
 

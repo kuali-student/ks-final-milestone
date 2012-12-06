@@ -1,9 +1,9 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import java.util.List;

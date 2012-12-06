@@ -1,8 +1,8 @@
 package org.kuali.student.enrollment.class2.appointment.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 
 import java.util.ArrayList;

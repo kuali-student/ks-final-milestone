@@ -169,9 +169,9 @@
         <property name="holdService" ref="holdService"/>
     </bean>
 
-    <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler"/>
+    <bean id="acalAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler"/>
 
-    <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+    <bean id="acalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
         <property name="acalAssembler" ref="acalAssembler"/>
         <property name="atpService" ref="atpService"/>
         <property name="termAssembler" ref="termAssembler"/>
@@ -183,7 +183,7 @@
 
     <bean id="atpServiceMock" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>
 
-    <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"/>
+    <bean id="termAssembler" class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler"/>
 
     <bean id="milestoneByTypeResolver" class="org.kuali.student.r2.core.process.krms.termresolver.MilestoneByTypeResolver">
         <property name="atpService" ref="atpService"/>

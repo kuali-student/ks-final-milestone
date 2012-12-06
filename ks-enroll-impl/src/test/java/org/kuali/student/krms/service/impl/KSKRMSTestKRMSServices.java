@@ -6,7 +6,6 @@ import org.junit.Test;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.krms.termresolver.AdminOrgNumberTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseNumberTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
@@ -21,6 +20,8 @@ import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -30,7 +31,7 @@ import java.util.Map;
 @Ignore
 public class KSKRMSTestKRMSServices {
 
-	org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler acalAssembler;
+	AcademicCalendarAssembler acalAssembler;
 	AcademicCalendarService acalService;
 	KSTermResolverTypeService ksKRMSTermResolverTypeService;
 

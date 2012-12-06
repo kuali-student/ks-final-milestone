@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;

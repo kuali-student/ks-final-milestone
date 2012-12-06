@@ -202,60 +202,9 @@
         </property>
     </bean>
 
-  <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
-  <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
-      <property name="atpService" ref="atpEnrService" />
-      <property name="nextDecorator" ref="acalServiceImpl" />
-  </bean>
-  <!-- -->
-
-  <!-- change id to "acalServiceImpl" if the above bean is used -->
-  <bean id="acalServiceImpl" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
-    <property name="atpService" ref="atpEnrService" />
-    <property name="stateService" ref="stateServiceCacheDecorator" />
-    <property name="typeService" ref="typeServiceCacheDecorator" />
-    <property name="acalAssembler" ref="acalAssembler" />
-    <property name="termAssembler" ref="termAssembler" />
-    <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
-    <property name="holidayAssembler" ref="holidayAssembler" />
-    <property name="keyDateAssembler" ref="keyDateAssembler" />
-    <property name="acalEventAssembler" ref = "acalEventAssembler" />
-  </bean>
-
-  <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-    <property name="serviceDefinition">
-      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-        <property name="jaxWsService" value="true" />
-        <property name="service" ref="acalService" />
-        <property name="serviceInterface" value="org.kuali.student.enrollment.acal.service.AcademicCalendarService" />
-        <property name="localServiceName" value="AcademicCalendarService" />
-        <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/acal" />
-        <property name="busSecurity" value="${ks.lum.bus.security}" />
-      </bean>
-    </property>
-  </bean>
-
-  <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
-    <property name="atpService" ref="atpEnrService" />
-  </bean>
-
-  <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
-    <property name="termCodeGenerator" ref = "termCodeGenerator" />
-  </bean>
-
-<bean id="termCodeGenerator" class="org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl"/>
-
-  <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
-
-  <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
-
-  <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
-
   <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
 
   <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
-
-  <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
 
     <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
