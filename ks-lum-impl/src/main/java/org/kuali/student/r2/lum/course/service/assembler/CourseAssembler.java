@@ -67,6 +67,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -673,7 +674,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         resultValueRange.setMaxValue(String.valueOf(fixedCreditValue));
                     } else if (CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE.equals(creditOption.getTypeKey())){
                         List<String> resultVals = _computeResultValues(creditOption.getResultValueKeys(), contextInfo);
-                        Collections.sort(resultVals);
+                        Collections.sort(resultVals, new Comparator<String>() {
+                            public int compare(String o1, String o2) {
+                            return Float.compare(Float.parseFloat(o1),Float.parseFloat(o2));
+                            }
+                        });
 
                         StringBuilder sb = new StringBuilder(CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX);
                         for (Iterator<String> iter = resultVals.iterator();
