@@ -2079,6 +2079,18 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/atp/AtpInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/atp/AtpService"
         TYPE_KEY="kuali.milestone.type.group.seatpool" VER_NBR="1"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20121204000000"
+        DESCR_FORMATTED="College (Organization Type)"
+        DESCR_PLAIN="College (Organization Type)" NAME="College"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/organization/OrgInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/organization/OrganizationService"
+        TYPE_KEY="kuali.org.College" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20121205000000"
+        DESCR_FORMATTED="Department (Organization Type)"
+        DESCR_PLAIN="Department (Organization Type)" NAME="Department"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/organization/OrgInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/organization/OrganizationService"
+        TYPE_KEY="kuali.org.Department" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120716000000"
         DESCR_FORMATTED="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
         DESCR_PLAIN="A list of populations (childPopulationIds) and the reference population (referencePopulationId) must be supplied; results of the reference populations (e.g., all students) less the populations represented in the list (not in) determine the membership"
