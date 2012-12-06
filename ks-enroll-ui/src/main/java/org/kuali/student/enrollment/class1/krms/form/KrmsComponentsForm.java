@@ -17,32 +17,22 @@
 package org.kuali.student.enrollment.class1.krms.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
 
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public class KrmsComponentForm extends UifFormBase {
+public class KrmsComponentsForm extends UifFormBase {
 
-    private String courseName;
+    private PropositionEditor proposition;
 
-    private String agendaType;
-
-    public String getCourseName() {
-        return courseName;
+    public PropositionEditor getProposition() {
+        return proposition;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setProposition(PropositionEditor proposition) {
+        this.proposition = proposition;
     }
-
-    public String getAgendaType() {
-        return agendaType;
-    }
-
-    public void setAgendaType(String agendaType) {
-        this.agendaType = agendaType;
-    }
-
 }

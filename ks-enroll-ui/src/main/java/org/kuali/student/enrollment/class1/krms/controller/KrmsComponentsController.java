@@ -16,26 +16,18 @@
  */
 package org.kuali.student.enrollment.class1.krms.controller;
 
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class1.krms.form.KrmsComponentForm;
-import org.kuali.student.enrollment.uif.util.GrowlIcon;
-import org.kuali.student.enrollment.uif.util.KSUifUtils;
+import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -43,28 +35,30 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 @Controller
-@RequestMapping(value = "/krmsComponent")
-public class KrmsComponentController extends UifControllerBase {
+@RequestMapping(value = "/krmsComponents")
+public class KrmsComponentsController extends UifControllerBase {
 
     /**
      * @see org.kuali.rice.krad.web.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
      */
     @Override
-    protected KrmsComponentForm createInitialForm(HttpServletRequest request) {
-        return new KrmsComponentForm();
+    protected KrmsComponentsForm createInitialForm(HttpServletRequest request) {
+        return new KrmsComponentsForm();
     }
 
     @Override
     @RequestMapping(params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        KrmsComponentForm uiTestForm = (KrmsComponentForm) form;
+        KrmsComponentsForm uiTestForm = (KrmsComponentsForm) form;
+
+        uiTestForm.setProposition(new PropositionEditor());
 
         return getUIFModelAndView(uiTestForm);
     }
 
     @RequestMapping(params = "methodToCall=collection")
-    public ModelAndView collection(@ModelAttribute("KualiForm") KrmsComponentForm form, BindingResult result,
+    public ModelAndView collection(@ModelAttribute("KualiForm") KrmsComponentsForm form, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
 
         return getUIFModelAndView(form);

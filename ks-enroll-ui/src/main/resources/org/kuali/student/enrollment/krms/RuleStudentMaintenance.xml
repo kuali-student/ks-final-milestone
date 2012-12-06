@@ -399,19 +399,19 @@
     </property>
     <property name="nodePrototypeMap">
       <map key-type="java.lang.Class">
-        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.RuleEditorTreeNode) }">
+        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.RuleEditorTreeNode) }">
           <bean parent="StudentRuleTreeNodePrototype"/>
         </entry>
-        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.SimpleStudentPropositionNode) }">
+        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionNode) }">
           <bean parent="StudentSimplePropositionNodePrototype"/>
         </entry>
-        <entry key="#{ T(org.kuali.rice.krms.impl.ui.SimplePropositionEditNode) }">
+        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.SimpleStudentPropositionEditNode) }">
           <bean parent="StudentSimplePropositionEditNodePrototype"/>
         </entry>
-        <entry key="#{ T(org.kuali.rice.krms.impl.ui.CompoundOpCodeNode) }">
+        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.CompoundStudentOpCodeNode) }">
           <bean parent="StudentCompoundOpCodeNodePrototype"/>
         </entry>
-        <entry key="#{ T(org.kuali.rice.krms.impl.ui.CompoundPropositionEditNode) }">
+        <entry key="#{ T(org.kuali.student.enrollment.class1.krms.dto.CompoundStudentPropositionEditNode) }">
           <bean parent="StudentCompoundPropositionEditNodePrototype"/>
         </entry>
       </map>

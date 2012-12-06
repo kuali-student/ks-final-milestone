@@ -8,7 +8,6 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.impl.repository.ContextBo;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
-import org.kuali.rice.krms.impl.ui.CompoundOpCodeNode;
 import org.kuali.rice.krms.impl.ui.RuleTreeNode;
 import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
 
@@ -292,7 +291,7 @@ public class RuleEditor extends PersistableBusinessObjectBase {
                     child.setCompoundSequenceNumber(++compoundSequenceNumber);  // start with 1
                     // add an opcode node in between each of the children.
                     if (!first){
-                        addOpCodeNode(aNode, prop);
+                        addOpCodeNode(aNode, propositionEditor);
                     }
                     first = false;
                     // call to build the childs node
@@ -311,7 +310,7 @@ public class RuleEditor extends PersistableBusinessObjectBase {
      * @param prop
      * @return
      */
-    private void addOpCodeNode(Node currentNode, PropositionBo prop){
+    private void addOpCodeNode(Node currentNode, PropositionEditor prop){
         String opCodeLabel = "";
 
         if (LogicalOperator.AND.getCode().equalsIgnoreCase(prop.getCompoundOpCode())){
@@ -320,10 +319,10 @@ public class RuleEditor extends PersistableBusinessObjectBase {
             opCodeLabel = "OR";
         }
         propositionSummaryBuffer.append(" "+opCodeLabel+" ");
-        Node<RuleTreeNode, String> aNode = new Node<RuleTreeNode, String>();
+        Node<RuleEditorTreeNode, String> aNode = new Node<RuleEditorTreeNode, String>();
         aNode.setNodeLabel("");
         aNode.setNodeType("ruleTreeNode compoundOpCodeNode");
-        aNode.setData(new CompoundOpCodeNode(prop));
+        aNode.setData(new CompoundStudentOpCodeNode(prop));
         currentNode.getChildren().add(aNode);
     }
 }
