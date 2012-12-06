@@ -52,37 +52,25 @@
         <property name="viewName" value="KS-FormatOfferingInfoByType-LookupView"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.FormatOfferingInfoLookupableImpl"/>
-          <!--
+
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
-            </list>
-        </property>
-        -->
-    <property name="criteriaFields">
-    <list>
-    <bean parent="Uif-HorizontalBoxSection">
-        <!-- Donald begin -->
-
+                <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="Type" p:labelPlacement="TOP" p:required="true">
+                            <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" p:label="Type" p:labelPlacement="LEFT" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
-
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingInfoByTypeKeyValues"  p:addBlankOption="false"/>
                                 </property>
-
                             </bean>
                         </list>
                     </property>
-
-        <!-- Donald End -->
-    </bean>
-    </list>
-    </property>
+                </bean>
+            </list>
+        </property>
 
         <property name="resultFields">
             <list>
