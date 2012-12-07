@@ -12,8 +12,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceForm;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -23,13 +22,19 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -52,6 +57,7 @@ import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
+
 @Controller
 @RequestMapping(value = "/courseOffering")
 public class CourseOfferingController extends MaintenanceDocumentController {
@@ -63,11 +69,23 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     private transient LRCService lrcService;
     private transient SearchService searchService;
 
+    @Override
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+        if (form.getView() != null) {
+            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+            checkViewAuthorization(form, methodToCall);
+
+        }
+
+        return super.start(form, result, request, response);
+    }
+
     @RequestMapping(params = "methodToCall=loadCourseCatalog")
     public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
-            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject());
+        CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject());
         String courseCode = coWrapper.getCatalogCourseCode();
         String termCode = coWrapper.getTargetTermCode();
 
@@ -78,22 +96,28 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
+        if (form.getView() != null) {
+            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+            checkViewAuthorization(form, methodToCall);
+
+        }
+
         if (matchingCourses.size() == 1 && term != null) {
             CourseInfo course = matchingCourses.get(0);
             coWrapper.setCourse(course);
-            coWrapper.setCreditCount(ViewHelperUtil.trimTrailing0( getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue() ));
+            coWrapper.setCreditCount(ViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
             coWrapper.setShowAllSections(true);
             coWrapper.setShowCatalogLink(false);
             coWrapper.setShowTermOfferingLink(true);
 
             //Get all the course offerings in a term
-            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(),term.getId(), contextInfo);
+            List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
 
             coWrapper.getExistingTermOfferings().clear();
             coWrapper.getExistingOfferingsInCurrentTerm().clear();
 
             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
-                if (StringUtils.equals(courseOfferingInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)){
+                if (StringUtils.equals(courseOfferingInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)) {
                     ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
                     co.setCredits(courseOfferingInfo.getCreditCnt());
                     co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
@@ -108,14 +132,14 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
 
             org.kuali.student.r2.core.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r2.core.search.dto.SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
-            searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID,coWrapper.getCourse().getId());
+            searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID, coWrapper.getCourse().getId());
 
             searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
             org.kuali.student.r2.core.search.dto.SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
 
             List<String> courseOfferingIds = new ArrayList<String>(searchResult.getTotalResults());
             for (org.kuali.student.r2.core.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
-                 courseOfferingIds.add(row.getCells().get(0).getValue());
+                courseOfferingIds.add(row.getCells().get(0).getValue());
             }
 
             courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds, contextInfo);
@@ -133,11 +157,10 @@ public class CourseOfferingController extends MaintenanceDocumentController {
             coWrapper.setEnableCreateButton(true);
         } else {
 
-            if (matchingCourses.size() > 1){
+            if (matchingCourses.size() > 1) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Multiple matches found for the course code");
                 return null;
-            }
-            else if (matchingCourses.isEmpty() && term == null){
+            } else if (matchingCourses.isEmpty() && term == null) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
             } else {
                 if (term == null) {
@@ -155,12 +178,12 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    private String getGradingOption(String gradingOptionId)throws Exception{
+    private String getGradingOption(String gradingOptionId) throws Exception {
         String gradingOption = "";
-        if(StringUtils.isNotBlank(gradingOptionId)){
+        if (StringUtils.isNotBlank(gradingOptionId)) {
             ResultValuesGroupInfo rvg = getLrcService().getResultValuesGroup(gradingOptionId, ContextUtils.createDefaultContextInfo());
-            if(rvg!= null && StringUtils.isNotBlank(rvg.getName())){
-               gradingOption = rvg.getName();
+            if (rvg != null && StringUtils.isNotBlank(rvg.getName())) {
+                gradingOption = rvg.getName();
             }
         }
 
@@ -169,9 +192,9 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
     @RequestMapping(params = "methodToCall=createFromCatalog")
     public ModelAndView createFromCatalog(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
-            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                          @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
         wrapper.setShowCatalogLink(false);
         wrapper.setShowTermOfferingLink(true);
@@ -181,22 +204,22 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
     @RequestMapping(params = "methodToCall=copyExistingCourseOffering")
     public ModelAndView copyExistingCourseOffering(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
-            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        CourseOfferingInfo existingCO = ((ExistingCourseOffering)getSelectedObject(form)).getCourseOfferingInfo();
-        CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingInfo existingCO = ((ExistingCourseOffering) getSelectedObject(form)).getCourseOfferingInfo();
+        CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
         List<String> optionKeys = new ArrayList<String>();
 
-        if (createWrapper.isExcludeInstructorInformation()){
+        if (createWrapper.isExcludeInstructorInformation()) {
             optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
         }
 
-        if (createWrapper.isExcludeSchedulingInformation()){
+        if (createWrapper.isExcludeSchedulingInformation()) {
             optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
         }
 
-        if (createWrapper.isExcludeCancelledActivityOfferings()){
+        if (createWrapper.isExcludeCancelledActivityOfferings()) {
             optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
         }
 
@@ -231,34 +254,34 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
     @RequestMapping(params = "methodToCall=createFromTermOffering")
     public ModelAndView createFromTermOffering(@ModelAttribute("KualiForm") MaintenanceForm form, @SuppressWarnings("unused") BindingResult result,
-            @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         wrapper.setShowCatalogLink(true);
         wrapper.setShowTermOfferingLink(false);
 
         return getUIFModelAndView(form);
     }
 
-    private TermInfo getTerm(String termCode){
+    private TermInfo getTerm(String termCode) {
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
         Predicate p = null;
 
         qBuilder.setPredicates();
-        if (StringUtils.isNotBlank(termCode)){
+        if (StringUtils.isNotBlank(termCode)) {
             p = equal("atpCode", termCode);
-    		pList.add(p);
+            pList.add(p);
         }
 
         qBuilder.setPredicates(p);
 
         try {
             List<TermInfo> terms = getAcademicCalendarService().searchForTerms(qBuilder.build(), ContextUtils.createDefaultContextInfo());
-            if (terms.size() > 1){
+            if (terms.size() > 1) {
                 //GlobalVariables.getMessageMap().putError("asf","asdf");//FIXME
                 return null;
-            }else if (terms.isEmpty()){
+            } else if (terms.isEmpty()) {
                 return null;
             }
             return terms.get(0);
@@ -268,7 +291,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
 
     }
 
-    private Object getSelectedObject(MaintenanceForm theForm){
+    private Object getSelectedObject(MaintenanceForm theForm) {
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set");
@@ -291,21 +314,21 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     }
 
     protected AcademicCalendarService getAcademicCalendarService() {
-         if(academicCalendarService == null) {
-             academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if (academicCalendarService == null) {
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.academicCalendarService;
     }
 
     private CourseService getCourseService() {
-        if(courseService == null) {
+        if (courseService == null) {
             courseService = CourseOfferingResourceLoader.loadCourseService();
         }
         return courseService;
     }
 
     private CourseOfferingService getCourseOfferingService() {
-        if(courseOfferingService == null) {
+        if (courseOfferingService == null) {
             courseOfferingService = CourseOfferingResourceLoader.loadCourseOfferingService();
         }
         return courseOfferingService;
@@ -330,10 +353,10 @@ public class CourseOfferingController extends MaintenanceDocumentController {
         try {
             SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
             if (searchResult.getRows().size() > 0) {
-                for(SearchResultRowInfo row : searchResult.getRows()){
+                for (SearchResultRowInfo row : searchResult.getRows()) {
                     List<SearchResultCellInfo> srCells = row.getCells();
-                    if(srCells != null && srCells.size() > 0){
-                        for(SearchResultCellInfo cell : srCells){
+                    if (srCells != null && srCells.size() > 0) {
+                        for (SearchResultCellInfo cell : srCells) {
                             if ("lu.resultColumn.cluId".equals(cell.getKey())) {
                                 courseId = cell.getValue();
                                 returnCourseInfo = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
@@ -352,21 +375,21 @@ public class CourseOfferingController extends MaintenanceDocumentController {
     }
 
     private CluService getCluService() {
-        if(cluService == null) {
+        if (cluService == null) {
             cluService = CourseOfferingResourceLoader.loadCluService();
         }
         return cluService;
     }
 
-   protected LRCService getLrcService() {
-        if(lrcService == null) {
+    protected LRCService getLrcService() {
+        if (lrcService == null) {
             lrcService = CourseOfferingResourceLoader.loadLrcService();
         }
         return this.lrcService;
     }
 
     protected SearchService getSearchService() {
-        if(searchService == null) {
+        if (searchService == null) {
             searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
         }
         return searchService;

@@ -39,16 +39,32 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
+
                 <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
                       p:actionLabel="Approve Subject Code for Scheduling" />
                 <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingResultList.empty}"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingResultList.empty}"/>
+                <bean parent="Uif-VerticalPermissionSection">
+                    <property name="id" value="KS-CourseOfferingManagement-CourseOfferingResultSectionCreateCourse"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingResultList.empty}"/>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
-                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
+                <bean parent="Uif-VerticalPermissionSection">
+                    <property name="id" value="KS-CourseOfferingManagement-CourseOfferingResultSectionBottomCreateCourse"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
+
 
     <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper" />
@@ -100,9 +116,9 @@
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit  " />
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{#line.isLegalToDelete()}" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="loadAOs" p:actionLabel="Manage" />
             </list>
         </property>
     </bean>
@@ -128,6 +144,17 @@
             </bean>
         </list>
         </property>
+    </bean>
+
+    <bean id="Uif-VerticalPermissionSection" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="" />
+        <property name="disclosure.render" value="false"/>
+        <property name="componentSecurity.viewAuthz" value="true"/>
+    </bean>
+    <bean id="Uif-HorizontalPermissionSection" parent="Uif-HorizontalBoxSection">
+        <property name="headerText" value="" />
+        <property name="disclosure.render" value="false"/>
+        <property name="componentSecurity.viewAuthz" value="true"/>
     </bean>
 
 </beans>
