@@ -25,7 +25,7 @@
         <li><portal:portalLink displayTitle="true" title="Rule Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&showMaintenanceLinks=true&viewName=StudentRuleLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
         <li><portal:portalLink displayTitle="true" title="Rule Edit" url="${ConfigProperties.application.url}/kr-krad/krmsRuleStudentEditor?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.rice.krms.impl.repository.RuleBo&id=10101"/></li>
         <li><portal:portalLink displayTitle="true" title="KRMS Components" url="${ConfigProperties.application.url}/kr-krad/krmsComponents?viewId=manageKrmsComponentsView&methodToCall=start"/></li>
-        <li><portal:portalLink displayTitle="true" title="Manage Course Requisites" url="${ConfigProperties.application.url}/kr-krad/courseRequisitesController?viewId=manageCourseRequisitesView&methodToCall=start&cluId=REFERENCECOURSEMATH140"/></li>
+        <li><portal:portalLink displayTitle="true" title="Manage Enrollment Eligibility" url="${ConfigProperties.application.url}/kr-krad/requisitesController?viewId=manageRequisitesView&methodToCall=start&cluId=REFERENCECOURSEMATH140"/></li>
     </ul>
 </div>
 <channel:portalChannelBottom />
