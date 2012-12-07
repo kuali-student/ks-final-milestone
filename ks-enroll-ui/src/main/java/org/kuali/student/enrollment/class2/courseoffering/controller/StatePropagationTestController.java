@@ -245,7 +245,7 @@ public class StatePropagationTestController extends UifControllerBase {
         layoutBuilder.append("<b>Seat Pool</b> ");
         if(seatPoolDefinitionInfoList.size() > 0) {
             for(SeatPoolDefinitionInfo spd : seatPoolDefinitionInfoList){
-                layoutBuilder.append(spd.getProcessingPriority() + " " + getStateName(spd.getStateKey()));
+                layoutBuilder.append(" Priority: " + spd.getProcessingPriority() + " State: " + spd.getStateKey());
                 layoutBuilder.append("</br>");
             }
         } else {
