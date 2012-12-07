@@ -16,4 +16,6 @@
         STATE_CHG_ID="kuali.statechange.formatoffering.planned.draft" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.planned.draft"/>
     <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.formatoffering.planned.offered" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.planned.offered"/>
+    <KSEN_STATE_CHG_PROPAGT
+        STATE_CHG_ID="kuali.statechange.soc.publishing.published" STATE_PROPAGT_ID="kuali.statepropagation.soctoao.published.offered"/>
 </dataset>
