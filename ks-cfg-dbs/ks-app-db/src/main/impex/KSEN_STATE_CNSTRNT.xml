@@ -4,6 +4,13 @@
 <dataset>
     <KSEN_STATE_CNSTRNT CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000"
+        ID="kuali.stateconstraint.activityoffering.approved.offered"
+        STATE_CNSTRNT_OPERATOR="EXISTS"
+        STATE_CNSTRNT_STATE="kuali.state.constraint.state.active"
+        STATE_CNSTRNT_TYPE="kuali.state.constraint.type.precondition"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE_CNSTRNT CREATEID="SYSTEMLOADER"
+        CREATETIME="19700101000000"
         ID="kuali.stateconstraint.courseoffering.draft.planned"
         STATE_CNSTRNT_OPERATOR="EXISTS"
         STATE_CNSTRNT_STATE="kuali.state.constraint.state.active"
