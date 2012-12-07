@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="KrmsComponents-ManageView" parent="KSFormView">
+
+        <property name="id" value="manageKrmsComponentsView"/>
+        <property name="headerText" value="KS KRMS Custom Components"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm"/>
+        <property name="singlePageView" value="true"/>
+        <property name="page">
+            <bean parent="Uif-Page"/>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="CluComponentsSection"/>
+                <ref bean="OrgComponentsSection"/>
+                <ref bean="ResultComponentsSection"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/common.js</value>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="CluComponentsSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Clu Components"/>
+
+                <ref bean="course"/>
+                <ref bean="courseList"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="OrgComponentsSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Organizational Components"/>
+
+                <ref bean="org"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ResultComponentsSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Result Components"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="parameter-parent" parent="Uif-InputField" p:propertyName="proposition.termParameter" p:render="false"
+          p:style="margin-left: 12pt" p:showLabel="true" p:maxLength="40"/>
+
+    <bean id="parameter-parent-dropdown" abstract="true" parent="parameter-parent">
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                  p:onChangeScript="ajaxSubmitForm('updateDescription', null, jQuery(this).data('submitdata'), null, null, null);"/>
+        </property>
+    </bean>
+
+    <bean id="course-parent" parent="parameter-parent-dropdown" p:label="Course">
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
+        </property>
+    </bean>
+    <bean id="course" parent="course-parent"/>
+
+    <bean id="courseList-parent" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1">
+        <property name="headerText" value="Selected Modules"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.TermParameter"/>
+        <property name="propertyName" value="proposition.termParameterList"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Module" p:propertyName="parameter" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="addLineItems">
+            <list>
+                <bean parent="Uif-InputField" p:label="Module" p:propertyName="parameter" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="courseList" parent="courseList-parent"/>
+
+    <bean id="org-parent" parent="parameter-parent-dropdown" p:label="Organization">
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.OrganizationCodeValuesFinder"/>
+        </property>
+    </bean>
+    <bean id="org" parent="org-parent"/>
+
+</beans>
