@@ -53,7 +53,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-class2-mock-context.xml"})
 public class TestRiceDataDictionaryValidatorImplAgainstAcal {
-    private static final Logger log = Logger.getLogger(TestRiceDataDictionaryValidatorImplAgainstCourseOffering.class);
+    private static final Logger log = Logger.getLogger(TestRiceDataDictionaryValidatorImplAgainstAcal.class);
 
     public ContextInfo callContext = null;
 
