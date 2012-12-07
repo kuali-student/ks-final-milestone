@@ -388,6 +388,111 @@ public class TestStateTransitionsHelperImpl {
         assertEquals("kuali.Bravo.state.stirred", itemServiceBravo.getItemId("bravo3"));
     }
 
+    @Test
+    public void testPropagationConstraint() throws Exception {
+
+        //  Create a fresh StateService.
+        stateService = new StateServiceMockImpl();
+        //  Create state lifecycle and state keys
+        String alphaLifecycleKey = "kuali.Alpha.lifecycle";
+        addLifecycle("kuali.Alpha.lifecycle", "LA", "LA", "url");
+        addStateKey("kuali.Alpha.state.open", alphaLifecycleKey, "Open", "Open");
+        addStateKey("kuali.Alpha.state.release", alphaLifecycleKey, "Release", "Release");
+
+        //  Bravo state keys.
+        String bravoLifecycleKey = "kuali.Bravo.lifecycle";
+        addLifecycle("kuali.Bravo.lifecycle", "LB", "LB", "url");
+        addStateKey("kuali.Bravo.state.open", bravoLifecycleKey, "Shaken", "Shaken");
+        addStateKey("kuali.Bravo.state.release", bravoLifecycleKey, "Stirred", "Stirred");
+
+        String charlieLifecycleKey = "kuali.Charlie.lifecycle";
+        addLifecycle(charlieLifecycleKey, "LC", "Lc", "url");
+        addStateKey("kuali.Charlie.state.release", charlieLifecycleKey, "Release", "Release");
+
+        //  Bravo state changes.
+        addStateChange("scBravo", "kuali.Bravo.state.open", "kuali.Bravo.state.release", null, null);
+
+        //To change the Bravo state from open to release, Charlie state should already be in release
+        List<String> keys = new ArrayList<String>();
+        keys.add("kuali.Charlie.state.release");
+        addConstraint("c1", StateConstraintOperator.ALL, keys);
+        List<String> constraints = new ArrayList<String>();
+        constraints.add("c1");
+
+        // Create a propagation:
+        // If Alpha is changed to state 'open' then Bravos should be changed to state 'stirred'.
+        addPropagation("p1", "scBravo", constraints);
+        List<String> propationIds = new ArrayList<String>();
+        propationIds.add("p1");
+
+        //  Alpha state changes.
+        addStateChange("sc1", "kuali.Alpha.state.open", "kuali.Alpha.state.release", null, propationIds);
+
+        //  Instance the state transition helper
+        StateTransitionsHelperImpl stateTransitionsHelper = new StateTransitionsHelperImpl();
+        stateTransitionsHelper.setStateService(stateService);  //  Provide the state service.
+
+        //  Create a StatefulItemService and initialize the Alpha item.
+        StatefulItemServiceImpl itemServiceAlpha = new StatefulItemServiceImpl();
+        itemServiceAlpha.setStateTransitionsHelper(stateTransitionsHelper);
+        itemServiceAlpha.createItem("alpha1", "kuali.Alpha.state.open");
+
+        //  Create an item state helper and set the item service.
+        StatefulItemStateHelper stateHelperAlpha = new StatefulItemStateHelper();
+        stateHelperAlpha.setStatefulItemService(itemServiceAlpha);
+
+        StatefulItemServiceImpl itemServiceBravo = new StatefulItemServiceImpl();
+        itemServiceBravo.setStateTransitionsHelper(stateTransitionsHelper);
+        itemServiceBravo.createItem("bravo1", "kuali.Bravo.state.open");
+
+        //  Create an item state helper and set the item service
+        StatefulItemStateHelper stateHelperBravo = new StatefulItemStateHelper();
+        stateHelperBravo.setStatefulItemService(itemServiceBravo);
+
+        StatefulItemServiceImpl itemServiceCharlie = new StatefulItemServiceImpl();
+        itemServiceCharlie.setStateTransitionsHelper(stateTransitionsHelper);
+        itemServiceCharlie.createItem("charlie1", "kuali.Charlie.state.open");
+
+        //  Create an item state helper and set the item service
+        StatefulItemStateHelper stateHelperCharlie = new StatefulItemStateHelper();
+        stateHelperCharlie.setStatefulItemService(itemServiceCharlie);
+
+        //  Reinstall the helper registry.
+        Map<String, StateHelper> stateHelperMap = new HashMap<String, StateHelper>();
+        stateHelperMap.put("kuali.Alpha", stateHelperAlpha);
+        stateHelperMap.put("kuali.Bravo", stateHelperBravo);
+        stateHelperMap.put("kuali.Charlie", stateHelperCharlie);
+        stateTransitionsHelper.setStateHelperMap(stateHelperMap);
+
+        //  Create a related object helper and set the item service.
+        StatefulItemRelatedObjectHelper roHelperBravo = new StatefulItemRelatedObjectHelper();
+        roHelperBravo.setService(itemServiceBravo);
+
+        StatefulItemRelatedObjectHelper roHelperAlpha = new StatefulItemRelatedObjectHelper();
+        roHelperAlpha.setService(itemServiceAlpha);
+
+        StatefulItemRelatedObjectHelper roHelperCharlie = new StatefulItemRelatedObjectHelper();
+        roHelperCharlie.setService(itemServiceCharlie);
+
+        //  Create and install the related object registry
+        Map<String, RelatedObjectHelper> roHelperMap = new HashMap<String, RelatedObjectHelper>();
+        roHelperMap.put("kuali.Alpha:kuali.Bravo", roHelperBravo);
+        roHelperMap.put("kuali.Alpha:kuali.Charlie", roHelperCharlie);
+        stateTransitionsHelper.setRelatedObjectHelperMap(roHelperMap);
+
+        Map<String, StatusInfo> sis = stateTransitionsHelper.processStatePropagations("alpha1", "kuali.Alpha.state.open:kuali.Alpha.state.release", context);
+        assertEquals(1,sis.size());
+        assertFalse(sis.get("kuali.Alpha").getIsSuccess());
+
+        itemServiceAlpha.updateItem("alpha1", "kuali.Alpha.state.open");
+        itemServiceBravo.updateItem("bravo1", "kuali.Bravo.state.open");
+        itemServiceCharlie.updateItem("charlie1","kuali.Charlie.state.release");
+
+        sis = stateTransitionsHelper.processStatePropagations("alpha1", "kuali.Alpha.state.open:kuali.Alpha.state.release", context);
+        assertEquals(1,sis.size());
+        assertTrue(sis.get("bravo1").getIsSuccess());
+    }
+
     /*
      * TODO: Got these methods from TestStateServiceMockImpl. Should be put into a util class.
      */

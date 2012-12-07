@@ -15,6 +15,7 @@
  */
 package org.kuali.student.r2.core.class1.state.model;
 
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
@@ -92,6 +93,7 @@ public class StatePropagationEntity extends MetaEntity implements AttributeOwner
 
     public StatePropagationInfo toDto(){
         StatePropagationInfo info = new StatePropagationInfo();
+        info.setId(getId());
         info.setStateKey(getStateKey());
         info.setTypeKey(getTypeKey());
         info.setTargetStateChangeId(getTargetStateChangeId());
@@ -99,6 +101,10 @@ public class StatePropagationEntity extends MetaEntity implements AttributeOwner
         if (!getStateConstraintIds().isEmpty()){
             info.getStateConstraintIds().addAll(getStateConstraintIds());
         }
+        for (StatePropagationAttributeEntity att : getAttributes()) {
+            AttributeInfo attInfo = att.toDto();
+            info.getAttributes().add(attInfo);
+        };
         info.setMeta(super.toDTO());
         return info;
     }

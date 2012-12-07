@@ -117,33 +117,12 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
         List<StateConstraintInfo> constraints = getStateService().getStateConstraintsByIds(stateChanges.iterator().next().getStateConstraintIds(), context);
         if (constraints != null) {
             for (StateConstraintInfo constraint : constraints) {
-                /*
-                 *  Get the related object state keys provided by the constraint.
-                 *  Determine the related object state key prefix and combine that with the entity state key prefix to lookup the related object helper.
-                 *  Lookup the actual state key values of the related objects.
-                 *  Then apply the operator to the two lists and either pass or fail the constraint.
-                 */
-                List<String> constraintObjectStateKeys = constraint.getRelatedObjectStateKeys();
-                if (constraintObjectStateKeys.size() == 0) {
-                    statusInfo.setSuccess(Boolean.TRUE);
-                    statusInfo.setMessage(String.format("State constraint [%s] has no related state keys defined.", constraint.getId()));
-                    return statusInfo;
+                 //Should we break once we encountered invalid status
+                 StatusInfo status = processConstraint(entityId,constraint,stateKeyPrefix,context);
+                if (!status.getIsSuccess()){
+                     return status;
                 }
-                String relatedObjStateKeyPrefix = findStateKeyPrefix(constraintObjectStateKeys.get(0));
-                StateConstraintOperator operator = constraint.getStateConstraintOperator();
-                String roHelperKey =  makeRelatedObjectHelperKey(stateKeyPrefix, relatedObjStateKeyPrefix);
-                RelatedObjectHelper relatedObjectHelper = this.relatedObjectHelperMap.get(roHelperKey);
-                if (relatedObjectHelper == null) {
-                    statusInfo.setSuccess(Boolean.FALSE);
-                    statusInfo.setMessage(String.format("No related object helper was registered for key [%s].", roHelperKey));
-                    return statusInfo;
-                }
-                Set<String> actualKeys = relatedObjectHelper.getRelatedObjectStateKeys(entityId, context);
-                if ( ! evaluateConstraint(actualKeys, constraintObjectStateKeys, operator)) {
-                    statusInfo.setSuccess(Boolean.FALSE);
-                    statusInfo.setMessage(String.format("Related object constraint for state prefix [%s] failed.", relatedObjStateKeyPrefix));
-                    return statusInfo;
-                }
+
             }
         }
         return statusInfo;
@@ -168,6 +147,7 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
         String nextStateKey =  tokens[1];
 
         String stateKeyPrefix = findStateKeyPrefix(nextStateKey);
+
         List<StateChangeInfo> stateChanges = this.stateService.getStateChangesByFromStateAndToState(fromStateKey, nextStateKey, context);
         //  If no StateChange is defined here just log and return.
         if (stateChanges.size() == 0) {
@@ -179,7 +159,27 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
         List<StatePropagationInfo> propagations = this.stateService.getStatePropagationsByIds(stateChanges.iterator().next().getStatePropagationIds(), context);
         if (propagations != null) {
             for (StatePropagationInfo propagation : propagations) {
+                //Process all the propagation constraints first
+                List<String> propagationConstraintIds = propagation.getStateConstraintIds();
+                List<StateConstraintInfo> propStateConstraintInfos = getStateService().getStateConstraintsByIds(propagationConstraintIds,context);
+
+                boolean isConstraintsSucceeded = true;
+
+                for (StateConstraintInfo propStateConstraintInfo : propStateConstraintInfos) {
+                    StatusInfo statusInfo = processConstraint(entityId,propStateConstraintInfo,stateKeyPrefix,context);
+                    if (!statusInfo.getIsSuccess()){
+                         resultMap.put(stateKeyPrefix,statusInfo);
+                         isConstraintsSucceeded = false;
+                         break;
+                    }
+                }
+
+                if (!isConstraintsSucceeded){
+                     continue;
+                }
+
                 StateChangeInfo stateChangeInfo = this.stateService.getStateChange(propagation.getTargetStateChangeId(), context);
+
                 if (stateChangeInfo == null) {
                     StatusInfo si = new StatusInfo();
                     si.setSuccess(Boolean.FALSE);
@@ -235,6 +235,49 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
             successFlag = Boolean.TRUE;
         }
         return successFlag;
+    }
+
+    /**
+     * Evaluates the constraint for an entity object
+     *
+     * @param entityId  entity id
+     * @param constraint constraint to be verified
+     * @param entityKeyPrefix entity key prefix
+     * @param contextInfo context info
+     * @return the statusInfo
+     */
+    protected StatusInfo processConstraint(String entityId, StateConstraintInfo constraint, String entityKeyPrefix, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        StatusInfo statusInfo = new StatusInfo();
+        /*
+         *  Get the related object state keys provided by the constraint.
+         *  Determine the related object state key prefix and combine that with the entity state key prefix to lookup the related object helper.
+         *  Lookup the actual state key values of the related objects.
+         *  Then apply the operator to the two lists and either pass or fail the constraint.
+         */
+        List<String> constraintObjectStateKeys = constraint.getRelatedObjectStateKeys();
+        if (constraintObjectStateKeys.size() == 0) {
+            statusInfo.setSuccess(Boolean.TRUE);
+            statusInfo.setMessage(String.format("State constraint [%s] has no related state keys defined.", constraint.getId()));
+            return statusInfo;
+        }
+        String relatedObjStateKeyPrefix = findStateKeyPrefix(constraintObjectStateKeys.get(0));
+        StateConstraintOperator operator = constraint.getStateConstraintOperator();
+        String roHelperKey =  makeRelatedObjectHelperKey(entityKeyPrefix, relatedObjStateKeyPrefix);
+        RelatedObjectHelper relatedObjectHelper = this.relatedObjectHelperMap.get(roHelperKey);
+        if (relatedObjectHelper == null) {
+            statusInfo.setSuccess(Boolean.FALSE);
+            statusInfo.setMessage(String.format("No related object helper was registered for key [%s].", roHelperKey));
+            return statusInfo;
+        }
+        Set<String> actualKeys = relatedObjectHelper.getRelatedObjectStateKeys(entityId, contextInfo);
+        if ( ! evaluateConstraint(actualKeys, constraintObjectStateKeys, operator)) {
+            statusInfo.setSuccess(Boolean.FALSE);
+            statusInfo.setMessage(String.format("Related object constraint for state prefix '%s' failed.", relatedObjStateKeyPrefix));
+            return statusInfo;
+        }
+        return statusInfo;
     }
 
     public String findStateKeyPrefix(String stateKey) {
