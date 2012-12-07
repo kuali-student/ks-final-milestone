@@ -393,7 +393,8 @@ public class TestStateTransitionsHelperImpl {
 
         //  Create a fresh StateService.
         stateService = new StateServiceMockImpl();
-        //  Create state lifecycle and state keys
+
+        //  Alpha state keys
         String alphaLifecycleKey = "kuali.Alpha.lifecycle";
         addLifecycle("kuali.Alpha.lifecycle", "LA", "LA", "url");
         addStateKey("kuali.Alpha.state.open", alphaLifecycleKey, "Open", "Open");
@@ -405,12 +406,10 @@ public class TestStateTransitionsHelperImpl {
         addStateKey("kuali.Bravo.state.open", bravoLifecycleKey, "Shaken", "Shaken");
         addStateKey("kuali.Bravo.state.release", bravoLifecycleKey, "Stirred", "Stirred");
 
+        //Charlie state keys
         String charlieLifecycleKey = "kuali.Charlie.lifecycle";
         addLifecycle(charlieLifecycleKey, "LC", "Lc", "url");
         addStateKey("kuali.Charlie.state.release", charlieLifecycleKey, "Release", "Release");
-
-        //  Bravo state changes.
-        addStateChange("scBravo", "kuali.Bravo.state.open", "kuali.Bravo.state.release", null, null);
 
         //To change the Bravo state from open to release, Charlie state should already be in release
         List<String> keys = new ArrayList<String>();
@@ -420,13 +419,16 @@ public class TestStateTransitionsHelperImpl {
         constraints.add("c1");
 
         // Create a propagation:
-        // If Alpha is changed to state 'open' then Bravos should be changed to state 'stirred'.
+        // If Alpha is changed to state 'release' then Bravos should be changed to state 'release'.
         addPropagation("p1", "scBravo", constraints);
         List<String> propationIds = new ArrayList<String>();
         propationIds.add("p1");
 
         //  Alpha state changes.
         addStateChange("sc1", "kuali.Alpha.state.open", "kuali.Alpha.state.release", null, propationIds);
+
+        //  Bravo state changes.
+        addStateChange("scBravo", "kuali.Bravo.state.open", "kuali.Bravo.state.release", null, null);
 
         //  Instance the state transition helper
         StateTransitionsHelperImpl stateTransitionsHelper = new StateTransitionsHelperImpl();
@@ -480,12 +482,12 @@ public class TestStateTransitionsHelperImpl {
         roHelperMap.put("kuali.Alpha:kuali.Charlie", roHelperCharlie);
         stateTransitionsHelper.setRelatedObjectHelperMap(roHelperMap);
 
+        //As the Charlie's state is open, it should result in error
         Map<String, StatusInfo> sis = stateTransitionsHelper.processStatePropagations("alpha1", "kuali.Alpha.state.open:kuali.Alpha.state.release", context);
         assertEquals(1,sis.size());
         assertFalse(sis.get("kuali.Alpha").getIsSuccess());
 
-        itemServiceAlpha.updateItem("alpha1", "kuali.Alpha.state.open");
-        itemServiceBravo.updateItem("bravo1", "kuali.Bravo.state.open");
+        //Change Charlie's state to Release to get the Alpha and Bravo state move from Open to Release.
         itemServiceCharlie.updateItem("charlie1","kuali.Charlie.state.release");
 
         sis = stateTransitionsHelper.processStatePropagations("alpha1", "kuali.Alpha.state.open:kuali.Alpha.state.release", context);
