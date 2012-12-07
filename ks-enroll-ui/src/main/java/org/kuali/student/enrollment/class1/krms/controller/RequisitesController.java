@@ -17,15 +17,11 @@
 package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class1.krms.form.CourseRequisitesForm;
+import org.kuali.student.enrollment.class1.krms.form.RequisitesForm;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.core.constants.HoldServiceConstants;
-import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.stereotype.Controller;
@@ -46,8 +42,8 @@ import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
  * @author Kuali Student Team
  */
 @Controller
-@RequestMapping(value = "/courseRequisitesController")
-public class CourseRequisitesController extends UifControllerBase {
+@RequestMapping(value = "/requisitesController")
+public class RequisitesController extends UifControllerBase {
 
     private ContextInfo contextInfo;
 
@@ -55,8 +51,13 @@ public class CourseRequisitesController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+        return new RequisitesForm();
+    }
+
+    @Override
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
         StringBuilder courseNameBuilder = new StringBuilder();
-        String cluId = httpServletRequest.getParameter("cluId");
+        String cluId = request.getParameter("cluId");
         CluInfo cluInfo = null;
         try {
             cluInfo = getCluService().getClu(cluId, getContextInfo());
@@ -70,14 +71,9 @@ public class CourseRequisitesController extends UifControllerBase {
         courseNameBuilder.append(" - ");
         courseNameBuilder.append(cluIdentInfo.getLongName());
         // TODO: add course credits
-        CourseRequisitesForm form = new CourseRequisitesForm();
-        form.setCourseName(courseNameBuilder.toString());
-        return form;
-    }
-
-    @Override
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
-        return super.start(form, result, request, response);    //To change body of overridden methods use File | Settings | File Templates.
+        RequisitesForm requisitesForm = (RequisitesForm)form;
+        requisitesForm.setCourseName(courseNameBuilder.toString());
+        return super.start(requisitesForm, result, request, response);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     protected CluService getCluService(){

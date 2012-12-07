@@ -23,11 +23,13 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  *
  * @author Kuali Student Team
  */
-public class CourseRequisitesForm extends UifFormBase {
+public class RequisitesForm extends UifFormBase {
 
     private String courseName;
 
     private String agendaType;
+
+    private String ruleType;
 
     public String getCourseName() {
         return courseName;
@@ -43,6 +45,14 @@ public class CourseRequisitesForm extends UifFormBase {
 
     public void setAgendaType(String agendaType) {
         this.agendaType = agendaType;
+    }
+
+    public String getRuleType() {
+        return ruleType;
+    }
+
+    public void setRuleType(String ruleType) {
+        this.ruleType = ruleType;
     }
 
 }

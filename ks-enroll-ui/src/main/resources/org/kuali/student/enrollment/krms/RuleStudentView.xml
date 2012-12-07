@@ -25,11 +25,10 @@
     <bean id="RuleBo-LookupView-Custom" parent="Uif-LookupView">
         <property name="headerText" value="Rule Lookup" />
         <property name="viewName" value="StudentRuleLookupView" />
+        <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.RuleBo" />
         <property name="theme">
             <bean parent="Uif-KradTheme"/>
         </property>
-        <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.RuleBo" />
-        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentLookupableHelperServiceImpl"/>
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
