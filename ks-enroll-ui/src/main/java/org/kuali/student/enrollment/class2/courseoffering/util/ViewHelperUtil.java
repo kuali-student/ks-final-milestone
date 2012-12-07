@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -220,15 +221,12 @@ public class ViewHelperUtil {
 
             if (newFoState != null && !StringUtils.equals(oldFoState, newFoState)) {
                 fo.setStateKey(newFoState);
-                coService.updateFormatOfferingState(fo.getId(), newFoState, context);
+                StatusInfo statusInfo = coService.updateFormatOfferingState(fo.getId(), newFoState, context);
+                if (!statusInfo.getIsSuccess()){
+                     throw new RuntimeException(statusInfo.getMessage());
+                }
             }
         }
-
-        /*String oldCoState = coInfo.getCourseOfferingStateKey();
-        String newCoState = getNewCoState(formatOfferings);
-        if (newCoState != null && !StringUtils.equals(oldCoState, newCoState)) {
-            coService.updateCourseOfferingState(coInfo.getCourseOfferingId(), newCoState, context);
-        }*/
     }
 
     // if all of the AO states are Draft or Approved, the FO that owns the AO's cannot be Offered.  

@@ -3052,9 +3052,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             if(StringUtils.isBlank(nextStateKey)) {
                 throw new OperationFailedException("The next state key is empty");
             }
-            StatusInfo statusInfo =  new StatusInfo();
-            statusInfo.setSuccess(true);
-            return  statusInfo;
+            return  new StatusInfo();
         }
 
     }
