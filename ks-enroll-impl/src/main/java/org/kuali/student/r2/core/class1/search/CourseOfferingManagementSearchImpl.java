@@ -26,8 +26,6 @@ import java.util.List;
  */
 public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHardwiredImpl {
 
-    private String noOfYears;
-
     private GenericEntityDao genericEntityDao;
 
     public static final String COURSE_IDS = "courseOfferingIds";       // these are really luiIds
@@ -94,6 +92,10 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    and lui_rvg2.luiId = lui.id" +
                 "    AND lrc_rvg2.id = lui_rvg2.rvgId" +
                 "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%'" +
+                //Exclude these two types that can cause duplicates.
+                // audit and passfail are moved into different fields, after that there can be only one grading option
+                // of Satisfactory, Letter, or Percentage
+                "    AND lrc_rvg2.id NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail')" +
                 "    AND ident.lui.id IN  ("+ commaString(courseIds) +")", Object[].class).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();

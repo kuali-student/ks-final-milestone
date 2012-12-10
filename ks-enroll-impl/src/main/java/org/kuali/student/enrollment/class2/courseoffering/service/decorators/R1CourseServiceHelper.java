@@ -96,11 +96,7 @@ public class R1CourseServiceHelper {
         TermInfo targetTerm;
         try {
             targetTerm = acalService.getTerm(targetTermId, context);
-        } catch (InvalidParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (MissingParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (PermissionDeniedException ex) {
+        } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
         // TODO: Consider adding a shortcut by getting the current version of the course and comparing that first instead of 
@@ -139,23 +135,12 @@ public class R1CourseServiceHelper {
         // compare start/end dates
 
         TermInfo startTerm;
-        String startTermCode = course.getStartTerm();
         try {
-
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-
-            qbcBuilder.setPredicates(PredicateFactory.equal(ATP_CODE_FIELD_NAME, startTermCode));
-
-            QueryByCriteria criteria = qbcBuilder.build();
-
-            startTerm = acalService.searchForTerms(criteria, context).get(0);
-        } catch (InvalidParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (MissingParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (PermissionDeniedException ex) {
+            startTerm = acalService.getTerm(course.getStartTerm(), context);
+        } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
+
         if (targetTerm.getEndDate().before(startTerm.getStartDate())) {
             return false;
         }
@@ -164,20 +149,9 @@ public class R1CourseServiceHelper {
             return true;
         }
         TermInfo endTerm;
-        String endTermCode = course.getEndTerm();
         try {
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-
-            qbcBuilder.setPredicates(PredicateFactory.equal(ATP_CODE_FIELD_NAME, endTermCode));
-
-            QueryByCriteria criteria = qbcBuilder.build();
-
-            endTerm = acalService.searchForTerms(criteria, context).get(0);
-        } catch (InvalidParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (MissingParameterException ex) {
-            throw new OperationFailedException("unexpected", ex);
-        } catch (PermissionDeniedException ex) {
+            endTerm = acalService.getTerm(course.getEndTerm(), context);
+        } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
         if (targetTerm.getStartDate().after(endTerm.getEndDate())) {
