@@ -26,6 +26,7 @@
         <property name="headerText" value="Rule Lookup" />
         <property name="viewName" value="StudentRuleLookupView" />
         <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.RuleBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentLookupableHelperServiceImpl"/>
         <property name="theme">
             <bean parent="Uif-KradTheme"/>
         </property>

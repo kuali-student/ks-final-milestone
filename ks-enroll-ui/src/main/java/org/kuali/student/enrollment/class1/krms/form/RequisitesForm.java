@@ -16,7 +16,9 @@
  */
 package org.kuali.student.enrollment.class1.krms.form;
 
+import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
 /**
  * This class //TODO ...
@@ -30,6 +32,20 @@ public class RequisitesForm extends UifFormBase {
     private String agendaType;
 
     private String ruleType;
+
+    private RuleEditor ruleEditor;
+
+    public RequisitesForm() {
+        this.ruleEditor = new RuleEditor();
+    }
+
+    public RuleEditor getRuleEditor() {
+        return ruleEditor;
+    }
+
+    public void setRuleEditor(RuleEditor ruleEditor) {
+        this.ruleEditor = ruleEditor;
+    }
 
     public String getCourseName() {
         return courseName;
@@ -53,6 +69,22 @@ public class RequisitesForm extends UifFormBase {
 
     public void setRuleType(String ruleType) {
         this.ruleType = ruleType;
+    }
+
+    public String getPropositionSummary(){
+        return ruleEditor.getPropositionSummary();
+    }
+
+    public Tree getPropositionTree() {
+        return ruleEditor.getPropositionTree();
+    }
+
+    public String getSelectedPropositionId() {
+        return ruleEditor.getSelectedPropositionId();
+    }
+
+    public String getCutPropositionId() {
+        return ruleEditor.getCutPropositionId();
     }
 
 }

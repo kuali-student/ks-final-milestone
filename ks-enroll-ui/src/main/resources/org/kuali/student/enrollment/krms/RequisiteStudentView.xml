@@ -30,6 +30,11 @@
         <property name="additionalScriptFiles">
             <list merge="true">
                 <value>ks-enroll/scripts/common.js</value>
+                <value>krms/scripts/agendaTree.js</value>
+                <value>krms/scripts/ruleStudentTree.js</value>
+                <value>krms/scripts/requiredAlerts.js</value>
+                <value>krms/scripts/disableButtons.js</value>
+                <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
 
@@ -86,7 +91,7 @@
           p:headerText="Edit with Object" p:header.render="false">
         <property name="items">
             <list>
-                <!--<ref bean="propositionGroup"/>-->
+                <bean parent="propositionStudentSection-parent" p:style=""/>
             </list>
         </property>
     </bean>
