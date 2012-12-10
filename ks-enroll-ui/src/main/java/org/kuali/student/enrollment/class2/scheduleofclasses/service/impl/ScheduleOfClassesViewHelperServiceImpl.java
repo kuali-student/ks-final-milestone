@@ -34,7 +34,6 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfC
 import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -54,7 +53,11 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -328,7 +331,10 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     }
 
 
-    private String millisToTime(long milliseconds){
+    private String millisToTime(Long milliseconds){
+        if(milliseconds == null){
+            return null;
+        }
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(milliseconds);
         return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(cal.getTime());
