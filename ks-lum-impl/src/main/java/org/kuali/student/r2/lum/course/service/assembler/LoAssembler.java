@@ -36,7 +36,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			String loId = lo.getId();
 			try {
 				List<LoCategoryInfo> loCategories = null;
-                loService.getLoCategoriesByLo(loId, contextInfo);
+                loCategories = loService.getLoCategoriesByLo(loId, contextInfo);
 				loDisplay.setLoCategoryInfoList(loCategories);
 			} catch (DoesNotExistException e) {
 			} catch (Exception e) {
