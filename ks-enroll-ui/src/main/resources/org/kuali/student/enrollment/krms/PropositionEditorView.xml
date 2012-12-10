@@ -146,64 +146,12 @@
     </property>
   </bean>
 
-  <bean id="parameter-parent" parent="Uif-InputField" p:propertyName="proposition.termParameter" p:render="false"
-        p:style="margin-left: 12pt" p:showLabel="true" p:maxLength="40"/>
-
-  <bean id="parameter-parent-dropdown" abstract="true" parent="parameter-parent">
-      <property name="control">
-          <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
-                p:onChangeScript="ajaxSubmitForm('updateDescription', null, jQuery(this).data('submitdata'), null, null, null);"/>
-      </property>
-  </bean>
-
   <bean id="Default-Term-parameters-parent" parent="Uif-VerticalFieldGroup" >
     <property name="items">
       <list>
-
-        <bean id="course" parent="parameter-parent-dropdown" p:label="Course" p:render="@{#np.proposition.termSpecId eq '20002'}">
-          <property name="optionsFinder">
-              <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
-          </property>
-        </bean>
-
-       <bean id="courseList" parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="1" p:render="@{#np.proposition.termSpecId eq '20000'}">
-         <property name="headerText" value="Selected Modules"/>
-         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.TermParameter"/>
-         <property name="propertyName" value="proposition.termParameterList"/>
-         <property name="layoutManager.richTable.render" value="false"/>
-         <property name="layoutManager.separateAddLine" value="true" />
-         <property name="items">
-           <list>
-             <bean parent="Uif-InputField" p:label="Module" p:propertyName="parameter" p:required="true" >
-               <property name="control">
-                 <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
-               </property>
-               <property name="optionsFinder">
-                 <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
-               </property>
-             </bean>
-           </list>
-         </property>
-         <property name="addLineItems">
-           <list>
-             <bean parent="Uif-InputField" p:label="Module" p:propertyName="parameter" p:required="true" >
-               <property name="control">
-                 <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"/>
-               </property>
-               <property name="optionsFinder">
-                 <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
-               </property>
-             </bean>
-           </list>
-         </property>
-       </bean>
-
-        <bean id="org" parent="parameter-parent-dropdown" p:label="Organization" p:render="@{#np.proposition.termSpecId eq '20001'}">
-          <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.OrganizationCodeValuesFinder"/>
-          </property>
-        </bean>
-
+        <bean id="course" parent="course-parent"/>
+        <bean id="courseList" parent="courseList-parent"/>
+        <bean id="org" parent="org-parent"/>
       </list>
     </property>
   </bean>

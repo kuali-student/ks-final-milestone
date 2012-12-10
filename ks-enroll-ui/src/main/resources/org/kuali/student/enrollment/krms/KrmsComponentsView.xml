@@ -63,7 +63,7 @@
         </property>
     </bean>
 
-    <bean id="parameter-parent" parent="Uif-InputField" p:propertyName="proposition.termParameter" p:render="false"
+    <bean id="parameter-parent" parent="Uif-InputField" p:propertyName="proposition.termParameter" p:render="true"
           p:style="margin-left: 12pt" p:showLabel="true" p:maxLength="40"/>
 
     <bean id="parameter-parent-dropdown" abstract="true" parent="parameter-parent">
