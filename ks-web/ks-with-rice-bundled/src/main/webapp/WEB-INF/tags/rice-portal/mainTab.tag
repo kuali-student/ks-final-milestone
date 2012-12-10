@@ -15,16 +15,25 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-
+<td class="content" valign="top">
+    <mainChannel:ksApplications/>
+</td>
+<%--Disabled enrollment links because that application has not yet been released--%>
+<%--
 <td class="content" valign="top">
 	<mainChannel:ksApplications/>
     <mainChannel:coApplications/>
     <mainChannel:ec1Applications/>
     <mainChannel:wc1Applications/>
 </td>
+--%>
+
+<%--Disabled old KS Maint Docs as they are currently not functioning after Rice upgrade and provide little functionality--%>
+<%--
 <td class="content" valign="top">
     <mainChannel:ksMaintenance />
 </td>
+--%>
 <td class="content" valign="top">
 	<mainChannel:workflow />
 	<mainChannel:notification />

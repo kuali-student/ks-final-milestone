@@ -61,7 +61,7 @@
 
 
         <%-- KS Kitchen Sink  --%>
-
+        <%-- Disabled links because that application has not yet been released
         <c:if test='${selectedTab == "kitchensink"}'>
             <li class="red">
                 <a class="red" href="portal.do?selectedTab=kitchensink"
@@ -75,6 +75,6 @@
                    title="Kitchen Sink">Kitchen Sink</a>
             </li>
         </c:if>
-
+        --%>
     </ul>
 </div>
