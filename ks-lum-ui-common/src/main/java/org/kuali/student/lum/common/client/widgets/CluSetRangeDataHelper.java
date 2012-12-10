@@ -20,14 +20,23 @@ public class CluSetRangeDataHelper implements DataHelper {
         int paramCounter = 0;
         membershipQueryInfo = CluSetRangeModelUtil.INSTANCE.toMembershipQueryInfo(data);
         if (membershipQueryInfo != null) {
-            if (membershipQueryInfo.getQueryParamValues() != null && 
+            if (membershipQueryInfo.getQueryParamValues() != null &&
                     !membershipQueryInfo.getQueryParamValues().isEmpty()) {
                 for (SearchParamInfo searchParam : membershipQueryInfo.getQueryParamValues()) {
                     if (paramCounter > 0) {
                         labelText.append(" ");
                     }
                     labelText.append(getParameterDisplayName(searchParam.getKey())).append(": ");
-                    labelText.append("<b>").append(searchParam.getValues().get(0)).append("</b>");
+                    if (searchParam.getValues().size() == 1) {
+                        labelText.append("<b>").append(searchParam.getValues().get(0)).append("</b>");
+                    } else {
+                        String value ="";
+                        for (String param : searchParam.getValues()) {
+
+                            value = value + ", " + param;
+                        }
+                        labelText.append("<b>").append(value).append("</b>");
+                    }
                     paramCounter++;
                 }
             } else {
