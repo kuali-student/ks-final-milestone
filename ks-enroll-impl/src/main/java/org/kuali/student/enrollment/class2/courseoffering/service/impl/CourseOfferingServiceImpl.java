@@ -473,16 +473,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         // check the term is valid
         acalService.getTerm(termId, context);
-        List<String> luiIds = luiService.getLuiIdsByAtpAndType(termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
-        List<CourseOfferingInfo> results = new ArrayList<CourseOfferingInfo>();
-
-        for (String luiId : luiIds) {
-            CourseOfferingInfo co = getCourseOffering(luiId, context);
-
-            if (StringUtils.equals(co.getCourseId(), courseId)) {
-                results.add(co);
+        List<LuiInfo> luis = luiService.getLuisByAtpAndClu(courseId, termId, context);
+        List<String> luiIds = new ArrayList<String>();
+        CourseOfferingTransformer transformer = new CourseOfferingTransformer();
+        for (LuiInfo lui : luis) {
+            if (StringUtils.equals(lui.getTypeKey(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)) {
+                luiIds.add(lui.getId());
             }
         }
+        List<CourseOfferingInfo> results = getCourseOfferingsByIds(luiIds, context);
         return results;
     }
 
@@ -1060,9 +1059,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         if (luiTypeKey.startsWith(LuiServiceConstants.ACTIVITY_OFFERING_TYPE_KEY_PREFIX)) {
-
             List<TypeInfo> aoTypes = typeService.getTypesForGroupType(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, context);
-
             for (TypeInfo typeInfo : aoTypes) {
                 if (typeInfo.getKey().equals(luiTypeKey)) {
                     return true;
@@ -1141,6 +1138,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         throw new UnsupportedOperationException();
     }
 
+    private ActivityOfferingInfo _cAO_initActivityOffering(CourseOfferingInfo co, FormatOfferingInfo fo, LuiInfo lui, LuiLuiRelationInfo luiRel, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        ActivityOfferingInfo ao = new ActivityOfferingInfo();
+        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, context);
+        ao.setFormatOfferingId(luiRel.getLuiId());
+        ao.setCourseOfferingId(co.getId());
+        ao.setFormatOfferingName(fo.getShortName());
+        ao.setCourseOfferingCode(co.getCourseOfferingCode());
+        ao.setCourseOfferingTitle(co.getCourseOfferingTitle());
+        AtpService localAtpService = getAtpService();
+        String aoTermId = ao.getTermId();
+        AtpInfo termAtp = localAtpService.getAtp(aoTermId, context);
+        ao.setTermCode(termAtp.getCode());
+        return ao;
+    }
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -1153,17 +1164,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException,
             ReadOnlyException {
 
-        // validate params
-        if (!formatOfferingId.equals(aoInfo.getFormatOfferingId())) {
-            throw new InvalidParameterException(formatOfferingId + " does not match the corresponding value in the object " + aoInfo.getFormatOfferingId());
-        }
-        if (!activityId.equals(aoInfo.getActivityId())) {
-            throw new InvalidParameterException(activityId + " does not match the corresponding value in the object " + aoInfo.getActivityId());
-        }
-        if (!activityOfferingTypeKey.equals(aoInfo.getTypeKey())) {
-            throw new InvalidParameterException(activityOfferingTypeKey + " does not match the corresponding value in the object " + aoInfo.getTypeKey());
-        }
-
+        // validate params (may throw InvalidParameterException)
+        _cAO_validateParams(aoInfo, formatOfferingId, activityId, activityOfferingTypeKey);
 
         // get the required objects checking they exist
         FormatOfferingInfo fo = this.getFormatOffering(formatOfferingId, context);
@@ -1175,21 +1177,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         aoInfo.setTermId(fo.getTermId());
 
-        //AO Code generation logic
-
         //check that the passed in activity code does not already exist for that course offering
-        List<ActivityOfferingInfo> existingAoInfos = getActivityOfferingsByCourseOffering(co.getId(), context);
-
-        if (aoInfo.getActivityCode() == null) {
-            //If there is no activity code, create a new one
-            aoInfo.setActivityCode(offeringCodeGenerator.generateActivityOfferingCode(existingAoInfos));
-        } else {
-            for (ActivityOfferingInfo existingAoInfo : existingAoInfos) {
-                if (aoInfo.getActivityCode().equals(existingAoInfo.getActivityCode())) {
-                    throw new InvalidParameterException("Activity Offering Code '" + aoInfo.getActivityCode() + "' already exists for course code " + co.getCourseOfferingCode() + " term Id '" + co.getTermId() + "'");
-                }
-            }
-        }
+        _cAO_setActivityCodeForAO(aoInfo, co, context);
 
         // copy to the lui
         LuiInfo lui = new LuiInfo();
@@ -1211,6 +1200,56 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         // now build the lui lui relation
+        LuiLuiRelationInfo luiRel = _cAO_buildLuiLuiRelation(aoInfo, lui, formatOfferingId, context);
+
+        // Everything saved to the DB, now return AO sent back by createLui and transformed by transformer back to caller
+        ActivityOfferingInfo ao = _cAO_initActivityOffering(co, fo, lui, luiRel, context);
+        return ao;
+
+    }
+
+    /**
+     * Validate input parameters
+     * @param aoInfo The AO to check
+     * @param formatOfferingId FO ID for this AO
+     * @param activityId CLU ID for the AO
+     * @param activityOfferingTypeKey The type key for the AO
+     * @throws InvalidParameterException
+     */
+    private void _cAO_validateParams(ActivityOfferingInfo aoInfo,
+                                     String formatOfferingId,
+                                     String activityId,
+                                     String activityOfferingTypeKey) throws InvalidParameterException {
+        if (!formatOfferingId.equals(aoInfo.getFormatOfferingId())) {
+            throw new InvalidParameterException(formatOfferingId + " does not match the corresponding value in the object " + aoInfo.getFormatOfferingId());
+        }
+        if (!activityId.equals(aoInfo.getActivityId())) {
+            throw new InvalidParameterException(activityId + " does not match the corresponding value in the object " + aoInfo.getActivityId());
+        }
+        if (!activityOfferingTypeKey.equals(aoInfo.getTypeKey())) {
+            throw new InvalidParameterException(activityOfferingTypeKey + " does not match the corresponding value in the object " + aoInfo.getTypeKey());
+        }
+    }
+
+    private void _cAO_setActivityCodeForAO(ActivityOfferingInfo aoInfo, CourseOfferingInfo co, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ActivityOfferingInfo> existingAoInfos = getActivityOfferingsByCourseOffering(co.getId(), context);
+
+        if (aoInfo.getActivityCode() == null) {
+            //If there is no activity code, create a new one
+            aoInfo.setActivityCode(offeringCodeGenerator.generateActivityOfferingCode(existingAoInfos));
+        } else {
+            for (ActivityOfferingInfo existingAoInfo : existingAoInfos) {
+                if (aoInfo.getActivityCode().equals(existingAoInfo.getActivityCode())) {
+                    throw new InvalidParameterException("Activity Offering Code '" + aoInfo.getActivityCode() + "' already exists for course code " + co.getCourseOfferingCode() + " term Id '" + co.getTermId() + "'");
+                }
+            }
+        }
+    }
+
+    private LuiLuiRelationInfo _cAO_buildLuiLuiRelation(ActivityOfferingInfo aoInfo,
+                                                        LuiInfo lui,
+                                                        String formatOfferingId,
+                                                        ContextInfo context) throws OperationFailedException {
         LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
         luiRel.setLuiId(formatOfferingId);
         luiRel.setName("fo-ao-relation"); // TODO: This fixes a DB required field error--find more meaningful value.
@@ -1231,20 +1270,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
-        // Everything saved to the DB, now return AO sent back by createLui and transformed by transformer back to caller
-        ActivityOfferingInfo ao = new ActivityOfferingInfo();
-        ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, context);
-        ao.setFormatOfferingId(luiRel.getLuiId());
-        ao.setCourseOfferingId(co.getId());
-        ao.setFormatOfferingName(fo.getShortName());
-        ao.setCourseOfferingCode(co.getCourseOfferingCode());
-        ao.setCourseOfferingTitle(co.getCourseOfferingTitle());
-        AtpService localAtpService = getAtpService();
-        String aoTermId = ao.getTermId();
-        AtpInfo termAtp = localAtpService.getAtp(aoTermId, context);
-        ao.setTermCode(termAtp.getCode());
-        return ao;
-
+        return luiRel;
     }
 
     @Override
