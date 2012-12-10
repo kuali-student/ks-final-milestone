@@ -148,6 +148,28 @@ public interface CourseWaitlistService  {
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Updates the state of an existing CourseWaitlistEntry to another state
+     * provided that it is valid to do so.
+     *
+     * @param courseWaitlistEntryId        identifier of the CourseWaitlistEntry to be
+     *                                      updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           CourseWaitlistEntry will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified CourseWaitlistEntry does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeCourseWaitlistEntryState(@WebParam(name = "courseWaitlistEntryId") String courseWaitlistEntryId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Reorder all the entries that are passed in in the input list, i.e.,
      * update each of the entries rank to begin from the top and push the
      * entries not in the list to the ranks after the entries.
