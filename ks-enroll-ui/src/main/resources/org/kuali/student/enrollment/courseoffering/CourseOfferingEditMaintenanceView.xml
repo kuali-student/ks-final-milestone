@@ -302,20 +302,36 @@
             <list>
                 <!-- Credit Option Type Selector -->
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="creditOption.typeKey" p:label="Credit Type">
-                    <property name="control">
+                    <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeSelector" />
+                    <property name="control" >
                         <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
                     </property>
-                    <property name="optionsFinder">
+                    <property name="optionsFinder" >
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CreditOptionsKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <!-- Fixed Type -->
+                <!-- Fixed Type for multiple -->
                 <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
-                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}"
+                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed' and #dp.creditOption.minCredits eq null}"
                       p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
                       p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
+                    <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeFixed" />
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}" p:onBlurScript="validateCredits(this, '@{#ConfigProperties['application.url']}', @{#dp.course.creditOptions[0].typeKey eq 'kuali.result.values.group.type.multiple'});"/>
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.MultipleCreditOptionsKeyValues" p:addBlankOption="true" />
+                    </property>
+                </bean>
+                <!-- Fixed Type for variable -->
+                <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
+                      p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed' and #dp.creditOption.minCredits ne null}"
+                      p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
+                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}"  >
+                    <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeFixed" />
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#dp.creditOptionFixed}"
+                              p:onDocumentReadyScript="validateCredits(this, '@{#ConfigProperties['application.url']}', @{#dp.course.creditOptions[0].typeKey eq 'kuali.result.values.group.type.multiple'});"/>
                     </property>
                 </bean>
                 <!-- Range -->

@@ -105,6 +105,24 @@ function renameDialogButtons(labelsToReplace) {
     });
 }
 
+function createErrorDivFor(parent, message, url) {
+    var parentId = jQuery(parent).attr("id");
+    var childId = parentId + "_errors";
+    var div1 = jQuery("<div id='" + childId + "' class='uif-validationMessages' style='display: none' data-messagesfor='" + parentId + "'>");
+    var div2 = jQuery("<div class='uif-clientMessageItems uif-clientErrorDiv'>");
+    jQuery(div1).append(div2);
+    var ul = jQuery("<ul/>");
+    var li = jQuery("<li class='uif-errorMessageItem-field'/>");
+    var image = jQuery("<img class='uif-validationImage' src='" + url + "/krad/images/validation/error.png' alt='Error'/>");
+    jQuery(image).text(message);
+    jQuery(li).append(image);
+    jQuery(ul).append(li);
+    jQuery(div2).append(ul);
+
+    return div1;
+}
+
+
 function validateCredits(textBox, url, courseTypeKey) {
     var table = jQuery('<table id="errorTable" style="display: none; position: absolute;"/>');
     var tbody = jQuery('<tbody/>');
@@ -162,6 +180,9 @@ function validateCredits(textBox, url, courseTypeKey) {
             }
 
             var div = jQuery(jQuery(textBox)).closest('div');
+            var errorMessage = "Please enter one of the values: " + allowedValues;
+            //var errorChild = createErrorDivFor(div, errorMessage  , url);
+            //jQuery(div).append(errorChild);
             div.find('#errorTable').remove();
             if (!foundMatch) {
                 jQuery(textBox).addClass("error").removeClass("valid");
@@ -171,7 +192,7 @@ function validateCredits(textBox, url, courseTypeKey) {
                     jQuery(div).append('<img class="uif-validationImage" src="' + url + '/krad/images/validation/error.png" alt="Error" />');
                 }
                 // jQuery(div).attr('title', 'Allowed values are: ' + allowedValues);
-                jQuery(li).append("Please enter one of the values: " + allowedValues);
+                jQuery(li).append(errorMessage);
                 jQuery(div).prepend(table);
                 var moveLeft = -20;
                 var moveDown = -60;
@@ -194,6 +215,88 @@ function validateCredits(textBox, url, courseTypeKey) {
             }
         }
     }
+}
+
+function showErrorPopup(formId){
+
+    var div1 = jQuery('<div class="fancybox-wrap fancybox-desktop fancybox-type-html fancybox-opened" style="width: 418px; height: auto; display: block; position: fixed; top: 474px; left: 743px; opacity: 1;">');
+    var div2 = jQuery('<div class="fancybox-skin" style="padding: 15px;">');
+    var div3 = jQuery('<div class="fancybox-outer">');
+    var div4 = jQuery('<div class="fancybox-inner" style="width: 388px; height: auto; overflow: auto;">');
+    var text = 'The form contains errors. Please correct these errors and try again.';
+    var div5 = jQuery('<div title="Close" class="fancybox-item fancybox-close">');
+
+    jQuery(div1).append(div2);
+    jQuery(div2).append(div3);
+    jQuery(div3).append(div4);
+    jQuery(div4).text(text);
+    jQuery(div4).append(div5);
+
+    jQuery(div1).appendTo(jQuery('body'));
+    jQuery(div1).show();
+    jQuery('#formId').unbind('submit');
+    return false;
+}
+
+function showFixedOptions(textBox, url, courseTypeKey) {
+    var parent = jQuery("#KS-CourseOfferingEdit-CreditType_OptionTypeFixed");
+    jQuery(textBox).attr("disabled", "disabled");
+
+    console.log(jQuery(textBox).css("background-color"));
+    var child;
+
+    if (jQuery(parent).find('#div_fixed_options').length > 0) {
+        child = jQuery('#div_fixed_options');
+    } else {
+        child = jQuery('<div id="div_fixed_options" style="position: absolute; display: none; border: 1px solid black; line-style: none;"/>');
+        jQuery(child).width(jQuery(textBox).width() + 10);
+        jQuery(child).css("background-color", jQuery(textBox).css("background-color"));
+        jQuery(child).css("opacity", "2");
+        jQuery(parent).append(child);
+
+        var ul = jQuery('<ul/>');
+        var emptyLi = jQuery('<li/>');
+        jQuery(emptyLi).text(jQuery(textBox).val());
+        emptyLi.click(function () {
+            jQuery(textBox).val(jQuery(this).text());
+            jQuery(textBox).removeAttr("disabled");
+            jQuery('#div_fixed_options').hide();
+        });
+        jQuery(ul).append(emptyLi);
+
+        jQuery(child).append(ul);
+        jQuery("input[name='document.newMaintainableObject.dataObject.creditOption.credits']").each(function () {
+            var labelForId = jQuery(this).attr("id");
+            textValue = jQuery(textBox).val().trim();
+            var label = jQuery("label[for='" + labelForId + "']");
+            labelValue = parseFloat(jQuery(label).text());
+
+            var li = jQuery('<li/>');
+            jQuery(li).text(labelValue);
+            jQuery(ul).append(li);
+
+            li.click(function () {
+                jQuery(textBox).val(jQuery(this).text());
+                jQuery(textBox).removeAttr("disabled");
+                jQuery('#div_fixed_options').hide();
+            });
+
+        });
+    }
+
+    jQuery(child).mouseleave(function () {
+        jQuery(textBox).removeAttr("disabled");
+        jQuery('#div_fixed_options').hide();
+        //jQuery(parent).find('#div_fixed_options').remove();
+    });
+
+    jQuery(textBox).mouseenter(function () {
+        jQuery(textBox).attr("disabled", "disabled");
+        jQuery('#div_fixed_options').hide();
+        jQuery('#div_fixed_options').show().css('top', jQuery(textBox).offset().top).css('left', jQuery(textBox).offset().left);
+    });
+
+    jQuery('#div_fixed_options').show().css('top', jQuery(textBox).offset().top).css('left', jQuery(textBox).offset().left);
 }
 
 
