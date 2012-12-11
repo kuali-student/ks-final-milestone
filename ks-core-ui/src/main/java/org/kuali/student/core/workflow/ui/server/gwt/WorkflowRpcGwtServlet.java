@@ -180,7 +180,11 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
     public List<String> getPreviousRouteNodeNames(String workflowId) throws OperationFailedException {
         try {
-            return getWorkflowDocumentService().getPreviousRouteNodeNames(workflowId);
+            List<String> serviceResults = getWorkflowDocumentService().getPreviousRouteNodeNames(workflowId);
+
+            // Avoid returning an unmodifiable list (in distributed mode, results from workflow document service call is returned as a java.util.Collections$UnmodifiableRandomAccessList)
+            // See jira KSENROLL-4257
+            return new ArrayList<String>(serviceResults);
         } catch (Exception e) {
             LOG.error("Error approving document",e);
             throw new OperationFailedException("Error getting previous node names");
