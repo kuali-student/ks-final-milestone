@@ -3836,8 +3836,8 @@
     <sequence name="KRMS_TERM_S" nextval="10204"/>
     <sequence name="KRMS_TERM_SPEC_S" nextval="10013"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_RELN_S" nextval="10113"/>
-    <sequence name="KRMS_TYP_S" nextval="10065"/>
+    <sequence name="KRMS_TYP_RELN_S" nextval="10112"/>
+    <sequence name="KRMS_TYP_S" nextval="10064"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>
