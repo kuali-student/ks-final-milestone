@@ -91,7 +91,7 @@ insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_
 -- Proposition Types **************************************************************************************************************************************** Propositions
 
 --kuali.reqComponent.type.course.completed
-insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.completed','KS-SYS','simplePropositionTypeService','N','0')
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.compl.course','KS-SYS','simplePropositionTypeService','N','0')
 /
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.academicReadiness.prereq'), krms_typ_s.currval, 'A', 13, 0, 'Y')
 /
@@ -105,7 +105,7 @@ insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_
 /
 
 --kuali.reqComponent.type.course.courseset.completed.all
-insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.courseset.completed.all','KS-SYS','simplePropositionTypeService','N','0')
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.course.courseset.completed.all','KS-SYS','simplePropositionTypeService','N','0')
 /
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.academicReadiness.prereq'), krms_typ_s.currval, 'A', 1, 0, 'Y')
 /
@@ -116,14 +116,14 @@ insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.program.entrance'), krms_typ_s.currval, 'A', 11, 0, 'Y')
 /
 
---kuali.reqComponent.type.course.courseset.completed.max
-insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.courseset.completed.max','KS-SYS','simplePropositionTypeService','N','0')
-/
-insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.program.completion'), krms_typ_s.currval, 'A', 17, 0, 'Y')
-/
+--kuali.reqComponent.type.course.courseset.completed.max Note: This type is removed in ENR.
+--insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.courseset.completed.max','KS-SYS','simplePropositionTypeService','N','0')
+--/
+--insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.program.completion'), krms_typ_s.currval, 'A', 17, 0, 'Y')
+--/
 
 --kuali.reqComponent.type.course.courseset.completed.nof
-insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.courseset.completed.nof','KS-SYS','simplePropositionTypeService','N','0')
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.success.credit.courseset.completed.nof','KS-SYS','simplePropositionTypeService','N','0')
 /
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.academicReadiness.prereq'), krms_typ_s.currval, 'A', 2, 0, 'Y')
 /
@@ -135,7 +135,7 @@ insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_
 /
 
 --kuali.reqComponent.type.course.courseset.completed.none
-insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.courseset.completed.none','KS-SYS','simplePropositionTypeService','N','0')
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.course.courseset.completed.none','KS-SYS','simplePropositionTypeService','N','0')
 /
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.academicReadiness.antireq'), krms_typ_s.currval, 'A', 2, 0, 'Y')
 /
@@ -185,7 +185,7 @@ insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_
 /
 
 --kuali.reqComponent.type.course.courseset.gpa.min
-insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.courseset.gpa.min','KS-SYS','simplePropositionTypeService','N','0')
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.course.courseset.gpa.min','KS-SYS','simplePropositionTypeService','N','0')
 /
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.academicReadiness.prereq'), krms_typ_s.currval, 'A', 4, 0, 'Y')
 /
@@ -255,13 +255,13 @@ insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_
 /
 
 --kuali.reqComponent.type.course.enrolled
-insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.enrolled','KS-SYS','simplePropositionTypeService','N','0')
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.course.offering.enrolled','KS-SYS','simplePropositionTypeService','N','0')
 /
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.academicReadiness.coreq'), krms_typ_s.currval, 'A', 1, 0, 'Y')
 /
 
 --kuali.reqComponent.type.course.freeform.text
-insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.reqComponent.type.course.freeform.text','KS-SYS','simplePropositionTypeService','Y','0')
+insert into krms_typ_t (typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr) values (krms_typ_s.nextval, 'kuali.krms.proposition.type.freeform.text','KS-SYS','simplePropositionTypeService','Y','0')
 /
 insert into krms_typ_reln_t (typ_reln_id, from_typ_id, to_typ_id, reln_typ, seq_no, ver_nbr, actv) VALUES (krms_typ_reln_s.nextval, (Select typ_id from krms_typ_t where nm = 'kuali.statement.type.course.academicReadiness.coreq'), krms_typ_s.currval, 'A', 0, 0, 'Y')
 /

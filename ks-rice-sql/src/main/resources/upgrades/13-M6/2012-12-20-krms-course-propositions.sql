@@ -62,7 +62,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI223 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI223 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI223 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI223 Prerequisites')
 /
@@ -149,7 +149,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI337 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI337 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI337 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -209,7 +209,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI342 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI342 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI342 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -251,7 +251,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI361 v2 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI361 v2 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI361 v2 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -313,7 +313,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI361 v6 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI361 v6 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI361 v6 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -331,7 +331,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI362 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI362 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI362 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI362 Prerequisites')
 /
@@ -349,7 +349,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI363 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI363 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI363 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI363 Prerequisites')
 /
@@ -410,7 +410,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI370 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI370 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI370 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI370 Prerequisites')
 /
@@ -550,7 +550,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI380 Preperation,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI380 Preperation'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI380 Preperation'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI380 Preperation')
 /
@@ -586,7 +586,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI392 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI392 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI392 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI392 Prerequisites')
 /
@@ -719,7 +719,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI414 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI414 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI414 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI414 Prerequisites')
 /
@@ -866,7 +866,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI424 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI424 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI424 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI424 Prerequisites')
 /
@@ -884,7 +884,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI425 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI425 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI425 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI425 Prerequisites')
 /
@@ -921,7 +921,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI426 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI426 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI426 Prerequisites'), 1, NULL)
 /
 --kuali.reqComponent.field.type.course.clu.id,1b262ae8-9d1f-4758-a943-db4f89b66587
 insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'completedCourse' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed list')
@@ -1080,7 +1080,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI437 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI437 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI437 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -1122,7 +1122,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI440 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI440 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI440 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -1311,7 +1311,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI451 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI451 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI451 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI451 Prerequisites')
 /
@@ -1393,7 +1393,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI460 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI460 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI460 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI460 Prerequisites')
 /
@@ -1411,7 +1411,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI461 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI461 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI461 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI461 Prerequisites')
 /
@@ -1508,7 +1508,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI465 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI465 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI465 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -1550,7 +1550,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI471 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI471 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI471 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -1586,7 +1586,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI473 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI473 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI473 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'BSCI473 Prerequisites')
 /
@@ -1693,7 +1693,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI493 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI493 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI493 Prerequisites'), 1, NULL)
 /
 --kuali.reqComponent.field.type.course.clu.id,28d48337-de87-498c-b417-866486e82eab
 insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'completedCourse' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed list')
@@ -1744,7 +1744,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --BSCI494 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI494 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'BSCI494 Prerequisites'), 1, NULL)
 /
 --kuali.reqComponent.field.type.course.clu.id,485712a2-5559-44d5-9c5d-5c765910d5c0
 insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'completedCourse' and nmspc_cd = 'KS-SYS'), 1, 'Successfully completed list')
@@ -1826,7 +1826,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --CCJS230 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS230 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS230 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS230 Prerequisites')
 /
@@ -2013,7 +2013,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --CCJS340 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS340 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS340 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS340 Prerequisites')
 /
@@ -2031,7 +2031,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --CCJS350 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS350 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS350 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS350 Prerequisites')
 /
@@ -2049,7 +2049,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --CCJS352 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS352 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS352 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS352 Prerequisites')
 /
@@ -2073,7 +2073,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS357 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS357 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS357 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -2152,7 +2152,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --CCJS360 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS360 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS360 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS360 Prerequisites')
 /
@@ -2170,7 +2170,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --CCJS370 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS370 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS370 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS370 Prerequisites')
 /
@@ -2224,7 +2224,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --CCJS389 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS389 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS389 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS389 Prerequisites')
 /
@@ -2575,7 +2575,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS455 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS455 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS455 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -2635,7 +2635,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS456 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS456 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS456 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -2725,7 +2725,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --CCJS653 Prerequisites,AND,kuali.reqComponent.type.course.completed,Must have successfully completed <course>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.completed'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS653 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed <course>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.compl.course'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'CCJS653 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'CCJS653 Prerequisites')
 /
