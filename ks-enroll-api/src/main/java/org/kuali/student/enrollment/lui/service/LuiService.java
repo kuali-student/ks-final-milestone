@@ -365,6 +365,27 @@ public interface LuiService {
                 VersionMismatchException;
 
     /**
+     * Updates the state of an existing Lui to another state
+     * provided that it is valid to do so.
+     *
+     * @param luiId              identifier of the Lui to be updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           Lui will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified Lui does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeLuiState(@WebParam(name = "luiId") String luiId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Deletes an existing Lui.
      *
      * @param luiId the identifier for the LUI to be deleted
@@ -791,6 +812,28 @@ public interface LuiService {
                 VersionMismatchException;
 
     /**
+     * Updates the state of an existing LuiLuiRelation to another state
+     * provided that it is valid to do so.
+     *
+     * @param luiLuiRelationId   identifier of the LuiLuiRelation to be
+     *                           updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           LuiLuiRelation will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified LuiLuiRelation does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeLuiLuiRelationState(@WebParam(name = "luiLuiRelationId") String luiLuiRelationId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Deletes an existing LuiLuiRelation.
      *
      * @param luiLuiRelationId identifier or the LuiLuiRelation to be
@@ -1050,6 +1093,28 @@ public interface LuiService {
                 VersionMismatchException;
 
     /**
+     * Updates the state of an existing LuiCapacity to another state
+     * provided that it is valid to do so.
+     *
+     * @param luiCapacityId      identifier of the LuiCapacity to be
+     *                           updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           LuiCapacity will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified LuiCapacity does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeLuiCapacityState(@WebParam(name = "luiCapacityId") String luiCapacityId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Deletes an existing LuiCapacity.
      *
      * @param luiCapacityId the identifier for the LuiCapacity to be
@@ -1292,6 +1357,28 @@ public interface LuiService {
                 ReadOnlyException,
                 UnsupportedActionException,
                 VersionMismatchException;
+
+    /**
+     * Updates the state of an existing LuiSet to another state
+     * provided that it is valid to do so.
+     *
+     * @param luiSetId           identifier of the LuiSet to be
+     *                           updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           LuiSet will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified LuiSet does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeLuiSetState(@WebParam(name = "luiSetId") String luiSetId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Delete a Lui set
