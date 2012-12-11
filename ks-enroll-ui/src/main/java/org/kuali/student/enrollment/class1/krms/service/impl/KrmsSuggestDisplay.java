@@ -12,39 +12,43 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Paul on 2012/11/22
+ * Created by Paul on 2012/12/11
  */
-package org.kuali.student.enrollment.class1.krms.form;
-
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class1.krms.dto.PropositionEditor;
+package org.kuali.student.enrollment.class1.krms.service.impl;
 
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public class KrmsComponentsForm extends UifFormBase {
+public class KrmsSuggestDisplay {
 
-    private PropositionEditor proposition;
+    private String id;
 
-    private String courseSuggest;
+    private String displayName;
 
-    public PropositionEditor getProposition() {
-        return proposition;
+    public KrmsSuggestDisplay() {
     }
 
-    public void setProposition(PropositionEditor proposition) {
-        this.proposition = proposition;
+    public KrmsSuggestDisplay(String id, String displayName) {
+        this.id = id;
+        this.displayName = displayName;
     }
 
-    public String getCourseSuggest() {
-        return courseSuggest;
+    public String getId() {
+        return id;
     }
 
-    public void setCourseSuggest(String courseSuggest) {
-        this.courseSuggest = courseSuggest;
+    public void setId(String id) {
+        this.id = id;
     }
 
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
 }

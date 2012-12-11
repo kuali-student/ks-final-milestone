@@ -9,6 +9,7 @@
         <property name="id" value="manageKrmsComponentsView"/>
         <property name="headerText" value="KS KRMS Custom Components"/>
         <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.KrmsComponentViewHelperServiceImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="Uif-Page"/>
@@ -41,6 +42,7 @@
 
                 <ref bean="course"/>
                 <ref bean="courseList"/>
+                <ref bean="singleCourse"/>
             </list>
         </property>
     </bean>
@@ -119,5 +121,25 @@
         </property>
     </bean>
     <bean id="org" parent="org-parent"/>
+
+
+    <!--Rule components-->
+    <bean id="singleCourse-parent" parent="Uif-InputField" p:propertyName="courseSuggest">
+        <property name="suggest">
+            <!--<bean parent="Uif-Suggest" p:sourcePropertyName="propName" p:suggestQuery.dataObjectClassName="className" />-->
+            <bean parent="Uif-Suggest">
+                <property name="render" value="true"/>
+                <!-- sourcePropertyName is the Person property displayed in the resulting suggest menu -->
+                <property name="sourcePropertyName" value="displayName"/>
+                <property name="templateOptions" value="minLength:1,delay:0"/>
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig">
+                        <property name="queryMethodToCall" value="getCourseNamesForSuggest"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="singleCourse" parent="singleCourse-parent" />
 
 </beans>
