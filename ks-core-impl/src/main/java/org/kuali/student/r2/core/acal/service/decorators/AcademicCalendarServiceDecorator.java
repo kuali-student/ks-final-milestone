@@ -129,8 +129,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String s, @WebParam(name = "nextStateKey") String s1, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("changeAcademicCalendarState");
+    public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().changeAcademicCalendarState(academicCalendarId,nextStateKey,contextInfo);
     }
 
     @Override
@@ -233,8 +233,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String s, @WebParam(name = "nextStateKey") String s1, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("changeHolidayCalendarState");
+    public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().changeHolidayCalendarState(holidayCalendarId,nextStateKey,contextInfo);
     }
 
     @Override

@@ -113,7 +113,6 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig = info;
         orig.setName("testHcal1 name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated", "description formatted 1 updated"));
-        orig.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         orig.setStartDate(new Date(orig.getStartDate().getTime() - 10000));
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
         orig.setAdminOrgId("testOrgId1Updated");
@@ -236,7 +235,6 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig = info;
         orig.setName("testHcal1 name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated", "description formatted 1 updated"));
-        orig.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         orig.setStartDate(new Date(orig.getStartDate().getTime() - 10000));
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
         orig.setIsAllDay(Boolean.FALSE);
@@ -397,7 +395,6 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig = info;
         orig.setName("testAcal1 name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated", "description formatted 1 updated"));
-        orig.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         orig.setStartDate(new Date(orig.getStartDate().getTime() - 10000));
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
         orig.setAdminOrgId("testOrgId1Updated");
@@ -521,7 +518,6 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig = info;
         orig.setName("testHcal1 name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated", "description formatted 1 updated"));
-        orig.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         orig.setStartDate(new Date(orig.getStartDate().getTime() - 10000));
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
         orig.setIsAllDay(Boolean.FALSE);
@@ -637,7 +633,6 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig = info;
         orig.setName("testAcal1 name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated", "description formatted 1 updated"));
-        orig.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         orig.setStartDate(new Date(orig.getStartDate().getTime() - 10000));
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
         new AttributeTester().findAttributes(orig.getAttributes(), "key1").get(0).setValue("value1Updated");
@@ -818,7 +813,6 @@ public class TestAcademicCalendarServiceImplWithMocks {
         orig = info;
         orig.setName("testHcal1 name updated");
         orig.setDescr(new RichTextHelper().toRichTextInfo("description plain 1 updated", "description formatted 1 updated"));
-        orig.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         orig.setStartDate(new Date(orig.getStartDate().getTime() - 10000));
         orig.setEndDate(new Date(orig.getEndDate().getTime() + 10000));
         orig.setIsAllDay(Boolean.FALSE);

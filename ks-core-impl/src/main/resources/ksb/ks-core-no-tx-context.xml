@@ -15,9 +15,9 @@
     permissions and limitations under the License.
 
 -->
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
@@ -26,7 +26,8 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
@@ -472,9 +473,24 @@
         <property name="em" ref="coreEntityManager"/>
     </bean>
 
+    <bean id="stateChangeDao" class="org.kuali.student.r2.core.class1.state.dao.StateChangeDao">
+        <property name="em" ref="coreEntityManager" />
+    </bean>
+
+    <bean id="stateConstraintDao" class="org.kuali.student.r2.core.class1.state.dao.StateConstraintDao">
+        <property name="em" ref="coreEntityManager" />
+    </bean>
+
+    <bean id="statePropagationDao" class="org.kuali.student.r2.core.class1.state.dao.StatePropagationDao">
+        <property name="em" ref="coreEntityManager" />
+    </bean>
+
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao" />
         <property name="lifecycleDao" ref="lifecycleDao" />
+        <property name="stateChangeDao" ref="stateChangeDao" />
+        <property name="stateConstraintDao" ref="stateConstraintDao" />
+        <property name="statePropagationDao" ref="statePropagationDao"/>
         <property name="stateCriteriaLookupService">
             <bean parent="coreCriteriaLookupService">
                 <property name="predicateTransforms">
@@ -909,6 +925,27 @@
         </aop:aspect>
     </aop:config>
 
+    <bean id="calStateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
+        <property name="stateHelperMap" ref="calStateHelperMap" />
+        <property name="relatedObjectHelperMap" ref="calRelatedObjectHelperMap"/>
+        <property name="stateService" ref="stateServiceCacheDecorator"/>
+    </bean>
+
+    <bean id="atpStateHelper" class="org.kuali.student.r2.core.acal.service.statehelper.AtpStateHelperImpl"/>
+
+    <bean id="milestoneStateHelper" class="org.kuali.student.r2.core.acal.service.statehelper.MilestoneStateHelperImpl"/>
+
+    <bean id="atpToMilestoneRelatedObjectHelper" class="org.kuali.student.r2.core.acal.service.statehelper.AtpToMilestoneRelatedObjectHelper"/>
+
+    <util:map id="calStateHelperMap" map-class="java.util.HashMap">
+         <entry key="kuali.atp" value-ref="atpStateHelper"/>
+         <entry key="kuali.milestone" value-ref="milestoneStateHelper"/>
+     </util:map>
+
+     <util:map id="calRelatedObjectHelperMap" map-class="java.util.HashMap">
+         <entry key="kuali.atp:kuali.milestone" value-ref="atpToMilestoneRelatedObjectHelper"/>
+     </util:map>
+
     <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
     <bean id="acalService" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
         <property name="atpService" ref="atpServiceClient" />
@@ -927,6 +964,7 @@
         <property name="holidayAssembler" ref="holidayAssembler" />
         <property name="keyDateAssembler" ref="keyDateAssembler" />
         <property name="acalEventAssembler" ref = "acalEventAssembler" />
+        <property name="stateTransitionsHelper" ref="calStateTransitionsHelper"/>
     </bean>
 
     <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

@@ -28,6 +28,7 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -51,6 +52,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private HolidayAssembler holidayAssembler;
     private KeyDateAssembler keyDateAssembler;
     private AcalEventAssembler acalEventAssembler;
+    private StateTransitionsHelper stateTransitionsHelper;
 
     public AcalEventAssembler getAcalEventAssembler() {
         return acalEventAssembler;
@@ -248,8 +250,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarId, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-
         try {
+            AtpInfo existingOne = atpService.getAtp(academicCalendarId,context);
+            if (!StringUtils.equals(existingOne.getStateKey(),academicCalendarInfo.getStateKey())){
+                 throw new OperationFailedException("It's not possible to update the state with this call. Please use changeAcademicCalendarState() instead");
+            }
             AtpInfo toUpdate = acalAssembler.disassemble(academicCalendarInfo, context);
             AtpInfo updated = atpService.updateAtp(academicCalendarId, toUpdate, context);
             try {
@@ -268,8 +273,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     @Transactional(readOnly = false)
-    public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String s, @WebParam(name = "nextStateKey") String s1, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("changeAcademicCalendarState");
+    public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        return processCalendarStateChange(academicCalendarId,nextStateKey,contextInfo);
+
     }
 
 
@@ -370,6 +377,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
         try {
+            AtpInfo existingAtp = atpService.getAtp(holidayCalendarId,contextInfo);
+            if (!StringUtils.equals(existingAtp.getStateKey(),holidayCalendarInfo.getStateKey())){
+                throw new OperationFailedException("It's not possible to update the state with this call. Please use changeHolidayCalendarState() instead");
+            }
+
             AtpInfo toUpdate = holidayCalendarAssembler.disassemble(holidayCalendarInfo, contextInfo);
             AtpInfo updated = atpService.updateAtp(holidayCalendarId, toUpdate, contextInfo);
             return holidayCalendarAssembler.assemble(updated, contextInfo);
@@ -384,8 +396,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     @Transactional(readOnly = false)
-    public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String s, @WebParam(name = "nextStateKey") String s1, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("changeHolidayCalendarState");
+    public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return processCalendarStateChange(holidayCalendarId,nextStateKey,contextInfo);
     }
 
     @Override
@@ -1219,6 +1231,43 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         return holidayInfos;
+    }
+
+    protected StatusInfo processCalendarStateChange(String academicCalendarId,String nextStateKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        AtpInfo atpInfo = getAtpService().getAtp(academicCalendarId,contextInfo);
+        String thisStateKey = atpInfo.getStateKey();
+
+        if (StringUtils.isNotBlank(thisStateKey) && !StringUtils.equals(thisStateKey,nextStateKey)){
+
+            StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(academicCalendarId,nextStateKey,contextInfo);
+
+            if (statusInfo.getIsSuccess()){
+
+                atpInfo.setStateKey(nextStateKey);
+                try{
+                    getAtpService().updateAtp(atpInfo.getId(), atpInfo, contextInfo);
+                }catch(Exception e){
+                    throw new OperationFailedException("Failed to update State", e);
+                }
+
+                String propagationKey = thisStateKey + ":" + nextStateKey;
+                Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(academicCalendarId,propagationKey,contextInfo);
+
+                for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
+                    if (!statusInfo1.getIsSuccess()){
+                        throw new OperationFailedException(statusInfo1.getMessage());
+                    }
+                }
+
+                return new StatusInfo();
+            }else{
+                return statusInfo;
+            }
+        }
+
+        return new StatusInfo();
     }
 
     private boolean checkTypeForAcademicCalendar(String typeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -2132,5 +2181,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         return holidaysForAcal;
+    }
+
+    public StateTransitionsHelper getStateTransitionsHelper() {
+        return stateTransitionsHelper;
+    }
+
+    public void setStateTransitionsHelper(StateTransitionsHelper stateTransitionsHelper) {
+        this.stateTransitionsHelper = stateTransitionsHelper;
     }
 }
