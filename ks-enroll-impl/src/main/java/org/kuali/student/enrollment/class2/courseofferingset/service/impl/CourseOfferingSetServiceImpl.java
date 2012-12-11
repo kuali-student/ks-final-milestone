@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
@@ -48,6 +49,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -57,6 +59,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
@@ -69,6 +72,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     private SocRolloverResultItemDao socRorItemDao;
     private CourseOfferingSetServiceBusinessLogic businessLogic;
     private CriteriaLookupService criteriaLookupService;
+    private StateTransitionsHelper stateTransitionsHelper;
 
     public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -100,6 +104,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     public void setSocRorItemDao(SocRolloverResultItemDao socRorItemDao) {
         this.socRorItemDao = socRorItemDao;
+    }
+
+    public StateTransitionsHelper getStateTransitionsHelper() {
+        return stateTransitionsHelper;
+    }
+
+    public void setStateTransitionsHelper(StateTransitionsHelper stateTransitionsHelper) {
+        this.stateTransitionsHelper = stateTransitionsHelper;
     }
 
     ////
@@ -713,20 +725,38 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         if (entity == null) {
             throw new DoesNotExistException(socId);
         }
+        String thisStateKey = entity.getSocState();
 
-        // determine if the state key given is a SOC lifecycle state or a scheduling state
-        boolean isSchedulingState = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_SCHEDULING_STATES).contains(nextStateKey);
+        if(!StringUtils.isEmpty(nextStateKey) && !thisStateKey.equals(nextStateKey)){
+            //propagation
+            Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(socId, thisStateKey + ":" + nextStateKey, contextInfo);
+            for (StatusInfo statusInfo : spStatusMap.values()) {
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException(statusInfo.getMessage());
+                }
+            }
 
-        if(!isSchedulingState) {
-            entity.setSocState(nextStateKey);
+            StatusInfo scStatus = stateTransitionsHelper.processStateConstraints(socId, nextStateKey, contextInfo);
+            if(scStatus.getIsSuccess()) {
+                // determine if the state key given is a SOC lifecycle state or a scheduling state
+                boolean isSchedulingState = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_SCHEDULING_STATES).contains(nextStateKey);
+
+                if(!isSchedulingState) {
+                    entity.setSocState(nextStateKey);
+                }
+
+                // Log the state change
+                logStateChange(entity, nextStateKey, contextInfo);
+
+                entity.setEntityUpdated(contextInfo);
+                socDao.merge(entity);
+                socDao.getEm().flush(); // need to flush to get the version ind to update
+            }
+            else{
+                throw new OperationFailedException(scStatus.getMessage());
+            }
         }
 
-        // Log the state change
-        logStateChange(entity, nextStateKey, contextInfo);
-
-        entity.setEntityUpdated(contextInfo);
-        socDao.merge(entity);
-        socDao.getEm().flush(); // need to flush to get the version ind to update
         StatusInfo status = new StatusInfo ();
         status.setSuccess(Boolean.TRUE);
         return status;

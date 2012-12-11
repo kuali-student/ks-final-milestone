@@ -3149,7 +3149,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     }
                 }
             } else{
-                throw new OperationFailedException(scStatus.getMessage());
+                return scStatus;
             }
         }
         return new StatusInfo();

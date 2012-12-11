@@ -4,6 +4,7 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.AttributeTester;
@@ -30,6 +31,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Kuali Student Team
  */
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:soc-jpa-persistence-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)

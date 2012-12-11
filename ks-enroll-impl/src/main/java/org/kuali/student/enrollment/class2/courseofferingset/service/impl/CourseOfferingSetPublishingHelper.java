@@ -147,59 +147,6 @@ public class CourseOfferingSetPublishingHelper {
         private void doMpe() throws Exception {
             LOG.warn(String.format("Beginning Mass Publishing Event for SOC [%s].", socId));
             context.setCurrentDate(new Date());
-            /*
-             * Get all of the COs within the SOC. Query the AOs for each CO and do state changes.
-             */
-            List<String> coIds = socService.getCourseOfferingIdsBySoc(socId, context);
-            for (String coId : coIds) {
-                boolean hasAOStateChange = false;
-                List<ActivityOfferingInfo> activityOfferings = coService.getActivityOfferingsByCourseOffering(coId, context);
-                for (ActivityOfferingInfo ao : activityOfferings) {
-                    /*
-                     * All AOs with BOTH a state of Approved and a Scheduling state of Scheduled or Exempt will change to AO
-                     * state of Offered. The FO and CO for these AOs also changes state from Planned to Offered.
-                     */
-                    String aoState = ao.getStateKey();
-                    String aoSchedState = ao.getSchedulingStateKey();
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug(String.format("Inspecting CO [%s] AO [%s] in state %s and scheduling state [%s].", coId, ao.getId(), aoState, aoSchedState));
-                    }
-                    if (StringUtils.equals(aoState, aoApprovedKey) && ArrayUtils.contains(aoSchedStatesForOfferedKeys, aoSchedState)) {
-                        if (! hasAOStateChange) {
-                            hasAOStateChange = true;
-                        }
-                        StatusInfo statusInfo = coService.updateActivityOfferingState(ao.getId(), aoOfferedKey, context);
-                        if ( ! statusInfo.getIsSuccess()) {
-                            LOG.error(String.format("State change failed for AO [%s]: %s", ao.getId(), statusInfo.getMessage()));
-                        } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug(String.format("Updating AO [%s] state to [%s].", ao.getId(), aoState));
-                            }
-                        }
-                        //  Change the FO state to offered.
-                        statusInfo = coService.updateFormatOfferingState(ao.getFormatOfferingId(), foOfferedKey, context);
-                        if ( ! statusInfo.getIsSuccess()) {
-                            LOG.error(String.format("State change failed for FO [%s]: %s", ao.getFormatOfferingId(), statusInfo.getMessage()));
-                        }  else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug(String.format("Updating FO [%s] state to [%s].", ao.getFormatOfferingId(), foOfferedKey));
-                            }
-                        }
-                    } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug(String.format("CO [%s] AO [%s] doesn't need a state change.", coId, ao.getId()));
-                        }
-                    }
-                }
-
-                // If an AO changed state then state change the CO.
-                if (hasAOStateChange) {
-                    coService.updateCourseOfferingState(coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY, context);
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug(String.format("Updating CO [%s] state to [%s].", coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
-                    }
-                }
-            }
 
             //  Set SOC scheduling state to "published".
             LOG.warn(String.format("Updating SOC [%s] state to [%s].", socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY));

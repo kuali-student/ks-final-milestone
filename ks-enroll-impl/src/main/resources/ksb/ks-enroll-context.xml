@@ -462,6 +462,7 @@
         <property name="socRorItemDao" ref="socRolloverResultItemDao"/>
         <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
         <property name="businessLogic" ref="socBusinessLogic" />
+        <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
     </bean>
 
     <bean id="ks.exp.socService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -546,6 +547,7 @@
          <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
          <entry key="kuali.lui.registration.group" value-ref="rgStateHelperImpl"/>
          <entry key="kuali.soc" value-ref="socStateHelper"/>
+         <entry key="kuali.soc.scheduling" value-ref="socSchedStateHelper"/>
      </util:map>
 
      <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
@@ -568,6 +570,8 @@
     <bean id="rgStateHelperImpl" class="org.kuali.student.enrollment.class1.state.impl.RGStateHelperImpl" />
 
     <bean id="socStateHelper" class="org.kuali.student.enrollment.class1.state.impl.SOCStateHelperImpl" />
+
+    <bean id="socSchedStateHelper" class="org.kuali.student.enrollment.class1.state.impl.SOCSchedStateHelperImpl" />
 
     <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
 

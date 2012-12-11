@@ -15,6 +15,7 @@
 
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -51,7 +52,7 @@ import static org.junit.Assert.fail;
  * @author andrewlubbers
  *
  */
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:soc-businesslogic-with-fewer-mocks-test-context.xml"})
 public class TestCourseOfferingSetServiceBusinessLogicAsync extends TestCourseOfferingSetServiceBusinessLogicWithMocks {
