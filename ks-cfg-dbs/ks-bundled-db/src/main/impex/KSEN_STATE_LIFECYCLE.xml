@@ -116,6 +116,20 @@
         ID="kuali.process.process.lifecycle"
         NAME="kuali.process.process.lifecycle" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121215000000"
+        DESCR_FORMATTED="Lifecycle for building"
+        DESCR_PLAIN="Lifecycle for building"
+        ID="kuali.room.building.lifecycle" NAME="Lifecycle for building" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121215000000"
+        DESCR_FORMATTED="Lifecycle for facility"
+        DESCR_PLAIN="Lifecycle for facility"
+        ID="kuali.room.facility.lifecycle" NAME="Lifecycle for facility" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121215000000" DESCR_FORMATTED="Lifecycle for room"
+        DESCR_PLAIN="Lifecycle for room" ID="kuali.room.room.lifecycle"
+        NAME="Lifecycle for room" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20120813000000"
         DESCR_FORMATTED="kuali.scheduling.schedule.request.lifecycle state lifecycle"
         DESCR_PLAIN="kuali.scheduling.schedule.request.lifecycle state lifecycle"
