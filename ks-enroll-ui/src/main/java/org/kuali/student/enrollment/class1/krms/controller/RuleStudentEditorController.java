@@ -909,9 +909,13 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
             throws Exception {
 
         PropositionEditor proposition = this.getProposition(form);
-        if ((proposition != null) && (proposition.getProposition().getTypeId() != null)){
-            KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(proposition.getProposition().getTypeId());
-            proposition.getProposition().setDescription(type.getName());
+        if ((proposition != null) && (proposition.getTypeId() != null)){
+
+            KrmsTypeDefinition type = this.getKrmsTypeRepositoryService().getTypeById(proposition.getTypeId());
+            if (type != null){
+                proposition.setType(type.getName());
+                proposition.getProposition().setDescription(type.getName());
+            }
 
             setValueForProposition(proposition, "");
         }
@@ -942,10 +946,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
 
             //Set the value
             String defaultValue = viewHelper.getValueForType(propositionTypeId);
-            if ("?".equals(defaultValue)){
-                proposition.setShowCustomValue(true);
-            } else {
-                proposition.setShowCustomValue(false);
+            if (!"?".equals(defaultValue)){
                 setValueForProposition(proposition, defaultValue);
             }
 

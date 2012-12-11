@@ -2199,10 +2199,7 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
 
             //Set the value
             String defaultValue = viewHelper.getValueForType(propositionTypeId);
-            if ("?".equals(defaultValue)){
-                proposition.setShowCustomValue(true);
-            } else {
-                proposition.setShowCustomValue(false);
+            if (!"?".equals(defaultValue)){
                 setValueForProposition(proposition, defaultValue);
             }
 

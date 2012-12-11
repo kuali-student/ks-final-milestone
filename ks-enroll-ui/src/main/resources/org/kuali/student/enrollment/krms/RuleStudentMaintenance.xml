@@ -465,6 +465,7 @@
             <bean parent="PropositionBo-MaintenanceView-Custom-parentBean" p:cssClasses="editModeNode">
                 <property name="layoutManager.orientation" value="VERTICAL"/>
             </bean>
+
         </property>
     </bean>
 

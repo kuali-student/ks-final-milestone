@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
+import org.kuali.rice.krms.impl.repository.PropositionParameterBo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,8 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     private PropositionBo proposition;
     private String termSpecId;
-    private boolean showCustomValue;
     private String termParameter;
+    private String type;
     private List<TermParameter> termParameterList = new ArrayList<TermParameter>();
 
     public PropositionEditor() {
@@ -47,14 +48,6 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
 
     public void setTermSpecId(String componentId) {
         this.termSpecId = componentId;
-    }
-
-    public boolean isShowCustomValue() {
-        return showCustomValue;
-    }
-
-    public void setShowCustomValue(boolean showCustomValue) {
-        this.showCustomValue = showCustomValue;
     }
 
     public String getTermParameter() {
@@ -85,5 +78,23 @@ public class PropositionEditor extends PersistableBusinessObjectBase {
         return proposition.getCompoundOpCode();
     }
 
+    public List<PropositionParameterBo> getParameters(){
+        return proposition.getParameters();
+    }
 
+    public String getTypeId(){
+        return proposition.getTypeId();
+    }
+
+    public void setTypeId(String typeId){
+        proposition.setTypeId(typeId);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

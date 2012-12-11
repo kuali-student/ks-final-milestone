@@ -8,8 +8,6 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.impl.repository.ContextBo;
 import org.kuali.rice.krms.impl.repository.PropositionBo;
 import org.kuali.rice.krms.impl.repository.RuleBo;
-import org.kuali.rice.krms.impl.ui.RuleTreeNode;
-import org.kuali.rice.krms.impl.ui.SimplePropositionEditNode;
 
 import java.util.HashMap;
 import java.util.List;
@@ -255,8 +253,8 @@ public class RuleEditor extends PersistableBusinessObjectBase {
                 child.setNodeLabel(prop.getDescription());
                 if (prop.getEditMode()){
                     child.setNodeLabel("");
-                    child.setNodeType(SimplePropositionEditNode.NODE_TYPE);
-                    SimpleStudentPropositionNode pNode = new SimpleStudentPropositionNode(propositionEditor);
+                    child.setNodeType(SimpleStudentPropositionEditNode.NODE_TYPE);
+                    SimpleStudentPropositionEditNode pNode = new SimpleStudentPropositionEditNode(propositionEditor);
                     child.setData(pNode);
                 } else {
                     child.setNodeType(SimpleStudentPropositionNode.NODE_TYPE);
