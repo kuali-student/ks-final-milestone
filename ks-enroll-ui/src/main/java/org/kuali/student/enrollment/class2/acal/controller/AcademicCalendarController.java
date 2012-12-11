@@ -19,21 +19,26 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.*;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
@@ -553,7 +558,17 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeAcalOfficial")
     public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
-        return saveAcademicCalendar(acalForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
+        StatusInfo statusInfo = null;
+        try {
+            statusInfo = getAcalService().changeAcademicCalendarState(acalForm.getAcademicCalendarInfo().getId(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,viewHelperService.createContextInfo());
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
+        }
+        if (!statusInfo.getIsSuccess()){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
+        }
+        return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
     }
 
 
@@ -599,9 +614,6 @@ public class AcademicCalendarController extends UifControllerBase {
             if (StringUtils.isNotBlank(academicCalendarInfo.getId())) {
                 // 1. update acal and AC-HC relationships
                 academicCalendarInfo = processHolidayCalendars(academicCalendarForm);
-                if (isOfficial) {
-                    academicCalendarInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);
-                }
                 AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, viewHelperService.createContextInfo());
                 academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.createContextInfo()));
 
