@@ -348,6 +348,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
+    public StatusInfo changeTermState(@WebParam(name = "termId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeTermState");
+    }
+
+    @Override
     public StatusInfo deleteTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return (getNextDecorator().deleteTerm(termId, contextInfo));
@@ -477,6 +482,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
+    public StatusInfo changeKeyDateState(@WebParam(name = "keyDateId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeKeyDateState");
+    }
+
+    @Override
     public StatusInfo deleteKeyDate(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return (getNextDecorator().deleteKeyDate(keyDateId, contextInfo));
@@ -583,6 +593,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
+    public StatusInfo changeAcalEventState(@WebParam(name = "acalEventId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeAcalEventState");
+    }
+
+    @Override
     public StatusInfo deleteAcalEvent(String acalEventId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return (getNextDecorator().deleteAcalEvent(acalEventId, contextInfo));
@@ -686,6 +701,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     public HolidayInfo updateHoliday(String holidayId, HolidayInfo holidayInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return (getNextDecorator().updateHoliday(holidayId, holidayInfo, contextInfo));
+    }
+
+    @Override
+    public StatusInfo changeHolidayState(@WebParam(name = "holidayId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeHolidayState");
     }
 
     @Override

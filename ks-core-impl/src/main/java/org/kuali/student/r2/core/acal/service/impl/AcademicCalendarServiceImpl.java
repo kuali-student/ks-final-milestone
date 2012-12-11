@@ -654,6 +654,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return updatedTerm;
     }
 
+    @Override
+    public StatusInfo changeTermState(@WebParam(name = "termId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeTermState");
+    }
+
     private QueryByCriteria buildQueryByCriteriaForTerm(String type, String code){
         List<Predicate> predicates = new ArrayList<Predicate>();
 
@@ -1021,6 +1026,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    public StatusInfo changeKeyDateState(@WebParam(name = "keyDateId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeKeyDateState");
+    }
+
+    @Override
     @Transactional(readOnly = false)
     public StatusInfo deleteKeyDate(String keyDateId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -1066,6 +1076,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         } catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
         }
+    }
+
+    @Override
+    public StatusInfo changeHolidayState(@WebParam(name = "holidayId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeHolidayState");
     }
 
     @Override
@@ -1785,6 +1800,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new OperationFailedException("Error assembling AcalEvent", e);
         }
 
+    }
+
+    @Override
+    public StatusInfo changeAcalEventState(@WebParam(name = "acalEventId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeAcalEventState");
     }
 
     @Override
