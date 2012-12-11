@@ -619,8 +619,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     }
 
     @Override
+    public StatusInfo changeAcalEventState(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeAcalEventState");
+    }
+
+    @Override
     public HolidayInfo updateHoliday(String holidayId, HolidayInfo holidayInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public StatusInfo changeHolidayState(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeHolidayState");
     }
 
     @Override
@@ -639,8 +649,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     }
 
     @Override
+    public StatusInfo changeKeyDateState(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeKeyDateState");
+    }
+
+    @Override
     public TermInfo updateTerm(String termId, TermInfo termInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public StatusInfo changeTermState(@WebParam(name = "termId") String termId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("changeTermState");
     }
 
     @Override
