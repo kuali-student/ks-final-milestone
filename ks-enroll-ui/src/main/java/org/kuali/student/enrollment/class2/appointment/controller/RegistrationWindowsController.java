@@ -145,7 +145,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
         ///First save selected window
         AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Assign Students");
-        boolean isValid = getViewHelperService(uifForm).validateApptWidnow(window);
+        boolean isValid = getViewHelperService(uifForm).validateApptWidnow(window, false);
         if (isValid) {
             boolean isSaved = getViewHelperService(uifForm).saveApptWindow(window);
 

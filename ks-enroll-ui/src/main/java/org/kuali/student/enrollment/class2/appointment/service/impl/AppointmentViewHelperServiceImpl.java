@@ -178,23 +178,29 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     }
 
     public boolean validateApptWidnow(AppointmentWindowWrapper apptWindow) {
+        return validateApptWidnow(apptWindow, true);
+    }
+
+    public boolean validateApptWidnow(AppointmentWindowWrapper apptWindow, boolean validateForUniqueness) {
         boolean isValid = true;
         //  1) a window end date is not required for a One-Slot or Max Number Slot Allocation Method/Window Type
         //  2) a window end date is required for uniform
         String windowTypeKey = apptWindow.getWindowTypeKey();
 
         // Check to make sure the Window name is not duplicated with in the period
-        try {
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal("periodMilestoneId", apptWindow.getPeriodKey()),PredicateFactory.equal("name", apptWindow.getWindowName()) ));
-            QueryByCriteria criteria = qbcBuilder.build();
-            if( getAppointmentService().searchForAppointmentWindows(criteria, new ContextInfo()).size() > 0){
-                GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].appointmentWindowInfo.name",
-                        AppointmentConstants.APPOINTMENT_MSG_ERROR_DUPLICATE_WINDOW_FOR_PERIOD);
-                isValid = false;
+        if (validateForUniqueness) {
+            try {
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.and(PredicateFactory.equal("periodMilestoneId", apptWindow.getPeriodKey()), PredicateFactory.equal("name", apptWindow.getWindowName())));
+                QueryByCriteria criteria = qbcBuilder.build();
+                if (getAppointmentService().searchForAppointmentWindows(criteria, new ContextInfo()).size() > 0) {
+                    GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].appointmentWindowInfo.name",
+                            AppointmentConstants.APPOINTMENT_MSG_ERROR_DUPLICATE_WINDOW_FOR_PERIOD);
+                    isValid = false;
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to search appointment windows by criteria", e);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to search appointment windows by criteria", e);
         }
 
         if (AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY.equals(windowTypeKey)) {
