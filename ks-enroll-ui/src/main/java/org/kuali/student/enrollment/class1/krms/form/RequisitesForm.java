@@ -20,6 +20,8 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.krms.dto.RuleEditor;
 
+import java.util.List;
+
 /**
  * This class //TODO ...
  *
@@ -32,6 +34,8 @@ public class RequisitesForm extends UifFormBase {
     private String agendaType;
 
     private String ruleType;
+
+    private List<String> activeSelections;
 
     private RuleEditor ruleEditor;
 
@@ -85,6 +89,14 @@ public class RequisitesForm extends UifFormBase {
 
     public String getCutPropositionId() {
         return ruleEditor.getCutPropositionId();
+    }
+
+    public List<String> getActiveSelections() {
+        return activeSelections;
+    }
+
+    public void setActiveSelections(List<String> activeSelections) {
+        this.activeSelections = activeSelections;
     }
 
 }
