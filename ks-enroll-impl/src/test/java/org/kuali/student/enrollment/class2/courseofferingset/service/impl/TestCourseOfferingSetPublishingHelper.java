@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -29,6 +30,7 @@ import static org.junit.Assert.assertEquals;
 /**
  *  Test mass publishing event state change logic.
  */
+@Ignore
 public class TestCourseOfferingSetPublishingHelper {
 
     private static final ContextInfo context = new ContextInfo();
