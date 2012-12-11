@@ -30,7 +30,6 @@ import static org.junit.Assert.assertEquals;
 /**
  *  Test mass publishing event state change logic.
  */
-@Ignore
 public class TestCourseOfferingSetPublishingHelper {
 
     private static final ContextInfo context = new ContextInfo();
@@ -153,6 +152,8 @@ public class TestCourseOfferingSetPublishingHelper {
         CourseOfferingSetPublishingHelper socPub = new CourseOfferingSetPublishingHelper();
         socPub.setCoService(coServiceMock);
         socPub.setSocService(socServiceMock);
+        socServiceMock.setCoService(coServiceMock);
+
         List<String> options = new ArrayList<String>();
         options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
         socPub.startMassPublishingEvent(socId, options, context);

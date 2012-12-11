@@ -73,7 +73,62 @@
         <property name="socRorDao" ref="socRolloverResultDao" />
         <property name="socRorItemDao" ref="socRolloverResultItemDao" />
         <property name="businessLogic" ref="socBusinessLogic"/>
+        <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
     </bean>
+
+    <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
+        <property name="stateService" ref="stateService"/>
+        <property name="stateHelperMap" ref="stateHelperMap" />
+        <property name="relatedObjectHelperMap" ref="relatedObjectHelperMap"/>
+    </bean>
+
+    <util:map id="stateHelperMap" map-class="java.util.HashMap">
+         <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+         <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
+         <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
+         <entry key="kuali.lui.registration.group" value-ref="rgStateHelperImpl"/>
+         <entry key="kuali.soc" value-ref="socStateHelper"/>
+         <entry key="kuali.soc.scheduling" value-ref="socSchedStateHelper"/>
+     </util:map>
+
+     <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
+         <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
+         <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
+         <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
+         <entry key="kuali.lui.format.offering:kuali.lui.activity.offering" value-ref="foToAoRelatedObjHelper"/>
+         <entry key="kuali.lui.activity.offering:kuali.lui.registration.group" value-ref="aoToRgRelatedObjHelper"/>
+         <entry key="kuali.lui.registration.group:kuali.lui.activity.offering" value-ref="rgToAoRelatedObjHelper"/>
+         <entry key="kuali.lui.activity.offering:kuali.lui.activity.offering.scheduling" value-ref="aoToAoSchedRelatedObjHelper"/>
+         <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
+     </util:map>
+
+    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
+
+    <bean id="foStateHelper" class="org.kuali.student.enrollment.class1.state.impl.FOStateHelperImpl"/>
+
+    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" />
+
+    <bean id="rgStateHelperImpl" class="org.kuali.student.enrollment.class1.state.impl.RGStateHelperImpl" />
+
+    <bean id="socStateHelper" class="org.kuali.student.enrollment.class1.state.impl.SOCStateHelperImpl" />
+
+    <bean id="socSchedStateHelper" class="org.kuali.student.enrollment.class1.state.impl.SOCSchedStateHelperImpl" />
+
+    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
+
+    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl"/>
+
+    <bean id="coToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoFOImpl"/>
+
+    <bean id="foToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoAOImpl"/>
+
+    <bean id="aoToRgRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoRGImpl"/>
+
+    <bean id="rgToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperRGtoAOImpl"/>
+
+    <bean id="aoToAoSchedRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoAOSchedImpl"/>
+
+    <bean id="socToAORelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperSOCtoAOImpl"/>
 
     <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />
@@ -139,38 +194,6 @@
         <property name="schedulingService" ref="schedulingService"/>
         <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
     </bean>
-    <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
-        <property name="stateService" ref="stateService"/>
-        <property name="stateHelperMap" ref="stateHelperMap" />
-        <property name="relatedObjectHelperMap" ref="relatedObjectHelperMap"/>
-    </bean>
-
-    <util:map id="stateHelperMap" map-class="java.util.HashMap">
-        <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
-        <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
-        <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
-    </util:map>
-
-    <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
-        <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
-        <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
-        <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
-        <entry key="kuali.lui.format.offering:kuali.lui.activity.offering" value-ref="foToAoRelatedObjHelper"/>
-    </util:map>
-
-    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
-
-    <bean id="foStateHelper" class="org.kuali.student.enrollment.class1.state.impl.FOStateHelperImpl"/>
-
-    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" />
-
-    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
-
-    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl"/>
-
-    <bean id="coToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoFOImpl"/>
-
-    <bean id="foToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoAOImpl"/>
 
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
