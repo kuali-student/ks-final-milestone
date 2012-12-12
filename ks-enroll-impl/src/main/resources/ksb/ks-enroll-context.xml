@@ -1148,7 +1148,7 @@
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
         <property name="atpService" ref="atpEnrService"/>
         <property name="typeService" ref="typeService"/>
-        <property name="roomService" ref="roomServiceImpl"/>
+        <property name="roomService" ref="RoomService"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
@@ -1174,6 +1174,13 @@
     </bean>
 
     <!-- The REAL RoomServiceImpl -->
+    <alias name="roomServiceCache" alias="RoomService"/>
+
+    <bean id="roomServiceCache" class="org.kuali.student.r2.core.room.service.decorators.RoomServiceCacheDecorator">
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="nextDecorator" ref="roomServiceImpl"/>
+    </bean>
+
     <bean id="roomServiceImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceImpl">
         <property name="buildingServiceDao" ref="buildingServiceDao" />
         <property name="roomServiceDao" ref="roomServiceDao" />
@@ -1184,7 +1191,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="roomServiceImpl" />
+                <property name="service" ref="RoomService" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.room.service.RoomService" />
                 <property name="localServiceName" value="RoomService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/room" />
