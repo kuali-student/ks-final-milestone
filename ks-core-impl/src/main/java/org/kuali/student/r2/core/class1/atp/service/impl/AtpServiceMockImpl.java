@@ -235,15 +235,18 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     }
 
     @Override
+    public List<AtpInfo> getATPsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getATPsForMilestone");
+    }
+
+    @Override
     public List<MilestoneInfo> getMilestonesByDatesForAtp(String atpId, Date startDate, Date endDate,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; // To change body of implemented methods use File |
-        // Settings | File Templates.
+        throw new UnsupportedOperationException("getMilestonesByDatesForAtp");
     }
 
     @Override
     public List<MilestoneInfo> getMilestonesByTypeForAtp(String atpId,String milestoneTypeKey,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; // To change body of implemented methods use File |
-        // Settings | File Templates.
+        throw new UnsupportedOperationException("getMilestonesByTypeForAtp");
     }
 
     @Override
