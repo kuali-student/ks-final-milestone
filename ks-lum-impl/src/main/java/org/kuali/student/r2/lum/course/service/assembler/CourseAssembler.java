@@ -705,11 +705,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         float increment = (null != creditValueIncr && creditValueIncr.length() > 0 ) ? Float.parseFloat(creditValueIncr) : defaultCreditIncrement ;
 
                         id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + String.valueOf(minCredits) + "-" + String.valueOf(maxCredits);
-                        //Add in the increment to the key (logic is duplicated in LRC service)
-                        if (creditValueIncr!=null && !"1".equals(creditValueIncr) && !"1.0".equals(creditValueIncr)) {
-                            id += (" by " + creditValueIncr);
-                        }
-
                         type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
                         resultValues = new ArrayList<String>();
                         for(float i = minCredits; i <= maxCredits; i+=increment){
