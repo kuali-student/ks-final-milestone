@@ -38,7 +38,7 @@
     </bean>-->
 
     <bean id="KS-ActivityOfferingWrapper-InquiryView" parent="KSInquiryView"
-          p:headerText="ActivityOffering Inquiry"
+          p:headerText="Activity Offering Inquiry"
           p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingWrapperInquirableImpl">
         <property name="additionalCssFiles">
@@ -57,13 +57,13 @@
         <property name="Items">
             <list>
                 <bean parent="Uif-HeaderFour" p:headerText="@{dataObject.courseOfferingCode} - @{dataObject.courseOfferingTitle} (@{dataObject.credits} Credits)"/>
-                <bean parent="Uif-HeaderThree" p:headerText="Edit @{dataObject.activityCode} (@{dataObject.abbreviatedCourseType})"/>
+                <bean parent="Uif-HeaderThree" p:headerText="Activity Offering: @{dataObject.activityCode} (@{dataObject.abbreviatedCourseType})"/>
                 <ref bean="ActivityOfferingEdit-MainPage-section1"/>
                 <ref bean="ActivityOfferingEdit-MainPage-section2"/>
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Actuals"/>
                 <ref bean="ActivityOfferingEdit-MainPage-PersonnelSection"/>
                 <ref bean="ActivityOfferingEdit-MainPage-SeatPool"/>
-                <ref bean="ActivityOfferingEdit-MainPage-Miscellaneous"/>
+                <ref bean="ActivityOfferingEdit-Inquiry-MainPage-Miscellaneous"/>
             </list>
         </property>
     </bean>
@@ -119,4 +119,56 @@
             </list>
         </property>
     </bean>
+
+    <bean id="ActivityOfferingEdit-Inquiry-MainPage-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop"
+                      p:propertyName="aoInfo.activityOfferingURL"
+                      p:label="Course URL">
+                    <property name="control">
+                        <bean parent="Uif-TextControl"
+                              p:size="30"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalFieldGroup"
+                      p:label="Evaluation"
+                      p:fieldLabel.renderColon="false"
+                      p:style="margin-bottom:0">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelRight"
+                                  p:propertyName="aoInfo.isEvaluated"
+                                  p:label="This lecture requires an evaluation: "
+                                  p:fieldLabel.cssClasses="label-normal"
+                                  p:required="false" p:labelPlacement="LEFT">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalFieldGroup"
+                      p:label="Honors Flag"
+                      p:fieldLabel.renderColon="false"
+                      p:style="margin-bottom:0">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelRight"
+                                  p:propertyName="aoInfo.isHonorsOffering"
+                                  p:label="This is an honors course: "
+                                  p:fieldLabel.cssClasses="label-normal"
+                                  p:required="false" p:labelPlacement="LEFT">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>
