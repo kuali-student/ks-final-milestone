@@ -102,7 +102,8 @@ public class StatePropagationTestController extends UifControllerBase {
     @ResponseBody
     public String showAOStates(@PathVariable("termCode") String termCode, @PathVariable("coCode") String coCode, @PathVariable("aoCode") String aoCode, @ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                       HttpServletRequest request, HttpServletResponse response) throws IOException {
-        StringBuilder layoutString = new StringBuilder();
+
+        StringBuilder stringBuilder = new StringBuilder();
         List<TermInfo> termList;
 
         try{
@@ -114,20 +115,18 @@ public class StatePropagationTestController extends UifControllerBase {
 
         if (termList != null && !termList.isEmpty()){
             if( termList.size() == 1) {
-                loadSocByTerm(layoutString, termList.get(0).getId());
+                loadSocByTerm(stringBuilder, termList.get(0).getId());
 
                 CourseOfferingInfo courseOffering;
                 try{
                     //load courseoffing based on term and coCode
                     courseOffering = loadCourseOfferingByTermAndCoCode(termList.get(0).getId(), coCode);
-                    layoutString.append("<b>CourseOffering</b> " + coCode + " " + getStateName(courseOffering.getStateKey()));
-                    layoutString.append("</br>");
+                    appendHtmlSpanForState(stringBuilder, "course_offering", coCode + " " + getStateName(courseOffering.getStateKey()));
 
                     //load activityOffering based on aoCode
                     ActivityOfferingInfo activityOffering = loadActivityOfferingByCOAndAoCode(courseOffering.getId(), aoCode);
                     if(activityOffering != null){
-                        layoutString.append("<b>ActivityOffering</b> " + aoCode + " " + getStateName(activityOffering.getStateKey()));
-                        layoutString.append("</br>");
+                        appendHtmlSpanForState(stringBuilder, "activity_offering", aoCode + " " + getStateName(activityOffering.getStateKey()));
                     }else {
                         return "The ActivityOffering with code " + aoCode + " not found in " + termCode + "/" + coCode;
                     }
@@ -135,19 +134,20 @@ public class StatePropagationTestController extends UifControllerBase {
                     //load formatOffering
                     FormatOfferingInfo formatOffering = getCourseOfferingService().getFormatOffering(activityOffering.getFormatOfferingId(), getContextInfo());
                     if(formatOffering != null){
-                        layoutString.append("<b>FormatOffering</b> " + getStateName(formatOffering.getStateKey()));
-                        layoutString.append("</br>");
+                        appendHtmlSpanForState(stringBuilder, "format_offering", getStateName(formatOffering.getStateKey()));
                     }else {
-                        layoutString.append("The FormatOffering not found for " + coCode + "/" + aoCode);
-                        layoutString.append("</br>");
+                        stringBuilder.append( "The FormatOffering not found for " )
+                                        .append(coCode)
+                                        .append( "/" )
+                                        .append( aoCode );
+                        stringBuilder.append( "</br>" );
                     }
 
                     //ao scheduling state
-                    layoutString.append("<b>AO Scheduling</b> " + getStateName(activityOffering.getSchedulingStateKey()));
-                    layoutString.append("</br>");
+                    appendHtmlSpanForState(stringBuilder, "ao_scheduling", getStateName(activityOffering.getSchedulingStateKey()));
 
-                    loadRegGroup(layoutString, activityOffering.getId());
-                    loadSeatPool(layoutString, activityOffering.getId());
+                    loadRegGroup(stringBuilder, activityOffering.getId());
+                    loadSeatPool(stringBuilder, activityOffering.getId());
 
                  } catch (Exception e) {
                     LOG.error("Error calling loadCourseOfferingByTermAndCoCode - " + termCode + "/" + coCode);
@@ -165,7 +165,7 @@ public class StatePropagationTestController extends UifControllerBase {
 
         response.setHeader("content-type", "text/html");
 
-        return layoutString.toString();
+        return stringBuilder.toString();
     }
 
     private List<TermInfo> findTermByTermCode(String termCode) throws Exception {
@@ -179,7 +179,7 @@ public class StatePropagationTestController extends UifControllerBase {
     }
 
     private CourseOfferingInfo loadCourseOfferingByTermAndCoCode(String termId, String coCode) throws Exception {
-        CourseOfferingInfo courseOffering = null;
+        CourseOfferingInfo courseOffering;
 
         // Building a query
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -223,14 +223,14 @@ public class StatePropagationTestController extends UifControllerBase {
         return state.getName();
     }
 
-    private void loadSeatPool(StringBuilder layoutBuilder, String aoId) throws Exception{
-        List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList = null;
+    private void loadSeatPool(StringBuilder stringBuilder, String aoId) throws Exception{
+        List<SeatPoolDefinitionInfo> seatPoolDefinitionInfoList;
         try {
             seatPoolDefinitionInfoList = getCourseOfferingService().getSeatPoolDefinitionsForActivityOffering(aoId, getContextInfo());
         } catch (Exception e) {
             LOG.error("Error calling getSeatPoolDefinitionsForActivityOffering - " + aoId);
-            layoutBuilder.append("Error calling Seat Pool ");
-            layoutBuilder.append("</br>");
+            stringBuilder.append("Error calling Seat Pool");
+            stringBuilder.append("</br>");
             return;
         }
 
@@ -242,27 +242,29 @@ public class StatePropagationTestController extends UifControllerBase {
             }
         });
 
-        layoutBuilder.append("<b>Seat Pool</b> ");
         if(seatPoolDefinitionInfoList.size() > 0) {
+            StringBuilder sb = null;
             for(SeatPoolDefinitionInfo spd : seatPoolDefinitionInfoList){
-                layoutBuilder.append(" Priority: " + spd.getProcessingPriority() + " State: " + spd.getStateKey());
-                layoutBuilder.append("</br>");
+                sb = appendHtmlSpanForState(sb, "seat_pool_priority_" + spd.getProcessingPriority(), spd.getStateKey());
             }
+            if( sb == null ) sb = new StringBuilder();
+            appendHtmlSpanForState(stringBuilder, "seat_pool", sb.toString());
         } else {
-            layoutBuilder.append("no data");
+            appendHtmlSpanForState(stringBuilder, "seat_pool", "no data");
         }
 
-        layoutBuilder.append("</br>");
     }
 
-    private SocInfo loadSocByTerm(StringBuilder layoutBuilder, String termId){
-        List<String> socIds = null;
+    private SocInfo loadSocByTerm(StringBuilder stringBuilder, String termId){
+        List<String> socIds;
         SocInfo soc = null;
         try {
             socIds = getCourseOfferingSetService().getSocIdsByTerm(termId, getContextInfo());
         } catch (Exception e) {
             LOG.error("Error calling getSocIdsByTerm - " + termId);
-            layoutBuilder.append("\n Error calling SOC: " + e.getMessage());
+            stringBuilder.append("\n" )
+                            .append( "Error calling SOC: " )
+                            .append( e.getMessage() );
             return null;
         }
 
@@ -270,20 +272,20 @@ public class StatePropagationTestController extends UifControllerBase {
             //For M5, it should have only one SOC
             if (socIds.size() > 1){
                 LOG.error("More than one SOC found for a term");
-                layoutBuilder.append("\n Error calling SOC: More than one SOC found for a term");
+                stringBuilder.append("\n Error calling SOC: More than one SOC found for a term");
                 return null;
             }
 
 
             try {
                 soc = getCourseOfferingSetService().getSoc(socIds.get(0), getContextInfo());
-                layoutBuilder.append("<b>SOC</b> " + getStateName(soc.getStateKey()));
-                layoutBuilder.append("</br>");
-                layoutBuilder.append("<b>SOC Scheduling</b> " + getStateName(soc.getSchedulingStateKey()));
-                layoutBuilder.append("</br>");
+                appendHtmlSpanForState(stringBuilder, "soc", getStateName(soc.getStateKey()));
+                appendHtmlSpanForState(stringBuilder, "soc_scheduling", getStateName(soc.getSchedulingStateKey()));
             } catch (Exception e) {
                 LOG.error("Error calling getSoc - " + socIds.get(0));
-                layoutBuilder.append("\n Error calling SOC: " + e.getMessage());
+                stringBuilder.append("\n")
+                                .append( "Error calling SOC: " )
+                                .append( e.getMessage() );
                 return null;
             }
         }
@@ -292,26 +294,49 @@ public class StatePropagationTestController extends UifControllerBase {
 
     }
 
-    private void loadRegGroup(StringBuilder layoutBuilder, String aoId){
+    private static StringBuilder appendHtmlSpanForState(StringBuilder stringBuilder, String domId, String value) {
+
+        if( stringBuilder == null ) stringBuilder = new StringBuilder();
+
+        if( domId == null || value == null ) return stringBuilder;
+        domId = domId.trim();
+        value = value.trim();
+
+        stringBuilder.append( "<span" )
+                        .append( " id=" )
+                        .append( "\"")
+                        .append( domId.trim() )
+                        .append( "\"")
+                        .append( ">");
+        stringBuilder.append( value.trim() );
+        stringBuilder.append( "</span>" );
+        stringBuilder.append( "<br/>" );
+
+        return stringBuilder;
+    }
+
+    private void loadRegGroup(StringBuilder stringBuilder, String aoId){
         List<String> activityOfferingIds = new ArrayList<String>();
         activityOfferingIds.add(aoId);
 
         try {
             List<RegistrationGroupInfo>  registrationGroupInfos = getCourseOfferingService().getRegistrationGroupsWithActivityOfferings(activityOfferingIds, getContextInfo());
-            layoutBuilder.append("<b>RegistrationGroups</b> ");
             if(registrationGroupInfos.size()>0){
+                StringBuilder sb = null;
                 for(RegistrationGroupInfo rg : registrationGroupInfos){
-                    layoutBuilder.append(rg.getId() + " " + getStateName(rg.getStateKey()));
-                    layoutBuilder.append("</br>");
+                    sb = appendHtmlSpanForState(sb, rg.getId(), getStateName(rg.getStateKey()));
                 }
+                if( sb == null ) sb = new StringBuilder();
+                appendHtmlSpanForState(stringBuilder, "registration_groups", sb.toString());
             }else{
-                layoutBuilder.append("no data");
+                appendHtmlSpanForState(stringBuilder, "registration_groups", "no data");
             }
-            layoutBuilder.append("</br>");
         } catch (Exception e) {
             LOG.error("Error calling getRegistrationGroupsWithActivityOfferings - " + aoId);
-            layoutBuilder.append("Error calling SOC: " + e.getMessage());
-            layoutBuilder.append("</br>");
+            stringBuilder.append("Error calling SOC: " )
+                            .append(e.getMessage())
+                            .append("</br>");
         }
     }
+
 }
