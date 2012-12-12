@@ -328,7 +328,7 @@
         LNG_NAME="Special Problems in Physics" LVL="400"
         OBJ_ID="c3bb5a93-624d-43c4-a6ac-6216a50096ad"
         SHRT_NAME="SPEC PROB IN PHYSI" ST="Active" SUFX_CD="499"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="BSCI337" DIVISION="BSCI"
         ID="05f87f2b-510f-48cc-9bbe-1820c5f11fcf"
         LNG_NAME="Biology of Insects" LVL="300"
@@ -654,7 +654,7 @@
         LNG_NAME="Principles of Physics" LVL="100"
         OBJ_ID="bae22fca-b545-40a2-90ad-7a7e344c8728"
         SHRT_NAME="PRINCIPLES PHYSICS" ST="Active" SUFX_CD="142"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="ENGL679" DIVISION="ENGL"
         ID="0b1051b9-706f-4eda-a50b-c988f1f389c5"
         LNG_NAME="Professional and Career Mentoring for Master's Students"
@@ -707,7 +707,7 @@
         LNG_NAME="Light, Perception, Photography and Visual Phenomena Laboratory"
         LVL="100" OBJ_ID="b622404c-b3eb-49bd-94ee-cf056a3eec01"
         SHRT_NAME="VISUAL PHENOM LAB" ST="Active" SUFX_CD="107"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="7"/>
     <KSLU_CLU_IDENT CD="PHYSD" ID="0beed155-a620-43d0-8c1d-12737d89c671"
         OBJ_ID="9820ae73-fe85-4a0c-8d95-e1e77db2d90b"
         SHRT_NAME="Physics" ST="Active"
@@ -1373,7 +1373,7 @@
         LNG_NAME="Special Topics in Lesbian, Gay, and Bisexual Literatures"
         LVL="300" OBJ_ID="4704a495-cdce-459c-bc31-902b978b6c4c"
         SHRT_NAME="SP TPC:LSB/GAY/BISEX LIT" ST="Active" SUFX_CD="359"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT CD="ENGL471" DIVISION="ENGL"
         ID="17c0b96c-3971-4f98-8578-2a110d3bbac9"
         LNG_NAME="African-American Literature:  1910-1945" LVL="400"
@@ -1390,7 +1390,7 @@
         LNG_NAME="Experimental Physics III: Electromagnetic Waves, Optics and Modern Physics"
         LVL="300" OBJ_ID="9c1eecf8-d4d4-4bbc-b046-48648943d84f"
         SHRT_NAME="EXP PHYS III" ST="Active" SUFX_CD="375"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="HIST336" DIVISION="HIST"
         ID="185144af-dfe8-438d-a623-3e59b605c78e"
         LNG_NAME="Europe in the 19th Century, 1815-1919" LVL="300"
@@ -1526,7 +1526,7 @@
         LNG_NAME="Immunology Laboratory" LVL="400"
         OBJ_ID="2207a11f-2687-483d-9f5e-1502340a68cc"
         SHRT_NAME="IMMUNOLOGY LABORATORY" ST="Active" SUFX_CD="423"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="ARCPM" ID="1d3e70c1-b5ac-4f98-96d1-4ed0afc5b3b4"
         OBJ_ID="b68baf96-5a17-4375-a5b6-395c819b272d"
         SHRT_NAME="Architecture and Community Planning (Master's)"
@@ -2271,7 +2271,7 @@
         LNG_NAME="General Physics: Electrodynamics, Light, Relativity and Modern Physics (Laboratory)"
         LVL="200" OBJ_ID="8d3f2ca0-a502-41c5-85e8-bb3e8eaf3b33"
         SHRT_NAME="E&amp;M LIGHT MOD PHYS LAB" ST="Active" SUFX_CD="271"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="HIST122" DIVISION="HIST"
         ID="2b67d461-135e-4047-b182-2eb0a58258d0"
         LNG_NAME="African Civilization to 1800" LVL="100"
@@ -3052,7 +3052,7 @@
         LNG_NAME="Research Group Rotation in Quantum Optical Information"
         LVL="700" OBJ_ID="e9f3bd36-4490-4f62-870c-1e677ba44380"
         SHRT_NAME="RSRCH GRP ROTATION QOI" ST="Active" SUFX_CD="726"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="CHEM102" DIVISION="CHEM"
         ID="3967de1c-7946-4071-8eda-823a43e26114"
         LNG_NAME="Chemistry of Man's Environment" LVL="100"
@@ -3118,7 +3118,7 @@
         LNG_NAME="Special Topics in History" LVL="300"
         OBJ_ID="89201df7-6083-4adb-ad46-b4c683036c63"
         SHRT_NAME="SP TPCS IN HISTORY" ST="Active" SUFX_CD="329"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="MFAPM" ID="3a784824-9c06-45df-bb0d-3ca0f4fdc769"
         LNG_NAME="Master of Fine Arts in Performance (Master's)"
         OBJ_ID="d0d33d80-8dd4-41df-93c2-b5b392ef6130"
@@ -3850,7 +3850,7 @@
         LNG_NAME="East Asian Civilization II" LVL="200"
         OBJ_ID="f4d1579c-90d6-4a82-898d-192834e9016f"
         SHRT_NAME="EAST ASIAN CIVL II" ST="Active" SUFX_CD="285"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="2299I" ID="48b6b8b4-cc2d-482d-a668-de28c8faaa01"
         LNG_NAME="Environmental Science &amp; Policy - Land Use"
         OBJ_ID="eab38304-6376-45c0-ae16-01d7f12868dd"
@@ -4595,7 +4595,7 @@
         LNG_NAME="Graduate Laboratory" LVL="600"
         OBJ_ID="3abcd6aa-adf2-4d54-8c22-629651609dea"
         SHRT_NAME="GRADUATE LAB" ST="Active" SUFX_CD="621"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="BMPOM" ID="563afc7b-f9b3-4fc5-b0e5-7e5766df74e7"
         LNG_NAME="Joint Business and Management/Public Policy (Master's)"
         OBJ_ID="45239342-2ba8-4520-b7b5-a23095cc5bb2"
@@ -4656,7 +4656,7 @@
         LNG_NAME="Power, Ritual, and Society in Western History"
         LVL="100" OBJ_ID="b61ebd0a-2cd0-4bdc-b48d-5fb5a046c53c"
         SHRT_NAME="POWER, RITUAL, SOCIETY" ST="Active" SUFX_CD="143"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="EDCPD" ID="5798c7dd-53b7-492f-83e0-e093a13a2a59"
         LNG_NAME="Counseling and Personnel Services (Doctoral)"
         OBJ_ID="1ade0cf0-1943-441d-8827-da53c9543a0b"
@@ -4684,7 +4684,7 @@
         LNG_NAME="Honors Colloquium II" LVL="300"
         OBJ_ID="968b19d8-ed30-4ade-bfcd-2de1f093299a"
         SHRT_NAME="HONORS COLLOQUIUM II" ST="Active" SUFX_CD="396"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="ENGL311" DIVISION="ENGL"
         ID="58138f30-7d44-49a2-85eb-2cd3d92d285f"
         LNG_NAME="Baroque and Augustan British Literature" LVL="300"
@@ -4927,7 +4927,7 @@
         LNG_NAME="Microbial Genetics" LVL="400"
         OBJ_ID="c4d61a15-23fb-4ea4-84c9-66fbbfd43a11"
         SHRT_NAME="MICROBIAL GENETICS" ST="Active" SUFX_CD="412"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="STATD" ID="5cbfdfb5-cbff-40d9-974e-542fef447f76"
         LNG_NAME="Mathematical Statistics (Doctoral)"
         OBJ_ID="3e004d2d-8a83-44cf-9e8c-f4963c3bfb2c"
@@ -4984,7 +4984,7 @@
         LNG_NAME="Experimental Physics II:  Electricity and Magnetism"
         LVL="200" OBJ_ID="1832ef04-097b-4fdd-b198-2100133f30eb"
         SHRT_NAME="LAB: ELEC&amp;MAGNETISM" ST="Active" SUFX_CD="276"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="LINGD" ID="5dd3cf1c-060f-4fd7-b41e-4a5902bf3368"
         OBJ_ID="b3af78b8-0926-4660-85b2-8da09abcddb1"
         SHRT_NAME="Linguistics" ST="Active"
@@ -5600,7 +5600,7 @@
         LNG_NAME="Sub-Saharan Africa Since 1800" LVL="100"
         OBJ_ID="0b6e9d7b-fc2f-4519-a38c-aa29c57f51e9"
         SHRT_NAME="SUB-SARHN AFR SINCE 1800" ST="Active" SUFX_CD="123"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="HIST492" DIVISION="HIST"
         ID="6985a9bc-6bab-48c5-a66d-76900b7efe03"
         LNG_NAME="Women and Society in the Middle East" LVL="400"
@@ -5767,7 +5767,7 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT ID="6d91cc90-d230-4020-9787-8414c30db695"
         OBJ_ID="622aa62e-6a36-4e4c-914f-d66dd8840f07" ST="Active"
-        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="ENCED" ID="6db21d30-1a60-45aa-8691-e8a9ee048bc4"
         OBJ_ID="31bbde16-1cd1-4e3d-ba2a-9a7c6c25811d"
         SHRT_NAME="Civil Engineering" ST="Active"
@@ -5781,7 +5781,7 @@
         LNG_NAME="Special Topics in Literature" LVL="200"
         OBJ_ID="eddfbada-af10-49a9-95b2-86e0e45d4058"
         SHRT_NAME="SPEC TOPIC IN LIT" ST="Active" SUFX_CD="278"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="HIST639" DIVISION="HIST"
         ID="6e460203-f033-436b-98c8-d65c6dba14f1"
         LNG_NAME="Readings in Reconstruction and the New Nation"
@@ -6274,7 +6274,7 @@
         LNG_NAME="Love, Labor, and Citizenship: Women in America to 1880"
         LVL="200" OBJ_ID="627efb97-5726-43e7-bfc7-eda981520be2"
         SHRT_NAME="LOVE LABOR CTZNSHP I" ST="Active" SUFX_CD="210"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="ENGL101" DIVISION="ENGL"
         ID="778f2ff8-a17a-482a-b13b-257172a17ace"
         LNG_NAME="Academic Writing" LVL="100"
@@ -6309,7 +6309,7 @@
         LNG_NAME="Special Topics in Atomic and Molecular Physics"
         LVL="800" OBJ_ID="58c3652a-c97a-4ae2-a320-d86dff7f85ef"
         SHRT_NAME="SP TOP ATOM+MOLEC" ST="Active" SUFX_CD="828"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="MPECM" ID="785fffc8-dc59-458d-afbe-1f6969c1f92e"
         LNG_NAME="M.Prof.Studies: Applied Economics"
         OBJ_ID="20ae3dd1-a989-40bc-ab3d-a1f809d83217"
@@ -6999,7 +6999,7 @@
         LNG_NAME="Latin America Since Independence" LVL="200"
         OBJ_ID="282bfd74-004c-4e27-9e6a-3c014944fe81"
         SHRT_NAME="LTN AMER SINCE INDPNDNC" ST="Active" SUFX_CD="251"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="ARCPM" ID="851f4b40-4e60-450e-88a3-077bb5a94298"
         LNG_NAME="Architecture and Community Planning (Master's)"
         OBJ_ID="ed8f0e9f-a3b6-48df-a0c0-a2597d8ac764"
@@ -7128,7 +7128,7 @@
         LNG_NAME="Selected Topics in Film Studies" LVL="400"
         OBJ_ID="496fe4f8-1bbd-4054-99b3-176c95802436"
         SHRT_NAME="SEL TPCS IN FILM STUDIES" ST="Active" SUFX_CD="468"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="ENGL809" DIVISION="ENGL"
         ID="87644509-85c3-4df2-ae6f-830cca2b5ae3"
         LNG_NAME="Publications Workshop" LVL="800"
@@ -7732,7 +7732,7 @@
         LNG_NAME="History of the Jewish People II" LVL="200"
         OBJ_ID="14e5f2c3-95bd-497e-ad9d-c1ca4788c027"
         SHRT_NAME="JEWISH PEOPLE II" ST="Active" SUFX_CD="283"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="8"/>
     <KSLU_CLU_IDENT CD="22070" ID="94b750e2-5a47-4d68-9c9f-2c0cee4fe633"
         OBJ_ID="9c25d5b1-3794-4520-b3c6-05e33d22a9d4"
         SHRT_NAME="Government and Politics" ST="Active"
@@ -7862,7 +7862,7 @@
         LNG_NAME="Supplemental Study" LVL="200"
         OBJ_ID="04517130-2b12-4cf1-9c1f-a2283ba3dbf4"
         SHRT_NAME="SUPPLEMENTAL STUDY" ST="Active" SUFX_CD="279"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="8"/>
     <KSLU_CLU_IDENT CD="PHYS273" DIVISION="PHYS"
         ID="9752f865-9f7f-41b1-8e0a-3a0017ed5007"
         LNG_NAME="Introductory Physics:  Electrodynamics and Relativity"
@@ -8027,7 +8027,7 @@
         LNG_NAME="Women in America Since 1880" LVL="200"
         OBJ_ID="6ef89faf-23bd-4a46-8309-9a0fa72b7272"
         SHRT_NAME="WM IN AMER SINCE 1880" ST="Active" SUFX_CD="211"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="HIST113" DIVISION="HIST"
         ID="9aeebe37-7f6b-47ee-97be-18baa2b4df42"
         LNG_NAME="The Making of Modern Europe" LVL="100"
@@ -8165,7 +8165,7 @@
         LNG_NAME="Civil Discourse or Urban Riot Why Cities Don't (Often) Explode"
         LVL="100" OBJ_ID="70dcebd5-553b-48aa-a6ad-319621b86781"
         SHRT_NAME="CIVIL DISCOURSE" ST="Active" SUFX_CD="135"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="11"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="13"/>
     <KSLU_CLU_IDENT CD="HIST415" DIVISION="HIST"
         ID="9cd3418c-95f6-4754-a3ee-9886dc477026"
         LNG_NAME="History of European Ideas II" LVL="400"
@@ -8330,7 +8330,7 @@
         LNG_NAME="Organic Chemistry Laboratory I" LVL="200"
         OBJ_ID="c6a56bf3-9cc2-4ce1-8044-6a8c714d13ec"
         SHRT_NAME="ORGANIC CHEM LAB I" ST="Active" SUFX_CD="232"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="ENGL452" DIVISION="ENGL"
         ID="a025f6d7-e43d-4ead-ba19-aee07e58799e"
         LNG_NAME="English Drama From 1660 to 1800" LVL="400"
@@ -8461,7 +8461,7 @@
         LNG_NAME="Mammalian Histology" LVL="400"
         OBJ_ID="c13d5112-b6c5-4748-ac69-13fe27318cb6"
         SHRT_NAME="MAMMALIAN HISTOLOGY" ST="Active" SUFX_CD="434"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="7"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="8"/>
     <KSLU_CLU_IDENT CD="HIST307" DIVISION="HIST"
         ID="a1cbdff6-edf0-44c9-8719-7682960a7dfb"
         LNG_NAME="The Holocaust of European Jewry" LVL="300"
@@ -8995,7 +8995,7 @@
         LNG_NAME="Modern Military History, 1815-Present" LVL="200"
         OBJ_ID="8f37bbde-403d-4bc0-a395-7a7c48a3b345"
         SHRT_NAME="MIL HIST 1815-PRST" ST="Active" SUFX_CD="225"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="ENCHM" ID="accba885-d308-4542-aca8-e5723760025f"
         LNG_NAME="ENGR: MS/PhD-Chemical Engineering (Master's)"
         OBJ_ID="10b8fe4e-5528-4d26-8c7f-90e9298d5091"
@@ -9022,7 +9022,7 @@
         LNG_NAME="Jews and Judaism: Selected Historical Topics"
         LVL="400" OBJ_ID="d9e76ff9-fd05-4df3-8f48-21ef1da266ed"
         SHRT_NAME="JEW + JUD HIST TOP" ST="Active" SUFX_CD="418"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="PHYS758" DIVISION="PHYS"
         ID="ad38e522-4d93-4d36-bbbc-c973fb49dc28"
         LNG_NAME="Seminar in Elementary Particles and Quantum Field Theory"
@@ -9281,7 +9281,7 @@
         LNG_NAME="Contemporary Physics - Revolutions in Physics"
         LVL="100" OBJ_ID="2580ff46-434f-441d-bec2-615c60cde7db"
         SHRT_NAME="CONTEMP PHYSICS" ST="Active" SUFX_CD="101"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="1102B" ID="b2e2d87a-f22d-4247-abb4-9d3827c72765"
         OBJ_ID="b00cebd7-ede3-434e-95f5-3230b6a22e4e"
         SHRT_NAME="French Language &amp; Literature w/ Business"
@@ -9314,7 +9314,7 @@
         TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
     <KSLU_CLU_IDENT ID="b373d0be-8134-44df-bdb6-e3513da38b28"
         OBJ_ID="e98ee380-0b9e-481a-8897-d6fbe2276ae8" ST="Active"
-        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="HIST407" DIVISION="HIST"
         ID="b397d42a-ca10-43e3-afd0-57ca2c187643"
         LNG_NAME="Technology and Social Change in History" LVL="400"
@@ -9591,7 +9591,7 @@
         LNG_NAME="Environmental History" LVL="200"
         OBJ_ID="1fe8afca-3e23-426e-ac25-279e561a824d"
         SHRT_NAME="ENVIRONMENTAL HISTORY" ST="Active" SUFX_CD="205"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="1004S" ID="b8b1d704-a3ce-4fed-9c86-29c85aacf539"
         LNG_NAME="Music Performance-Strings"
         OBJ_ID="d5dd76ad-63d9-4200-8765-b44897be03bc"
@@ -9811,7 +9811,7 @@
         LNG_NAME="Inquiry into Physics" LVL="100"
         OBJ_ID="95859b36-0d99-490b-af79-4f947ab9c7bf"
         SHRT_NAME="INQUIRY INTO PHYSICS" ST="Active" SUFX_CD="115"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="HIST406" DIVISION="HIST"
         ID="bc53ec74-1b18-49b5-ae55-c65552828549"
         LNG_NAME="History of Technology" LVL="400"
@@ -10015,7 +10015,7 @@
         LNG_NAME="Special Topics in Biology" LVL="300"
         OBJ_ID="93f5f70a-adc3-4cf9-95e2-255858b05a96"
         SHRT_NAME="SPECIAL TOPICS BIOLOGY" ST="Active" SUFX_CD="338"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="8"/>
     <KSLU_CLU_IDENT CD="0601C" ID="c0eeae0d-d449-49af-9230-3755c3abbdc3"
         LNG_NAME="Journalism: Magazine"
         OBJ_ID="52b600c7-ea12-4aac-a340-55faa3908ac8"
@@ -10026,7 +10026,7 @@
         LNG_NAME="Principles of Organic Chemistry I" LVL="200"
         OBJ_ID="1872d73b-a7ba-41a9-b377-e69f836d5dba"
         SHRT_NAME="PRIN ORGANIC CHEM I" ST="Active" SUFX_CD="237"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="GERSD" ID="c1125c25-b02e-4df6-8ba5-b6354b94e6ff"
         OBJ_ID="d7e60aee-31b7-4125-9d6e-cdba8e20384a"
         SHRT_NAME="German Language and Literature" ST="Active"
@@ -10121,7 +10121,7 @@
         LNG_NAME="The Holocaust of European Jewry" LVL="300"
         OBJ_ID="c514b569-26f1-43a7-a45a-06ae22c54ad0"
         SHRT_NAME="HOLOCAUST EUR JEW" ST="Active" SUFX_CD="307"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="HIST222" DIVISION="HIST"
         ID="c296334f-164e-456c-9e50-8adf65d3f2aa"
         LNG_NAME="Immigration and Ethnicity in America" LVL="200"
@@ -10177,7 +10177,7 @@
         LNG_NAME="Special Topics in Literature" LVL="300"
         OBJ_ID="7612b01d-b69c-412c-a1b7-f257e58e88f9"
         SHRT_NAME="SP TOPC LITERATURE" ST="Active" SUFX_CD="379"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="7"/>
     <KSLU_CLU_IDENT CD="SLFRM" ID="c40fdd03-4810-47e6-a395-ed9f88e1628c"
         OBJ_ID="9d66c4fc-16ed-4855-8899-06c50e7ceba8"
         SHRT_NAME="Second Language Acquisition &amp; Application: French (Master's)"
@@ -10378,7 +10378,7 @@
         LNG_NAME="Looking at America through a Global Lens" LVL="100"
         OBJ_ID="92c025bb-5e03-4b84-8e83-2cd4e4618830"
         SHRT_NAME="AMERICA THRU GLOBAL LENS" ST="Active" SUFX_CD="142"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
     <KSLU_CLU_IDENT CD="PMCHM" ID="c89f8ad5-1154-41fe-92e8-a9da95cf1b67"
         LNG_NAME="Master of Engineering-Chemical and Biomolecular (Master's)"
         OBJ_ID="b5bc156f-3c98-4ca0-8216-cd71e84c4142"
@@ -11330,7 +11330,7 @@
         LNG_NAME="Electronic Circuits" LVL="400"
         OBJ_ID="1ca13ef5-405e-4c17-952f-f1faf3ea377f"
         SHRT_NAME="ELECTRONIC CIRCUIT" ST="Active" SUFX_CD="485"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="0503A" ID="de2a90e3-c2f0-4ade-bec3-9b0836624e55"
         LNG_NAME="Accounting"
         OBJ_ID="6984a0a5-78a8-4df3-a188-f7ee5e47a429"
@@ -11612,7 +11612,7 @@
         LNG_NAME="The Medieval World" LVL="100"
         OBJ_ID="69249255-981a-4d4e-a1f2-c40ba36db9e6"
         SHRT_NAME="MEDIEVAL WORLD" ST="Active" SUFX_CD="111"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="ENGL212" DIVISION="ENGL"
         ID="e4a411a4-41a8-4f59-bae5-68aafe568917"
         LNG_NAME="English Literature: 1800 to the Present" LVL="200"
@@ -11665,7 +11665,7 @@
         LNG_NAME="Research Electronics" LVL="600"
         OBJ_ID="2017c566-7ca2-4988-a7ea-74f96f460d74"
         SHRT_NAME="RESEARCH ELECTRONICS" ST="Active" SUFX_CD="685"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="1"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
     <KSLU_CLU_IDENT CD="HIST206" DIVISION="HIST"
         ID="e5b720db-6e32-49da-bc39-3802e3562524"
         LNG_NAME="The Holocaust of European Jewry" LVL="200"
@@ -12113,7 +12113,7 @@
         ST="Active" TYPE="kuali.lu.type.program.identifier.diploma" VER_NBR="0"/>
     <KSLU_CLU_IDENT ID="eecb197c-0594-4545-b245-9974d5ab2855"
         OBJ_ID="530ca20a-35e8-4889-8495-c9b4057b3c7c" ST="Active"
-        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="PHILD" ID="ef03eed6-6ca9-4282-9d38-d1e2c62cf5b9"
         OBJ_ID="5bae7489-ca8a-428d-84e7-1ce7cc791f15"
         SHRT_NAME="Philosophy" ST="Active"
@@ -12677,7 +12677,7 @@
         TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="2"/>
     <KSLU_CLU_IDENT ID="fb265e4c-8533-47a8-b201-878b68ba71cc"
         OBJ_ID="c6e56a97-c248-4706-a97e-fafd5171313d" ST="Active"
-        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="2"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.crosslisting" VER_NBR="4"/>
     <KSLU_CLU_IDENT CD="BSCI493" DIVISION="BSCI"
         ID="fb573a30-3765-4edc-942a-b3e51fc93f15"
         LNG_NAME="Medicinal and Poisonous Plants" LVL="400"
@@ -12825,7 +12825,7 @@
         LNG_NAME="General Seminar" LVL="600"
         OBJ_ID="6f0c0108-4950-48ee-a0e2-d0182eca4b7d"
         SHRT_NAME="GENERAL SEMINAR" ST="Active" SUFX_CD="608"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="3"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="5"/>
     <KSLU_CLU_IDENT CD="CHEMD" ID="ff6015c1-2775-4b4a-be90-49bd901e190f"
         OBJ_ID="a48062af-1550-4be4-a3da-370fd4e268ab"
         SHRT_NAME="Chemistry" ST="Active"
@@ -12868,5 +12868,5 @@
         LNG_NAME="Love, Labor, and Citizenship: History of American Women  Since 1880"
         LVL="200" OBJ_ID="c36513e0-eb1b-441a-82c3-29ff3ec938fb"
         SHRT_NAME="LOVE LABOR CTZNSHP II" ST="Active" SUFX_CD="211"
-        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="4"/>
+        TYPE="kuali.lu.type.CreditCourse.identifier.official" VER_NBR="6"/>
 </dataset>

@@ -188,15 +188,6 @@
         RVG_STATE="kuali.result.values.group.state.approved"
         RVG_TYPE="kuali.result.values.group.type.multiple"
         UPDATEID="SYSTEMLOADER" UPDATETIME="20121024191007" VER_NBR="0"/>
-    <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113543"
-        EFF_DT="20121206113543"
-        ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"
-        NAME="Mulitple credits 1.0, 1.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5"
-        OBJ_ID="78d468a2-7677-4eb4-abb7-cba52b3d4684"
-        RESULT_SCALE_ID="kuali.result.scale.credit.degree"
-        RVG_STATE="kuali.result.values.group.state.approved"
-        RVG_TYPE="kuali.result.values.group.type.multiple"
-        UPDATEID="BATCH" UPDATETIME="20121206113543" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113855"
         EFF_DT="20121206113855"
         ID="kuali.creditType.credit.degree.1.0,1.5,2.0"
@@ -242,6 +233,15 @@
         RVG_STATE="kuali.result.values.group.state.approved"
         RVG_TYPE="kuali.result.values.group.type.multiple"
         UPDATEID="BATCH" UPDATETIME="20121206113748" VER_NBR="0"/>
+    <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206113543"
+        EFF_DT="20121206113543"
+        ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"
+        NAME="Mulitple credits 1.0, 1.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5"
+        OBJ_ID="78d468a2-7677-4eb4-abb7-cba52b3d4684"
+        RESULT_SCALE_ID="kuali.result.scale.credit.degree"
+        RVG_STATE="kuali.result.values.group.state.approved"
+        RVG_TYPE="kuali.result.values.group.type.multiple"
+        UPDATEID="BATCH" UPDATETIME="20121206113543" VER_NBR="0"/>
     <KSEN_LRC_RVG CREATEID="BATCH" CREATETIME="20121206110436"
         EFF_DT="20121206110441"
         ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"

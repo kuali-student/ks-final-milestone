@@ -22,8 +22,8 @@
         ID="00318c6f-513f-4327-9244-68b99adff6f5"
         OBJ_ID="38e02565-62e7-44ba-8241-3da222bc83ec"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="d9a834dd-d847-42b5-892d-12175afd760c" ST="Draft"
-        UPDATETIME="20120419154619" VER_NBR="4"/>
+        RT_DESCR_ID="6ec95255-c581-4c66-8090-9a73d13fd2d2" ST="Draft"
+        UPDATETIME="20120419154619" VER_NBR="7"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160004"
         ID="0040a75f-e506-4f11-a9f1-5f99d26645b1"
         OBJ_ID="dde2415d-4386-48df-92ea-d12f5634369e"
@@ -1167,8 +1167,8 @@
         ID="0ac65a93-44f2-4fcd-a876-0cca27fc44f3"
         OBJ_ID="feae5488-fae1-48d2-901b-e7b29d157942"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="98cba904-1b23-4da7-9725-67ca8fe5406b" ST="Active"
-        UPDATETIME="20120713040034" VER_NBR="3"/>
+        RT_DESCR_ID="68dcc3c6-3c62-4f82-8616-dd35560c608c" ST="Active"
+        UPDATETIME="20120713040034" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152338"
         ID="0acc1bca-c4fa-4b55-b647-a54bacffb416"
         OBJ_ID="923f8457-4dad-47f1-afae-5ffe75bcbe73"
@@ -1513,8 +1513,8 @@
         ID="0d0b68d5-29f9-4fef-b768-74e2866642ca"
         OBJ_ID="e0b21d9b-0061-4947-ad7d-f5751ffac4db"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="af76b980-97df-4e4c-b4ea-2ac738a7521d" ST="Active"
-        UPDATETIME="20120407041016" VER_NBR="4"/>
+        RT_DESCR_ID="c2637dc1-2df2-4483-8f27-c7c479bdbe80" ST="Active"
+        UPDATETIME="20120407041016" VER_NBR="6"/>
     <KSLU_RSLT_OPT CREATEID="REF_DATA_BATCH" CREATETIME="20121205144454"
         ID="0d11280d-0340-45d4-8549-ae2df26119c6"
         OBJ_ID="0c1cdc56-d1c6-4b94-a113-294fdf90514a"
@@ -1571,8 +1571,8 @@
         ID="0d83fd8c-7a3c-40c2-b524-41c79bdcc812"
         OBJ_ID="fb25c251-17b6-414e-a313-69dd60339051"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="e74c80ce-e962-46d0-840d-c230a282dcb3" ST="Draft"
-        UPDATETIME="20120308160255" VER_NBR="2"/>
+        RT_DESCR_ID="7a46cff8-f223-476d-8dc5-36e9b0b98571" ST="Draft"
+        UPDATETIME="20120308160255" VER_NBR="7"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142627"
         ID="0d96acd5-e3db-4671-9f8a-6466ea16d271"
         OBJ_ID="b0444fc1-64fb-4b0f-aca4-b2d04909578c"
@@ -1588,8 +1588,8 @@
         ID="0db689ff-3992-4dee-83df-bd490e69a29b"
         OBJ_ID="0bc68452-913b-4203-a09d-8815a9bd28be"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="c9eaf3b2-16d8-42c6-8f3b-f7da4adf59e2" ST="Draft"
-        UPDATEID="102150566" UPDATETIME="20120423151927" VER_NBR="3"/>
+        RT_DESCR_ID="6f3fa1d6-f8a2-4532-ac94-e4f83de14a04" ST="Draft"
+        UPDATEID="102150566" UPDATETIME="20120423151927" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165013"
         ID="0db80a74-330b-44ac-ae68-b0f6c2a2bf7b"
         OBJ_ID="46f9decb-a7b0-46a3-864c-311ccd1d2da2"
@@ -2085,8 +2085,8 @@
         ID="11a0b8f9-a463-4b19-a717-fc1a1b59cd94"
         OBJ_ID="e6438213-c47c-4a09-9082-706165befbca"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="1a4c53e4-06f8-408e-a816-45c88cb5b842" ST="Active"
-        UPDATEID="103101611" UPDATETIME="20120801173411" VER_NBR="3"/>
+        RT_DESCR_ID="90bf8894-33e9-43f6-aed4-5ca9d4d8cb91" ST="Active"
+        UPDATEID="103101611" UPDATETIME="20120801173411" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160116"
         ID="11a9839e-7077-4b6d-be61-38435a82ece4"
         OBJ_ID="014ba087-114f-468b-9b8a-af43721be99f"
@@ -2577,8 +2577,8 @@
         ID="153118bd-0f0c-4803-b5b7-212da1558cf9"
         OBJ_ID="574e07ea-d81e-4785-9024-1addc7c7dcfc"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="0f4d63a5-8815-4d45-b489-49eb97491bf3" ST="Draft"
-        UPDATEID="108572874" UPDATETIME="20120801213221" VER_NBR="4"/>
+        RT_DESCR_ID="6a51dd07-829e-4447-bbe0-f1e698e3a4c1" ST="Draft"
+        UPDATEID="108572874" UPDATETIME="20120801213221" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165232"
         ID="1546fef5-b06f-4df6-b046-660e1b8998cb"
         OBJ_ID="4d4fe646-2e8b-4107-9cd1-db0ccba100d6"
@@ -2618,8 +2618,8 @@
         ID="15b3d0ba-e0ff-48ba-87b3-7af19dc0c189"
         OBJ_ID="580078b9-dea3-479e-b9fb-88b4f513e0f5"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="e54f8f4c-29b2-4d2c-9334-4ba1b35cef9e" ST="Draft"
-        UPDATETIME="20120309094725" VER_NBR="3"/>
+        RT_DESCR_ID="2425b4f2-c8a0-4ecd-85f2-c512f8075b05" ST="Draft"
+        UPDATETIME="20120309094725" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165015"
         ID="15b4d451-9f2c-4940-a041-fd8da2de23f6"
         OBJ_ID="26be794c-df07-40f3-8743-ac23012ed524"
@@ -3680,12 +3680,6 @@
         OBJ_ID="c33a7a9e-ad33-486a-87e7-2ce0b0725f1f"
         RES_COMP_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"
         ST="Active" UPDATETIME="20121205144642" VER_NBR="0"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308152154"
-        ID="1eac7d0a-915e-41e6-87f4-01bfebd2d6ab"
-        OBJ_ID="b5742aaa-096a-4a67-b237-497ff48e58e2"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="d6593da1-49d6-4778-8719-fffc3c8cdb87" ST="Draft"
-        UPDATETIME="20120407040723" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165228"
         ID="1eb8708d-f627-4b9c-ae55-fc119f370c88"
         OBJ_ID="2f0fcc52-293f-4475-9c81-0b4dfe3a1860"
@@ -4435,8 +4429,8 @@
         ID="2454c9dd-0ccf-4b29-a50b-5f2776c3a893"
         OBJ_ID="a2007dff-20fe-4c9a-8b2a-b2c7ba631033"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="7ca6c6c1-3191-4703-a259-6bdf41ccb930" ST="Draft"
-        UPDATETIME="20120308165057" VER_NBR="2"/>
+        RT_DESCR_ID="62da3554-010d-44d8-87ec-189d71d0be56" ST="Draft"
+        UPDATETIME="20120308165057" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATEID="103101611" CREATETIME="20120509171709"
         ID="246ba588-ce2c-4cf0-a24d-92114cf65453"
         OBJ_ID="14e1ea23-8a42-4734-ae8a-2228ecc3ee88"
@@ -4725,8 +4719,8 @@
         ID="274043c1-2d5e-4c48-8317-b70a57d1ae9b"
         OBJ_ID="8b66b07c-0d86-42ec-a394-4e6d99a057dc"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="59ab00cf-a0e2-4edf-894e-764ac96ab894" ST="Draft"
-        UPDATEID="102150566" UPDATETIME="20120423151927" VER_NBR="3"/>
+        RT_DESCR_ID="ec6f53f7-0001-40d5-b2c6-341bf5d5f91c" ST="Draft"
+        UPDATEID="102150566" UPDATETIME="20120423151927" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142610"
         ID="2754d2f5-9bd1-4ab9-93ab-0d983c2f0c75"
         OBJ_ID="edc052a3-a4fd-4a10-b81b-66f54312b7a5"
@@ -4747,8 +4741,8 @@
         ID="276be873-b67e-4a8a-bf1f-26e843e11cb7"
         OBJ_ID="2c7ff245-136f-4541-8128-941058810110"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="c8234c62-c39a-4c7e-a5c1-62cba1445c20" ST="Active"
-        UPDATEID="103101611" UPDATETIME="20120801172334" VER_NBR="4"/>
+        RT_DESCR_ID="d54a02a3-f62e-4c9e-857d-88b21f8c9fab" ST="Active"
+        UPDATEID="103101611" UPDATETIME="20120801172334" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152431"
         ID="2774a6a2-b9c7-438c-86b1-0643cd89db58"
         OBJ_ID="97f4bf23-940e-4d5a-b5e7-2f67db11e843"
@@ -5337,8 +5331,8 @@
         ID="2c33e385-db2a-4ad0-b47f-82e71fb7c004"
         OBJ_ID="126fc667-5852-45dc-9ade-55f4ea0271a3"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="254fb480-c8fa-4797-a16e-20ad0179cb69" ST="Draft"
-        UPDATETIME="20120309094309" VER_NBR="3"/>
+        RT_DESCR_ID="98d4a1b4-54fb-4b5b-a994-297395b82011" ST="Draft"
+        UPDATETIME="20120309094309" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165007"
         ID="2c389439-44cb-4268-87e0-b8580675612d"
         OBJ_ID="b9355de6-c4ac-4e30-9f96-12a421546bae"
@@ -6014,8 +6008,8 @@
         ID="31327d62-59b1-4bd9-a4fa-2cc164727790"
         OBJ_ID="8b65eb91-d579-485a-a0df-50ee487679b8"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="78dd39ae-1f34-4278-b602-59b7d67a297a" ST="Active"
-        UPDATETIME="20120308165206" VER_NBR="1"/>
+        RT_DESCR_ID="2f747873-ab4c-4079-91cb-49625ef649b0" ST="Active"
+        UPDATETIME="20120308165206" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165124"
         ID="313287c8-b915-4063-bfcb-9d6fc14cd759"
         OBJ_ID="1a6f4ebd-fde8-4dc5-8e43-b9f1e8602788"
@@ -6615,7 +6609,7 @@
     <KSLU_RSLT_OPT CREATEID="REF_DATA_BATCH" CREATETIME="20121205144454"
         ID="36157ba6-a8a6-4c9a-9a7b-be0277431a49"
         OBJ_ID="4df40283-874f-4d8c-aa73-6c8488f0d374"
-        RES_COMP_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"
+        RES_COMP_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"
         ST="Active" UPDATETIME="20121205144842" VER_NBR="0"/>
     <KSLU_RSLT_OPT CREATETIME="20120308172359"
         ID="3617d749-7196-40a7-b249-28ebcf6691a8"
@@ -6932,8 +6926,8 @@
         ID="384038c4-86d7-4111-86be-1fdca7c997e1"
         OBJ_ID="f5dd5a87-f961-4e09-8cd0-aa16fb6a014a"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="818efa4a-ceb0-4553-9924-d7b78a818d40" ST="Draft"
-        UPDATETIME="20120308160647" VER_NBR="2"/>
+        RT_DESCR_ID="5765d0fe-0752-459b-8012-39c192bbaaab" ST="Draft"
+        UPDATETIME="20120308160647" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152313"
         ID="384bde5d-9814-4e80-aa2a-09f5838c2c46"
         OBJ_ID="28c5793c-4f45-4c18-8ee8-52bae0a51c92"
@@ -7196,8 +7190,8 @@
         ID="3aabd857-3f7b-4931-91db-970b5729a4bb"
         OBJ_ID="e191feaa-b923-4d97-b147-a90860002f45"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="55cd5863-cd7f-4df9-baf1-5a5858b581a6" ST="Draft"
-        UPDATETIME="20120308160306" VER_NBR="2"/>
+        RT_DESCR_ID="fa0f0f34-4eb3-4fe1-a282-1ce50b96dcc7" ST="Draft"
+        UPDATETIME="20120308160306" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160626"
         ID="3ae17d32-e065-4224-a89a-1bfdfaeaa078"
         OBJ_ID="0ea3b001-86b5-4eb4-a7b6-7faf603bea82"
@@ -7283,8 +7277,8 @@
         ID="3b741a52-9489-4b8b-aae2-b943c88fdcd3"
         OBJ_ID="cf8ba65e-fe64-4c3c-8548-9c0a55aeda88"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="7a963935-95cc-499a-b890-a09629b46bd2" ST="Draft"
-        UPDATEID="103101611" UPDATETIME="20120816161753" VER_NBR="6"/>
+        RT_DESCR_ID="af9562ae-524d-4fd1-b2a4-974ec63f333b" ST="Draft"
+        UPDATEID="103101611" UPDATETIME="20120816161753" VER_NBR="7"/>
     <KSLU_RSLT_OPT CREATETIME="20120308141835"
         ID="3b7f3c2d-3164-4907-a55d-9588dc3aa053"
         OBJ_ID="9e365304-caaf-4659-a666-5a8abbc272aa"
@@ -7499,8 +7493,8 @@
         ID="3d9116d4-4d6f-4f46-9611-a178fffc9132"
         OBJ_ID="775a67dc-92d2-4aaa-a972-c267a5b0e321"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="beb1ed45-86f3-4605-904a-7b34cb6df425" ST="Draft"
-        UPDATETIME="20120308164909" VER_NBR="2"/>
+        RT_DESCR_ID="c8de1404-d048-49de-9d1d-6a2a96871ab0" ST="Draft"
+        UPDATETIME="20120308164909" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308164915"
         ID="3d9206b0-d8ef-44c9-ad4b-22a56a430649"
         OBJ_ID="f3cd983d-3804-469c-b016-a0fdf2207c03"
@@ -7748,8 +7742,8 @@
         ID="3fdc0633-b916-4bf1-9b42-f1192f50489d"
         OBJ_ID="a4dcf613-8ca0-4ce6-a280-b94ec1d212a0"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="1c357ec4-f884-4f80-b18b-f687308372fc" ST="Draft"
-        UPDATETIME="20120308160306" VER_NBR="2"/>
+        RT_DESCR_ID="059728a6-161f-4ebf-bdeb-2d2ae5f8db3f" ST="Draft"
+        UPDATETIME="20120308160306" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308141929"
         ID="3ffb2c7a-032a-4c53-915e-af103b5967e8"
         OBJ_ID="6483c7b2-c62c-4162-a786-a70f8cafbb0d"
@@ -8025,8 +8019,8 @@
         ID="4232b035-2bf9-4bae-8041-bdfd57b582f8"
         OBJ_ID="58f58caf-d8fc-4c71-b351-b8abd9620f3a"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="42ce7ee7-a00f-40e2-8de6-101056a00677" ST="Active"
-        UPDATEID="102150566" UPDATETIME="20120423152317" VER_NBR="2"/>
+        RT_DESCR_ID="f7254cf8-d549-491c-bf2f-c79b0a98ea6d" ST="Active"
+        UPDATEID="102150566" UPDATETIME="20120423152317" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160318"
         ID="423be063-888f-4d95-8ef4-3a836e57cb56"
         OBJ_ID="0a0933cd-0f54-410c-87ea-14b949e5940d"
@@ -8081,12 +8075,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="518cbdee-a5ce-4d5b-9e54-b3ab22c26def" ST="Draft"
         UPDATETIME="20120308160236" VER_NBR="2"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160319"
-        ID="42df5a74-0aed-4f8e-80e2-ab1d69c8006e"
-        OBJ_ID="700e3f38-3751-4726-9e25-7890671e049b"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="44838512-91cf-4310-9d7f-818388be51ce" ST="Draft"
-        UPDATETIME="20120309094322" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152348"
         ID="430f45f7-c458-4a2f-9d81-aa438720bbbe"
         OBJ_ID="39b99b67-6e17-43b8-8f01-3201594c1084"
@@ -8174,26 +8162,14 @@
         ID="43ebb4fc-6954-4326-b694-a95ffc4c92bf"
         OBJ_ID="37c95ede-4246-49dd-b782-fd0e82ce0e31"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="efe90f44-1db4-4b86-adf6-b40cdb381813" ST="Active"
-        UPDATETIME="20120407041015" VER_NBR="4"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160117"
-        ID="43ed4173-704f-4dae-9ff8-42ed5a3cc1a8"
-        OBJ_ID="f975bbd4-c351-4d49-b5dc-b6ecc89376b3"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="41e70963-afd6-44ad-aafb-3bc9a99b25f2" ST="Draft"
-        UPDATETIME="20120712040035" VER_NBR="3"/>
+        RT_DESCR_ID="b2f915dc-6aa9-4549-b266-dbd56fc0b68f" ST="Active"
+        UPDATETIME="20120407041015" VER_NBR="6"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152104"
         ID="43f48a4d-022a-4017-9b53-d739cf05dca9"
         OBJ_ID="8c258c18-51e8-400f-a346-0aa157249aee"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
         RT_DESCR_ID="c2edf102-a78c-401a-a904-c35986828eb6" ST="Draft"
         UPDATETIME="20120523114426" VER_NBR="3"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308152036"
-        ID="43fb559f-e742-4730-9ea1-f23e8f4c841c"
-        OBJ_ID="750faa78-c3f0-4d38-8856-f0d7b07b958d"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="be1a1b2f-2941-4287-8915-a1a44676e0fb" ST="Active"
-        UPDATETIME="20120407040722" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160454"
         ID="43ff9697-a236-4560-91b3-99de472fd68e"
         OBJ_ID="b84f19d0-98d6-46da-981e-c02ac1aa3a97"
@@ -8281,8 +8257,8 @@
         ID="445bd81a-6a3b-46f0-bfb3-23ae9d4a5954"
         OBJ_ID="2bce3227-d2dd-4b51-992b-ddee0f2b5f84"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="a836b889-a34e-4539-a9ee-8c87ba18bb41" ST="Draft"
-        UPDATEID="102554630" UPDATETIME="20120801152315" VER_NBR="3"/>
+        RT_DESCR_ID="60ec9f1d-2b72-4a20-be4e-0fa94db6023e" ST="Draft"
+        UPDATEID="102554630" UPDATETIME="20120801152315" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142546"
         ID="446a6665-e775-4d7d-bd85-f81befb0a820"
         OBJ_ID="d473b48c-f01b-4dfd-bf5e-8a03658c3eb9"
@@ -8756,20 +8732,14 @@
         ID="483b5f18-2c79-43a6-9aee-62a393597bc6"
         OBJ_ID="3a838cba-12a6-42d9-8a9f-d1a945950f55"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="12c7c85c-e140-4e48-9afb-4c228657ddcc" ST="Draft"
-        UPDATETIME="20120309094322" VER_NBR="3"/>
+        RT_DESCR_ID="2c33eb03-1b0c-410c-ae59-35acc3e2b6e6" ST="Draft"
+        UPDATETIME="20120309094322" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160227"
         ID="483c5ea9-9375-4316-8a9a-54a3866cc9e5"
         OBJ_ID="05174493-78a0-4b87-97d5-8a8d537a083d"
         RES_COMP_ID="kuali.resultComponent.grade.passFail"
         RT_DESCR_ID="75cccafc-1b59-4a6f-a1ff-6aeff21a5829" ST="Active"
         UPDATETIME="20120308160228" VER_NBR="2"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308152138"
-        ID="485ad765-fa44-4af9-bcfb-c96e2692ae1d"
-        OBJ_ID="f3b6cc21-ce54-4f6a-9d3d-200ca3500f25"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="5e9463d9-010f-4c6e-8086-863155052c49" ST="Active"
-        UPDATETIME="20120308152138" VER_NBR="1"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165124"
         ID="48635c59-4cc0-40d0-9f5c-28fc171eaa20"
         OBJ_ID="b13a9eab-5fc9-4741-b79d-ee1e49707234"
@@ -9337,8 +9307,8 @@
         ID="4da3c0f3-0e8b-4193-bb9d-52bc655a8d36"
         OBJ_ID="95954557-8bae-4c98-b51b-9d18ea6f0e92"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="a509bc3a-3e94-4f49-8142-a7110f23da33" ST="Draft"
-        UPDATETIME="20120308160226" VER_NBR="2"/>
+        RT_DESCR_ID="72f2c098-0646-49a8-9f17-cbc238649e81" ST="Draft"
+        UPDATETIME="20120308160226" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152124"
         ID="4db9a2ce-1165-4429-8fb3-a6b3efbc3569"
         OBJ_ID="a6634d6e-7ba0-4089-aa0e-39aa26f499d8"
@@ -9478,12 +9448,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="73528a4b-448d-43f1-bf49-896981aa13dd" ST="Draft"
         UPDATETIME="20120308151905" VER_NBR="3"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160254"
-        ID="4eea2d09-7fe7-4ebc-b301-e4a713696853"
-        OBJ_ID="f1622584-3999-4e73-b241-deccdb9f669b"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="502828a5-29e8-475c-b7e4-862ddf14124d" ST="Draft"
-        UPDATETIME="20120308160255" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160427"
         ID="4f00acb7-e8c8-451a-8dc1-464cc089c7d9"
         OBJ_ID="f6ef17b7-e4cb-4b2a-a56f-f265d8230841"
@@ -9638,12 +9602,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.passFail"
         RT_DESCR_ID="e003cd41-d303-44ed-b521-3f14bd3e8e27" ST="Retired"
         UPDATETIME="20120308165054" VER_NBR="2"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160306"
-        ID="5037afe7-32d6-4c24-9022-a08a6536fe65"
-        OBJ_ID="f80c520f-503b-4961-b847-14ae4dfcbc7f"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="cd4543cf-f418-49e5-a5b8-2aebebd73df3" ST="Draft"
-        UPDATETIME="20120308160306" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160031"
         ID="5037de8b-5439-4c4d-b85c-3a06dda08385"
         OBJ_ID="009f37b2-5f3b-46c2-892c-0710b4789f21"
@@ -9802,12 +9760,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="cbd0d82d-e369-45dc-bec2-63dad24fe028" ST="Draft"
         UPDATETIME="20120419180730" VER_NBR="4"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160441"
-        ID="517023ff-9570-411a-af8a-ce50a6bc0979"
-        OBJ_ID="9109a995-8c35-46cc-852a-97fdd3cf5669"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="35204fc6-0bf5-4720-a670-9d83b13f60d3" ST="Draft"
-        UPDATETIME="20120308160442" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142627"
         ID="517e56f2-4a70-4043-b553-773626a8f389"
         OBJ_ID="16e87f60-d1d2-480f-9273-f458de1e74c7"
@@ -9830,8 +9782,8 @@
         ID="519ee77d-3712-4ff4-9138-710cbcca7bcd"
         OBJ_ID="a2aac0d2-014a-424b-9069-f87a2c63a3c8"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="024b533e-c40a-4efe-a435-f7d74168d1d7" ST="Draft"
-        UPDATETIME="20120713040033" VER_NBR="4"/>
+        RT_DESCR_ID="e92168d2-9c16-4b10-8202-9e7194922b3f" ST="Draft"
+        UPDATETIME="20120713040033" VER_NBR="6"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152044"
         ID="51ae8586-277a-4e50-8eee-f61b6752210f"
         OBJ_ID="3f5cb1ed-b067-4683-9859-fc533a3c50c4"
@@ -9995,12 +9947,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="09272825-6af3-4792-8989-48bd6ec889e5" ST="Draft"
         UPDATETIME="20120428154748" VER_NBR="4"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308165032"
-        ID="530bbd9d-e2fd-4d84-a19f-68542bd2f099"
-        OBJ_ID="6e25c4b6-1a9e-43e7-86c2-9189b6a1a10e"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="8a995732-ea1e-4bfc-a425-4bcb483f6977" ST="Active"
-        UPDATETIME="20120713040034" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160219"
         ID="5311d2f7-4af5-441d-8694-ea4985886027"
         OBJ_ID="1e203cc8-5d32-4320-ba41-efb9ae219cc3"
@@ -10434,8 +10380,8 @@
         ID="5654506c-84c1-41e3-a571-606b92d9203c"
         OBJ_ID="0cc73e2d-f73e-48ef-8016-118216edf493"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="09810785-5792-435d-9a40-b81f2345926a" ST="Draft"
-        UPDATETIME="20120308164909" VER_NBR="2"/>
+        RT_DESCR_ID="34b964da-c506-421b-9205-3e0be1e69eb9" ST="Draft"
+        UPDATETIME="20120308164909" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152146"
         ID="5659c6cb-fb32-4098-8096-84bae1328853"
         OBJ_ID="58da9385-e298-4e2c-8106-488c4216fded"
@@ -10736,8 +10682,8 @@
         ID="58a01898-3024-42d4-97ee-ad1cfd75621d"
         OBJ_ID="c3be15f6-90a1-4580-a893-485e6727da57"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="24f35ddd-b679-4382-8f8f-842856fbc36d" ST="Active"
-        UPDATETIME="20120308165236" VER_NBR="1"/>
+        RT_DESCR_ID="8a253346-4915-4e46-9045-3f7234772b54" ST="Active"
+        UPDATETIME="20120308165236" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308151926"
         ID="58a6ce8a-e687-41a8-97bf-15ddc9940a27"
         OBJ_ID="eddcaf74-3ece-4a85-a158-85ddcb2d7908"
@@ -11017,8 +10963,8 @@
         ID="5ae84c0e-0d63-4b97-b5bc-71231440aa69"
         OBJ_ID="7829f6c2-c8a7-4369-848e-ddc7b09a083e"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="8d700264-6c0b-40f4-9f94-91c8386fabbf" ST="Active"
-        UPDATETIME="20120308152138" VER_NBR="1"/>
+        RT_DESCR_ID="f352821c-487d-47e9-8564-fa3a58e502ae" ST="Active"
+        UPDATETIME="20120308152138" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152036"
         ID="5aed29e7-dde8-4ff4-96e9-539d14d13fee"
         OBJ_ID="1306a230-7213-45aa-b598-e00d0ad74df1"
@@ -11882,12 +11828,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.letter"
         RT_DESCR_ID="6fdfcb5a-8043-46a2-9a59-f144bb1d7345" ST="Draft"
         UPDATETIME="20120308165027" VER_NBR="3"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308164959"
-        ID="6256be1d-cf2d-4df8-987a-7c20019e8107"
-        OBJ_ID="10fb6a0b-e231-4058-bb39-46cc7eb06066"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="f772d7f7-f419-43e5-a366-6bef085787e4" ST="Draft"
-        UPDATETIME="20120308165000" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308172405"
         ID="625f658f-347f-4d63-a84d-62866c6d582d"
         OBJ_ID="a5ae7570-3426-4dfc-ac90-ce86d1ba7df2"
@@ -12183,8 +12123,8 @@
         ID="64f43ba8-8820-4f66-b456-b053f1e80a9f"
         OBJ_ID="7688e952-0ab0-451c-8b55-fd8b99df289a"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="1aa95b49-2355-4c12-8219-ae15d2ffb8a5" ST="Draft"
-        UPDATETIME="20120309094310" VER_NBR="3"/>
+        RT_DESCR_ID="71c1a44c-27b3-40e5-acb5-534b5871c57b" ST="Draft"
+        UPDATETIME="20120309094310" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152143"
         ID="64f716ca-d458-4aa2-8993-92857d4b76b8"
         OBJ_ID="7a1635bb-311c-437b-a3d9-5a57b5ecc300"
@@ -12382,8 +12322,8 @@
         ID="669fb9ce-f51f-489a-a656-e8a56aa75146"
         OBJ_ID="286fb4fd-86b0-4d95-8e91-deae0c3701d7"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="8bd57b38-e5eb-4610-805c-309e0a2ad304" ST="Active"
-        UPDATEID="103101611" UPDATETIME="20120801173411" VER_NBR="3"/>
+        RT_DESCR_ID="cf188d20-9e54-4531-a022-191405e7ad01" ST="Active"
+        UPDATEID="103101611" UPDATETIME="20120801173411" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308164920"
         ID="66ac38a9-7730-4407-847e-4f29d5f13170"
         OBJ_ID="3c08c7ed-7399-4d81-97e2-860b72d8310d"
@@ -12510,8 +12450,8 @@
         ID="68012316-1667-4239-a360-8f2d4f1d05db"
         OBJ_ID="17d922b1-72bd-4239-989f-f4c8471649e2"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="a9ccf07c-bd2a-4e7c-a1b1-22a37c301b56" ST="Draft"
-        UPDATETIME="20120308165215" VER_NBR="2"/>
+        RT_DESCR_ID="3510b1b4-1816-4152-b3a9-6881686fca7a" ST="Draft"
+        UPDATETIME="20120308165215" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142552"
         ID="68091e82-7dd8-4b59-ae0c-b33148f6aae7"
         OBJ_ID="5585c267-c89b-4864-ad2a-01c71fa1ca59"
@@ -12584,8 +12524,8 @@
         ID="68832c4d-ab61-424d-b922-1240f0fda09a"
         OBJ_ID="e6b0c073-75bd-4bc9-80a8-df00661bc829"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="a052ec0f-d85d-42ae-9556-543872ff679f" ST="Draft"
-        UPDATETIME="20120308165203" VER_NBR="2"/>
+        RT_DESCR_ID="7f837244-86a1-4edb-b375-358bb1dfac9e" ST="Draft"
+        UPDATETIME="20120308165203" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152256"
         ID="68904daa-b92c-43e8-8c91-295bb28a3cf3"
         OBJ_ID="e1d24e26-d306-4901-951b-db0cc1421f38"
@@ -13587,8 +13527,8 @@
         ID="71926594-369e-4e53-9352-19770eb8f193"
         OBJ_ID="dcf04763-58f5-4b01-8d28-d79493cfade7"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="e0cfff20-e2c4-4b3a-aa73-b76da104748e" ST="Draft"
-        UPDATETIME="20120308165000" VER_NBR="2"/>
+        RT_DESCR_ID="c9b6b9c8-e664-44de-804c-06937b74fb93" ST="Draft"
+        UPDATETIME="20120308165000" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160135"
         ID="7196badd-ebc0-4f84-807e-8afe1eba0f59"
         OBJ_ID="503d66e9-3325-40b2-b964-79516ba452eb"
@@ -14468,8 +14408,8 @@
         ID="7a6caf07-637f-4772-8d4d-214eb7311cda"
         OBJ_ID="6a5618bf-1865-4d05-94cd-bdf31dffcfdd"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="14ddbcee-3b8b-482d-8701-c2857fd5cee8" ST="Draft"
-        UPDATEID="102554630" UPDATETIME="20120801152315" VER_NBR="3"/>
+        RT_DESCR_ID="68f027fb-e957-4b33-90a0-89ed66cf3017" ST="Draft"
+        UPDATEID="102554630" UPDATETIME="20120801152315" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152208"
         ID="7a711b23-8792-4880-bcdf-83922043d374"
         OBJ_ID="c2e04386-036c-440e-812b-e08d8a8731f8"
@@ -15076,8 +15016,8 @@
         ID="7ffd993b-a89a-426b-87fd-fc4c0f3edd32"
         OBJ_ID="75485ca6-5c62-4127-8031-c4d5c4bd80f1"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="95e751bd-b18c-44e1-9404-04af937ef86e" ST="Draft"
-        UPDATETIME="20120419165747" VER_NBR="4"/>
+        RT_DESCR_ID="3ccef316-90e3-4399-8e3b-0b7b9d528d0a" ST="Draft"
+        UPDATETIME="20120419165747" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160152"
         ID="80060e6f-9977-4d5a-95d1-9a4c4a2593c6"
         OBJ_ID="77bf5444-e779-4128-83a4-53978646ffac"
@@ -15238,12 +15178,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.letter"
         RT_DESCR_ID="1a3082ae-c1f4-4c8f-9ca7-6c2104bedd20" ST="Draft"
         UPDATETIME="20120308152207" VER_NBR="2"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160012"
-        ID="8137c459-a489-4854-8378-03ae570e9171"
-        OBJ_ID="9327f01d-c374-49d6-8ba3-57c87cafa315"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="d2f32439-f93e-4d69-8c86-5f082d02f9db" ST="Draft"
-        UPDATETIME="20120308160013" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATEID="102838754" CREATETIME="20120523115358"
         ID="813a1ea1-a5cd-494c-8e40-0eb1f7cca183"
         OBJ_ID="1da8787d-de8a-4912-8b90-b99ff32cded2"
@@ -15650,12 +15584,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="7279bc27-9775-4c15-82a9-4cadd60c9d47" ST="Active"
         UPDATETIME="20120308165246" VER_NBR="1"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308165202"
-        ID="84547538-33d1-4846-b2c6-f0f4de542d73"
-        OBJ_ID="75cd0d05-a77d-4266-9524-99c97c791477"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="73314d3c-7330-4d74-8944-71eea76b6738" ST="Draft"
-        UPDATETIME="20120308165203" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165006"
         ID="84a34c03-96ef-477d-99c9-9b940deb9ad4"
         OBJ_ID="0543d50c-5fbd-4def-959b-9e1ce3d90c3b"
@@ -15779,8 +15707,8 @@
         ID="857b3736-d869-4381-b6d7-92e5393faf23"
         OBJ_ID="0dc8e753-f519-4859-8264-9462e78c4600"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="cc5b7e3b-4dc3-4389-ad9b-67a7ffd76d16" ST="Draft"
-        UPDATETIME="20120407040723" VER_NBR="5"/>
+        RT_DESCR_ID="9d5c9a8f-90f6-4f4f-a51a-77fcada292ff" ST="Draft"
+        UPDATETIME="20120407040723" VER_NBR="6"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152413"
         ID="8586b26e-6cbf-4f3c-8379-5add0201c4a8"
         OBJ_ID="2f583ac9-58a1-44ca-aaa8-912f6c246646"
@@ -15803,8 +15731,8 @@
         ID="85dd8eda-ed68-45ad-ab5a-32c9661f584b"
         OBJ_ID="20852a0f-7c0e-4b39-959b-ff7aabb4b2ba"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="46d9a55b-502f-4c4b-a8d5-0dcd7bd6dc50" ST="Draft"
-        UPDATETIME="20120308160647" VER_NBR="2"/>
+        RT_DESCR_ID="8f60ad07-1cc4-41d6-bab1-295dea28d14a" ST="Draft"
+        UPDATETIME="20120308160647" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160501"
         ID="85e63a6f-2913-4dcf-8d19-edd72b4030d3"
         OBJ_ID="6205ecea-389c-403e-8a41-435338226208"
@@ -16183,12 +16111,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.letter"
         RT_DESCR_ID="f12c01bc-bba6-4ecb-a90c-02dae10f850c" ST="Active"
         UPDATETIME="20120308160436" VER_NBR="2"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160132"
-        ID="894f5bf8-d058-480d-847c-acd6db489413"
-        OBJ_ID="90cb6f93-9608-4da7-8576-93022507d72a"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="8e59a0da-d02d-410a-b18f-1d78c3b97445" ST="Draft"
-        UPDATETIME="20120309094310" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152340"
         ID="895265fd-8999-4e55-af5c-94348f7e4677"
         OBJ_ID="19ede72f-1dec-4270-8128-1208f2dec962"
@@ -16626,8 +16548,8 @@
         ID="8d27b914-49dd-4843-b504-9ab6c845f500"
         OBJ_ID="69f808de-a64a-44ca-8398-0ea57c3aa1b9"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="ee8142c8-a1af-43b3-a542-b5b0300a1014" ST="Draft"
-        UPDATETIME="20120712040035" VER_NBR="3"/>
+        RT_DESCR_ID="da948b43-7104-45ed-be22-9c1c1dfda96c" ST="Draft"
+        UPDATETIME="20120712040035" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160211"
         ID="8d28f156-6afc-4de8-afd7-3500a31c0971"
         OBJ_ID="48f0ee51-3ad5-4e8b-a750-02e135db42a6"
@@ -16689,8 +16611,8 @@
         ID="8d8e2eb6-0d3c-4bc2-8d6b-d5b9622ddde5"
         OBJ_ID="95c38ebc-f1e9-4e31-8d76-da3c0c4a8b01"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="21f58132-d022-43b6-9767-dc87fe4ba876" ST="Draft"
-        UPDATETIME="20120309094309" VER_NBR="3"/>
+        RT_DESCR_ID="1e2fc73a-273f-4f98-a11a-8e5a8621c015" ST="Draft"
+        UPDATETIME="20120309094309" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308172329"
         ID="8d979a3f-0a39-42ca-8541-6f1a57aefce0"
         OBJ_ID="cbdf747c-e52b-48e2-9350-5e9377572e4b"
@@ -16850,8 +16772,8 @@
         ID="8ee244a3-1981-4e47-8090-ac2026940442"
         OBJ_ID="a3588e15-f5b7-4069-b6af-8123f28ed978"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="c6f9658e-99d6-4355-a125-e6947952c612" ST="Draft"
-        UPDATETIME="20120308160013" VER_NBR="2"/>
+        RT_DESCR_ID="dec683f3-7d48-4f97-8b7a-a58f3ed23a2a" ST="Draft"
+        UPDATETIME="20120308160013" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120516040038"
         ID="8eef626f-bdc5-4ccc-ab73-eaa6382345c0"
         OBJ_ID="ea646047-2251-4dfb-b435-f45c739aa048"
@@ -16980,8 +16902,8 @@
         ID="905c25c0-4337-47ce-8041-4aae007eac50"
         OBJ_ID="bb0f1b22-205d-43ad-8697-e31d1a4ade40"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="e59fdf80-f306-4eb0-9ed8-58bc9277bb99" ST="Draft"
-        UPDATETIME="20120713040033" VER_NBR="4"/>
+        RT_DESCR_ID="b3eecbe8-5241-4a32-85f6-900f30d9eddb" ST="Draft"
+        UPDATETIME="20120713040033" VER_NBR="6"/>
     <KSLU_RSLT_OPT CREATEID="REF_DATA_BATCH" CREATETIME="20121205144454"
         ID="906fb0f0-0aa0-4784-bebd-f06a06c3a5a5"
         OBJ_ID="d517ff16-0fba-449a-b7dc-20a0b76cda72"
@@ -17002,8 +16924,8 @@
         ID="909ae777-d7d2-4131-99b5-0d170b690a65"
         OBJ_ID="96579c70-d4e3-4ce9-9a88-15adf45c6b83"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="e5059dba-b4a5-4566-82a1-b5ca5523d005" ST="Active"
-        UPDATETIME="20120308165236" VER_NBR="1"/>
+        RT_DESCR_ID="5cab1b55-4a5d-4870-964d-20e7096d733f" ST="Active"
+        UPDATETIME="20120308165236" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308172352"
         ID="909c7e50-85ae-499d-93bb-f921c35c6955"
         OBJ_ID="6e755bf1-8440-47c9-b7fa-12e724047f37"
@@ -17235,8 +17157,8 @@
         ID="921be28d-971e-40b9-bc5b-ef61802e993e"
         OBJ_ID="835ae407-fb7b-46e3-b031-2aee51ec1764"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="565e7ac6-bc7a-48a2-b4a4-b7fdda1d181c" ST="Active"
-        UPDATETIME="20120407041016" VER_NBR="4"/>
+        RT_DESCR_ID="97da5815-0363-42e8-931a-db97dc5cb8c0" ST="Active"
+        UPDATETIME="20120407041016" VER_NBR="6"/>
     <KSLU_RSLT_OPT CREATEID="102838754" CREATETIME="20120419160505"
         ID="9242f029-81af-467a-be1f-defa1dfd690b"
         OBJ_ID="b664bdbf-9948-499e-ba83-decbc4899df6"
@@ -17305,12 +17227,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.letter"
         RT_DESCR_ID="a3da58a7-38c0-494b-a8e7-64d07cfb9dd2" ST="Retired"
         UPDATETIME="20120308160142" VER_NBR="2"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160343"
-        ID="92f60767-246f-4487-8da1-ceef736633d1"
-        OBJ_ID="7dcbc5d7-0004-48c3-a05d-06e2a938a191"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="60f9b8dc-6ff2-4227-9a46-e37531a38660" ST="Active"
-        UPDATETIME="20120407041015" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165042"
         ID="92ff6677-0c62-413a-9833-10b9f9b631d2"
         OBJ_ID="538c332b-9ced-483b-b303-ec22997f8f7c"
@@ -17418,8 +17334,8 @@
         ID="93f455f1-bdb3-44b8-8f9c-6e8354b6b905"
         OBJ_ID="d6214b0e-b547-4cb9-a0c3-67e2cca4b590"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="fcb90fca-2cb7-4ae1-9d93-b960347a81fc" ST="Draft"
-        UPDATETIME="20120407040723" VER_NBR="5"/>
+        RT_DESCR_ID="987daa45-313a-4e06-a7d8-e2c7f8e6c674" ST="Draft"
+        UPDATETIME="20120407040723" VER_NBR="6"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142453"
         ID="93f5084c-52f6-46d7-9c8f-652057248272"
         OBJ_ID="acc9356c-a56f-4fa0-baeb-8290db45b023"
@@ -17806,12 +17722,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="6fadb490-c89d-48a2-9609-8bd609082f99" ST="Draft"
         UPDATETIME="20120308152225" VER_NBR="3"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308165206"
-        ID="979f9f33-3481-47af-8862-070366cc9796"
-        OBJ_ID="cb15580a-5ae9-4474-b933-d08fd9e70241"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="a42a5452-daa4-4336-ad7f-a4bffd07ae71" ST="Active"
-        UPDATETIME="20120308165206" VER_NBR="1"/>
     <KSLU_RSLT_OPT CREATEID="REF_DATA_BATCH" CREATETIME="20121205144454"
         ID="97a7c3bb-4e97-427e-853c-08914588fcb2"
         OBJ_ID="008af047-747f-4787-80de-49d488162907"
@@ -18595,8 +18505,8 @@
         ID="9ea7fd60-7e7d-4b1a-9786-fdfb7589d142"
         OBJ_ID="6efdeea0-2fe7-4e69-844f-18e4016b4bf5"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="baf32444-97ce-4cce-b206-43bff8796edc" ST="Active"
-        UPDATETIME="20120804040042" VER_NBR="11"/>
+        RT_DESCR_ID="e14d95e9-5cc8-4afb-ba20-38db44905cb0" ST="Active"
+        UPDATETIME="20120804040042" VER_NBR="13"/>
     <KSLU_RSLT_OPT CREATETIME="20120308164944"
         ID="9eacf65f-f1da-46d0-b47e-d695d7a2c0ea"
         OBJ_ID="5532bb65-1737-4793-9900-f65b742cba40"
@@ -18775,8 +18685,8 @@
         ID="9fd94663-d30e-4c34-8a3f-a130bff8ff18"
         OBJ_ID="ff24feab-fa2f-4379-912a-22a7dbbe17eb"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="184ceaba-9d2b-49e0-a612-e94dad8ee196" ST="Draft"
-        UPDATETIME="20120308165215" VER_NBR="2"/>
+        RT_DESCR_ID="369a6c01-6085-44ac-88a9-69185c6854b1" ST="Draft"
+        UPDATETIME="20120308165215" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152426"
         ID="9fdb26ce-c0a4-4769-9b3d-1b89c5343329"
         OBJ_ID="4a884174-b3c8-4997-ac76-c08d05e16b51"
@@ -19025,12 +18935,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.letter"
         RT_DESCR_ID="0de953db-7077-49b8-addf-3663ce2f17cf" ST="Draft"
         UPDATETIME="20120525110421" VER_NBR="4"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308164926"
-        ID="a283c8e8-db12-4534-bd3a-5a0c0f09b0d7"
-        OBJ_ID="d20da87f-03c8-46e0-993d-22200d89001a"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="801bdee7-7d3e-42dc-b346-a660db7d39bd" ST="Draft"
-        UPDATETIME="20120713040033" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142528"
         ID="a28430a5-14a2-467a-a9e0-40259f17856a"
         OBJ_ID="a3d2424b-7ba0-4f75-8c08-c55fcff3ebd3"
@@ -19445,8 +19349,8 @@
         ID="a5b07393-1790-4ff8-90fe-9f631c036f32"
         OBJ_ID="aa081417-ab72-41f8-91f6-187aec5508b7"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="5f99fe5a-433d-4f9d-8ad0-8e1478ca8109" ST="Draft"
-        UPDATEID="103101611" UPDATETIME="20120817112517" VER_NBR="3"/>
+        RT_DESCR_ID="41bef820-23f2-42e7-9780-9397d24ccc29" ST="Draft"
+        UPDATEID="103101611" UPDATETIME="20120817112517" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120309134713"
         ID="a5be48fd-af24-4e9c-bb05-b965cd8e85af"
         OBJ_ID="6e495ac3-2070-4193-9ed3-eb4d01c007f7"
@@ -19676,8 +19580,8 @@
         ID="a8176296-1011-4100-885e-2609d585f92c"
         OBJ_ID="fbe3704c-7073-4e08-a9ad-d200249688dc"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="18f58999-62b8-401e-bb8f-edabca94286a" ST="Draft"
-        UPDATETIME="20120308160013" VER_NBR="2"/>
+        RT_DESCR_ID="2c41c7c3-1cbf-4cd0-9f80-234b48a970c8" ST="Draft"
+        UPDATETIME="20120308160013" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152417"
         ID="a81c9940-77fe-4dd2-8c82-60145a2c61d8"
         OBJ_ID="abff62c7-669b-4772-b821-f99074b5e40c"
@@ -19791,8 +19695,8 @@
         ID="a929db3c-156c-4965-8d81-77401841eef0"
         OBJ_ID="54eae7d4-da22-4097-8d5e-b86758329421"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="1e56bb73-273f-4422-a7f6-8c1730214f9f" ST="Draft"
-        UPDATETIME="20120308165203" VER_NBR="2"/>
+        RT_DESCR_ID="cc52cc68-ef18-4712-b246-89154ac3cf7c" ST="Draft"
+        UPDATETIME="20120308165203" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160207"
         ID="a92f3ec7-13bd-4da2-b1ac-eec3c5a0828d"
         OBJ_ID="4818ce44-1eb7-46ad-8b28-dc5280269c3b"
@@ -19910,8 +19814,8 @@
         ID="aa25c706-8c9d-42bc-90bf-2a156a86b234"
         OBJ_ID="3f905c9c-bae0-4a05-8845-ff778d86e188"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="f0d888f4-3c8d-426e-884e-65a774737633" ST="Active"
-        UPDATETIME="20120308165206" VER_NBR="1"/>
+        RT_DESCR_ID="33da37ff-5afe-47cd-afa2-afda06ebacd6" ST="Active"
+        UPDATETIME="20120308165206" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160209"
         ID="aa36e89b-a5be-4fab-9dbe-2e3df9a58669"
         OBJ_ID="2e1538ea-a11c-4bc8-8e76-9521d8825390"
@@ -19964,12 +19868,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="766e704b-23b5-4f99-a334-bdc43727188f" ST="Draft"
         UPDATETIME="20120309094145" VER_NBR="3"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308164909"
-        ID="aa98cb0c-357a-4a90-ae41-ece15a1a5ca3"
-        OBJ_ID="75e8602a-24a2-4422-aebc-7e4e301972a1"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="8335ee8c-cce8-4973-8074-d97096378404" ST="Draft"
-        UPDATETIME="20120308164909" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160200"
         ID="aa98dd1d-1ae2-449c-876c-fc3b2662b008"
         OBJ_ID="d79b6eae-f536-4d8d-85ea-204d1210e4f3"
@@ -20233,7 +20131,7 @@
     <KSLU_RSLT_OPT CREATEID="REF_DATA_BATCH" CREATETIME="20121205144454"
         ID="acc86352-c7f2-4553-a35a-30f8199cf238"
         OBJ_ID="1afc8b6b-4296-4799-a5ff-ef5be325d6d1"
-        RES_COMP_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"
+        RES_COMP_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"
         ST="Active" UPDATETIME="20121205144846" VER_NBR="0"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165046"
         ID="ace31147-2001-40d1-bbd3-65111b9795b1"
@@ -20416,8 +20314,8 @@
         ID="adf60414-f6d7-4796-927b-54de982c9887"
         OBJ_ID="d044d74c-a8c7-4860-bd0a-3f5ec76e3e75"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="301476ab-1edb-409c-8fa1-ead6ced3b124" ST="Draft"
-        UPDATETIME="20120419145909" VER_NBR="4"/>
+        RT_DESCR_ID="4c78ca60-0967-415f-88b5-0da13232059f" ST="Draft"
+        UPDATETIME="20120419145909" VER_NBR="7"/>
     <KSLU_RSLT_OPT CREATETIME="20120308164955"
         ID="ae11dcc0-b5f8-48bd-87ba-a49cdb1fc19f"
         OBJ_ID="762a76e8-da8d-44f7-b8ea-974519260ce9"
@@ -20592,8 +20490,8 @@
         ID="b030cfa5-6ca6-4f4b-aeb9-8026e2ff909c"
         OBJ_ID="01a087c8-1d25-4b56-9578-4d5182aba590"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="e50e5e0d-a342-4c81-b3bd-3ea2d65375da" ST="Draft"
-        UPDATETIME="20120308165000" VER_NBR="2"/>
+        RT_DESCR_ID="3da69897-42fc-4b90-af3d-a6d40581f8c3" ST="Draft"
+        UPDATETIME="20120308165000" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165147"
         ID="b04afb28-1b5a-41d5-b0df-645707e3a1ef"
         OBJ_ID="0644fafe-c3fd-486d-85e9-a73c65d2c04a"
@@ -21163,8 +21061,8 @@
         ID="b4dfde74-0f05-4d57-b21b-46ba25f39427"
         OBJ_ID="d073e99c-94f6-4d10-8de5-4cff16550aa0"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="839e06c6-907f-4598-bc87-7b19106840a1" ST="Draft"
-        UPDATETIME="20120419165747" VER_NBR="4"/>
+        RT_DESCR_ID="c2dcbcd5-3cbc-4d1b-a8d0-b6f1678eaaa8" ST="Draft"
+        UPDATETIME="20120419165747" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160457"
         ID="b4ff73fe-b395-4a4f-a52f-7305c2350144"
         OBJ_ID="c056745b-d334-4ba2-b38f-8e512a800fde"
@@ -21304,8 +21202,8 @@
         ID="b617ae6d-fdca-474e-8857-3904530ce1bd"
         OBJ_ID="6011cf2d-7893-4cfd-9725-c3da63c2bdd8"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="fa3e1d70-0bbd-427f-90bf-2cd8f42b131e" ST="Draft"
-        UPDATETIME="20120308160226" VER_NBR="2"/>
+        RT_DESCR_ID="bf7e990a-6e7d-4c2d-85f7-6e65a41cd100" ST="Draft"
+        UPDATETIME="20120308160226" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142619"
         ID="b61ba860-93b1-47e2-9925-47ae02790fff"
         OBJ_ID="dd145fba-2ea7-43a1-aeb7-1561bf64b34b"
@@ -21359,8 +21257,8 @@
         ID="b6622631-2954-4c73-86eb-6836bd4c6368"
         OBJ_ID="67946034-1a0a-42cc-bfbc-e049affec848"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="d0c9b5e5-3d94-4057-ac2e-81151a144d93" ST="Active"
-        UPDATETIME="20120804040042" VER_NBR="11"/>
+        RT_DESCR_ID="b3e82b77-00f8-454a-be6b-4a3a2ecd01a4" ST="Active"
+        UPDATETIME="20120804040042" VER_NBR="13"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160046"
         ID="b66b212e-e69d-44ab-ab89-84dd3dbf48e7"
         OBJ_ID="584f0a48-c67d-4785-ba45-a0061bc9dfe7"
@@ -21407,12 +21305,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.passFail"
         RT_DESCR_ID="b38fe159-721b-4977-b3e2-34cd584a6b0d" ST="Retired"
         UPDATETIME="20120308141847" VER_NBR="1"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160149"
-        ID="b6ba3276-01f9-4ad7-b565-c5d499a6c042"
-        OBJ_ID="8d58c5ae-08c5-46d6-81a7-68e42add881e"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="44a557fe-b32e-4a1e-aa3f-d9e5d3a15b94" ST="Draft"
-        UPDATETIME="20120713040032" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160436"
         ID="b6d5bf7f-7e7a-4130-8e41-ff4747513c36"
         OBJ_ID="801e7ed6-f718-406f-acf5-ac0956f25af4"
@@ -21508,8 +21400,8 @@
         ID="b7b7e433-7a93-4bd3-b43c-4aa2a33f444c"
         OBJ_ID="38dcfa1f-5436-4902-951c-1debef989ec3"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="be7e9474-1d94-44be-8817-5829b69609f7" ST="Draft"
-        UPDATETIME="20120712040035" VER_NBR="3"/>
+        RT_DESCR_ID="06fe604b-6b19-4a68-ba8c-90bfc063b7ed" ST="Draft"
+        UPDATETIME="20120712040035" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152321"
         ID="b7c0a563-a6ad-48b8-91fc-0413f07d8a85"
         OBJ_ID="0c10ab11-aba6-4eff-81cf-71fd1faa4a40"
@@ -21624,8 +21516,8 @@
         ID="b86a21f7-ae54-4696-998b-b961441dd169"
         OBJ_ID="0ea83e15-b3de-4d28-bf6d-c03405a0a271"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="c9af3443-b77c-4e62-a872-0787d4b949af" ST="Draft"
-        UPDATETIME="20120419154619" VER_NBR="4"/>
+        RT_DESCR_ID="eb66242f-6954-41e9-9127-e72f8cc953d3" ST="Draft"
+        UPDATETIME="20120419154619" VER_NBR="7"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152142"
         ID="b8747693-3afe-4d44-85ea-a04ee6ab33bb"
         OBJ_ID="7ecf1b2f-30b6-4ade-8faf-e2f9702d038d"
@@ -21790,12 +21682,6 @@
         OBJ_ID="aeedbd18-7c5c-4c51-ba8c-3ca9f6b88105"
         RES_COMP_ID="kuali.creditType.credit.degree.3.0" ST="Draft"
         UPDATETIME="20120308160353" VER_NBR="0"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308165057"
-        ID="b9de2126-07c9-4e48-8a3a-16e06007ae5e"
-        OBJ_ID="4ee40dc7-5536-440e-8f65-f039b46eed96"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="e62d00f1-66c8-47e0-8df4-2d48a58f7a13" ST="Draft"
-        UPDATETIME="20120308165057" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152308"
         ID="b9dee5e9-cf54-4b3f-8d85-ea4266114cf3"
         OBJ_ID="95ab4438-f47c-4611-895f-fead52e153ed"
@@ -22051,8 +21937,8 @@
         ID="bc36a74a-fcc6-4dd4-b63f-3c3848c609ac"
         OBJ_ID="7ad00ce5-5d26-430b-92a4-dcfabee55689"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="2a6911fa-f008-48f7-8cb2-8c6f76e43427" ST="Draft"
-        UPDATETIME="20120419145909" VER_NBR="4"/>
+        RT_DESCR_ID="5417acb1-77a6-4211-a6cd-333b38772c0d" ST="Draft"
+        UPDATETIME="20120419145909" VER_NBR="7"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165050"
         ID="bc3dae1f-6ddd-4767-8925-b4e1717ce2f7"
         OBJ_ID="a1f5862c-a79d-4323-9e54-1b2f10c5bddf"
@@ -22145,18 +22031,12 @@
         OBJ_ID="557fcae4-13d4-4cd8-8b77-bb7cfcbe7a23"
         RES_COMP_ID="kuali.creditType.credit.degree.3.0" ST="Active"
         UPDATETIME="20120308172433" VER_NBR="0"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160226"
-        ID="bd3dc05a-ce13-45a3-ab4c-fbbf190530d5"
-        OBJ_ID="dbd5587e-13a3-4e46-8069-74c07999acca"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="25fbee3f-73d6-4d48-b6b4-622dd5ecfb2c" ST="Draft"
-        UPDATETIME="20120308160226" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160035"
         ID="bd44b5f2-3181-427e-b1e5-704169a6f615"
         OBJ_ID="d322dc22-2bb1-4536-ba00-4e9721c2df5e"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="a2f2a0b6-ac14-43d4-91a4-251936a9098a" ST="Draft"
-        UPDATETIME="20120308160035" VER_NBR="2"/>
+        RT_DESCR_ID="3da994aa-8503-4c41-bc75-bf521fb2e74f" ST="Draft"
+        UPDATETIME="20120308160035" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308172326"
         ID="bd586eac-69ce-4861-a219-5275b70de6e5"
         OBJ_ID="a1a7538e-4237-4559-9bce-f9d1cac622d9"
@@ -22317,8 +22197,8 @@
         ID="bec4deb7-d8fd-4721-a581-9b229c2fcf7e"
         OBJ_ID="154e9185-e116-4892-a545-f26a12f7177d"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="99cf06a8-8a6b-4b96-9f5b-98d7c021f633" ST="Draft"
-        UPDATEID="108572874" UPDATETIME="20120801213221" VER_NBR="4"/>
+        RT_DESCR_ID="79aa0e2b-34e4-4d3c-919a-966c8f95f95e" ST="Draft"
+        UPDATEID="108572874" UPDATETIME="20120801213221" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152126"
         ID="bec72692-f691-4fe8-ac6f-7a0ec21d270e"
         OBJ_ID="75e94f61-d04b-49ef-a5e6-7a74dd910eac"
@@ -22406,12 +22286,6 @@
         OBJ_ID="02bd8f0d-a7b4-4fd4-ba87-53c2539e4aeb"
         RES_COMP_ID="kuali.creditType.credit.degree.3.0" ST="Draft"
         UPDATETIME="20120308172325" VER_NBR="0"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160518"
-        ID="bfa0acb4-31ec-42b2-9208-e6dd4f0e2858"
-        OBJ_ID="9c4afb80-c394-422c-a14d-33d35e9d995f"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="ae78112b-253c-466b-a1dc-9ea57910099a" ST="Active"
-        UPDATETIME="20120407041016" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160435"
         ID="bfa6d345-6e4d-4ff7-b5a3-e7426f3abb8e"
         OBJ_ID="fe5bc1e4-345e-4ed5-82ba-a5c19a606a2f"
@@ -23221,8 +23095,8 @@
         ID="c784a797-489c-43ad-9856-d33160e45193"
         OBJ_ID="e51a1765-21e1-4a2c-8821-8e896fe9212a"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="97d96483-fc83-4466-91cf-2c4994f0dae7" ST="Active"
-        UPDATETIME="20120713040034" VER_NBR="3"/>
+        RT_DESCR_ID="56bbe8fa-da11-4738-977d-9b8c30b6aa61" ST="Active"
+        UPDATETIME="20120713040034" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308151931"
         ID="c78e20f7-c6ad-4a0f-ad5f-c60a71f05df6"
         OBJ_ID="9a0d11ed-d183-4f48-9cf8-a9e0805fadde"
@@ -23469,8 +23343,8 @@
         ID="c9836340-43db-48e9-aaca-6776df06955d"
         OBJ_ID="a47e56e1-25f5-4992-82cc-6d5a85fbb720"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="8b0406c3-4f84-48b3-97ed-aba1b4d58f99" ST="Draft"
-        UPDATETIME="20120308160255" VER_NBR="2"/>
+        RT_DESCR_ID="8c7b6262-61c1-44ef-ac05-f85103d93360" ST="Draft"
+        UPDATETIME="20120308160255" VER_NBR="7"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152340"
         ID="c98434fd-3efc-4e14-bbff-c6f1ae4dfa4c"
         OBJ_ID="d051245c-22ae-42cf-9f84-80bca33ab685"
@@ -23682,8 +23556,8 @@
         ID="cae1c5f7-cd04-473e-a0bb-12453c99dceb"
         OBJ_ID="4965909a-fc3e-4c57-b0ea-102144c062d8"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="a52abf63-0c68-4bf2-ae43-a6b3a4b45d0c" ST="Active"
-        UPDATETIME="20120407040722" VER_NBR="4"/>
+        RT_DESCR_ID="55375fae-9509-4550-b20f-d52e3b6615a7" ST="Active"
+        UPDATETIME="20120407040722" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152019"
         ID="cae88666-0c38-4ff5-915a-3576aabeb055"
         OBJ_ID="678b08e7-8658-414a-9d94-d9e283076c4d"
@@ -23821,8 +23695,8 @@
         ID="cc011151-e714-4237-b22c-edc88e2fbec0"
         OBJ_ID="1cfe21f1-6c51-4d9a-af89-aeeaf46054da"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="cf7dc292-dd95-4b06-80d7-a0f0494a81b5" ST="Draft"
-        UPDATEID="103101611" UPDATETIME="20120817112517" VER_NBR="3"/>
+        RT_DESCR_ID="97736b73-aa8b-4dc7-a147-91f02547e1ba" ST="Draft"
+        UPDATEID="103101611" UPDATETIME="20120817112517" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142556"
         ID="cc06e181-58dd-4412-83ff-1d085fd9d223"
         OBJ_ID="0da42a3d-7622-4269-83b8-446124db56f9"
@@ -23902,8 +23776,8 @@
         ID="cca2ebd3-20be-4e9b-9124-13b7bc1d3c83"
         OBJ_ID="ae3a2300-dba0-4b03-a714-7289fbb1b5fb"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="4773aa23-f8f9-49e1-9ba4-6686980a7bc4" ST="Draft"
-        UPDATETIME="20120713040032" VER_NBR="3"/>
+        RT_DESCR_ID="e8d0c989-fcf5-4e35-ae9c-7786260ec555" ST="Draft"
+        UPDATETIME="20120713040032" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152122"
         ID="cca45065-6778-46df-8af2-1de126022db0"
         OBJ_ID="5c3247ff-5938-4d9b-84c0-832ab1ada695"
@@ -24328,12 +24202,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="856f4015-469f-4f77-9b0f-c9747582bdff" ST="Draft"
         UPDATETIME="20120308160330" VER_NBR="3"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160035"
-        ID="d07ebe82-0956-4312-a6cc-256c7b788225"
-        OBJ_ID="646341cb-4e23-41b9-8539-f2c2cfea86ab"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="63da548f-ec35-497e-bc13-8adc99145970" ST="Draft"
-        UPDATETIME="20120308160035" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165214"
         ID="d091c9e6-3d6b-4f44-b9a2-c60c8260546f"
         OBJ_ID="ccd13675-c69f-457b-bb81-6f96c29a4a86"
@@ -25123,12 +24991,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.passFail"
         RT_DESCR_ID="5b12bb17-3d0d-45a2-a75d-a3431186b53b" ST="Draft"
         UPDATETIME="20120308152426" VER_NBR="3"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308160126"
-        ID="d70bd911-5208-40bb-afd6-257443d4d68a"
-        OBJ_ID="f2bb6b4f-984a-40b1-83aa-fdaaf18b3b97"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="60f16755-f718-4388-bc6d-9f20119ff450" ST="Draft"
-        UPDATETIME="20120309094309" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160122"
         ID="d7164683-3b73-4774-bfac-76d1f1e7c81d"
         OBJ_ID="1ddb377a-9a2e-4e6a-9928-9b8e5cddeb85"
@@ -25723,8 +25585,8 @@
         ID="dc67a50b-be49-448c-80f9-fb4cb53c5777"
         OBJ_ID="1cf22744-5811-417f-8f19-10106e4e2182"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="9d4d1701-d227-4ca2-8f09-fb3909a58576" ST="Draft"
-        UPDATETIME="20120309094310" VER_NBR="3"/>
+        RT_DESCR_ID="b8bab4ae-7949-4c2d-8db7-48a7c2e6c9c7" ST="Draft"
+        UPDATETIME="20120309094310" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308142606"
         ID="dc6c6e24-a972-4ebb-9b80-4a8dbcfe00d9"
         OBJ_ID="c2dabd46-4097-43e0-87a1-577fa8472eaa"
@@ -25843,8 +25705,8 @@
         ID="dd6c7521-16af-4bf0-b87f-b1c9b27310ef"
         OBJ_ID="a9d7a973-8713-4723-87ae-6576cddf6d56"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="11f6e4cd-1520-4cbc-be1a-0a0af566144e" ST="Draft"
-        UPDATETIME="20120308160442" VER_NBR="2"/>
+        RT_DESCR_ID="bb210d10-8d86-4e41-a9ca-20d2bfba3e22" ST="Draft"
+        UPDATETIME="20120308160442" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308141938"
         ID="dd72df20-5269-4e3b-b84d-38d71fa6b724"
         OBJ_ID="6e77fab2-a3d5-4101-8aa5-665d0f5fa6e0"
@@ -25877,8 +25739,8 @@
         ID="ddd673b0-cc4c-45b5-9231-3249e6231a3c"
         OBJ_ID="494ef91f-ac0e-4964-9efe-7ac5d8c886dd"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="c2036779-e6d8-41c2-a5d4-b7065cfac929" ST="Draft"
-        UPDATETIME="20120308165226" VER_NBR="2"/>
+        RT_DESCR_ID="84a285e9-a3c0-4cba-b644-3201908d24b2" ST="Draft"
+        UPDATETIME="20120308165226" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308151852"
         ID="ddfc04b1-9e36-4520-9c4f-ca9f4249fb16"
         OBJ_ID="d9fb46d6-199b-48fb-b92c-37d8ca96c629"
@@ -26074,8 +25936,8 @@
         ID="e008acca-995f-4b7d-a560-141f0b96c03e"
         OBJ_ID="e583b73a-2f79-4539-ae5a-846e4baec156"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="2f5b3aaa-81e2-4d87-88c6-8c6599c4be20" ST="Draft"
-        UPDATETIME="20120308160442" VER_NBR="2"/>
+        RT_DESCR_ID="87fdda85-34c4-46d9-a41a-2c693fda36ca" ST="Draft"
+        UPDATETIME="20120308160442" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160217"
         ID="e013d657-5bea-4170-b31d-c1e331e6093c"
         OBJ_ID="3da204d9-05aa-434b-be81-59533f830750"
@@ -26505,8 +26367,8 @@
         ID="e2e5a8a2-40eb-4b88-b8f9-0343861db405"
         OBJ_ID="282eaacb-436a-4080-8849-810daa48dc93"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="ce4fd14c-8720-47fc-835a-3f343dcbd28d" ST="Draft"
-        UPDATETIME="20120309094322" VER_NBR="3"/>
+        RT_DESCR_ID="251da00b-e4fa-4404-9042-a0838e6f499a" ST="Draft"
+        UPDATETIME="20120309094322" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160533"
         ID="e2e8e399-37ff-4aec-985a-e12f7a954ed2"
         OBJ_ID="0bf3efbd-b26b-43b1-9962-1d562c8d8ebe"
@@ -26592,8 +26454,8 @@
         ID="e3a5a44b-bcfe-4190-a37a-6e8c4930167d"
         OBJ_ID="97e21046-5e98-4794-a9dc-5a995fe20aaa"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="4a4c2f82-bffa-4989-9604-683897b0f40c" ST="Active"
-        UPDATETIME="20120407040722" VER_NBR="4"/>
+        RT_DESCR_ID="d47b2615-7b98-4b6d-af5a-829fdd770c51" ST="Active"
+        UPDATETIME="20120407040722" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308151843"
         ID="e3a67302-54cd-4de7-903e-0f857b54d6aa"
         OBJ_ID="9caed15f-8baf-4798-a23a-e5d07c0d5104"
@@ -27186,8 +27048,8 @@
         ID="e8aeedec-68ad-49ac-8100-210ade658b42"
         OBJ_ID="f5d12ec2-6c3b-4452-9ffc-4f634758560b"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="b4fa4286-df13-4162-8403-f4ae70b608d8" ST="Active"
-        UPDATETIME="20120308165217" VER_NBR="1"/>
+        RT_DESCR_ID="0670e52e-b83f-400c-a8b0-e24d57ce7319" ST="Active"
+        UPDATETIME="20120308165217" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152424"
         ID="e8be9ce8-d669-4f37-818c-bf9abe7505cf"
         OBJ_ID="5db2258c-5356-4385-b0ba-1b7b8be78d6e"
@@ -27265,8 +27127,8 @@
         ID="e9553883-1e1f-4900-b906-bbedd0feb20d"
         OBJ_ID="59d888f4-dde4-4285-9bf3-f9d74589a775"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="912dfb6c-e730-4fcf-8828-92862ed11ff9" ST="Draft"
-        UPDATETIME="20120308165226" VER_NBR="2"/>
+        RT_DESCR_ID="663f4374-0b19-43fb-be9e-e101b5fd68e9" ST="Draft"
+        UPDATETIME="20120308165226" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308151953"
         ID="e95f72e7-36d5-4568-ba74-cb043fee448a"
         OBJ_ID="d14c68e5-57e1-499e-b38c-96e40b0ef26b"
@@ -27306,8 +27168,8 @@
         ID="e996eb4d-a6d7-45d9-a29d-b66e16b47414"
         OBJ_ID="54fe563c-1c50-4baf-8f26-5639dcc3dc12"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="ecbf58d9-c181-4702-931e-6c0c1d0b0da8" ST="Draft"
-        UPDATETIME="20120419170653" VER_NBR="4"/>
+        RT_DESCR_ID="dd02c2cd-44b7-47f0-8e3a-fd4cc598c13c" ST="Draft"
+        UPDATETIME="20120419170653" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152407"
         ID="e99907be-6d95-47f9-89ac-90e6efeaebbe"
         OBJ_ID="ddb60c8b-879d-4fc0-9d77-e290acdb1c20"
@@ -27380,12 +27242,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.letter"
         RT_DESCR_ID="90256248-ad62-4528-a839-c04c522be4ce" ST="Active"
         UPDATETIME="20120308152131" VER_NBR="2"/>
-    <KSLU_RSLT_OPT CREATETIME="20120308172331"
-        ID="ea687119-6a16-4a07-9dea-9e7669dbfa48"
-        OBJ_ID="6c607e33-4ded-44b3-8f20-450c2e89abcb"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="c0dc7b40-befa-49b5-9ebb-fc2f33fa248d" ST="Draft"
-        UPDATETIME="20120309094725" VER_NBR="3"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152149"
         ID="ea68db5b-8db1-4ee6-a8f4-5b5c00a979b5"
         OBJ_ID="1894170f-a4c6-448d-9391-4a81179b8d87"
@@ -27402,8 +27258,8 @@
         ID="ea728086-5692-4d98-b02e-04c70acbd43a"
         OBJ_ID="a894c3d4-8f24-4260-81d2-e51394852240"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="b78746d0-b20a-44c3-948d-c63a3bb64a88" ST="Draft"
-        UPDATETIME="20120308160035" VER_NBR="2"/>
+        RT_DESCR_ID="13b805ab-cec4-4a23-a10a-2ab82d15395c" ST="Draft"
+        UPDATETIME="20120308160035" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160211"
         ID="ea73a38e-1be2-4a99-9739-3c5ca4959b67"
         OBJ_ID="189365bf-63fc-4d80-bbb5-523215444d38"
@@ -27741,8 +27597,8 @@
         ID="edf4885f-22a8-406b-873a-eb5089872ea0"
         OBJ_ID="f2c1df55-6343-485d-a684-a6bb226d8b87"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="ffb4f854-9855-4d06-ae6b-44c3d11b89b5" ST="Active"
-        UPDATETIME="20120308152138" VER_NBR="1"/>
+        RT_DESCR_ID="232ba9e3-98eb-4f68-81be-9979847e9fea" ST="Active"
+        UPDATETIME="20120308152138" VER_NBR="2"/>
     <KSLU_RSLT_OPT CREATETIME="20120308152141"
         ID="ee153ad5-9072-415d-b562-4524c9c69fd0"
         OBJ_ID="75b7524d-e2ea-41f7-9026-7215941150dc"
@@ -27794,8 +27650,8 @@
         ID="ee85d7ba-d091-4a78-8212-8b91f26c1101"
         OBJ_ID="11ae4742-aba5-4a20-a4d5-2ffcd029de04"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="10bc354f-eef5-459b-a0b5-d4ec3ee77a5f" ST="Active"
-        UPDATETIME="20120407041015" VER_NBR="4"/>
+        RT_DESCR_ID="a5f96735-0f1a-4902-a0e9-557aa3bd0ae8" ST="Active"
+        UPDATETIME="20120407041015" VER_NBR="6"/>
     <KSLU_RSLT_OPT CREATETIME="20120308164955"
         ID="ee974cd0-db9f-4b82-beb6-9a86ab00ad43"
         OBJ_ID="111f7115-8e25-4aed-9067-b93f944473d1"
@@ -28493,8 +28349,8 @@
         ID="f4b506b8-ae81-4075-98fe-7f7f4edf3718"
         OBJ_ID="2fffb734-1c20-4cfc-b909-2ca8feb1b8e8"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="a314feae-941a-456f-999a-3d2f305976fb" ST="Draft"
-        UPDATETIME="20120309094725" VER_NBR="3"/>
+        RT_DESCR_ID="e2007284-50df-453c-83b2-476b9ad47313" ST="Draft"
+        UPDATETIME="20120309094725" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308151928"
         ID="f4bdeb8c-fd11-46d9-9613-deb9079f92fb"
         OBJ_ID="25732129-b659-4f6c-bed5-902a86f9c049"
@@ -28717,8 +28573,8 @@
         ID="f6d3b283-e0a4-47c7-8ab5-6e8cbc525720"
         OBJ_ID="94acdac0-8418-4880-b9f4-905e73b47703"
         RES_COMP_ID="kuali.resultComponent.grade.letter"
-        RT_DESCR_ID="fc3633d6-bbba-47ff-8214-bda0a5626b7d" ST="Active"
-        UPDATEID="102150566" UPDATETIME="20120423152317" VER_NBR="2"/>
+        RT_DESCR_ID="5731af03-f908-4747-ae08-80633ea8c933" ST="Active"
+        UPDATEID="102150566" UPDATETIME="20120423152317" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160118"
         ID="f6d52b95-c862-4bd4-ae3f-a217f2976883"
         OBJ_ID="e0fef7f0-895c-43e4-ad5b-46feca22d3e4"
@@ -28909,8 +28765,8 @@
         ID="f8158d46-1b75-4734-9871-a78dd6db2acf"
         OBJ_ID="087e840c-2718-4141-8261-62c37ed9e3a9"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="fbab00cf-4722-4314-8466-25b3661ffccf" ST="Draft"
-        UPDATETIME="20120713040032" VER_NBR="3"/>
+        RT_DESCR_ID="daa579ff-d84b-45db-8706-e9f927625920" ST="Draft"
+        UPDATETIME="20120713040032" VER_NBR="5"/>
     <KSLU_RSLT_OPT CREATETIME="20120308165034"
         ID="f81a8937-fc82-433b-a4cd-3d4913aa0d81"
         OBJ_ID="74a64a54-e532-4c32-807d-085508b90382"
@@ -28929,12 +28785,6 @@
         RES_COMP_ID="kuali.resultComponent.grade.audit"
         RT_DESCR_ID="c86539a1-9f68-4f5e-99a1-1e82463424b1" ST="Draft"
         UPDATETIME="20120308152114" VER_NBR="3"/>
-    <KSLU_RSLT_OPT CREATETIME="20120629040039"
-        ID="f8501773-dbb6-4138-9d35-48094c96bc08"
-        OBJ_ID="2275d1bf-43b1-426a-a394-935f7cda8a82"
-        RES_COMP_ID="kuali.resultComponent.grade.passFail"
-        RT_DESCR_ID="397ea246-bd8b-4acd-97dc-50d3a169bd21" ST="Active"
-        UPDATETIME="20120804040042" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308160143"
         ID="f85222d6-23ee-4889-945d-96ab008b2374"
         OBJ_ID="0e29e454-5125-43f4-92e9-07dd866601db"
@@ -29537,8 +29387,8 @@
         ID="fcd80f34-2046-43bc-84a0-975d558a5441"
         OBJ_ID="f6788390-c6e0-4fe3-b007-f39899fa8bda"
         RES_COMP_ID="kuali.resultComponent.grade.audit"
-        RT_DESCR_ID="f32d09f3-1bdd-429b-a186-d20b358fc2ff" ST="Draft"
-        UPDATETIME="20120308165057" VER_NBR="2"/>
+        RT_DESCR_ID="ed21519e-b681-4392-9655-658db20f2b65" ST="Draft"
+        UPDATETIME="20120308165057" VER_NBR="4"/>
     <KSLU_RSLT_OPT CREATETIME="20120308151844"
         ID="fce34f55-9d5b-4264-a500-0857ac4513db"
         OBJ_ID="dbb04f96-6b40-4f06-a078-fcb75c7ac4b7"

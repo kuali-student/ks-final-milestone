@@ -969,8 +969,6 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="ffe3591e-a6e5-4e75-a09c-70f4cdfdceeb" RVG_ID="kuali.creditType.credit.degree.1-5"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0"/>
@@ -981,9 +979,9 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
@@ -995,35 +993,35 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.10.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.10.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.10.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.10.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.11.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.11.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.11.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.11.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.12.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.12.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.12.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.12.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.13.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.13.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.13.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.13.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.14.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.14.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.14.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.14.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.15.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.15.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.15.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.15.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.16.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.16.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
@@ -1035,9 +1033,9 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
@@ -1047,9 +1045,9 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
@@ -1059,13 +1057,13 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
@@ -1073,11 +1071,11 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
@@ -1085,17 +1083,19 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.4.0,4.5,5.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
@@ -1103,11 +1103,11 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.4.0,4.5,5.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
@@ -1115,57 +1115,57 @@
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.4.0,4.5,5.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.6.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.6.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.7.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.7.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.7.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.7.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
-    <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.8.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.8.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.8.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.9.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.9.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
         RESULT_VALUE_ID="kuali.result.value.credit.degree.9.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
     <KSEN_LRC_RVG_RESULT_VALUE
-        RESULT_VALUE_ID="kuali.result.value.credit.degree.9.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5"/>
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.9.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
 </dataset>
