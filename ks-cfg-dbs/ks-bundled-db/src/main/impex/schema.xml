@@ -4476,9 +4476,16 @@
         </index>
     </table>
     <table name="KSEN_CODE_GENERATOR_LOCKS">
-        <column name="CODE" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="UNIQUE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="NAMESPACE" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="CODE" required="true" size="255" type="VARCHAR"/>
+        <column name="UNIQUE_KEY" required="true" size="255" type="VARCHAR"/>
+        <column name="NAMESPACE" required="true" size="255" type="VARCHAR"/>
+        <unique name="KSEN_CODE_GENERATOR_LOCKS_I1">
+            <unique-column name="CODE"/>
+            <unique-column name="UNIQUE_KEY"/>
+            <unique-column name="NAMESPACE"/>
+        </unique>
     </table>
     <table name="KSEN_COMM_STATE">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
