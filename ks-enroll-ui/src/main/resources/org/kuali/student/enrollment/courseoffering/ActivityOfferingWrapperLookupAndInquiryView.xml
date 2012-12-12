@@ -63,6 +63,8 @@
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Actuals"/>
                 <ref bean="ActivityOfferingEdit-MainPage-PersonnelSection"/>
                 <ref bean="ActivityOfferingEdit-MainPage-SeatPool"/>
+                <ref bean="KS-ActivityOffering-Inquiry-HonorsOffering"/>
+                <ref bean="KS-ActivityOffering-Inquiry-Evaluation"/>
                 <ref bean="ActivityOfferingEdit-Inquiry-MainPage-Miscellaneous"/>
             </list>
         </property>
@@ -120,6 +122,38 @@
         </property>
     </bean>
 
+    <bean id="KS-ActivityOffering-Inquiry-HonorsOffering" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;" p:render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText=""/>
+                <bean parent="Uif-InputField" p:propertyName="aoInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="LEFT">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl">
+                            <property name="checkboxLabel" value="This is an Honors Course"/>
+                        </bean>
+                    </property>
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ActivityOffering-Inquiry-Evaluation" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;" p:render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText=""/>
+                <bean parent="Uif-InputField" p:propertyName="aoInfo.isEvaluated" p:label="Evaluation" p:fieldLabel.renderColon="false" p:labelPlacement="LEFT">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl">
+                            <property name="checkboxLabel" value="This lecture requires an evaluation"/>
+                        </bean>
+                    </property>
+
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="ActivityOfferingEdit-Inquiry-MainPage-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
         <property name="items">
             <list>
@@ -137,15 +171,7 @@
                       p:style="margin-bottom:0">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelRight"
-                                  p:propertyName="aoInfo.isEvaluated"
-                                  p:label="This lecture requires an evaluation: "
-                                  p:fieldLabel.cssClasses="label-normal"
-                                  p:required="false" p:labelPlacement="LEFT">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
-                                </property>
-                            </bean>
+                            <bean parent="Uif-MessageField" p:messageText="@{(dataObject.aoInfo.isEvaluated eq null or !dataObject.aoInfo.isEvaluated) ? '':'This lecture requires an evaluation'}" />
                         </list>
                     </property>
                 </bean>
@@ -155,15 +181,7 @@
                       p:style="margin-bottom:0">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelRight"
-                                  p:propertyName="aoInfo.isHonorsOffering"
-                                  p:label="This is an honors course: "
-                                  p:fieldLabel.cssClasses="label-normal"
-                                  p:required="false" p:labelPlacement="LEFT">
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
-                                </property>
-                            </bean>
+                            <bean parent="Uif-MessageField" p:messageText="@{(dataObject.aoInfo.isHonorsOffering eq null or !dataObject.aoInfo.isHonorsOffering) ? '':'This is an honors course'}" />
                         </list>
                     </property>
                 </bean>
