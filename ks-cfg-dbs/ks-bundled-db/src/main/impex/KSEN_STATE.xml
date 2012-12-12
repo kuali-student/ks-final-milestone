@@ -298,15 +298,15 @@
         ID="kuali.process.process.state.inactive"
         LIFECYCLE_KEY="kuali.process.process.lifecycle" NAME="Inactive" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121211000000"
-        DESCR_FORMATTED="Building is online and available for business processes"
-        DESCR_PLAIN="Building is online and available for business processes"
-        ID="kuali.room.building.state.active"
-        LIFECYCLE_KEY="kuali.room.building.lifecycle" NAME="Online" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121211000000"
         DESCR_FORMATTED="Building is offline and not available for use"
         DESCR_PLAIN="Building is offline and not available for use"
-        ID="kuali.room.building.state.inactive"
+        ID="kuali.room.building.state.offline"
         LIFECYCLE_KEY="kuali.room.building.lifecycle" NAME="Offline" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121211000000"
+        DESCR_FORMATTED="Building is online and available for business processes"
+        DESCR_PLAIN="Building is online and available for business processes"
+        ID="kuali.room.building.state.online"
+        LIFECYCLE_KEY="kuali.room.building.lifecycle" NAME="Online" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121211000000"
         DESCR_FORMATTED="The facility is offline and not available for use"
         DESCR_PLAIN="The facility is offline and not available for use"
@@ -318,15 +318,15 @@
         ID="kuali.room.facility.state.online"
         LIFECYCLE_KEY="kuali.room.facility.lifecycle" NAME="Online" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121211000000"
-        DESCR_FORMATTED="The room is online and available for business processes"
-        DESCR_PLAIN="The room is online and available for business processes"
-        ID="kuali.room.room.state.active"
-        LIFECYCLE_KEY="kuali.room.room.lifecycle" NAME="Online" VER_NBR="0"/>
-    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121211000000"
         DESCR_FORMATTED="The room is offline and unavailable for use"
         DESCR_PLAIN="The room is offline and unavailable for use"
-        ID="kuali.room.room.state.inactive"
+        ID="kuali.room.room.state.offline"
         LIFECYCLE_KEY="kuali.room.room.lifecycle" NAME="Offline" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121211000000"
+        DESCR_FORMATTED="The room is online and available for business processes"
+        DESCR_PLAIN="The room is online and available for business processes"
+        ID="kuali.room.room.state.online"
+        LIFECYCLE_KEY="kuali.room.room.lifecycle" NAME="Online" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20120813000000"
         DESCR_FORMATTED="The request has been created"
         DESCR_PLAIN="The request has been created"
