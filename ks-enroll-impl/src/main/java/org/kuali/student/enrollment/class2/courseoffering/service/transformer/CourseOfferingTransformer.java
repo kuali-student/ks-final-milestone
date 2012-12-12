@@ -326,10 +326,7 @@ public class CourseOfferingTransformer {
             if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 co.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
             }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
-                if(co.getGradingOptionId()!=null){
-                    throw new RuntimeException("This course offering has multiple grading options in the data. It should only have at most one.");
-                }
-                co.setGradingOptionId(resultValueGroupKey);
+                 co.setGradingOptionId(resultValueGroupKey);
             }else if(resultValueGroupKey!=null && resultValueGroupKey.startsWith("kuali.creditType.credit")){//There should be a better way of distinguishing credits from other results
                 co.setCreditOptionId(resultValueGroupKey);
             }
@@ -698,16 +695,12 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setUnitsDeployment(courseInfo.getUnitsDeployment());
 
         //Split up the result keys for student registration options into a separate field.
-        courseOfferingInfo.getStudentRegistrationGradingOptions().clear();
-        courseOfferingInfo.setGradingOptionId(null);
         for(String resultValueGroupKey : courseInfo.getGradingOptions()){
-            if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)){
+            if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValueGroupKey)
+                    && !courseOfferingInfo.getStudentRegistrationGradingOptions().contains(resultValueGroupKey)){
                 courseOfferingInfo.getStudentRegistrationGradingOptions().add(resultValueGroupKey);
-            }else if(ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
-                if(courseOfferingInfo.getGradingOptionId()!=null){
-                    //Log warning
-                    LOG.warn("When Copying from Course CLU, multiple grading options were found");
-                }
+            }else if(courseOfferingInfo.getGradingOptionId() == null &&
+                    ArrayUtils.contains(CourseOfferingServiceConstants.ALL_GRADING_OPTION_TYPE_KEYS, resultValueGroupKey)){
                 courseOfferingInfo.setGradingOptionId(resultValueGroupKey);
             }
         }
