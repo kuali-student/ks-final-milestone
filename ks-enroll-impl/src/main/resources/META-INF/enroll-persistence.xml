@@ -176,6 +176,9 @@
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.SeatPoolDefinitionAttributeEntity</class>
 
+        <!-- Concurrency checking -->
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.CodeGeneratorLocksEntity</class>
+
         <!-- Activity Offering Cluster -->
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>

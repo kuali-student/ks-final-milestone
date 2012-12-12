@@ -1236,7 +1236,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         if (aoInfo.getActivityCode() == null) {
             //If there is no activity code, create a new one
-            aoInfo.setActivityCode(offeringCodeGenerator.generateActivityOfferingCode(existingAoInfos));
+            aoInfo.setActivityCode(offeringCodeGenerator.generateActivityOfferingCode(co.getId(),existingAoInfos));
         } else {
             for (ActivityOfferingInfo existingAoInfo : existingAoInfos) {
                 if (aoInfo.getActivityCode().equals(existingAoInfo.getActivityCode())) {

@@ -13,6 +13,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface CourseOfferingCodeGenerator {
-    String generateActivityOfferingCode(List<ActivityOfferingInfo> existingActivityOfferings);
+    String generateActivityOfferingCode(String courseOfferingCode, List<ActivityOfferingInfo> existingActivityOfferings);
     String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings);
 }

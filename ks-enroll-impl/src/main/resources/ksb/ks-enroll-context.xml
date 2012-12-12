@@ -605,7 +605,11 @@
         </property>
     </bean>
 
-   <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+   <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
+       <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
+   </bean>
+
+
    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
        <property name="lprService" ref="lprPersistenceService" />
        <property name="lrcService" ref="lrcServiceCache" />

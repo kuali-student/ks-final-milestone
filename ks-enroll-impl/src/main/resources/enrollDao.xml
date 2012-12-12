@@ -231,4 +231,8 @@
     <bean id="statePropagationDao" class="org.kuali.student.r2.core.class1.state.dao.StatePropagationDao">
         <property name="em" ref="enrollEntityManager" />
     </bean>
+    <bean id="codeGeneratorLocksDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDao">
+        <property name="em" ref="enrollEntityManager" />
+    </bean>
+
 </beans>

@@ -229,6 +229,7 @@
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity</class>
+        <class>org.kuali.student.enrollment.class2.courseoffering.model.CodeGeneratorLocksEntity</class>
 
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>

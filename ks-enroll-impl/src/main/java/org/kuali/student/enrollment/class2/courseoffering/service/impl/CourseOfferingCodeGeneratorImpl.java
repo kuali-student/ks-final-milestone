@@ -35,7 +35,7 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
 
 
     @Override
-    public String generateActivityOfferingCode(List<ActivityOfferingInfo> existingActivityOfferings) {
+    public String generateActivityOfferingCode(String courseOfferingCode, List<ActivityOfferingInfo> existingActivityOfferings) {
 
         // If this is the first code, send back "A"
         if (existingActivityOfferings == null || existingActivityOfferings.isEmpty()) {

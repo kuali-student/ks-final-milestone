@@ -32,6 +32,8 @@
     <property name="transactionManager" ref="AtomikosTxMgr" />
     <property name="userTransaction" ref="AtomikosUsrTx" />
     <property name="transactionSynchronizationName" value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+      <property name="allowCustomIsolationLevels" value="true" />
+
   </bean>
 
   <bean id="dataSource" class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean"
@@ -244,7 +246,7 @@
 
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
-    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
         <property name="lprService" ref="lprService" />
         <property name="lrcService" ref="lrcService"/>
@@ -352,6 +354,14 @@
     <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
 
     <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
+
+    <bean id="codeGeneratorLocksDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
+        <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
+    </bean>
         
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

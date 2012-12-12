@@ -8,7 +8,11 @@
 
     <context:annotation-config/>
 
-    <bean id="codeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+    <import resource="classpath:co-test-context.xml" />
+
+    <bean id="codeGeneratorLocksDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDao">
+        <property name="em" ref="entityManager" />
+    </bean>
 
 
 </beans>

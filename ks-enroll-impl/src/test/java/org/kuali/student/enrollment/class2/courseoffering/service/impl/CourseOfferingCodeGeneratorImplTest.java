@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
@@ -32,28 +31,33 @@ import static org.junit.Assert.assertTrue;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:co-test-code-generator-context.xml"})
+@ContextConfiguration(locations = {"classpath:co-test-context.xml"})
 public class CourseOfferingCodeGeneratorImplTest {
 
     private static final Logger log = Logger.getLogger(CourseOfferingCodeGeneratorImplTest.class);
 
     @Resource
-    CourseOfferingCodeGenerator codeGenerator;
+    CourseOfferingCodeGenerator offeringCodeGenerator;
 
 
     protected List<ActivityOfferingInfo> _getBaseAOList(){
         List<ActivityOfferingInfo> aoList = new ArrayList<ActivityOfferingInfo>();
 
+        String courseOfferingCode = "ENGL101";
+
         ActivityOfferingInfo ao1 = new ActivityOfferingInfo();
         ao1.setActivityCode("A");
+        ao1.setCourseOfferingCode(courseOfferingCode);
         aoList.add(ao1);
 
         ActivityOfferingInfo ao2 = new ActivityOfferingInfo();
         ao2.setActivityCode("B");
+        ao2.setCourseOfferingCode(courseOfferingCode);
         aoList.add(ao2);
 
         ActivityOfferingInfo ao3 = new ActivityOfferingInfo();
         ao3.setActivityCode("C");
+        ao3.setCourseOfferingCode(courseOfferingCode);
         aoList.add(ao3);
 
 
@@ -64,9 +68,10 @@ public class CourseOfferingCodeGeneratorImplTest {
     @Test
     public void testGenerateActivityOfferingCode(){
 
+        String courseOfferingCode = "ENGL101";
         List<ActivityOfferingInfo> aoList = _getBaseAOList();
 
-        String nextCode = codeGenerator.generateActivityOfferingCode(aoList);
+        String nextCode = offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,aoList);
 
         // the list passed in above is A,B,C so the next should be D
         assertTrue("D".equals(nextCode));
@@ -74,9 +79,10 @@ public class CourseOfferingCodeGeneratorImplTest {
         // Lets add a gap
         ActivityOfferingInfo ao1 = new ActivityOfferingInfo();
         ao1.setActivityCode("E");
+        ao1.setCourseOfferingCode("ENGL101");
         aoList.add(ao1);
 
-        nextCode = codeGenerator.generateActivityOfferingCode(aoList);
+        nextCode = offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,aoList);
 
         // the list passed in above is A,B,C,E so we should fill in the gap with D
         assertTrue ("D".equals(nextCode));
@@ -88,16 +94,16 @@ public class CourseOfferingCodeGeneratorImplTest {
      *     This class is set to ignore right now, but should be set to @Test once our concurrency
      *     issue is solved.
      */
-    @Ignore
+    @Test
     public void testGenerateActivityOfferingCodeMultiThread(){
         try{
-            test(6);
+            test("ENGL101", 6);
         }catch (Exception ex){
             ex.printStackTrace();
         }
     }
 
-    private void test(final int threadCount) throws InterruptedException, ExecutionException {
+    private void test(final String courseOfferingCode, final int threadCount) throws InterruptedException, ExecutionException {
 
 
         Callable<String> task = new Callable<String>() {
@@ -106,7 +112,7 @@ public class CourseOfferingCodeGeneratorImplTest {
 
             public String call() {
 
-                return codeGenerator.generateActivityOfferingCode(new ArrayList<ActivityOfferingInfo>());
+                return offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,new ArrayList<ActivityOfferingInfo>());
 
             }
 
@@ -145,7 +151,9 @@ public class CourseOfferingCodeGeneratorImplTest {
 
         Collections.sort(resultList);
 
-        assertTrue ("\nWas expecting \n[" + expectedList + "] but got \n[" + resultList + "]\n" , expectedList == resultList);
+        for(int i=0;i< resultList.size(); i++){
+            assertTrue("\nWas expecting \n[" + expectedList.get(i) + "] but got \n[" + resultList.get(i) + "]\n" , expectedList.get(i).equals(resultList.get(i)));
+        }
 
     }
 
