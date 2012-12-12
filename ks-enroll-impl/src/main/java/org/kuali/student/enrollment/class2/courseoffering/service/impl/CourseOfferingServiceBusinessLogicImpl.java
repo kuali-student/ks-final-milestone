@@ -651,8 +651,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
                 // Now determine if this registration group is in a valid state
                 List<ValidationResultInfo> validations =
-                    coService.validateRegistrationGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                            rgInfo.getActivityOfferingClusterId(), rgInfo.getTypeKey(), rgInfo, contextInfo);
+                        coService.verifyRegistrationGroup(rgInfo.getId(), contextInfo);
+
                 for (ValidationResultInfo validation: validations) {
                     if (validation.isWarn()) {
                         // If any validation is an error, then make this invalid

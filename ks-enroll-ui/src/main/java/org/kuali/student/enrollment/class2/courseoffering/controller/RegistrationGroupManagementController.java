@@ -1045,9 +1045,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         if (aoCluster != null && registrationGroupInfos != null && !registrationGroupInfos.isEmpty()) {
             int rgIndex = 0;
             for (RegistrationGroupInfo registrationGroupInfo : registrationGroupInfos) {
-                List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateRegistrationGroup(
-                        DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), aoCluster.getId(), registrationGroupInfo.getTypeKey(), registrationGroupInfo, ContextUtils.createDefaultContextInfo());
-
+                List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().verifyRegistrationGroup(registrationGroupInfo.getId(), ContextUtils.createDefaultContextInfo());
                 if (validationResultInfoList.get(0).isWarn())  {
                     getCourseOfferingService().updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,ContextUtils.createDefaultContextInfo());
                     rgIndexList.add(rgIndex);

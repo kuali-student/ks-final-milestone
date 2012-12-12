@@ -1960,7 +1960,102 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     public List<ValidationResultInfo> verifyRegistrationGroup(String registrationGroupId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException();
+        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
+        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
+
+        try {
+            RegistrationGroupInfo registrationGroupInfo = registrationGroupInfo = getRegistrationGroup (registrationGroupId, contextInfo);
+            List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
+            if (aoIds == null) {
+                aoIds = new ArrayList<String>();
+            }
+            Map<String, Map<String, List<String>>> aoTimeSlotMap = new HashMap<String, Map<String, List<String>>>(aoIds.size());
+
+            if (aoIds.size() > 1) {
+                //push the actual and requested timeslots associated with the AOs of the given RG into a map
+                for (int i = 0; i < aoIds.size(); i++) {
+                    Map<String, List<String>> timeSlotMap = new HashMap<String, List<String>>();
+
+                    // retrieve the actual time slots for given AO
+                    List<String> timeSlotIdsActualForInsert = _getTimeSlotIdsbyActivityOffering(aoIds.get(i), "actual", contextInfo);
+                    if (timeSlotIdsActualForInsert != null && !timeSlotIdsActualForInsert.isEmpty()) {
+                        timeSlotMap.put("actual", timeSlotIdsActualForInsert);
+                    }
+                    // retrieve the requested time slots for given AO
+                    List<String> timeSlotIdsRequestedForInsert = _getTimeSlotIdsbyActivityOffering(aoIds.get(i), "requested", contextInfo);
+                    if (timeSlotIdsRequestedForInsert != null && !timeSlotIdsRequestedForInsert.isEmpty()) {
+                        timeSlotMap.put("requested", timeSlotIdsRequestedForInsert);
+                    }
+
+                    aoTimeSlotMap.put(aoIds.get(i), timeSlotMap);
+                }
+
+                for (Map.Entry<String, Map<String, List<String>>> entry : aoTimeSlotMap.entrySet()) {
+                    boolean hasTimeSlotActual = false, hasTimeSlotRequested = false;
+                    List<String> timeSlotIdsActual = entry.getValue().get("actual");
+                    List<String> timeSlotIdsRequested = entry.getValue().get("requested");
+
+                    if (timeSlotIdsActual != null && !timeSlotIdsActual.isEmpty()) {
+                        hasTimeSlotActual = true;
+                    }
+                    if (timeSlotIdsRequested != null && !timeSlotIdsRequested.isEmpty()) {
+                        hasTimeSlotRequested = true;
+                    }
+
+                    if (hasTimeSlotActual == true || hasTimeSlotRequested == true) {
+                        for (Map.Entry<String, Map<String, List<String>>> innerEntry : aoTimeSlotMap.entrySet()) {
+                            boolean hasTimeSlotActualCompared = false, hasTimeSlotRequestedCompared = false;
+
+                            if (!entry.getKey().equals(innerEntry.getKey())) {
+                                List<String> timeSlotIdsComparedActual = innerEntry.getValue().get("actual");
+                                List<String> timeSlotIdsComparedRequested = innerEntry.getValue().get("requested");
+                                if (timeSlotIdsComparedActual != null && !timeSlotIdsComparedActual.isEmpty()) {
+                                    hasTimeSlotActualCompared = true;
+                                }
+                                if (timeSlotIdsComparedRequested != null && !timeSlotIdsComparedRequested.isEmpty()) {
+                                    hasTimeSlotRequestedCompared = true;
+                                }
+
+                                if (hasTimeSlotActualCompared || hasTimeSlotRequestedCompared) {
+                                    List<ValidationResultInfo> resultInfos = null;
+                                    if (hasTimeSlotActual  && hasTimeSlotActualCompared) {
+                                        // both have schedules
+                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsActual, timeSlotIdsComparedActual,
+                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), contextInfo);
+                                    } else if (hasTimeSlotActual && !hasTimeSlotActualCompared && hasTimeSlotRequestedCompared) {
+                                        // first has scheduled, compared has schedule request
+                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsActual, timeSlotIdsComparedRequested,
+                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), contextInfo);
+                                    } else if (!hasTimeSlotActual && hasTimeSlotRequested && hasTimeSlotActualCompared) {
+                                        // first has schedule request, compared has schedule
+                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsRequested, timeSlotIdsComparedActual,
+                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), contextInfo);
+                                    } else if (!hasTimeSlotActual && hasTimeSlotRequested && !hasTimeSlotActualCompared && hasTimeSlotRequestedCompared) {
+                                        // both have schedule requests
+                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsRequested, timeSlotIdsComparedRequested,
+                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), contextInfo);
+
+                                    }
+
+                                    if (resultInfos != null) {
+                                        // Found time conflict, so return
+                                        return resultInfos;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException("unexpected", e);
+        }
+
+        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
+        validationResultInfo.setMessage("No time conflict in the Registration Group");
+        validationResultInfos.add(validationResultInfo);
+        return validationResultInfos;
+
     }
 
 
@@ -2090,102 +2185,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                                 RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>() ;
-        ValidationResultInfo validationResultInfo = new ValidationResultInfo();
-
-        List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
-        if (aoIds == null) {
-            aoIds = new ArrayList<String>();
-        }
-        Map<String, Map<String, List<String>>> aoTimeSlotMap = new HashMap<String, Map<String, List<String>>>(aoIds.size());
-
-        try {
-            if (aoIds.size() > 1) {
-                //push the actual and requested timeslots associated with the AOs of the given RG into a map
-                for (int i = 0; i < aoIds.size(); i++) {
-                    Map<String, List<String>> timeSlotMap = new HashMap<String, List<String>>();
-
-                    // retrieve the actual time slots for given AO
-                    List<String> timeSlotIdsActualForInsert = _getTimeSlotIdsbyActivityOffering(aoIds.get(i), "actual", context);
-                    if (timeSlotIdsActualForInsert != null && !timeSlotIdsActualForInsert.isEmpty()) {
-                        timeSlotMap.put("actual", timeSlotIdsActualForInsert);
-                    }
-                    // retrieve the requested time slots for given AO
-                    List<String> timeSlotIdsRequestedForInsert = _getTimeSlotIdsbyActivityOffering(aoIds.get(i), "requested", context);
-                    if (timeSlotIdsRequestedForInsert != null && !timeSlotIdsRequestedForInsert.isEmpty()) {
-                        timeSlotMap.put("requested", timeSlotIdsRequestedForInsert);
-                    }
-
-                    aoTimeSlotMap.put(aoIds.get(i), timeSlotMap);
-                }
-
-                for (Map.Entry<String, Map<String, List<String>>> entry : aoTimeSlotMap.entrySet()) {
-                    boolean hasTimeSlotActual = false, hasTimeSlotRequested = false;
-                    List<String> timeSlotIdsActual = entry.getValue().get("actual");
-                    List<String> timeSlotIdsRequested = entry.getValue().get("requested");
-
-                    if (timeSlotIdsActual != null && !timeSlotIdsActual.isEmpty()) {
-                        hasTimeSlotActual = true;
-                    }
-                    if (timeSlotIdsRequested != null && !timeSlotIdsRequested.isEmpty()) {
-                        hasTimeSlotRequested = true;
-                    }
-
-                    if (hasTimeSlotActual == true || hasTimeSlotRequested == true) {
-                        for (Map.Entry<String, Map<String, List<String>>> innerEntry : aoTimeSlotMap.entrySet()) {
-                            boolean hasTimeSlotActualCompared = false, hasTimeSlotRequestedCompared = false;
-
-                            if (!entry.getKey().equals(innerEntry.getKey())) {
-                                List<String> timeSlotIdsComparedActual = innerEntry.getValue().get("actual");
-                                List<String> timeSlotIdsComparedRequested = innerEntry.getValue().get("requested");
-                                if (timeSlotIdsComparedActual != null && !timeSlotIdsComparedActual.isEmpty()) {
-                                    hasTimeSlotActualCompared = true;
-                                }
-                                if (timeSlotIdsComparedRequested != null && !timeSlotIdsComparedRequested.isEmpty()) {
-                                    hasTimeSlotRequestedCompared = true;
-                                }
-
-                                if (hasTimeSlotActualCompared || hasTimeSlotRequestedCompared) {
-                                    List<ValidationResultInfo> resultInfos = null;
-                                    if (hasTimeSlotActual  && hasTimeSlotActualCompared) {
-                                        // both have schedules
-                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsActual, timeSlotIdsComparedActual,
-                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), context);
-                                    } else if (hasTimeSlotActual && !hasTimeSlotActualCompared && hasTimeSlotRequestedCompared) {
-                                        // first has scheduled, compared has schedule request
-                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsActual, timeSlotIdsComparedRequested,
-                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), context);
-                                    } else if (!hasTimeSlotActual && hasTimeSlotRequested && hasTimeSlotActualCompared) {
-                                        // first has schedule request, compared has schedule
-                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsRequested, timeSlotIdsComparedActual,
-                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), context);
-                                    } else if (!hasTimeSlotActual && hasTimeSlotRequested && !hasTimeSlotActualCompared && hasTimeSlotRequestedCompared) {
-                                        // both have schedule requests
-                                        resultInfos = _vRG_checkTimeConflict(timeSlotIdsRequested, timeSlotIdsComparedRequested,
-                                                validationResultInfos, entry.getKey(), innerEntry.getKey(), context);
-
-                                    }
-
-                                    if (resultInfos != null) {
-                                        // Found time conflict, so return
-                                        return resultInfos;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (PermissionDeniedException e) {
-            throw new OperationFailedException("unexpected", e);
-        }
-
-        validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
-        validationResultInfo.setMessage("No time conflict in the Registration Group");
-        validationResultInfos.add(validationResultInfo);
-        return validationResultInfos;
-
-
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
