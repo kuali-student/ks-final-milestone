@@ -22,14 +22,7 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
     protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
         if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof CourseOfferingManagementForm) {
             CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) primaryDataObjectOrDocument;
-            if(theForm.getTheCourseOffering() != null){
-                //Pull out the org ids and pass in the first one as a role qualifier
-                List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();
-                if(orgIds !=null && !orgIds.isEmpty()){
-                    attributes.put("org", orgIds.get(0));
-                }
-            }
-            else if(theForm.getAdminOrg() != null){
+            if(theForm.getAdminOrg() != null){
                 attributes.put("org", theForm.getAdminOrg());
             }
         }
@@ -41,9 +34,6 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                 if(orgIds !=null && !orgIds.isEmpty()){
                     attributes.put("org", orgIds.get(0));
                 }
-            }
-            else if(theForm.getAdminOrg() != null){
-                attributes.put("org", theForm.getAdminOrg());
             }
         }
         super.addRoleQualification(primaryDataObjectOrDocument, attributes);

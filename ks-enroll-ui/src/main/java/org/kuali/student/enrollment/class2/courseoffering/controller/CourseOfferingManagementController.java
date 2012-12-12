@@ -169,6 +169,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     theForm.setSubjectCode(theForm.getCourseOfferingResultList().get(0).getSubjectArea());
                     String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
                     theForm.setSubjectCodeDescription(longNameDescr);
+                    // Pull out the first CO from the result list and then pull out the org ids from this CO
+                    // and pass in the first one as the adminOrg
+                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+                    if(orgIds !=null && !orgIds.isEmpty()){
+                        theForm.setAdminOrg(orgIds.get(0));
+                    }
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
@@ -195,6 +202,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(coToShow);
+        //Pull out the org ids and pass in the first one as the adminOrg
+        List<String> orgIds = coToShow.getUnitsDeploymentOrgIds();
+        if(orgIds !=null && !orgIds.isEmpty()){
+            theForm.setAdminOrg(orgIds.get(0));
+        }
         theForm.setFormatIdForNewAO(null);
         theForm.setActivityIdForNewAO(null);
         theForm.setNoOfActivityOfferings(null);
