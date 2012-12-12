@@ -23,7 +23,6 @@ public class RegistrationGroupManagementForm extends UifFormBase {
     private String publishedClusterNameForLightBox;
     private String privateClusterNameForRename;
     private String publishedClusterNameForRename;
-    private String adminOrg;
 
     private String clusterIdIdForNewFO;
     private String clusterIdForAOMove;
@@ -188,13 +187,5 @@ public class RegistrationGroupManagementForm extends UifFormBase {
 
     public void setWithinPortal(boolean withinPortal) {
         this.withinPortal = withinPortal;
-    }
-
-    public String getAdminOrg() {
-        return adminOrg;
-    }
-
-    public void setAdminOrg(String adminOrg) {
-        this.adminOrg = adminOrg;
     }
 }
