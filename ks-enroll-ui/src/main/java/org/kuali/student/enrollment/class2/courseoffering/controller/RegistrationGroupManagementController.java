@@ -64,10 +64,7 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         }
 
         RegistrationGroupManagementForm theForm = (RegistrationGroupManagementForm) form;
-        String adminValue = request.getParameter("adminOrg");
-        if ((adminValue != null) && !adminValue.isEmpty()){
-            theForm.setAdminOrg(adminValue);
-        }
+
         // check view authorization
         // TODO: this needs to be invoked for each request
         if (form.getView() != null) {
