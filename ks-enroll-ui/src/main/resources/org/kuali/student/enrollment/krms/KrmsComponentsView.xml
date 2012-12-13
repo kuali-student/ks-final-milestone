@@ -44,6 +44,7 @@
                 <ref bean="courseList"/>
                 <ref bean="singleCourse"/>
                 <ref bean="multipleCourse-Section"/>
+                <ref bean="gpaComponent" />
             </list>
         </property>
     </bean>
@@ -174,6 +175,15 @@
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" />
             </list>
+        </property>
+    </bean>
+
+    <bean id="gpaComponent" parent="Uif-InputField-LabelTop" p:propertyName="gpa" p:label="GPA" p:minLength="3" p:maxLength="3">
+        <property name="control">
+            <bean parent="Uif-TextControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint" p:precision="2" p:scale="1" p:allowNegative="false"/>
         </property>
     </bean>
 
