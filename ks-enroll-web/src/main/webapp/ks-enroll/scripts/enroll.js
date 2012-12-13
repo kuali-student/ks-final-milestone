@@ -217,7 +217,7 @@ function validateCredits(textBox, url, courseTypeKey) {
     }
 }
 
-function showErrorPopup(formId){
+function showErrorPopup(formId) {
 
     var div1 = jQuery('<div class="fancybox-wrap fancybox-desktop fancybox-type-html fancybox-opened" style="width: 418px; height: auto; display: block; position: fixed; top: 474px; left: 743px; opacity: 1;">');
     var div2 = jQuery('<div class="fancybox-skin" style="padding: 15px;">');
@@ -242,7 +242,6 @@ function showFixedOptions(textBox, url, courseTypeKey) {
     var parent = jQuery("#KS-CourseOfferingEdit-CreditType_OptionTypeFixed");
     jQuery(textBox).attr("disabled", "disabled");
 
-    console.log(jQuery(textBox).css("background-color"));
     var child;
 
     if (jQuery(parent).find('#div_fixed_options').length > 0) {
@@ -299,6 +298,25 @@ function showFixedOptions(textBox, url, courseTypeKey) {
     jQuery('#div_fixed_options').show().css('top', jQuery(textBox).offset().top).css('left', jQuery(textBox).offset().left);
 }
 
+function removeHeaderForRemovedColumns(isReadOnly, columns) {
+    if (isReadOnly) {
+        var div = jQuery('#KS-CourseOfferingManagement-ActivityOfferingListSection');
+        var table = jQuery(div).find('table');
+        var tableId = jQuery(table).attr('id');
+
+        jQuery.each(columns, function(index, column) {
+            var columIndex = column - index
+            var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + columIndex + ')');
+            jQuery(th).remove();
+            jQuery('#' + tableId + ' tbody tr').find('td:nth-child(' + columIndex + ')').each(function () {
+                jQuery(this).remove();
+            });
+            var tf = jQuery('#' + tableId + ' tfoot tr').find('th:nth-child(' + columIndex + ')');
+            jQuery(tf).remove();
+        });
+
+    }
+}
 
 /*
  function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){

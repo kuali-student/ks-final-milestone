@@ -161,8 +161,10 @@
     </bean>
 
 
+    <!--p:label="CHECK" p:render="@{!#parent.readOnly}"-->
+
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
+          p:layoutManager.numberOfColumns="3"  p:renderAddLine="false" p:onDocumentReadyScript="removeHeaderForRemovedColumns(@{#parent.readOnly}, [1]);">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -179,8 +181,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
-                    <property name="componentSecurity.viewAuthz" value="true"/>
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
+                    <!--<property name="componentSecurity.viewAuthz" value="true"/>-->
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
