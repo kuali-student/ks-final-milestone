@@ -43,6 +43,7 @@
                 <ref bean="course"/>
                 <ref bean="courseList"/>
                 <ref bean="singleCourse"/>
+                <ref bean="multipleCourse-Section"/>
             </list>
         </property>
     </bean>
@@ -124,12 +125,10 @@
 
 
     <!--Rule components-->
-    <bean id="singleCourse-parent" parent="Uif-InputField" p:propertyName="courseSuggest">
+    <bean id="singleCourse-parent" parent="Uif-InputField-LabelTop" p:propertyName="courseSuggest" p:label="Course">
         <property name="suggest">
-            <!--<bean parent="Uif-Suggest" p:sourcePropertyName="propName" p:suggestQuery.dataObjectClassName="className" />-->
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
-                <!-- sourcePropertyName is the Person property displayed in the resulting suggest menu -->
                 <property name="sourcePropertyName" value="displayName"/>
                 <property name="templateOptions" value="minLength:1,delay:0"/>
                 <property name="suggestQuery">
@@ -141,5 +140,42 @@
         </property>
     </bean>
     <bean id="singleCourse" parent="singleCourse-parent" />
+
+    <bean id="courseTypeSelector-parent" parent="Uif-InputField-LabelTop" p:propertyName="multipleCourseType" p:label="Add a course, course set, or course range">
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseTypeValuesFinder"/>
+        </property>
+    </bean>
+    <bean id="courseTypeSelector" parent="courseTypeSelector-parent" />
+
+    <bean id="multipleCourse-Section" parent="Uif-VerticalBoxSection" p:headerText="Courses">
+        <property name="instructionalText" value="Add courses, course sets, or course ranges to your course set. You may add any combination of courses, dynamic course ranges, or Course sets." />
+        <property name="items">
+            <list>
+                <ref bean="courseTypeSelector" />
+                <ref bean="approvedCoursesComponent" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="approvedCoursesComponent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="singleCourse-parent" p:label="Approved Courses" />
+                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Add to list" p:style="margin-top:15px;"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" />
+            </list>
+        </property>
+    </bean>
+
 
 </beans>

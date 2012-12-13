@@ -30,6 +30,8 @@ public class KrmsComponentsForm extends UifFormBase {
 
     private String courseSuggest;
 
+    private String multipleCourseType;
+
     public PropositionEditor getProposition() {
         return proposition;
     }
@@ -45,6 +47,15 @@ public class KrmsComponentsForm extends UifFormBase {
     public void setCourseSuggest(String courseSuggest) {
         this.courseSuggest = courseSuggest;
     }
+
+    public String getMultipleCourseType() {
+        return multipleCourseType;
+    }
+
+    public void setMultipleCourseType(String multipleCourseType) {
+        this.multipleCourseType = multipleCourseType;
+    }
+
 
 
 }
