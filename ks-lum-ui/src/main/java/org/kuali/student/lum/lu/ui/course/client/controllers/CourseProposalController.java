@@ -82,6 +82,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
@@ -436,32 +437,39 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 // Add fields to workflow utils screens (such as blanket approve popup)
                 // For e.g. the approval popup is different for modifications than other proposals
                 if(workflowUtil!=null){
-                	requestModel(new ModelRequestCallback<DataModel>(){
-						public void onModelReady(DataModel model) {
-							//Only display if this is a modification
-						    String proposalType = model.get("proposal/type");
-                            if ((proposalType!=null) && (proposalType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY))){	
-							    KSLabel descLabel = new KSLabel();
-							    descLabel.setText(Application.getApplicationContext().getUILabel("course", LUUIConstants.FINAL_APPROVAL_DIALOG));
-							    if (workflowUtil.getApproveDialogue() != null) {
 
-							    	workflowUtil.getApproveDialogue().addWidget(descLabel);
-							    }
-							    workflowUtil.addApproveDialogField("", "startTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_START_TERM), modelDefinition, true, true);
-							    workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition, false);
-                                
-							    workflowUtil.updateApproveFields();							    
-							    workflowUtil.progressiveEnableFields();							    
-							}else{
-							    // All other types of proposals need to go here
+                    CourseSummaryConfigurer summary = cfg.getSummaryConfigurer();
+                    if (summary != null){
+                        workflowUtil.setTableSection(summary.getTableSection());
+                    }
+
+                	requestModel(new ModelRequestCallback<DataModel>() {
+                        public void onModelReady(DataModel model) {
+                            //Only display if this is a modification
+                            String proposalType = model.get("proposal/type");
+                            if ((proposalType != null) && (proposalType.equals(CLUConstants.PROPOSAL_TYPE_COURSE_MODIFY))) {
+                                KSLabel descLabel = new KSLabel();
+                                descLabel.setText(Application.getApplicationContext().getUILabel("course", LUUIConstants.FINAL_APPROVAL_DIALOG));
+                                if (workflowUtil.getApproveDialogue() != null) {
+
+                                    workflowUtil.getApproveDialogue().addWidget(descLabel);
+                                }
+                                workflowUtil.addApproveDialogField("", "startTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_START_TERM), modelDefinition, true, true);
+                                workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition, false);
+
+                                workflowUtil.updateApproveFields();
+                                workflowUtil.progressiveEnableFields();
+                            } else {
+                                // All other types of proposals need to go here
                                 // Ignore this field (so blanket approve works if this is a new course proposal 
                                 // and not a modification)
-								workflowUtil.addIgnoreDialogField("proposal/prevEndTerm");
-							}
-						}
-						public void onRequestFail(Throwable cause) {
-						}
-                	});
+                                workflowUtil.addIgnoreDialogField("proposal/prevEndTerm");
+                            }
+                        }
+
+                        public void onRequestFail(Throwable cause) {
+                        }
+                    });
                 }
 
                 progressiveEnableFields();
