@@ -32,7 +32,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG110 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG110 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG110 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -74,7 +74,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG123 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG123 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG123 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -93,7 +93,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG123 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG123 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG123 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -147,7 +147,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG211 Corequisites,AND,kuali.reqComponent.type.course.enrolled,Must be concurrently enrolled in <course> 
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must be concurrently enrolled in <course> ', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.enrolled'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG211 Corequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must be concurrently enrolled in <course> ', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.enrolled'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG211 Corequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG211 Prerequisites')
 /
@@ -165,7 +165,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG212 Corequisites,AND,kuali.reqComponent.type.course.enrolled,Must be concurrently enrolled in <course> 
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must be concurrently enrolled in <course> ', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.enrolled'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG212 Corequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must be concurrently enrolled in <course> ', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.enrolled'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG212 Corequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG212 Prerequisites')
 /
@@ -189,7 +189,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG330 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG330 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG330 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -207,7 +207,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG330 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG330 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG330 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -232,7 +232,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG331 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG331 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG331 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -250,7 +250,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG331 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG331 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG331 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -311,7 +311,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.courseset.completed.all,Must have successfully completed all courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG346 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG346 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG346 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -329,7 +329,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG346 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG346 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG346 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -354,7 +354,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.courseset.completed.all,Must have successfully completed all courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG384 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG384 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG384 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -372,7 +372,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG384 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG384 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG384 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -397,7 +397,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.courseset.completed.all,Must have successfully completed all courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG385 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG385 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG385 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -415,7 +415,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG385 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG385 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG385 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -434,7 +434,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG396 Prerequisites,AND,kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG396 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG396 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG396 Prerequisites')
 /
@@ -470,7 +470,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG398 Prerequisites,AND,kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG398 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG398 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG398 Prerequisites')
 /
@@ -494,7 +494,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG415 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG415 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG415 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -513,7 +513,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG415 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG415 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG415 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -531,7 +531,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG438 Prerequisites,AND,kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG438 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG438 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG438 Prerequisites')
 /
@@ -555,7 +555,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG440 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG440 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG440 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -573,7 +573,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.courseset.completed.all,Must have successfully completed all courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG440 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG440 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG440 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -597,7 +597,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG441 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG441 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG441 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -657,7 +657,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG446 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG446 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG446 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -675,7 +675,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG472 Prerequisites,AND,kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG472 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG472 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG472 Prerequisites')
 /
@@ -694,7 +694,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG473 Prerequisites,AND,kuali.reqComponent.type.course.courseset.completed.all,Must have successfully completed all courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG473 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG473 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG473 Prerequisites')
 /
@@ -712,7 +712,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG475 Prerequisites,AND,kuali.reqComponent.type.course.courseset.completed.all,Must have successfully completed all courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG475 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG475 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG475 Prerequisites')
 /
@@ -730,7 +730,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG476 v6 Prerequisites,AND,kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG476 v6 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG476 v6 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG476 v6 Prerequisites')
 /
@@ -749,7 +749,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG476 v6 Corequisites,AND,kuali.reqComponent.type.course.courseset.enrolled.nof,Must be concurrently enrolled in a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must be concurrently enrolled in a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.enrolled.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG476 v6 Corequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must be concurrently enrolled in a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.enrolled.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG476 v6 Corequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG476 v6 Corequisites')
 /
@@ -768,7 +768,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG476 v8 Prerequisites,AND,kuali.reqComponent.type.course.courseset.completed.all,Must have successfully completed all courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG476 v8 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG476 v8 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG476 v8 Prerequisites')
 /
@@ -786,7 +786,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --GEOG496 Prerequisites,AND,kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG496 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG496 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG496 Prerequisites')
 /
@@ -810,7 +810,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG603 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG603 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG603 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -852,7 +852,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG604 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG604 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG604 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -894,7 +894,7 @@ update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rul
 /
 --kuali.reqComponent.type.course.courseset.completed.nof,Must have successfully completed a minimum of <n> courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG615 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have successfully completed a minimum of <n> courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.success.course.courseset.completed.nof'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG615 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG615 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -913,7 +913,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG615 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG615 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG615 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -955,7 +955,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG642 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'GEOG642 Prerequisites'), 1, NULL)
 /
 insert into krms_cmpnd_prop_props_t (cmpnd_prop_id, prop_id) values ((select prop_id from krms_prop_t where rule_id = (Select rule_id from krms_rule_t where nm = 'GEOG642 Prerequisites') and dscrm_typ_cd = 'C'), krms_prop_s.currval)
 /
@@ -975,7 +975,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MATH110 Antirequisites,AND,kuali.reqComponent.type.course.courseset.completed.none,Must not have successfully completed any courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH110 Antirequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH110 Antirequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MATH110 Antirequisites')
 /
@@ -993,7 +993,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MATH112 Antirequisites,AND,kuali.reqComponent.type.course.courseset.completed.none,Must not have successfully completed any courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH112 Antirequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH112 Antirequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MATH112 Antirequisites')
 /
@@ -1011,7 +1011,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MATH113 Antirequisites,AND,kuali.reqComponent.type.course.courseset.completed.none,Must not have successfully completed any courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH113 Antirequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH113 Antirequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MATH113 Antirequisites')
 /
@@ -1029,7 +1029,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MATH115 Antirequisites,AND,kuali.reqComponent.type.course.courseset.completed.none,Must not have successfully completed any courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH115 Antirequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH115 Antirequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MATH115 Antirequisites')
 /
@@ -1047,7 +1047,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MATH130 Credit Restriction,AND,kuali.reqComponent.type.course.courseset.completed.none,Must not have successfully completed any courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH130 Credit Restriction'), 1, NULL)
+values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH130 Credit Restriction'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MATH130 Credit Restriction')
 /
@@ -1065,7 +1065,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MATH140 Prerequisites,AND,kuali.reqComponent.type.course.courseset.completed.none,Must not have successfully completed any courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH140 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH140 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MATH140 Prerequisites')
 /
@@ -1083,7 +1083,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MATH220 Prerequisites,AND,kuali.reqComponent.type.course.courseset.completed.none,Must not have successfully completed any courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH220 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must not have successfully completed any courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.completed.none'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MATH220 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MATH220 Prerequisites')
 /
@@ -1103,7 +1103,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC601 Prerequisites,OR,kuali.reqComponent.type.course.program.admitted,Must have been admitted to the <program> program
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.program.admitted'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC601 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.max.limit.courses.at.org.for.program'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC601 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MUSC601 Prerequisites')
 /
@@ -1121,7 +1121,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC603 Prerequisites,OR,kuali.reqComponent.type.course.program.admitted,Must have been admitted to the <program> program
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.program.admitted'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC603 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.max.limit.courses.at.org.for.program'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC603 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MUSC603 Prerequisites')
 /
@@ -1139,7 +1139,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC605 Prerequisites,AND,kuali.reqComponent.type.course.program.admitted,Must have been admitted to the <program> program
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.program.admitted'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC605 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.max.limit.courses.at.org.for.program'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC605 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MUSC605 Prerequisites')
 /
@@ -1173,7 +1173,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC605 Prerequisites,OR,kuali.reqComponent.type.course.permission.instructor.required,Permission of instructor required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of instructor required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.instructor.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC605 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of instructor required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.permission.instructor.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC605 Prerequisites'), 1, NULL)
 /
 -- TODO No matching term specification
 insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'completedCourse' and nmspc_cd = 'KS-SYS'), 1, 'Permission of instructor.')
@@ -1187,7 +1187,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC611 Corequisites,AND,kuali.reqComponent.type.course.enrolled,Must be concurrently enrolled in <course> 
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must be concurrently enrolled in <course> ', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.enrolled'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC611 Corequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must be concurrently enrolled in <course> ', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.enrolled'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC611 Corequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MUSC611 Corequisites')
 /
@@ -1205,7 +1205,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC611 Prerequisites,AND,kuali.reqComponent.type.course.program.notadmitted,Must not have been admitted to the <program> program
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must not have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.program.notadmitted'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC611 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must not have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.notadmitted.to.program'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC611 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MUSC611 Prerequisites')
 /
@@ -1223,7 +1223,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC613 Corequisites,AND,kuali.reqComponent.type.course.courseset.enrolled.all,Must be concurrently enrolled in all courses from <courses>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must be concurrently enrolled in all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.enrolled.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC613 Corequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must be concurrently enrolled in all courses from <courses>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.enrolled.all'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC613 Corequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MUSC613 Corequisites')
 /
@@ -1241,7 +1241,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC613 Prerequisites,AND,kuali.reqComponent.type.course.permission.org.required,Permission of <administering org> required
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.permission.org.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC613 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Permission of <administering org> required', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.drop.org.permission.required'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC613 Prerequisites'), 1, NULL)
 /
 update krms_rule_t SET prop_id = krms_prop_s.currval WHERE rule_id = (Select rule_id from krms_rule_t where nm = 'MUSC613 Prerequisites')
 /
@@ -1259,7 +1259,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC613 Prerequisites,AND,kuali.reqComponent.type.course.program.admitted,Must have been admitted to the <program> program
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.program.admitted'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC613 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must have been admitted to the <program> program', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.max.limit.courses.at.org.for.program'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC613 Prerequisites'), 1, NULL)
 /
 --kuali.reqComponent.field.type.program.cluSet.id,7a7ae03e-9b11-4a77-af94-bb3744e11294
 insert into krms_term_t (term_id, term_spec_id, ver_nbr, desc_txt) values (krms_term_s.nextval, (Select term_spec_id from krms_term_spec_t where nm = 'admittedToProgram' and nmspc_cd = 'KS-SYS'), 1, 'Admitted to the list program.')
@@ -1275,7 +1275,7 @@ insert into krms_prop_parm_t (prop_parm_id, prop_id, parm_val, parm_typ_cd, seq_
 
 --MUSC613 Prerequisites,AND,kuali.reqComponent.type.course.courseset.nof.grade.min,Must successfully complete a minimum of <n> courses from <courses> with a minimum grade of <gradeType> <grade>
 insert into krms_prop_t (prop_id, desc_txt, typ_id, dscrm_typ_cd, cmpnd_op_cd, rule_id, ver_nbr, cmpnd_seq_no)
-values (krms_prop_s.nextval, 'Must successfully complete a minimum of <n> courses from <courses> with a minimum grade of <grade>', (Select typ_id from krms_typ_t where nm = 'kuali.reqComponent.type.course.courseset.nof.grade.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC613 Prerequisites'), 1, NULL)
+values (krms_prop_s.nextval, 'Must successfully complete a minimum of <n> courses from <courses> with a minimum grade of <grade>', (Select typ_id from krms_typ_t where nm = 'kuali.krms.proposition.type.course.courseset.nof.grade.min'), 'S', NULL, (Select rule_id from krms_rule_t where nm = 'MUSC613 Prerequisites'), 1, NULL)
 /
 --kuali.reqComponent.field.type.grade.id,kuali.result.value.grade.letter.b
 --kuali.reqComponent.field.type.value.positive.integer,1
