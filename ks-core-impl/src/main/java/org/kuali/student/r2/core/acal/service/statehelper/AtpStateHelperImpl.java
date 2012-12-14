@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.acal.service.statehelper;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -25,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
@@ -46,34 +48,18 @@ public class AtpStateHelperImpl implements StateHelper {
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
         StatusInfo statusInfo = new StatusInfo();
         try {
-            //Make sure it's an acal
-            getAcademicCalendarService().getAcademicCalendar(entityId,context);
-            getAcademicCalendarService().changeAcademicCalendarState(entityId,nextStateKey,context);
-            return statusInfo;
-        } catch (DoesNotExistException e) {
-            //shallow... it may be a hcal
-        } catch (Exception e) {
-            statusInfo.setSuccess(false);
-            statusInfo.setMessage("Error updating calendar state - " + e.getMessage());
-            return statusInfo;
-        }
 
-        try {
-            //Make sure it's a term
-            getAcademicCalendarService().getTerm(entityId, context);
-            getAcademicCalendarService().changeTermState(entityId, nextStateKey, context);
-            return statusInfo;
-        } catch (DoesNotExistException e) {
-            //shallow... it may be a hcal
-        } catch (Exception e) {
-            statusInfo.setSuccess(false);
-            statusInfo.setMessage("Error updating calendar state - " + e.getMessage());
-            return statusInfo;
-        }
+            AtpInfo atpInfo = getAtpService().getAtp(entityId,context);
 
-        try {
-            getAcademicCalendarService().getHolidayCalendar(entityId,context);
-            getAcademicCalendarService().changeHolidayCalendarState(entityId,nextStateKey,context);
+            if (StringUtils.equals(atpInfo.getStateKey(),AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY)){
+                statusInfo = getAcademicCalendarService().changeAcademicCalendarState(entityId,nextStateKey,context);
+            } else if (StringUtils.equals(atpInfo.getStateKey(),AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY)){
+                statusInfo = getAcademicCalendarService().changeHolidayCalendarState(entityId,nextStateKey,context);
+            } else {
+                //This must be a term
+                statusInfo = getAcademicCalendarService().changeTermState(entityId, nextStateKey, context);
+            }
+
             return statusInfo;
         } catch (Exception e) {
             statusInfo.setSuccess(false);
