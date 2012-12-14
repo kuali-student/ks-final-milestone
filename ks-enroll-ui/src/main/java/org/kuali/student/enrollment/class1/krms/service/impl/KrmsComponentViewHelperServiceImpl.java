@@ -20,6 +20,9 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -44,6 +47,7 @@ public class KrmsComponentViewHelperServiceImpl extends ViewHelperServiceImpl {
     private CluService cluService;
 
     private ContextInfo contextInfo;
+    private transient OrganizationService organizationService;
 
     public List<KrmsSuggestDisplay> getCourseNamesForSuggest(String moduleName) {
         List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
@@ -83,6 +87,43 @@ public class KrmsComponentViewHelperServiceImpl extends ViewHelperServiceImpl {
         return displays;
     }
 
+    public List<KrmsSuggestDisplay> getOrgDepartmentForSuggest(String orgName) {
+        List<KrmsSuggestDisplay> displays = new ArrayList<KrmsSuggestDisplay>();
+        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchParamInfo orgNameParam = new SearchParamInfo();
+        orgNameParam.setKey("org.queryParam.orgOptionalLongName");
+        orgNameParam.getValues().add(orgName);
+        queryParamValueList.add(orgNameParam);
+        SearchParamInfo orgTypeParam = new SearchParamInfo();
+        orgTypeParam.setKey("org.queryParam.orgOptionalType");
+        List<String> orgTypeValues = new ArrayList<String>();
+        orgTypeValues.add("kuali.org.Department");
+        orgTypeParam.setValues(orgTypeValues);
+        queryParamValueList.add(orgTypeParam);
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("org.search.generic");
+        searchRequest.setParams(queryParamValueList);
+        SearchResultInfo orgs = null;
+        try {
+            orgs = getOrganizationService().search(searchRequest, getContextInfo());
+            for (SearchResultRowInfo result : orgs.getRows()) {
+                List<SearchResultCellInfo> cells = result.getCells();
+                KrmsSuggestDisplay display = new KrmsSuggestDisplay();
+                for (SearchResultCellInfo cell : cells) {
+                    if ("org.resultColumn.orgId".equals(cell.getKey())) {
+                        display.setId(cell.getValue());
+                    } else if ("org.resultColumn.orgOptionalLongName".equals(cell.getKey())) {
+                        display.setDisplayName(cell.getValue());
+                    }
+                }
+                displays.add(display);
+            }
+        } catch (Exception e) {
+
+        }
+        return displays;
+    }
+
     private CluService getCluService() {
         if (cluService == null) {
             cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -98,4 +139,10 @@ public class KrmsComponentViewHelperServiceImpl extends ViewHelperServiceImpl {
         return contextInfo;
     }
 
+    protected OrganizationService getOrganizationService(){
+        if(organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return organizationService;
+    }
 }

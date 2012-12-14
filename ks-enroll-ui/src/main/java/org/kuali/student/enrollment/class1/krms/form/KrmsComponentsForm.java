@@ -33,6 +33,8 @@ public class KrmsComponentsForm extends UifFormBase {
     private String multipleCourseType;
 
     private float gpa;
+    
+    private String orgDepartmentSuggest;
 
     public PropositionEditor getProposition() {
         return proposition;
@@ -65,5 +67,11 @@ public class KrmsComponentsForm extends UifFormBase {
     public void setGpa(float gpa) {
         this.gpa = gpa;
     }
+    public String getOrgDepartmentSuggest() {
+        return orgDepartmentSuggest;
+    }
 
+    public void setOrgDepartmentSuggest(String orgDepartmentSuggest) {
+        this.orgDepartmentSuggest = orgDepartmentSuggest;
+    }
 }

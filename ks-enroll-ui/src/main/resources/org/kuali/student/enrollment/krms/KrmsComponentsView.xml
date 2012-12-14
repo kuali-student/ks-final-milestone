@@ -55,6 +55,8 @@
                 <bean parent="Uif-MessageField" p:messageText="Organizational Components"/>
 
                 <ref bean="org"/>
+                <ref bean="departmentComponent"/>
+                <ref bean="administeringOrgComponent"/>
             </list>
         </property>
     </bean>
@@ -124,7 +126,6 @@
     </bean>
     <bean id="org" parent="org-parent"/>
 
-
     <!--Rule components-->
     <bean id="singleCourse-parent" parent="Uif-InputField-LabelTop" p:propertyName="courseSuggest" p:label="Course">
         <property name="suggest">
@@ -186,6 +187,49 @@
             <bean parent="FixedPointPatternConstraint" p:precision="2" p:scale="1" p:allowNegative="false"/>
         </property>
     </bean>
+    <bean id="department-parent" parent="Uif-InputField-LabelTop" p:propertyName="orgDepartmentSuggest">
+        <property name="suggest">
+            <bean parent="Uif-Suggest">
+                <property name="render" value="true"/>
+                <property name="sourcePropertyName" value="displayName"/>
+                <property name="templateOptions" value="minLength:1,delay:0"/>
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig">
+                        <property name="queryMethodToCall" value="getOrgDepartmentForSuggest"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
+    <bean id="departmentComponent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="department-parent" p:label="Department" p:required="true"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="administeringOrgComponent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="department-parent" p:label="Organization" p:required="true"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" />
+            </list>
+        </property>
+    </bean>
 
 </beans>
