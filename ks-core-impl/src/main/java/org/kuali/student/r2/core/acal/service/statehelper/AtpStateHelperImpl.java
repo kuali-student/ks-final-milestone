@@ -51,9 +51,9 @@ public class AtpStateHelperImpl implements StateHelper {
 
             AtpInfo atpInfo = getAtpService().getAtp(entityId,context);
 
-            if (StringUtils.equals(atpInfo.getStateKey(),AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY)){
+            if (StringUtils.equals(atpInfo.getTypeKey(),AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY)){
                 statusInfo = getAcademicCalendarService().changeAcademicCalendarState(entityId,nextStateKey,context);
-            } else if (StringUtils.equals(atpInfo.getStateKey(),AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY)){
+            } else if (StringUtils.equals(atpInfo.getTypeKey(),AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY)){
                 statusInfo = getAcademicCalendarService().changeHolidayCalendarState(entityId,nextStateKey,context);
             } else {
                 //This must be a term
