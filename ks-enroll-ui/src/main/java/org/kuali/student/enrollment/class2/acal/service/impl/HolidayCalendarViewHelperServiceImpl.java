@@ -23,12 +23,16 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -66,7 +70,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
     private List<TypeInfo> holidayTypes;
 
 
-    public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
+    public void saveHolidayCalendar(HolidayCalendarForm hcForm,boolean isSetOfficial) throws Exception{
 
         ContextInfo contextInfo = createContextInfo();
         //Save holiday calendar
@@ -79,11 +83,9 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
 
         if (StringUtils.isBlank(hcInfo.getId())){
             HolidayCalendarInfo createdHCal = getAcalService().createHolidayCalendar(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY, hcInfo, contextInfo);
-            createdHCal = getAcalService().getHolidayCalendar(createdHCal.getId(),contextInfo);
             hcForm.setHolidayCalendarInfo(createdHCal);
         }else{
             HolidayCalendarInfo updatedHCal = getAcalService().updateHolidayCalendar(hcInfo.getId(), hcInfo, contextInfo);
-            updatedHCal = getAcalService().getHolidayCalendar(updatedHCal.getId(),contextInfo);
             hcForm.setHolidayCalendarInfo(updatedHCal);
         }
 
@@ -97,7 +99,6 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
 
             holidayInfo = holidayWrapper.getHolidayInfo();
             holidayWrapper.setTypeName(getHolidayTypeName(holidayWrapper.getTypeKey()));
-            holidayInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
             holidayInfo.setDescr(CommonUtils.buildDesc("no description"));
             holidayInfo.setIsAllDay(holidayWrapper.isAllDay());
             holidayInfo.setIsInstructionalDay(holidayWrapper.isInstructional());
@@ -107,6 +108,11 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
             setHolidayEndDate(holidayWrapper);
 
             if (StringUtils.isBlank(holidayInfo.getId())){
+                if (StringUtils.equals(hcForm.getHolidayCalendarInfo().getStateKey(),AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)){
+                    holidayInfo.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
+                } else {
+                    holidayInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+                }
                 storedHolidayInfo = getAcalService().createHoliday(hcForm.getHolidayCalendarInfo().getId(), holidayWrapper.getTypeKey(), holidayInfo, contextInfo);
             }else{
                 storedHolidayInfo = getAcalService().updateHoliday(holidayInfo.getId(),holidayInfo, contextInfo);
@@ -123,6 +129,23 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
                 if ( ! newHolidayIdList.contains(oldHoliday.getId())) {
                     getAcalService().deleteHoliday(oldHoliday.getId(), contextInfo);
                 }
+            }
+        }
+
+        if (isSetOfficial){
+            StatusInfo statusInfo = null;
+            try {
+                statusInfo = getAcalService().changeHolidayCalendarState(hcForm.getHolidayCalendarInfo().getId(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,createContextInfo());
+                if (!statusInfo.getIsSuccess()){
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
+                } else{
+                    hcForm.setHolidayCalendarInfo(getAcalService().getHolidayCalendar(hcForm.getHolidayCalendarInfo().getId(),createContextInfo()));
+                    for (HolidayWrapper holidayWrapper : hcForm.getHolidays()) {
+                        holidayWrapper.setHolidayInfo(getAcalService().getHoliday(holidayWrapper.getHolidayInfo().getId(),createContextInfo()));
+                    }
+                }
+            } catch (Exception e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED + " - " + e.getMessage());
             }
         }
     }

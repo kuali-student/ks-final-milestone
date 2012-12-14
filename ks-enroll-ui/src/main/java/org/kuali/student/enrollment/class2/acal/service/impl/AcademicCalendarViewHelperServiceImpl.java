@@ -24,6 +24,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
@@ -32,6 +33,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
@@ -385,17 +387,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
-    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception{
-        AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event);
+    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event,boolean isAcalOfficial) throws Exception{
+        AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event,isAcalOfficial);
         AcalEventInfo createdEventInfo = getAcalService().createAcalEvent(acalId, eventInfo.getTypeKey(), eventInfo, createContextInfo());
         event.setAcalEventInfo(createdEventInfo);
         return event;
     }
 
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception {
-        AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event);
-        getAcalService().updateAcalEvent(eventId, eventInfo, createContextInfo());
-        AcalEventInfo updatedEventInfo = getAcalService().getAcalEvent(eventId, createContextInfo());
+        AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event,false);
+        AcalEventInfo updatedEventInfo = getAcalService().updateAcalEvent(eventId, eventInfo, createContextInfo());
+//        AcalEventInfo updatedEventInfo = getAcalService().getAcalEvent(eventId, createContextInfo());
         event.setAcalEventInfo(updatedEventInfo);
         return event;
     }
@@ -406,13 +408,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param eventWrapper event wrapper
      * @return  AcalEventInfo dto
      */
-    private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper){
+    private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper,boolean isAcalOfficial){
         AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
 
         RichTextInfo rti = new RichTextInfo();
         rti.setPlain(eventWrapper.getEventTypeKey());
         eventInfo.setDescr(rti);
-        eventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        if (!isAcalOfficial){
+            eventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        } else {
+            eventInfo.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
+        }
         eventInfo.setTypeKey(eventWrapper.getEventTypeKey());
         eventInfo.setStartDate(eventWrapper.getStartDate());
         eventInfo.setIsAllDay(eventWrapper.isAllDay());
@@ -774,17 +780,16 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         term.setName(termWrapper.getName());
         term.setTypeKey(termWrapper.getTermType());
 
-        if (isOfficial) {
-           termWrapper.getTermInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-        }
-
         if (termWrapper.isNew()){
             TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
             termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
             getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),createContextInfo());
         } else {
             TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,createContextInfo());
-            termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),createContextInfo()));
+            termWrapper.setTermInfo(updatedTerm);
+           /* if (!isOfficial){
+                termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),createContextInfo()));
+            }*/
         }
 
         for (KeyDateWrapper keyDateWrapper : termWrapper.getKeyDatesToDeleteOnSave()) {
@@ -795,10 +800,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         if (termWrapper.getKeyDatesGroupWrappers() != null && !termWrapper.getKeyDatesGroupWrappers().isEmpty()){
             for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
-
-                    if (isOfficial){
-                        keyDateWrapper.getKeyDateInfo().setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
-                    }
 
                     KeyDateInfo keyDate = keyDateWrapper.getKeyDateInfo();
 
@@ -812,12 +813,32 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     setKeyDateEndDate(keyDateWrapper);
 
                     if (keyDateWrapper.isNew()){
+                        if (isOfficial){
+                            keyDate.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
+                        }
                         KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,createContextInfo());
                         keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(newKeyDate.getId(),createContextInfo()));
                     } else {
                         KeyDateInfo updatedKeyDate = getAcalService().updateKeyDate(keyDate.getId(), keyDate, createContextInfo());
-                        keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(updatedKeyDate.getId(),createContextInfo()));
+                        keyDateWrapper.setKeyDateInfo(updatedKeyDate);
+                        /*if (!isOfficial){
+                            keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(updatedKeyDate.getId(),createContextInfo()));
+                        }*/
                     }
+                }
+            }
+        }
+
+        if (isOfficial){
+            StatusInfo statusInfo = getAcalService().changeTermState(term.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,createContextInfo());
+            if (!statusInfo.getIsSuccess()){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
+                return;
+            }
+            termWrapper.setTermInfo(getAcalService().getTerm(term.getId(),createContextInfo()));
+            for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
+                for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
+                    keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),createContextInfo()));
                 }
             }
         }

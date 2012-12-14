@@ -28,7 +28,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 public class KSControllerHelper {
 
     public static ViewHelperService getViewHelperService(UifFormBase form){
-        if (form.getView() != null){
+        if (form.getView() != null && form.getView().getViewHelperService() != null){
             return form.getView().getViewHelperService();
         }else{
             return form.getPostedView().getViewHelperService();

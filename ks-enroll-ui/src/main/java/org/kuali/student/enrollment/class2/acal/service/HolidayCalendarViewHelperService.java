@@ -31,7 +31,7 @@ import java.util.List;
 public interface HolidayCalendarViewHelperService extends KSViewHelperService {
 
     //HC
-    public void saveHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+    public void saveHolidayCalendar(HolidayCalendarForm hcForm,boolean isSetOfficial) throws Exception;
 
     public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception;
 

@@ -41,7 +41,7 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public List<AcalEventWrapper> populateEventWrappers(String acalId) throws Exception;
 
-    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception;
+    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event,boolean isAcalOfficial) throws Exception;
 
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
 
