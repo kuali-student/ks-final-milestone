@@ -25,9 +25,10 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -40,11 +41,12 @@ import javax.xml.namespace.QName;
 public class AtpStateHelperImpl implements StateHelper {
 
     private AtpService atpService;
+    private AcademicCalendarService academicCalendarService;
 
     @Override
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
         StatusInfo statusInfo = new StatusInfo();
-        try {
+        /*try {
             AtpInfo atpInfo = getAtpService().getAtp(entityId, context);
             atpInfo.setStateKey(nextStateKey);
             getAtpService().updateAtp(entityId, atpInfo, context);
@@ -53,7 +55,44 @@ public class AtpStateHelperImpl implements StateHelper {
             statusInfo.setSuccess(false);
             statusInfo.setMessage("Error updating calendar state - " + e.getMessage());
             return statusInfo;
+        }*/
+
+        try {
+            //Make sure it's an acal
+            getAcademicCalendarService().getAcademicCalendar(entityId,context);
+            getAcademicCalendarService().changeAcademicCalendarState(entityId,nextStateKey,context);
+            return statusInfo;
+        } catch (DoesNotExistException e) {
+            //shallow... it may be a hcal
+        } catch (Exception e) {
+            statusInfo.setSuccess(false);
+            statusInfo.setMessage("Error updating calendar state - " + e.getMessage());
+            return statusInfo;
         }
+
+        try {
+            //Make sure it's a term
+            getAcademicCalendarService().getTerm(entityId, context);
+            getAcademicCalendarService().changeTermState(entityId, nextStateKey, context);
+            return statusInfo;
+        } catch (DoesNotExistException e) {
+            //shallow... it may be a hcal
+        } catch (Exception e) {
+            statusInfo.setSuccess(false);
+            statusInfo.setMessage("Error updating calendar state - " + e.getMessage());
+            return statusInfo;
+        }
+
+        try {
+            getAcademicCalendarService().getHolidayCalendar(entityId,context);
+            getAcademicCalendarService().changeHolidayCalendarState(entityId,nextStateKey,context);
+            return statusInfo;
+        } catch (Exception e) {
+            statusInfo.setSuccess(false);
+            statusInfo.setMessage("Error updating calendar state - " + e.getMessage());
+            return statusInfo;
+        }
+
     }
 
     @Override
@@ -67,6 +106,13 @@ public class AtpStateHelperImpl implements StateHelper {
             atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return atpService;
+    }
+
+    protected AcademicCalendarService getAcademicCalendarService(){
+        if (academicCalendarService == null){
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return academicCalendarService;
     }
 }
 

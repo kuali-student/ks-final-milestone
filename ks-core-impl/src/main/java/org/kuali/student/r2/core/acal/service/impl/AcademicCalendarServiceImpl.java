@@ -275,7 +275,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional(readOnly = false)
     public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        return processCalendarStateChange(academicCalendarId,nextStateKey,contextInfo);
+        return processAtpStateChange(academicCalendarId, nextStateKey, contextInfo);
 
     }
 
@@ -397,7 +397,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     @Transactional(readOnly = false)
     public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return processCalendarStateChange(holidayCalendarId,nextStateKey,contextInfo);
+        return processAtpStateChange(holidayCalendarId, nextStateKey, contextInfo);
     }
 
     @Override
@@ -650,6 +650,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             AtpInfo toUpdate = termAssembler.disassemble(termInfo, context);
             if(termCode.equals(toUpdate.getCode()) || (!termCode.equals(toUpdate.getCode()) && !hasTermCode(toUpdate.getTypeKey(), toUpdate.getCode(), context))){
 
+                if (!StringUtils.equals(existingAtp.getStateKey(),termInfo.getStateKey())){
+                     throw new OperationFailedException("State cant be updated with this call. Please use changeTermState() instead.");
+                }
+
                 AtpInfo updated = atpService.updateAtp(termId, toUpdate, context);
 
                 updatedTerm = termAssembler.assemble(updated, context);
@@ -667,8 +671,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public StatusInfo changeTermState(@WebParam(name = "termId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("changeTermState");
+    public StatusInfo changeTermState(@WebParam(name = "termId") String termId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return processAtpStateChange(termId,nextStateKey,contextInfo);
     }
 
     private QueryByCriteria buildQueryByCriteriaForTerm(String type, String code){
@@ -1026,6 +1030,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public KeyDateInfo updateKeyDate(String keyDateId, KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
+        MilestoneInfo existingMilestone = atpService.getMilestone(keyDateId,context);
+
+        if (!StringUtils.equals(existingMilestone.getStateKey(),keyDateInfo.getStateKey())){
+             throw new OperationFailedException("It's not possible to update the state with this call. Please use changeKeyDateState() instead");
+        }
         MilestoneInfo toUpdate = toMilestoneInfo(keyDateInfo);
         MilestoneInfo newMilestone = null;
         try {
@@ -1038,8 +1047,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public StatusInfo changeKeyDateState(@WebParam(name = "keyDateId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("changeKeyDateState");
+    public StatusInfo changeKeyDateState(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return processMilestoneStateChange(keyDateId,nextStateKey,contextInfo);
     }
 
     @Override
@@ -1076,6 +1085,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         try {
+
+            MilestoneInfo existingMilestone = atpService.getMilestone(holidayId,context);
+
+            if (!StringUtils.equals(existingMilestone.getStateKey(),holidayInfo.getStateKey())){
+                 throw new OperationFailedException("It's not possible to update the state with this call. Please use changeHolidayState() instead");
+            }
+
             MilestoneInfo toUpdate = holidayAssembler.disassemble(holidayInfo, context);
             MilestoneInfo updated = null;
             try {
@@ -1091,8 +1107,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public StatusInfo changeHolidayState(@WebParam(name = "holidayId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("changeHolidayState");
+    public StatusInfo changeHolidayState(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return processMilestoneStateChange(holidayId,nextStateKey,contextInfo);
     }
 
     @Override
@@ -1233,7 +1249,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return holidayInfos;
     }
 
-    protected StatusInfo processCalendarStateChange(String academicCalendarId,String nextStateKey, ContextInfo contextInfo)
+    protected StatusInfo processAtpStateChange(String academicCalendarId, String nextStateKey, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         AtpInfo atpInfo = getAtpService().getAtp(academicCalendarId,contextInfo);
@@ -1269,6 +1285,43 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         return new StatusInfo();
     }
+
+    protected StatusInfo processMilestoneStateChange(String milestoneId,String nextStateKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+    MilestoneInfo milestoneInfo = getAtpService().getMilestone(milestoneId,contextInfo);
+    String thisStateKey = milestoneInfo.getStateKey();
+
+    if (StringUtils.isNotBlank(thisStateKey) && !StringUtils.equals(thisStateKey,nextStateKey)){
+
+        StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(milestoneId,nextStateKey,contextInfo);
+
+        if (statusInfo.getIsSuccess()){
+
+            milestoneInfo.setStateKey(nextStateKey);
+            try{
+                getAtpService().updateMilestone(milestoneInfo.getId(), milestoneInfo, contextInfo);
+            }catch(Exception e){
+                throw new OperationFailedException("Failed to update State", e);
+            }
+
+            String propagationKey = thisStateKey + ":" + nextStateKey;
+            Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(milestoneId,propagationKey,contextInfo);
+
+            for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
+                if (!statusInfo1.getIsSuccess()){
+                    throw new OperationFailedException(statusInfo1.getMessage());
+                }
+            }
+
+            return new StatusInfo();
+        }else{
+            return statusInfo;
+        }
+    }
+
+    return new StatusInfo();
+}
 
     private boolean checkTypeForAcademicCalendar(String typeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
          if (typeKey.equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY))
@@ -1852,8 +1905,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public StatusInfo changeAcalEventState(@WebParam(name = "acalEventId") String s, @WebParam(name = "nextStateKey") String s2, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("changeAcalEventState");
+    public StatusInfo changeAcalEventState(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return processMilestoneStateChange(acalEventId,nextStateKey,contextInfo);
     }
 
     @Override

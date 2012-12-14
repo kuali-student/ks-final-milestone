@@ -16,6 +16,8 @@
  */
 package org.kuali.student.r2.core.acal.service.statehelper;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -24,12 +26,15 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
+import java.util.Collections;
 
 /**
  * This class //TODO ...
@@ -39,18 +44,45 @@ import javax.xml.namespace.QName;
 public class MilestoneStateHelperImpl implements StateHelper{
     
     private AtpService atpService;
+    private AcademicCalendarService academicCalendarService;
     
     @Override
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
         StatusInfo statusInfo = new StatusInfo();
         try {
-            MilestoneInfo milestoneInfo = getAtpService().getMilestone(entityId, context);
-            milestoneInfo.setStateKey(nextStateKey);
-            getAtpService().updateMilestone(entityId,milestoneInfo,context);
+            //Make sure it's an acal
+            getAcademicCalendarService().getHoliday(entityId,context);
+            getAcademicCalendarService().changeHolidayState(entityId,nextStateKey,context);
+            return statusInfo;
+        } catch (DoesNotExistException e) {
+            //shallow... it may be another milestone type
+        } catch (Exception e) {
+            statusInfo.setSuccess(false);
+            statusInfo.setMessage("Error updating Holiday state - " + e.getMessage());
+            return statusInfo;
+        }
+
+        try {
+            //Make sure it's an acal
+            getAcademicCalendarService().getAcalEvent(entityId,context);
+            getAcademicCalendarService().changeAcalEventState(entityId,nextStateKey,context);
+            return statusInfo;
+        } catch (DoesNotExistException e) {
+            //shallow... it may be another milestone type
+        } catch (Exception e) {
+            statusInfo.setSuccess(false);
+            statusInfo.setMessage("Error updating Event state - " + e.getMessage());
+            return statusInfo;
+        }
+
+        try {
+            //Make sure it's an acal
+            getAcademicCalendarService().getKeyDate(entityId,context);
+            getAcademicCalendarService().changeKeyDateState(entityId,nextStateKey,context);
             return statusInfo;
         } catch (Exception e) {
             statusInfo.setSuccess(false);
-            statusInfo.setMessage("Error updating Milestone - " + e.getMessage());
+            statusInfo.setMessage("Error updating Event state - " + e.getMessage());
             return statusInfo;
         }
     }
@@ -65,5 +97,12 @@ public class MilestoneStateHelperImpl implements StateHelper{
             atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return atpService;
+    }
+
+    protected AcademicCalendarService getAcademicCalendarService(){
+        if (academicCalendarService == null){
+            academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return academicCalendarService;
     }
 }
