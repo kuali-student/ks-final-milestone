@@ -1,14 +1,18 @@
 package org.kuali.student.myplan.course.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.kuali.student.myplan.plan.util.EnumerationHelper;
-
-import javax.xml.namespace.QName;
-import java.util.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
 /**
  * Logic for building list of FacetItems and coding CourseSearchItems.
@@ -28,6 +32,9 @@ public class GenEduReqFacet extends AbstractFacet {
      */
     @Override
     public void process(CourseSearchItem item) {
+    	
+    	// TODO: factory for context
+    	ContextInfo context = new ContextInfo();
 
         FacetItem itemFacet = new FacetItem();
         String genEdString = item.getGenEduReq();
@@ -49,7 +56,7 @@ public class GenEduReqFacet extends AbstractFacet {
                     key=key.replace("&amp;","&");
                 }
                 if (isNewFacetKey(FACET_KEY_DELIMITER + key + FACET_KEY_DELIMITER)) {
-                    EnumeratedValueInfo e = EnumerationHelper.getGenEdReqEnumInfo(EnumerationHelper.getEnumCodeForAbbrVal(key));
+                    EnumeratedValueInfo e = EnumerationHelper.getGenEdReqEnumInfo(EnumerationHelper.getEnumCodeForAbbrVal(key, context), context);
                     key = e.getAbbrevValue();
                     String title = e.getValue();
                     if (!StringUtils.isEmpty(title)) {

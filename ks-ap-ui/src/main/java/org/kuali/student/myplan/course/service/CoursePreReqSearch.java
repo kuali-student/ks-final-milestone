@@ -7,7 +7,8 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -36,13 +37,13 @@ public class CoursePreReqSearch {
      *
      * @return
      */
-    public List<String> getCoursePreReqBySubject( String subject ) {
+    public List<String> getCoursePreReqBySubject( String subject, ContextInfo context ) {
         try {
 
             ArrayList<String> courseList = new ArrayList<String>();
-            SearchRequest req = new SearchRequest( "myplan.course.prereqsearch.subject" );
+            SearchRequestInfo req = new SearchRequestInfo( "myplan.course.prereqsearch.subject" );
             req.addParam( "subject", subject );
-            SearchResult result = getCluService().search( req );
+            SearchResult result = getCluService().search( req, context );
             for (SearchResultRow row : result.getRows()) {
                 String cluid = getCellValue( row, "lu.resultColumn.cluId");
                 courseList.add( cluid );
@@ -54,7 +55,7 @@ public class CoursePreReqSearch {
         }
     }
 
-    public List<String> getCoursePreReqBySubjectAndRange( String subject, String range ) {
+    public List<String> getCoursePreReqBySubjectAndRange( String subject, String range, ContextInfo context ) {
         try {
             if( range == null )
             {
@@ -67,10 +68,10 @@ public class CoursePreReqSearch {
             range = range.toUpperCase().replace( "X", "_" );
 
             ArrayList<String> courseList = new ArrayList<String>();
-            SearchRequest req = new SearchRequest( "myplan.course.prereqsearch.range" );
+            SearchRequestInfo req = new SearchRequestInfo( "myplan.course.prereqsearch.range" );
             req.addParam( "subject", subject );
             req.addParam( "range", range );
-            SearchResult result = getCluService().search( req );
+            SearchResult result = getCluService().search( req, context );
             for (SearchResultRow row : result.getRows()) {
                 String cluid = getCellValue( row, "lu.resultColumn.cluId");
                 courseList.add( cluid );
@@ -82,7 +83,7 @@ public class CoursePreReqSearch {
         }
     }
 
-    public List<String> getCoursePreReqWithExclusions( String subject, String range, Set<String> excludeList ) {
+    public List<String> getCoursePreReqWithExclusions( String subject, String range, Set<String> excludeList, ContextInfo context ) {
         try {
             if( range == null )
             {
@@ -95,10 +96,10 @@ public class CoursePreReqSearch {
             range = range.toUpperCase().replace( "X", "_" );
 
             ArrayList<String> courseList = new ArrayList<String>();
-            SearchRequest req = new SearchRequest( "myplan.course.prereqsearch.exclusions" );
+            SearchRequestInfo req = new SearchRequestInfo( "myplan.course.prereqsearch.exclusions" );
             req.addParam( "subject", subject );
             req.addParam( "range", range );
-            SearchResult result = getCluService().search( req );
+            SearchResult result = getCluService().search( req, context );
             for (SearchResultRow row : result.getRows()) {
                 String cluid = getCellValue( row, "lu.resultColumn.cluId");
                 String code = getCellValue( row, "lu.resultColumn.luOptionalCode");

@@ -108,6 +108,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=startAcademicPlannerForm")
     public ModelAndView startAcademicPlannerForm(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                                  HttpServletRequest request, HttpServletResponse response) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         super.start(form, result, request, response);
         PlanForm planForm = (PlanForm) form;
         List<LearningPlanInfo> plan = null;
@@ -120,7 +124,7 @@ public class PlanController extends UifControllerBase {
         List<MessageDataObject> messages = null;
         try {
             CommentQueryHelper commentQueryHelper = new CommentQueryHelper();
-            messages = commentQueryHelper.getMessages(getUserId());
+            messages = commentQueryHelper.getMessages(getUserId(), context);
         } catch (Exception e) {
             throw new RuntimeException("Could not retrieve messages.", e);
         }
@@ -178,6 +182,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=startAddPlannedCourseForm")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         super.start(form, result, request, response);
 
         PlanForm planForm = (PlanForm) form;
@@ -222,7 +230,7 @@ public class PlanController extends UifControllerBase {
 
         //  Also, add a full CourseDetails object so that course details properties are available to be displayed on the form.
         try {
-            planForm.setCourseDetails(getCourseDetailsInquiryService().retrieveCourseDetails(planForm.getCourseId(), UserSessionHelper.getStudentId()));
+            planForm.setCourseDetails(getCourseDetailsInquiryService().retrieveCourseDetails(planForm.getCourseId(), UserSessionHelper.getStudentId(), context));
         } catch (RuntimeException e) {
             CourseDetails courseDetails = new CourseDetails();
             planForm.setCourseDetails(courseDetails);
@@ -248,6 +256,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=plannedToBackup")
     public ModelAndView plannedToBackup(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                         HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         if (UserSessionHelper.isAdviser()) {
             return doAdviserAccessError(form, "Adviser Access Denied", null);
         }
@@ -286,13 +298,13 @@ public class PlanController extends UifControllerBase {
         //  Lookup course details.
         CourseDetails courseDetails = null;
         try {
-            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId());
+            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId(), context);
         } catch (Exception e) {
             return doOperationFailedError(form, "Unable to retrieve Course Details.", e);
         }
 
         //  Make removed event before updating the plan item.
-        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> removeEvent = makeRemoveEvent(planItem, courseDetails);
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> removeEvent = makeRemoveEvent(planItem, courseDetails, context);
 
         //  Update
         planItem.setTypeKey(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
@@ -309,7 +321,7 @@ public class PlanController extends UifControllerBase {
         events.putAll(removeEvent);
         events.putAll(makeAddEvent(planItem, courseDetails));
         String atpId = planItem.getPlanPeriods().get(0);
-        events.putAll(makeUpdateTotalCreditsEvent(atpId, PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+        events.putAll(makeUpdateTotalCreditsEvent(atpId, PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS, context));
 
         form.setJavascriptEvents(events);
 
@@ -321,6 +333,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=backupToPlanned")
     public ModelAndView backupToPlanned(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                         HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         if (UserSessionHelper.isAdviser()) {
             return doAdviserAccessError(form, "Adviser Access Denied", null);
         }
@@ -358,13 +374,13 @@ public class PlanController extends UifControllerBase {
         //  Lookup course details.
         CourseDetails courseDetails = null;
         try {
-            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId());
+            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId(), context);
         } catch (Exception e) {
             return doOperationFailedError(form, "Unable to retrieve Course Details.", e);
         }
 
         //  Make removed event before updating the plan item.
-        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> removeEvent = makeRemoveEvent(planItem, courseDetails);
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> removeEvent = makeRemoveEvent(planItem, courseDetails, context);
 
         //  Set type to "planned".
         planItem.setTypeKey(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
@@ -383,7 +399,7 @@ public class PlanController extends UifControllerBase {
         events.putAll(removeEvent);
         events.putAll(makeAddEvent(planItem, courseDetails));
         String atpId = planItem.getPlanPeriods().get(0);
-        events.putAll(makeUpdateTotalCreditsEvent(atpId, PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+        events.putAll(makeUpdateTotalCreditsEvent(atpId, PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS, context));
 
         form.setJavascriptEvents(events);
 
@@ -394,6 +410,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=movePlannedCourse")
     public ModelAndView movePlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                           HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         if (UserSessionHelper.isAdviser()) {
             return doAdviserAccessError(form, "Adviser Access Denied", null);
         }
@@ -450,7 +470,7 @@ public class PlanController extends UifControllerBase {
         //  Lookup course details as they will be needed for errors.
         CourseDetails courseDetails = null;
         try {
-            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId());
+            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId(), context);
         } catch (Exception e) {
             return doOperationFailedError(form, "Unable to retrieve Course Details.", null);
         }
@@ -469,7 +489,7 @@ public class PlanController extends UifControllerBase {
         }
 
         //  Create events before updating the plan item.
-        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> originalRemoveEvents = makeRemoveEvent(planItem, courseDetails);
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> originalRemoveEvents = makeRemoveEvent(planItem, courseDetails, context);
         //  Save the source ATP ID to create credit total updates later.
         String originalAtpId = planItem.getPlanPeriods().get(0);
 
@@ -509,14 +529,14 @@ public class PlanController extends UifControllerBase {
         //  Add events generated for the plan item before it was updated.
         events.putAll(originalRemoveEvents);
         //  Create update total credits on source ATP.
-        events.putAll(makeUpdateTotalCreditsEvent(originalAtpId, PlanConstants.JS_EVENT_NAME.UPDATE_OLD_TERM_TOTAL_CREDITS));
+        events.putAll(makeUpdateTotalCreditsEvent(originalAtpId, PlanConstants.JS_EVENT_NAME.UPDATE_OLD_TERM_TOTAL_CREDITS, context));
 
         try {
             events.putAll(makeAddEvent(planItem, courseDetails));
         } catch (RuntimeException e) {
             return doOperationFailedError(form, "Unable to create add event.", e);
         }
-        events.putAll(makeUpdateTotalCreditsEvent(newAtpIds.get(0), PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+        events.putAll(makeUpdateTotalCreditsEvent(newAtpIds.get(0), PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS, context));
 
         form.setJavascriptEvents(events);
 
@@ -540,6 +560,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=copyPlannedCourse")
     public ModelAndView copyPlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                           HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         if (UserSessionHelper.isAdviser()) {
             return doAdviserAccessError(form, "Adviser Access Denied", null);
         }
@@ -593,7 +617,7 @@ public class PlanController extends UifControllerBase {
         //  Lookup course details as they will be needed for errors.
         CourseDetails courseDetails = null;
         try {
-            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId());
+            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId(), context);
         } catch (Exception e) {
             return doOperationFailedError(form, "Unable to retrieve Course Details.", e);
         }
@@ -657,7 +681,7 @@ public class PlanController extends UifControllerBase {
             return doOperationFailedError(form, "Unable to create add event.", e);
         }
 
-        events.putAll(makeUpdateTotalCreditsEvent(planItemCopy.getPlanPeriods().get(0), PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+        events.putAll(makeUpdateTotalCreditsEvent(planItemCopy.getPlanPeriods().get(0), PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS, context));
 
         //  Populate the form.
         form.setJavascriptEvents(events);
@@ -671,6 +695,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=addPlannedCourse")
     public ModelAndView addPlannedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                          HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         if (UserSessionHelper.isAdviser()) {
             return doAdviserAccessError(form, "Adviser Access Denied", null);
         }
@@ -731,7 +759,7 @@ public class PlanController extends UifControllerBase {
         //  Lookup course details as well need them in case there is an error below.
         CourseDetails courseDetails = null;
         try {
-            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId());
+            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId(), context);
         } catch (Exception e) {
             return doOperationFailedError(form, "Unable to retrieve Course Details.", null);
         }
@@ -773,7 +801,7 @@ public class PlanController extends UifControllerBase {
                 return doDuplicatePlanItem(form, newAtpIds.get(0), courseDetails);
             }
             //  Create wishlist events before updating the plan item.
-            wishlistEvents = makeRemoveEvent(planItem, courseDetails);
+            wishlistEvents = makeRemoveEvent(planItem, courseDetails, context);
             planItem.setTypeKey(newType);
             planItem.setPlanPeriods(newAtpIds);
 
@@ -798,7 +826,7 @@ public class PlanController extends UifControllerBase {
             return doOperationFailedError(form, "Unable to create add event.", e);
         }
 
-        events.putAll(makeUpdateTotalCreditsEvent(planItem.getPlanPeriods().get(0), PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+        events.putAll(makeUpdateTotalCreditsEvent(planItem.getPlanPeriods().get(0), PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS, context));
 
         //  Populate the form.
         form.setJavascriptEvents(events);
@@ -954,6 +982,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=addSavedCourse")
     public ModelAndView addSavedCourse(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                        HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         if (UserSessionHelper.isAdviser()) {
             return doAdviserAccessError(form, "Adviser Access Denied", null);
         }
@@ -986,7 +1018,7 @@ public class PlanController extends UifControllerBase {
         //  Grab course details.
         CourseDetails courseDetails = null;
         try {
-            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId());
+            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId(), context);
         } catch (Exception e) {
             return doOperationFailedError(form, String.format("Unable to retrieve Course Details for [%s].", courseId), e);
         }
@@ -1013,6 +1045,10 @@ public class PlanController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=removeItem")
     public ModelAndView removePlanItem(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
                                        HttpServletRequest httprequest, HttpServletResponse httpresponse) {
+    	
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         if (UserSessionHelper.isAdviser()) {
             return doAdviserAccessError(form, "Adviser Access Denied", null);
         }
@@ -1042,7 +1078,7 @@ public class PlanController extends UifControllerBase {
 
         //  Make events ...
         CourseDetails courseDetails = null;
-        events.putAll(makeRemoveEvent(planItem, courseDetails));
+        events.putAll(makeRemoveEvent(planItem, courseDetails, context));
 
         try {
             // Delete the plan item
@@ -1052,7 +1088,7 @@ public class PlanController extends UifControllerBase {
         }
 
         if (planItem.getTypeKey().equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
-            events.putAll(makeUpdateTotalCreditsEvent(planItem.getPlanPeriods().get(0), PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+            events.putAll(makeUpdateTotalCreditsEvent(planItem.getPlanPeriods().get(0), PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS, context));
         }
 
         form.setJavascriptEvents(events);
@@ -1167,11 +1203,11 @@ public class PlanController extends UifControllerBase {
         return getUIFModelAndView(form, PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID);
     }
 
-    private String getCourseDetailsAsJson(String courseId) {
+    private String getCourseDetailsAsJson(String courseId, ContextInfo context) {
         //  Also, add a full CourseDetails object so that course details properties are available to be displayed on the form.
         CourseDetails courseDetails = null;
         try {
-            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId());
+            courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseId, getUserId(), context);
         } catch (Exception e) {
             throw new RuntimeException("Unable to retrieve Course Details.", e);
         }
@@ -1430,7 +1466,7 @@ public class PlanController extends UifControllerBase {
      * @param planItem
      * @return
      */
-    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeRemoveEvent(PlanItemInfo planItem, CourseDetails courseDetails) {
+    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeRemoveEvent(PlanItemInfo planItem, CourseDetails courseDetails, ContextInfo context) {
         Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
         Map<String, String> params = new HashMap<String, String>();
 
@@ -1445,7 +1481,7 @@ public class PlanController extends UifControllerBase {
         String courseDetailsAsJson;
         try {
             if (courseDetails == null) {
-                courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId());
+                courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(planItem.getRefObjectId(), getUserId(), context);
             }
             //  Serialize course details into a string of JSON.
             courseDetailsAsJson = mapper.writeValueAsString(courseDetails);
@@ -1464,13 +1500,13 @@ public class PlanController extends UifControllerBase {
      * @param atpId The id of the term.
      * @return
      */
-    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeUpdateTotalCreditsEvent(String atpId, PlanConstants.JS_EVENT_NAME eventName) {
+    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeUpdateTotalCreditsEvent(String atpId, PlanConstants.JS_EVENT_NAME eventName, ContextInfo context) {
         Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 
         Map<String, String> params = new HashMap<String, String>();
 
         params.put("atpId", formatAtpIdForUI(atpId));
-        String totalCredits = this.getTotalCredits(atpId);
+        String totalCredits = this.getTotalCredits(atpId, context);
         params.put("totalCredits", totalCredits);
 
         events.put(eventName, params);
@@ -1523,7 +1559,7 @@ public class PlanController extends UifControllerBase {
         return typeKey.substring(typeKey.lastIndexOf(".") + 1);
     }
 
-    private String getTotalCredits(String termId) {
+    private String getTotalCredits(String termId, ContextInfo context) {
         double plannedTotalMin = 0;
         double plannedTotalMax = 0;
         String totalCredits = null;
@@ -1546,7 +1582,7 @@ public class PlanController extends UifControllerBase {
                     String courseID = planItem.getRefObjectId();
                     for (String atp : planItem.getPlanPeriods()) {
                         if (atp.equalsIgnoreCase(termId)) {
-                            CourseDetails courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseID, getUserId());
+                            CourseDetails courseDetails = getCourseDetailsInquiryService().retrieveCourseSummary(courseID, getUserId(), context);
                             if (courseDetails != null && !courseDetails.getCredit().contains(".")) {
                                 String[] str = courseDetails.getCredit().split("\\D");
                                 double min = Double.parseDouble(str[0]);

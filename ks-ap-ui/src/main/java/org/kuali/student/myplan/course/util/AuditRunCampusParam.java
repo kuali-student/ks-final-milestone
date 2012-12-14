@@ -1,13 +1,18 @@
 package org.kuali.student.myplan.course.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.myplan.plan.util.OrgHelper;
-
-import java.util.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 /**
  * Logic for building list of FacetItems and coding CourseSearchItems.
@@ -34,6 +39,8 @@ public class AuditRunCampusParam extends KeyValuesBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
+    	// TODO: factory for context /mwfyffe
+    	ContextInfo context = new ContextInfo();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         if (blankOption) {
             keyValues.add(new ConcreteKeyValue("", ""));
@@ -41,7 +48,7 @@ public class AuditRunCampusParam extends KeyValuesBase {
         List<OrgInfo> orgInfoList = new ArrayList<OrgInfo>();
         try {
             if (!this.getHashMap().containsKey(CourseSearchConstants.CAMPUS_LOCATION)) {
-                orgInfoList = OrgHelper.getOrgInfo(CourseSearchConstants.CAMPUS_LOCATION, CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST, CourseSearchConstants.ORG_TYPE_PARAM);
+                orgInfoList = OrgHelper.getOrgInfo(CourseSearchConstants.CAMPUS_LOCATION, CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST, CourseSearchConstants.ORG_TYPE_PARAM, context);
                 getHashMap().put(CourseSearchConstants.CAMPUS_LOCATION, orgInfoList);
             } else {
                 orgInfoList = getHashMap().get(CourseSearchConstants.CAMPUS_LOCATION);

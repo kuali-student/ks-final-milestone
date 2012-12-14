@@ -1,10 +1,8 @@
 package org.kuali.student.myplan.plan;
 
-import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-
-import java.util.regex.Pattern;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
 public class PlanConstants extends AcademicPlanServiceConstants {
 
@@ -16,7 +14,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     public static final String PLAN_ITEM_RESPONSE_PAGE_ID = "plan_item_action_response_page";
     public static final String PLAN_PAGE_ID = "planned_courses_detail_page";
 
-    public static final String COURSE_TYPE = LUConstants.CLU_TYPE_CREDIT_COURSE;
+    public static final String COURSE_TYPE = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
     // CRUD operations positive feedback.
     public static final String SUCCESS_KEY = "myplan.text.success";

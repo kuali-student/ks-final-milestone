@@ -1,13 +1,17 @@
 package org.kuali.student.myplan.course.util;
 
-import javax.xml.namespace.QName;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
 import org.kuali.student.myplan.course.dataobject.FacetItem;
 import org.kuali.student.myplan.plan.util.OrgHelper;
-
-import java.util.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
  * Logic for building list of FacetItems and coding CourseSearchItems.
@@ -87,11 +91,13 @@ public class CurriculumFacet extends AbstractFacet {
      * @return
      */
     protected String getTitle(String display) {
+    	// TODO: factory for context info
+    	ContextInfo context = new ContextInfo();
         String titleValue = null;
         Map<String, String> subjects = null;
         try {
             if (!this.getHashMap().containsKey(CourseSearchConstants.SUBJECT_AREA)) {
-                subjects = OrgHelper.getTrimmedSubjectAreas();
+                subjects = OrgHelper.getTrimmedSubjectAreas(context);
                 getHashMap().put(CourseSearchConstants.SUBJECT_AREA, subjects);
 
             } else {

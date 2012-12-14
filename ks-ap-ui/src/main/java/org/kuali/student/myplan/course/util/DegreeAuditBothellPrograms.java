@@ -1,19 +1,24 @@
 package org.kuali.student.myplan.course.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+
+import javax.xml.namespace.QName;
+
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-
 import org.kuali.student.myplan.audit.dto.AuditProgramInfo;
 import org.kuali.student.myplan.audit.service.DegreeAuditConstants;
 import org.kuali.student.myplan.audit.service.DegreeAuditService;
 import org.kuali.student.myplan.audit.service.DegreeAuditServiceConstants;
-
-import javax.xml.namespace.QName;
-import java.util.*;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +26,7 @@ import java.util.*;
  * Date: 5/17/12
  * Time: 11:51 AM
  * To change this template use File | Settings | File Templates.
+ * @deprecated TODO: remove this, use generic impl instead /mwfyffe
  */
 public class DegreeAuditBothellPrograms extends KeyValuesBase {
 

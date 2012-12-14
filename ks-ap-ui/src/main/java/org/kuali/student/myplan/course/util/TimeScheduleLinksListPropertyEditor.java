@@ -16,30 +16,31 @@ package org.kuali.student.myplan.course.util;
  */
 
 
-import edu.uw.kuali.student.lib.client.studentservice.ServiceException;
-import edu.uw.kuali.student.lib.client.studentservice.StudentServiceClient;
+import java.beans.PropertyEditorSupport;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.namespace.QName;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.plan.util.EnumerationHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.exceptions.*;
-
-import javax.xml.namespace.QName;
-import java.beans.PropertyEditorSupport;
-import java.io.Serializable;
-import java.util.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
 public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport implements Serializable {
 
     private final static Logger logger = Logger.getLogger(TimeScheduleLinksListPropertyEditor.class);
-
-    private StudentServiceClient studentServiceClient;
 
     private String baseUrl = "";
 
@@ -115,6 +116,9 @@ public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport i
 
     @Override
     public String getAsText() {
+    	// TODO: factory for ContextInfo /mwfyffe
+    	ContextInfo context = new ContextInfo();
+    	
         //  Don't alter course details.
         final CourseDetails courseDetails = (CourseDetails) super.getValue();
 
@@ -138,7 +142,7 @@ public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport i
 
         // For all published terms
         for (String scheduledTerm : scheduledTerms) {
-            Set<String> lightboxUrls = makeLightboxTimeScheduleUrl(scheduledTerm, courseDetails.getCode());
+            Set<String> lightboxUrls = makeLightboxTimeScheduleUrl(scheduledTerm, courseDetails.getCode(), context);
             for (String lightboxUrl : lightboxUrls) {
                 String urlId = UUIDHelper.genStringUUID();
                 String t = title.replace("{timeScheduleName}", scheduledTerm);
@@ -176,12 +180,13 @@ public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport i
      * Format a UW SWS URL as: SPR2012/chem.html#chem142
      * term/curriculmum_abbreviation#curriculmum_abbreviation + course number
      * No space in curriculum code for Bothell/Tacoma
+     * TODO: make generic
      *
      * @param term
      * @param courseCode
      * @return
      */
-    private Set<String> makeLightboxTimeScheduleUrl(String term, String courseCode) {
+    private Set<String> makeLightboxTimeScheduleUrl(String term, String courseCode, ContextInfo context) {
 
         final CourseDetails courseDetails = (CourseDetails) super.getValue();
         HashMap<String, String> inst = new HashMap<String, String>();
@@ -239,7 +244,7 @@ public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport i
                 if (!instCd.isEmpty()) {
 
                     if (!this.getHashMap().containsKey(CourseSearchConstants.COURSE_OFFERING_INSTITUTE)) {
-                        enumeratedValueInfoList = EnumerationHelper.getEnumerationValueInfoList(CourseSearchConstants.COURSE_OFFERING_INSTITUTE);
+                        enumeratedValueInfoList = EnumerationHelper.getEnumerationValueInfoList(CourseSearchConstants.COURSE_OFFERING_INSTITUTE, context);
 
                     } else {
                         enumeratedValueInfoList = hashMap.get(CourseSearchConstants.COURSE_OFFERING_INSTITUTE);
@@ -315,14 +320,4 @@ public class TimeScheduleLinksListPropertyEditor extends PropertyEditorSupport i
         this.baseUrl = baseUrl;
     }
 
-    public StudentServiceClient getStudentServiceClient() {
-        if (studentServiceClient == null) {
-            studentServiceClient = (StudentServiceClient) GlobalResourceLoader.getService(StudentServiceClient.SERVICE_NAME);
-        }
-        return studentServiceClient;
-    }
-
-    public void setStudentServiceClient(StudentServiceClient studentServiceClient) {
-        this.studentServiceClient = studentServiceClient;
-    }
 }

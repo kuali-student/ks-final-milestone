@@ -19,6 +19,7 @@ import java.util.*;
  * Date: 5/17/12
  * Time: 11:51 AM
  * To change this template use File | Settings | File Templates.
+ * @deprecated TODO: remove this, use generic impl instead /mwfyffe
  */
 public class DegreeAuditSeattlePrograms extends KeyValuesBase {
 
