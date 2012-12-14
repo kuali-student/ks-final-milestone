@@ -116,4 +116,8 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
             return StringUtils.substringBeforeLast(source, "" + lastLetter) + ++lastLetter;
         }
     }
+
+    @Override
+    public void removeLock(String newCode, String uniqueKey, String namespace){
+    }
 }

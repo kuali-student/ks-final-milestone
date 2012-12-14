@@ -17,8 +17,6 @@ public class CodeGeneratorLocksDao extends GenericEntityDao<CodeGeneratorLocksEn
     @Transactional(propagation= Propagation.REQUIRES_NEW)
     public void createLock (String code, String key, String namespace){
 
-
-
         CodeGeneratorLocksEntity entity = new CodeGeneratorLocksEntity();
         entity.setCode(code);
         entity.setUniqueKey(key);
@@ -26,5 +24,9 @@ public class CodeGeneratorLocksDao extends GenericEntityDao<CodeGeneratorLocksEn
         em.persist(entity);
         //em.flush();
     }
-
+    @Transactional
+    public void removeLock (String code, String key, String namespace){
+        em.createQuery("delete from CodeGeneratorLocksEntity a where a.code=:code and a.uniqueKey=:uniqueKey and a.namespace=:namespace")
+                .setParameter("code", code).setParameter("uniqueKey", key).setParameter("namespace", namespace).executeUpdate();
+    }
 }

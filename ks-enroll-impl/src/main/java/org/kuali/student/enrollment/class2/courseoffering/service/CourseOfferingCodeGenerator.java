@@ -15,4 +15,5 @@ import java.util.List;
 public interface CourseOfferingCodeGenerator {
     String generateActivityOfferingCode(String courseOfferingCode, List<ActivityOfferingInfo> existingActivityOfferings);
     String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings);
+    void removeLock(String newCode, String uniqueKey, String namespace);
 }

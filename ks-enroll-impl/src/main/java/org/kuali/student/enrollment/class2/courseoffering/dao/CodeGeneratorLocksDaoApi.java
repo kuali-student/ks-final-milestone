@@ -10,5 +10,5 @@ package org.kuali.student.enrollment.class2.courseoffering.dao;
 public interface CodeGeneratorLocksDaoApi {
 
     public void createLock (String code, String key, String namespace);
-
+    public void removeLock (String code, String key, String namespace);
 }

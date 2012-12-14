@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDaoApi;
+import org.kuali.student.enrollment.class2.courseoffering.model.CodeGeneratorLocksEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -147,6 +148,16 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
         }
 
         return bRet;
+    }
+
+    @Override
+    public void removeLock(String newCode, String uniqueKey, String namespace){
+        try {
+            getCodeGeneratorLocksDao().removeLock(newCode, uniqueKey, namespace);
+        }
+        catch (Exception ex) {
+            System.out.println("Could not remove code."  + newCode + ", " + uniqueKey + ", " + namespace + " " + ex.getMessage() );
+        }
     }
 
     public CodeGeneratorLocksDaoApi getCodeGeneratorLocksDao() {
