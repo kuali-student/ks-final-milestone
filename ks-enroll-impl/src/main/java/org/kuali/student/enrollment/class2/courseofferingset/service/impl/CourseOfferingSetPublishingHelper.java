@@ -1,10 +1,8 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -13,7 +11,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.Date;
@@ -110,14 +107,6 @@ public class CourseOfferingSetPublishingHelper {
         private CourseOfferingSetService socService;
 
         private String socId;
-
-        private final String[] aoSchedStatesForOfferedKeys = {
-                LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY,
-                LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY
-        };
-        private final String aoOfferedKey = LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY;
-        private final String aoApprovedKey = LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY;
-        private final String foOfferedKey = LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY;
 
         @Override
         public void run() {
