@@ -26,9 +26,6 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
 import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
@@ -47,14 +44,16 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -259,7 +258,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 }
 
                 // 5) when end date is not null, end time cannot be before the start time
-                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm())) {
+                //if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm())) {
+                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && ((apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm()) || (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) ))) {
                     Date start = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getStartTime());
                     Date end = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getEndTime());
                     if (end.before(start)) {
@@ -270,7 +270,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
                     // 6) when end date is not null, end time AM-PM cannot be before the start time
                     if (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) {
-                        GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].endTimeAmPm",
+                        GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endTimeAmPm",
                                 AppointmentConstants.APPOINTMENT_MSG_ERROR_END_TIME_AM_PM_BEFORE_START_TIME_AM_PM);
                         isValid = false;
                     }
@@ -365,7 +365,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
                 }
 
                 // 5) when end date is not null, end time cannot be before the start time
-                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm())) {
+                //if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm())) {
+                if (apptWindow.getEndDate() != null && apptWindow.getEndDate().equals(apptWindow.getStartDate()) && ((apptWindow.getStartTimeAmPm().equals(apptWindow.getEndTimeAmPm()) || (apptWindow.getEndTimeAmPm().equalsIgnoreCase("am") && apptWindow.getStartTimeAmPm().equalsIgnoreCase("pm")) ))) {
                     Date start = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getStartTime());
                     Date end = DateFormatters.HOUR_MINUTE_TIME_FORMATTER.parse(apptWindow.getEndTime());
                     if (end.before(start)) {
