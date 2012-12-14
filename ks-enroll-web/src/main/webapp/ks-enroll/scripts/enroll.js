@@ -298,9 +298,9 @@ function showFixedOptions(textBox, url, courseTypeKey) {
     jQuery('#div_fixed_options').show().css('top', jQuery(textBox).offset().top).css('left', jQuery(textBox).offset().left);
 }
 
-function removeHeaderForRemovedColumns(isReadOnly, columns) {
+function removeHeaderForRemovedColumns(isReadOnly, columns, componentId) {
     if (isReadOnly) {
-        var div = jQuery('#KS-CourseOfferingManagement-ActivityOfferingListSection');
+        var div = jQuery(componentId);
         var table = jQuery(div).find('table');
         var tableId = jQuery(table).attr('id');
 

@@ -66,7 +66,8 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false">
+    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
+          p:onDocumentReadyScript="removeHeaderForRemovedColumns(@{#parent.readOnly}, [1], '#KS-CourseOfferingManagement-CourseOfferingListSection');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper" />
         <property name="propertyName" value="courseOfferingResultList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
