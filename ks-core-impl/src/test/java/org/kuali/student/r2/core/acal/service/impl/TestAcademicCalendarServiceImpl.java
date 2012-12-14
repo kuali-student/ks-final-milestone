@@ -718,7 +718,6 @@ public class TestAcademicCalendarServiceImpl {
         String originalCode = existing.getCode();
 
         existing.setName(updatedName);
-        existing.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
 
         TermInfo revised = acalService.updateTerm("termRelationTestingTerm3", existing, callContext);
 
@@ -729,7 +728,6 @@ public class TestAcademicCalendarServiceImpl {
 
         assertNotNull(retrieved);
         assertEquals(retrieved.getName(), updatedName);
-        assertEquals(retrieved.getStateKey(), AtpServiceConstants.ATP_DRAFT_STATE_KEY);
 
         // ensure new calculated code is the same as the pre-update code
         assertEquals(originalCode, retrieved.getCode());
