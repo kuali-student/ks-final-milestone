@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:ks-myplan-services-commons.xml"/>
+
+    <bean id="learningPlanDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanDao">
+        <property name="em" ref="myplanEntityManager"/>
+    </bean>
+
+    <bean id="learningPlanRichTextDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanRichTextDao">
+        <property name="em" ref="myplanEntityManager"/>
+    </bean>
+
+    <bean id="learningPlanTypeDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanTypeDao">
+        <property name="em" ref="myplanEntityManager"/>
+    </bean>
+
+    <bean id="planItemDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemDao">
+        <property name="em" ref="myplanEntityManager"/>
+    </bean>
+
+    <bean id="planItemTypeDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao">
+        <property name="em" ref="myplanEntityManager"/>
+    </bean>
+
+    <bean id="planItemRichTextDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemRichTextDao">
+        <property name="em" ref="myplanEntityManager"/>
+    </bean>
+</beans>

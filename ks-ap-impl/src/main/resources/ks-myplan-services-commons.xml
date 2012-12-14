@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <!-- Default JPA EntityManagerFactory -->
+    <bean id="myplanDefaultEntityManagerFactory" abstract="true"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="jpaVendorAdapter">
+            <bean
+                    class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="databasePlatform" value="${ks.myplan.jpa.DatabasePlatform}"/>
+                <property name="showSql" value="${ks.myplan.jpa.showSql}"/>
+                <property name="generateDdl" value="${ks.myplan.jpa.generateDdl}"/>
+            </bean>
+        </property>
+        <property name="jpaPropertyMap">
+            <map>
+                <entry key="hibernate.transaction.manager_lookup_class"
+                       value="${ks.myplan.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                <entry key="hibernate.hbm2ddl.auto"
+                       value="${ks.myplan.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+                <entry key="hibernate.connection.release_mode"
+                	   value="${ks.myplan.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="myplanEntityManagerFactory" parent="myplanDefaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="LearningPlan"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/lp-persistence.xml"/>
+        <property name="dataSource" ref="myplanDataSource"/>
+    </bean>
+
+    <bean id="myplanEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="myplanEntityManagerFactory"/>
+    </bean>
+
+	<alias name="jtaUserTransaction" alias="userTransaction"/>    
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true"> 
+		<property name="userTransaction" ref="jtaUserTransaction"/>
+		<property name="transactionManager" ref="jtaTransactionManager"/>
+        <property name="allowCustomIsolationLevels" value="true"/>
+    </bean> 
+    
+</beans>

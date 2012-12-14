@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <import resource="classpath:ks-myplan-test-dao-context.xml"/>
+
+   <bean id="atpEntityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
+        <property name="persistenceUnitName" value="Atp"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/atp-persistence.xml"/>
+        <property name="dataSource" ref="myplanDataSourceXAPool"/>
+    </bean>
+
+    <bean id="atpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
+          autowire-candidate="false" autowire="no">
+        <property name="entityManagerFactory" ref="atpEntityManagerFactory"/>
+    </bean>
+
+    <bean id="atpDao"
+          class="org.kuali.student.core.atp.dao.impl.AtpDaoImpl">
+        <property name="em" ref="atpEntityManager"/>
+    </bean>
+
+    <bean id="atpServiceImpl"
+          class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
+        <property name="atpDao" ref="atpDao"/>
+        <!-- Currently Search or create are not used by MyPlan in ATP. -->
+        <!--<property name="searchManager" ref="atpSearchManager"/>-->
+        <!--<property name="dictionaryServiceDelegate" ref="coreDictionaryService" />-->
+        <!--<property name="validatorFactory" ref="coreValidatorFactory"/>-->
+    </bean>
+
+
+    <!-- Lu Service Config -->
+    <bean id="luEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="Lu"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/lu-persistence.xml"/>
+        <property name="dataSource" ref="myplanDataSourceXAPool"/>
+    </bean>
+
+    <bean id="luEntityManager"
+          class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="luEntityManagerFactory"/>
+    </bean>
+
+    <bean id="luDao" class="org.kuali.student.lum.lu.dao.impl.LuDaoImpl">
+        <property name="em" ref="luEntityManager"/>
+    </bean>
+
+    <bean id="luSearchManager"
+          class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:myplan-search-config.xml"/>
+        <!--<property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>-->
+    </bean>
+
+    <bean id="luServiceImpl" class="org.kuali.student.lum.lu.service.impl.LuServiceImpl">
+        <property name="luDao" ref="luDao"/>
+        <property name="searchManager" ref="luSearchManager"/>
+
+        <!--Not used by MyPlan-->
+        <!--<property name="searchDispatcher" ref="lumSearchDispatcher"/>        -->
+        <!--<property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>-->
+        <!--<property name="validatorFactory" ref="lumValidatorFactory"/>-->
+
+    </bean>
+
+
+    <!-- Course Service Config -->
+    <bean id="courseAssembler"
+          class="org.kuali.student.lum.course.service.assembler.CourseAssembler">
+        <property name="luService" ref="luServiceImpl"/>
+        <!--<property name="loAssembler" ref="loAssembler"/>-->
+        <!--<property name="loService" ref="loClient"/>-->
+        <!--<property name="lrcService" ref="lrcClient"/>-->
+        <!--<property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>-->
+        <!--<property name="formatAssembler" ref="formatAssembler"/>-->
+        <!--<property name="courseJointAssembler" ref="courseJointAssembler"/>-->
+
+    </bean>
+
+
+    <bean id="courseServiceImpl"
+          class="org.kuali.student.lum.course.service.impl.CourseServiceImpl">
+        <property name="luService" ref="luServiceImpl"/>
+        <property name="courseAssembler" ref="courseAssembler"/>
+        <!--<property name="courseServiceMethodInvoker" ref="courseServiceMethodInvoker"/>-->
+        <!--<property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>-->
+        <!--<property name="validatorFactory" ref="lumValidatorFactory"/>-->
+        <!--<property name="statementService" ref="statementServiceClient"/>-->
+    </bean>
+
+
+    <bean id="courseServiceMethodInvoker"
+          class="org.kuali.student.lum.course.service.impl.CourseServiceMethodInvoker">
+        <property name="luService" ref="luServiceImpl"/>
+        <!--<property name="loService" ref="loClient"/>-->
+        <!--<property name="lrcService" ref="lrcClient"/>-->
+    </bean>
+
+
+
+    <!-- Enumeration Service Config -->
+    <bean id="emEntityManagerFactory" parent="defaultEntityManagerFactory">
+        <property name="persistenceUnitName" value="EnumerationManagement"/>
+        <property name="persistenceXmlLocation"
+            value="classpath:META-INF/enumeration-persistence.xml" />
+        <property name="dataSource" ref="myplanDataSourceXAPool" />
+    </bean>
+
+    <bean id="emEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+        <property name="entityManagerFactory" ref="emEntityManagerFactory" />
+    </bean>
+
+    <bean id="emDao"
+        class="org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl">
+        <property name="em" ref="emEntityManager" />
+    </bean>
+
+    <bean id="emSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:em-search-config.xml" />
+    </bean>
+
+    <bean id="emServiceImpl"
+        class="org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl">
+        <property name="enumDAO" ref="emDao" />
+        <property name="searchManager" ref="emSearchManager"/>
+    </bean>
+
+</beans>

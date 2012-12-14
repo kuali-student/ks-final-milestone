@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational
+         Community License, Version 2.0 (the "License"); you may not use this file
+         except in compliance with the License. You may obtain a copy of the License
+         at http://www.opensource.org/licenses/ecl2.php Unless required by applicable
+         law or agreed to in writing, software distributed under the License is distributed
+         on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+         express or implied. See the License for the specific language governing permissions
+         and limitations under the License. -->
+
+
+    <bean id="CourseSearch-FormView" parent="MyPlanFormView">
+        <property name="id" value="CourseSearch-FormView"/>
+        <property name="headerText" value="Find Courses"/>
+        <property name="entryPageId" value="course_search"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-view</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ks-myplan/scripts/myplan.search.js</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Page" p:id="course_search">
+                    <property name="instructionalText"
+                              value="Enter a course code, title, or a keyword to search the Course Catalog and Time Schedule if applicable. &lt;a href=&quot;javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/#815')&quot;&gt;Learn more&lt;/a&gt;"/>
+                    <property name="layoutManager">
+                        <bean parent="Uif-HorizontalBoxLayout"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="course_search_result_section"/>
+                            <ref bean="myplan_section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.render" value="false"/>
+        <property name="formClass" value="org.kuali.student.myplan.course.form.CourseSearchForm"/>
+    </bean>
+
+
+    <!-- Layout for Empty Course Search Form Page  -->
+    <bean id="course_search_section" parent="Uif-VerticalBoxSubSection" p:style="width: 710px; margin-right: 10px;">
+        <property name="items">
+            <list>
+                <ref bean="course_search_panel"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Layout for Course Search Result Page -->
+    <bean id="course_search_result_section" parent="Uif-VerticalBoxSubSection" p:style="width: 710px; margin-right: 10px;">
+        <property name="items">
+            <list>
+                <ref bean="course_search_panel"/>
+                <ref bean="course_search_results_panel"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Group for Search Fields Container -->
+    <bean id="course_search_panel" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-course-search-panel</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="course_search_fields"/>
+                <ref bean="course_search_params"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Group for Search Input Fields -->
+    <bean id="course_search_fields" parent="Uif-HorizontalFieldGroup" p:style="margin:0 0 20px 0;" p:group.validationMessages.render="false">
+        <property name="items">
+            <list>
+                <bean id="text_searchQuery" parent="Uif-InputField" p:propertyName="searchQuery" p:label="Search for"
+                      p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:watermarkText="e.g. COM, Math 124, ENGL 1XX, sun">
+
+                            <property name="onDocumentReadyScript" value="if (jQuery('#text_searchQuery_control').val() != '') jQuery('button.course-search-submit').click();"/>
+                            <property name="onLoadScript" value="jQuery(this).blur();"/>
+                            <property name="onKeyUpScript" value="
+                                if (jQuery(this).val().length > 0) {
+                                    jQuery('button.course-search-submit').attr('disabled', false);
+                                } else {
+                                    jQuery('button.course-search-submit').attr('disabled', true);
+                                }"/>
+                            <property name="onKeyPressScript" value="
+                                var code = (e.keyCode ? e.keyCode : e.which);
+                                if (code == 13) {
+                                    e.preventDefault ? e.preventDefault() : e.returnValue = false;
+                                    jQuery('button.course-search-submit').click();
+                                }
+                            "/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="select_searchTerm" parent="Uif-InputField" p:propertyName="searchTerm" p:label="in"
+                      p:fieldLabel.renderColon="false" p:validationMessages.render="false">
+                    <!--<property name="fieldLabel.cssClasses">
+                        <list merge="true">
+                            <value>myplan-text-normal</value>
+                        </list>
+                    </property>-->
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.myplan.utils.PublishedTermsListBuilder">
+                            <property name="suffix" value=" quarter only"/>
+                            <property name="additionalListItemsTop">
+                                <map>
+                                    <entry key="any" value="Any quarter"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean p:id="searchForCourses" parent="Uif-PrimaryActionButton" p:actionLabel="Search" p:disabled="true">
+                    <property name="actionScript" value="
+                        searchForCourses('course_search_results','course_search_results_panel');
+                    "/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>course-search-submit</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Group for Search Input Parameters -->
+    <bean id="course_search_params" parent="Uif-HorizontalFieldGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-course-search-params</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="radio_campusSelect" parent="Uif-InputField" p:propertyName="campusSelect" p:width="auto" >
+                    <property name="defaultValues">
+                    <list>
+                        <value>306</value>
+                        <value>310</value>
+                        <value>323</value>
+                    </list>
+                </property>
+                    <property name="control">
+                            <bean parent="Uif-HorizontalCheckboxesControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.myplan.course.util.CampusSearch"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Layout for Search Facets and Search Results -->
+    <bean id="course_search_results_panel" parent="Uif-HorizontalBoxGroup" p:style="display: none;">
+        <property name="items">
+            <list>
+                <ref bean="course_search_results_facets"/>
+                <ref bean="course_search_results"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="course_search_results" parent="Uif-DataTable" p:style="width: 548px; margin:0;">
+         <!-- p:ajaxSource="@{#ConfigProperties['courseSearchBaseUrl']}/search/course/@{searchQuery}/@{searchTerm}/@{campusSelect}">-->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-course-search-results-datatable</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            jq('#course_search_results')
+                .subscribe('PLAN_ITEM_DELETED', function(data){
+                    if (data.planItemType === 'wishlist') {
+                        fnRestoreSearchAddButton(data.courseDetails.courseId);
+                    }
+                })
+                .subscribe('PLAN_ITEM_ADDED', function(data){
+                    if (data.planItemType === 'wishlist') {
+                        fnDisplayMessage('Bookmarked', 'bookmarked', data.courseDetails.courseId+'_status', false);
+                    }
+                })
+                .subscribe('PLAN_ITEM_ADDED', function(data){
+                    if (data.planItemType === 'planned') {
+                        fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
+                    }
+                })
+                .subscribe('PLAN_ITEM_ADDED', function(data){
+                    if (data.planItemType === 'backup') {
+                        fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
+                    }
+                });
+        "/>
+        <property name="richTable.templateOptions">
+            <map merge="true">
+                <entry key="oLanguage"
+                       value="{
+                            'sLengthMenu':'Show _MENU_',
+                            'sEmptyTable':'0 results found (bean sEmptyTable)',
+                            'sZeroRecords':'0 results found (bean sZeroRecords)',
+                            'sInfo':'Showing _START_-_END_ of _TOTAL_ results',
+                            'sInfoFiltered':''
+                       }"/>
+                <entry key="iDisplayLength" value="20"/>
+                <entry key="aLengthMenu" value="[ 20, 50, 100 ]"/>
+                <entry key="sDom" value="ilrtSp"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+                <entry key="bRetrieve" value="true"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="bDeferRender" value="true"/>
+                <entry key="bScrollCollapse" value="true"/>
+                <entry key="bStateSave" value="true"/>
+                <entry key="bSortClasses" value="false"/>
+                <entry key="aaSorting" value="[]"/>
+                <entry key="aoColumns"
+                       value="[
+                            {'sTitle':'Code','bSortable':true, 'bSearchable':false, 'sClass':'myplan-text-nowrap', 'sWidth':'73px'},
+                            {'sTitle':'Course Name','bSortable':true, 'bSearchable':false, 'sWidth':'170px'},
+                            {'sTitle':'Credits','bSortable':false, 'bSearchable':false, 'sWidth':'34px'},
+                            {'sTitle':'Quarter Offered', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-data-list', 'sWidth':'76px'},
+                            {'sTitle':'Gen Edu Req', 'bSortable':false, 'bSearchable':false, 'sWidth':'66px'},
+                            {'sTitle':'', 'bSortable':false, 'bSearchable':false, 'sClass':'myplan-status-column', 'sWidth':'69px'},
+                            {'sTitle':'facetQuarter', 'bVisible':false},
+                            {'sTitle':'facetGenEduReq', 'bVisible':false},
+                            {'sTitle':'facetCredits', 'bVisible':false},
+                            {'sTitle':'facetLevel', 'bVisible':false},
+                            {'sTitle':'facetCurriculum', 'bVisible':false}
+                        ]"/>
+                <entry key="fnDrawCallback"
+                       value="function() {
+                            if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1)  {
+                                jQuery('.dataTables_paginate span').not('.first, .last').show();
+                            } else {
+                                jQuery('.dataTables_paginate span').hide();
+                            }
+                       }"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Group for Search Facets -->
+    <bean id="course_search_results_facets" parent="Uif-VerticalBoxGroup" p:headerText="Narrow Results" p:style="width:146px; margin-right: 10px;">
+        <property name="header">
+            <bean parent="Uif-HeaderFive">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>primary</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-facets-panel</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="facet_quarter"/>
+                <ref bean="facet_genedureq"/>
+                <ref bean="facet_credits"/>
+                <ref bean="facet_level"/>
+                <ref bean="facet_curriculum"/>
+                <ref bean="add_course_items"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="facet_quarter" parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="Quarter">
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="header.rightGroup">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="quarter_facet_help_icon"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-facets-group</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            jq('#facet_quarter')
+                .subscribe('GENERATE_FACETS', function(){
+                    fnGenerateFacetGroup(6, this, terms);
+                })
+                .subscribe('UPDATE_FACETS', function(data){
+                    fnUpdateFacetList(data, 6, this);
+                });
+        "/>
+    </bean>
+    <bean id="facet_genedureq" parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="Gen. Edu. Req.">
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-facets-group</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            jq('#facet_genedureq')
+                .subscribe('GENERATE_FACETS', function(){
+                    fnGenerateFacetGroup(7, this, alpha);
+                })
+                .subscribe('UPDATE_FACETS', function(data){
+                    fnUpdateFacetList(data, 7, this);
+                });
+        "/>
+    </bean>
+    <bean id="facet_credits" parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="Credits">
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-facets-group</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            jq('#facet_credits')
+                .subscribe('GENERATE_FACETS', function(){
+                    fnGenerateFacetGroup(8, this, numeric);
+                })
+                .subscribe('UPDATE_FACETS', function(data){
+                    fnUpdateFacetList(data, 8, this);
+                });
+        "/>
+    </bean>
+    <bean id="facet_level" parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="Course Level">
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-facets-group</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            jq('#facet_level')
+                .subscribe('GENERATE_FACETS', function(){
+                    fnGenerateFacetGroup(9, this, numeric);
+                })
+                .subscribe('UPDATE_FACETS', function(data){
+                    fnUpdateFacetList(data, 9, this);
+                });
+        "/>
+    </bean>
+    <bean id="facet_curriculum" parent="Uif-Disclosure-VerticalBoxSubSection" p:headerText="Course Prefix">
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-facets-group</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="
+            jq('#facet_curriculum')
+                .subscribe('GENERATE_FACETS', function(){
+                    fnGenerateFacetGroup(10, this, alpha);
+                })
+                .subscribe('UPDATE_FACETS', function(data){
+                    fnUpdateFacetList(data, 10, this);
+                });
+        "/>
+    </bean>
+
+    <!--Add Course Menu-->
+    <bean id="add_course_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="myplan-container-75" p:style="margin: 0;">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Add to Plan"
+                      p:title="Add to Plan">
+                    <property name="onClickScript"
+                              value="openPlanItemPopUp(jQuery(this).data('courseid'),'add_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},align:'top'});"/>
+                </bean>
+
+                <bean parent="Uif-Link" p:target="" p:href="#"
+                      p:linkText="Bookmark"
+                      p:title="Bookmark"
+                      p:style="margin:0;">
+                    <property name="onClickScript"
+                              value="myPlanAjaxPlanItemMove(jQuery(this).data('courseid'),'courseId','addSavedCourse',e);"/>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+</beans>

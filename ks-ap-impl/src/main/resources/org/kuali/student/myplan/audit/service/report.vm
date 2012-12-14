@@ -1,0 +1,206 @@
+
+<div>
+<h1>${report.webTitle}</h1>
+
+
+
+<table class="audit-summary">
+	<tr>
+		<td colspan="2">
+			<table>
+				<tr>
+					<td class="prepared-for">
+                        ## This is replaced by the MyPlan client code, who knows who the logged in
+                        ## student is, versus the DegreeAuditService, who doesn't.
+						<label>Prepared for:</label> $$PreparedFor$$
+					</td>
+				</tr>
+				<tr>
+					<td class="graduation-date">
+						<label>Gradutation Date:</label> ${report.graduationDate}
+					</td>
+				</tr>
+				<tr>
+					<td class="program-entry-qtr">
+						<label>Program Entry Qtr:</label> ${report.entryDateProgram}
+					</td>
+				</tr>
+				<tr>
+					<td class="date-prepared">
+						<label>Date Prepared:</label> ${report.datePrepared}
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<p>
+This report is an advising tool used to track degree progress. Final confirmation of degree
+requirements is subject to department or college and university approval.
+</p>
+
+#if( !${report.complete} )
+<div class="audit-incomplete">
+NOTE: At least one requirement still incomplete.
+</div>
+#end
+
+<div class="control-toolbar">
+	<label for="requirement_status">Show</label>
+	<select id="requirement_status" name="requirement_status">
+		<option value="all">All Requirements</option>
+		<option value="N">Incomplete Only</option>
+		<option value="I">In-Progress Only</option>
+	</select>
+</div>
+
+
+#foreach( $advisory in $report.advisoryList )
+<div class="requirement-advisory">
+${advisory}
+</div>
+#end
+
+#foreach( $section in $report.sectionList )
+#if( ${section.hasCaption()} )
+<div class="requirement-group">
+	<div class="group-heading">
+		<h3>${section.caption}</h3>
+		<a href="#jump" class="jump">Jump to the next section</a>
+		<a href="#top" class="back">Back to top</a>
+	</div>
+#foreach( $req in $section.requirementList )
+	<div class="requirement">
+		<div class="requirement-heading">
+			<div class="${req.status}">
+               <p>$courseLinkBuilder.makeLinks(${req.caption})</p>
+			</div>
+		</div>
+		<div class="requirement-body">
+		    <div class="requirement-content">
+
+#if( ${req.hasCredits()} )
+                <ul class="credits">
+#if( ${req.credits.showEarned()} )
+                    <li class="earned"><label>Earned:</label> ${req.credits.earnedText}</li>
+#end
+#if( ${req.credits.showInprogress()} )
+                    <li class="inprogress"><label>In-progress:</label> ${req.credits.inprogressText}</li>
+#end
+#if( ${req.credits.showNeeds()} )
+                    <li class="needs"><label>Needs:</label> ${req.credits.needsText}</li>
+#end
+                </ul>
+#end
+#if( ${req.hasGPA()} && ${req.gpa.showEarned()} )
+                <ul class="gpa">
+                    <li class="earned"><label>Earned:</label> ${req.gpa.earnedText}</li>
+                </ul>
+#end
+#if( ${req.hasCount()} )
+                <ul class="courses">
+#if( ${req.count.showNeeds()} )
+                    <li class="needs"><label>Needs:</label> ${req.count.needsText}</li>
+#end
+                </ul>
+#end
+            </div>
+
+#foreach( $subreq in $req.subrequirementList ) ## subreq
+            <div class="subrequirement">
+                <div class="subrequirement-heading">
+                    <div class="${subreq.status}">
+#if( ${subreq.hasCaption()} )
+                        $courseLinkBuilder.makeLinks(${subreq.caption})
+#end
+                    </div>
+                </div>
+                <div class="subrequirement-content">
+#if( ${subreq.hasCredits()} )
+                    <ul class="credits">
+#if( ${subreq.credits.showEarned()} )
+                        <li class="earned"><label>Earned:</label> ${subreq.credits.earnedText}</li>
+#end
+#if( ${subreq.credits.showInprogress()} )
+                        <li class="inprogress"><label>In-progress:</label> ${subreq.credits.inprogressText}</li>
+#end
+#if( ${subreq.credits.showNeeds()} )
+                        <li class="needs"><label>Needs:</label> ${subreq.credits.needsText}</li>
+#end
+                    </ul>
+#end
+#if( ${subreq.hasGPA()} && ${subreq.gpa.showEarned()} )
+                    <ul class="gpa">
+                        <li class="earned"><label>Earned:</label>${subreq.gpa.earnedText}</li>
+                    </ul>
+#end
+#if( ${subreq.hasCount()} )
+                    <ul class="courses">
+#if( ${subreq.count.showNeeds()} )
+                        <li class="needs"><label>Needs:</label> ${subreq.count.needsText}</li>
+#end
+                    </ul>
+#end
+
+#if( ${subreq.hasCourseAcceptableList()} )
+                    <div class="subrequirement-courses-acceptable">
+                    $courseLinkBuilder.makeLinks(${subreq.acceptableText})
+                    </div>
+## #set( $courseAcceptableCounter = $courseAcceptableCounter + 1 )
+##                     <div id="subreq_${courseAcceptableCounter}_div" class="subrequirement-courses-acceptable">
+##                         <table>
+##                             <tbody>
+## #foreach( $acceptable in $subreq.courseAcceptableList )
+##                                 <tr>
+##                                     <td>${acceptable.dept} ${acceptable.number}</td>
+##                                 </tr>
+## #end
+##                             </tbody>
+##                         </table>
+##                     </div>
+#end
+
+#if( ${subreq.hasCourseTakenList()} )
+                    <div class="subrequirement-courses-taken">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Qtr</th><th>Course Name</th><th>Credits</th><th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+#foreach( $taken in $subreq.courseTakenList )
+                                <tr>
+                                    <td>${taken.quarter}</td>
+#if( ${taken.hasCluid()} )
+                                    <td><a href="#" onclick="openCourse('${taken.cluid}',event,true);">${taken.dept} ${taken.number} ${taken.description}</a></td>
+#else
+                                    <td>${taken.dept} ${taken.number} ${taken.description}</td>
+#end ## if hasCluid
+                                    <td>${taken.credits}</td>
+                                    <td>${taken.grade}</td>
+                                </tr>
+#end ## foreach taken
+                            </tbody>
+                        </table>
+                    </div>
+#end
+
+                </div>
+            </div>
+#end ## subreq
+
+        </div>
+
+	</div>
+
+
+#end ## foreach req
+</div>
+#end ## if section.hasCaption
+#end ## foreach section
+</div>
+<center>
+<h1>Federal Law Prohibits Transmittal to a Third Party</h1>
+</center>

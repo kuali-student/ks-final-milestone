@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+
+<!--
+    TODO: ################################ currentTerm override ################################
+    To work around multiple versions of courses spanning terms we override currentTerm to be lastScheduledTerm.
+    Once version compatibility is added we should switch back to using versionIndependentId and currentTerm for lastATP
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:search="http://student.kuali.org/xsd/search-extension"
+       xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+       xsi:schemaLocation="
+	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
+	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	 ">
+
+    <import resource="classpath:lu-search-config.xml"/>
+    <search:searchType id="myplan.course.info">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="course.name">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="course.number">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="course.subject">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="course.level">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="course.credits">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="course.code">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.info.atp">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="atp.id">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.info.gened">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="gened.name">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.info.credits.details">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="credit.id">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="credit.type">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="credit.min">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="credit.max">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.distinct.clu.divisions">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="division">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.clu.divisionAndCode">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="courseCode">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.clu.division">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="courseCode"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.lu.search.fulltext">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.lu.search.title">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.lu.search.description">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.lu.search.divisionAndFulltext">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.lu.search.divisionAndCode">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.lu.search.divisionAndLevel">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.lu.search.division">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.lu.search.additionalDivision">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.getcluid">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.getCourseTitleAndId">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+                <search:resultColumn id="id.lngName">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.prereqsearch.subject">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.prereqsearch.range">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.prereqsearch.exclusions">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+                <ref bean="lu.resultColumn.luOptionalCode"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="myplan.course.getCampusLocations">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="lu.resultColumn.campusVal">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <bean id="queryMap" parent="queryMap-parent">
+        <property name="sourceMap">
+            <map merge="true">
+
+                <entry key="myplan.distinct.clu.divisions">
+                    <value>
+                        SELECT
+                        distinct( ident.division )
+                        FROM CluIdentifier ident
+                        WHERE ident.division IS NOT null
+                    </value>
+                </entry>
+
+                <entry key="myplan.lu.search.title">
+                    <value>
+                        SELECT
+                        clu.id
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        JOIN clu.descr cludesc
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        (
+                        UPPER( ' ' || ident.longName || ' ' ) LIKE '% '||:queryText||'%'
+                        )
+                        AND
+                        attr.name = 'course.campus'
+                        AND
+                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        ORDER BY ident.code
+                    </value>
+                </entry>
+                <entry key="myplan.lu.search.description">
+                    <value>
+                        SELECT
+                        clu.id
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        JOIN clu.descr cludesc
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        (
+                        UPPER( ' ' || cludesc.plain || ' ' ) LIKE '% '||:queryText||'%'
+                        )
+                        AND
+                        attr.name = 'course.campus'
+                        AND
+                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        ORDER BY ident.code
+                    </value>
+                </entry>
+
+                <entry key="myplan.lu.search.fulltext">
+                    <value>
+                        SELECT
+                        clu.id
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        JOIN clu.descr cludesc
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        (
+                        UPPER( ' ' || ident.longName || ' ' ) LIKE '% '||:queryText||'%'
+                        OR
+                        UPPER( ' ' || cludesc.plain || ' ' ) LIKE '% '||:queryText||'%'
+                        )
+                        AND
+                        attr.name = 'course.campus'
+                        AND
+                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                    </value>
+                </entry>
+
+                <entry key="myplan.lu.search.divisionAndCode">
+                    <value>
+                        SELECT
+                        clu.id
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        ident.division = :division
+                        AND
+                        ident.suffixCode = :code
+                        AND
+                        attr.name = 'course.campus'
+                        AND
+                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        ORDER BY ident.suffixCode
+                    </value>
+                </entry>
+
+                <entry key="myplan.lu.search.divisionAndLevel">
+                    <value>
+                        SELECT
+                        clu.id
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        ident.division = :division
+                        AND
+                        ident.level = :level
+                        AND
+                        attr.name = 'course.campus'
+                        AND
+                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        ORDER BY ident.suffixCode
+                    </value>
+                </entry>
+                <entry key="myplan.lu.search.additionalDivision">
+                    <value>
+                        SELECT
+                        clu.id
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        ident.division IN (:divisions)
+                        AND
+                        attr.name = 'course.campus'
+                        AND
+                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        ORDER BY ident.suffixCode
+                    </value>
+                </entry>
+                <entry key="myplan.lu.search.division">
+                    <value>
+                        SELECT
+                        clu.id
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        ident.division = :division
+                        AND
+                        attr.name = 'course.campus'
+                        AND
+                        attr.value IN ( :campus1, :campus2, :campus3 )
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        ORDER BY ident.suffixCode
+                    </value>
+                </entry>
+                <entry key="myplan.course.info">
+                    <value>NATIVE:
+                        SELECT
+                        ident.LNG_NAME,
+                        trim( ident.SUFX_CD ),
+                        trim( ident.DIVISION ),
+                        trim( ident.LVL ),
+                        opt.RES_COMP_ID,
+                        ident.cd
+                        FROM
+                        KSLU_CLU clu,
+                        KSLU_CLU_IDENT ident,
+                        KSLU_CLU_RSLT res,
+                        KSLU_CLURES_JN_RESOPT jn,
+                        KSLU_RSLT_OPT opt
+                        WHERE
+                        clu.offic_clu_id = ident.id
+                        and
+                        clu.id = res.clu_id
+                        AND
+                        res.id = jn.clu_res_id
+                        AND
+                        jn.res_opt_id = opt.id
+                        AND
+                        res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'
+                        AND
+                        clu.id = :courseID
+                    </value>
+                </entry>
+
+
+                <entry key="myplan.course.info.atp">
+                    <value>NATIVE:
+                        SELECT
+                        ATP_TYPE_KEY
+                        FROM KSLU_CLU_ATP_TYPE_KEY
+                        WHERE
+                        clu_id = :courseID
+                    </value>
+                </entry>
+
+                <entry key="myplan.course.info.gened">
+                    <value>NATIVE:
+                        SELECT
+                        ATTR_NAME
+                        FROM KSLU_CLU_ATTR
+                        WHERE
+                        owner = :courseID
+                        AND
+                        ATTR_VALUE = 'Y'
+                        AND
+                        ATTR_NAME like 'course.genEdRequirement.%'
+                    </value>
+                </entry>
+
+                <entry key="myplan.course.info.credits.details">
+                    <value>NATIVE:
+                        SELECT
+                        max( v.rslt_comp_id ),
+                        max( c.type ),
+                        min( to_number( v.value )),
+                        max( to_number( v.value ))
+                        from
+                        kslr_result_value v,
+                        kslr_rescomp c
+                        where
+                        c.id = v.rslt_comp_id
+                        and
+                        c.type like 'kuali.resultComponentType.credit.degree.%'
+                        group by
+                        v.rslt_comp_id
+                    </value>
+                </entry>
+
+                <entry key="myplan.course.prereqsearch.subject">
+                    <value>NATIVE:
+                        SELECT
+                        clu.id
+                        FROM
+                        KSLU_CLU clu,
+                        KSLU_CLU_IDENT id
+                        WHERE
+                        clu.offic_clu_id = id.id
+                        AND
+                        trim( id.division ) = :subject
+                        ORDER BY id.sufx_cd
+                    </value>
+                </entry>
+
+                <entry key="myplan.course.prereqsearch.range">
+                    <value>NATIVE:
+                        SELECT
+                        clu.id
+                        FROM
+                        KSLU_CLU clu,
+                        KSLU_CLU_IDENT id
+                        WHERE
+                        clu.offic_clu_id = id.id
+                        AND
+                        trim( id.division ) = :subject
+                        AND
+                        trim( id.lvl ) like :range
+                        ORDER BY id.sufx_cd
+                    </value>
+                </entry>
+
+                <entry key="myplan.course.prereqsearch.exclusions">
+                    <value>NATIVE:
+                        SELECT
+                        clu.id,
+                        id.sufx_cd
+                        FROM
+                        KSLU_CLU clu,
+                        KSLU_CLU_IDENT id
+                        WHERE
+                        clu.offic_clu_id = id.id
+                        AND
+                        trim( id.division ) like :subject
+                        AND
+                        trim( id.sufx_cd ) like :range
+                        ORDER BY
+                        id.sufx_cd
+                    </value>
+                </entry>
+                <entry key="myplan.course.getcluid">
+                    <value>NATIVE:
+                        SELECT
+                        clu.id, id.LNG_NAME
+                        FROM
+                        KSLU_CLU clu,
+                        KSLU_CLU_IDENT id
+                        WHERE
+                        clu.offic_clu_id = id.id
+                        AND
+                        trim( id.SUFX_CD ) = :number
+                        AND
+                        trim( id.DIVISION ) = :subject
+                        AND clu.EXP_FIRST_ATP &lt;= :lastScheduledTerm
+                        <!--AND clu.LAST_ATP &gt;= :currentTerm-->
+                        AND clu.LAST_ATP &gt;= :lastScheduledTerm
+                    </value>
+                </entry>
+                <entry key="myplan.course.getCourseTitleAndId">
+                    <value>NATIVE:
+                        SELECT
+                        clu.id, id.LNG_NAME
+                        FROM
+                        KSLU_CLU clu,
+                        KSLU_CLU_IDENT id
+                        WHERE
+                        clu.offic_clu_id = id.id
+                        AND
+                        trim( id.SUFX_CD ) = :number
+                        AND
+                        trim( id.DIVISION ) = :subject
+                        AND clu.EXP_FIRST_ATP &lt;= :lastScheduledTerm
+                        <!--AND clu.LAST_ATP &gt;= :currentTerm-->
+                        AND clu.LAST_ATP &gt;= :lastScheduledTerm
+                    </value>
+                </entry>
+
+                <entry key="myplan.course.getCampusLocations">
+                    <value>
+                        SELECT
+                        attr.value
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        clu.id = :cluId
+                        AND
+                        attr.name = 'course.campus'
+                        AND
+                        clu.id NOT IN (SELECT att.owner FROM CluAttribute att where att.name='course.catalogOmit_ind'
+                        and att.value='Y')
+                        ORDER BY ident.suffixCode
+                    </value>
+                </entry>
+
+                <!--Quick search queries-->
+                <entry key="myplan.clu.division">
+                    <value>
+                        SELECT
+                        ident.code
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        ident.division LIKE :division||'%'
+                        AND
+                        attr.name = 'course.campus'
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        ORDER BY ident.division, ident.suffixCode
+                    </value>
+                </entry>
+
+                <entry key="myplan.clu.divisionAndCode">
+                    <value>
+                        SELECT
+                        ident.code
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        WHERE
+                        clu.expectedFirstAtp &lt;= :lastScheduledTerm
+                        <!--AND clu.lastAtp &gt;= :currentTerm-->
+                        AND clu.lastAtp &gt;= :lastScheduledTerm
+                        AND
+                        ident.division LIKE :division||'%'
+                        AND
+                        ident.suffixCode LIKE :code||'%'
+                        AND
+                        attr.name = 'course.campus'
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        ORDER BY ident.division, ident.suffixCode
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>

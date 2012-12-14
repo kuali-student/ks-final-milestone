@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+    xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <context:annotation-config/>
+
+    <!-- Data dictionary configs -->
+    <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
+    <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+
+
+    <bean id="lpEntityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
+        <property name="persistenceUnitName" value="LearningPlan"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/lp-persistence.xml"/>
+        <property name="dataSource" ref="myplanDataSourceXAPool"/>
+    </bean>
+
+    <bean id="lpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
+          autowire-candidate="false" autowire="no">
+        <property name="entityManagerFactory" ref="lpEntityManagerFactory"/>
+    </bean>
+
+    <!-- Add the myplan data dictionaries -->
+    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
+
+    <import resource="classpath:ks-myplan-test-dao-context.xml" />
+
+    <!-- Pull in the DAOs -->
+    <bean id="learningPlanDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <bean id="learningPlanRichTextDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanRichTextDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <bean id="learningPlanTypeDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanTypeDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <bean id="planItemDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <bean id="planItemTypeDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <bean id="planItemRichTextDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemRichTextDao">
+        <property name="em" ref="lpEntityManager"/>
+    </bean>
+
+    <!--  Preloaded data -->
+    <!--<bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">-->
+        <!--<property name="jtaTxManager" ref="JtaTxManager"/>-->
+        <!--<property name="shouldLoadData" value="true"/>-->
+        <!--<property name="preloadMap">-->
+            <!--<map>-->
+                <!--<entry key="LearningPlan">-->
+                    <!--<value>classpath:learning_plan.sql</value>-->
+                <!--</entry>-->
+            <!--</map>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <bean id="courseServiceMock" class="org.kuali.student.myplan.service.mock.CourseServiceMockImpl">
+        <property name="validCourses">
+            <set>
+                <value>02711400-c66d-4ecb-aca5-565118f167cf</value>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="atpServiceMock" class="org.kuali.student.myplan.service.mock.AtpServiceMockImpl"/>
+
+    <bean id="academicPlanServicePersistence" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl">
+        <property name="learningPlanDao" ref="learningPlanDao"/>
+        <property name="learningPlanTypeDao" ref="learningPlanTypeDao"/>
+        <property name="planItemDao" ref="planItemDao"/>
+        <property name="planItemTypeDao" ref="planItemTypeDao"/>
+        <property name="courseService" ref="courseServiceMock"/>
+        <property name="atpService" ref="atpServiceMock" />
+    </bean>
+
+    <!-- Academic Plan Service Decorators -->
+    <bean id="academicPlanServiceValidator" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceValidationDecorator">
+        <property name="nextDecorator" ref="academicPlanServicePersistence"/>
+        <property name="validator" ref="validator"/>
+        <property name="dataDictionaryService" ref="dataDictionaryServiceForAcademicPlanService"/>
+    </bean>
+
+    <alias name="academicPlanServiceValidator" alias="academicPlanService" />
+
+	<bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
+
+</beans>
