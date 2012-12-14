@@ -128,15 +128,15 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
         // This should never be reached unless there is an infinite list of strings passed in
         throw new RuntimeException("Error generating codes");
     }
-    /**
+    /*
      * Gets the next letter of the alphabet in caps in the form A,B...Z,AA,AB...AZ,BA,BB..BZ,CA,CB....ZZ,AAA,AAB...
      *
-     * Make sure it's public as it's needed for Test class
+     * protected so it can be accessed in the Test class
      *
      * @param source source code string
      * @return next code
      */
-    public String getNextCode(String source){
+    protected String getNextCode(String source){
         if (StringUtils.isEmpty(source)) {
             return "A";
         } else if (StringUtils.endsWithIgnoreCase(source, "Z")) {
