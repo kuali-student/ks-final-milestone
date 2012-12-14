@@ -24,6 +24,13 @@
         TO_STATE_ID="kuali.lui.activity.offering.state.approved"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
     <KSEN_STATE_CHG CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        FROM_STATE_ID="kuali.atp.state.Draft"
+        ID="kuali.statechange.atp.draft.official"
+        STATE_CHG_STATE="kuali.state.change.state.active"
+        STATE_CHG_TYPE="kuali.state.change.type"
+        TO_STATE_ID="kuali.atp.state.Official" UPDATEID="SYSTEMLOADER"
+        UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE_CHG CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         FROM_STATE_ID="kuali.lui.course.offering.state.draft"
         ID="kuali.statechange.courseoffering.draft.planned"
         STATE_CHG_STATE="kuali.state.change.state.active"
@@ -64,6 +71,13 @@
         STATE_CHG_STATE="kuali.state.change.state.active"
         STATE_CHG_TYPE="kuali.state.change.type"
         TO_STATE_ID="kuali.lui.format.offering.state.offered"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE_CHG CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
+        FROM_STATE_ID="kuali.milestone.state.Draft"
+        ID="kuali.statechange.milestone.draft.official"
+        STATE_CHG_STATE="kuali.state.change.state.active"
+        STATE_CHG_TYPE="kuali.state.change.type"
+        TO_STATE_ID="kuali.milestone.state.Official"
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
     <KSEN_STATE_CHG CREATEID="SYSTEMLOADER" CREATETIME="19700101000000"
         FROM_STATE_ID="kuali.lui.registration.group.state.offered"
