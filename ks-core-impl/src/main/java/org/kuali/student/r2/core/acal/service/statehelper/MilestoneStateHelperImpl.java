@@ -45,7 +45,7 @@ public class MilestoneStateHelperImpl implements StateHelper{
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
         StatusInfo statusInfo = new StatusInfo();
         try {
-            //Make sure it's an acal
+            //Make sure it's a Holiday
             getAcademicCalendarService().getHoliday(entityId,context);
             getAcademicCalendarService().changeHolidayState(entityId,nextStateKey,context);
             return statusInfo;
@@ -58,7 +58,7 @@ public class MilestoneStateHelperImpl implements StateHelper{
         }
 
         try {
-            //Make sure it's an acal
+            //Make sure it's an AcalEvent
             getAcademicCalendarService().getAcalEvent(entityId,context);
             getAcademicCalendarService().changeAcalEventState(entityId,nextStateKey,context);
             return statusInfo;
@@ -71,7 +71,7 @@ public class MilestoneStateHelperImpl implements StateHelper{
         }
 
         try {
-            //Make sure it's an acal
+            //Make sure it's an KeyDate
             getAcademicCalendarService().getKeyDate(entityId,context);
             getAcademicCalendarService().changeKeyDateState(entityId,nextStateKey,context);
             return statusInfo;
