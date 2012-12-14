@@ -52,7 +52,7 @@ import static org.junit.Assert.fail;
  * @author andrewlubbers
  *
  */
-@Ignore
+@Ignore   //(fix me: ksenroll-4355)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:soc-businesslogic-with-fewer-mocks-test-context.xml"})
 public class TestCourseOfferingSetServiceBusinessLogicAsync extends TestCourseOfferingSetServiceBusinessLogicWithMocks {

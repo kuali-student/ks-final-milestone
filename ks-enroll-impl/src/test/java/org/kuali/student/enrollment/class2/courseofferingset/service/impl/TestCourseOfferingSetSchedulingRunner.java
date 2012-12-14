@@ -57,7 +57,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author andrewlubbers
  */
-@Ignore
+@Ignore  //(fix me: ksenroll-4355)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:scheduling-runner-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)

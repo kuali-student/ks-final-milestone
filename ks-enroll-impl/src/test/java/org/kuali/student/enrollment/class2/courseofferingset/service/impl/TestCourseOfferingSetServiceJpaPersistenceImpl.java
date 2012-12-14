@@ -31,7 +31,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Kuali Student Team
  */
-@Ignore
+@Ignore       //(fix me: ksenroll-4355)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:soc-jpa-persistence-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
