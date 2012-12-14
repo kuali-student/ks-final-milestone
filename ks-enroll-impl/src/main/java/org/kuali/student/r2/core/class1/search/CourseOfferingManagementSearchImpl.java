@@ -73,29 +73,27 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
                 "    ident.code," +
                 "    ident.longName," +
                 "    lui.luiState," +
-                "    lui_rvg1.rvgId," +
-                "    lui_rvg2.rvgId,        " +
+                "    lui_rvg1," +
+                "    lui_rvg2,        " +
                 "    lui.id,        " +
                 "    ident.division        " +
                 "FROM" +
                 "    LuiIdentifierEntity ident," +
                 "    LuiEntity lui," +
-                "    LuiResultValueGroupEntity lui_rvg1," +
+                "    IN(lui.resultValuesGroupKeys) lui_rvg1," +
                 "    ResultValuesGroupEntity lrc_rvg1,    " +
-                "    LuiResultValueGroupEntity lui_rvg2," +
+                "    IN(lui.resultValuesGroupKeys) lui_rvg2," +
                 "    ResultValuesGroupEntity lrc_rvg2  " +
                 "WHERE" +
                 "    lui.id = ident.lui.id" +
-                "    and lui_rvg1.luiId = lui.id" +
-                "    AND lrc_rvg1.id = lui_rvg1.rvgId" +
+                "    AND lrc_rvg1.id = lui_rvg1" +
                 "    AND lrc_rvg1.resultScaleId LIKE 'kuali.result.scale.credit.%'    " +
-                "    and lui_rvg2.luiId = lui.id" +
-                "    AND lrc_rvg2.id = lui_rvg2.rvgId" +
+                "    AND lrc_rvg2.id = lui_rvg2" +
                 "    AND lrc_rvg2.resultScaleId LIKE 'kuali.result.scale.grade.%'" +
                 //Exclude these two types that can cause duplicates.
                 // audit and passfail are moved into different fields, after that there can be only one grading option
                 // of Satisfactory, Letter, or Percentage
-                "    AND lrc_rvg2.id NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail')" +
+                "    AND lrc_rvg2 NOT IN ('kuali.resultComponent.grade.audit','kuali.resultComponent.grade.passFail')" +
                 "    AND ident.lui.id IN  ("+ commaString(courseIds) +")", Object[].class).getResultList();
 
         SearchResultInfo resultInfo = new SearchResultInfo();

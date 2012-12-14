@@ -58,13 +58,6 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupAttributeEntity</class>
-        <class>org.kuali.student.r2.lum.lu.entity.LuiResultValueGroupEntity</class>
-
-        <!--<class>org.kuali.student.common.entity.Type</class>-->
-        <!--<class>org.kuali.student.common.entity.Attribute</class>-->
-        <!--<class>org.kuali.student.common.entity.Meta</class>-->
-        <!--<class>org.kuali.student.common.entity.MetaEntity</class>-->
-        <!--<class>org.kuali.student.common.entity.TimeAmount</class>-->
 
         <class>org.kuali.student.r1.core.organization.entity.Org</class>
         <class>org.kuali.student.r1.core.organization.entity.OrgAttribute</class>

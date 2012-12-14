@@ -19,6 +19,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,23 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 courseOffering.setCourseCode(courseInfo.getCode());
                 courseOffering.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
                 courseOffering.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
+
+                //Copy grading and credit options
+                if(!courseInfo.getCreditOptions().isEmpty()){
+                    courseOffering.setCreditOptionId(courseInfo.getCreditOptions().get(0).getKey());
+                }
+                //Remove these two special student registration options and set them on the CO
+                List<String> courseGradingOptions = new ArrayList<String>(courseInfo.getGradingOptions());
+                if(courseGradingOptions.remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL) ){
+                    courseOffering.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+                }
+                if(courseGradingOptions.remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT) ){
+                    courseOffering.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+                }
+                //set the first remaining grading option on the CO
+                if(!courseGradingOptions.isEmpty()){
+                    courseOffering.setGradingOptionId(courseGradingOptions.get(0));
+                }
 
                 CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), wrapper.getTerm().getId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, ContextUtils.createDefaultContextInfo());
                 wrapper.setCoInfo(info);

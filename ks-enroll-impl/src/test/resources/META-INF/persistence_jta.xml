@@ -120,7 +120,6 @@
         <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationRuleAttributeEntity</class>
         <class>org.kuali.student.r2.lum.lrc.model.ResultValuesGroupAttributeEntity</class>
-        <class>org.kuali.student.r2.lum.lu.entity.LuiResultValueGroupEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

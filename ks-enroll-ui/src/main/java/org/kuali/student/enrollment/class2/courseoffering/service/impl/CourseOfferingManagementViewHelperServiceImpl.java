@@ -311,6 +311,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             if(types.size() > 1) {
                 throw new RuntimeException("More than one allowed type is matched to activity type of: " + activity.getTypeKey());
             }
+            if(types.isEmpty()){
+                throw new RuntimeException("No Clu to Lui type mapping found in TypeService for: " + activity.getTypeKey());
+            }
 
             activityOfferingType = types.get(0);
         } catch (Exception e) {

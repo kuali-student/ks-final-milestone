@@ -12,6 +12,8 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -82,6 +84,10 @@ public class CourseR1TestDataLoader {
         info.setCode(code);
         info.setCourseNumberSuffix(code.substring(subjectArea.length()));
         info.setCourseTitle(title);
+        ResultValuesGroupInfo rvg = new ResultValuesGroupInfo();
+        rvg.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0);
+        rvg.setTypeKey(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED);
+        info.getCreditOptions().add(rvg);
         RichTextInfo rt = new RichTextInfo();
         rt.setPlain(description);
         info.setDescr(rt);

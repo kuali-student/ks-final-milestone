@@ -28,6 +28,8 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -115,6 +117,10 @@ public class TestCourseOfferingServiceImpl {
         info.setTypeKey(LuServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
         info.setStateKey(DtoConstants.STATE_ACTIVE);
         info.setFormats(new ArrayList<FormatInfo>());
+        ResultValuesGroupInfo rvg = new ResultValuesGroupInfo();
+        rvg.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0);
+        rvg.setTypeKey(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED);
+        info.getCreditOptions().add(rvg);
         return info;
     }
 
