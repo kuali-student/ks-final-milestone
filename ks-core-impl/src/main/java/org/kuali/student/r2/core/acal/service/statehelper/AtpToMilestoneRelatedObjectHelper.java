@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by venkat on 12/10/12
  */
 package org.kuali.student.r2.core.acal.service.statehelper;
 
@@ -34,7 +33,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class is the related object helper to get all the milestones for an atp
  *
  * @author Kuali Student Team
  */

@@ -12,12 +12,9 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by venkat on 12/10/12
  */
 package org.kuali.student.r2.core.acal.service.statehelper;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -27,17 +24,15 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.Collections;
 
 /**
- * This class //TODO ...
+ * This class is the state helper for milestone state changes
  *
  * @author Kuali Student Team
  */

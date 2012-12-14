@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by venkat on 12/10/12
  */
 package org.kuali.student.r2.core.acal.service.statehelper;
 
@@ -34,7 +33,7 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import javax.xml.namespace.QName;
 
 /**
- * This class //TODO ...
+ * This class is the helper class for state changes in Acal,Hcal and term
  *
  * @author Kuali Student Team
  */
@@ -46,17 +45,6 @@ public class AtpStateHelperImpl implements StateHelper {
     @Override
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
         StatusInfo statusInfo = new StatusInfo();
-        /*try {
-            AtpInfo atpInfo = getAtpService().getAtp(entityId, context);
-            atpInfo.setStateKey(nextStateKey);
-            getAtpService().updateAtp(entityId, atpInfo, context);
-            return statusInfo;
-        } catch (Exception e) {
-            statusInfo.setSuccess(false);
-            statusInfo.setMessage("Error updating calendar state - " + e.getMessage());
-            return statusInfo;
-        }*/
-
         try {
             //Make sure it's an acal
             getAcademicCalendarService().getAcademicCalendar(entityId,context);
