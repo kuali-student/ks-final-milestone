@@ -161,14 +161,14 @@ public class TestCourseOfferingCodeGeneratorImpl {
 
         // Lets add a gap
         ActivityOfferingInfo ao1 = new ActivityOfferingInfo();
-        ao1.setActivityCode("F");
+        ao1.setActivityCode("E");
         ao1.setCourseOfferingCode("ENGL101");
         aoList.add(ao1);
 
         nextCode = offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,aoList);
 
         // the list passed in above is A,B,C,D,F so we should fill in the gap with E
-        assertTrue ("E".equals(nextCode));
+        assertTrue ("D".equals(nextCode));
 
     }
 
@@ -233,6 +233,8 @@ public class TestCourseOfferingCodeGeneratorImpl {
         }
 
         Collections.sort(resultList);
+
+        System.out.println("Expected/Got: \n" + expectedList + "\n" + resultList);
 
         for(int i=0;i< resultList.size(); i++){
             assertTrue("\nWas expecting \n[" + expectedList.get(i) + "] but got \n[" + resultList.get(i) + "]\n" , expectedList.get(i).equals(resultList.get(i)));

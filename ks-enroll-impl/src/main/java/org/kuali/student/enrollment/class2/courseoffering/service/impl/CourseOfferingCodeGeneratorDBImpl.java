@@ -17,8 +17,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDaoApi;
-import org.kuali.student.enrollment.class2.courseoffering.model.CodeGeneratorLocksEntity;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -54,10 +54,21 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
             nextCode = calculateNextCode(aoCodes);
         }
 
-        while(!isCodeValid(nextCode, uniqueCourseCode + nextCode, "activityOfferingCode")){
+        String uuid = UUIDHelper.genStringUUID();
+        String pendingKey =  uniqueCourseCode + "-P";
+        String namespace = "activityOfferingCode";
+
+        //System.out.println("Create Pending: " + namespace + " " + pendingKey + " " + uuid);
+        getCodeGeneratorLocksDao().createLock(uuid, pendingKey, namespace);
+        while(!isCodeValid(nextCode, uniqueCourseCode, namespace)){
             aoCodes.add(new String(nextCode));
             nextCode = calculateNextCode(aoCodes);
         }
+
+        //System.out.println("Delete Pending: " + namespace + " " + pendingKey + " " + uuid);
+        getCodeGeneratorLocksDao().removeLock(uuid, pendingKey,namespace );
+        //System.out.println("Remove All Locks: " + namespace + " " + pendingKey + " " + uuid);
+        getCodeGeneratorLocksDao().cleanLocks(uniqueCourseCode,pendingKey, namespace);
         return nextCode;
     }
 
@@ -141,23 +152,12 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
         try {
             getCodeGeneratorLocksDao().createLock(newCode, uniqueKey, namespace);
             bRet = true;
-
         }
         catch (Exception ex) {
             System.out.println("Code not unique."  + newCode + ", " + uniqueKey + ", " + namespace + " " + ex.getMessage() );
         }
 
         return bRet;
-    }
-
-    @Override
-    public void removeLock(String newCode, String uniqueKey, String namespace){
-        try {
-            getCodeGeneratorLocksDao().removeLock(newCode, uniqueKey, namespace);
-        }
-        catch (Exception ex) {
-            System.out.println("Could not remove code."  + newCode + ", " + uniqueKey + ", " + namespace + " " + ex.getMessage() );
-        }
     }
 
     public CodeGeneratorLocksDaoApi getCodeGeneratorLocksDao() {
