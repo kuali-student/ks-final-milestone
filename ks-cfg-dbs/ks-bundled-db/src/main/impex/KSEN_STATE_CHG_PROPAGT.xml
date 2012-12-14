@@ -11,6 +11,8 @@
     <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.activityoffering.draft.approved" STATE_PROPAGT_ID="kuali.statepropagation.aotofo.draft.approved"/>
     <KSEN_STATE_CHG_PROPAGT
+        STATE_CHG_ID="kuali.statechange.atp.draft.official" STATE_PROPAGT_ID="kuali.statepropagation.atpToMilestone.draft.official"/>
+    <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.formatoffering.draft.planned" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.draft.planned"/>
     <KSEN_STATE_CHG_PROPAGT
         STATE_CHG_ID="kuali.statechange.formatoffering.planned.draft" STATE_PROPAGT_ID="kuali.statepropagation.fotoco.planned.draft"/>
