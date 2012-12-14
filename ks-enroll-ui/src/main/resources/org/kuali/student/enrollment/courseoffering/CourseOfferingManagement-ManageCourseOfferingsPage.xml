@@ -42,7 +42,7 @@
 
                 <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
-                      p:actionLabel="Approve Subject Code for Scheduling" />
+                      p:actionLabel="Approve Subject Code for Scheduling" p:render="@{!#parent.readOnly}"/>
                 <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingResultList.empty}"/>
                 <bean parent="Uif-VerticalPermissionSection">
                     <property name="id" value="KS-CourseOfferingManagement-CourseOfferingResultSectionCreateCourse"/>
