@@ -1,0 +1,289 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>ks-ap-api</artifactId>
+		<version>0.1.0-KSAP-SNAPSHOT</version>
+    <name>KSAP API</name>
+    <description>KSAP API</description>
+
+    <parent>
+        <groupId>org.kuali.student.api</groupId>
+        <artifactId>ks-api</artifactId>
+        <version>2.0.0-KSAP-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
+<!-- TODO: REVIEW LINE
+        #### Kuali Student Dependencies ###
+        <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-lum-api</artifactId>
+            <version>${kuali.student.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-impl</artifactId>
+            <version>${kuali.student.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-common-api</artifactId>
+            <version>${kuali.student.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${kuali.student.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>rice-api</artifactId>
+                    <groupId>org.kuali.rice</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-util</artifactId>
+            <version>${kuali.student.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-enroll-api</artifactId>
+            <version>${kuali.student.version}</version>
+        </dependency>
+
+        ####  End Kuali Student Dependencies ###
+
+        ####  Local KS-Enroll-Impl dependencies###
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.ssl</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.restlet.jee</groupId>
+            <artifactId>org.restlet.ext.net</artifactId>
+            <version>${restlet.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.0</version>
+        </dependency>
+        #### End ###
+
+        <dependency>
+            <artifactId>servlet-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-web-framework</artifactId>
+            <version>${kuali.rice.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>rice-api</artifactId>
+                    <groupId>org.kuali.rice</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-core-api</artifactId>
+            <version>${kuali.rice.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-kns</artifactId>
+            <version>${kuali.rice.version}</version>
+        </dependency>
+
+
+        #### Unit Testing Dependencies ###
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+
+
+
+
+
+        #### TODO: Fix this
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+###
+
+
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.kuali.maven.plugins</groupId>
+                <artifactId>maven-kscontractdoc-plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <executions>
+                    #### This generates the standard contract docs on the site###
+                    <execution>
+                        <id>generate-contract-documentation</id>
+                        <phase>${ks.contractdoc.phase}</phase>
+                        <goals>
+                            <goal>kscontractdoc</goal>
+                        </goals>
+                    </execution>
+                    #### This generates the the dictionary documentation docs on the site###
+                    <execution>
+                        <id>generate-dictionary-documentation</id>
+                        <phase>${ks.dictionarydoc.phase}</phase>
+                        <goals>
+                            <goal>ksdictionarydoc</goal>
+                        </goals>
+                        <configuration>
+                            <inputFiles>
+                            </inputFiles>
+                        </configuration>
+                    </execution>
+                    #### This generates the the ks-xxxx-generated.xml files in target/classes
+                    <execution>
+                        <id>generate-dictionary-files</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>ksdictionarycreator</goal>
+                        </goals>
+                        <configuration>
+                            <classNames>
+                                AcademicPlan 
+                                <className>LearningPlanInfo</className>
+                                <className>PlanItemInfo</className>
+                                <className>PlanItemSetInfo</className>
+                            </classNames>
+                        </configuration>
+                    </execution> 
+                    ###
+                </executions>
+
+                <configuration>
+                    #### this defines that location of the source code used for all contract docs executions ###
+                    <sourceDirs>
+                        <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                    </sourceDirs>
+                </configuration>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.kuali.rice</groupId>
+                        <artifactId>rice-impl</artifactId>
+                        <version>${kuali.rice.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
+-->
+
+    <build>
+        <plugins>
+<!--
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-java2ws-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>lo-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.student.r2.lum.lo.service.LearningObjectiveService</className>
+                            <serviceName>LoService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/lo</targetNameSpace>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>lu-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.student.r2.lum.clu.service.CluService</className>
+                            <serviceName>CluService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/clu</targetNameSpace>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>lrc-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.student.r2.lum.lrc.service.LRCService</className>
+                            <serviceName>LrcService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/lrc</targetNameSpace>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>program-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.student.r2.lum.program.service.ProgramService</className>
+                            <serviceName>ProgramService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/program</targetNameSpace>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                #### CXF does classloading does not agree with Maven3, requiring the ks-core-api
+       dependency to be duplicated here inside the plugin configuration ###
+                #### https://cwiki.apache.org/MAVEN/maven-3x-class-loading.html ###
+                <dependencies>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>ks-core-api</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+ -->
+        </plugins>
+    </build>
+
+</project>
