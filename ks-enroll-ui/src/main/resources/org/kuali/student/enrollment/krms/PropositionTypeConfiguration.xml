@@ -204,6 +204,7 @@
     <bean id="success.compl.course.offer" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.compl.course.offer'}">
         <property name="items">
             <list>
+                <bean parent="singleCourse-parent"/>
             </list>
         </property>
     </bean>
@@ -212,7 +213,7 @@
     <bean id="success.course.courseset.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.course.courseset.completed.nof'}">
         <property name="items">
             <list>
-                <bean parent="course-parent"/>
+                <bean parent="courseList-parent"/>
             </list>
         </property>
     </bean>
@@ -221,6 +222,7 @@
     <bean id="success.course.courseset.completed.all" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.course.courseset.completed.all'}">
         <property name="items">
             <list>
+                <bean parent="courseList-parent"/>
             </list>
         </property>
     </bean>

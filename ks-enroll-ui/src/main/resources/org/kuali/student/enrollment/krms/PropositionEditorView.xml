@@ -179,14 +179,14 @@
                     <property name="items">
                         <list>
 
-                            <bean parent="permission.instructor.required" />
+                            <!--bean parent="permission.instructor.required" />
                             <bean parent="course.drop.org.permission.required" />
                             <bean parent="max.limit.courses.at.org.for.program" />
                             <bean parent="max.limit.courses.at.org.duration.for.program" />
                             <bean parent="success.compl.course" />
-                            <bean parent="success.course.courseset.completed.nof" />
+                            <bean parent="success.course.courseset.completed.nof" /-->
                             <bean parent="success.course.courseset.completed.all" />
-                            <bean parent="success.credit.courseset.completed.nof" />
+                            <!--bean parent="success.credit.courseset.completed.nof" />
                             <bean parent="success.credit.courseset.completed.nof.org" />
                             <bean parent="cumulative.gpa.min" />
                             <bean parent="duration.cumulative.gpa.min" />
@@ -209,7 +209,7 @@
                             <bean parent="course.credits.repeat.max" />
                             <bean parent="admitted.to.program" />
                             <bean parent="admitted.to.program.campus" />
-                            <bean parent="notadmitted.to.program" />
+                            <bean parent="notadmitted.to.program" /-->
 
                         </list>
                     </property>
