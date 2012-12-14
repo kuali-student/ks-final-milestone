@@ -17,6 +17,8 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -230,7 +232,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
         StringBuilder sb = new StringBuilder();
         sb.append(creditValueMin).append(" - ").append(creditValueMax);
-        if (!creditValueIncrement.equals("1")) {
+        if (creditValueIncrement!=null && !"1".equals(creditValueIncrement) && !"1.0".equals(creditValueIncrement)) {
             sb.append(" by ").append(creditValueIncrement);
         }
         return sb.toString();
@@ -336,6 +338,12 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
             sb.append(baseType);
             sb.append(".");
+
+            Collections.sort(values, new Comparator<String>() {
+                public int compare(String o1, String o2) {
+                    return Float.compare(Float.parseFloat(o1),Float.parseFloat(o2));
+                }
+            });
 
             for (Iterator<String> i = values.iterator();i.hasNext();) {
                 String value = i.next();
