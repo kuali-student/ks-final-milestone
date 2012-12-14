@@ -261,7 +261,7 @@ public class TestCourseOfferingServiceImplM4 {
                 coServiceImpl.getActivityOffering("Lui-Lab2", contextInfo),
                 coServiceImpl.getActivityOffering("Lui-8", contextInfo)};
 
-            expected = CourseOfferingServiceDataUtils.createActivityOfferingCluster("Lui-6", "Default Cluster",
+            expected = CourseOfferingServiceTestDataUtils.createActivityOfferingCluster("Lui-6", "Default Cluster",
                                                                                      Arrays.asList(activities));
         } catch (Exception ex) {
             throw new RuntimeException(ex);

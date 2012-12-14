@@ -1,35 +1,44 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2012 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
+
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.rice.kim.api.KimConstants;
-import org.kuali.rice.kim.api.common.template.Template;
-import org.kuali.rice.kim.api.permission.Permission;
+import org.junit.runner.RunWith;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleMember;
-import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseR1TestDataLoader;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.kim.permission.mock.GroupServiceMockImpl;
-import org.kuali.student.kim.permission.mock.KimPermissionConstants;
-import org.kuali.student.kim.permission.mock.RoleAndPermissionServiceMockImpl;
+import org.kuali.student.kim.data.PermissionAndRoleServiceDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -38,48 +47,49 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- *
- * @author nwright
+ * Test that the authorization decorator works against CourseOfferingService
+ * 
+ * @author Kuali Student Team (ks.collab@kuali.org)
  */
-public class CourseOfferingServiceAuthorizationDecoratorTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations= "classpath:co-test-svcs-authz.xml")
+public class CourseOfferingServiceAuthorizationDecoratorTest  {
 
-    private RoleService roleService;
+    @Resource
     private PermissionService permissionService;
+    
+    @Resource
     private AcademicCalendarService acalService;
+    
+    @Resource
     private AtpService atpService;
+    
+    @Resource
     private CourseService courseService;
+    
+    @Resource
     private CourseOfferingServiceTestDataLoader dataLoader;
-    private CourseOfferingService coService;
-    private static final String CENTRAL_ADMIN1 = "CENTRAL_ADMIN1";
-    private static final String DEPT_ADMIN1 = "DEPT_ADMIN1";
-    private static final String DEPT_ADMIN2 = "DEPT_ADMIN2";
-    private static final String DEPT_ADMIN3 = "DEPT_ADMIN3";
+    
+    @Resource
+    private PermissionAndRoleServiceDataLoader permissionAndRoleDataLoader;
+    
+    @Resource(name="CourseOfferingServiceAuthorizationDecorator")
+    private CourseOfferingService courseOfferingService;
+    
 
     
     @Test
@@ -97,49 +107,49 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
         String principalId = null;
         CourseInfo course = null;
         
-        principalId = CENTRAL_ADMIN1;
+        principalId = PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1;
         course = ENGL101;
         co = createCourseOffering(false, course, principalId);
         updateCourseOffering (false, co, principalId);
         deleteCourseOffering (false, co, principalId);
         
-        principalId = DEPT_ADMIN1;
+        principalId = PermissionAndRoleServiceDataLoader.DEPT_ADMIN1;
         course = ENGL101;
         co = createCourseOffering(false, course, principalId);
         updateCourseOffering (false, co, principalId);
         deleteCourseOffering (false, co, principalId);
         course = PHYS101;
         co = createCourseOffering(true, course, principalId);
-        co = createCourseOffering(false, course, CENTRAL_ADMIN1);
+        co = createCourseOffering(false, course, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         updateCourseOffering (true, co, principalId);
         deleteCourseOffering (true, co, principalId);
-        deleteCourseOffering (false, co, CENTRAL_ADMIN1);
+        deleteCourseOffering (false, co, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         course = MATH101;
         co = createCourseOffering(true, course, principalId);
-        co = createCourseOffering(false, course, CENTRAL_ADMIN1);
+        co = createCourseOffering(false, course, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         updateCourseOffering (true, co, principalId);
         deleteCourseOffering (true, co, principalId);
-        deleteCourseOffering (false, co, CENTRAL_ADMIN1);
+        deleteCourseOffering (false, co, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         
-        principalId = DEPT_ADMIN2;
+        principalId = PermissionAndRoleServiceDataLoader.DEPT_ADMIN2;
         course = ENGL101;
         co = createCourseOffering(true, course, principalId);
-        co = createCourseOffering(false, course, CENTRAL_ADMIN1);
+        co = createCourseOffering(false, course, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         updateCourseOffering (true, co, principalId);
         deleteCourseOffering (true, co, principalId);
-        deleteCourseOffering (false, co, CENTRAL_ADMIN1);
+        deleteCourseOffering (false, co, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         course = PHYS101;
         co = createCourseOffering(false, course, principalId);
         updateCourseOffering (false, co, principalId);
         deleteCourseOffering (false, co, principalId);
         course = MATH101;
         co = createCourseOffering(true, course, principalId);
-        co = createCourseOffering(false, course, CENTRAL_ADMIN1);
+        co = createCourseOffering(false, course, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         updateCourseOffering (true, co, principalId);
         deleteCourseOffering (true, co, principalId);
-        deleteCourseOffering (false, co, CENTRAL_ADMIN1);
+        deleteCourseOffering (false, co, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         
-        principalId = DEPT_ADMIN3;
+        principalId = PermissionAndRoleServiceDataLoader.DEPT_ADMIN3;
         course = ENGL101;
         co = createCourseOffering(false, course, principalId);
         updateCourseOffering (false, co, principalId);
@@ -150,10 +160,10 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
         deleteCourseOffering (false, co, principalId);
         course = MATH101;
         co = createCourseOffering(true, course, principalId);
-        co = createCourseOffering(false, course, CENTRAL_ADMIN1);
+        co = createCourseOffering(false, course, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         updateCourseOffering (true, co, principalId);
         deleteCourseOffering (true, co, principalId);
-        deleteCourseOffering (false, co, CENTRAL_ADMIN1);
+        deleteCourseOffering (false, co, PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1);
         
     }
 
@@ -174,51 +184,26 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
 
     @AfterClass
     public static void tearDownClass() {
+        
     }
 
+  
     @Before
-    public void setUp() {
-
-        RoleAndPermissionServiceMockImpl impl = new RoleAndPermissionServiceMockImpl();
-        impl.setGroupService(new GroupServiceMockImpl());
-        this.roleService = impl;
-        this.permissionService = impl;
-        this.loadNeededTemplates();
-        this.loadRolesAndPermissions();
-        this.coService = this.getInstance();
+    public void setup() throws Exception {
+        
+        permissionAndRoleDataLoader.beforeTest();
+        
+        loadNeededTerms();
+        loadNeededCourses();
+        
+        
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
+        permissionAndRoleDataLoader.afterTest();
     }
 
-    private CourseOfferingService getInstance() {
-        CourseOfferingServiceAuthorizationDecorator decorator = new CourseOfferingServiceAuthorizationDecorator();
-        decorator.setNextDecorator(this.getCourseOfferingServicePersistence());
-        decorator.setPermissionService(this.permissionService);
-        decorator.setCourseService(courseService);
-        return decorator;
-    }
-
-    private CourseOfferingService getCourseOfferingServicePersistence() {
-        AtpServiceMockImpl atp = new AtpServiceMockImpl();
-        this.atpService = atp;
-        AcademicCalendarServiceMockImpl acal = new AcademicCalendarServiceMockImpl();
-        this.acalService = acal;
-        loadNeededTerms();
-        CourseOfferingServiceMockImpl co = new CourseOfferingServiceMockImpl();
-        co.setAcalService(acal);
-        CourseServiceR1MockImpl course = new CourseServiceR1MockImpl();
-        this.courseService = course;
-        this.loadNeededCourses();
-        co.setCourseService(course);
-        CourseOfferingServiceBusinessLogicImpl bl = new CourseOfferingServiceBusinessLogicImpl();
-        bl.setAcalService(acalService);
-        bl.setCoService(co);
-        bl.setCourseService(course);
-        co.setBusinessLogic(bl);
-        return co;
-    }
     private AtpInfo FA2012_ATP;
     private AtpInfo FA2011_ATP;
     private TermInfo SP2011_TERM;
@@ -233,7 +218,7 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
         atp.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         atp.setId("2011FA");
         try {
-            FA2011_ATP = atpService.createAtp(atp.getTypeKey(), atp, getContext(CENTRAL_ADMIN1));
+            FA2011_ATP = atpService.createAtp(atp.getTypeKey(), atp, getContext(PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1));
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -241,7 +226,7 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
         atp.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         atp.setId("2012FA");
         try {
-            FA2012_ATP = atpService.createAtp(atp.getTypeKey(), atp, getContext(CENTRAL_ADMIN1));
+            FA2012_ATP = atpService.createAtp(atp.getTypeKey(), atp, getContext(PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1));
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -263,251 +248,35 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
     private CourseInfo ENGL101;
     private CourseInfo PHYS101;
 
-    private void loadNeededCourses() {
+    private void loadNeededCourses() throws AlreadyExistsException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String code = "MATH101";
-        CourseR1TestDataLoader courseLoader = new CourseR1TestDataLoader(this.courseService);
-        MATH101 = courseLoader.loadCourse(code, "2012FA", code.substring(0, 4), code, "Math 101", "description 1", code + "-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_DISCUSSION_TYPE_KEY);
-        code = "ENGL101";
-        ENGL101 = courseLoader.loadCourse(code, "2012FA", code.substring(0, 4), code, "English 101", "description 1", code + "-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_DISCUSSION_TYPE_KEY);
-        code = "PHYS101";
-        PHYS101 = courseLoader.loadCourse(code, "2012FA", code.substring(0, 4), code, "Physics 101", "description 1", code + "-FORMAT1",
-                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_DISCUSSION_TYPE_KEY);
-    }
-
-    private void loadNeededTemplates() {
-        this.createTemplate(KimPermissionConstants.KS_ENRL_NAMESPACE, KimPermissionConstants.CAN_INVOKE_SERVICE_METHOD_TEMPLATE_NAME, KimPermissionConstants.DEFAULT_KIM_TYPE_ID);
-    }
-
-    private Template createTemplate(String namespaceCode, String name, String kimTypeId) {
-        return this.createTemplate(namespaceCode, name, name, kimTypeId);
-    }
-
-    private Template createTemplate(String namespaceCode, String name, String description, String kimTypeId) {
-        // TODO: refactor if RICE adds Create/update methods for templates
-        RoleAndPermissionServiceMockImpl impl = (RoleAndPermissionServiceMockImpl) this.roleService;
-        Template.Builder bldr = Template.Builder.create(namespaceCode, name, kimTypeId);
-        bldr.setDescription(description);
-        bldr.setActive(true);
-        Template template = impl.createTemplate(bldr.build());
-        return template;
-    }
-
-    private void loadRolesAndPermissions() {
-        System.out.println("test basic operations");
-        // Make sure we have a handle on all the templates we need
-        Template CAN_INVOKE_SERVICE_METHOD_TEMPLATE =
-                this.permissionService.findPermTemplateByNamespaceCodeAndName(KimPermissionConstants.KS_ENRL_NAMESPACE,
-                KimPermissionConstants.CAN_INVOKE_SERVICE_METHOD_TEMPLATE_NAME);
-        assertNotNull(CAN_INVOKE_SERVICE_METHOD_TEMPLATE);
-
-        // create permissions
-        Permission CREATE_COURSE_OFFERING_PERMISSION =
-                this.createPermission(KimPermissionConstants.CREATE_COURSEOFFERING_PERMISSION,
-                CAN_INVOKE_SERVICE_METHOD_TEMPLATE,
-                null);
-
-        Permission UPDATE_COURSE_OFFERING_PERMISSION =
-                this.createPermission(KimPermissionConstants.UPDATE_COURSEOFFERING_PERMISSION,
-                CAN_INVOKE_SERVICE_METHOD_TEMPLATE,
-                null);
-        Permission DELETE_COURSE_OFFERING_PERMISSION =
-                this.createPermission(KimPermissionConstants.DELETE_COURSEOFFERING_PERMISSION,
-                CAN_INVOKE_SERVICE_METHOD_TEMPLATE,
-                null);
-
-        Permission CREATE_SOC_PERMISSION =
-                this.createPermission(KimPermissionConstants.CREATE_SOC_PERMISSION,
-                CAN_INVOKE_SERVICE_METHOD_TEMPLATE,
-                null);
-
-        // create some roles
-        Role CENTRAL_ADMIN_ROLE = createRole(KimPermissionConstants.KS_ENRL_NAMESPACE,
-                KimPermissionConstants.KUALI_STUDENT_COURSE_OFFERING_CENTRAL_ADMIN_ROLE_NAME,
-                KimPermissionConstants.DEFAULT_KIM_TYPE_ID);
-        Role DEPT_ADMIN_ROLE = createRole(KimPermissionConstants.KS_ENRL_NAMESPACE,
-                KimPermissionConstants.KUALI_STUDENT_COURSE_OFFERING_DEPARTMENTAL_ADMIN_ROLE_NAME,
-                KimPermissionConstants.DEFAULT_KIM_TYPE_ID);
-
-        // Assign some permissions to some roles
-        this.roleService.assignPermissionToRole(CREATE_COURSE_OFFERING_PERMISSION.getId(), CENTRAL_ADMIN_ROLE.getId());
-        this.roleService.assignPermissionToRole(UPDATE_COURSE_OFFERING_PERMISSION.getId(), CENTRAL_ADMIN_ROLE.getId());
-        this.roleService.assignPermissionToRole(DELETE_COURSE_OFFERING_PERMISSION.getId(), CENTRAL_ADMIN_ROLE.getId());
-        this.roleService.assignPermissionToRole(CREATE_SOC_PERMISSION.getId(), CENTRAL_ADMIN_ROLE.getId());
         
-        this.roleService.assignPermissionToRole(CREATE_COURSE_OFFERING_PERMISSION.getId(), DEPT_ADMIN_ROLE.getId());
-        this.roleService.assignPermissionToRole(UPDATE_COURSE_OFFERING_PERMISSION.getId(), DEPT_ADMIN_ROLE.getId());
-        this.roleService.assignPermissionToRole(DELETE_COURSE_OFFERING_PERMISSION.getId(), DEPT_ADMIN_ROLE.getId());
+        ContextInfo contextInfo;
+        String math101Id = dataLoader.createCourse(FA2012_TERM, code.substring(0, 4), code, contextInfo = getContext("system"));
+        
+        MATH101 = courseService.getCourse(math101Id, contextInfo);
+                
+//                loadCourse(code, "2012FA", code.substring(0, 4), code, "Math 101", "description 1", code + "-FORMAT1",
+//                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_DISCUSSION_TYPE_KEY);
+        code = "ENGL101";
+        String engl101Id =  dataLoader.createCourse(FA2012_TERM, code.substring(0, 4), code, contextInfo);
+        
+        ENGL101 = courseService.getCourse(engl101Id, contextInfo);
+        
+//                courseLoader.loadCourse(code, "2012FA", code.substring(0, 4), code, "English 101", "description 1", code + "-FORMAT1",
+//                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_DISCUSSION_TYPE_KEY);
+        code = "PHYS101";
+        String phys101Id = dataLoader.createCourse(FA2012_TERM, code.substring(0, 4), code, contextInfo); 
 
-        List<String> roleIds = this.permissionService.getRoleIdsForPermission(CREATE_COURSE_OFFERING_PERMISSION.getNamespaceCode(),
-                CREATE_COURSE_OFFERING_PERMISSION.getName());
-        assertEquals(2, roleIds.size());
-        assertTrue(roleIds.contains(CENTRAL_ADMIN_ROLE.getId()));
-        assertTrue(roleIds.contains(DEPT_ADMIN_ROLE.getId()));
+        PHYS101 = courseService.getCourse(phys101Id, contextInfo);
 
-        roleIds = this.permissionService.getRoleIdsForPermission(CREATE_SOC_PERMISSION.getNamespaceCode(),
-                CREATE_SOC_PERMISSION.getName());
-        assertEquals(1, roleIds.size());
-        assertTrue(roleIds.contains(CENTRAL_ADMIN_ROLE.getId()));
-
-
-        this.assignPrincipal2Role(CENTRAL_ADMIN1, CENTRAL_ADMIN_ROLE, null);
-        this.assignPrincipal2Role(DEPT_ADMIN1, DEPT_ADMIN_ROLE, "ENGL");
-        this.assignPrincipal2Role(DEPT_ADMIN2, DEPT_ADMIN_ROLE, "PHYS");
-        this.assignPrincipal2Role(DEPT_ADMIN3, DEPT_ADMIN_ROLE, "ENGL");
-        this.assignPrincipal2Role(DEPT_ADMIN3, DEPT_ADMIN_ROLE, "PHYS");
-
-        assertTrue(isAuthorized(CENTRAL_ADMIN1, CREATE_COURSE_OFFERING_PERMISSION, "ENGL"));
-        assertTrue(isAuthorized(CENTRAL_ADMIN1, CREATE_COURSE_OFFERING_PERMISSION, "PHYS"));
-        assertTrue(isAuthorized(CENTRAL_ADMIN1, CREATE_COURSE_OFFERING_PERMISSION, "MATH"));
-
-        assertTrue(isAuthorized(DEPT_ADMIN1, CREATE_COURSE_OFFERING_PERMISSION, "ENGL"));
-        assertFalse(isAuthorized(DEPT_ADMIN1, CREATE_COURSE_OFFERING_PERMISSION, "PHYS"));
-        assertFalse(isAuthorized(DEPT_ADMIN1, CREATE_COURSE_OFFERING_PERMISSION, "MATH"));
-
-        assertFalse(isAuthorized(DEPT_ADMIN2, CREATE_COURSE_OFFERING_PERMISSION, "ENGL"));
-        assertTrue(isAuthorized(DEPT_ADMIN2, CREATE_COURSE_OFFERING_PERMISSION, "PHYS"));
-        assertFalse(isAuthorized(DEPT_ADMIN2, CREATE_COURSE_OFFERING_PERMISSION, "MATH"));
-
-        assertTrue(isAuthorized(DEPT_ADMIN3, CREATE_COURSE_OFFERING_PERMISSION, "ENGL"));
-        assertTrue(isAuthorized(DEPT_ADMIN3, CREATE_COURSE_OFFERING_PERMISSION, "PHYS"));
-        assertFalse(isAuthorized(DEPT_ADMIN3, CREATE_COURSE_OFFERING_PERMISSION, "MATH"));
-
+        //                courseLoader.loadCourse(code, "2012FA", code.substring(0, 4), code, "Physics 101", "description 1", code + "-FORMAT1",
+//                LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, LuServiceConstants.COURSE_ACTIVITY_DISCUSSION_TYPE_KEY);
+    
     }
 
-    private boolean isAuthorized(String principalId, Permission permission, String subjArea) {
-        Map<String, String> details = new LinkedHashMap<String, String>();
-        if (subjArea != null) {
-            details.put(KimPermissionConstants.SUBJECT_AREA_ATTR_DEFINITION, subjArea);
-        }
-        return this.permissionService.isAuthorized(principalId, permission.getNamespaceCode(), permission.getName(), details);
-    }
 
-    private Permission createPermission(String permName, Template template, String viewId) {
-        Map<String, String> details = new LinkedHashMap<String, String>();
-        if (viewId != null) {
-            details.put(KimPermissionConstants.VIEW_ID_ATTR_DEFINITION, viewId);
-        }
-        Permission permission = createPermission(template,
-                KimPermissionConstants.KS_ENRL_NAMESPACE,
-                permName, details);
-        return permission;
-    }
-
-    private RoleMember assignPrincipal2Role(String principalId, Role role, String subjArea) {
-        Map<String, String> qualifiers = new LinkedHashMap<String, String>();
-        if (subjArea != null) {
-            qualifiers.put(KimPermissionConstants.SUBJECT_AREA_ATTR_DEFINITION, subjArea);
-        }
-        RoleMember roleMember = this.roleService.assignPrincipalToRole(principalId, role.getNamespaceCode(), role.getName(), qualifiers);
-        assertEquals(principalId, roleMember.getMemberId());
-        assertEquals(role.getId(), roleMember.getRoleId());
-        assertEquals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, roleMember.getType());
-        assertEquals(qualifiers, roleMember.getAttributes());
-        List<String> roleIds = this.roleService.getMemberParentRoleIds(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE.getCode(), principalId);
-//        assertEquals(1, roleIds.size());
-        assertTrue(roleIds.contains(role.getId()));
-        return roleMember;
-
-    }
-
-    private Permission createPermission(Template template, String namespaceCode, String name, Map<String, String> details) {
-        Permission.Builder bldr = Permission.Builder.create(namespaceCode, name);
-        bldr.setTemplate(Template.Builder.create(template));
-        bldr.setActive(true);
-        bldr.setAttributes(details);
-
-        Permission fromCreate = this.permissionService.createPermission(bldr.build());
-        assertEquals(namespaceCode, fromCreate.getNamespaceCode());
-        assertEquals(name, fromCreate.getName());
-        assertNotNull(fromCreate.getId());
-        assertNotNull(fromCreate.getVersionNumber());
-        assertTrue(fromCreate.isActive());
-        assertEquals(details, fromCreate.getAttributes());
-        assertNull(fromCreate.getDescription());
-
-        bldr = Permission.Builder.create(fromCreate);
-        bldr.setDescription(namespaceCode + " " + name);
-        Permission fromUpdate = this.permissionService.updatePermission(bldr.build());
-        assertEquals(fromCreate.getNamespaceCode(), fromUpdate.getNamespaceCode());
-        assertEquals(fromCreate.getName(), fromUpdate.getName());
-        assertEquals(fromCreate.getId(), fromUpdate.getId());
-        assertNotSame(fromCreate.getVersionNumber(), fromUpdate.getVersionNumber());
-        assertEquals(fromCreate.isActive(), fromUpdate.isActive());
-        assertEquals(fromCreate.getAttributes(), fromUpdate.getAttributes());
-        assertEquals(bldr.getDescription(), fromUpdate.getDescription());
-
-        Permission fromGet = this.permissionService.getPermission(fromUpdate.getId());
-        assertEquals(fromUpdate.getNamespaceCode(), fromGet.getNamespaceCode());
-        assertEquals(fromUpdate.getName(), fromGet.getName());
-        assertEquals(fromUpdate.getId(), fromGet.getId());
-        assertEquals(fromUpdate.getVersionNumber(), fromGet.getVersionNumber());
-        assertEquals(fromUpdate.isActive(), fromGet.isActive());
-        assertEquals(fromUpdate.getAttributes(), fromGet.getAttributes());
-        assertEquals(fromUpdate.getDescription(), fromGet.getDescription());
-
-        Permission fromFind = this.permissionService.findPermByNamespaceCodeAndName(namespaceCode, name);
-        assertEquals(fromUpdate.getNamespaceCode(), fromFind.getNamespaceCode());
-        assertEquals(fromUpdate.getName(), fromFind.getName());
-        assertEquals(fromUpdate.getId(), fromFind.getId());
-        assertEquals(fromUpdate.getVersionNumber(), fromFind.getVersionNumber());
-        assertEquals(fromUpdate.isActive(), fromFind.isActive());
-        assertEquals(fromUpdate.getAttributes(), fromFind.getAttributes());
-        assertEquals(fromUpdate.getDescription(), fromFind.getDescription());
-
-        return fromFind;
-    }
-
-    private Role createRole(String namespaceCode, String name, String kimTypeId) {
-        Role.Builder bldr = Role.Builder.create();
-        bldr.setNamespaceCode(namespaceCode);
-        bldr.setName(name);
-        bldr.setKimTypeId(kimTypeId);
-        bldr.setActive(true);
-
-        Role fromCreate = this.roleService.createRole(bldr.build());
-        assertEquals(namespaceCode, fromCreate.getNamespaceCode());
-        assertEquals(name, fromCreate.getName());
-        assertEquals(kimTypeId, fromCreate.getKimTypeId());
-        assertNotNull(fromCreate.getId());
-        assertNotNull(fromCreate.getVersionNumber());
-        assertTrue(fromCreate.isActive());
-        assertNull(fromCreate.getDescription());
-
-
-        bldr = Role.Builder.create(fromCreate);
-        bldr.setDescription(namespaceCode + " " + name);
-        Role fromUpdate = this.roleService.updateRole(bldr.build());
-        assertEquals(fromCreate.getNamespaceCode(), fromUpdate.getNamespaceCode());
-        assertEquals(fromCreate.getName(), fromUpdate.getName());
-        assertEquals(fromCreate.getId(), fromUpdate.getId());
-        assertNotSame(fromCreate.getVersionNumber(), fromUpdate.getVersionNumber());
-        assertEquals(fromCreate.isActive(), fromUpdate.isActive());
-        assertEquals(bldr.getDescription(), fromUpdate.getDescription());
-
-        Role fromGet = this.roleService.getRole(fromUpdate.getId());
-        assertEquals(fromUpdate.getNamespaceCode(), fromGet.getNamespaceCode());
-        assertEquals(fromUpdate.getName(), fromGet.getName());
-        assertEquals(fromUpdate.getKimTypeId(), fromGet.getKimTypeId());
-        assertEquals(fromUpdate.getId(), fromGet.getId());
-        assertEquals(fromUpdate.getVersionNumber(), fromGet.getVersionNumber());
-        assertEquals(fromUpdate.isActive(), fromGet.isActive());
-        assertEquals(fromUpdate.getDescription(), fromGet.getDescription());
-
-        Role fromFind = this.roleService.getRoleByNamespaceCodeAndName(namespaceCode, name);
-        assertEquals(fromUpdate.getNamespaceCode(), fromFind.getNamespaceCode());
-        assertEquals(fromUpdate.getName(), fromFind.getName());
-        assertEquals(fromUpdate.getKimTypeId(), fromFind.getKimTypeId());
-        assertEquals(fromUpdate.getId(), fromFind.getId());
-        assertEquals(fromUpdate.getVersionNumber(), fromFind.getVersionNumber());
-        assertEquals(fromUpdate.isActive(), fromFind.isActive());
-        assertEquals(fromUpdate.getDescription(), fromFind.getDescription());
-
-        // TODO: test update
-
-        return fromFind;
-    }
+   
 
     private CourseOfferingInfo createCourseOffering(boolean shouldThrowPermissionDenied, CourseInfo course, String principalId)
             throws DoesNotExistException,
@@ -520,13 +289,10 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
             DependentObjectsExistException {
         ContextInfo context = this.getContext(principalId);
         List<String> optionKeys = new ArrayList<String>();
-        CourseOfferingInfo sourceCo = new CourseOfferingInfo();
-        sourceCo.setCourseId(course.getId());
-        sourceCo.setTermId(FA2011_TERM.getId());
-        sourceCo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        sourceCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
+        CourseOfferingInfo sourceCo = CourseOfferingServiceTestDataUtils.createCourseOffering(course, FA2011_TERM.getId(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
+              
         try {
-            sourceCo = coService.createCourseOffering(sourceCo.getCourseId(), sourceCo.getTermId(),
+            sourceCo = courseOfferingService.createCourseOffering(sourceCo.getCourseId(), sourceCo.getTermId(),
                     sourceCo.getTypeKey(), sourceCo, optionKeys, context);
         } catch (PermissionDeniedException ex) {
             if (!shouldThrowPermissionDenied) {
@@ -555,7 +321,7 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
         ContextInfo context = this.getContext(principalId);
         co.setCourseOfferingTitle(co.getCourseOfferingTitle() + " Updated");
         try {
-            CourseOfferingInfo info = this.coService.updateCourseOffering(co.getId(), co, context);
+            CourseOfferingInfo info = this.courseOfferingService.updateCourseOffering(co.getId(), co, context);
         } catch (PermissionDeniedException ex) {
             if (!shouldThrowPermissionDenied) {
                 fail("Delete should not have thrown permission denied but did " + co.getCourseCode() + " " + principalId);
@@ -580,7 +346,7 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
             DependentObjectsExistException {
         ContextInfo context = this.getContext(principalId);
         try {
-            StatusInfo status = this.coService.deleteCourseOffering(co.getId(), context);
+            StatusInfo status = this.courseOfferingService.deleteCourseOffering(co.getId(), context);
         } catch (PermissionDeniedException ex) {
             if (!shouldThrowPermissionDenied) {
                 fail("Delete should not have thrown permission denied but did " + co.getCourseCode() + " " + principalId);
@@ -595,37 +361,4 @@ public class CourseOfferingServiceAuthorizationDecoratorTest {
         return;
     }
     
-//
-//        FormatInfo format = course.getFormats().get(0);
-//        FormatOfferingInfo sourceFo = new FormatOfferingInfo();
-//        sourceFo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-//        sourceFo.setStateKey(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY);
-//        sourceFo.setCourseOfferingId(sourceCo.getId());
-//        sourceFo.setDescr(new RichTextHelper().fromPlain("test format offering"));
-//        sourceFo.setFormatId(format.getId());
-//        sourceFo.setName("format offering 1");
-//        sourceFo.setTermId(sourceCo.getTermId());
-//        sourceFo = coService.createFormatOffering(sourceFo.getCourseOfferingId(), sourceFo.getFormatId(),
-//                sourceFo.getTypeKey(), sourceFo, this.getContext(DEPT_ADMIN1));
-//
-//        ActivityInfo activity = format.getActivities().get(0);
-//        ActivityOfferingInfo sourceAo = new ActivityOfferingInfo();
-//        sourceAo.setFormatOfferingId(sourceFo.getId());
-//        sourceAo.setActivityId(activity.getId());
-//        sourceAo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
-//        sourceAo.setStateKey(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
-//        sourceAo.setActivityCode("A");
-//        sourceAo.setDescr(new RichTextHelper().fromPlain("test activity"));
-//        sourceAo.setIsHonorsOffering(Boolean.TRUE);
-//        sourceAo.setMaximumEnrollment(100);
-//        sourceAo.setMinimumEnrollment(90);
-//        sourceAo.setName("my activity offering");
-//        ScheduleInfo scheduleInfo = new ScheduleInfo();
-//        scheduleInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
-//        scheduleInfo.setAtpId(sourceCo.getTermId());
-//        scheduleInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, callContext);
-//        sourceAo.setScheduleId(scheduleInfo.getId());
-//        sourceAo = coService.createActivityOffering(sourceAo.getFormatOfferingId(), sourceAo.getActivityId(),
-//                sourceAo.getTypeKey(), sourceAo, callContext);
-//    }
 }

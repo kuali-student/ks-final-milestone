@@ -128,7 +128,7 @@ public class TestCourseOfferingServiceImpl {
     private ActivityInfo buildCanonicalActivity(String activityTypeKey, FormatInfo format) {
 
         ActivityInfo info = new ActivityInfo();
-        info.setId(CourseOfferingServiceDataUtils.createCanonicalActivityId(format.getId(), activityTypeKey));
+        info.setId(CourseOfferingServiceTestDataUtils.createCanonicalActivityId(format.getId(), activityTypeKey));
         info.setTypeKey(activityTypeKey);
         info.setStateKey(DtoConstants.STATE_ACTIVE);
 
@@ -190,7 +190,7 @@ public class TestCourseOfferingServiceImpl {
         List<String> optionKeys = new ArrayList<String>();
         CourseInfo canonicalCourse = courseService
                 .getCourse("CLU-1", callContext);
-        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils
+        CourseOfferingInfo coInfo = CourseOfferingServiceTestDataUtils
                 .createCourseOffering(canonicalCourse, "2012FA");
 
         // gets around the unique course code constraint
@@ -340,7 +340,7 @@ public class TestCourseOfferingServiceImpl {
     private FormatOfferingInfo createFormatOffering(String coId, String coTermId) throws Exception {
         FormatOfferingInfo fo = null;
         try {
-            FormatOfferingInfo newFO = CourseOfferingServiceDataUtils
+            FormatOfferingInfo newFO = CourseOfferingServiceTestDataUtils
                     .createFormatOffering(coId, "CHEM123:LEC-ONLY",
                             coTermId, "TEST FORMAT OFFERING",
                             LuiServiceConstants.ALL_ACTIVITY_TYPES);
@@ -357,12 +357,12 @@ public class TestCourseOfferingServiceImpl {
     }
 
     private ActivityOfferingInfo createActivityOffering(CourseOfferingInfo courseOffering, String foId) throws Exception {
-        String activityId = CourseOfferingServiceDataUtils
+        String activityId = CourseOfferingServiceTestDataUtils
                 .createCanonicalActivityId("CHEM123:LEC-ONLY",
                         LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
 
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
-        ActivityOfferingInfo ao = CourseOfferingServiceDataUtils
+        ActivityOfferingInfo ao = CourseOfferingServiceTestDataUtils
                 .createActivityOffering("2012FA", courseOffering, foId,
                         null, activityId, "Lecture", "A",
                         LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,

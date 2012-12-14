@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2012 The Kuali Foundation
  *
  * Licensed under the the Educational Community License, Version 1.0
@@ -56,9 +56,9 @@ import java.util.Map;
  * This was originally created to assist with unit testing the
  * CourseOfferingServiceMockImpl
  *
- * @author ocleirig
+ * @author Kuali Student Team
  */
-public final class CourseOfferingServiceDataUtils {
+public final class CourseOfferingServiceTestDataUtils {
 
     /**
      * Create and initialize an ActivityOfferingCluster using some base data
@@ -353,9 +353,7 @@ public final class CourseOfferingServiceDataUtils {
         return builder.toString();
     }
 
-    public static CourseOfferingInfo createCourseOffering(
-            CourseInfo canonicalCourse, String termId) {
-
+    public static CourseOfferingInfo createCourseOffering(CourseInfo canonicalCourse, String termId, String courseOfferingStateKey) {
         CourseOfferingInfo orig = new CourseOfferingInfo();
         // this is the canonical course id
         orig.setCourseId(canonicalCourse.getId());
@@ -363,7 +361,7 @@ public final class CourseOfferingServiceDataUtils {
         orig.setCourseCode(canonicalCourse.getCode());
 
         orig.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
-        orig.setStateKey(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0]);
+        orig.setStateKey(courseOfferingStateKey);
 
         // FIXME: assign to a constant
         orig.setWaitlistLevelTypeKey("waitlist key");
@@ -388,11 +386,6 @@ public final class CourseOfferingServiceDataUtils {
 
         orig.setCampusLocations(campusLocations);
 
-        // TODO: add these methods and more parameters to the method
-        // orig.setCourseNumberSuffix(courseNumberSuffix);
-        // orig.setCreditOptionDisplay(creditOptionDisplay);
-        // orig.setCreditOptionId(creditOptionId);
-
         orig.setDescr(new RichTextInfo(canonicalCourse.getCourseTitle(), "<b>" + canonicalCourse.getCourseTitle() + "<b>"));
         orig.setCreditOptionId(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0);
         orig.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
@@ -403,6 +396,13 @@ public final class CourseOfferingServiceDataUtils {
 
         return orig;
 
+    }
+    public static CourseOfferingInfo createCourseOffering(
+            CourseInfo canonicalCourse, String termId) {
+        // default to the first state in the lifecycle, presently DRAFT.
+       return createCourseOffering(canonicalCourse, termId, LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0]);
+
+       
     }
 
     public static SeatPoolDefinitionInfo createSeatPoolDefinition(String populationId, String name, String expirationMilestoneTypeKey, Boolean percentage, Integer seatLimit, Integer processingPriority) {

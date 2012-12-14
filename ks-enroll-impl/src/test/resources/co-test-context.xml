@@ -315,7 +315,8 @@
 
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
-	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
+	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceJPADataLoader" autowire="byType" />
+	
     <bean id="luiServiceDataLoader" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader" autowire="byType" />
 
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
