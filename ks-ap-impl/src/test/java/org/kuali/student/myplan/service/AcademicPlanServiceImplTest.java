@@ -229,7 +229,7 @@ public class AcademicPlanServiceImplTest {
     }
 
     @Test
-    public void addAndGetPlanItemWishlist() throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
+    public void addAndGetPlanItemWishlist() throws Throwable {
         String planId = "lp1";
 
         // Create a new plan item.

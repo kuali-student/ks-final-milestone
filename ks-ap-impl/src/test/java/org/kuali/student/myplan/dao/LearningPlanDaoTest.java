@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
-// TODO: remove deprecated usage
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.util.UUIDHelper;
@@ -44,7 +43,7 @@ public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
         assertEquals("Student 1 Learning Plan 1", lp.getDescr().getPlain());
     }
 
-    @Test
+	@Test
     public void testSaveLearningPlan() {
         LearningPlanRichTextEntity lpDesc = new LearningPlanRichTextEntity();
         lpDesc.setFormatted("<span>New Plan</span>");
@@ -80,7 +79,7 @@ public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
         assertEquals(learningPlanEntity.getCreateTime(), lpe.getCreateTime());
     }
 
-    @Test
+	@Test
     public void testGetLearningPlansByStudentId() {
         String studentId = "student1";
         List<LearningPlanEntity> planEntities = learningPlanDao.getLearningPlans(studentId);
@@ -92,7 +91,7 @@ public class LearningPlanDaoTest extends AbstractTransactionalDaoTest {
         }
     }
 
-    @Test
+	@Test
     public void testGetLearningPlansByStudentIdAndType() {
         String studentId = "student1";
         String typeId = "kuali.academicplan.type.plan";

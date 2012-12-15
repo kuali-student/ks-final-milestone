@@ -49,8 +49,8 @@
 	<param name="ks.myplan.datasource.validationQuery.mysql">select 1</param>
 	<param name="ks.myplan.datasource.validationQuery">${ks.myplan.datasource.validationQuery.${db.vendor}}</param>
 
-	<param name="ks.myplan.datasource.username">ksmyplan</param>
-	<param name="ks.myplan.datasource.password">ksmyplan</param>
+	<param name="ks.myplan.datasource.username">MYPLANEMBEDDED</param>
+	<param name="ks.myplan.datasource.password">MYPLANEMBEDDED</param>
 
     <param name="ks.myplan.datasource.maxSize" override="false">10</param>
     <param name="ks.myplan.datasource.minSize" override="false">2</param>

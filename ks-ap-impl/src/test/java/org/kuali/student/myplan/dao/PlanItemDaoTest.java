@@ -30,7 +30,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
 
     @Dao(value = "org.kuali.student.myplan.academicplan.dao.LearningPlanDao")
 	private LearningPlanDao learningPlanDao;
-
+    
     @Test
     public void testGetAllLearningPlanItems() {
         List<PlanItemEntity> objs = planItemDao.findAll();

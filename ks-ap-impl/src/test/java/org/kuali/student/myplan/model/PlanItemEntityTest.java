@@ -9,8 +9,8 @@ import static org.junit.Assert.*;
 
 
 public class PlanItemEntityTest {
-
-    @Test
+	
+	@Test
     public void testExercisePlanPeriodsAddRemove() {
         PlanItemEntity pie = new PlanItemEntity();
         //  Provide an empty set since Hibernate isn't "hydrating" the entity.

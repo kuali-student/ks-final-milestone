@@ -57,13 +57,12 @@
             <artifactId>ks-common-test</artifactId>
             <version>${ks.core.version}</version>
 						<scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-hibernate</artifactId>
-            <version>${ks.core.version}</version>
-            <type>pom</type>
-            <scope>test</scope>
+            <exclusions>
+              <exclusion>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jpa_3.0_spec</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
         		<groupId>org.kuali.rice</groupId>
@@ -71,7 +70,91 @@
         		<version>${kuali.rice.version}</version>
 						<scope>test</scope>
        	</dependency>
+        <dependency>
+        		<groupId>org.kuali.rice</groupId>
+        		<artifactId>rice-krad-app-framework</artifactId>
+        		<version>${kuali.rice.version}</version>
+						<scope>test</scope>
+       	</dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc14</artifactId>
+            <version>${oracle.ojdbc.version}</version>
+						<scope>test</scope>
+       	</dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <!--
+                        Setting forkMode to always. Multiple dao tests using Spring
+                        junit class runner doesn't play nice with each other
+                        -->
+                <configuration>
+                    <forkMode>always</forkMode>
+                    <argLine>-Xms256m -Xmx512m</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>ks-hibernate</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-hibernate</artifactId>
+                    <version>${ks.core.version}</version>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>ks-eclipselink</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-eclipselink</artifactId>
+                    <version>${ks.core.version}</version>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>ks-cxf</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-cxf</artifactId>
+                    <version>${ks.core.version}</version>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>ks-metro</id>
+            <dependencies>
+                <dependency>
+                    <groupId>org.kuali.student.core</groupId>
+                    <artifactId>ks-metro</artifactId>
+                    <version>${ks.core.version}</version>
+                    <type>pom</type>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 
 <!-- TODO: REVIEW
         #### Pulling this in so that we can override the openjpa-1.2.1 mismatch with hibernate-2.x-api ###

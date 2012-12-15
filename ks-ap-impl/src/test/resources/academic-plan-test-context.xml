@@ -18,8 +18,10 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
     <context:annotation-config/>
-
+    
     <!-- Data dictionary configs -->
+    <bean id="fakeEnvResourceLoader" class="org.kuali.student.common.test.resourceloader.FakeEnvResourceLoader" init-method="init" />
+
     <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
     <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
 
