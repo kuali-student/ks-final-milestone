@@ -62,6 +62,7 @@
 	<bean id="PlanItemInfo.planPeriods" parent="PlanItemInfo.planPeriods-parent"/>
 	<bean id="PlanItemInfo.planPeriods-parent" abstract="true" parent="PlanItemInfo.planPeriods-generated">
         <!-- insert any overrides to the generated attribute definitions here -->
+		<property name="dataObjectClass" value="null"/>
 	</bean>
 
 	<bean id="PlanItemInfo.id" parent="PlanItemInfo.id-parent"/>
