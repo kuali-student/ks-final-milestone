@@ -1236,7 +1236,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         if (aoInfo.getActivityCode() == null) {
             //If there is no activity code, create a new one
-            aoInfo.setActivityCode(offeringCodeGenerator.generateActivityOfferingCode(co.getId(),existingAoInfos));
+            aoInfo.setActivityCode(getNextActivityOfferingCode(co,existingAoInfos,context));
         } else {
             for (ActivityOfferingInfo existingAoInfo : existingAoInfos) {
                 if (aoInfo.getActivityCode().equals(existingAoInfo.getActivityCode())) {
@@ -1244,6 +1244,41 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 }
             }
         }
+    }
+
+    /**
+     *
+     * When generating activity codes we need to make sure there are no duplicates. The generator should be thread safe,
+     * but that does't matter if the aoList passed into the generator is stale. so, attepmt to get a good code, but if
+     * there is a duplicate, try again recursivly.
+     *
+     * @param coInfo
+     * @param existingAoInfos
+     * @param context
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    private String getNextActivityOfferingCode(CourseOfferingInfo coInfo, List<ActivityOfferingInfo> existingAoInfos, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String activityCode = "";
+
+        // get the next activity code based off the current list of activities
+        activityCode = offeringCodeGenerator.generateActivityOfferingCode(coInfo.getId(),existingAoInfos);
+
+        // pull the current list of Ao's from the DB.
+        List<ActivityOfferingInfo> newAoList = getActivityOfferingsByCourseOffering(coInfo.getId(), context);  // I would love to back this is a FAST custom search.
+
+        // if the current list of Ao's contains the activityCode we just generated, try to get another one.
+        for(ActivityOfferingInfo aoInfo : newAoList){
+            if(aoInfo.getActivityCode().equals(activityCode)){
+                return getNextActivityOfferingCode(coInfo, newAoList, context);
+            }
+        }
+
+        return activityCode;
     }
 
     private LuiLuiRelationInfo _cAO_buildLuiLuiRelation(ActivityOfferingInfo aoInfo,
