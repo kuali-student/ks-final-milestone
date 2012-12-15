@@ -15,6 +15,7 @@
  */
 package org.kuali.student.r2.core.acal.service.statehelper;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -24,12 +25,17 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.xml.namespace.QName;
+import java.util.List;
 
 /**
  * This class is the state helper for milestone state changes
@@ -40,46 +46,39 @@ public class MilestoneStateHelperImpl implements StateHelper{
     
     private AtpService atpService;
     private AcademicCalendarService academicCalendarService;
+    private TypeService typeService;
     
     @Override
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
         StatusInfo statusInfo = new StatusInfo();
-        try {
-            //Make sure it's a Holiday
-            getAcademicCalendarService().getHoliday(entityId,context);
-            getAcademicCalendarService().changeHolidayState(entityId,nextStateKey,context);
-            return statusInfo;
-        } catch (DoesNotExistException e) {
-            //shallow... it may be another milestone type
+
+        try{
+            MilestoneInfo milestoneInfo = getAtpService().getMilestone(entityId,context);
+            List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(milestoneInfo.getTypeKey(),TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY,context);
+
+            if (typeTypeRelationInfos.isEmpty()){
+                 throw new RuntimeException("Type type relation does not exists for " + milestoneInfo.getTypeKey());
+            }
+
+            //For calendar, we never have a type related with multiple types.. but just a check to make sure we're not having multiple entries
+            if (typeTypeRelationInfos.size() > 1){
+                throw new RuntimeException("Multiple Type Type relations exists for " + milestoneInfo.getTypeKey() + ", which is causing issue with state propagation.");
+            }
+
+            String groupType = typeTypeRelationInfos.get(0).getOwnerTypeKey();
+            if (StringUtils.equals(groupType,AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY)){
+                return getAcademicCalendarService().changeAcalEventState(entityId,nextStateKey,context);
+            } else if (StringUtils.equals(groupType,AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY)){
+                return getAcademicCalendarService().changeHolidayState(entityId,nextStateKey,context);
+            } else {//It must be a keydate
+                return getAcademicCalendarService().changeKeyDateState(entityId,nextStateKey,context);
+            }
         } catch (Exception e) {
             statusInfo.setSuccess(false);
             statusInfo.setMessage("Error updating Holiday state - " + e.getMessage());
             return statusInfo;
         }
 
-        try {
-            //Make sure it's an AcalEvent
-            getAcademicCalendarService().getAcalEvent(entityId,context);
-            getAcademicCalendarService().changeAcalEventState(entityId,nextStateKey,context);
-            return statusInfo;
-        } catch (DoesNotExistException e) {
-            //shallow... it may be another milestone type
-        } catch (Exception e) {
-            statusInfo.setSuccess(false);
-            statusInfo.setMessage("Error updating Event state - " + e.getMessage());
-            return statusInfo;
-        }
-
-        try {
-            //Make sure it's an KeyDate
-            getAcademicCalendarService().getKeyDate(entityId,context);
-            getAcademicCalendarService().changeKeyDateState(entityId,nextStateKey,context);
-            return statusInfo;
-        } catch (Exception e) {
-            statusInfo.setSuccess(false);
-            statusInfo.setMessage("Error updating Event state - " + e.getMessage());
-            return statusInfo;
-        }
     }
 
     @Override
@@ -99,5 +98,12 @@ public class MilestoneStateHelperImpl implements StateHelper{
             academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return academicCalendarService;
+    }
+
+    public TypeService getTypeService() {
+        if(typeService == null) {
+             typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.typeService;
     }
 }
