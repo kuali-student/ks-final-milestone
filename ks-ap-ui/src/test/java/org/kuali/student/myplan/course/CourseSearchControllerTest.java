@@ -1,26 +1,31 @@
 package org.kuali.student.myplan.course;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.rice.kim.impl.identity.PersonImpl;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.core.atp.dto.AtpTypeInfo;
-import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
-import org.kuali.student.myplan.course.controller.CourseSearchController;
-import org.kuali.student.myplan.course.controller.CourseSearchStrategy;
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
-import org.kuali.student.myplan.course.form.CourseSearchForm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
+import org.kuali.student.myplan.course.controller.CourseSearchController;
+import org.kuali.student.myplan.course.controller.CourseSearchStrategy;
+import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
+import org.kuali.student.myplan.course.form.CourseSearchForm;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Unit Test Class for Course Search Controller
@@ -32,6 +37,15 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:myplan-test-context.xml"})
 public class CourseSearchControllerTest {
+	
+    public static final String principalId = "student1";
+    public ContextInfo context;
+
+    @Before
+    public void setUp() {
+        context = new ContextInfo();
+        context.setPrincipalId(principalId);
+    }
 
     @Autowired
     private CourseSearchController searchController;
@@ -96,7 +110,7 @@ public class CourseSearchControllerTest {
     @Test
     public void testGetCellValue() {
         CourseSearchController controller = getSearchController();
-        SearchResultRow row = new SearchResultRow();
+        SearchResultRowInfo row = new SearchResultRowInfo();
         row.addCell("key", "value");
 
         assertEquals("value", controller.getCellValue(row, "key"));
@@ -111,7 +125,7 @@ public class CourseSearchControllerTest {
     @Test
     public void testGetCreditMap() {
         CourseSearchController controller = getSearchController();
-        HashMap<String, CourseSearchController.Credit> map = controller.getCreditMap();
+        HashMap<String, CourseSearchController.Credit> map = controller.getCreditMap(context);
         assertFalse(map.isEmpty());
     }
 
@@ -119,10 +133,10 @@ public class CourseSearchControllerTest {
     public void testGetCreditByID() {
         CourseSearchController controller = getSearchController();
 
-        CourseSearchController.Credit nothing = controller.getCreditByID("nothing");
+        CourseSearchController.Credit nothing = controller.getCreditByID("nothing", context);
         assertNull(nothing);
 
-        CourseSearchController.Credit something = controller.getCreditByID("kuali.creditType.credit.degree.1-4");
+        CourseSearchController.Credit something = controller.getCreditByID("kuali.creditType.credit.degree.1-4", context);
         assertNotNull(something);
     }
 
@@ -221,15 +235,15 @@ public class CourseSearchControllerTest {
         form.setCampusSelect(campusParams);
         form.setSearchTerm("any");
         CourseSearchStrategy strategy = getCourseSearchStrategy();
-        List<SearchRequest> requests = null;
+        List<SearchRequestInfo> requests = null;
         ArrayList<CourseSearchController.Hit> hits = null;
         try {
-            requests = strategy.queryToRequests(form, true);
+            requests = strategy.queryToRequests(form, true, context);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            hits = controller.processSearchRequests(requests);
+            hits = controller.processSearchRequests(requests, context);
         } catch (MissingParameterException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -248,15 +262,15 @@ public class CourseSearchControllerTest {
         form.setCampusSelect(campusParams);
         form.setSearchTerm("any");
         CourseSearchStrategy strategy = getCourseSearchStrategy();
-        List<SearchRequest> requests = null;
+        List<SearchRequestInfo> requests = null;
         ArrayList<CourseSearchController.Hit> hits = null;
         try {
-            requests = strategy.queryToRequests(form, true);
+            requests = strategy.queryToRequests(form, true, context);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            hits = controller.processSearchRequests(requests);
+            hits = controller.processSearchRequests(requests, context);
         } catch (MissingParameterException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -266,10 +280,10 @@ public class CourseSearchControllerTest {
     public void testProcessSearchRequests3() {
 
         CourseSearchController controller = getSearchController();
-        List<SearchRequest> requests = new ArrayList<SearchRequest>();
+        List<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
         ArrayList<CourseSearchController.Hit> hits = null;
         try {
-            hits = controller.processSearchRequests(requests);
+            hits = controller.processSearchRequests(requests, context);
         } catch (MissingParameterException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -288,16 +302,16 @@ public class CourseSearchControllerTest {
         form.setSearchTerm("any");
         form.setViewId("CourseSearch-FormView");
         List<CourseSearchItem> courses = new ArrayList<CourseSearchItem>();
-        List<AtpTypeInfo> termInfos = new ArrayList<AtpTypeInfo>();
-        AtpTypeInfo termInfo = new AtpTypeInfo();
-        termInfo.setDurationType("kuali.uw.atp.duration.quarter");
-        termInfo.setSeasonalType("kuali.uw.atp.season.autumn");
-        termInfo.setId("kuali.uw.atp.type.autumn");
-        termInfo.setName("autumn");
-        termInfo.setDescr("autumn quarter");
-        termInfo.setEffectiveDate(null);
-        termInfo.setExpirationDate(null);
-        termInfos.add(termInfo);
+        List<String> termInfos = new ArrayList<String>();
+//        AtpInfo termInfo = new AtpInfo();
+//        termInfo.setDurationType("kuali.uw.atp.duration.quarter");
+//        termInfo.setSeasonalType("kuali.uw.atp.season.autumn");
+//        termInfo.setId("kuali.uw.atp.type.autumn");
+//        termInfo.setName("autumn");
+//        termInfo.setDescr("autumn quarter");
+//        termInfo.setEffectiveDate(null);
+//        termInfo.setExpirationDate(null);
+        termInfos.add("autumn");
 
         CourseSearchItem courseSearchItem = new CourseSearchItem();
         courseSearchItem.setCourseId("74995ac1-8d2a-45f2-a408-056cb929f8a7");
@@ -361,7 +375,7 @@ public class CourseSearchControllerTest {
     @Test
     public void testFetchCourseDivisions() throws Exception {
         CourseSearchController controller = getSearchController();
-        HashMap<String, String> divisionsMap = controller.fetchCourseDivisions();
+        HashMap<String, String> divisionsMap = controller.fetchCourseDivisions(context);
         assertFalse(divisionsMap.isEmpty());
     }
 

@@ -1,19 +1,11 @@
 package org.kuali.student.myplan.course;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.myplan.course.controller.CourseSearchController;
-import org.kuali.student.myplan.course.dataobject.CourseSearchItem;
-import org.kuali.student.myplan.course.form.CourseSearchForm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.HashMap;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Unit Test Class for Plan Item Inquiry Service

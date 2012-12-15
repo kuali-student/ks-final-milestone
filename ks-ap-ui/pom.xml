@@ -78,6 +78,19 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
+				<!-- test dependencies -->
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-test</artifactId>
+            <version>${ks.core.version}</version>
+						<scope>test</scope>
+            <exclusions>
+              <exclusion>
+                <groupId>org.apache.geronimo.specs</groupId>
+                <artifactId>geronimo-jpa_3.0_spec</artifactId>
+              </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
 		<!-- TODO: Review
