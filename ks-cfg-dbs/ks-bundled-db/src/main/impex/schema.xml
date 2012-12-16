@@ -8611,6 +8611,111 @@
             <index-column name="ORG_TYPE_ID"/>
         </index>
     </table>
+    <table name="KSPL_LRNG_PI_RICH_TEXT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="FORMATTED" size="2000" type="VARCHAR"/>
+        <column name="PLAIN" size="2000" type="VARCHAR"/>
+    </table>
+    <table name="KSPL_LRNG_PLAN">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="STUDENT_ID" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="TYPE_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="STATE" size="255" type="VARCHAR"/>
+    <column default="1" name="SHARED" required="true" size="1" type="DECIMAL"/>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="CREATEID" size="255" type="VARCHAR"/>
+        <column name="CREATETIME" type="TIMESTAMP"/>
+        <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <column name="UPDATETIME" type="TIMESTAMP"/>
+        <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
+        <column name="REF_OBJ_ID" size="255" type="VARCHAR"/>
+        <column name="REF_OBJ_TYPE_KEY" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="TYPE_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="PLAN_ID" required="true" size="255" type="VARCHAR"/>
+        <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
+        <column name="STATE" size="255" type="VARCHAR"/>
+        <index name="KSPL_LRNG_PLAN_ITEM_I1">
+            <index-column name="TYPE_ID"/>
+        </index>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM_ATP_ID">
+  <column name="PLAN_ITEM_ID" required="true" size="255" type="VARCHAR"/>
+  <column name="ATP_ID" required="true" size="255" type="VARCHAR"/>
+  <unique name="KSPL_LRNG_PLAN_ITEM_ATP_ID_UQ">
+            <unique-column name="PLAN_ITEM_ID"/>
+            <unique-column name="ATP_ID"/>
+        </unique>
+   </table>
+    <table name="KSPL_LRNG_PLAN_ITEM_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <index name="KSPL_LRNG_PLAN_ITEM_ATTR_I1">
+            <index-column name="OWNER_ID"/>
+        </index>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSPL_LRNG_PLAN_ITEM_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSPL_LRNG_PLAN_RICH_TEXT">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="FORMATTED" size="2000" type="VARCHAR"/>
+        <column name="PLAIN" size="2000" type="VARCHAR"/>
+    </table>
+    <table name="KSPL_LRNG_PLAN_TYPE">
+        <column name="TYPE_KEY" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="VER_NBR" size="19" type="DECIMAL"/>
+        <column name="TYPE_DESC" size="2000" type="VARCHAR"/>
+        <column name="EFF_DT" type="TIMESTAMP"/>
+        <column name="EXPIR_DT" type="TIMESTAMP"/>
+        <column name="NAME" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_URI" size="255" type="VARCHAR"/>
+    </table>
+    <table name="KSPL_LRNG_PLAN_TYPE_ATTR">
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="OBJ_ID" size="36" type="VARCHAR"/>
+        <column name="ATTR_KEY" size="255" type="VARCHAR"/>
+        <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
+        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+    </table>
     <table name="KSPR_PROPOSAL">
         <column name="PROPOSAL_ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="CREATEID" size="255" type="VARCHAR"/>
