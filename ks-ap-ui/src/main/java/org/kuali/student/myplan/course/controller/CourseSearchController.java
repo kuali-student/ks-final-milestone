@@ -1015,7 +1015,7 @@ public class CourseSearchController extends UifControllerBase {
 		return this.academicCalendarService;
 	}
 
-	public void setLuService(CluService luService) {
+	public void setCluService(CluService luService) {
 		this.cluService = luService;
 	}
 

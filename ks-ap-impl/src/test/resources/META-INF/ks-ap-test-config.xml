@@ -24,7 +24,7 @@
 
     <param name="transaction.timeout">3600</param>
 
-    <param name="config.location">classpath:META-INF/ks-myplan-config.xml</param>
+    <param name="config.location">classpath:META-INF/ks-ap-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/myplan-config.xml</param>
     <!-- CI build config -->
     <param name="config.location">/data/kuali/etc/myplan-config.xml</param>

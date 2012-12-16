@@ -51,6 +51,11 @@
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>
         </dependency>
+        <dependency>
+        		<groupId>org.kuali.rice</groupId>
+        		<artifactId>rice-krad-app-framework</artifactId>
+        		<version>${kuali.rice.version}</version>
+       	</dependency>
 				<!-- test dependencies -->
         <dependency>
             <groupId>org.kuali.student.core</groupId>
@@ -67,12 +72,6 @@
         <dependency>
         		<groupId>org.kuali.rice</groupId>
         		<artifactId>rice-impl</artifactId>
-        		<version>${kuali.rice.version}</version>
-						<scope>test</scope>
-       	</dependency>
-        <dependency>
-        		<groupId>org.kuali.rice</groupId>
-        		<artifactId>rice-krad-app-framework</artifactId>
         		<version>${kuali.rice.version}</version>
 						<scope>test</scope>
        	</dependency>

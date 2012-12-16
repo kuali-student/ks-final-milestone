@@ -22,7 +22,7 @@
     <bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
         <property name="configLocations">
             <list>
-                <value>classpath:META-INF/ks-myplan-test-config.xml</value>
+                <value>classpath:META-INF/ks-ap-test-config.xml</value>
             </list>
         </property>
     </bean>
@@ -51,50 +51,50 @@
         </property>
     </bean>
 
-    <bean id="myplanDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+    <bean id="apDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
         <property name="transactionManager" ref="transactionManagerXAPool"/>
-        <property name="driverClassName" value="${ks.myplan.datasource.driver.name}"/>
-        <property name="url" value="${ks.myplan.datasource.url}"/>
-        <property name="maxSize" value="${ks.myplan.datasource.maxSize}"/>
-        <property name="minSize" value="${ks.myplan.datasource.minSize}"/>
-        <property name="maxWait" value="${ks.myplan.datasource.maxWait}"/>
-        <property name="validationQuery" value="${ks.myplan.datasource.validationQuery}"/>
-        <property name="username" value="${ks.myplan.datasource.username}"/>
-        <property name="password" value="${ks.myplan.datasource.password}"/>
+        <property name="driverClassName" value="${ks.ap.datasource.driver.name}"/>
+        <property name="url" value="${ks.ap.datasource.url}"/>
+        <property name="maxSize" value="${ks.ap.datasource.maxSize}"/>
+        <property name="minSize" value="${ks.ap.datasource.minSize}"/>
+        <property name="maxWait" value="${ks.ap.datasource.maxWait}"/>
+        <property name="validationQuery" value="${ks.ap.datasource.validationQuery}"/>
+        <property name="username" value="${ks.ap.datasource.username}"/>
+        <property name="password" value="${ks.ap.datasource.password}"/>
     </bean>
+	<alias name="apDataSourceXAPool" alias="apDataSource" />
 
-
-    <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${ks.myplan.datasource.driver.name}"/>
-        <property name="url" value="${ks.myplan.datasource.url}"/>
-        <property name="maxActive" value="${ks.myplan.datasource.maxSize}"/>
-        <property name="minIdle" value="${ks.myplan.datasource.minSize}"/>
-        <property name="initialSize" value="${ks.myplan.datasource.minSize}"/>
-        <property name="validationQuery" value="${ks.myplan.datasource.validationQuery}"/>
-        <property name="username" value="${ks.myplan.datasource.username}"/>
-        <property name="password" value="${ks.myplan.datasource.password}"/>
+    <bean id="apNonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${ks.ap.datasource.driver.name}"/>
+        <property name="url" value="${ks.ap.datasource.url}"/>
+        <property name="maxActive" value="${ks.ap.datasource.maxSize}"/>
+        <property name="minIdle" value="${ks.ap.datasource.minSize}"/>
+        <property name="initialSize" value="${ks.ap.datasource.minSize}"/>
+        <property name="validationQuery" value="${ks.ap.datasource.validationQuery}"/>
+        <property name="username" value="${ks.ap.datasource.username}"/>
+        <property name="password" value="${ks.ap.datasource.password}"/>
         <property name="accessToUnderlyingConnectionAllowed" value="true"/>
     </bean>
 
     <!-- Default JPA EntityManagerFactory -->
-    <bean id="defaultEntityManagerFactory" abstract="true"
+    <bean id="defaultEntityManagerFactory" abstract="true" autowire-candidate="false" autowire="no"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter">
             <bean
                     class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="databasePlatform" value="${ks.myplan.jpa.DatabasePlatform}"/>
-                <property name="showSql" value="${ks.myplan.jpa.showSql}"/>
-                <property name="generateDdl" value="${ks.myplan.jpa.generateDdl}"/>
+                <property name="databasePlatform" value="${ks.ap.jpa.DatabasePlatform}"/>
+                <property name="showSql" value="${ks.ap.jpa.showSql}"/>
+                <property name="generateDdl" value="${ks.ap.jpa.generateDdl}"/>
             </bean>
         </property>
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.transaction.manager_lookup_class"
-                       value="${ks.myplan.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
+                       value="${ks.ap.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto"
-                       value="${ks.myplan.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
+                       value="${ks.ap.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
                 <entry key="hibernate.connection.release_mode"
-                       value="${ks.myplan.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+                       value="${ks.ap.jpa.JpaProperties.hibernate.connection.release_mode}"/>
             </map>
         </property>
     </bean>

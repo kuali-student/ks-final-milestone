@@ -29,7 +29,7 @@
     <bean id="lpEntityManagerFactory" parent="defaultEntityManagerFactory" autowire-candidate="false" autowire="no">
         <property name="persistenceUnitName" value="LearningPlan"/>
         <property name="persistenceXmlLocation" value="classpath:META-INF/lp-persistence.xml"/>
-        <property name="dataSource" ref="myplanDataSourceXAPool"/>
+        <property name="dataSource" ref="apDataSource"/>
     </bean>
 
     <bean id="lpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
@@ -40,7 +40,7 @@
     <!-- Add the myplan data dictionaries -->
     <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
 
-    <import resource="classpath:ks-myplan-test-dao-context.xml" />
+    <import resource="classpath:ks-ap-test-dao-context.xml" />
 
     <!-- Pull in the DAOs -->
     <bean id="learningPlanDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanDao">

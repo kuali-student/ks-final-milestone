@@ -35,7 +35,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:myplan-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:ks-ap-test-context.xml"})
 public class CourseSearchControllerTest {
 	
     public static final String principalId = "student1";
