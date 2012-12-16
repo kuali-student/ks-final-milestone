@@ -50,6 +50,8 @@ public class StateServiceConstants {
      * StatePropagation types
      */
     public static final String STATE_PROPAGATION_TYPE_KEY = "kuali.state.propagation.type";
+    public static final String DELETE_STATE_PROPAGATION_TYPE_KEY = "kuali.state.propagation.type.delete";
+
 
 
     /**
