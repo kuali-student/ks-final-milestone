@@ -9,7 +9,6 @@
 <context:annotation-config/>
 
 	 <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <import resource="classpath:ks-test-system-property-configurer.xml" />
     <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml"/>
     <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml"/>
 
@@ -22,6 +21,10 @@
     </bean>
 
     <bean id="kualiConfigurationService" class="org.kuali.rice.krad.service.impl.ConfigurationServiceImpl" depends-on="configContext" />
+
+	<bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
+		<property name="properties" value="${propertiesPrefix.systemProperties}" />
+	</bean>
 
 	<bean id="atpService"
 		class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl">

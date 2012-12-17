@@ -9,7 +9,7 @@ import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.MaintenanceForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -341,8 +341,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
 
             //check duplication
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            MaintenanceForm form = (MaintenanceForm) model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             List<OfferingInstructorWrapper> instructors = activityOfferingWrapper.getInstructors();
             if (instructors != null && !instructors.isEmpty()) {
                 for (OfferingInstructorWrapper thisInst : instructors) {
@@ -362,8 +362,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         } else if (addLine instanceof SeatPoolWrapper) {   //Seat Pool
             SeatPoolWrapper seatPool = (SeatPoolWrapper) addLine;
             //check duplication
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+            MaintenanceForm form = (MaintenanceForm) model;
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             List<SeatPoolWrapper> pools = activityOfferingWrapper.getSeatpools();
             if (pools != null && !pools.isEmpty()) {
                 for (SeatPoolWrapper pool : pools) {
