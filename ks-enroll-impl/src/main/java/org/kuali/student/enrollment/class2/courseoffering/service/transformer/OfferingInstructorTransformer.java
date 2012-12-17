@@ -109,6 +109,10 @@ public class OfferingInstructorTransformer {
      */
     public static List<OfferingInstructorInfo> lprs2InstructorsBulk(List<LprInfo> lprs) {
         List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
+        
+        if (lprs == null || lprs.size() == 0)
+            return results;
+        
         //Map with the key of principalId and value of List<Person>
         Map<String, List<Person>> lpr2PersonMap = new HashMap<String, List<Person>>(lprs.size());
 
