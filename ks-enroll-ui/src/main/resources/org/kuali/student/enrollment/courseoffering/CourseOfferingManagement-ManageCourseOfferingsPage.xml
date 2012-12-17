@@ -42,25 +42,12 @@
 
                 <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('This will mark all Activity Offerings in this Subject Code as: Ready for Scheduling')"
                       p:methodToCall="markSubjectCodeReadyForScheduling"
-                      p:actionLabel="Approve Subject Code for Scheduling" p:render="@{!#parent.readOnly}"/>
+                      p:actionLabel="Approve Subject Code for Scheduling" p:disabled="@{#parent.readOnly}"/>
                 <bean parent="Uif-Label" p:labelText="Current Course Offerings" p:render="@{!courseOfferingResultList.empty}"/>
-                <bean parent="Uif-VerticalPermissionSection">
-                    <property name="id" value="KS-CourseOfferingManagement-CourseOfferingResultSectionCreateCourse"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:render="@{!courseOfferingResultList.empty}"/>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:disabled="@{#parent.readOnly}" p:render="@{!courseOfferingResultList.empty}"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
-                <bean parent="Uif-VerticalPermissionSection">
-                    <property name="id" value="KS-CourseOfferingManagement-CourseOfferingResultSectionBottomCreateCourse"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering"/>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Create Course Offering" p:methodToCall="createCourseOffering" p:disabled="@{#parent.readOnly}"/>
+
             </list>
         </property>
     </bean>
@@ -124,7 +111,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection" parent="Uif-VerticalBoxSection" p:render="@{!#parent.readOnly}">
+    <bean id="KS-CourseOfferingManagement-CourseOfferingActionSection" parent="Uif-VerticalBoxSection" >
         <property name="items">
         <list>
             <bean parent="Uif-HorizontalBoxSection">
@@ -132,30 +119,19 @@
                     <list>
                         <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
                             <property name="control">
-                                <bean parent="Uif-DropdownControl"/>
+                                <bean parent="Uif-DropdownControl" p:disabled="@{#parent.readOnly}"/>
                             </property>
                             <property name="optionsFinder">
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingActionsKeyValues"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedCOActions" p:style="margin-top: 18px;"
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:disabled="@{#parent.readOnly}" p:methodToCall="selectedCOActions" p:style="margin-top: 18px;"
                               p:preSubmitCall="return confirm('This will mark all checked Activity Offerings as Ready for Scheduling')" />
                     </list>
                 </property>
             </bean>
         </list>
         </property>
-    </bean>
-
-    <bean id="Uif-VerticalPermissionSection" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="" />
-        <property name="disclosure.render" value="false"/>
-        <property name="componentSecurity.viewAuthz" value="true"/>
-    </bean>
-    <bean id="Uif-HorizontalPermissionSection" parent="Uif-HorizontalBoxSection">
-        <property name="headerText" value="" />
-        <property name="disclosure.render" value="false"/>
-        <property name="componentSecurity.viewAuthz" value="true"/>
     </bean>
 
 </beans>
