@@ -22,3 +22,11 @@ insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCL
 /
 insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.room.facility.state.offline', null, 'Offline', 'The facility is offline and not available for use', 'The facility is offline and not available for use', 'kuali.room.facility.lifecycle', null, null, 0, to_date('2012-12-11', 'YYYY-MM-DD'), 'SYSTEMLOADER', null, null)
 /
+-- Room Responsible Org lifecycle
+insert into KSEN_STATE_LIFECYCLE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.room.responsible.org.lifecycle', null, 'Lifecycle for Room Responsible Org', 'Lifecycle for Room Responsible Org', 'Lifecycle for Room Responsible Org', null, 1, to_date('2012-12-17', 'YYYY-MM-DD'), 'SYSTEMLOADER', null, null)
+/
+-- Room Responsible Org states
+insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.room.responsible.org.state.active', null, 'Active', 'The schedule is active', 'The schedule is active', 'kuali.room.responsible.org.lifecycle', null, null, 0, to_date('2012-12-17', 'YYYY-MM-DD'), 'SYSTEMLOADER', null, null)
+/
+insert into KSEN_STATE (ID, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, LIFECYCLE_KEY, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.room.responsible.org.state.inactive', null, 'Inactive', 'The schedule is inactive', 'The schedule is inactive', 'kuali.room.responsible.org.lifecycle', null, null, 0, to_date('2012-12-17', 'YYYY-MM-DD'), 'SYSTEMLOADER', null, null)
+/
