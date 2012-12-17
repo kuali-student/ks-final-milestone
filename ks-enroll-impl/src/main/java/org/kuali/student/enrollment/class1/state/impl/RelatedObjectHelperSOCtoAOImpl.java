@@ -30,13 +30,27 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
 
 import javax.xml.namespace.QName;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public class RelatedObjectHelperSOCtoAOImpl implements RelatedObjectHelper {
+
     private CourseOfferingSetService courseOfferingSetService;
     private CourseOfferingService courseOfferingService;
+
+    @Override
+    public Map<String, String> getRelatedObjectsIdAndState(String socId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Map<String,String> idsAndState = new HashMap<String, String>();
+        List<String> coIds = getCourseOfferingSetService().getCourseOfferingIdsBySoc(socId, contextInfo);
+        for (String coId : coIds) {
+            List<ActivityOfferingInfo> activityOfferings = getCourseOfferingService().getActivityOfferingsByCourseOffering(coId, contextInfo);
+            for (ActivityOfferingInfo ao : activityOfferings) {
+                idsAndState.put(ao.getId(),ao.getStateKey());
+            }
+        }
+        return idsAndState;
+    }
 
     protected CourseOfferingSetService getCourseOfferingSetService(){
         if (courseOfferingSetService == null){
@@ -52,21 +66,4 @@ public class RelatedObjectHelperSOCtoAOImpl implements RelatedObjectHelper {
         return  courseOfferingService;
     }
 
-    @Override
-    public Set<String> getRelatedObjectStateKeys(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public Set<String> getRelatedObjectIds(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        Set<String> aoIds = new HashSet<String>();
-        List<String> coIds = getCourseOfferingSetService().getCourseOfferingIdsBySoc(entityId, contextInfo);
-        for (String coId : coIds) {
-            List<ActivityOfferingInfo> activityOfferings = getCourseOfferingService().getActivityOfferingsByCourseOffering(coId, contextInfo);
-            for (ActivityOfferingInfo ao : activityOfferings) {
-                aoIds.add(ao.getId());
-            }
-        }
-        return aoIds;
-    }
 }

@@ -14,10 +14,8 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Version 2.0
@@ -31,31 +29,16 @@ public class RelatedObjectHelperAOtoFOImpl implements RelatedObjectHelper {
     public RelatedObjectHelperAOtoFOImpl() {
     }
 
-    protected CourseOfferingService getCourseOfferingService(){
-        if (courseOfferingService == null){
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return  courseOfferingService;
-    }
-
     @Override
-    public Set<String> getRelatedObjectStateKeys(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Map<String, String> getRelatedObjectsIdAndState(String activityOfferingId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        Set<String> coStateKeySet = new HashSet<String>();
+        Map<String, String> idsAndStatesMap = new HashMap<String, String>();
 
-        coStateKeySet.add(getFormatOfferingInfoByActivityOfferingId(activityOfferingId, contextInfo).getStateKey());
+        FormatOfferingInfo formatOfferingInfo = getFormatOfferingInfoByActivityOfferingId(activityOfferingId, contextInfo);
+        idsAndStatesMap.put(formatOfferingInfo.getId(), formatOfferingInfo.getStateKey());
 
-        return coStateKeySet;
-    }
-
-    @Override
-    public Set<String> getRelatedObjectIds(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        Set<String> coIdList = new HashSet<String>();
-
-        coIdList.add(getFormatOfferingInfoByActivityOfferingId(activityOfferingId, contextInfo).getId());
-
-        return coIdList;
+        return idsAndStatesMap;
     }
 
     private FormatOfferingInfo getFormatOfferingInfoByActivityOfferingId(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -66,5 +49,12 @@ public class RelatedObjectHelperAOtoFOImpl implements RelatedObjectHelper {
         formatOfferingInfo = getCourseOfferingService().getFormatOffering(activityOfferingInfo.getFormatOfferingId(), contextInfo);
 
         return formatOfferingInfo;
+    }
+
+    protected CourseOfferingService getCourseOfferingService(){
+        if (courseOfferingService == null){
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return  courseOfferingService;
     }
 }

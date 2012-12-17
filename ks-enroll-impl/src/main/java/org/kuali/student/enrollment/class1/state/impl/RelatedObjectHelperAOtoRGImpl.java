@@ -30,9 +30,9 @@ import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  *  @Version 2.0
@@ -43,38 +43,17 @@ public class RelatedObjectHelperAOtoRGImpl implements RelatedObjectHelper {
 
     private CourseOfferingService courseOfferingService;
 
-    protected CourseOfferingService getCourseOfferingService(){
-        if (courseOfferingService == null){
-            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return  courseOfferingService;
-    }
-
     @Override
-    public Set<String> getRelatedObjectStateKeys(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        Set<String> rgStateKeySet = new HashSet<String>();
-
-        List<RegistrationGroupInfo> regInfos = getRegistrationGroupInfosByActivityOfferingId(activityOfferingId, contextInfo);
-
-        for(RegistrationGroupInfo regInfo : regInfos)  {
-            rgStateKeySet.add(regInfo.getStateKey());
-        }
-        return rgStateKeySet;
-    }
-
-    @Override
-    public Set<String> getRelatedObjectIds(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        Set<String> coIdList = new HashSet<String>();
+    public Map<String, String> getRelatedObjectsIdAndState(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Map<String,String> idsAndStates = new HashMap<String,String>();
 
         List<RegistrationGroupInfo> registrationGroupInfos = getRegistrationGroupInfosByActivityOfferingId(activityOfferingId, contextInfo);
 
         for(RegistrationGroupInfo regInfo : registrationGroupInfos)  {
-            coIdList.add(regInfo.getId());
+            idsAndStates.put(regInfo.getId(),regInfo.getStateKey());
         }
 
-        return coIdList;
+        return idsAndStates;
     }
 
     private List<RegistrationGroupInfo> getRegistrationGroupInfosByActivityOfferingId(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -87,4 +66,13 @@ public class RelatedObjectHelperAOtoRGImpl implements RelatedObjectHelper {
 
         return registrationGroupInfos;
     }
+
+    protected CourseOfferingService getCourseOfferingService(){
+        if (courseOfferingService == null){
+            courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return  courseOfferingService;
+    }
+
+
 }

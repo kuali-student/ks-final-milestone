@@ -29,8 +29,10 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
 
 import javax.xml.namespace.QName;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -43,18 +45,13 @@ public class RelatedObjectHelperCOtoFOImpl implements RelatedObjectHelper {
     private CourseOfferingService courseOfferingService;
 
     @Override
-    public Set<String> getRelatedObjectStateKeys(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Map<String, String> getRelatedObjectsIdAndState(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<FormatOfferingInfo> formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(entityId, contextInfo);
-        Set<String> stateKeys = new HashSet<String>();
+        Map<String,String> idsAndState = new HashMap<String, String>();
         for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
-             stateKeys.add(formatOfferingInfo.getStateKey());
+            idsAndState.put(formatOfferingInfo.getId(), formatOfferingInfo.getStateKey());
         }
-        return stateKeys;
-    }
-
-    @Override
-    public Set<String> getRelatedObjectIds(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return idsAndState;
     }
 
     protected CourseOfferingService getCourseOfferingService(){
@@ -63,4 +60,6 @@ public class RelatedObjectHelperCOtoFOImpl implements RelatedObjectHelper {
         }
         return  courseOfferingService;
     }
+
+
 }
