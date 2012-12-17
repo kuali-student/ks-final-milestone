@@ -479,6 +479,13 @@ public class CourseSummaryConfigurer extends Configurer implements
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" + INSTRUCTORS,
                 generateMessageInfo(LUUIConstants.INSTRUCTORS_LABEL_KEY), null,
                 null, null, new KeyListModelWigetBinding("personId"), false));
+
+        // block.addSummaryTableFieldRow(getFieldRow(COURSE + "/" +
+        // PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN,
+        // generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY)));
+        // block.addSummaryTableFieldRow(getFieldRow("proposal/rationale",
+        // generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY)));
+
         return block;
     }
 
@@ -514,7 +521,7 @@ public class CourseSummaryConfigurer extends Configurer implements
         block.addSummaryTableFieldRow(getFieldRow(COURSE + "/"
                 + PROPOSAL_DESCRIPTION + "/" + RichTextInfoConstants.PLAIN,
                 generateMessageInfo(LUUIConstants.DESCRIPTION_LABEL_KEY)));
-        block.addSummaryTableFieldRow(getFieldRow(PROPOSAL + "/" + PROPOSED_RATIONALE + "/" + RichTextInfoConstants.PLAIN,
+        block.addSummaryTableFieldRow(getFieldRow("proposal/rationale",
                 generateMessageInfo(LUUIConstants.PROPOSAL_RATIONALE_LABEL_KEY)));
 
         return block;

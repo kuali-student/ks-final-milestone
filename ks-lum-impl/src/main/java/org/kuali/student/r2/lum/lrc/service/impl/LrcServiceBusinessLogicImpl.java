@@ -17,7 +17,10 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -229,7 +232,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
         StringBuilder sb = new StringBuilder();
         sb.append(creditValueMin).append(" - ").append(creditValueMax);
-        if (!creditValueIncrement.equals("1")) {
+        if (creditValueIncrement!=null && !"1".equals(creditValueIncrement) && !"1.0".equals(creditValueIncrement)) {
             sb.append(" by ").append(creditValueIncrement);
         }
         return sb.toString();
@@ -334,19 +337,32 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
                                 LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length() - 1);
 
             sb.append(baseType);
+            sb.append(".");
 
-            for (String value : values) {
-                sb.append(".");
+            Collections.sort(values, new Comparator<String>() {
+                public int compare(String o1, String o2) {
+                    return Float.compare(Float.parseFloat(o1),Float.parseFloat(o2));
+                }
+            });
+
+            for (Iterator<String> i = values.iterator();i.hasNext();) {
+                String value = i.next();
                 sb.append(value);
+                if(i.hasNext()){
+                    sb.append(",");
+                }
             }
             return sb.toString();
         }
         if (scaleKey.equals(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_REMEDIAL)) {
             StringBuilder sb = new StringBuilder();
-            sb.append("kuali.result.group.credit.remedial.multiple");
-            for (String value : values) {
-                sb.append(".");
+            sb.append("kuali.result.group.credit.remedial.multiple.");
+            for (Iterator<String> i = values.iterator();i.hasNext();) {
+                String value = i.next();
                 sb.append(value);
+                if(i.hasNext()){
+                    sb.append(",");
+                }
             }
             return sb.toString();
         }

@@ -38,7 +38,6 @@ import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
@@ -350,7 +349,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         return result;
     }
 
-    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         if(query == null) {
             return null;
         }

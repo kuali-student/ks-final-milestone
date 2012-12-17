@@ -33,7 +33,8 @@ public class KualiStudentKimAttributes implements ExternalizableBusinessObject {
 	public static final String QUALIFICATION_DEPARTMENT_ID          = "departmentId";
 	public static final String QUALIFICATION_DIVISION_ID            = "divisionId";
 	public static final String QUALIFICATION_COLLEGE_ID             = "collegeId";
-	public static final String QUALIFICATION_ORG_ID                 = "orgId";
+//	public static final String QUALIFICATION_ORG_ID                 = "orgId";
+    public static final String QUALIFICATION_ORG_ID                 = "org";
 
 	public static final String QUALIFICATION_DATA_ID                = "dataId";
 	public static final String QUALIFICATION_CLU_ID                 = "cluId";

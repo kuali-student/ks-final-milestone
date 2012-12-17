@@ -1377,12 +1377,12 @@
  </bean>
  <bean id="courseRevenueInfo.id" parent="courseRevenueInfo.id-parent"/>
  
-    <bean id="courseRevenueInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+    <bean id="courseRevenueInfo.stateKey-parent" abstract="true" parent="baseKualiStateRequired">
         <property name="name" value="stateKey"/>
     </bean>
     <bean id="courseRevenueInfo.stateKey" parent="courseRevenueInfo.stateKey-parent"/>
     
-    <bean id="courseRevenueInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+    <bean id="courseRevenueInfo.typeKey-parent" abstract="true" parent="baseKualiStateRequired">
         <property name="name" value="typeKey"/>
     </bean>
     <bean id="courseRevenueInfo.typeKey" parent="courseRevenueInfo.typeKey-parent"/>
@@ -2186,7 +2186,6 @@
 	parent="baseString">
 	<property name="minOccurs" value="1" />
     <property name="maxOccurs" value="unbounded" />
-    <property name="validChars" ref="numeric"/>
  </bean>
  <bean id="resultValuesGroupInfo.credit.multiple-constraint" parent="resultValuesGroupInfo.credit.multiple-constraint-parent" />
  

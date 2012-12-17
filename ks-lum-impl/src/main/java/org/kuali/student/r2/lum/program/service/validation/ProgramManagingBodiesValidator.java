@@ -9,7 +9,6 @@ import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 //import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -76,7 +75,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         return validationResults;
     }
 
-    private List<String> getDepartmentRelatedColleges(List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private List<String> getDepartmentRelatedColleges(List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<String> departmentRelatedCollegeIds = new ArrayList<String>();
         SearchRequestInfo searchRequest = new SearchRequestInfo("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds");
 
@@ -102,7 +101,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         return departmentRelatedCollegeIds;
     }
 
-    private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
+    private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
         String message = getMessage("validation.programManagingBodiesMatch", contextInfo );
@@ -118,7 +117,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         return validationResults;
     }
 
-    private String getCollegeName(String collegeId, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private String getCollegeName(String collegeId, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         String collegeName = "";
         SearchRequestInfo searchRequest = new SearchRequestInfo("org.search.generic");
 
@@ -142,7 +141,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
         return collegeName;
     }
 
-    private List<String> getDepartments(List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private List<String> getDepartments(List<String> departmentIds, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<String> departments = new ArrayList<String>();
         SearchRequestInfo searchRequest = new SearchRequestInfo("org.search.generic");
 

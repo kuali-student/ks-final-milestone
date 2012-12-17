@@ -84,9 +84,31 @@ public class CluServiceImpl implements CluService {
     }
 
     @Override
-    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getSearchType(String searchTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
         return searchManager.getSearchType(searchTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchResultTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchResultTypes(contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
     public SearchManager getSearchManager() {
@@ -2321,7 +2343,7 @@ public class CluServiceImpl implements CluService {
         return newCluSetInfo;
     }
 
-    private void setMembershipQuerySearchResult(CluSetInfo cluSetInfo, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private void setMembershipQuerySearchResult(CluSetInfo cluSetInfo, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         if (cluSetInfo.getMembershipQuery() == null) {
             return;
         }
@@ -2329,7 +2351,7 @@ public class CluServiceImpl implements CluService {
         cluSetInfo.getCluIds().addAll(cluIds);
     }
 
-    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
+    private List<String> getMembershipQuerySearchResult(MembershipQueryInfo query, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (query == null) {
             return null;
         }
@@ -2979,7 +3001,7 @@ public class CluServiceImpl implements CluService {
         return statusInfo;
     }
 
-    private SearchResultInfo doBrowseProgramSearch(ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private SearchResultInfo doBrowseProgramSearch(ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         //This is our main result
         SearchResultInfo programSearchResults = searchManager.search(new SearchRequestInfo(SEARCH_KEY_BROWSE_PROGRAM), contextInfo);
 
@@ -3219,7 +3241,7 @@ public class CluServiceImpl implements CluService {
     }
 
     private SearchResultInfo doDependencyAnalysisSearch(String cluId, ContextInfo contextInfo) throws MissingParameterException,
-            DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+            DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         checkForMissingParameter(cluId, "cluId");
 
@@ -3522,7 +3544,7 @@ public class CluServiceImpl implements CluService {
 
     }
 
-    private SearchResultInfo doSearchProposalsByCourseCode(String courseCode, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private SearchResultInfo doSearchProposalsByCourseCode(String courseCode, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         if(courseCode==null||courseCode.isEmpty()){
             return new SearchResultInfo();
         }
@@ -3580,7 +3602,7 @@ public class CluServiceImpl implements CluService {
      * @return
      * @throws MissingParameterException
      */
-    private SearchResultInfo doBrowseVersionsSearch(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private SearchResultInfo doBrowseVersionsSearch(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         SearchResultInfo searchResult = searchManager.search(searchRequest, contextInfo);
 
         Map<String,List<SearchResultCellInfo>> atpIdToCellMapping = new HashMap<String,List<SearchResultCellInfo>>();
@@ -3630,7 +3652,7 @@ public class CluServiceImpl implements CluService {
      * @return
      * @throws MissingParameterException
      */
-    private SearchResultInfo doResultComponentTypesForCluSearch(SearchRequestInfo cluSearchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private SearchResultInfo doResultComponentTypesForCluSearch(SearchRequestInfo cluSearchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         SearchResultInfo searchResult = searchManager.search(cluSearchRequest, contextInfo);
 
@@ -3680,7 +3702,7 @@ public class CluServiceImpl implements CluService {
 
     @Override
     @Transactional(readOnly=true)
-    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
         checkForMissingParameter(searchRequest, "searchRequest");
 
         if (SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())) {
