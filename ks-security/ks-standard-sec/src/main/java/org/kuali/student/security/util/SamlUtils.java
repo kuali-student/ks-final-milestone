@@ -40,7 +40,6 @@ import org.apache.xml.security.signature.XMLSignature;
 import org.apache.xml.security.signature.XMLSignatureException;
 import org.apache.xml.security.transforms.Transforms;
 import org.apache.xml.security.utils.Constants;
-import org.apache.xml.security.utils.ElementProxy;
 import org.apache.xpath.XPathAPI;
 import org.opensaml.SAMLAssertion;
 import org.opensaml.SAMLAttribute;
@@ -140,7 +139,7 @@ public class SamlUtils {
     public static Document signAssertion(SAMLAssertion assertion) throws XMLSecurityException, KeyStoreException, 
                             NoSuchAlgorithmException, CertificateException, IOException, UnrecoverableKeyException, 
                             ParserConfigurationException, DOMException, SAMLException {
-        ElementProxy.setDefaultPrefix(Constants.SignatureSpecNS, "ds");
+        Constants.setSignatureSpecNSprefix("ds");
         
         ClassLoader classLoader = SamlUtils.class.getClassLoader();
         URL url = classLoader.getResource(keystoreFile);

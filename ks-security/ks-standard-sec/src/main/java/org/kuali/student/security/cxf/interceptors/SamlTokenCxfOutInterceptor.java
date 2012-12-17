@@ -15,7 +15,10 @@
 
 package org.kuali.student.security.cxf.interceptors;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -293,11 +296,6 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
             return Phase.POST_PROTOCOL;
         }
 
-        @Override
-        public Collection<PhaseInterceptor<? extends org.apache.cxf.message.Message>> getAdditionalInterceptors() {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
-        }
-
         public void handleFault(SoapMessage message) {
             //nothing
         }
@@ -409,7 +407,7 @@ public class SamlTokenCxfOutInterceptor extends AbstractWSS4JInterceptor {
             String id = bodyElement.getAttributeNS(WSConstants.WSU_NS, "Id");
 
             if ((id == null) || (id.length() == 0)) {
-                id = WSSConfig.getNewInstance().getIdAllocator().createId("id-", bodyElement);
+                id = WSSConfig.getDefaultWSConfig().getIdAllocator().createId("id-", bodyElement);
                 String prefix = 
                     WSSecurityUtil.setNamespace(bodyElement, WSConstants.WSU_NS, WSConstants.WSU_PREFIX);
                 bodyElement.setAttributeNS(WSConstants.WSU_NS, prefix + ":Id", id);
