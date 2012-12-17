@@ -6,6 +6,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ActivityOfferingTransformer {
-
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ActivityOfferingTransformer.class);
     /**
      * Transform a list of LuiInfos into Activity Offerings. It is the bulk version of lui2Activity transformer
      *
@@ -53,8 +54,9 @@ public class ActivityOfferingTransformer {
             return new ArrayList<ActivityOfferingInfo>(0);
 
         List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>(luiInfos.size());
-
+        Map<String, List<OfferingInstructorInfo>> luiToInstructorsMap = new HashMap<String, List<OfferingInstructorInfo>>();
         Map<String, List<LprInfo>> luiToLprsMap = new HashMap<String, List<LprInfo>>();
+        Map<String, OfferingInstructorInfo> lprToInstructorMap = new HashMap<String, OfferingInstructorInfo>();
         Map<String, ScheduleInfo> scheduleIdToScheduleMap = new HashMap<String, ScheduleInfo>();
         Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = new HashMap<String, List<ScheduleRequestInfo>>();
 
@@ -69,13 +71,20 @@ public class ActivityOfferingTransformer {
 
         //Bulk load a list a lprs by a list of lui ids. Cache the results set in a map.
         List<LprInfo> lprs = lprService.getLprsByLuis(luiIds, context);
+        List<OfferingInstructorInfo> coInstructors = OfferingInstructorTransformer.lprs2InstructorsBulk(lprs);
+
+        //construct map for lpr to OfferingInstructorInfo
+        for (OfferingInstructorInfo coInstructor : coInstructors) {
+            lprToInstructorMap.put(coInstructor.getId(), coInstructor);
+        }
+        //construct map for lui to List<OfferingInstructorInfo>
         for (LprInfo lprInfo : lprs) {
-            List<LprInfo> lprList = luiToLprsMap.get(lprInfo.getLuiId());
-            if (lprList == null) {
-                lprList = new ArrayList<LprInfo>();
-                luiToLprsMap.put(lprInfo.getLuiId(), lprList);
+            List<OfferingInstructorInfo> coInstructorList = luiToInstructorsMap.get(lprInfo.getLuiId());
+            if (coInstructorList == null) {
+                coInstructorList = new ArrayList<OfferingInstructorInfo>();
+                luiToInstructorsMap.put(lprInfo.getLuiId(), coInstructorList);
             }
-            lprList.add(lprInfo);
+            coInstructorList.add(lprToInstructorMap.get(lprInfo.getId()));
         }
 
         //Bulk load a list a ScheduleInfos by a list of scheduleIds. Cache the results set in a map.
@@ -100,7 +109,7 @@ public class ActivityOfferingTransformer {
         }
 
         for (LuiInfo luiInfo : luiInfos) {
-            aoInfos.add(lui2Activity(luiInfo, luiToLprsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap));
+            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap));
         }
 
 
@@ -113,13 +122,13 @@ public class ActivityOfferingTransformer {
      * service calls inside to retrieve lprs, ScheduleInfo and ScheduleRequestInfos
      *
      * @param lui                           the LuiInfo
-     * @param luiToLprsMap                  the cached map of luiId to Lprs
+     * @param luiToInstructorsMap           the cached map of luiId to OfferingInstructorInfos
      * @param scheduleIdToScheduleMap       the cached map of scheduleId to ScheduleInfo
      * @param luiToScheduleRequestsMap      the cached map of luiId to ScheduleRequestInfos
      * @return an ActivityOfferingInfo
      */
     public static ActivityOfferingInfo lui2Activity(LuiInfo lui,
-                                                    Map<String, List<LprInfo>> luiToLprsMap,
+                                                    Map<String, List<OfferingInstructorInfo>> luiToInstructorsMap,
                                                     Map<String, ScheduleInfo> scheduleIdToScheduleMap,
                                                     Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap) {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
@@ -162,11 +171,10 @@ public class ActivityOfferingTransformer {
         }
 
         // build list of OfferingInstructors
-        List<LprInfo> lprs = luiToLprsMap.get(ao.getId());
-        if (lprs != null && !lprs.isEmpty()) {
-            ao.setInstructors(OfferingInstructorTransformer.lprs2Instructors(lprs));
+        List<OfferingInstructorInfo> instructors = luiToInstructorsMap.get(ao.getId());
+        if (instructors != null && !instructors.isEmpty()) {
+            ao.setInstructors(instructors);
         }
-
         // derive the scheduling state
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
