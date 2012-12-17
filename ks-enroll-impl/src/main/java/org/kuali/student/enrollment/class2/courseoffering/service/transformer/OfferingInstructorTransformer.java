@@ -100,6 +100,13 @@ public class OfferingInstructorTransformer {
 
     }
 
+    /**
+     * Transform a list of LprInfo into a list of OfferingInstructorInfo.
+     * When retrieving the person name from KIM service, "in clause" search criteria is used to perform the bulking loading
+     *
+     * @param lprs  List<LprInfo>
+     * @return      a list of OfferingInstructorInfo
+     */
     public static List<OfferingInstructorInfo> lprs2InstructorsBulk(List<LprInfo> lprs) {
         List<OfferingInstructorInfo> results = new ArrayList<OfferingInstructorInfo>(lprs.size());
         //Map with the key of principalId and value of List<Person>
@@ -141,6 +148,8 @@ public class OfferingInstructorTransformer {
             personList.add(person);
         }
 
+        //iterate the lpr list and transform them one by one into OfferingInstructorInfo
+        //no service calls are made inside this loop
         for(LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
@@ -189,6 +198,13 @@ public class OfferingInstructorTransformer {
         OfferingInstructorTransformer.personService = personService;
     }
 
+    /**
+     * Transform a list of OfferingInstructorInfo into a list of LprInfo.
+     *
+     * @param luiInfo       the LuiInfo that the lprs are attached to
+     * @param instructors   List<OfferingInstructorInfo>
+     * @return              a list of LprInfo
+     */
     public static List<LprInfo> instructors2Lprs(LuiInfo luiInfo, List<OfferingInstructorInfo> instructors) {
 
         List<LprInfo> results = new ArrayList<LprInfo>(instructors.size());
