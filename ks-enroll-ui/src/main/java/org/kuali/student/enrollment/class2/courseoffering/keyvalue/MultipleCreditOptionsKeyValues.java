@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 
 import java.io.Serializable;
@@ -39,7 +39,7 @@ public class MultipleCreditOptionsKeyValues extends UifKeyValuesFinderBase imple
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        MaintenanceForm form1 = (MaintenanceForm)model;
+        MaintenanceDocumentForm form1 = (MaintenanceDocumentForm)model;
         CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();

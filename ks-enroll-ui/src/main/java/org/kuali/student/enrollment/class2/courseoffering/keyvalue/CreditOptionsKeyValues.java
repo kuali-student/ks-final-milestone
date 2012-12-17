@@ -21,7 +21,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -52,7 +52,7 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        MaintenanceForm form1 = (MaintenanceForm)model;
+        MaintenanceDocumentForm form1 = (MaintenanceDocumentForm)model;
         CourseOfferingEditWrapper form = (CourseOfferingEditWrapper)form1.getDocument().getDocumentDataObject();
 
         String courseId = form.getCoInfo().getCourseId();

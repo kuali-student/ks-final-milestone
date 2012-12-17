@@ -24,7 +24,7 @@ import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -62,7 +62,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
      * @param form
      */
     @SuppressWarnings("unused")
-    public void populateGradeRosterLevelTypes(InputField field, MaintenanceForm form){
+    public void populateGradeRosterLevelTypes(InputField field, MaintenanceDocumentForm form){
 
         if (field.isReadOnly()){
             return;
@@ -95,7 +95,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
      * @param form
      */
     @SuppressWarnings("unused")
-    public void populateFinalExamDriverTypes(InputField field, MaintenanceForm form){
+    public void populateFinalExamDriverTypes(InputField field, MaintenanceDocumentForm form){
 
         if (field.isReadOnly()){
             return;
