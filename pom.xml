@@ -23,6 +23,22 @@
     <name>KSAP</name>
     <description>Kuali Student Academic Planning Module</description>
 
+		<properties>
+			<jdk.min.version>1.7</jdk.min.version>
+		</properties>
+
+		<build>
+		  <plugins>
+		    <plugin>
+		      <artifactId>maven-compiler-plugin</artifactId>
+		      <configuration>
+		        <source>1.7</source>
+		        <target>1.7</target>
+		      </configuration>
+		    </plugin>
+		  </plugins>
+		</build>
+
     <profiles>
         <profile>
             <id>default</id>
@@ -30,6 +46,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+                <module>ks-ap-framework</module>
                 <module>ks-ap-impl</module>
                 <module>ks-ap-ui</module>
                 <module>ks-ap-web</module>

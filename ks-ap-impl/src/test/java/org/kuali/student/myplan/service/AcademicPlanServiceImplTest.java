@@ -1,7 +1,6 @@
 package org.kuali.student.myplan.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -39,7 +38,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:academic-plan-test-context.xml" })
+@ContextConfiguration(locations = { "classpath:ks-ap-test-context.xml" })
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class AcademicPlanServiceImplTest {
@@ -201,9 +200,8 @@ public class AcademicPlanServiceImplTest {
 		String id = "lp1";
 
 		// Make sure the plan exists and has some plan items.
-		LearningPlan plan = null;
 		try {
-			plan = academicPlanService.getLearningPlan(id, context);
+			academicPlanService.getLearningPlan(id, context);
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
@@ -224,7 +222,7 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(0, itemCount);
 
 		try {
-			plan = academicPlanService.getLearningPlan(id, context);
+			academicPlanService.getLearningPlan(id, context);
 		} catch (Exception e) {
 			// Swallow anything but DoesNotExistException.
 			if (e instanceof DoesNotExistException) {
@@ -433,7 +431,7 @@ public class AcademicPlanServiceImplTest {
 		assertNotNull(fetchedPlanItem.getMeta().getUpdateTime());
 
 		// Save meta data info.
-		Date originalUpdateDate = newPlanItem.getMeta().getUpdateTime();
+		newPlanItem.getMeta().getUpdateTime();
 
 		// Update the plan item and save.
 		fetchedPlanItem.getPlanPeriods().remove("kuali.uw.atp.2011.1");
@@ -495,13 +493,8 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
-		PlanItem newPlanItem = null;
-		try {
-			newPlanItem = academicPlanService.createPlanItem(planItem, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
-
+		academicPlanService.createPlanItem(planItem, context);
+		
 		// Now violate the plan, type, course id uniqiue constraint by re-adding
 		// the course.
 		academicPlanService.createPlanItem(planItem, context);
@@ -540,10 +533,8 @@ public class AcademicPlanServiceImplTest {
 				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		// Create the plan item
-		PlanItemInfo newPlanItem = null;
 		try {
-			newPlanItem = academicPlanService.createPlanItem(planItemInfo,
-					context);
+			academicPlanService.createPlanItem(planItemInfo, context);
 		} catch (Exception e) {
 			// TODO: Verify the correct exception was thrown.
 			return;
@@ -649,7 +640,6 @@ public class AcademicPlanServiceImplTest {
 			academicPlanService.createPlanItem(planItem, context);
 		} catch (DataValidationErrorException dvee) {
 			assertEquals(2, dvee.getValidationResults().size());
-			List<ValidationResultInfo> results = dvee.getValidationResults();
 			ValidationResultInfo resultInfo = dvee.getValidationResults()
 					.get(0);
 			assertEquals("refObjectId", resultInfo.getElement());
@@ -685,9 +675,8 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
-		PlanItem newPlanItem = null;
 		try {
-			newPlanItem = academicPlanService.createPlanItem(planItem, context);
+			academicPlanService.createPlanItem(planItem, context);
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
@@ -726,9 +715,8 @@ public class AcademicPlanServiceImplTest {
 		String id = "lp1";
 
 		// Make sure the plan exists and has some plan items.
-		LearningPlan plan = null;
 		try {
-			plan = academicPlanService.getLearningPlan(id, context);
+			academicPlanService.getLearningPlan(id, context);
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
@@ -767,7 +755,6 @@ public class AcademicPlanServiceImplTest {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
 		planItemInfo.setTypeKey("YY");
-		ContextInfo contextInfo = new ContextInfo();
 		List<ValidationResultInfo> validationResultInfos = null;
 		try {
 			validationResultInfos = academicPlanService.validatePlanItem(
@@ -797,9 +784,8 @@ public class AcademicPlanServiceImplTest {
 			AlreadyExistsException, DoesNotExistException,
 			OperationFailedException {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
-		planItemInfo.setRefObjectId("XX");
+		planItemInfo.setRefObjectId("006c881f-2250-4844-8e57-c297049c61f3");
 		planItemInfo.setTypeKey("kuali.academicplan.item.planned");
-		ContextInfo contextInfo = new ContextInfo();
 		List<ValidationResultInfo> validationResultInfos = null;
 		try {
 			validationResultInfos = academicPlanService.validatePlanItem(
@@ -817,7 +803,7 @@ public class AcademicPlanServiceImplTest {
 		assertEquals("error.required", validationResultInfos.get(2)
 				.getMessage());
 		assertEquals("stateKey", validationResultInfos.get(2).getElement());
-		assertEquals("Could not find course with ID [XX].",
+		assertEquals("Could not find course with ID [006c881f-2250-4844-8e57-c297049c61f3].",
 				validationResultInfos.get(3).getMessage());
 		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
 		assertEquals(
@@ -834,7 +820,6 @@ public class AcademicPlanServiceImplTest {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
 		planItemInfo.setTypeKey("kuali.academicplan.item.backup");
-		ContextInfo contextInfo = new ContextInfo();
 		List<ValidationResultInfo> validationResultInfos = null;
 		try {
 			validationResultInfos = academicPlanService.validatePlanItem(

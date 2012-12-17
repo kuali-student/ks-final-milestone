@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- Copy per-module to src/test/resources
+		
+		This context file builds the Kuali Rice container, then bootstraps
+		KS services required by KSAP. Further KSAP configuration belongs in
+		
+		src/test/resources/META-INF/ks-ap/ap-test-context.xml
+		
+		/mwfyffe 2012-12-16
+	-->
+
+    <context:annotation-config/>
+
+    <bean id="defaultConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+        <property name="configLocations">
+            <list>
+                <value>classpath:META-INF/ks-ap/ap-test-config.xml</value>
+            </list>
+        </property>
+        <property name="initialize" value="true" />
+    </bean>
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{defaultConfig.getProperties()}" />
+    </bean>
+
+    <bean id="transactionManagerXAPool" class="org.springframework.transaction.jta.JotmFactoryBean">
+        <property name="defaultTimeout" value="${transaction.timeout}"/>
+    </bean>
+    <alias name="transactionManagerXAPool" alias="apTransactionManager" />
+    <alias name="transactionManagerXAPool" alias="apUserTransaction" />
+
+    <bean id="JtaTxManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="userTransaction">
+            <ref bean="transactionManager${connection.pool.impl}"/>
+        </property>
+        <property name="transactionManager">
+            <ref bean="transactionManager${connection.pool.impl}"/>
+        </property>
+        <property name="defaultTimeout" value="${transaction.timeout}"/>
+    </bean>
+
+    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager">
+            <ref bean="JtaTxManager"/>
+        </property>
+    </bean>
+
+    <bean id="apDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+        <property name="transactionManager" ref="transactionManagerXAPool"/>
+        <property name="driverClassName" value="${ks.ap.datasource.driver.name}"/>
+        <property name="url" value="${ks.ap.datasource.url}"/>
+        <property name="maxSize" value="${ks.ap.datasource.maxSize}"/>
+        <property name="minSize" value="${ks.ap.datasource.minSize}"/>
+        <property name="maxWait" value="${ks.ap.datasource.maxWait}"/>
+        <property name="validationQuery" value="${ks.ap.datasource.validationQuery}"/>
+        <property name="username" value="${ks.ap.datasource.username}"/>
+        <property name="password" value="${ks.ap.datasource.password}"/>
+    </bean>
+
+    <bean id="apNonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${ks.ap.datasource.driver.name}"/>
+        <property name="url" value="${ks.ap.datasource.url}"/>
+        <property name="maxActive" value="${ks.ap.datasource.maxSize}"/>
+        <property name="minIdle" value="${ks.ap.datasource.minSize}"/>
+        <property name="initialSize" value="${ks.ap.datasource.minSize}"/>
+        <property name="validationQuery" value="${ks.ap.datasource.validationQuery}"/>
+        <property name="username" value="${ks.ap.datasource.username}"/>
+        <property name="password" value="${ks.ap.datasource.password}"/>
+        <property name="accessToUnderlyingConnectionAllowed" value="true"/>
+    </bean>
+
+	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer"
+			depends-on="defaultConfig">
+		<property name="userTransaction" ref="transactionManagerXAPool" />
+		<property name="transactionManager" ref="transactionManagerXAPool" />
+		<property name="dataSource" ref="apDataSourceXAPool" />
+		<property name="nonTransactionalDataSource" ref="apNonTransactionalDataSource" />
+		<property name="serverDataSource" ref="apDataSourceXAPool" />
+	</bean>
+
+	<bean name="quartzScheduler"
+			class="org.springframework.scheduling.quartz.SchedulerFactoryBean" />
+			
+	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer"
+			depends-on="coreConfigurer">
+		<property name="exceptionMessagingScheduler" ref="quartzScheduler" />
+	</bean>
+
+	<bean id="knsConfigurer" class="org.kuali.rice.krad.config.KRADConfigurer"
+    	depends-on="coreConfigurer"/>
+	
+	<bean id="coreServiceConfigurer" class="org.kuali.rice.coreservice.impl.config.CoreServiceConfigurer"
+		depends-on="coreConfigurer"/>
+       
+	<bean id="kimConfigurer" class="org.kuali.rice.kim.config.KIMConfigurer"
+		depends-on="coreConfigurer" />
+		
+	<bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer"
+		depends-on="coreConfigurer"/>
+  	
+	<bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer"
+		depends-on="coreConfigurer"/>
+  	
+	<bean id="kscoreConfigurer" class="org.kuali.student.ap.framework.config.KSCOREConfigurer"
+		depends-on="coreConfigurer"/>
+
+	<bean id="kslumConfigurer" class="org.kuali.student.ap.framework.config.KSLUMConfigurer"
+		depends-on="coreConfigurer"/>
+
+	<bean id="ksenrollConfigurer" class="org.kuali.student.ap.framework.config.KSENROLLConfigurer"
+		depends-on="coreConfigurer"/>
+
+	<bean id="ksapConfigurer" class="org.kuali.student.ap.framework.config.KSAPConfigurer"
+		depends-on="coreConfigurer"/>
+		
+	<import resource="classpath:META-INF/ks-ap/ap-test-context.xml"/>
+
+</beans>
