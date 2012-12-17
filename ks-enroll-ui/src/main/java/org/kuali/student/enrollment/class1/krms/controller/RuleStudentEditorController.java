@@ -22,7 +22,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
@@ -100,7 +100,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
         ModelAndView modelAndView = super.refresh(form, result, request, response);
 
         // handle return from context lookup
-        MaintenanceForm maintenanceForm = (MaintenanceForm) form;
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
         StudentAgendaEditor agendaEditor = ((StudentAgendaEditor) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject());
         AgendaEditorBusRule rule = new AgendaEditorBusRule();
         if (rule.validContext(agendaEditor) && rule.validAgendaName(agendaEditor)) {
@@ -302,7 +302,7 @@ public class RuleStudentEditorController extends MaintenanceDocumentController {
      * @return the {@link org.kuali.rice.krms.impl.ui.AgendaEditor} from the form
      */
     private RuleEditor getRuleEditor(UifFormBase form) {
-        MaintenanceForm maintenanceForm = (MaintenanceForm) form;
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
         return ((RuleEditor) maintenanceForm.getDocument().getDocumentDataObject());
     }
 

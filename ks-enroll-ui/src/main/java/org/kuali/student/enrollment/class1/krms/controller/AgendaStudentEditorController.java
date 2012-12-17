@@ -25,7 +25,7 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsApiServiceLocator;
 import org.kuali.rice.krms.api.engine.expression.ComparisonOperatorService;
@@ -104,8 +104,8 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
         ModelAndView modelAndView = super.refresh(form, result, request, response);
 
         // handle return from context lookup
-        MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        StudentAgendaEditor agendaEditor = ((StudentAgendaEditor) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject());
+        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) form;
+        StudentAgendaEditor agendaEditor = ((StudentAgendaEditor) MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject());
         AgendaEditorBusRule rule = new AgendaEditorBusRule();
         if (rule.validContext(agendaEditor) && rule.validAgendaName(agendaEditor)) {
             // update the namespace on all agenda related objects if the contest has been changed
@@ -262,8 +262,8 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
         }
 
         AgendaEditorBusRule rule = new AgendaEditorBusRule();
-        MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        MaintenanceDocument document = maintenanceForm.getDocument();
+        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocument document = MaintenanceDocumentForm.getDocument();
         if (rule.processAgendaItemBusinessRules(document)) {
             newAgendaItem.setId(getSequenceAccessorService().getNextAvailableSequenceNumber("KRMS_AGENDA_ITM_S")
                     .toString());
@@ -564,8 +564,8 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
         updateRuleAction(agendaEditor);
 
         AgendaEditorBusRule rule = new AgendaEditorBusRule();
-        MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        MaintenanceDocument document = maintenanceForm.getDocument();
+        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) form;
+        MaintenanceDocument document = MaintenanceDocumentForm.getDocument();
         if (rule.processAgendaItemBusinessRules(document)) {
             node.setRule(agendaItemLine.getRule());
             form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "AgendaStudentEditorView-Agenda-Page");
@@ -1187,8 +1187,8 @@ public class AgendaStudentEditorController extends MaintenanceDocumentController
      * @return the {@link org.kuali.rice.krms.impl.ui.AgendaEditor} from the form
      */
     private StudentAgendaEditor getAgendaEditor(UifFormBase form) {
-        MaintenanceForm maintenanceForm = (MaintenanceForm) form;
-        return ((StudentAgendaEditor)maintenanceForm.getDocument().getDocumentDataObject());
+        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) form;
+        return ((StudentAgendaEditor)MaintenanceDocumentForm.getDocument().getDocumentDataObject());
     }
 
     private void treeToInOrderList(AgendaItemBo agendaItem, List<AgendaItemBo> listToBuild) {

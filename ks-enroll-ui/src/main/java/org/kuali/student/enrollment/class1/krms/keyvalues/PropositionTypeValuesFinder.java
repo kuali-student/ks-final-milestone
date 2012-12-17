@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.InquiryForm;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 //import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
@@ -46,8 +46,8 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
             dataObject = inquiryForm.getDataObject();
 
         } else {
-            MaintenanceForm maintenanceForm = (MaintenanceForm) model;
-            dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
+            MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
+            dataObject = MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
         }
 
         String ruleTypeId;

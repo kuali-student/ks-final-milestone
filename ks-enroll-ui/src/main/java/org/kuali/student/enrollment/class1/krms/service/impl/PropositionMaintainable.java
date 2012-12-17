@@ -28,7 +28,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.web.form.MaintenanceForm;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsAttributeDefinition;
 import org.kuali.rice.krms.impl.repository.ContextBoService;
@@ -178,14 +178,14 @@ public class PropositionMaintainable extends MaintainableImpl {
     }
 
     /**
-     * Get the AgendaEditor out of the MaintenanceForm's newMaintainableObject
+     * Get the AgendaEditor out of the MaintenanceDocumentForm's newMaintainableObject
      *
-     * @param model the MaintenanceForm
+     * @param model the MaintenanceDocumentForm
      * @return the AgendaEditor
      */
     private PropositionBo getProposition(Object model) {
-        MaintenanceForm maintenanceForm = (MaintenanceForm) model;
-        return (PropositionBo) maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
+        MaintenanceDocumentForm MaintenanceDocumentForm = (MaintenanceDocumentForm) model;
+        return (PropositionBo) MaintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
     }
 
     @Override
