@@ -86,12 +86,24 @@ public class SearchManagerImpl implements SearchManager {
     }
 
     @Override
-    public TypeInfo getSearchType(@WebParam(name = "searchTypeKey") String searchTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchCriteriaTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+		//TODO: return searchCriteriaTypeMap.values();
+        return null;
+	}
+
+    @Override
+    public List<TypeInfo> getSearchResultTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        //TODO return searchResultTypeInfoMap.values();
+        return null;
+	}
+
+    @Override
+    public TypeInfo getSearchType(String searchTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return toTypeInfo(searchInfoTypeMap.get(searchTypeKey));
 	}
 
     @Override
-    public List<TypeInfo> getSearchTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getSearchTypes( ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
         for(SearchTypeInfo searchTypeInfo : searchInfoTypeMap.values()){
             typeInfos.add(toTypeInfo(searchTypeInfo));
@@ -115,6 +127,30 @@ public class SearchManagerImpl implements SearchManager {
         return typeInfo;
     }
 
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		List<TypeInfo> searchTypesByCriteria = new ArrayList<TypeInfo>();
+		for (SearchTypeInfo searchTypeInfo : searchInfoTypeMap.values()) {
+			if (searchCriteriaTypeKey.equals(searchTypeInfo
+					.getSearchCriteriaTypeInfo().getKey())) {
+				searchTypesByCriteria.add(toTypeInfo(searchTypeInfo));
+			}
+		}
+		return searchTypesByCriteria;
+	}
+
+    @Override
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+		List<TypeInfo> searchTypesByResult = new ArrayList<TypeInfo>();
+		for (SearchTypeInfo searchTypeInfo : searchInfoTypeMap.values()) {
+			if (searchResultTypeKey.equals(searchTypeInfo
+					.getSearchResultTypeInfo().getKey())) {
+				searchTypesByResult.add(toTypeInfo(searchTypeInfo));
+			}
+		}
+		return searchTypesByResult;
+	}
+
 	public String getSearchContextFile() {
 		return searchContextFile;
 	}
@@ -124,7 +160,7 @@ public class SearchManagerImpl implements SearchManager {
 	}
 
 	@Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo,  ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
     	if(searchRequestInfo == null){
 			throw new MissingParameterException("Search Request can not be null.");
 		}

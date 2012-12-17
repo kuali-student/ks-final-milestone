@@ -17,14 +17,22 @@ package org.kuali.student.r1.core.proposal.service.impl;
 
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.r1.core.proposal.entity.Proposal;
 import org.kuali.student.r1.core.proposal.entity.ProposalReference;
+import org.kuali.student.r1.core.proposal.entity.ProposalReferenceType;
+import org.kuali.student.r1.core.proposal.entity.ProposalType;
+import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.service.SearchManager;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -32,10 +40,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebService;
 import java.util.List;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.core.proposal.service.ProposalService;
 
 /**
  * Implementation of the Proposal Service
@@ -45,10 +49,7 @@ import org.kuali.student.r2.core.proposal.service.ProposalService;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Proposal+Service">ProposalService</>
  */
 @Deprecated
-@WebService(endpointInterface = "org.kuali.student.r2.core.proposal.service.ProposalService",
-        serviceName = "ProposalService", 
-        portName = "ProposalService", 
-        targetNamespace = "http://student.kuali.org/wsdl/proposal")
+@WebService(endpointInterface = "org.kuali.student.r1.core.proposal.service.ProposalService", serviceName = "ProposalService", portName = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
 public class ProposalServiceImpl implements ProposalService {
     private ProposalDao proposalDao;
 
@@ -63,24 +64,18 @@ public class ProposalServiceImpl implements ProposalService {
     public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
-    
+
     /**
-     * @see org.kuali.student.r2.core.proposal.service.ProposalService#createProposal(java.lang.String, org.kuali.student.r2.core.proposal.dto.ProposalInfo)
+     * @see org.kuali.student.r1.core.proposal.service.ProposalService#createProposal(java.lang.String, org.kuali.student.r1.core.proposal.dto.ProposalInfo)
      */
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public ProposalInfo createProposal(String proposalTypeKey, ProposalInfo proposalInfo, ContextInfo contextInfo) 
-            throws DataValidationErrorException, 
-            DoesNotExistException, 
-            InvalidParameterException, 
-            MissingParameterException, 
-            OperationFailedException, 
-            PermissionDeniedException {
+	public ProposalInfo createProposal(String proposalTypeKey, ProposalInfo proposalInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
         checkForMissingParameter(proposalInfo, "proposalInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo, contextInfo);
+        List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
         if (null != validationResults && validationResults.size() > 0) {        	
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
@@ -105,8 +100,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteProposal(String proposalId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
+	public StatusInfo deleteProposal(String proposalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(proposalId, "proposalId");
 
         StatusInfo status = new StatusInfo();
@@ -125,58 +119,54 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     @Transactional(readOnly=true)
-    public ProposalInfo getProposal(String proposalId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public ProposalInfo getProposal(String proposalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalId, "proposalId");
         Proposal entity = proposalDao.fetch(Proposal.class, proposalId);
         return ProposalAssembler.toProposalInfo(entity);
     }
 
-//    /**
-//     * This overridden method ...
-//     *
-//     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalType(java.lang.String)
-//     */
-//    @Override
-//    @Transactional(readOnly=true)
-//    public TypeInfo getProposalType(String proposalTypeKey, ContextInfo contextInfo) 
-//            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-//        checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
-//
-//        ProposalType proposalType = proposalDao.fetch(ProposalType.class, proposalTypeKey);
-//        return ProposalAssembler.toProposalTypeInfo(proposalType);
-//    }
+    /**
+     * This overridden method ...
+     *
+     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalType(java.lang.String)
+     */
+    @Override
+    @Transactional(readOnly=true)
+    public ProposalTypeInfo getProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
 
-//    /**
-//     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalTypes()
-//     */
-//    @Override
-//    @Transactional(readOnly=true)
-//    public List<TypeInfo> getProposalTypes(ContextInfo contextInfo) throws OperationFailedException {
-//        List<ProposalType> proposalTypes = proposalDao.find(ProposalType.class);
-//        return ProposalAssembler.toProposalTypeInfos(proposalTypes);
-//    }
+        ProposalType proposalType = proposalDao.fetch(ProposalType.class, proposalTypeKey);
+        return ProposalAssembler.toProposalTypeInfo(proposalType);
+    }
 
-//    /**
-//     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalTypesForReferenceType(java.lang.String)
-//     */
-//    @Override
-//    @Transactional(readOnly=true)
-//    public List<TypeInfo> getProposalTypesForReferenceType(String referenceTypeKey, ContextInfo contextInfo) 
-//            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-//        checkForMissingParameter(referenceTypeKey, "referenceTypeKey");
-//
-//        List<ProposalType> proposalTypes = proposalDao.getProposalTypesForReferenceType(referenceTypeKey);
-//        return ProposalAssembler.toProposalTypeInfos(proposalTypes);
-//    }
+    /**
+     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalTypes()
+     */
+    @Override
+    @Transactional(readOnly=true)
+    public List<ProposalTypeInfo> getProposalTypes() throws OperationFailedException {
+        List<ProposalType> proposalTypes = proposalDao.find(ProposalType.class);
+        return ProposalAssembler.toProposalTypeInfos(proposalTypes);
+    }
+
+    /**
+     * @see org.kuali.student.core.proposal.service.ProposalService#getProposalTypesForReferenceType(java.lang.String)
+     */
+    @Override
+    @Transactional(readOnly=true)
+    public List<ProposalTypeInfo> getProposalTypesForReferenceType(String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        checkForMissingParameter(referenceTypeKey, "referenceTypeKey");
+
+        List<ProposalType> proposalTypes = proposalDao.getProposalTypesForReferenceType(referenceTypeKey);
+        return ProposalAssembler.toProposalTypeInfos(proposalTypes);
+    }
 
     /**
      * @see org.kuali.student.core.proposal.service.ProposalService#getProposalsByIdList(java.util.List)
      */
     @Override
     @Transactional(readOnly=true)
-    public List<ProposalInfo> getProposalsByIds(List<String> proposalIdList, ContextInfo contextInfo) 
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ProposalInfo> getProposalsByIdList(List<String> proposalIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalIdList, "proposalIdList");
         checkForEmptyList(proposalIdList, "proposalIdList");
 
@@ -192,8 +182,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     @Transactional(readOnly=true)
-    public List<ProposalInfo> getProposalsByProposalType(String proposalTypeKey, ContextInfo contextInfo) 
-            throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ProposalInfo> getProposalsByProposalType(String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
 
         List<Proposal> proposals = proposalDao.getProposalsByProposalType(proposalTypeKey);
@@ -205,8 +194,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     @Transactional(readOnly=true)
-    public List<ProposalInfo> getProposalsByReference(String referenceTypeKey, String referenceId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ProposalInfo> getProposalsByReference(String referenceTypeKey, String referenceId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(referenceTypeKey, "referenceTypeKey");
         checkForMissingParameter(referenceId, "referenceId");
 
@@ -219,8 +207,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     @Transactional(readOnly=true)
-    public List<ProposalInfo> getProposalsByState(String proposalState, String proposalTypeKey, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ProposalInfo> getProposalsByState(String proposalState, String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(proposalState, "proposalState");
         checkForMissingParameter(proposalTypeKey, "proposalTypeKey");
 
@@ -233,7 +220,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
 	@Override
     @Transactional(readOnly=true)
-	public ProposalInfo getProposalByWorkflowId(String workflowId, ContextInfo contextInfo)
+	public ProposalInfo getProposalByWorkflowId(String workflowId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(workflowId, "workflowId");
@@ -242,29 +229,27 @@ public class ProposalServiceImpl implements ProposalService {
         return ProposalAssembler.toProposalInfo(entity);
 	}
 
-//    /**
-//     * @see org.kuali.student.core.proposal.service.ProposalService#getReferenceTypes()
-//     */
-//    @Override
-//    @Transactional(readOnly=true)
-//    public List<TypeInfo> getReferenceTypes(ContextInfo contextInfo) 
-//            throws OperationFailedException {
-//        List<ProposalReferenceType> referenceTypes = proposalDao.find(ProposalReferenceType.class);
-//        return ProposalAssembler.toReferenceTypeInfos(referenceTypes);
-//    }
+    /**
+     * @see org.kuali.student.core.proposal.service.ProposalService#getReferenceTypes()
+     */
+    @Override
+    @Transactional(readOnly=true)
+    public List<ReferenceTypeInfo> getReferenceTypes() throws OperationFailedException {
+        List<ProposalReferenceType> referenceTypes = proposalDao.find(ProposalReferenceType.class);
+        return ProposalAssembler.toReferenceTypeInfos(referenceTypes);
+    }
 
     /**
-     * @see org.kuali.student.r2.core.proposal.service.ProposalService#updateProposal(java.lang.String, org.kuali.student.r2.core.proposal.dto.ProposalInfo)
+     * @see org.kuali.student.r1.core.proposal.service.ProposalService#updateProposal(java.lang.String, org.kuali.student.r1.core.proposal.dto.ProposalInfo)
      */
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public ProposalInfo updateProposal(String proposalId, ProposalInfo proposalInfo, ContextInfo contextInfo)
-            throws ReadOnlyException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	public ProposalInfo updateProposal(String proposalId, ProposalInfo proposalInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(proposalId, "proposalId");
         checkForMissingParameter(proposalInfo, "proposalInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo, contextInfo);
+        List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
         if (null != validationResults && validationResults.size() > 0) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
@@ -282,11 +267,10 @@ public class ProposalServiceImpl implements ProposalService {
     }
 
     /**
-     * @see org.kuali.student.r2.core.proposal.service.ProposalService#validateProposal(java.lang.String, org.kuali.student.r2.core.proposal.dto.ProposalInfo)
+     * @see org.kuali.student.r1.core.proposal.service.ProposalService#validateProposal(java.lang.String, org.kuali.student.r1.core.proposal.dto.ProposalInfo)
      */
     @Override
-    public List<ValidationResultInfo> validateProposal(String validationType, ProposalInfo proposalInfo, ContextInfo contextInfo) 
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateProposal(String validationType, ProposalInfo proposalInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(proposalInfo, "proposalInfo");
 
@@ -296,18 +280,6 @@ public class ProposalServiceImpl implements ProposalService {
         return validationResults;         
     }
 
-    @Override
-    public List<String> searchForProposalIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<ProposalInfo> searchForProposals(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    
-    
     /**
      * Check for missing parameter and thow localized exception if missing
      *
@@ -373,6 +345,21 @@ public class ProposalServiceImpl implements ProposalService {
         return dictionaryServiceDelegate.getObjectTypes();
     }
 
+    /**
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchCriteriaTypes(ContextInfo)
+     */
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
+    }
+
+    /**
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchResultTypes(ContextInfo)
+     */
+    @Override
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException {
+        return searchManager.getSearchResultTypes(contextInfo);
+    }
 
     /**
      * @see org.kuali.student.r2.common.search.service.SearchService#getSearchType(java.lang.String, ContextInfo)
@@ -391,8 +378,24 @@ public class ProposalServiceImpl implements ProposalService {
         return searchManager.getSearchTypes(contextInfo);
     }
 
+    /**
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String,ContextInfo)
+     */
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
+    }
+
+    /**
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByResult(java.lang.String,ContextInfo)
+     */
+    @Override
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
+    }
+
 	@Override
-	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
+	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 		if("proposal.search.proposalsForReferenceIds".equals(searchRequest.getSearchKey())){
 			return doSearchProposalsForReferenceIds(searchRequest);
 		}else{

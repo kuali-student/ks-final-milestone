@@ -95,8 +95,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public ProcessCategoryInfo getProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
-                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public ProcessCategoryInfo getProcessCategory(String processCategoryId,
+                                                   ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -105,8 +105,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<ProcessCategoryInfo> getProcessCategoriesByIds(
-            @WebParam(name = "processCategoryIds") List<String> processCategoryIds,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            List<String> processCategoryIds,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -114,8 +114,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> getProcessCategoryIdsByType(@WebParam(name = "processTypeKey") String processTypeKey,
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<String> getProcessCategoryIdsByType(String processTypeKey,
+                                                     ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -123,8 +123,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<ProcessCategoryInfo> getProcessCategoriesForProcess(@WebParam(name = "processKey") String processKey,
-                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ProcessCategoryInfo> getProcessCategoriesForProcess(String processKey,
+                                                                     ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -132,8 +132,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> searchForProcessCategoryIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> searchForProcessCategoryIds(QueryByCriteria criteria,
+                                                     ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> results = new ArrayList<String>();
         GenericQueryResults<ProcessCategoryEntity> processCategories = criteriaLookupService.lookup(ProcessCategoryEntity.class, criteria);
@@ -146,8 +146,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<ProcessCategoryInfo> searchForProcessCategories(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ProcessCategoryInfo> searchForProcessCategories(QueryByCriteria criteria,
+                                                                 ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<ProcessCategoryInfo> results = new ArrayList<ProcessCategoryInfo>();
@@ -162,17 +162,17 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<ValidationResultInfo> validateProcessCategory(
-            @WebParam(name = "validationTypeKey") String validationTypeKey,
+            String validationTypeKey,
             String processCategoryTypeKey,
-            @WebParam(name = "processCategoryInfo") ProcessCategoryInfo processCategoryInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            ProcessCategoryInfo processCategoryInfo,
+             ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
-    public ProcessCategoryInfo createProcessCategory(String processCategoryTypeKey, @WebParam(name = "processInfo") ProcessCategoryInfo processInfo,
-                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public ProcessCategoryInfo createProcessCategory(String processCategoryTypeKey, ProcessCategoryInfo processInfo,
+                                                      ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -180,9 +180,9 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public ProcessCategoryInfo updateProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
-                                                     @WebParam(name = "processInfo") ProcessCategoryInfo processInfo,
-                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+    public ProcessCategoryInfo updateProcessCategory(String processCategoryId,
+                                                     ProcessCategoryInfo processInfo,
+                                                      ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -190,8 +190,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public StatusInfo deleteProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId,
-                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public StatusInfo deleteProcessCategory(String processCategoryId,
+                                             ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             DependentObjectsExistException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -199,9 +199,9 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public StatusInfo addProcessToProcessCategory(@WebParam(name = "processKey") String processKey,
-                                                  @WebParam(name = "processCategoryId") String processCategoryId,
-                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException,
+    public StatusInfo addProcessToProcessCategory(String processKey,
+                                                  String processCategoryId,
+                                                   ContextInfo contextInfo) throws AlreadyExistsException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -209,9 +209,9 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public StatusInfo removeProcessFromProcessCategory(@WebParam(name = "processKey") String processKey,
-                                                       @WebParam(name = "processCategoryId") String processCategoryId,
-                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+    public StatusInfo removeProcessFromProcessCategory(String processKey,
+                                                       String processCategoryId,
+                                                        ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -219,8 +219,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public ProcessInfo getProcess(@WebParam(name = "processKey") String processKey,
-                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public ProcessInfo getProcess(String processKey,
+                                   ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProcessEntity processEntity = processDao.find(processKey);
@@ -232,8 +232,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<ProcessInfo> getProcessesByKeys(@WebParam(name = "processKeys") List<String> processKeys,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<ProcessInfo> getProcessesByKeys(List<String> processKeys,
+                                                 ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ProcessEntity> processEntities = processDao.findByIds(processKeys);
         if (processEntities == null || processEntities.isEmpty()) {
@@ -250,8 +250,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> getProcessKeysByType(@WebParam(name = "processTypeKey") String processTypeKey,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> getProcessKeysByType(String processTypeKey,
+                                              ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ProcessEntity> processEntities = processDao.getByProcessTypeId(processTypeKey);
 
@@ -265,8 +265,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<ProcessInfo> getProcessesForProcessCategory(
-            @WebParam(name = "processCategoryId") String processCategoryId,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String processCategoryId,
+             ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO
@@ -274,8 +274,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> searchForProcessKeys(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> searchForProcessKeys(QueryByCriteria criteria,
+                                              ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> results = new ArrayList<String>();
         GenericQueryResults<ProcessEntity> processes = criteriaLookupService.lookup(ProcessEntity.class, criteria);
@@ -288,8 +288,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<ProcessInfo> searchForProcess(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<ProcessInfo> searchForProcess(QueryByCriteria criteria,
+                                               ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ProcessInfo> results = new ArrayList<ProcessInfo>();
         GenericQueryResults<ProcessEntity> processes = criteriaLookupService.lookup(ProcessEntity.class, criteria);
@@ -302,10 +302,10 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateProcess(@WebParam(name = "validationTypeKey") String validationTypeKey,
+    public List<ValidationResultInfo> validateProcess(String validationTypeKey,
                                                       String processTypeKey,
-                                                      @WebParam(name = "processInfo") ProcessInfo processInfo,
-                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                                      ProcessInfo processInfo,
+                                                       ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
@@ -313,10 +313,10 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     @Transactional(readOnly = false)
-    public ProcessInfo createProcess(@WebParam(name = "processKey") String processKey,
+    public ProcessInfo createProcess(String processKey,
                                      String processTypeKey,
-                                     @WebParam(name = "processInfo") ProcessInfo processInfo,
-                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                     ProcessInfo processInfo,
+                                      ContextInfo contextInfo)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
@@ -338,9 +338,9 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     @Transactional(readOnly = false)
-    public ProcessInfo updateProcess(@WebParam(name = "processKey") String processKey,
-                                     @WebParam(name = "processInfo") ProcessInfo processInfo,
-                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public ProcessInfo updateProcess(String processKey,
+                                     ProcessInfo processInfo,
+                                      ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException,
             VersionMismatchException {
@@ -362,8 +362,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     @Transactional(readOnly = false)
-    public StatusInfo deleteProcess(@WebParam(name = "processKey") String processKey,
-                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException,
+    public StatusInfo deleteProcess(String processKey,
+                                     ContextInfo contextInfo) throws DependentObjectsExistException,
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -389,7 +389,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public CheckInfo getCheck(String checkId,
-                              @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                               ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         CheckEntity checkEntity = checkDao.find(checkId);
@@ -401,7 +401,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<CheckInfo> getChecksByIds(List<String> checkIds,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                           ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CheckEntity> checkEntities = checkDao.findByIds(checkIds);
         if (checkEntities == null || checkEntities.isEmpty()) {
@@ -418,8 +418,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> getCheckIdsByType(@WebParam(name = "checkTypeKey") String checkTypeKey,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> getCheckIdsByType(String checkTypeKey,
+                                           ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CheckEntity> checkEntities = checkDao.getByCheckType(checkTypeKey);
 
@@ -432,8 +432,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> searchForCheckIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> searchForCheckIds(QueryByCriteria criteria,
+                                           ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> results = new ArrayList<String>();
         GenericQueryResults<CheckEntity> checks = criteriaLookupService.lookup(CheckEntity.class, criteria);
@@ -446,8 +446,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<CheckInfo> searchForChecks(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<CheckInfo> searchForChecks(QueryByCriteria criteria,
+                                            ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CheckInfo> results = new ArrayList<CheckInfo>();
         GenericQueryResults<CheckEntity> checks = criteriaLookupService.lookup(CheckEntity.class, criteria);
@@ -460,10 +460,10 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateCheck(@WebParam(name = "validationTypeKey") String validationTypeKey,
+    public List<ValidationResultInfo> validateCheck(String validationTypeKey,
                                                     String checkTypeKey,
-                                                    @WebParam(name = "checkInfo") CheckInfo checkInfo,
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+                                                    CheckInfo checkInfo,
+                                                     ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
@@ -472,7 +472,7 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     @Transactional(readOnly = false)
     public CheckInfo createCheck(String checkTypeKey,
-                                 @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                 CheckInfo checkInfo,  ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
@@ -494,7 +494,7 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     @Transactional(readOnly = false)
     public CheckInfo updateCheck(String checkId,
-                                 @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                 CheckInfo checkInfo,  ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException,
             VersionMismatchException {
@@ -522,7 +522,7 @@ public class ProcessServiceImpl implements ProcessService {
     @Override
     @Transactional(readOnly = false)
     public StatusInfo deleteCheck(String checkId,
-                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException,
+                                   ContextInfo contextInfo) throws DependentObjectsExistException,
             DoesNotExistException,
             InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -546,8 +546,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public InstructionInfo getInstruction(@WebParam(name = "instructionId") String instructionId,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public InstructionInfo getInstruction(String instructionId,
+                                           ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         InstructionEntity instructionEntity = instructionDao.find(instructionId);
         if (instructionEntity == null) {
@@ -557,8 +557,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<InstructionInfo> getInstructionsByIds(@WebParam(name = "instructionIds") List<String> instructionIds,
-                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<InstructionInfo> getInstructionsByIds(List<String> instructionIds,
+                                                       ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<InstructionEntity> instructionEntities = instructionDao.findByIds(instructionIds);
@@ -577,8 +577,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> getInstructionIdsByType(@WebParam(name = "instructionTypeKey") String instructionTypeKey,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<String> getInstructionIdsByType(String instructionTypeKey,
+                                                 ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<InstructionEntity> instructionEntities = instructionDao.getByInstructionTypeId(instructionTypeKey);
@@ -592,8 +592,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<InstructionInfo> getInstructionsByProcess(@WebParam(name = "processKey") String processKey,
-                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<InstructionInfo> getInstructionsByProcess(String processKey,
+                                                           ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
         List<InstructionEntity> instructionEntities = instructionDao.getByProcess(processKey);
@@ -607,7 +607,7 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<InstructionInfo> getInstructionsByCheck(String checkId,
-                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+                                                         ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<InstructionEntity> instructionEntities = instructionDao.getByCheck(checkId);
         List<InstructionInfo> instructionInfoList = new ArrayList<InstructionInfo>();
@@ -621,8 +621,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<InstructionInfo> getInstructionsByProcessAndCheck(String checkId,
-                                                                  @WebParam(name = "processKey") String processKey,
-                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+                                                                  String processKey,
+                                                                   ContextInfo contextInfo) throws
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<InstructionEntity> instructionEntities = instructionDao.getByProcessAndCheck(processKey, checkId);
@@ -636,8 +636,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<String> searchForInstructionIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> searchForInstructionIds(QueryByCriteria criteria,
+                                                 ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> results = new ArrayList<String>();
         GenericQueryResults<InstructionEntity> instructions = criteriaLookupService.lookup(InstructionEntity.class, criteria);
@@ -650,8 +650,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<InstructionInfo> searchForInstructions(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<InstructionInfo> searchForInstructions(QueryByCriteria criteria,
+                                                        ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<InstructionInfo> results = new ArrayList<InstructionInfo>();
@@ -666,12 +666,12 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<ValidationResultInfo> validateInstruction(
-            @WebParam(name = "validationTypeKey") String validationTypeKey,
-            @WebParam(name = "processKey") String processKey,
+            String validationTypeKey,
+            String processKey,
             String checkId,
             String instructionTypeKey,
-            @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            InstructionInfo instructionInfo,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
@@ -679,10 +679,10 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     @Transactional(readOnly = false)
-    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey,
+    public InstructionInfo createInstruction(String processKey,
                                              String checkId, String instructionTypeKey,
-                                             @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+                                             InstructionInfo instructionInfo,
+                                              ContextInfo contextInfo) throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             ReadOnlyException {
 
@@ -716,9 +716,9 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     @Transactional(readOnly = false)
-    public InstructionInfo updateInstruction(@WebParam(name = "instructionId") String instructionId,
-                                             @WebParam(name = "instructionInfo") InstructionInfo instructionInfo,
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+    public InstructionInfo updateInstruction(String instructionId,
+                                             InstructionInfo instructionInfo,
+                                              ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
@@ -800,8 +800,8 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     @Transactional(readOnly = false)
-    public StatusInfo deleteInstruction(@WebParam(name = "instructionId") String instructionId,
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public StatusInfo deleteInstruction(String instructionId,
+                                         ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         InstructionEntity exists = instructionDao.find(instructionId);
@@ -819,8 +819,8 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public List<InstructionInfo> getInstructionsForEvaluation(@WebParam(name = "processKey") String processKey,
-                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<InstructionInfo> getInstructionsForEvaluation(String processKey,
+                                                               ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<InstructionInfo> instructions = getInstructionsByProcess(processKey, contextInfo);

@@ -17,7 +17,6 @@ package org.kuali.student.r2.core.messages.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +28,9 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -101,7 +100,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
             //
             assertEquals(message.getLocale().getLocaleLanguage(), "US");
             assertEquals(message.getGroupName(), "Address");
-            assertEquals(message.getMessageKey(), "State");
+            assertEquals(message.getKey(), "State");
             assertEquals(message.getValue(), "State:");
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -123,7 +122,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
             assertEquals(message.getLocale().getLocaleRegion(), "CA");
             assertEquals(message.getLocale().getLocaleLanguage(), "CA");
             assertEquals(message.getGroupName(), "Address");
-            assertEquals(message.getMessageKey(), "State");
+            assertEquals(message.getKey(), "State");
             assertEquals(message.getValue(), "Province:");
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -145,12 +144,12 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 	    localeInfo.setLocaleLanguage("US");
 		List<MessageInfo> messages;
         try {
-            messages = messageService.getMessagesByGroup(localeInfo, "Address", contextInfo);
+            messages = messageService.getMessages(localeInfo, "Address", contextInfo);
             assertEquals(2, messages.size());
             for(MessageInfo m: messages){
                 assertEquals(m.getLocale().getLocaleLanguage(), "US");
                 assertEquals(m.getGroupName(), "Address");
-                assertTrue(m.getMessageKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
+                assertTrue(m.getKey().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
             }
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -167,12 +166,12 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 		LocaleInfo localeInfo1 = new LocaleInfo();
 		localeInfo1.setLocaleLanguage("CA");
 		try {
-            messages = messageService.getMessagesByGroup(localeInfo1, "Address", contextInfo);
+            messages = messageService.getMessages(localeInfo1, "Address", contextInfo);
             assertEquals(2, messages.size());
             for(MessageInfo m: messages){
                 assertEquals(m.getLocale().getLocaleLanguage(), "CA");
                 assertEquals(m.getGroupName(), "Address");
-                assertTrue(m.getMessageKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
+                assertTrue(m.getKey().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
             }
         } catch (DoesNotExistException e) {
             e.printStackTrace();
@@ -187,7 +186,7 @@ public class MessageServiceImplTest extends AbstractServiceTest{
         }
 		
 		try {
-            messages = messageService.getMessagesByGroup(localeInfo, "Name", contextInfo);
+            messages = messageService.getMessages(localeInfo, "Name", contextInfo);
             assertEquals(1, messages.size());
             for(MessageInfo m: messages){
                 assertEquals(m.getLocale().getLocaleLanguage(), "US");
@@ -258,20 +257,20 @@ public class MessageServiceImplTest extends AbstractServiceTest{
 	}
 	
 	@Test
-	public void testUpdateMessage() throws DataValidationErrorException {
+	public void testUpdateMessage() {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		MessageInfo m = new MessageInfo();
 		LocaleInfo localeInfo = new LocaleInfo();
 		localeInfo.setLocaleLanguage("US");  // part of the where kry
 		m.setGroupName("Name");  // part of the where key
-		m.setMessageKey("Grading");
+		m.setKey("Grading");
 		m.setValue("Grading Scale");
 		m.setLocale(localeInfo);
 		try {
-            messageService.updateMessage(localeInfo, m.getGroupName(), "Last", m, contextInfo);
+            messageService.updateMessage(localeInfo, "Last", m, contextInfo);
             MessageInfo result = messageService.getMessage(localeInfo, "Name", "Grading", contextInfo );
             assertEquals(result.getLocale().getLocaleLanguage(), m.getLocale().getLocaleLanguage());
-            assertEquals(result.getMessageKey(), m.getMessageKey());
+            assertEquals(result.getKey(), m.getKey());
             assertEquals(result.getValue(), m.getValue());
             assertEquals(result.getGroupName(), m.getGroupName());
             result = messageService.getMessage(localeInfo , "Name", "Last", contextInfo);

@@ -15,13 +15,14 @@
 
 package org.kuali.student.core.comments.ui.client.service;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.comment.dto.CommentInfo;
-
 import java.util.List;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
     /**
@@ -29,7 +30,7 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      * @param referenceId identifier of reference
      * @param referenceTypeKey reference type
      * @param commentInfo detailed information about the comment
-     * @param callback detailed information about the comment
+     * @param detailed information about the comment
      * @throws Exception 
      */
     public void addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo, AsyncCallback<CommentInfo> callback) throws Exception;
@@ -37,7 +38,7 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      * Retrieves comment information for a reference. The expected behavior is that if the caller is not authorized to invoke the getComments operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getComments, only comments that the caller is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized to view are filtered out of the return parameter.
      * @param referenceId reference identifier
      * @param referenceTypeKey reference type
-     * @param callback list of comment information
+     * @param list of comment information
      * @throws Exception
      */
     public void getComments(String referenceId, String referenceTypeKey, AsyncCallback<List<CommentInfo>> callback) throws Exception;
@@ -46,7 +47,7 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      * @param referenceId reference identifier
      * @param referenceTypeKey reference type
      * @param commentTypeKey comment type
-     * @param callback list of comment information
+     * @param list of comment information
      * @throws Exception
      */
     public void getCommentsByType(String referenceId, String referenceTypeKey, String commentTypeKey, AsyncCallback<List<CommentInfo>> callback) throws Exception;
@@ -56,7 +57,7 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      * @param referenceId identifier of reference
      * @param referenceTypeKey reference type
      * @param commentInfo detailed information about the comment
-     * @param callback detailed information about the comment
+     * @param detailed information about the comment
      * @throws Exception 
      */
     public void updateComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo, AsyncCallback<CommentInfo> callback) throws Exception;
@@ -69,11 +70,11 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      */
     public void removeComment(String commentId, String referenceId, String referenceTypeKey, AsyncCallback<StatusInfo> callback) throws Exception;
     
-//    /**
-//     * Gets the comment types for a particular reference type.
-//     * @param referenceTypeKey reference type
-//     */
-//    public void getCommentTypesForReferenceType(String referenceTypeKey, AsyncCallback<List<TypeInfo>> callback) throws Exception;
+    /**
+     * Gets the comment types for a particular reference type.
+     * @param referenceTypeKey reference type
+     */
+    public void getCommentTypesForReferenceType(String referenceTypeKey, AsyncCallback<List<CommentTypeInfo>> callback) throws Exception;
 
     /**
      * Check for authorization to add a comment
@@ -98,7 +99,7 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
     
     /**
      * user IdentityService to get principalName by principalId
-     * @param principalId
+     * @param principalName
      * @param callback
      */
     public void getPrincipalNameByPrincipalId(String principalId, AsyncCallback<String> callback);

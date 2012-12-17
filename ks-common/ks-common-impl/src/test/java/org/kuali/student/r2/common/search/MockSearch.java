@@ -36,9 +36,28 @@ public class MockSearch implements SearchService {
         return sm.getSearchType(searchTypeKey, contextInfo);
     }
 
+    @Override
+    public List<TypeInfo> getSearchTypesByResult(@WebParam(name = "searchResultTypeKey") String searchResultTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return sm.getSearchTypesByResult(searchResultTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name = "searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return sm.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchResultTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return sm.getSearchResultTypes(contextInfo);
+    }
+
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+        return sm.getSearchCriteriaTypes(contextInfo);
+    }
 
 	@Override
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, InvalidParameterException {
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 		if("test.search1".equals(searchRequestInfo.getSearchKey())){
 			SearchResultInfo searchResult = new SearchResultInfo();
 			SearchResultRowInfo row = new SearchResultRowInfo();

@@ -80,6 +80,7 @@ public class SamlTokenCxfInInterceptor extends WSS4JInInterceptor {
 						SAMLTokenProcessor stp = new SAMLTokenProcessor();
 
 						try {
+                            //TODO: KSENROLL-4172 this will probably fail if it ever gets invoked!!!
                             Credential credential = stp.handleSAMLToken((Element) childNode, null, null, null);
 							SAMLAssertion samlAssertion = null;
 

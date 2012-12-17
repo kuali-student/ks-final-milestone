@@ -1,26 +1,59 @@
-package org.kuali.student.krms.util;
+package org.kuali.student.krms.mock;
 
 import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.*;
 import org.kuali.rice.krms.framework.engine.*;
+import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.krms.ManualContextProvider;
 
 import java.util.*;
 
 /**
- * @author alubbers
+ * @author Kuali Student Team
  *
  * This class contains utility methods to evaluate agendas using the KRMS engine
  *
  */
-public class KRMSEvaluationUtil {
+public class KRMSEngineService implements MockService {
 
     private List<TermResolver<?>> termResolvers;
     private ExecutionOptions executionOptions;
     private Map<String, String> contextQualifiers;
     private SelectionCriteria selectionCriteria;
 
-    public List<TermResolver<?>> getTermResolvers() {
+    public KRMSEngineService() {
+       
+    	super();
+    	this.initialize();
+    }
+    
+    public void initialize() {
+    	 executionOptions = new ExecutionOptions();
+         executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
+         executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
+
+         contextQualifiers = new HashMap<String, String>();
+
+         contextQualifiers.put("docTypeName", "Course.PreRequisities");
+
+         Map<String, String> empty = Collections.emptyMap();
+         selectionCriteria = SelectionCriteria.createCriteria(new DateTime(), contextQualifiers, empty);
+    }
+    
+    @Override
+	public void clear() {
+    	
+    	this.contextQualifiers.clear();
+    	this.executionOptions = null;
+    	this.selectionCriteria  = null;
+    	this.termResolvers = null;
+    	
+		
+	}
+
+
+
+	public List<TermResolver<?>> getTermResolvers() {
         return termResolvers;
     }
 
@@ -52,18 +85,7 @@ public class KRMSEvaluationUtil {
         this.selectionCriteria = selectionCriteria;
     }
 
-    public KRMSEvaluationUtil() {
-        executionOptions = new ExecutionOptions();
-        executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
-        executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
-
-        contextQualifiers = new HashMap<String, String>();
-
-        contextQualifiers.put("docTypeName", "Course.PreRequisities");
-
-        Map<String, String> empty = Collections.emptyMap();
-        selectionCriteria = SelectionCriteria.createCriteria(new DateTime(), contextQualifiers, empty);
-    }
+   
 
     private ProviderBasedEngine buildEngine(Agenda agenda) {
         Context context = new BasicContext(Arrays.asList(agenda), termResolvers);
@@ -75,25 +97,12 @@ public class KRMSEvaluationUtil {
         return engine;
     }
 
-    public EngineResults executeAgenda(Agenda agenda, Map<String, Object> executionFacts) {
+    public EngineResults executeAgenda(BasicAgenda basicAgenda, Map<String, Object> executionFacts) {
 
-        Engine engine = buildEngine(agenda);
+        Engine engine = buildEngine(basicAgenda);
         EngineResults results = engine.execute(selectionCriteria, executionFacts, executionOptions);
 
         return results;
     }
 
-//    public List<ReqComponentInfo> getFailedRequirementsFromEngineResults(EngineResults results, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) {
-//        List<ReqComponentInfo> failedRequirements = new ArrayList<ReqComponentInfo>();
-//
-//        List<ResultEvent> events = results.getResultsOfType(ResultEvent.PropositionEvaluated);
-//        for (ResultEvent e : events) {
-//            if (!e.getResult()) {
-//                Proposition prop = (Proposition) e.getSource();
-//                failedRequirements.add(reqComponentPropositionMap.get(prop));
-//            }
-//        }
-//
-//        return failedRequirements;
-//    }
 }

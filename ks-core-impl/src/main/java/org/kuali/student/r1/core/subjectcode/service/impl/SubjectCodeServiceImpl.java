@@ -59,10 +59,37 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		return searchManager.getSearchType(searchTypeKey, contextInfo);
 	}
 
+	@Override
+	public List<TypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+		return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
+	}
+
+	@Override
+	public List<TypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
+	}
+
+	@Override
+	public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+		return searchManager.getSearchResultTypes(contextInfo);
+	}
+
+	@Override
+	public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+            throws OperationFailedException, InvalidParameterException, MissingParameterException {
+		return searchManager.getSearchCriteriaTypes(contextInfo);
+	}
 
 	@Override
 	public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo)
-            throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+            throws MissingParameterException, PermissionDeniedException, OperationFailedException {
 		String searchKey = searchRequest.getSearchKey();
 		//Check Params
 		if(searchKey==null||searchKey.isEmpty()){
@@ -102,7 +129,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		return searchResult;
 	}
 	
-    private SearchResultInfo doOrgsForSubjectCodeSearch(Map<String, Object> paramMap, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    private SearchResultInfo doOrgsForSubjectCodeSearch(Map<String, Object> paramMap, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException {
 		SearchResultInfo searchResult = new SearchResultInfo();
 		Map<String,Object> queryMap = new HashMap<String,Object>();
 		String codeParam = (String) paramMap.get("subjectCode.queryParam.code");

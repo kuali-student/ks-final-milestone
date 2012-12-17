@@ -15,13 +15,14 @@
 
 package org.kuali.student.r1.core.comment.entity;
 
-import org.kuali.student.r1.common.entity.Type;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
+
+import org.kuali.student.r1.common.entity.Type;;
 
 
 @Deprecated

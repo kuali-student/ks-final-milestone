@@ -15,13 +15,15 @@
 
 package org.kuali.student.core.comments.ui.client.service;
 
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import org.kuali.student.common.ui.client.service.BaseRpcService;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.comment.dto.CommentInfo;
-
 import java.util.List;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+
+import org.kuali.student.common.ui.client.service.BaseRpcService;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("rpcservices/CommentRpcService")
 public interface CommentRpcService extends BaseRpcService {
@@ -72,11 +74,11 @@ public interface CommentRpcService extends BaseRpcService {
      */
     public StatusInfo removeComment(String commentId, String referenceId, String referenceTypeKey) throws Exception;
 
-//    /**
-//     * Gets the comment types for a particular reference type.
-//     * @param referenceTypeKey reference type
-//     */
-//    public List<TypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception; 
+    /**
+     * Gets the comment types for a particular reference type.
+     * @param referenceTypeKey reference type
+     */
+    public List<CommentTypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception; 
 
     /**
      * Check for authorization to add a comment
@@ -93,13 +95,13 @@ public interface CommentRpcService extends BaseRpcService {
     
     /**
      * user IdentityService to get user name by principalId
-     * @param principalId the principal id
+     * @param userId
      */
     public String getUserRealNameByPrincipalId(String principalId);
     
     /**
      * user IdentityService to get PrincipalName by principalId
-     * @param principalId the principal id
+     * @param PrincipalName
      */
     public String getPrincipalNameByPrincipalId(String principalId);
     

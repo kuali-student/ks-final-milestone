@@ -14,6 +14,8 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -27,6 +29,9 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "KSEN_SCHED_RQST")
+@NamedQueries({
+        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefObjects", query="Select sr from ScheduleRequestEntity sr where sr.refObjectTypeKey=:refObjectTypeKey and sr.refObjectId in (:refObjectIds)")
+})
 public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<ScheduleRequestAttributeEntity> {
 
     @Column(name = "REF_OBJECT_ID")

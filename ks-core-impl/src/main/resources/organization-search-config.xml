@@ -318,8 +318,8 @@
             <ref bean="org.criteria.orgByRelationTypeOrgType" />
         </search:searchCriteriaTypeInfo>
     </search:searchType>
-
-    <search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" parent="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"/>
+	
+	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" parent="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"/>
 	<search:searchType id="org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"  abstract="true">
 		<search:name>Organization Quick View By Relation Type, Org Ide and RelatedOrg type</search:name>
 		<search:desc>Returns a quick view of organization information for orgs in a relation with and org and specified types</search:desc>
@@ -699,10 +699,11 @@
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
-    <search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" parent="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"/>
+	
+	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId" parent="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"/>
 	<search:searchCriteriaTypeInfo id="org.criteria.orgQuickViewByRelationTypeRelatedOrgTypeOrgId-parent"  abstract="true">
 		<search:name>OrgQuickViewByRelationTypeRelatedOrgTypeOrgId</search:name>
-		<search:desc>Orgs in a relation with the given orgid, type and related org name</search:desc>
+		<search:desc>Orgs in a relation with the given orgid, type and org name</search:desc>
 		<search:queryParams>
 			<ref bean="org.queryParam.relationType" />
 			<ref bean="org.queryParam.orgId" />
@@ -884,7 +885,7 @@
 				</entry>	
 				<entry key="org.queryParam.orgOptionalLocation">
 					<value>org.longName</value>  <!--  we don't have yet location defined in database -->
-				</entry>		
+				</entry>
 			</map>
 		</property>
 	</bean>

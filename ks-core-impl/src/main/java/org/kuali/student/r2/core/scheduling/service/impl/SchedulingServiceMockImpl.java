@@ -40,6 +40,8 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
+
 import java.util.*;
 
 public class SchedulingServiceMockImpl implements SchedulingService, MockService {
@@ -468,6 +470,27 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         catch (DoesNotExistException e) {
             return new ArrayList<ScheduleRequestInfo> ();
         }
+    }
+    
+    
+
+    @Override
+    public List<ScheduleRequestInfo> getScheduleRequestsByRefObjects(
+            String refObjectType,
+            List<String> refObjectIds,
+            ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        
+        List<ScheduleRequestInfo>requests = new ArrayList<ScheduleRequestInfo>();
+        
+        for (String refObjectId : refObjectIds) {
+            
+            requests.addAll(getScheduleRequestsByRefObject(refObjectType, refObjectId, contextInfo));
+        }
+        
+        return requests;
+        
     }
 
     @Override

@@ -15,18 +15,21 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import org.kuali.student.r1.common.messages.dto.LocaleKeyList;
+import org.kuali.student.r1.common.messages.dto.Message;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.kuali.student.r2.common.dto.LocaleInfo;
 
 public interface MessagesRpcServiceAsync {
-    
-    public void getMessageGroups(AsyncCallback<ArrayList<String>> callback);
-    
-    public void getLocales(AsyncCallback<ArrayList<LocaleInfo>> callback);
+    public void getLocales(AsyncCallback<LocaleKeyList> callback);
+
+ // TODO fix merge
+    //public void getMessageGroups(AsyncCallback<MessageGroupKeyList> callback);
 
     public void getMessage(
             String localeKey, 
@@ -34,23 +37,23 @@ public interface MessagesRpcServiceAsync {
             String messageKey, 
             AsyncCallback<MessageInfo> callback);
     
-    public void getMessagesByGroup(
+    public void getMessages(
             String localeKey, 
             String messageGroupKey, 
-            AsyncCallback<ArrayList<MessageInfo>> callback);
+            AsyncCallback<List<MessageInfo>> callback);
     
     public void getMessagesByGroups(
             String localeKey, 
-            ArrayList<String> messageGroupKeys, 
-            AsyncCallback<ArrayList<MessageInfo>> callback);
+            MessageGroupKeyList messageGroupKeyList, 
+            AsyncCallback<MessageList> callback);
     
     public void updateMessage(
             String localeKey, 
             String messageGroupKey, 
             String messageKey,
-            MessageInfo messageInfo, 
+            Message messageInfo, 
             AsyncCallback<MessageInfo> callback);
     
-    public void createMessage(MessageInfo messageInfo, 
+    public void addMessage(Message messageInfo, 
             AsyncCallback<MessageInfo> callback);
 }

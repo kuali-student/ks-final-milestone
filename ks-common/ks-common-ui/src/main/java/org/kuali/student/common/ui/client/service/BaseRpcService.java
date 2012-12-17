@@ -22,7 +22,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 import java.util.List;
-import org.kuali.student.r2.core.search.service.SearchService;
 
 /**
  *  A base RPC service interface that exposes dictionary and search interfaces
@@ -43,6 +42,14 @@ public interface BaseRpcService extends RemoteService{
     public List<TypeInfo> getSearchTypes();
 
     public TypeInfo getSearchType(String searchTypeKey);
+
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey);
+
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey);
+
+    public List<TypeInfo> getSearchResultTypes();
+
+    public List<TypeInfo> getSearchCriteriaTypes();
 
     public SearchResultInfo search(SearchRequestInfo searchRequest);
 

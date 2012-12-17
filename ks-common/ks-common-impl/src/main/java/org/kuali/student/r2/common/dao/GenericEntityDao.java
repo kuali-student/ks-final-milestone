@@ -76,7 +76,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 		return resultList;
     }
 
-    private void verifyResults(List<T> resultList, Set<String> primaryKeys) throws DoesNotExistException {
+    protected void verifyResults(List<T> resultList, Set<String> primaryKeys) throws DoesNotExistException {
 
     	 if (resultList.size() == 0)
          	throw new DoesNotExistException("No data was found for : " + StringUtils.join(primaryKeys, ", "));

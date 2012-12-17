@@ -51,6 +51,21 @@ public class SearchServiceDispatcherImpl
         this.searchServices = searchServices;
     }
 
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
     @Override
     public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
@@ -89,9 +104,27 @@ public class SearchServiceDispatcherImpl
     }
 
     @Override
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo)
+            throws
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo)
             throws MissingParameterException,
-            InvalidParameterException,
             OperationFailedException,
             PermissionDeniedException {
         try {

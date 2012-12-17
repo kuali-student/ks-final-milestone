@@ -13,6 +13,7 @@ import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
@@ -32,9 +33,8 @@ import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -64,7 +64,7 @@ public abstract class AbstractDataService implements DataService{
         //TODO: Igor : Why do we check for this when getting the data for programs?
 		try{
 			if (proposalService != null){
-			    ProposalInfo proposalInfo = proposalService.getProposal(dtoId, ContextUtils.getContextInfo());
+			    ProposalInfo proposalInfo = proposalService.getProposal(dtoId);
 				filterProperties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
 				dtoId = proposalInfo.getProposalReference().get(0);
 			}			
@@ -204,9 +204,9 @@ public abstract class AbstractDataService implements DataService{
                     try {
                         //Retrieve the proposal info provided the proposal id (passed in as KS_JEW_OBJECT_ID) or the workflow id
                         if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
-                            proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()), ContextUtils.getContextInfo());
+                            proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()));
                         } else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
-                            proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()), ContextUtils.getContextInfo());
+                            proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()));
                         }
                         
                         //Check if the route status is in the list of allowed statuses

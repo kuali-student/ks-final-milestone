@@ -30,14 +30,14 @@ public class MessageAssembler {
 	public static void toMessageEntity(MessageInfo message,
 			MessageEntity messageEntity) {
 		messageEntity.setGroupName(message.getGroupName());
-		messageEntity.setMessageId(message.getMessageKey());
+		messageEntity.setMessageId(message.getKey());
 		messageEntity.setLocale(message.getLocale().getLocaleLanguage());
 		messageEntity.setValue(message.getValue());
 	}
 
 	public static void toMessage(MessageEntity messageEntity, MessageInfo message) {
 		message.setGroupName(messageEntity.getGroupName());
-		message.setMessageKey(messageEntity.getMessageId());
+		message.setKey(messageEntity.getMessageId());
 		LocaleInfo locale = new LocaleInfo();
 		locale.setLocaleLanguage(messageEntity.getLocale());
 		locale.setLocaleRegion(messageEntity.getLocale());

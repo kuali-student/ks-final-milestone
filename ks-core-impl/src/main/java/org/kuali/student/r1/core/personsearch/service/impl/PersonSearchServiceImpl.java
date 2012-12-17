@@ -104,6 +104,25 @@ public class PersonSearchServiceImpl implements SearchService {
     }
 
 
+    /**
+     * This overridden method ...
+     *
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchCriteriaTypes(org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws OperationFailedException {
+       throw new RuntimeException("Not implemented yet");
+    }
+
+    /**
+     * This overridden method ...
+     *
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchResultTypes(org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws OperationFailedException {
+        throw new RuntimeException("Not implemented yet");
+    }
 
     /**
      * This overridden method ...
@@ -119,6 +138,25 @@ public class PersonSearchServiceImpl implements SearchService {
         return null;
     }
 
+    /**
+     * This overridden method ...
+     *
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchTypesByCriteria(String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new RuntimeException("Not implemented yet");
+    }
+
+    /**
+     * This overridden method ...
+     *
+     * @see org.kuali.student.r2.common.search.service.SearchService#getSearchType(java.lang.String)
+     */
+    @Override
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new RuntimeException("Not implemented yet");
+    }
 
     /**
      * 
