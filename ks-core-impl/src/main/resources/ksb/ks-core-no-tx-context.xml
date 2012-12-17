@@ -270,7 +270,7 @@
                 <property name="serviceInterface" value="org.kuali.student.r2.core.atp.service.AtpService" />
                 <property name="localServiceName" value="AtpService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/atp" />
-                <property name="busSecurity" value="${ks.lum.bus.security}" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -457,7 +457,7 @@
                 <property name="serviceInterface" value="org.kuali.student.r2.core.class1.type.service.TypeService" />
                 <property name="localServiceName" value="TypeService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
-                <property name="busSecurity" value="${ks.lum.bus.security}" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -531,7 +531,7 @@
                 <property name="serviceInterface" value="org.kuali.student.r2.core.class1.state.service.StateService" />
                 <property name="localServiceName" value="StateService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/state" />
-                <property name="busSecurity" value="${ks.lum.bus.security}" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
     </bean>
@@ -695,7 +695,7 @@
                 <property name="localServiceName" value="StatementService"/>
                 <property name="serviceNameSpaceURI"
                           value="http://student.kuali.org/wsdl/statement"/>
-                <property name="busSecurity" value="${ks.lum.bus.security}"/>
+                <property name="busSecurity" value="${ks.core.bus.security}"/>
             </bean>
         </property>
     </bean>
