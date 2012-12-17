@@ -109,10 +109,10 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
                 if (socIds.isEmpty()) {
                     return null;
                 }
-                for (String socId: socIds) {
-                    SocInfo targetSoc = this._getSocService().getSoc(socId, new ContextInfo());
-                    if (targetSoc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        return targetSoc;
+                List<SocInfo> targetSocs = this._getSocService().getSocsByIds(socIds, new ContextInfo());
+                for (SocInfo soc: targetSocs) {
+                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                        return soc;
                     }
                 }
             }
