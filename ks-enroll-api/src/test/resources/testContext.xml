@@ -57,7 +57,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
     <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
     <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
         <constructor-arg>
-            <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionary" init-method="init">
+            <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionaryWithFakeEnvironment" init-method="init">
                 <property name="dataDictionaryMapper">
                     <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
                 </property>
