@@ -19,10 +19,12 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -38,10 +40,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ScoreTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {	
+public class ScoreTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
-    
+
+    private final static Set<String> prerequisites = new HashSet<String>(1);
+
+    static {
+        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    }
     
     public AcademicRecordService getAcademicRecordService() {
         return academicRecordService;
@@ -53,20 +60,17 @@ public class ScoreTermResolver implements TermResolver<List<StudentCourseRecordI
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return prerequisites;
     }
 
     @Override
     public String getOutput() {
-        return "ScoreTermResolver.getOutput()";
+        return KSKRMSExecutionConstants.SCORE_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        /*Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);*/
-    	return null;
+        return Collections.singleton(KSKRMSExecutionConstants.TEST_SET_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -76,17 +80,27 @@ public class ScoreTermResolver implements TermResolver<List<StudentCourseRecordI
     }
 
     @Override
-    public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        /*ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String testIds = parameters.get(KSKRMSExecutionConstants.TEST_SET_ID_TERM_PROPERTY);
         
-        List<StudentCourseRecordInfo> result = null;
+        Integer result = 0;
+        List<StudentTestScoreRecordInfo> recordInfoList = null;
         try {
-            result = academicRecordService.???(personId, context);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+            recordInfoList = academicRecordService.getTestScoreRecords(personId, context);
+        } catch (InvalidParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (MissingParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (OperationFailedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (PermissionDeniedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (DoesNotExistException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
         }
-        return result;*/
-    	return null;
+
+        return result;
     }
 }

@@ -142,8 +142,7 @@ public class CourseOfferingControllerUtil {
     public static void _prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(coToShow);
 
-        theForm.getCourseOfferingEditWrapperList().clear();
-        theForm.getCourseOfferingEditWrapperList().add(wrapper);
+        theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(coToShow);
         theForm.setFormatIdForNewAO(null);
         theForm.setActivityIdForNewAO(null);
@@ -452,10 +451,8 @@ public class CourseOfferingControllerUtil {
         if (aoCluster != null && registrationGroupInfos != null && !registrationGroupInfos.isEmpty()) {
             int rgIndex = 0;
             for (RegistrationGroupInfo registrationGroupInfo : registrationGroupInfos) {
-                List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateRegistrationGroup(
-                        "validation on AO time conflict check in a RG", aoCluster.getId(), registrationGroupInfo.getTypeKey(), registrationGroupInfo, ContextUtils.createDefaultContextInfo());
-
-                if (validationResultInfoList.get(0).isError())  {
+                List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().verifyRegistrationGroup(registrationGroupInfo.getId(),ContextUtils.createDefaultContextInfo());
+                if (validationResultInfoList.get(0).isWarn())  {
                     getCourseOfferingService().updateRegistrationGroupState(registrationGroupInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,ContextUtils.createDefaultContextInfo());
                     rgIndexList.add(rgIndex);
                 }
@@ -499,7 +496,7 @@ public class CourseOfferingControllerUtil {
         List<ValidationResultInfo> validationResultInfoList = getCourseOfferingService().validateActivityOfferingCluster(
                 "validation on max enroll totals", formateOfferingId, aoCluster, ContextUtils.createDefaultContextInfo());
 
-        if (validationResultInfoList.get(0).isError())  {
+        if (validationResultInfoList.get(0).isWarn())  {
             GlobalVariables.getMessageMap().putWarningForSectionId("registrationGroupsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
             GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line"+clusterIndex, RegistrationGroupConstants.MSG_WARNING_MAX_ENROLLMENT, aoCluster.getPrivateName());
         }

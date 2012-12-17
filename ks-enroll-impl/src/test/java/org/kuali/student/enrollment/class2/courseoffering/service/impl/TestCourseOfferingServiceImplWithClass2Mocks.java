@@ -16,23 +16,49 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.log4j.Logger;
-import org.junit.*;
+import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
+import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.common.test.util.ListOfStringTester;
+import org.kuali.student.common.test.util.MetaTester;
+import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.test.util.AttributeTester;
-import org.kuali.student.enrollment.test.util.ListOfStringTester;
-import org.kuali.student.enrollment.test.util.MetaTester;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -42,11 +68,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author ocleirig
@@ -92,23 +123,51 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     }
 
 
+    protected Config getTestHarnessConfig() {
+        Config config = new JAXBConfigImpl(getConfigLocations(), System.getProperties());
+        try {
+            config.parseConfig();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return config;
+    }
+
+    /**
+     * Subclasses may override this method to customize the location(s) of the Rice configuration.
+     * By default it is: classpath:META-INF/" + getModuleName().toLowerCase() + "-test-config.xml"
+     * @return List of config locations to add to this tests config location.
+     */
+    protected List<String> getConfigLocations() {
+        List<String> configLocations = new ArrayList<String>();
+//        configLocations.add(getRiceMasterDefaultConfigFile());
+        return configLocations;
+    }
+
     public static String principalId = "123";
     public ContextInfo callContext = null;
 
     @Before
     public void setup() throws Exception {
 
+
+        Config config = getTestHarnessConfig();
+        ConfigContext.init(config);
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
 
-        if (testAwareDataLoader || !dataLoader.isInitialized())
+
+
+        if (testAwareDataLoader || !dataLoader.isInitialized()) {
             dataLoader.beforeTest();
+            
+        }
 
     }
 
 
     @After
-    public void tearDown() {
+    public void tearDown() throws Exception {
         if (testAwareDataLoader)
             dataLoader.afterTest();
     }
@@ -127,7 +186,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         String activityOfferingClusterId = "fake-aoc-id";
 
-        RegistrationGroupInfo rgLecA = CourseOfferingServiceDataUtils
+        RegistrationGroupInfo rgLecA = CourseOfferingServiceTestDataUtils
                 .createRegistrationGroup("CO-1", formatOfferingId, "2012FA",
                         activityOfferingClusterId, activityOfferingIds, "RG-1", "RG-1", true, true,
                         10, LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
@@ -178,7 +237,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
                 coService.getActivityOffering("CO-1:LEC-AND-LAB:LAB-C",
                         callContext),};
 
-        ActivityOfferingClusterInfo expected = CourseOfferingServiceDataUtils
+        ActivityOfferingClusterInfo expected = CourseOfferingServiceTestDataUtils
                 .createActivityOfferingCluster("CO-1:LEC-AND-LAB", "Default Cluster",
                         Arrays.asList(activities));
 
@@ -228,7 +287,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         List<ActivityOfferingInfo> activities = coService.getActivityOfferingsByFormatOffering(formatOfferingId, callContext);
 
-        ActivityOfferingClusterInfo defaultAoc = CourseOfferingServiceDataUtils.createActivityOfferingCluster(formatOfferingId, "Default Cluster", activities);
+        ActivityOfferingClusterInfo defaultAoc = CourseOfferingServiceTestDataUtils.createActivityOfferingCluster(formatOfferingId, "Default Cluster", activities);
 
         defaultAoc = coService.createActivityOfferingCluster(formatOfferingId, CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, defaultAoc, callContext);
 
@@ -457,49 +516,49 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException {
+            PermissionDeniedException,
+            AlreadyExistsException,  VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException
+    {
+
+        String courseId = dataLoader.createCourse(dataLoader.getFall2012(),"MATH", "123", callContext);
 
         List<CourseOfferingInfo> offerings = coService
-                .getCourseOfferingsByCourse("CLU-1", callContext);
+                .getCourseOfferingsByCourse(courseId, callContext);
 
         int expectedOfferings = offerings.size() + 1;
 
         List<String> optionKeys = new ArrayList<String>();
         CourseInfo canonicalCourse = this.canonicalCourseService
-                .getCourse("CLU-1", ContextUtils.getContextInfo());
-        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils
+                .getCourse(courseId, ContextUtils.getContextInfo());
+        CourseOfferingInfo coInfo = CourseOfferingServiceTestDataUtils
                 .createCourseOffering(canonicalCourse, "2012FA");
 
-        // gets around the unique course code constraint
-        // this is ok for testing.
-        coInfo.setCourseCode(coInfo.getCourseOfferingCode() + "TESTING CREATE");
-
-        CourseOfferingInfo created = coService.createCourseOffering("CLU-1",
+        CourseOfferingInfo created = coService.createCourseOffering(courseId,
                 "2012FA", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo,
                 optionKeys, callContext);
 
         assertNotNull(created);
-        assertEquals("CLU-1", created.getCourseId());
+        assertEquals("MATH123-ID", created.getCourseId());
         assertEquals("2012FA", created.getTermId());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                 created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                 created.getTypeKey());
-        assertEquals("CHEM123", created.getCourseOfferingCode());
-        assertEquals("Chemistry 123", created.getCourseOfferingTitle());
+        assertEquals("MATH123", created.getCourseOfferingCode());
+        assertEquals("MATH MATH123", created.getCourseOfferingTitle());
 
         CourseOfferingInfo retrieved = coService.getCourseOffering(
                 created.getId(), callContext);
         assertNotNull(retrieved);
-        assertEquals("CLU-1", retrieved.getCourseId());
+        assertEquals("MATH123-ID", retrieved.getCourseId());
         assertEquals("2012FA", retrieved.getTermId());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                 retrieved.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                 retrieved.getTypeKey());
 
-        assertEquals("CHEM123", retrieved.getCourseOfferingCode());
-        assertEquals("Chemistry 123", retrieved.getCourseOfferingTitle());
+        assertEquals("MATH123", retrieved.getCourseOfferingCode());
+        assertEquals("MATH MATH123", retrieved.getCourseOfferingTitle());
 
         offerings = coService.getCourseOfferingsByCourse("CLU-1", callContext);
 
@@ -623,7 +682,6 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     }
 
     @Test
-    @Ignore //KSENROLL-3482
     // TODO fix KSENROLL-2671, add back validation decorator and this will work again
     public void testDeleteFormatOffering() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, DoesNotExistException {
 
@@ -660,11 +718,9 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    @Ignore //KSENROLL-3482
-    // TODO fix KSENROLL-2671, add back validation decorator and this will work again
     public void testDeleteActivityOffering() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, DoesNotExistException {
 
-        SeatPoolDefinitionInfo seatPoolDefinitionInfo = CourseOfferingServiceDataUtils.createSeatPoolDefinition("POP1", "Test Seat Pool", "expiration milestone", false, 12, 5);
+        SeatPoolDefinitionInfo seatPoolDefinitionInfo = CourseOfferingServiceTestDataUtils.createSeatPoolDefinition("POP1", "Test Seat Pool", "expiration milestone", false, 12, 5);
 
         seatPoolDefinitionInfo = coService.createSeatPoolDefinition(seatPoolDefinitionInfo, callContext);
 
@@ -711,8 +767,6 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    @Ignore //KSENROLL-3482
-    // TODO fix KSENROLL-2671, add back validation decorator and this will work again
     public void testDeleteCourseOffering() throws AlreadyExistsException,
             DoesNotExistException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException,
@@ -727,7 +781,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         CourseInfo canonicalCourse = canonicalCourseService.getCourse("CLU-1", ContextUtils.getContextInfo());
 
         // Create a CO
-        CourseOfferingInfo coInfo = CourseOfferingServiceDataUtils
+        CourseOfferingInfo coInfo = CourseOfferingServiceTestDataUtils
                 .createCourseOffering(canonicalCourse, "2012SP");
         List<String> optionKeys = new ArrayList<String>();
         CourseOfferingInfo created = coService.createCourseOffering("CLU-1",
@@ -768,7 +822,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     }
 
     @Test
-    @Ignore //KSENROLL-3482// TODO: update cascade to deal with AOC's instead of Reg Groups.
+    //@Ignore //KSENROLL-3482// TODO: update cascade to deal with AOC's instead of Reg Groups.
     public void testDeleteCourseOfferingCascaded() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException {
 
         boolean dependantObjects = false;
@@ -816,7 +870,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
             CourseOfferingInfo co = coList.get(0);
 
-            FormatOfferingInfo newFO = CourseOfferingServiceDataUtils
+            FormatOfferingInfo newFO = CourseOfferingServiceTestDataUtils
                     .createFormatOffering(co.getId(), "format1",
                             co.getTermId(), "TEST FORMAT OFFERING",
                             LuiServiceConstants.ALL_ACTIVITY_TYPES);
@@ -865,14 +919,14 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
 
-        instructors.add(CourseOfferingServiceDataUtils.createInstructor(
+        instructors.add(CourseOfferingServiceTestDataUtils.createInstructor(
                 "Pers-1", "Person One", 60.00F));
 
-        String activityId = CourseOfferingServiceDataUtils
+        String activityId = CourseOfferingServiceTestDataUtils
                 .createCanonicalActivityId("CO-1:LEC-ONLY",
                         LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY);
 
-        ActivityOfferingInfo ao = CourseOfferingServiceDataUtils
+        ActivityOfferingInfo ao = CourseOfferingServiceTestDataUtils
                 .createActivityOffering("2012FA", courseOffering, "CO-1:LEC-ONLY",
                         "SCHED-ID", activityId, "Lecture", "A",
                         LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
@@ -1042,9 +1096,9 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
     @Test
     public void testCreateSeatPoolDefinition() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        SeatPoolDefinitionInfo mainPool = CourseOfferingServiceDataUtils.createSeatPoolDefinition("EVERYONE", "Lab 123", AtpServiceConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY, true, 85, 1);
+        SeatPoolDefinitionInfo mainPool = CourseOfferingServiceTestDataUtils.createSeatPoolDefinition("EVERYONE", "Lab 123", AtpServiceConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY, true, 85, 1);
 
-        SeatPoolDefinitionInfo secondaryPool = CourseOfferingServiceDataUtils.createSeatPoolDefinition("EVERYONE", "Lab 123B", AtpServiceConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY, true, 15, 2);
+        SeatPoolDefinitionInfo secondaryPool = CourseOfferingServiceTestDataUtils.createSeatPoolDefinition("EVERYONE", "Lab 123B", AtpServiceConstants.MILESTONE_COURSE_SELECTION_PERIOD_END_TYPE_KEY, true, 15, 2);
 
         mainPool = coService.createSeatPoolDefinition(mainPool, callContext);
 

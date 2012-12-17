@@ -41,6 +41,9 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
     private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(KSViewHelperServiceImpl.class);
 
+    private transient StateService stateService;
+    private transient TypeService typeService;
+
     private transient Map<String,Class> helperClasses;
     private transient Map<String,Object> helpers;
 
@@ -68,9 +71,8 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
      * @return StateInfo for the given state key
      */
     public StateInfo getStateInfo(String stateKey){
-        StateService stateService = CourseOfferingResourceLoader.loadStateService();
         try {
-            return stateService.getState(stateKey, createContextInfo());
+            return getStateService().getState(stateKey, createContextInfo());
         }catch (Exception e){
             throw convertServiceExceptionsToUI(e);
         }
@@ -84,9 +86,8 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
      * @return TypeInfo for the given type key
      */
     public TypeInfo getTypeInfo(String typeKey){
-        TypeService typeService = CourseOfferingResourceLoader.loadTypeService();
         try {
-            return typeService.getType(typeKey, createContextInfo());
+            return getTypeService().getType(typeKey, createContextInfo());
         }catch (Exception e){
             throw convertServiceExceptionsToUI(e);
         }
@@ -175,4 +176,17 @@ public class KSViewHelperServiceImpl extends ViewHelperServiceImpl implements KS
         return helper;
     }
 
+    protected StateService getStateService(){
+        if (stateService == null){
+            stateService = CourseOfferingResourceLoader.loadStateService();
+        }
+        return stateService;
+    }
+
+    protected TypeService getTypeService(){
+        if (typeService == null){
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return typeService;
+    }
 }

@@ -4,22 +4,22 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
- *
  * @author nwright
  */
 public class CourseR1TestDataLoader {
@@ -49,15 +49,15 @@ public class CourseR1TestDataLoader {
                 LuServiceConstants.COURSE_ACTIVITY_LECTURE_TYPE_KEY, null);
     }
 
-    public void loadCourse(String id,
-            String startTermId,
-            String subjectArea,
-            String code,
-            String title,
-            String description,
-            String formatId,
-            String activityTypeKey1,
-            String activityTypeKey2) {
+    public CourseInfo loadCourse(String id,
+                                 String startTermId,
+                                 String subjectArea,
+                                 String code,
+                                 String title,
+                                 String description,
+                                 String formatId,
+                                 String activityTypeKey1,
+                                 String activityTypeKey2) {
         List<String> activityTypeKeys = new ArrayList();
         if (activityTypeKey1 != null) {
             activityTypeKeys.add(activityTypeKey1);
@@ -65,17 +65,17 @@ public class CourseR1TestDataLoader {
         if (activityTypeKey1 != null) {
             activityTypeKeys.add(activityTypeKey2);
         }
-        this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys);
+        return this.loadCourseInternal(id, startTermId, subjectArea, code, title, description, formatId, activityTypeKeys);
     }
 
-    private void loadCourseInternal(String id,
-            String startTermId,
-            String subjectArea,
-            String code,
-            String title,
-            String description,
-            String formatId,
-            List<String> activityTypeKeys) {
+    private CourseInfo loadCourseInternal(String id,
+                                          String startTermId,
+                                          String subjectArea,
+                                          String code,
+                                          String title,
+                                          String description,
+                                          String formatId,
+                                          List<String> activityTypeKeys) {
         CourseInfo info = new CourseInfo();
         info.setStartTerm(startTermId);
         info.setEffectiveDate(calcEffectiveDateForTerm(startTermId, id));
@@ -84,6 +84,10 @@ public class CourseR1TestDataLoader {
         info.setCode(code);
         info.setCourseNumberSuffix(code.substring(subjectArea.length()));
         info.setCourseTitle(title);
+        ResultValuesGroupInfo rvg = new ResultValuesGroupInfo();
+        rvg.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0);
+        rvg.setTypeKey(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_FIXED);
+        info.getCreditOptions().add(rvg);
         RichTextInfo rt = new RichTextInfo();
         rt.setPlain(description);
         info.setDescr(rt);
@@ -104,7 +108,7 @@ public class CourseR1TestDataLoader {
             activity.setState("Active");
         }
         try {
-            CourseInfo newInfo = this.courseService.createCourse(info, ContextUtils.getContextInfo());
+            return this.courseService.createCourse(info, ContextUtils.getContextInfo());
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
@@ -129,11 +133,10 @@ public class CourseR1TestDataLoader {
         if (str == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
         try {
-            Date date = df.parse(str);
+            Date date = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(str);
             return date;
-        } catch (ParseException ex) {
+        } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("Bad date " + str + " in " + context);
         }
     }

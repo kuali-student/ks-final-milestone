@@ -13,8 +13,8 @@
 
   <import resource="classpath:META-INF/default-property-config-context-test.xml" />
   <import resource="classpath:ks-test-system-property-configurer.xml" />
-  <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
-  <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+  <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
+  <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
 
   <bean id="AtomikosTxMgr" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init"
     destroy-method="close" depends-on="systemPropertyConfigurer">
@@ -29,6 +29,8 @@
     <property name="transactionManager" ref="AtomikosTxMgr" />
     <property name="userTransaction" ref="AtomikosUsrTx" />
     <property name="transactionSynchronizationName" value="SYNCHRONIZATION_ON_ACTUAL_TRANSACTION" />
+      <property name="allowCustomIsolationLevels" value="true" />
+
   </bean>
 
   <bean id="dataSource" class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean"
@@ -241,7 +243,7 @@
 
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
-    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
+
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
         <property name="lprService" ref="lprService" />
         <property name="lrcService" ref="lrcService"/>
@@ -264,7 +266,7 @@
   <bean id="grAssembler" class="org.kuali.student.enrollment.class2.grading.service.assembler.GradeRosterAssembler">
   </bean>
 
-  <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+  <bean id="acalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
@@ -273,15 +275,15 @@
   </bean>
 
 
-  <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
+  <bean id="acalAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler">
     <property name="atpService" ref="atpService" />
   </bean>
 
-  <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
+  <bean id="termAssembler" class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler">
       <property name="termCodeGenerator" ref = "termCodeGenerator" />
   </bean>
 
- <bean id="termCodeGenerator" class="org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl"/>
+ <bean id="termCodeGenerator" class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl"/>
 
   <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
@@ -310,9 +312,9 @@
 
     <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
-	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader" autowire="byType" />
+	<bean id="courseDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceJPADataLoader" autowire="byType" />
+	
     <bean id="luiServiceDataLoader" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader" autowire="byType" />
-    <bean id="atpTestDataLoader" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpTestDataLoader" autowire="byType" />
 
     <!-- 	 This needs to be replaced with a real impl that follows the prescrivbed pattern -->
 	 <bean id="regGroupCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.UUIDRegistrationGroupCodeGenerator" />
@@ -350,6 +352,14 @@
     <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
 
     <bean id="coCodeTransform" class="org.kuali.student.enrollment.class2.courseoffering.service.criteria.transform.CourseOfferingCriteriaTransform"/>
+
+    <bean id="codeGeneratorLocksDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDao">
+        <property name="em" ref="entityManager" />
+    </bean>
+
+    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
+        <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
+    </bean>
         
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

@@ -8,12 +8,13 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
   <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
@@ -25,12 +26,12 @@
     value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" /> <property name="arguments"> <list><ref bean="bootstrapConfig"/></list>
     </property> </bean> <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer"> <property
     name="localServiceName" value="KSLumContext"/> </bean> -->
-  <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
-  <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+  <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml" />
+  <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:enrollDao.xml" />
   <import resource="classpath:ksb/ks-lu-no-tx-context.xml" />
   <import resource="classpath:statement-context.xml" />
-  <import resource="classpath:ks-enroll-mock-room-data-context.xml"/>
+  <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
   <bean id="enrollDataSource" class="org.kuali.rice.student.core.database.DerbyXAPoolDataSource">
     <property name="transactionManager" ref="userTransaction" />
@@ -50,7 +51,7 @@
   <bean id="gradingService" class="org.kuali.student.enrollment.class2.grading.service.impl.GradingServiceImpl"
     scope="singleton">
     <property name="lprService" ref="lprServiceValidation" />
-    <property name="courseOfferingService" ref="coService" />
+    <property name="courseOfferingService" ref="CourseOfferingService" />
     <property name="gradeRosterAssembler" ref="gradeRosterAssembler" />
     <property name="gradeRosterEntryAssembler" ref="gradeRosterEntryAssembler" />
     <property name="lrrService" ref="lrrPersistenceService" />
@@ -201,60 +202,9 @@
         </property>
     </bean>
 
-  <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
-  <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
-      <property name="atpService" ref="atpEnrService" />
-      <property name="nextDecorator" ref="acalServiceImpl" />
-  </bean>
-  <!-- -->
-
-  <!-- change id to "acalServiceImpl" if the above bean is used -->
-  <bean id="acalServiceImpl" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
-    <property name="atpService" ref="atpEnrService" />
-    <property name="stateService" ref="stateServiceCacheDecorator" />
-    <property name="typeService" ref="typeServiceCacheDecorator" />
-    <property name="acalAssembler" ref="acalAssembler" />
-    <property name="termAssembler" ref="termAssembler" />
-    <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
-    <property name="holidayAssembler" ref="holidayAssembler" />
-    <property name="keyDateAssembler" ref="keyDateAssembler" />
-    <property name="acalEventAssembler" ref = "acalEventAssembler" />
-  </bean>
-
-  <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-    <property name="serviceDefinition">
-      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-        <property name="jaxWsService" value="true" />
-        <property name="service" ref="acalService" />
-        <property name="serviceInterface" value="org.kuali.student.enrollment.acal.service.AcademicCalendarService" />
-        <property name="localServiceName" value="AcademicCalendarService" />
-        <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/acal" />
-        <property name="busSecurity" value="${ks.lum.bus.security}" />
-      </bean>
-    </property>
-  </bean>
-
-  <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
-    <property name="atpService" ref="atpEnrService" />
-  </bean>
-
-  <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler">
-    <property name="termCodeGenerator" ref = "termCodeGenerator" />
-  </bean>
-
-<bean id="termCodeGenerator" class="org.kuali.student.enrollment.class2.acal.service.impl.TermCodeGeneratorImpl"/>
-
-  <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
-
-  <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
-
-  <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
-
   <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
 
   <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
-
-  <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
 
     <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
@@ -324,7 +274,10 @@
 
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao" />
-        <property name="lifecycleDao" ref="lifecycleDao" />      
+        <property name="lifecycleDao" ref="lifecycleDao" />
+        <property name="stateChangeDao" ref="stateChangeDao" />
+        <property name="stateConstraintDao" ref="stateConstraintDao" />
+        <property name="statePropagationDao" ref="statePropagationDao"/>
         <property name="stateCriteriaLookupService">
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">
@@ -369,8 +322,13 @@
         </property>
     </bean>
 
+    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
+        <constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
+    </bean>
+
     <bean id="stateServiceCacheDecorator" class="org.kuali.student.r2.core.class1.state.decorators.StateServiceCacheDecorator">
         <property name="nextDecorator" ref="stateService" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
@@ -440,6 +398,7 @@
 
   <bean id="typeServiceCacheDecorator" class="org.kuali.student.r2.common.class1.type.decorators.TypeServiceCacheDecorator">
      <property name="nextDecorator" ref="typeService" />
+     <property name="cacheManager" ref="ksCacheManager"/>
   </bean>
 
 
@@ -488,6 +447,14 @@
     </property>
   </bean>
 
+    <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
+        <property name="socDao" ref="socDao" />
+        <property name="courseService" ref="courseServiceImpl" />
+        <property name="acalService" ref="acalService" />
+        <property name="coService" ref="CourseOfferingService" />
+        <property name="schedulingService" ref="schedulingServiceValidationDecorator"/>
+    </bean>
+
    <!-- courseofferingset beans -->
     <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
         <property name="socDao" ref="socDao" />
@@ -495,14 +462,7 @@
         <property name="socRorItemDao" ref="socRolloverResultItemDao"/>
         <property name="criteriaLookupService" ref="defaultCriteriaLookupService" />
         <property name="businessLogic" ref="socBusinessLogic" />
-    </bean>
-
-    <bean id="socBusinessLogic" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceBusinessLogicImpl">
-        <property name="socDao" ref="socDao" />
-        <property name="courseService" ref="courseServiceImpl" />
-        <property name="acalService" ref="acalService" />
-        <property name="coService" ref="coService" />
-        <property name="schedulingService" ref="schedulingServiceValidationDecorator"/>
+        <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
     </bean>
 
     <bean id="ks.exp.socService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -540,13 +500,21 @@
     </bean>
   <!-- course offering beans -->
 
+    <!-- Note: this is not a decorator -->
+    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
+        <property name="courseService" ref="courseServiceImpl" />
+        <property name="acalService" ref="acalService" />
+        <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
+        <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
+    </bean>
+
   <bean id="coServiceValidation"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
-    <property name="nextDecorator" ref="coService" />
+    <property name="nextDecorator" ref="coServiceImpl" />
     <property name="validator" ref="validator" />
   </bean>
 
-  <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
+  <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
         <property name="luiService" ref="luiServiceValidationDecorator" />
         <property name="rgAssembler" ref="rgAssembler" />
         <property name="courseService" ref="courseServiceImpl" />
@@ -564,30 +532,71 @@
         <property name="atpService" ref="atpEnrService"/>
         <property name="schedulingService" ref="schedulingServiceImpl"/>
         <property name="lrcService" ref="lrcServiceCache"/>
+        <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
   </bean>
 
-   <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorImpl"/>
-   <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
-       <property name="lprService" ref="lprPersistenceService" />
-       <property name="lrcService" ref="lrcServiceCache" />
-       <property name="cluService" ref="cluServiceImpl"/>
-       <property name="luiService" ref="luiService" />
-   </bean>
+    <bean id="stateTransitionsHelper" class="org.kuali.student.r2.core.class1.state.service.impl.StateTransitionsHelperImpl">
+        <property name="stateService" ref="stateService"/>
+        <property name="stateHelperMap" ref="stateHelperMap" />
+        <property name="relatedObjectHelperMap" ref="relatedObjectHelperMap"/>
+    </bean>
 
-   <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
-       <property name="courseService" ref="courseServiceImpl" />
-       <property name="acalService" ref="acalService" />
-       <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
-       <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
-   </bean>
+    <util:map id="stateHelperMap" map-class="java.util.HashMap">
+         <entry key="kuali.lui.activity.offering" value-ref="aoStateHelper"/>
+         <entry key="kuali.lui.format.offering" value-ref="foStateHelper"/>
+         <entry key="kuali.lui.course.offering" value-ref="coStateHelper"/>
+         <entry key="kuali.lui.registration.group" value-ref="rgStateHelperImpl"/>
+         <entry key="kuali.soc" value-ref="socStateHelper"/>
+         <entry key="kuali.soc.scheduling" value-ref="socSchedStateHelper"/>
+     </util:map>
 
-    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+     <util:map id="relatedObjectHelperMap" map-class="java.util.HashMap">
+         <entry key="kuali.lui.activity.offering:kuali.lui.format.offering" value-ref="aoToFoRelatedObjHelper"/>
+         <entry key="kuali.lui.format.offering:kuali.lui.course.offering" value-ref="foToCoRelatedObjHelper"/>
+         <entry key="kuali.lui.course.offering:kuali.lui.format.offering" value-ref="coToFoRelatedObjHelper"/>
+         <entry key="kuali.lui.format.offering:kuali.lui.activity.offering" value-ref="foToAoRelatedObjHelper"/>
+         <entry key="kuali.lui.activity.offering:kuali.lui.registration.group" value-ref="aoToRgRelatedObjHelper"/>
+         <entry key="kuali.lui.registration.group:kuali.lui.activity.offering" value-ref="rgToAoRelatedObjHelper"/>
+         <entry key="kuali.lui.activity.offering:kuali.lui.activity.offering.scheduling" value-ref="aoToAoSchedRelatedObjHelper"/>
+         <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
+     </util:map>
+
+    <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
+
+    <bean id="foStateHelper" class="org.kuali.student.enrollment.class1.state.impl.FOStateHelperImpl"/>
+
+    <bean id="coStateHelper" class="org.kuali.student.enrollment.class1.state.impl.COStateHelperImpl" />
+
+    <bean id="rgStateHelperImpl" class="org.kuali.student.enrollment.class1.state.impl.RGStateHelperImpl" />
+
+    <bean id="socStateHelper" class="org.kuali.student.enrollment.class1.state.impl.SOCStateHelperImpl" />
+
+    <bean id="socSchedStateHelper" class="org.kuali.student.enrollment.class1.state.impl.SOCSchedStateHelperImpl" />
+
+    <bean id="aoToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoFOImpl"/>
+
+    <bean id="foToCoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoCOImpl"/>
+
+    <bean id="coToFoRelatedObjHelper"  class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperCOtoFOImpl"/>
+
+    <bean id="foToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperFOtoAOImpl"/>
+
+    <bean id="aoToRgRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoRGImpl"/>
+
+    <bean id="rgToAoRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperRGtoAOImpl"/>
+
+    <bean id="aoToAoSchedRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoAOSchedImpl"/>
+
+    <bean id="socToAORelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperSOCtoAOImpl"/>
+
+    <!-- Right now the top level is the validation service so the alias points to it -->
+    <alias name="coServiceValidation" alias="CourseOfferingService" />
 
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-       <property name="serviceDefinition">
+        <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="coService" />
+                <property name="service" ref="CourseOfferingService" />
                 <property name="serviceInterface" value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
                 <property name="localServiceName" value="CourseOfferingService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseOffering" />
@@ -595,6 +604,20 @@
             </bean>
         </property>
     </bean>
+
+   <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
+       <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
+   </bean>
+
+
+   <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
+       <property name="lprService" ref="lprPersistenceService" />
+       <property name="lrcService" ref="lrcServiceCache" />
+       <property name="cluService" ref="cluServiceImpl"/>
+       <property name="luiService" ref="LuiService" />
+   </bean>
+
+  <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
   <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="courseService" ref="courseServiceImpl" />
@@ -617,12 +640,12 @@
 
 
   <bean id="rgAssembler" class="org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler">
-    <property name="luiService" ref="luiServiceValidationDecorator" />
+    <property name="luiService" ref="LuiService" />
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
   </bean>
 
   <bean id="registrationGroupTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer">
-    <property name="luiService" ref="luiServiceValidationDecorator" />
+    <property name="luiService" ref="LuiService" />
   </bean>
 
   <!--<bean id="ks.exp.courseOfferingValidationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">-->
@@ -638,6 +661,10 @@
     <!--</property>-->
   <!--</bean>-->
 
+
+    <!-- Right now the top level is the validation service so the alias points to it -->
+    <alias name="luiServiceValidationDecorator" alias="LuiService" />
+
     <bean id="luiServiceValidationDecorator" class=" org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
         <property name="nextDecorator" ref="luiService" />
         <property name="typeService" ref="typeServiceCacheDecorator" />
@@ -652,7 +679,7 @@
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="luiServiceValidationDecorator" />
+                <property name="service" ref="LuiService" />
                 <property name="serviceInterface" value="org.kuali.student.enrollment.lui.service.LuiService" />
                 <property name="localServiceName" value="LuiService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/lui" />
@@ -726,6 +753,7 @@
 
     <bean id="lrcServiceCache" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceCacheDecorator">
         <property name="nextDecorator" ref="lrcPersistenceService" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <bean id="lrcPersistenceService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
@@ -854,13 +882,13 @@
 
   <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
     <property name="lprService" ref="lprServiceValidation" />
-    <property name="courseOfferingService" ref="coServiceValidation" />
+    <property name="courseOfferingService" ref="CourseOfferingService" />
   </bean>
 
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
     <property name="lprService" ref="lprServiceValidation" />
     <property name="lrrService" ref="lrrPersistenceService" />
-    <property name="luiService" ref="luiServiceValidationDecorator" />
+    <property name="luiService" ref="LuiService" />
   </bean>
 
   <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
@@ -945,6 +973,7 @@
         <property name="appointmentSlotDao" ref="appointmentSlotDao"/>
         <property name="appointmentDao" ref="appointmentDao"/>
         <property name="populationService" ref="populationServiceMock"/>
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
     </bean>
 
     <bean id="ks.exp.appointmentWindowService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1021,12 +1050,16 @@
         <property name="genericEntityDao" ref="searchDao"/>
         <property name="noOfYears" value="5"/>
     </bean>
+    <bean id="CourseOfferingManagementSearchImpl" class="org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl">
+        <property name="genericEntityDao" ref="searchDao"/>
+    </bean>
 
     <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
             <list>
                  <ref bean="apptWindowCountsSearchImpl" />
                  <ref bean="courseOfferingHistorySearchImpl"/>
+                 <ref bean="CourseOfferingManagementSearchImpl"/>
             </list>
         </property>                
     </bean>
@@ -1115,7 +1148,7 @@
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
         <property name="atpService" ref="atpEnrService"/>
         <property name="typeService" ref="typeService"/>
-        <property name="roomService" ref="roomServiceMockImpl"/>
+        <property name="roomService" ref="RoomService"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
@@ -1140,17 +1173,25 @@
         </property>
     </bean>
 
-    <!-- Room Service Mock Impl -->
-    <bean id="roomServiceMockImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5">
-        <property name="buildingMap" ref="buildingMap"/>
-        <property name="roomMap" ref="roomMap"/>
+    <!-- The REAL RoomServiceImpl -->
+    <alias name="roomServiceCache" alias="RoomService"/>
+
+    <bean id="roomServiceCache" class="org.kuali.student.r2.core.room.service.decorators.RoomServiceCacheDecorator">
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="nextDecorator" ref="roomServiceImpl"/>
+    </bean>
+
+    <bean id="roomServiceImpl" class="org.kuali.student.r2.core.room.service.impl.RoomServiceImpl">
+        <property name="buildingServiceDao" ref="buildingServiceDao" />
+        <property name="roomServiceDao" ref="roomServiceDao" />
+        <property name="roomResponsibleOrgDao" ref="roomResponsibleOrgDao" />
     </bean>
 
     <bean id="ks.exp.roomService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true" />
-                <property name="service" ref="roomServiceMockImpl" />
+                <property name="service" ref="RoomService" />
                 <property name="serviceInterface" value="org.kuali.student.r2.core.room.service.RoomService" />
                 <property name="localServiceName" value="RoomService" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/room" />
@@ -1159,4 +1200,24 @@
         </property>
     </bean>
 
-</beans>
+
+    <!-- End Room Service Mock Impl -->
+
+
+    <!--This is a ref data utility that should be removed in the future -->
+    <bean id="CluFixer" class="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixerImpl">
+        <property name="coService" ref="CourseOfferingService"/>
+        <property name="courseService" ref="courseServiceImpl"/>
+    </bean>
+    <bean id="ks.exp.cluFixer" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="CluFixer" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer"/>
+                <property name="localServiceName" value="CluFixer" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/cluFixer" />
+                <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+ </beans>

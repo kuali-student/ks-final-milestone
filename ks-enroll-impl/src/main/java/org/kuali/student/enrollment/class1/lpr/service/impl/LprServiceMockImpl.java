@@ -85,8 +85,8 @@ public class LprServiceMockImpl implements LprService, MockService {
 	
     @Override
 	public List<LprInfo> getLprsByLuis(
-			@WebParam(name = "luiIds") List<String> luiIds,
-			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			List<String> luiIds,
+			 ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {

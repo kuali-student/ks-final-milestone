@@ -52,6 +52,8 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     private String gradingOption;
 
+    private String termName;
+
     public CourseOfferingEditWrapper(){
         super();
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
@@ -214,6 +216,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public void setPassFailStudentRegOpts(boolean passFailStudentRegOpts) {
         this.passFailStudentRegOpts = passFailStudentRegOpts;
+    }
+
+    public void setTermName(String name){
+        this.termName=name;
+    }
+
+    public String getTermName(){
+        return termName;
     }
 }
 

@@ -19,22 +19,27 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.*;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -406,7 +411,9 @@ public class AcademicCalendarController extends UifControllerBase {
             String messageText = alreadyOfficial ? "info.enroll.term.saved" : "info.enroll.term.official";
             boolean calculateInstrDays = !academicCalendarForm.getHolidayCalendarList().isEmpty();
             viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), true,calculateInstrDays);
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, messageText, termWrapper.getTermNameForUI());
+            if (!GlobalVariables.getMessageMap().hasErrors()){
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, messageText, termWrapper.getTermNameForUI());
+            }
         }catch (Exception e){
             if (LOG.isDebugEnabled()){
                 LOG.debug("Error Saving term " + termWrapper.getTermNameForUI() + " - " + e.getMessage());
@@ -599,11 +606,9 @@ public class AcademicCalendarController extends UifControllerBase {
             if (StringUtils.isNotBlank(academicCalendarInfo.getId())) {
                 // 1. update acal and AC-HC relationships
                 academicCalendarInfo = processHolidayCalendars(academicCalendarForm);
-                if (isOfficial) {
-                    academicCalendarInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY);
-                }
                 AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, viewHelperService.createContextInfo());
-                academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.createContextInfo()));
+                //academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.createContextInfo()));
+                academicCalendarForm.setAcademicCalendarInfo(acalInfo);
 
                 // 2. update acalEvents if any
                 List<AcalEventWrapper> events = academicCalendarForm.getEvents();
@@ -614,7 +619,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 processHolidayCalendars(academicCalendarForm);
                 acalInfo = viewHelperService.createAcademicCalendar(academicCalendarForm);
                 academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.createContextInfo()));
-                // 2. create new events if any
+                // 2. create new events if any                                                 Unable to save or update academic calendar
                 createEvents(acalInfo.getId(), academicCalendarForm);
             }
         } catch(Exception e) {
@@ -655,12 +660,26 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
 
-        academicCalendarForm.setNewCalendar(false);
-
-        if (isOfficial) {
-            academicCalendarForm.setOfficialCalendar(true);
-            academicCalendarForm.getView().setReadOnly(true);
+        if (isOfficial){
+            StatusInfo statusInfo = null;
+            try {
+                statusInfo = getAcalService().changeAcademicCalendarState(academicCalendarForm.getAcademicCalendarInfo().getId(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,viewHelperService.createContextInfo());
+                if (!statusInfo.getIsSuccess()){
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
+                } else{
+                    academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(academicCalendarForm.getAcademicCalendarInfo().getId(), viewHelperService.createContextInfo()));
+                    academicCalendarForm.setOfficialCalendar(true);
+                    academicCalendarForm.getView().setReadOnly(true);
+                    for (AcalEventWrapper eventWrapper : academicCalendarForm.getEvents()) {
+                        eventWrapper.setAcalEventInfo(getAcalService().getAcalEvent(eventWrapper.getAcalEventInfo().getId(),viewHelperService.createContextInfo()));
+                    }
+                }
+            } catch (Exception e) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED + " - " + e.getMessage());
+            }
         }
+
+        academicCalendarForm.setNewCalendar(false);
 
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, keyToDisplayOnSave, academicCalendarForm.getAcademicCalendarInfo().getName());
 
@@ -675,7 +694,7 @@ public class AcademicCalendarController extends UifControllerBase {
         if(events != null && !events.isEmpty()){
             List<AcalEventWrapper> createdEvents = new ArrayList<AcalEventWrapper>();
             for (AcalEventWrapper event : events){
-                createdEvents.add(viewHelperService.createEvent(acalId, event));
+                createdEvents.add(viewHelperService.createEvent(acalId, event,false));
             }
             acalForm.setEvents(createdEvents);
         }
@@ -698,8 +717,10 @@ public class AcademicCalendarController extends UifControllerBase {
                     currentEventIds.remove(event.getAcalEventInfo().getId());
                 }
                 else {
+                    //If acal is already official, set the Event as official
+                    boolean isAcalOfficial = StringUtils.equals(acalForm.getAcademicCalendarInfo().getStateKey(),AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
                     //create a new event
-                    AcalEventWrapper createdEvent = viewHelperService.createEvent(acalId, event);
+                    AcalEventWrapper createdEvent = viewHelperService.createEvent(acalId, event,isAcalOfficial);
                     updatedEvents.add(createdEvent);
                 }
             }

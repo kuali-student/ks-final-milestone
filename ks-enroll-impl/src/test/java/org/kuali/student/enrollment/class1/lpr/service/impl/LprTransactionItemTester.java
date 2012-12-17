@@ -4,17 +4,17 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import static org.junit.Assert.*;
+import org.kuali.student.common.test.util.IdEntityTester;
+import org.kuali.student.common.test.util.ListOfStringTester;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.test.util.IdEntityTester;
-import org.kuali.student.enrollment.test.util.ListOfStringTester;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Helps create a dynamic 

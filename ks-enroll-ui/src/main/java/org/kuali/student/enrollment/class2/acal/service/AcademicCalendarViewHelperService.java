@@ -15,9 +15,9 @@
  */
 package org.kuali.student.enrollment.class2.acal.service;
 
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
@@ -41,7 +41,7 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public List<AcalEventWrapper> populateEventWrappers(String acalId) throws Exception;
 
-    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception;
+    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event,boolean isAcalOfficial) throws Exception;
 
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
 

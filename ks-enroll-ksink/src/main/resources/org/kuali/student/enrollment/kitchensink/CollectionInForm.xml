@@ -104,8 +104,7 @@
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-CollectionInForm-View-Bare" parent="KS-KitchenSink-FormView">
-        <property name="breadcrumbs.render" value="false"/>
+    <bean id="KS-KitchenSink-CollectionInForm-View-Bare" parent="KS-KitchenSink-FormView-Bare">
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">

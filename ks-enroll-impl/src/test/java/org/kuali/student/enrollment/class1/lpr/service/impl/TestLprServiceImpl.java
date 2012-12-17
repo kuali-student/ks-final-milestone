@@ -107,9 +107,11 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 	}
 
 	/**
-	 * Validate that there are 3 columns in the KSEN_LPR_RESULT_VAL_GRP table.
+	 * Validate that there are 2 columns in the KSEN_LPR_RESULT_VAL_GRP table.
 	 * 
-	 * (ID, LPR_ID, RESULT_VAL_GRP_ID)
+	 * (LPR_ID, RESULT_VAL_GRP_ID)
+	 * 
+	 * This was used to test that the @ElementCollection JPA annotation only needed a two columned table.
 	 * 
 	 * @throws SQLException
 	 */

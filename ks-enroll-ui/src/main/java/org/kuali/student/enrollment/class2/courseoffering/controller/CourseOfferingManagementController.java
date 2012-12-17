@@ -12,11 +12,12 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
@@ -29,7 +30,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -79,16 +80,28 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) form;
+        // set adminOrg to the form to temporarily overcome that we actually need page level authorization but not view 
+        // level authorization.
+        String inputValue = request.getParameter("adminOrg");
+        if ((inputValue != null) && !inputValue.isEmpty()){
+            theForm.setAdminOrg(inputValue);
+        }
+        //clean up termCode, inputCode, and theCourseOffering value in the form to prevent the
+        //side effect of the authorization.
+        theForm.setTermCode(null);
+        theForm.setInputCode(null);
+        theForm.setTheCourseOffering(null);
 
         // check view authorization
         // TODO: this needs to be invoked for each request
         if (form.getView() != null) {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
             checkViewAuthorization(theForm, methodToCall);
+
         }
-        
+
         // check if the view is invoked within portal or not
-        String inputValue = request.getParameter("withinPortal");
+        inputValue = request.getParameter("withinPortal");
         if ((inputValue != null) && !inputValue.isEmpty()){
             boolean withinPortal = Boolean.valueOf(request.getParameter("withinPortal"));
             theForm.setWithinPortal(withinPortal);
@@ -137,13 +150,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             } else {
                 LOG.error("Error: Found more than one Term for term code: " + termCode);
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
-                theForm.getCourseOfferingEditWrapperList().clear();
+                theForm.clearCourseOfferingResultList();
                 return getUIFModelAndView(theForm);
              }
         } else {
             LOG.error("Error: Can't find any Term for term code: " + termCode);
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
-            theForm.getCourseOfferingEditWrapperList().clear();
+            theForm.clearCourseOfferingResultList();
             return getUIFModelAndView(theForm);
         }
 
@@ -151,13 +164,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         String inputCode = theForm.getInputCode();
         if (inputCode != null && !inputCode.isEmpty()) {
             getViewHelperService(theForm).loadCourseOfferingsByTermAndCourseCode(theForm.getTermInfo().getId(), inputCode, theForm);
-            if(!theForm.getCourseOfferingEditWrapperList().isEmpty()) {
-                if (theForm.getCourseOfferingEditWrapperList().size() > 1) {
-                    theForm.setSubjectCode(theForm.getCourseOfferingEditWrapperList().get(0).getCoInfo().getSubjectArea());
+            if(!theForm.getCourseOfferingResultList().isEmpty()) {
+                if (theForm.getCourseOfferingResultList().size() > 1) {
+                    theForm.setSubjectCode(theForm.getCourseOfferingResultList().get(0).getSubjectArea());
                     String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
                     theForm.setSubjectCodeDescription(longNameDescr);
+                    // Pull out the first CO from the result list and then pull out the org ids from this CO
+                    // and pass in the first one as the adminOrg
+                    CourseOfferingInfo firstCO = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    List<String> orgIds = firstCO.getUnitsDeploymentOrgIds();
+                    if(orgIds !=null && !orgIds.isEmpty()){
+                        theForm.setAdminOrg(orgIds.get(0));
+                    }
                 } else { // just one course offering is returned
-                    CourseOfferingInfo coToShow = theForm.getCourseOfferingEditWrapperList().get(0).getCoInfo();
+                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
                     return _prepareManageAOsModelAndView(theForm, coToShow);
                 }
@@ -170,7 +190,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         } else {
             LOG.error("Error: Course Code search field can't be empty");
             GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, termCode);
-            theForm.getCourseOfferingEditWrapperList().clear();
+            theForm.clearCourseOfferingResultList();
             theForm.setActivityWrapperList(null);
 
             return getUIFModelAndView(theForm);
@@ -180,9 +200,13 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     private ModelAndView _prepareManageAOsModelAndView(CourseOfferingManagementForm theForm, CourseOfferingInfo coToShow) throws Exception {
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(coToShow);
 
-        theForm.getCourseOfferingEditWrapperList().clear();
-        theForm.getCourseOfferingEditWrapperList().add(wrapper);
+        theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(coToShow);
+        //Pull out the org ids and pass in the first one as the adminOrg
+        List<String> orgIds = coToShow.getUnitsDeploymentOrgIds();
+        if(orgIds !=null && !orgIds.isEmpty()){
+            theForm.setAdminOrg(orgIds.get(0));
+        }
         theForm.setFormatIdForNewAO(null);
         theForm.setActivityIdForNewAO(null);
         theForm.setNoOfActivityOfferings(null);
@@ -215,8 +239,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getPreviousCourseOffering());
 
-        theForm.getCourseOfferingEditWrapperList().clear();
-        theForm.getCourseOfferingEditWrapperList().add(wrapper);
+        theForm.clearCourseOfferingResultList();
+        theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(theForm.getPreviousCourseOffering());
         theForm.setInputCode(wrapper.getCoInfo().getCourseOfferingCode());
 
@@ -232,8 +256,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         CourseOfferingEditWrapper wrapper = new CourseOfferingEditWrapper(theForm.getNextCourseOffering());
 
-        theForm.getCourseOfferingEditWrapperList().clear();
-        theForm.getCourseOfferingEditWrapperList().add(wrapper);
+        theForm.clearCourseOfferingResultList();
+        theForm.setCourseOfferingEditWrapper(wrapper);
         theForm.setTheCourseOffering(theForm.getNextCourseOffering());
         theForm.setInputCode(wrapper.getCoInfo().getCourseOfferingCode());
 
@@ -247,9 +271,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView loadAOs(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         Object selectedObject = _getSelectedObject(theForm, "Manage");
-        if(selectedObject instanceof CourseOfferingEditWrapper){
-            CourseOfferingEditWrapper coWrapper =  (CourseOfferingEditWrapper)selectedObject;
-            CourseOfferingInfo theCourseOffering = coWrapper.getCoInfo();
+
+        if(selectedObject instanceof CourseOfferingListSectionWrapper){
+            CourseOfferingListSectionWrapper coWrapper =  (CourseOfferingListSectionWrapper)selectedObject;
+            CourseOfferingInfo theCourseOffering = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
 
             theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
             theForm.setInputCode(theCourseOffering.getCourseOfferingCode());
@@ -259,6 +284,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             //TODO log error
             return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
         }
+
     }
 
     @RequestMapping(params = "methodToCall=copyCourseOfferingCreateCopy")
@@ -341,11 +367,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             @SuppressWarnings("unused") HttpServletRequest request,
             @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         Object selectedObject = _getSelectedObject(theForm, "Copy"); // Receives edit wrapper, "Copy" for error message.
-        if(selectedObject instanceof CourseOfferingEditWrapper){
+        if(selectedObject instanceof CourseOfferingListSectionWrapper){
 
             // Get the selected CourseOfferingEditWrapper.
-            CourseOfferingEditWrapper courseOfferingEditWrapper = (CourseOfferingEditWrapper)selectedObject;
-            CourseOfferingInfo courseOfferingInfo = courseOfferingEditWrapper.getCoInfo();
+            CourseOfferingListSectionWrapper coWrapper =  (CourseOfferingListSectionWrapper)selectedObject;
+            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
 
             // Load activity offerings.
             getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(courseOfferingInfo, theForm);
@@ -406,6 +432,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.setSubjectCode(subjectCode);
         String longNameDescr = getOrgNameDescription(theForm.getSubjectCode());
         theForm.setSubjectCodeDescription(longNameDescr);
+        //clean up theCourseOffering value in the form to prevent the
+        //side effect of the authorization.
+        theForm.setTheCourseOffering(null);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
     }
 
@@ -449,8 +478,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         try{
             for(ActivityOfferingWrapper ao : selectedAolist)  {
-                CourseOfferingResourceLoader.loadCourseOfferingService().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+                getCourseOfferingService().deleteActivityOfferingCascaded(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
             }
+
 
             // check for changes to states in CO and related FOs
             ViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getTheCourseOffering(), ContextBuilder.loadContextInfo());
@@ -480,7 +510,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if ( ! StringUtils.isBlank(selectedCollectionPath)) {
             Object selectedObject = _getSelectedObject(theForm, "deleteCo");
-            theCourseOffering = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
+            CourseOfferingListSectionWrapper coWrapper =  (CourseOfferingListSectionWrapper)selectedObject;
+            theCourseOffering = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
             theForm.setTheCourseOffering(theCourseOffering);
         }
 
@@ -609,8 +640,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         Properties urlParameters = new Properties();
         Object selectedObject = _getSelectedObject(theForm, "edit");
 
-        if (selectedObject instanceof CourseOfferingEditWrapper) {
-            CourseOfferingInfo courseOfferingInfo = ((CourseOfferingEditWrapper) selectedObject).getCoInfo();
+        if (selectedObject instanceof CourseOfferingListSectionWrapper) {
+            CourseOfferingListSectionWrapper coWrapper =  (CourseOfferingListSectionWrapper)selectedObject;
+            CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+
             urlParameters = _buildCOURLParameters(courseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         } else if(selectedObject instanceof ActivityOfferingWrapper) {
 
@@ -680,8 +713,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
      */
     private boolean hasSelectedCourseOfferings(CourseOfferingManagementForm theForm) {
         boolean isSelected = false;
-        List<CourseOfferingEditWrapper> list = theForm.getCourseOfferingEditWrapperList();
-        for (CourseOfferingEditWrapper coWrapper : list) {
+        List<CourseOfferingListSectionWrapper> list = theForm.getCourseOfferingResultList();
+        for (CourseOfferingListSectionWrapper coWrapper : list) {
             if (coWrapper.getIsChecked()) {
                 isSelected = true;
                 break;
@@ -700,7 +733,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         }
 
         if (StringUtils.equals(theForm.getSelectedOfferingAction(),CourseOfferingConstants.ACTIVITY_OFFERING_SCHEDULING_ACTION)) {
-            getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList());
+            getViewHelperService(theForm).markCourseOfferingsForScheduling(theForm.getCourseOfferingResultList());
             getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
         }
 
@@ -836,7 +869,7 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     public ModelAndView markSubjectCodeReadyForScheduling(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm) throws Exception {
         CourseOfferingManagementViewHelperServiceImpl helperService = (CourseOfferingManagementViewHelperServiceImpl) theForm.getView().getViewHelperService();
         //  State change all of the AOs associated with all CourseOfferings related to the course code. Passing false so that the isChecked() flag is ignored.
-        helperService.markCourseOfferingsForScheduling(theForm.getCourseOfferingEditWrapperList(), false);
+        helperService.markCourseOfferingsForScheduling(theForm.getCourseOfferingResultList(), false);
         getViewHelperService(theForm).loadCourseOfferingsByTermAndSubjectCode(theForm.getTermInfo().getId(), theForm.getInputCode(),theForm);
         return getUIFModelAndView(theForm);
     }

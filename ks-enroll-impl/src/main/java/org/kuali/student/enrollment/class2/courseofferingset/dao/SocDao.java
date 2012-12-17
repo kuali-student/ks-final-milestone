@@ -13,6 +13,11 @@ public class SocDao extends GenericEntityDao<SocEntity> {
         return (List<SocEntity>) em.createNamedQuery("Soc.getSocsBySocTypeId").setParameter("socType", socType).getResultList();
     }
 
+    public List<String> getSocIdsByType(String socType) {
+        return (List<String>) em.createNamedQuery("Soc.getSocIdsByType").setParameter("socType", socType).getResultList();
+    }
+
+
     public List<String> getSocIdsByTerm(String termId) {
         return (List<String>) em.createNamedQuery("Soc.getSocIdsByTerm").setParameter("termId", termId).getResultList();
     }
@@ -26,8 +31,17 @@ public class SocDao extends GenericEntityDao<SocEntity> {
 
     }
 
+    public List<String> getSocIdsByTermAndSubjectArea(String termId, String subjectArea) {
+        return (List<String>) em.createNamedQuery("Soc.getSocIdsByTermAndSubjectArea").setParameter("termId", termId).setParameter("subjectArea", subjectArea).getResultList();
+
+    }
     public List<SocEntity> getByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId) {
         return (List<SocEntity>) em.createNamedQuery("Soc.getSocsByTermAndUnitsContentOwner").setParameter("termId", termId).setParameter("unitsContentOwnerId", unitsContentOwnerId).getResultList();
+
+    }
+
+    public List<String> getSocIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId) {
+        return (List<String>) em.createNamedQuery("Soc.getSocIdsByTermAndUnitsContentOwner").setParameter("termId", termId).setParameter("unitsContentOwnerId", unitsContentOwnerId).getResultList();
 
     }
 

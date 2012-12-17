@@ -16,8 +16,8 @@
  */
 package org.kuali.student.enrollment.kitchensink;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +37,8 @@ public class KitchenSinkFormCollection1 {
     private List<KitchenSinkFormCollection2> list1;
     private List<KitchenSinkFormCollection2> list3;
 
-    public KitchenSinkFormCollection1() { }
+    public KitchenSinkFormCollection1() {
+    }
 
     public KitchenSinkFormCollection1(KitchenSinkFormCollection1 collection) {
         this.selected = collection.getSelected();
@@ -52,9 +53,8 @@ public class KitchenSinkFormCollection1 {
         this.name = name;
         this.description = description;
         try {
-            this.date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
-        }
-        catch (ParseException ex) {
+            this.date = DateFormatters.DEFAULT_DATE_FORMATTER.parse(dateString);
+        } catch (IllegalArgumentException ex) {
             this.date = new Date();
         }
     }
@@ -118,6 +118,7 @@ public class KitchenSinkFormCollection1 {
     // --- STATIC METHODS ---
 
     private static Integer count = 0;
+
     public static Integer assignId() {
         return ++count;
     }

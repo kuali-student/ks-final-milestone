@@ -19,11 +19,13 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -39,12 +41,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EnrolledCourseNumberTermResolver implements TermResolver<List<CourseRegistrationInfo>> {	
+public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
 
     private CourseRegistrationService courseRegistrationService;
+
+    private final static Set<String> prerequisites = new HashSet<String>(2);
+
+    static {
+        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    }
     
-    
-    public CourseRegistrationService getAcademicRecordService() {
+    public CourseRegistrationService getCourseRegistrationService() {
         return courseRegistrationService;
     }
 
@@ -54,19 +62,17 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<List<Cours
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return prerequisites;
     }
 
     @Override
     public String getOutput() {
-        return "EnrolledCourseNumberTermResolver.getOutput()";
+        return KSKRMSExecutionConstants.ENROLLED_COURSE_NUMBER_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return Collections.singleton(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -76,17 +82,44 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<List<Cours
     }
 
     @Override
-    public List<CourseRegistrationInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String termId = parameters.get(KSKRMSExecutionConstants.TERM_ID_TERM_PROPERTY);
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        String courseOfferingIds = parameters.get(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
         
-        List<CourseRegistrationInfo> result = null;
+        List<CourseRegistrationInfo> recordInfoList = null;
+        Integer result = 0;
         try {
-            result = courseRegistrationService.getCourseRegistrationsByStudentAndTerm(personId, termId, context);
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+            recordInfoList = courseRegistrationService.getCourseRegistrationsByStudent(personId, context);
+        } catch (InvalidParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (MissingParameterException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (OperationFailedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (PermissionDeniedException e) {
+            throw new TermResolutionException(e.getMessage(), this, parameters);
         }
+
+        courseOfferingIds.trim();
+        String[] courseOfferingId = courseOfferingIds.split(",");
+
+        if(courseOfferingIds.contains(",")) {
+            for(CourseRegistrationInfo cri : recordInfoList) {
+                for(String cc : courseOfferingId) {
+                    if(cc.equals(cri.getCourseOfferingId())){
+                        result++;
+                    }
+                }
+            }
+        } else {
+            for(CourseRegistrationInfo temp : recordInfoList) {
+                if(temp.getCourseOfferingId().equals(courseOfferingIds)){
+                    result++;
+                }
+            }
+        }
+
         return result;
     }
 }

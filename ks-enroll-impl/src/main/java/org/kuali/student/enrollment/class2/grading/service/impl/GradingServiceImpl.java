@@ -70,8 +70,8 @@ public class GradingServiceImpl implements GradingService {
      *             unable to complete request
      */
     @Override
-    public TypeInfo getGradeRosterType(@WebParam(name = "gradeRosterTypeKey") String gradeRosterTypeKey,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public TypeInfo getGradeRosterType(String gradeRosterTypeKey,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         return null; // TODO implement method.
     }
@@ -92,8 +92,8 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public GradeRosterInfo getGradeRoster(@WebParam(name = "gradeRosterId") String gradeRosterId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public GradeRosterInfo getGradeRoster(String gradeRosterId,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
     }
@@ -115,8 +115,8 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(@WebParam(name = "graderId") String graderId,
-            @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
+    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(String graderId,
+            String termId,  ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
@@ -139,8 +139,8 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public List<GradeRosterInfo> getFinalGradeRostersForCourseOffering(
-            @WebParam(name = "courseOfferingId") String courseOfferingId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            String courseOfferingId,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<GradeRosterInfo> gradeRosterInfos = new ArrayList<GradeRosterInfo>();
 
@@ -170,8 +170,8 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public List<GradeRosterInfo> getFinalGradeRostersForActivityOffering(
-            @WebParam(name = "activityOfferingId") String activityOfferingId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            String activityOfferingId,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
     }
@@ -193,8 +193,8 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public List<GradeRosterInfo> getGradeRostersForActivityOffering(
-            @WebParam(name = "activityOfferingId") String activityOfferingId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            String activityOfferingId,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
     }
@@ -219,9 +219,9 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public GradeRosterInfo buildInterimGradeRosterByType(
-            @WebParam(name = "courseOfferingId") String courseOfferingId,
-            @WebParam(name = "activityOfferingIds") List<String> activityOfferingIds,
-            @WebParam(name = "rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context)
+            String courseOfferingId,
+            List<String> activityOfferingIds,
+            String rosterTypeKey,  ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
@@ -246,8 +246,8 @@ public class GradingServiceImpl implements GradingService {
      * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException
      */
     @Override
-    public GradeRosterInfo updateInterimGradeRoster(@WebParam(name = "gradeRoster") GradeRosterInfo gradeRoster,
-            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+    public GradeRosterInfo updateInterimGradeRoster(GradeRosterInfo gradeRoster,
+             ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException {
         return null; // TODO implement method.
@@ -269,8 +269,8 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public StatusInfo deleteInterimGradeRoster(@WebParam(name = "gradeRosterId") String gradeRosterId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public StatusInfo deleteInterimGradeRoster(String gradeRosterId,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
     }
@@ -297,8 +297,8 @@ public class GradingServiceImpl implements GradingService {
      * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException
      */
     @Override
-    public GradeRosterInfo updateFinalGradeRosterState(@WebParam(name = "gradeRosterId") String gradeRosterId,
-            @WebParam(name = "newStateKey") String stateKey, @WebParam(name = "context") ContextInfo context)
+    public GradeRosterInfo updateFinalGradeRosterState(String gradeRosterId,
+            String stateKey,  ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
@@ -346,8 +346,8 @@ public class GradingServiceImpl implements GradingService {
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      */
     @Override
-    public List<ValidationResultInfo> validateGradeRoster(@WebParam(name = "gradeRoster") GradeRosterInfo gradeRoster,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<ValidationResultInfo> validateGradeRoster(GradeRosterInfo gradeRoster,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         return null; // TODO implement method.
     }
@@ -368,8 +368,8 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public GradeRosterEntryInfo getGradeRosterEntry(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public GradeRosterEntryInfo getGradeRosterEntry(String gradeRosterEntryId,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
     }
@@ -392,8 +392,8 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public List<GradeRosterEntryInfo> getGradeRosterEntriesByIds(
-            @WebParam(name = "gradeRosterEntryIds") List<String> gradeRosterEntryIds,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            List<String> gradeRosterEntryIds,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 
@@ -418,7 +418,7 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public List<GradeRosterEntryInfo> getGradeRosterEntriesByRosterId(
-            @WebParam(name = "gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)
+            String gradeRosterId,  ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<LprRosterEntryInfo> entries = lprRosterService.getLprRosterEntriesByLprRoster(gradeRosterId, context);
@@ -442,9 +442,9 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering(@WebParam(name = "studentId") String studentId,
-            @WebParam(name = "courseOfferingId") String courseOfferingId,
-            @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public GradeRosterEntryInfo getFinalGradeForStudentInCourseOffering(String studentId,
+            String courseOfferingId,
+             ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
 
 
@@ -484,8 +484,8 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public GradeRosterEntryInfo addEntrytoInterimRoster(
-            @WebParam(name = "gradeRosterEntry") GradeRosterEntryInfo gradeRosterEntry,
-            @WebParam(name = "gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)
+            GradeRosterEntryInfo gradeRosterEntry,
+            String gradeRosterId,  ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
@@ -508,8 +508,8 @@ public class GradingServiceImpl implements GradingService {
      *             authorization failure
      */
     @Override
-    public StatusInfo removeEntryFromInterimRoster(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
-            @WebParam(name = "gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)
+    public StatusInfo removeEntryFromInterimRoster(String gradeRosterEntryId,
+            String gradeRosterId,  ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
@@ -535,8 +535,8 @@ public class GradingServiceImpl implements GradingService {
      * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException
      */
     @Override
-    public boolean updateGrade(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
-            @WebParam(name = "assignedGrade") String assignedGradeKey, @WebParam(name = "context") ContextInfo context)
+    public boolean updateGrade(String gradeRosterEntryId,
+            String assignedGradeKey,  ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
@@ -637,8 +637,8 @@ public class GradingServiceImpl implements GradingService {
      * @throws org.kuali.student.r2.common.exceptions.VersionMismatchException
      */
     @Override
-    public boolean updateCredit(@WebParam(name = "gradeRosterEntryId") String gradeRosterEntryId,
-            @WebParam(name = "creditsEarned") String assignedGradeKey, @WebParam(name = "context") ContextInfo context)
+    public boolean updateCredit(String gradeRosterEntryId,
+            String assignedGradeKey,  ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         return false; // TODO implement method.

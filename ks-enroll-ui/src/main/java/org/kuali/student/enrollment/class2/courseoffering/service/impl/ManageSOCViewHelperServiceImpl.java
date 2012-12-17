@@ -23,8 +23,8 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
 import org.kuali.student.enrollment.class2.courseoffering.form.ManageSOCForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewHelperService;
@@ -41,8 +41,6 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -392,8 +390,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     protected String formatScheduleDate(Date date){
         if (date != null){
-           DateFormat dateFormat = new SimpleDateFormat(ManageSocConstants.SCHEDULE_DATE_FORMAT);
-           return dateFormat.format(date);
+           return DateFormatters.DEFAULT_MONTH_YEAR_TIME_DATE_FORMATTER.format(date);
         }
         return StringUtils.EMPTY;
     }

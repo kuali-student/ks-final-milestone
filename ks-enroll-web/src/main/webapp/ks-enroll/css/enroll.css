@@ -204,3 +204,23 @@ a
     background:none;
     margin-bottom: 0px;
 }
+
+.error_403
+{
+    margin: 100px auto;
+    width: 600px;
+    overflow: auto;
+}
+
+.error_403 img
+{
+    float: left;
+    margin: 10px 25px 15px 25px;
+}
+
+
+.error_403 p
+{
+    overflow: auto;
+    margin: 0px 10px 20px 0px;
+}

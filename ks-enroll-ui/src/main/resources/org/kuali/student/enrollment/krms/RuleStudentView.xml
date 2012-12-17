@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="RuleBo-InquiryView-Custom" parent="Uif-InquiryView">
+        <property name="headerText" value="Rule Inquiry"/>
+        <property name="viewName" value="RuleStudentInquiryView"/>
+        <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.RuleBo"/>
+        <property name="theme">
+            <bean parent="Uif-KradTheme"/>
+        </property>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentInquiryViewHelperServiceImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="propositionGroup" parent="Uif-GridGroup">
+                    <property name="headerText" value="Rule" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RuleBo-LookupView-Custom" parent="Uif-LookupView">
+        <property name="headerText" value="Rule Lookup" />
+        <property name="viewName" value="StudentRuleLookupView" />
+        <property name="dataObjectClassName" value="org.kuali.rice.krms.impl.repository.RuleBo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.RuleStudentLookupableHelperServiceImpl"/>
+        <property name="theme">
+            <bean parent="Uif-KradTheme"/>
+        </property>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="namespace" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeId" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="id">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:viewName="RuleStudentInquiryView"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="name" />
+                <bean parent="Uif-InputField" p:propertyName="namespace" />
+                <bean parent="Uif-InputField" p:propertyName="description" />
+                <bean parent="Uif-InputField" p:propertyName="propId" />
+                <bean parent="Uif-InputField" p:propertyName="typeId" />
+            </list>
+        </property>
+    </bean>
+
+
+
+
+</beans>

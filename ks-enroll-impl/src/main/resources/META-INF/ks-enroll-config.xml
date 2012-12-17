@@ -20,8 +20,11 @@
     <param name="module.name">ks-enroll-ui</param>
     <param name="db.vendor">oracle</param>
 	<param name="jpa.vendor">hibernate</param>
-	
-	<param name="ks.enroll.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
+
+    <!-- override Rice's common-config-defaults.xml property: -->
+    <param name="portal.css.files" override="true">${portal.css.files},ks-enroll/css/ks-jquery.css</param>
+
+    <param name="ks.enroll.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
 	<param name="ks.enroll.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
 	<param name="ks.enroll.datasource.driver.name.mysql">com.mysql.jdbc.Driver</param>
 	<param name="ks.enroll.datasource.driver.name">${ks.enroll.datasource.driver.name.${db.vendor}}</param>

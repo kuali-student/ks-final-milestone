@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
@@ -48,6 +49,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -57,6 +59,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
@@ -69,6 +72,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     private SocRolloverResultItemDao socRorItemDao;
     private CourseOfferingSetServiceBusinessLogic businessLogic;
     private CriteriaLookupService criteriaLookupService;
+    private StateTransitionsHelper stateTransitionsHelper;
 
     public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -100,6 +104,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     public void setSocRorItemDao(SocRolloverResultItemDao socRorItemDao) {
         this.socRorItemDao = socRorItemDao;
+    }
+
+    public StateTransitionsHelper getStateTransitionsHelper() {
+        return stateTransitionsHelper;
+    }
+
+    public void setStateTransitionsHelper(StateTransitionsHelper stateTransitionsHelper) {
+        this.stateTransitionsHelper = stateTransitionsHelper;
     }
 
     ////
@@ -286,8 +298,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Transactional(readOnly = true)
     public List<String> getSocIdsByTerm(String termId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> ids = socDao.getSocIdsByTerm(termId);
-        return ids;
+        return socDao.getSocIdsByTerm(termId);
     }
 
     @Override
@@ -295,12 +306,8 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     public List<String> getSocIdsByTermAndSubjectArea(String termId, String subjectArea, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocEntity> entities = socDao.getByTermAndSubjectArea(termId, subjectArea);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+
+        return socDao.getSocIdsByTermAndSubjectArea(termId, subjectArea);
     }
 
     @Override
@@ -308,24 +315,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     public List<String> getSocIdsByTermAndUnitsContentOwner(String termId, String unitsContentOwnerId, ContextInfo context) throws
             DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocEntity> entities = socDao.getByTermAndUnitsContentOwner(termId, unitsContentOwnerId);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        return socDao.getSocIdsByTermAndUnitsContentOwner(termId, unitsContentOwnerId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<String> getSocIdsByType(String typeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocEntity> entities = socDao.getBySocTypeId(typeKey);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        return socDao.getSocIdsByType(typeKey);
     }
 
     @Override
@@ -411,24 +408,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Transactional(readOnly = true)
     public List<String> getSocRolloverResultIdsBySourceSoc(String sourceSocId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocRolloverResultEntity> entities = socRorDao.getBySourceSocId(sourceSocId);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocRolloverResultEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        return socRorDao.getSocRolloverResultIdsBySourceSocId(sourceSocId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<String> getSocRolloverResultIdsByTargetSoc(String targetSocId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<SocRolloverResultEntity> entities = socRorDao.getByTargetSocId(targetSocId);
-        List<String> list = new ArrayList<String>(entities.size());
-        for (SocRolloverResultEntity entity : entities) {
-            list.add(entity.getId());
-        }
-        return list;
+        return socRorDao.getSocRolloverResultIdsByTargetSocId(targetSocId);
     }
 
     @Override
@@ -701,7 +688,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<String> searchForSocRolloverResultIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
+    public List<String> searchForSocRolloverResultIds(QueryByCriteria criteria,  ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException { 
         GenericQueryResults<String> results = criteriaLookupService.lookupIds(SocRolloverResultEntity.class,
                 criteria);
@@ -710,7 +697,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<SocRolloverResultInfo> searchForSocRolloverResults(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws
+    public List<SocRolloverResultInfo> searchForSocRolloverResults(QueryByCriteria criteria,  ContextInfo context) throws
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         GenericQueryResults<SocRolloverResultEntity> results = criteriaLookupService.lookup(SocRolloverResultEntity.class,
                 criteria);
@@ -728,9 +715,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public StatusInfo updateSocState(@WebParam(name = "socId") String socId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo updateSocState(String socId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -738,20 +725,38 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         if (entity == null) {
             throw new DoesNotExistException(socId);
         }
+        String thisStateKey = entity.getSocState();
 
-        // determine if the state key given is a SOC lifecycle state or a scheduling state
-        boolean isSchedulingState = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_SCHEDULING_STATES).contains(nextStateKey);
+        if(!StringUtils.isEmpty(nextStateKey) && !thisStateKey.equals(nextStateKey)){
+            //propagation
+            Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(socId, thisStateKey + ":" + nextStateKey, contextInfo);
+            for (StatusInfo statusInfo : spStatusMap.values()) {
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException(statusInfo.getMessage());
+                }
+            }
 
-        if(!isSchedulingState) {
-            entity.setSocState(nextStateKey);
+            StatusInfo scStatus = stateTransitionsHelper.processStateConstraints(socId, nextStateKey, contextInfo);
+            if(scStatus.getIsSuccess()) {
+                // determine if the state key given is a SOC lifecycle state or a scheduling state
+                boolean isSchedulingState = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_SCHEDULING_STATES).contains(nextStateKey);
+
+                if(!isSchedulingState) {
+                    entity.setSocState(nextStateKey);
+                }
+
+                // Log the state change
+                logStateChange(entity, nextStateKey, contextInfo);
+
+                entity.setEntityUpdated(contextInfo);
+                socDao.merge(entity);
+                socDao.getEm().flush(); // need to flush to get the version ind to update
+            }
+            else{
+                throw new OperationFailedException(scStatus.getMessage());
+            }
         }
 
-        // Log the state change
-        logStateChange(entity, nextStateKey, contextInfo);
-
-        entity.setEntityUpdated(contextInfo);
-        socDao.merge(entity);
-        socDao.getEm().flush(); // need to flush to get the version ind to update
         StatusInfo status = new StatusInfo ();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -768,9 +773,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     public StatusInfo updateSocRolloverResultState(
-            @WebParam(name = "socId") String socId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String socId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -779,9 +784,9 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
 
     @Override
     public StatusInfo updateSocRolloverResultItemState(
-            @WebParam(name = "socId") String socId,
-            @WebParam(name = "nextStateKey") String nextStateKey,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            String socId,
+            String nextStateKey,
+             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {

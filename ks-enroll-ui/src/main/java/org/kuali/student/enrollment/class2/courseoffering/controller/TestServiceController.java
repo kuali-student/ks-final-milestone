@@ -86,6 +86,14 @@ public class TestServiceController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=testSeatpools")
+    public ModelAndView testSeatpools(@ModelAttribute("KualiForm") TestServiceCallForm form, @SuppressWarnings("unused") BindingResult result,
+                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        TestServiceCallViewHelperService helper = getViewHelperService(form);
+        helper.verifyPopulations();
+        return getUIFModelAndView(form);
+    }
+
     public TestServiceCallViewHelperService getViewHelperService(TestServiceCallForm serviceCallForm) {
         if (viewHelperService == null) {
             if (serviceCallForm.getView().getViewHelperServiceClass() != null) {

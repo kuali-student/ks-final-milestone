@@ -49,7 +49,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-AddActivityOfferingSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseOfferingManagement-AddActivityOfferingSection" parent="Uif-VerticalBoxSection" >
         <property name="disclosure.render" value="false"/>
         <property name="headerText" value="Add Activity Offering"/>
         <property name="items">
@@ -57,9 +57,9 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="formatIdForNewAO" p:label="Format" p:labelPlacement="TOP" p:required="true" >
+                            <bean parent="Uif-InputField" p:propertyName="formatIdForNewAO" p:label="Format" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
+                                    <bean parent="Uif-DropdownControl" p:disabled="@{#parent.readOnly}"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatsForCreateAOKeyValues" p:addBlankOption="false" />
@@ -67,7 +67,7 @@
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:refreshWhenChangedPropertyNames="formatIdForNewAO">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
+                                    <bean parent="Uif-DropdownControl" p:disabled="@{#parent.readOnly}"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivitiesForCreateAOKeyValues" p:addBlankOption="false" />
@@ -75,10 +75,10 @@
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="noOfActivityOfferings" p:label="Quantity" p:labelPlacement="TOP" p:required="true">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="3"/>
+                                    <bean parent="Uif-TextControl" p:size="3" p:disabled="@{#parent.readOnly}"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addActivityOfferings" p:style="margin-top: 18px;"/>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Add" p:methodToCall="addActivityOfferings" p:style="margin-top: 18px;" p:disabled="@{#parent.readOnly}"/>
                         </list>
                     </property>
                 </bean>
@@ -99,12 +99,21 @@
                                                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="theCourseOffering.id" />
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
-                                        <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" />
-                                        <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
-                                        <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
-                                        <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}"/>
-                                        <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel="Manage Registration Groups" />
+                                        <bean parent="Uif-HorizontalBoxSection" >
+                                            <property name="headerText" value=""/>
+                                            <property name="disclosure.render" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
+                                                    <bean parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel="Edit" p:disabled="@{#parent.readOnly}"/>
+                                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false"/>
+                                                    <bean parent="Uif-ActionLink" p:methodToCall="deleteCoConfirmation" p:actionLabel="Delete" p:disabled="@{#parent.readOnly}" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}" />
+                                                    <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render = "@{theCourseOffering.stateKey eq 'kuali.lui.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.draft' or theCourseOffering.stateKey eq 'kuali.lui.course.offering.state.planned'}"/>
+                                                    <bean parent="Uif-ActionLink" p:methodToCall="manageRegGroups" p:actionLabel="Manage Registration Groups" p:disabled="@{#parent.readOnly}"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+
                                     </list>
                                 </property>
                             </bean>
@@ -126,7 +135,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:methodToCall="selectAllActivityOfferings" p:actionLabel="Select All" />
+    <bean id="KS-CourseOfferingManagement-SelectAll" parent="Uif-ActionLink" p:methodToCall="selectAllActivityOfferings" p:actionLabel="Select All" p:disabled="@{#parent.readOnly}"/>
 
     <bean id="KS-Schedule-DisplayField" parent="Uif-MessageField" p:cssClasses="font-light12" abstract="true">
         <property name="propertyReplacers">
@@ -137,9 +146,8 @@
         </property>
     </bean>
 
-
     <bean id="KS-CourseOfferingManagement-ActivityOfferingListSection" parent="Uif-TableCollectionSection"
-          p:layoutManager.numberOfColumns="3"  p:renderAddLine="false">
+          p:layoutManager.numberOfColumns="3"  p:renderAddLine="false" p:onDocumentReadyScript="removeHeaderForRemovedColumns(@{#parent.readOnly}, [1], '#KS-CourseOfferingManagement-ActivityOfferingListSection');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -156,7 +164,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" >
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
@@ -193,21 +201,21 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-SelectedActivityOfferingSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseOfferingManagement-SelectedActivityOfferingSection" parent="Uif-VerticalBoxSection" >
         <property name="items">
         <list>
             <bean parent="Uif-HorizontalBoxSection">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Offering Actions" p:labelPlacement="TOP">
+                        <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Offering Actions" p:labelPlacement="TOP" >
                             <property name="control">
-                                <bean parent="Uif-DropdownControl"/>
+                                <bean parent="Uif-DropdownControl" p:disabled="@{#parent.readOnly}"/>
                             </property>
                             <property name="optionsFinder">
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingActionsKeyValues"/>
                             </property>
                         </bean>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedAoActions" p:style="margin-top: 18px;"/>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="selectedAoActions" p:style="margin-top: 18px;" p:disabled="@{#parent.readOnly}"/>
                     </list>
                 </property>
             </bean>

@@ -1,0 +1,3 @@
+table.ks-krad-collection-rowSelectionHighlight tr.ks-krad-selected td,
+table.ks-krad-collection-rowSelectionHighlight tr.even.ks-krad-selected td { background-color: #d0e0f0; }
+table.ks-krad-collection-rowSelectionHighlight tr.odd.ks-krad-selected td { background-color: #c5d5e5; }

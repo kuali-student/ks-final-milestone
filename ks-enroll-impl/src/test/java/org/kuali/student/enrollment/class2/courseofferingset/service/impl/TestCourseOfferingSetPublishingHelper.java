@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -151,6 +152,8 @@ public class TestCourseOfferingSetPublishingHelper {
         CourseOfferingSetPublishingHelper socPub = new CourseOfferingSetPublishingHelper();
         socPub.setCoService(coServiceMock);
         socPub.setSocService(socServiceMock);
+        socServiceMock.setCoService(coServiceMock);
+
         List<String> options = new ArrayList<String>();
         options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
         socPub.startMassPublishingEvent(socId, options, context);

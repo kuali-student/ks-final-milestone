@@ -6,8 +6,8 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -19,7 +19,6 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -31,7 +30,6 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
-import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
@@ -111,10 +109,10 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
                 if (socIds.isEmpty()) {
                     return null;
                 }
-                for (String socId: socIds) {
-                    SocInfo targetSoc = this._getSocService().getSoc(socId, new ContextInfo());
-                    if (targetSoc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        return targetSoc;
+                List<SocInfo> targetSocs = this._getSocService().getSocsByIds(socIds, new ContextInfo());
+                for (SocInfo soc: targetSocs) {
+                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                        return soc;
                     }
                 }
             }
@@ -296,12 +294,8 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         // to delete all for a term or delete all for a subject area intead of doing it one by one
         List<String> ids = this.getCourseOfferingIdsBySoc(socId, context);
         for (String id : ids) {
-            try {
-                this.coService.deleteCourseOffering(socId, context);
-            } catch (DependentObjectsExistException e) {
-                throw new OperationFailedException(e.getMessage());
-            }
-        }
+            this.coService.deleteCourseOfferingCascaded(id, context);
+         }
         return ids.size();
     }
 
@@ -410,7 +404,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     }
 
     @Override
-    public StatusInfo startScheduleSoc(@WebParam(name = "socId") String socId, @WebParam(name = "optionKeys") List<String> optionKeys, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo startScheduleSoc(String socId, List<String> optionKeys,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //  Validate SOC. Ensure there is a valid Soc for the given id and make sure the state and scheduling state are correct.
         SocInfo socInfo = this._getSocService().getSoc(socId, context);
         if ( ! StringUtils.equals(socInfo.getStateKey(), CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY)) {

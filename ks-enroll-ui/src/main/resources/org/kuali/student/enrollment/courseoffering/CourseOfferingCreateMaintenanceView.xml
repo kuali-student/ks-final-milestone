@@ -38,11 +38,15 @@
 
     <!-- Maintenace View-->
     <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KSMaintenanceView">
+        <property name="id" value="createCourseOfferingPage"/>
         <property name="headerText" value="Create Course Offering"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceForm"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl" />
         <property name="singlePageView" value="true"/>
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOffering-MetaSection"/>

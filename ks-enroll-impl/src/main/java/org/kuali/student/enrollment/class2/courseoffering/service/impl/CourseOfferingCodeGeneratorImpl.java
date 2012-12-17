@@ -35,15 +35,15 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
 
 
     @Override
-    public String generateActivityOfferingCode(List<ActivityOfferingInfo> existingActivityOfferings) {
+    public String generateActivityOfferingCode(String courseOfferingCode, List<ActivityOfferingInfo> existingActivityOfferings) {
 
-        //If this is the first code, send back "A"
-        if(existingActivityOfferings==null||existingActivityOfferings.isEmpty()){
+        // If this is the first code, send back "A"
+        if (existingActivityOfferings == null || existingActivityOfferings.isEmpty()) {
             return "A";
         }
 
         List<String> aoCodes = new ArrayList<String>();
-        for(ActivityOfferingInfo aoInfo:existingActivityOfferings){
+        for (ActivityOfferingInfo aoInfo : existingActivityOfferings) {
             aoCodes.add(aoInfo.getActivityCode());
         }
 
@@ -54,13 +54,13 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
     public String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings) {
 
         //If this is the first code, send back "A"
-        if(existingCourseOfferings==null||existingCourseOfferings.isEmpty()){
+        if (existingCourseOfferings == null || existingCourseOfferings.isEmpty()) {
             return "A";
         }
 
         List<String> internalCodes = new ArrayList<String>();
-        for(CourseOfferingInfo coInfo:existingCourseOfferings){
-            if(coInfo.getCourseNumberSuffix() != null){
+        for (CourseOfferingInfo coInfo : existingCourseOfferings) {
+            if (coInfo.getCourseNumberSuffix() != null) {
                 internalCodes.add(coInfo.getCourseNumberSuffix());
             }
         }
@@ -69,33 +69,33 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
     }
 
     public String calculateNextCode(List<String> codes){
-        //Always start with A if it's not there
-        if(!codes.contains("A")){
+        // Always start with A if it's not there
+        if (!codes.contains("A")) {
             return "A";
         }
 
-        //Sort the list so we can fill in gaps
-        Collections.sort(codes,new Comparator<String>() {
+        // Sort the list so we can fill in gaps
+        Collections.sort(codes, new Comparator<String>() {
             @Override
             public int compare(String o1, String o2) {
-                if(o1.length() == o2.length()){
+                if (o1.length() == o2.length()) {
                     return o1.compareTo(o2);
-                }else{
-                    return  o1.length() - o2.length();
+                } else {
+                    return o1.length() - o2.length();
                 }
             }
         });
 
-        //Fill in the gaps of letters
-        for(String s:codes){
+        // Fill in the gaps of letters
+        for (String s : codes) {
             //For each existing code, find the next valid generated code and see if it exists
-             String nextCode = getNextCode(s);
-             if(!codes.contains(nextCode)){
+            String nextCode = getNextCode(s);
+            if (!codes.contains(nextCode)) {
                 return nextCode;
             }
         }
 
-        //This should never be reached unless there is an infinite list of strings passed in
+        // This should never be reached unless there is an infinite list of strings passed in
         throw new RuntimeException("Error generating codes");
     }
     /**
@@ -107,13 +107,13 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
      * @return next code
      */
     public String getNextCode(String source){
-        if (StringUtils.isEmpty(source)){
+        if (StringUtils.isEmpty(source)) {
             return "A";
-        } else if (StringUtils.endsWithIgnoreCase(source,"Z")){
-            return getNextCode(StringUtils.substringBeforeLast(source,"Z")) + "A";
+        } else if (StringUtils.endsWithIgnoreCase(source, "Z")) {
+            return getNextCode(StringUtils.substringBeforeLast(source, "Z")) + "A";
         } else {
-            char lastLetter = source.charAt(source.length()-1);
-            return StringUtils.substringBeforeLast(source,""+lastLetter) + ++lastLetter;
+            char lastLetter = source.charAt(source.length() - 1);
+            return StringUtils.substringBeforeLast(source, "" + lastLetter) + ++lastLetter;
         }
     }
 }

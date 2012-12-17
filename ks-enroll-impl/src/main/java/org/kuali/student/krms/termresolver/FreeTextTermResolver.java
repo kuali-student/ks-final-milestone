@@ -38,23 +38,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FreeTextTermResolver implements TermResolver<String> {
+public class FreeTextTermResolver implements TermResolver<Boolean> {
+
+    private final static Set<String> prerequisites = new HashSet<String>(1);
+
+    static {
+        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+    }
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return prerequisites;
     }
 
     @Override
     public String getOutput() {
-        return "FreeTextTermResolver.getOutput()";
+        return KSKRMSExecutionConstants.FREE_TEXT_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        Set<String> temp = new HashSet<String>(1);
-        temp.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        return Collections.unmodifiableSet(temp);
+        return Collections.singleton(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -64,7 +68,10 @@ public class FreeTextTermResolver implements TermResolver<String> {
     }
 
     @Override
-    public String resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        return null;
+    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+
+        return true;
     }
 }

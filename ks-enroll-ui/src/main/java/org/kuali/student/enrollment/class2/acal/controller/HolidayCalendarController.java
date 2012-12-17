@@ -25,13 +25,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.HolidayCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -408,8 +408,7 @@ public class HolidayCalendarController extends UifControllerBase {
      @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return updateHolidayCalendarForm(hcForm, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_SAVED,
-                CalendarConstants.UPDATE_SAVE);
+        return updateHolidayCalendarForm(hcForm, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_SAVED,false);
     }
 
     /**
@@ -447,9 +446,8 @@ public class HolidayCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=makeOfficial")
      public ModelAndView makeOfficial(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-         hcForm.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-         return updateHolidayCalendarForm(hcForm, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_OFFICIAL,
-                 CalendarConstants.UPDATE_MAKEOFFICIAL);
+//         hcForm.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+         return updateHolidayCalendarForm(hcForm, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_OFFICIAL,true);
      }
 
     /**
@@ -491,7 +489,7 @@ public class HolidayCalendarController extends UifControllerBase {
         return getUIFModelAndView(hcForm);
     }
 
-    private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg, String from) throws Exception {
+    private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg, boolean isSetOfficial) throws Exception {
 
         getHolidayCalendarFormHelper(hcForm).validateHolidayCalendar(hcForm);
         getHolidayCalendarFormHelper(hcForm).populateHolidayCalendarDefaults(hcForm);
@@ -505,7 +503,10 @@ public class HolidayCalendarController extends UifControllerBase {
         }
 
         // passed edits, so update the holiday calendar
-        getHolidayCalendarFormHelper(hcForm).saveHolidayCalendar(hcForm);
+        getHolidayCalendarFormHelper(hcForm).saveHolidayCalendar(hcForm,isSetOfficial);
+        if (GlobalVariables.getMessageMap().hasErrors()){
+            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        }
 
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
         hcForm.setAdminOrgName(getAdminOrgNameById(hCalInfo.getAdminOrgId()));
@@ -519,10 +520,9 @@ public class HolidayCalendarController extends UifControllerBase {
 
         GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hCalInfo.getName());
 
-        if (from.equals(CalendarConstants.UPDATE_MAKEOFFICIAL)) {
+        if (isSetOfficial) {
             return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
-        }
-        else {
+        } else {
             return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         }
     }

@@ -24,6 +24,9 @@
           p:id="manageRegistrationGroupsView"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.RegistrationGroupManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm">
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Manage Registration Groups" />
         </property>

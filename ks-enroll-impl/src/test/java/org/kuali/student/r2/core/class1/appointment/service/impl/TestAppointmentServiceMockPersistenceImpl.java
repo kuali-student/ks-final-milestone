@@ -16,33 +16,35 @@
  */
 package org.kuali.student.r2.core.class1.appointment.service.impl;
 
-import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import edu.emory.mathcs.backport.java.util.Collections;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
-import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.junit.Before;
-import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
-import org.kuali.student.enrollment.test.util.AttributeTester;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.util.RichTextHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
+import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
+import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
+import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
+import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
-import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * Tests the mock persistence implementation to make sure it does basic crud

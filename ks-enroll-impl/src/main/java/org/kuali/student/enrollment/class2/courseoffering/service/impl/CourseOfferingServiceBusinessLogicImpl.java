@@ -7,8 +7,8 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -309,6 +309,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         StringUtils.equals(sourceAo.getTypeKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
                     continue;
                 }
+
+                sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
+
                 ActivityOfferingInfo targetAo =
                         _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermId, optionKeys, context);
                 sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
@@ -546,7 +549,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 coService.verifyActivityOfferingClusterForGeneration(activityOfferingClusterId, contextInfo);
         List<ValidationResultInfo> resultInfos = result.getValidationResults();
         for (ValidationResultInfo vri: resultInfos) {
-            if (vri.isError()) {
+            if (vri.isWarn()) {
                 throw new DataValidationErrorException("One or more AOsets in the cluster is empty--can't generate reg groups");
             }
         }
@@ -576,7 +579,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         rg.setName(regGroupCode);
         rg.setRegistrationCode(null);
         rg.setTermId(formatOffering.getTermId());
-        //rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_OPEN_STATE_KEY);
+        rg.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY);
         rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
         return rg;
     }
@@ -645,14 +648,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             RegistrationGroupInfo rg = _gRGFC_makeRegGroup(regGroupCode, activityOfferingPermutation, fo, cluster.getId());
 
             try {
-                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(),
-                        LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
+                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
                 // Now determine if this registration group is in a valid state
                 List<ValidationResultInfo> validations =
-                    coService.validateRegistrationGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),
-                            rgInfo.getActivityOfferingClusterId(), rgInfo.getTypeKey(), rgInfo, contextInfo);
+                        coService.verifyRegistrationGroup(rgInfo.getId(), contextInfo);
+
                 for (ValidationResultInfo validation: validations) {
-                    if (validation.isError()) {
+                    if (validation.isWarn()) {
                         // If any validation is an error, then make this invalid
                         coService.updateRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, contextInfo);
                         break;

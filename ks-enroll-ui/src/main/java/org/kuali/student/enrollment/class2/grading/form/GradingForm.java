@@ -16,7 +16,7 @@ package org.kuali.student.enrollment.class2.grading.form;
  * limitations under the License.
  */
 
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.grading.dataobject.GradeStudent;
 
 import java.util.List;

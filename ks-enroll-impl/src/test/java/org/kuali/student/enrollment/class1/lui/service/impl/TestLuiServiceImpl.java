@@ -46,6 +46,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -213,23 +214,32 @@ public class TestLuiServiceImpl {
     }
 
     // TODO: KSENROLL-3677 fix this thing
-    //@Test
+    @Test
     public void testGenericLookup() throws Exception {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.like("80", "maxSeats"));
+        qbcBuilder.setPredicates(PredicateFactory.like("luiType", "kuali.lui.type.course.offering"));
         QueryByCriteria criteria = qbcBuilder.build();
-        try{
 
+        try{
             ArrayList<String> fields = new ArrayList<String>();
             fields.add("name");
             GenericQueryResults<List<String>> results = criteriaLookupService.genericLookup(LuiEntity.class, criteria, fields);
-            for(List<String> listString: results.getResults()){
-                assertTrue(listString.size()==1);
+            Iterator it = results.getResults().iterator();
+            while(it.hasNext()) {
+                assertTrue(it.next() instanceof String);
             }
+
             fields.add("luiType");
             results = criteriaLookupService.genericLookup(LuiEntity.class, criteria, fields);
-            for(List<String> listString: results.getResults()){
-                assertTrue(listString.size()==2);
+            it = results.getResults().iterator();
+            while(it.hasNext()) {
+                Object[] result = (Object[])it.next();
+                int length = result.length;
+                String[] resultsString = new String[length];
+                for (int i = 0; i < length; i++) {
+                    resultsString[i] = result[i].toString();
+                }
+                assertTrue(length==2);
             }
         }   catch (Exception e){
             e.printStackTrace();

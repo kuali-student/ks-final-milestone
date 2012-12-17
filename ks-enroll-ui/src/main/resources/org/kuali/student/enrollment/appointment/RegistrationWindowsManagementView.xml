@@ -38,6 +38,13 @@
                 <ref bean="KS-RegistrationWindowsManagement-EditPage"/>
             </list>
         </property>
+
+        <property name="dialogs">
+            <list>
+                <ref bean="KS-RegistrationWindowsManagement-ConfirmDelete-Dialog"/>
+                <ref bean="KS-RegistrationWindowsManagement-ConfirmBreakAppointments-Dialog"/>
+            </list>
+        </property>
     </bean>
 
 </beans>
