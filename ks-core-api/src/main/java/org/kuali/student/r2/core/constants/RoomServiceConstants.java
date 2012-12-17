@@ -43,8 +43,8 @@ public class RoomServiceConstants {
     /**
      * Building States (KSENROLL-4281)
      */
-    public static final String ROOM_BUILDING_ACTIVE_STATE_KEY = "kuali.room.building.state.active";
-    public static final String ROOM_BUILDING_INACTIVE_STATE_KEY = "kuali.room.building.state.inactive";
+    public static final String ROOM_BUILDING_ONLINE_STATE_KEY = "kuali.room.building.state.online";
+    public static final String ROOM_BUILDING_OFFLINE_STATE_KEY = "kuali.room.building.state.offline";
 
     /**
      * Building lifecycle (KSENROLL-4281)
@@ -61,8 +61,8 @@ public class RoomServiceConstants {
     /**
      * Room States (KSENROLL-4281)
      */
-    public static final String ROOM_ROOM_ACTIVE_STATE_KEY = "kuali.room.room.state.active";
-    public static final String ROOM_ROOM_INACTIVE_STATE_KEY = "kuali.room.room.state.inactive";
+    public static final String ROOM_ROOM_ONLINE_STATE_KEY = "kuali.room.room.state.online";
+    public static final String ROOM_ROOM_OFFLINE_STATE_KEY = "kuali.room.room.state.offline";
 
     /**
      * Room lifecycle (KSENROLL-4281)
@@ -79,9 +79,9 @@ public class RoomServiceConstants {
     /**
      * Facility types (KSENROLL-4281)
      */
-    public static final String FACILITY_TYPE_BUILDING_KEY = "kuali.facility.type.building";
-    public static final String FACILITY_TYPE_REGION_KEY = "kuali.facility.type.region";
-    public static final String FACILITY_TYPE_PARTITION_KEY = "kuali.facility.type.partition";
+    public static final String ROOM_FACILITY_TYPE_BUILDING_KEY = "kuali.room.facility.type.building";
+    public static final String ROOM_FACILITY_TYPE_REGION_KEY = "kuali.room.facility.type.region";
+    public static final String ROOM_FACILITY_TYPE_PARTITION_KEY = "kuali.room.facility.type.partition";
 
     /**
      * Facility States (KSENROLL-4281)
@@ -93,4 +93,16 @@ public class RoomServiceConstants {
      * Facility lifecycle (KSENROLL-4281)
      */
     public static final String ROOM_FACILITY_LIFECYCLE_KEY = "kuali.room.facility.lifecycle";
+
+    // *-*-*-*-*-*-*-*-*-* Room Responsible Org *-*-*-*-*-*-*-*-*-*
+    /**
+     * Room Responsible Org States (KSENROLL-4281)
+     */
+    public static final String ROOM_RESPONSIBLE_ORG_ACTIVE_STATE_KEY = "kuali.room.responsible.org.state.active";
+    public static final String ROOM_RESPONSIBLE_ORG_INACTIVE_STATE_KEY = "kuali.room.responsible.org.state.inactive";
+
+    /**
+     * Room Responsible Org Lifecycle (KSENROLL-4281)
+     */
+    public static final String ROOM_RESPONSIBLE_ORG_LIFECYCLE_KEY = "kuali.room.responsible.org.lifecycle";
 }
