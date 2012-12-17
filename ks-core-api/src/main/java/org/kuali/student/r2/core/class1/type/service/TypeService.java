@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
@@ -45,7 +46,7 @@ import org.kuali.student.r2.core.constants.TypeServiceConstants;
  * Provide lookups of Types and TypeTypRelations as well as operations
  * for the management of the metadata associated with the types.
  * 
- * @version 2.0
+ * Version: 1.0 (Dev)
  * 
  * @author kamal
  */

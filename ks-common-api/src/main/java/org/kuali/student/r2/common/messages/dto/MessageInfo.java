@@ -40,14 +40,15 @@ import org.kuali.student.r2.common.messages.infc.Message;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MessageInfo", propOrder = { 
-                "messageKey", "locale", "groupName", "value" , "_futureElements" }) 
+                "key", "locale", "groupName", "value" , "_futureElements" }) 
+
 public class MessageInfo 
     implements Message, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String messageKey;
+    private String key;
 
     @XmlElement
     private LocaleInfo locale;
@@ -78,19 +79,19 @@ public class MessageInfo
             if (message.getLocale() != null) {
                 this.locale = new LocaleInfo(message.getLocale());
             }
-            this.messageKey = message.getMessageKey();
+
             this.groupName = message.getGroupName();
             this.value = message.getValue();
         }
     }
 
     @Override
-    public String getMessageKey() {
-        return this.messageKey;
+    public String getKey() {
+        return this.key;
     }
 
-    public void setMessageKey(String messageKey) {
-        this.messageKey = messageKey;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     @Override

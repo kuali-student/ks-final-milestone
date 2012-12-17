@@ -32,7 +32,9 @@ public class KSDateFormatterTest {
         printFormat(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMAT, dateTime);
         printFormat(DateFormatters.AM_PM_TIME_FORMAT, dateTime);
         printFormat(DateFormatters.DEFULT_YEAR_FORMAT, dateTime);
-
+        printFormat(DateFormatters.SIMPLE_TIMESTAMP_FORMAT, dateTime);
+        printFormat(DateFormatters.DEFAULT_MONTH_YEAR_TIME_DATE_FORMAT, dateTime);
+        printFormat(DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT, dateTime);
 
         // Can only format. Parse does not work with short time zone notation
         printFormatOnly(DateFormatters.DYNAMIC_ATTRIBUTE_SHORT_ZONE_DATE_FORMAT, dateTime);
@@ -56,7 +58,7 @@ public class KSDateFormatterTest {
         KSDateTimeFormatter kdf = new KSDateTimeFormatter(format);
 
         try{
-            kdf.format(dateTime);
+            System.out.println(kdf.format(dateTime));
         }catch (Exception ex){
             throw new IllegalArgumentException("Could format["+format+"] " + dateTime.toString() );
         }

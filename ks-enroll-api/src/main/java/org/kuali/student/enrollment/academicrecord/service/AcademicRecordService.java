@@ -39,9 +39,10 @@ import java.util.List;
  * <p/>
  * This service provides the Academic Record.
  * <p/>
+ * Version: 1.0 (Dev)
  *
  * @author tom
- * @version 0.0.7
+ * @Version 2.0
  * @Author Sri komandur@uw.edu
  * @since Mon Sep 12 12:22:34 EDT 2011
  */

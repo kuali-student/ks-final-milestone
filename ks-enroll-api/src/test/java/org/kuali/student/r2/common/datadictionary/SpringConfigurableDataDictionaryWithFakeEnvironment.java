@@ -28,6 +28,11 @@ import org.kuali.rice.core.framework.resourceloader.SimpleServiceLocator;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.KualiModuleService;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import javax.xml.namespace.QName;
 import java.util.Map;
@@ -38,8 +43,9 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDictionary {
+public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDictionary implements ApplicationContextAware {
     private static final String MOCK_APP_ID = "mock-app.id";
+    private ApplicationContext applicationContext;
 
     public void init() {
         Config config = new JAXBConfigImpl();
@@ -54,6 +60,8 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
         };
 
         serviceLocator.addService(new QName(KRADServiceLocator.KUALI_CONFIGURATION_SERVICE), configurationService);
+        KualiModuleService moduleService = (KualiModuleService) applicationContext.getBean(KRADServiceLocatorWeb.KUALI_MODULE_SERVICE);
+        serviceLocator.addService(new QName(KRADServiceLocatorWeb.KUALI_MODULE_SERVICE), moduleService);
 
         ResourceLoader resourceLoader =
                 new BaseResourceLoader(
@@ -68,5 +76,10 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
         }
 
         super.parseDataDictionaryConfigurationFiles(false);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

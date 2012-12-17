@@ -23,7 +23,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 
 import java.util.List;
 
-@Deprecated
 public interface SearchManager {
 
     /**
@@ -55,6 +54,64 @@ public interface SearchManager {
     public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
+     * Retrieves the list of search types which return results in the
+     * specified format.
+     *
+     * @param searchResultTypeKey identifier of the search result type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of search type information
+     * @throws DoesNotExistException specified searchResultTypeKey not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException searchResultTypeKey or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves the list of search types which use criteria in the
+     * specified format.
+     *
+     * @param searchCriteriaTypeKey identifier of the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of search type information
+     * @throws DoesNotExistException specified searchCriteriaTypeKey not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException searchCriteriaTypeKey or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves the list of search result types known by this
+     * service. Search result types describe the return structure for
+     * a search.
+     *
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves the list of search criteria types known by this
+     * service.
+     *
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of search criteria type information
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<TypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
      * Performs a search.
      *
      * @param searchRequestInfo the search request
@@ -67,6 +124,5 @@ public interface SearchManager {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, 
-            InvalidParameterException, OperationFailedException, PermissionDeniedException;
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

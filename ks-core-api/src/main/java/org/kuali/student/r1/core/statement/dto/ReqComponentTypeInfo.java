@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import org.kuali.student.r1.common.dto.TypeInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@Deprecated
 public class ReqComponentTypeInfo extends TypeInfo {  
     private static final long serialVersionUID = 1L;
     

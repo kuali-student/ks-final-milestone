@@ -46,7 +46,7 @@ import java.util.List;
  * The Room will always be referenced by the internal Room Id and not the code
  * when used by other KS services.
  *
- * @version 0.0.7
+ * @Version 2.0
  * @Author Sri komandur@uw.edu
  * @Author Mezba mezba.mahtab@utoronto.ca
  */
@@ -159,7 +159,7 @@ public interface RoomService {
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException, DoesNotExistException;
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of Rooms corresponding to the given Building id and Room Type key

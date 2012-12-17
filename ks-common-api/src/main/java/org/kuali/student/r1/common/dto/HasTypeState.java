@@ -15,7 +15,6 @@
 
 package org.kuali.student.r1.common.dto;
 
-@Deprecated
 public interface HasTypeState {
 	public String getType();
 	public void setType(String type);

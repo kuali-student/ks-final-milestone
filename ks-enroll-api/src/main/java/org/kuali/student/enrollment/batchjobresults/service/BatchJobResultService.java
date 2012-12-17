@@ -43,7 +43,7 @@ import org.kuali.student.r2.common.util.constants.BatchJobResultServiceConstants
  * The batch job results service provides a simple mechanism to 
  * store and progress and final results of of a long running batch job.
  * 
- * @version 0.0.7
+ * @version 1.0
  *
  * @author nwright
  */

@@ -44,9 +44,8 @@ import java.util.List;
  * The Comment Service allows for the creation and management of user
  * comments and tags associated with other objects across the system.
  *
- * @version 2.0
+ * @Version 2.0
  * @Author Sri komandur@uw.edu
- * @Author Mezba (Reviewed for CM2.0 on 20/11/2012)
  */
 
 @WebService(name = "CommentService", targetNamespace = CommentServiceConstants.NAMESPACE)
@@ -66,13 +65,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public CommentInfo getComment(@WebParam(name = "commentId") String commentId,
-                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public CommentInfo getComment(@WebParam(name = "commentId") String commentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of Comments corresponding to the
@@ -88,13 +81,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CommentInfo> getCommentsByIds(@WebParam(name = "commentIds") List<String> commentIds,
-                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<CommentInfo> getCommentsByIds(@WebParam(name = "commentIds") List<String> commentIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of Comments of the specified type.
@@ -108,12 +95,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCommentIdsByType(@WebParam(name = "commentTypeKey") String commentTypeKey,
-                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<String> getCommentIdsByType(@WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves comment information for a reference. The expected behavior is that if the caller is not authorized
@@ -133,14 +115,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "referenceId") String referenceId,
-                                                           @WebParam(name = "referenceTypeKey") String referenceTypeKey,
-                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<CommentInfo> getCommentsByReferenceAndType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Comments based on the criteria and returns a list
@@ -155,12 +130,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForCommentIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<String> searchForCommentIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Comments based on the criteria and returns a list of
@@ -175,12 +145,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CommentInfo> searchForComments(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<CommentInfo> searchForComments(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Adds a comment to a reference.
@@ -200,18 +165,7 @@ public interface CommentService extends DictionaryService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            attempted update of readonly data
      */
-    public CommentInfo createComment(@WebParam(name = "referenceId") String referenceId,
-                                     @WebParam(name = "referenceTypeKey") String referenceTypeKey,
-                                     @WebParam(name = "commentTypeKey") String commentTypeKey,
-                                     @WebParam(name = "commentInfo") CommentInfo commentInfo,
-                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
+    public CommentInfo createComment(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates a comment for a reference.
@@ -230,17 +184,7 @@ public interface CommentService extends DictionaryService {
      * @throws ReadOnlyException            attempted update of readonly data
      * @throws VersionMismatchException     The action was attempted on an out of date version.
      */
-    public CommentInfo updateComment(@WebParam(name = "commentId") String commentId,
-                                     @WebParam(name = "commentInfo") CommentInfo commentInfo,
-                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException;
+    public CommentInfo updateComment(@WebParam(name = "commentId") String commentId, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, VersionMismatchException, ReadOnlyException;
 
     /**
      * Removes a comment from a reference.
@@ -255,13 +199,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteComment(@WebParam(name = "commentId") String commentId,
-                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public StatusInfo deleteComment(@WebParam(name = "commentId") String commentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Removes all comments associated with a single reference
@@ -277,14 +215,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteCommentsByReference(@WebParam(name = "referenceId") String referenceId,
-                                                @WebParam(name = "referenceTypeKey") String referenceTypeKey,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public StatusInfo deleteCommentsByReference(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a comment. Depending on the value of validationType, this validation could be limited to tests on
@@ -305,13 +236,7 @@ public interface CommentService extends DictionaryService {
      * @throws MissingParameterException validationTypeKey, commentInfo, contextInfo not specified
      * @throws OperationFailedException  unable to complete request
      */
-    public List<ValidationResultInfo> validateComment(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                      @WebParam(name = "commentInfo") CommentInfo commentInfo,
-                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException;
+    public List<ValidationResultInfo> validateComment(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves information about a tag.
@@ -326,13 +251,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public TagInfo getTag(@WebParam(name = "tagId") String tagId,
-                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public TagInfo getTag(@WebParam(name = "tagId") String tagId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**
@@ -349,13 +268,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TagInfo> getTagsByIds(@WebParam(name = "tagIds") List<String> tagIds,
-                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<TagInfo> getTagsByIds(@WebParam(name = "tagIds") List<String> tagIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of Tags of the specified type.
@@ -369,12 +282,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getTagIdsByType(@WebParam(name = "tagTypeKey") String tagTypeKey,
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<String> getTagIdsByType(@WebParam(name = "tagTypeKey") String tagTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves tag information for a reference. The expected behavior is that if the caller is not authorized
@@ -393,14 +301,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TagInfo> getTagsByReferenceAndType(@WebParam(name = "referenceId") String referenceId,
-                                                   @WebParam(name = "referenceTypeKey") String referenceTypeKey,
-                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<TagInfo> getTagsByReferenceAndType(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Tags based on the criteria and returns a list
@@ -415,12 +316,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> searchForTagIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<String> searchForTagIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Tags based on the criteria and returns a list of
@@ -435,12 +331,7 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TagInfo> searchForTags(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public List<TagInfo> searchForTags(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Adds a tag to a reference.
@@ -461,38 +352,7 @@ public interface CommentService extends DictionaryService {
      * @throws PermissionDeniedException    authorization failure
      * @throws ReadOnlyException            attempted update of readonly data
      */
-    public TagInfo createTag(@WebParam(name = "referenceId") String referenceId,
-                             @WebParam(name = "referenceTypeKey") String referenceTypeKey,
-                             @WebParam(name = "tagInfo") TagInfo tagInfo,
-                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
-
-    /**
-     * Removes a tag from all references to which it is linked.
-     *
-     * @param tagId       identifier of the tag
-     * @param contextInfo Context information containing the principalId and locale
-     *                    information about the caller of service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     tagId does not exist
-     * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException tagId, contextInfo not specified
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public StatusInfo deleteTag(@WebParam(name = "tagId") String tagId,
-                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public TagInfo createTag(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "tagInfo") TagInfo tagInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Removes all tags associated with a single reference
@@ -508,14 +368,22 @@ public interface CommentService extends DictionaryService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteTagsByReference(@WebParam(name = "referenceId") String referenceId,
-                                            @WebParam(name = "referenceTypeKey") String referenceTypeKey,
-                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
+    public StatusInfo deleteTagsByReference(@WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Removes a tag from all references to which it is linked.
+     *
+     * @param tagId       identifier of the tag
+     * @param contextInfo Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     tagId does not exist
+     * @throws InvalidParameterException One or more parameters invalid
+     * @throws MissingParameterException tagId, contextInfo not specified
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteTag(@WebParam(name = "tagId") String tagId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     @Deprecated
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey);

@@ -154,7 +154,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseOfferingInfo.gradingOptionId" parent="CourseOfferingInfo.gradingOptionId-parent"/>
 	<bean id="CourseOfferingInfo.gradingOptionId-parent" abstract="true" parent="CourseOfferingInfo.gradingOptionId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
+        <property name="required" value="true"/>
+    </bean>
 
 	<bean id="CourseOfferingInfo.gradingOptionName" parent="CourseOfferingInfo.gradingOptionName-parent"/>
 	<bean id="CourseOfferingInfo.gradingOptionName-parent" abstract="true" parent="CourseOfferingInfo.gradingOptionName-generated">
@@ -174,7 +175,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseOfferingInfo.creditOptionId" parent="CourseOfferingInfo.creditOptionId-parent"/>
 	<bean id="CourseOfferingInfo.creditOptionId-parent" abstract="true" parent="CourseOfferingInfo.creditOptionId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
+        <property name="required" value="true"/>
+    </bean>
 
 	<bean id="CourseOfferingInfo.waitlistLevelTypeKey" parent="CourseOfferingInfo.waitlistLevelTypeKey-parent"/>
 	<bean id="CourseOfferingInfo.waitlistLevelTypeKey-parent" abstract="true" parent="CourseOfferingInfo.waitlistLevelTypeKey-generated">
