@@ -28,8 +28,10 @@ import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -42,23 +44,15 @@ public class AtpToMilestoneRelatedObjectHelper implements RelatedObjectHelper {
     private AtpService atpService;
 
     @Override
-    public Set<String> getRelatedObjectStateKeys(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-         List<MilestoneInfo> milestoneInfos = getAtpService().getMilestonesForAtp(entityId,contextInfo);
-         Set<String> stateKeys = new HashSet<String>();
-         for (MilestoneInfo milestoneInfo : milestoneInfos) {
-             stateKeys.add(milestoneInfo.getStateKey());
-         }
-        return stateKeys;
-    }
+    public Map<String, String> getRelatedObjectsIdAndState(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Map<String,String> idsAndState = new HashMap<String, String>();
 
-    @Override
-    public Set<String> getRelatedObjectIds(String entityId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-         List<MilestoneInfo> milestoneInfos = getAtpService().getMilestonesForAtp(entityId,contextInfo);
+        List<MilestoneInfo> milestoneInfos = getAtpService().getMilestonesForAtp(entityId,contextInfo);
          Set<String> ids = new HashSet<String>();
          for (MilestoneInfo milestoneInfo : milestoneInfos) {
-             ids.add(milestoneInfo.getId());
+             idsAndState.put(milestoneInfo.getId(),milestoneInfo.getStateKey());
          }
-         return ids;
+         return idsAndState;
     }
 
     protected AtpService getAtpService(){
@@ -67,4 +61,5 @@ public class AtpToMilestoneRelatedObjectHelper implements RelatedObjectHelper {
         }
         return atpService;
     }
+
 }

@@ -18,6 +18,7 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -205,8 +206,16 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
                     resultMap.put(stateKeyPrefix, si);
                     continue;
                 }
-                for (String id : relatedObjectHelper.getRelatedObjectIds(entityId, context)) {
-                    StatusInfo si = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);
+
+
+                Map<String,String> idsAndState = relatedObjectHelper.getRelatedObjectsIdAndState(entityId, context);
+
+                for (String id : idsAndState.keySet()) {
+                    String currentStateKey = idsAndState.get(id);
+                    StatusInfo si = new StatusInfo();
+                    if (StringUtils.equals(stateChangeInfo.getFromStateKey(),currentStateKey)){
+                        si = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);
+                    }
                     resultMap.put(id, si);
                 }
             }
@@ -271,12 +280,16 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
             statusInfo.setMessage(String.format("No related object helper was registered for key [%s].", roHelperKey));
             return statusInfo;
         }
-        Set<String> actualKeys = relatedObjectHelper.getRelatedObjectStateKeys(entityId, contextInfo);
-        if ( ! evaluateConstraint(actualKeys, constraintObjectStateKeys, operator)) {
+
+        Map<String,String> idsAndState = relatedObjectHelper.getRelatedObjectsIdAndState(entityId, contextInfo);
+        Set<String> stateKeys = new HashSet<String>(idsAndState.values());
+
+        if (!evaluateConstraint(stateKeys, constraintObjectStateKeys, operator)) {
             statusInfo.setSuccess(Boolean.FALSE);
             statusInfo.setMessage(String.format("Related object constraint for state prefix '%s' failed.", relatedObjStateKeyPrefix));
             return statusInfo;
         }
+
         return statusInfo;
     }
 

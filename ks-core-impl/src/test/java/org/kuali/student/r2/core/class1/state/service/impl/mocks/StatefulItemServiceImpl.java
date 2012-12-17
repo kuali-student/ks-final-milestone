@@ -4,9 +4,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,27 +61,8 @@ public class StatefulItemServiceImpl {
         return itemStorage.get(id);
     }
 
-    /**
-     * Gets a list of all stored state keys.
-     * @return
-     */
-    public List<String> getEntityStateKeys() {
-        List<String> stateKeys = new ArrayList<String>();
-        for (String stateKey : itemStorage.values()) {
-            stateKeys.add(stateKey);
-        }
-        return stateKeys;
+    public Map<String,String> getItemStorage() {
+        return itemStorage;
     }
 
-    /**
-     * Gets a list of all ids.
-     * @return
-     */
-    public List<String> getIds() {
-        List<String> stateKeys = new ArrayList<String>();
-        for (String id : itemStorage.keySet()) {
-            stateKeys.add(id);
-        }
-        return stateKeys;
-    }
 }

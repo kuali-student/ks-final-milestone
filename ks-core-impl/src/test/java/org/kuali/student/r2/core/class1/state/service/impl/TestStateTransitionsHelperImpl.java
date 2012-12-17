@@ -327,7 +327,7 @@ public class TestStateTransitionsHelperImpl {
         // change the state of the item before kicking off the propagations) ...
         Map<String, StatusInfo> sis = stateTransitionsHelper.processStatePropagations("alpha1", "kuali.Alpha.state.draft:kuali.Alpha.state.open", context);
         assertTrue(sis.get("bravo1").getIsSuccess());
-        assertTrue(sis.get("bravo2").getIsSuccess());
+        assertTrue(sis.get("bravo2").getIsSuccess()); //It's already in the stirred state
         assertTrue(sis.get("bravo3").getIsSuccess());
 
         //  Verify that the propagated state changes happened
