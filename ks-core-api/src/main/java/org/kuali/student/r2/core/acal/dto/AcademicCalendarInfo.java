@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.acal.dto;
+package org.kuali.student.r2.core.acal.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
+import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 

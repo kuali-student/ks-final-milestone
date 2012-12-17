@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.acal.dto;
+package org.kuali.student.r2.core.acal.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -24,71 +24,86 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.acal.infc.AcalEvent;
+import org.kuali.student.r2.core.acal.infc.Holiday;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
+import org.kuali.student.r2.core.acal.infc.Holiday;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AcalEventInfo", propOrder = { 
+@XmlType(name = "HolidayInfo", propOrder = { 
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "isAllDay", "isDateRange", "startDate", "endDate", 
+                "isInstructionalDay", "isAllDay", "isDateRange",
+		"startDate", "endDate", 
                 "meta", "attributes", "_futureElements" })
 
-public class AcalEventInfo 
+public class HolidayInfo 
     extends IdEntityInfo 
-    implements AcalEvent, Serializable {
+    implements Holiday, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+	
+    @XmlElement
+    private Boolean isInstructionalDay;
+	
     @XmlElement
     private Boolean isAllDay;
-
+    
     @XmlElement
     private Boolean isDateRange;
-
+    
     @XmlElement
     private Date startDate;
-
+    
     @XmlElement
     private Date endDate;
-
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    /**
-     * Constructs a new AcalEvent.
+    
+    /** 
+     * Constructs a new HolidayInfo.
      */
-    public AcalEventInfo() {
-        super();
+    public HolidayInfo() {
     }
-
+    
     /**
-     * Constructs a new AcalEventInfo from another AcalEvent.
+     * Constructs a new HolidayInfo from another Holiday.
      * 
-     * @param acalEvent the AcalEvent to copy
+     * @param holiday the Holiday to copy
      */
-    public AcalEventInfo(AcalEvent acalEvent) {
-        super(acalEvent);
-        if (acalEvent != null) {
-            this.isAllDay = acalEvent.getIsAllDay();
-            this.isDateRange = acalEvent.getIsDateRange();
+    public HolidayInfo(Holiday holiday) {
+        super(holiday);
+        if (holiday != null) {
+            this.isInstructionalDay = holiday.getIsInstructionalDay();
+            this.isAllDay = holiday.getIsAllDay();
+            this.isDateRange = holiday.getIsDateRange();
 
-            if (acalEvent.getStartDate() != null) {
-                this.startDate = new Date(acalEvent.getStartDate().getTime());
+            if (holiday.getStartDate() != null) {
+                this.startDate = new Date(holiday.getStartDate().getTime());
             }
 
-            if (acalEvent.getEndDate() != null) {
-                this.endDate = new Date(acalEvent.getEndDate().getTime());
+            if (holiday.getEndDate() != null) {
+                this.endDate = new Date(holiday.getEndDate().getTime());
             }
         }
+    }
+
+    @Override
+    public Boolean getIsInstructionalDay() {
+        return isInstructionalDay;
+    }
+    
+    public void setIsInstructionalDay(Boolean isInstructionalDay) {
+        this.isInstructionalDay = isInstructionalDay;
     }
     
     @Override
     public Boolean getIsAllDay() {
         return isAllDay;
     }
-
+    
     public void setIsAllDay(Boolean isAllDay) {
         this.isAllDay = isAllDay;
     }

@@ -9,7 +9,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.acal.service;
+package org.kuali.student.r2.core.acal.service;
 
 import java.util.Date;
 import java.util.List;
@@ -20,13 +20,13 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 
 import org.kuali.student.r2.common.dto.ContextInfo;
