@@ -126,6 +126,12 @@
         DESCR_PLAIN="Lifecycle for facility"
         ID="kuali.room.facility.lifecycle" NAME="Lifecycle for facility" VER_NBR="1"/>
     <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
+        CREATETIME="20121217000000"
+        DESCR_FORMATTED="Lifecycle for Room Responsible Org"
+        DESCR_PLAIN="Lifecycle for Room Responsible Org"
+        ID="kuali.room.responsible.org.lifecycle"
+        NAME="Lifecycle for Room Responsible Org" VER_NBR="1"/>
+    <KSEN_STATE_LIFECYCLE CREATEID="SYSTEMLOADER"
         CREATETIME="20121215000000" DESCR_FORMATTED="Lifecycle for room"
         DESCR_PLAIN="Lifecycle for room" ID="kuali.room.room.lifecycle"
         NAME="Lifecycle for room" VER_NBR="1"/>
