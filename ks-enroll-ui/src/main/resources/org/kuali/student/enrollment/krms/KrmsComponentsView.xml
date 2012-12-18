@@ -39,12 +39,12 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Clu Components"/>
-
-                <ref bean="course"/>
-                <ref bean="courseList"/>
+                <!--<ref bean="course"/>
+                <ref bean="courseList"/>-->
                 <ref bean="singleCourse"/>
                 <ref bean="multipleCourse-Section"/>
                 <ref bean="gpaComponent" />
+                <ref bean="testScoreComponent" />
             </list>
         </property>
     </bean>
@@ -53,8 +53,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Organizational Components"/>
-
-                <ref bean="org"/>
+                <!--<ref bean="org"/>-->
                 <ref bean="departmentComponent"/>
                 <ref bean="administeringOrgComponent"/>
             </list>
@@ -79,7 +78,7 @@
         </property>
     </bean>
 
-    <bean id="course-parent" parent="parameter-parent-dropdown" p:label="Course">
+    <!--<bean id="course-parent" parent="parameter-parent-dropdown" p:label="Course">
         <property name="optionsFinder">
             <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseCodeValuesFinder"/>
         </property>
@@ -124,9 +123,8 @@
             <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.OrganizationCodeValuesFinder"/>
         </property>
     </bean>
-    <bean id="org" parent="org-parent"/>
+    <bean id="org" parent="org-parent"/>-->
 
-    <!--Rule components-->
     <bean id="singleCourse-parent" parent="Uif-InputField-LabelTop" p:propertyName="courseSuggest" p:label="Course">
         <property name="suggest">
             <bean parent="Uif-Suggest">
@@ -228,6 +226,51 @@
                     </property>
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="testNameComponent-parent" parent="Uif-InputField-LabelTop" p:propertyName="tests" p:label="Tests">
+        <property name="suggest">
+            <bean parent="Uif-Suggest">
+                <property name="render" value="true"/>
+                <property name="sourcePropertyName" value="displayName"/>
+                <property name="templateOptions" value="minLength:1,delay:0"/>
+                <property name="suggestQuery">
+                    <bean parent="Uif-AttributeQueryConfig">
+                        <property name="queryMethodToCall" value="getTestNamesForSuggest"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+        <property name="quickfinder.fieldConversions">
+            <map>
+                <entry key="id" value="holdIssueId"/>
+                <entry key="name" value="holdName"/>
+            </map>
+        </property>
+        <property name="quickfinder.quickfinderAction">
+            <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
+        </property>
+        <property name="quickfinder.lightBoxLookup">
+            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+        </property>
+    </bean>
+    <bean id="testNameComponent" parent="testNameComponent-parent" />
+
+    <bean id="testScoreComponent" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="testScore" p:label="Test Score" p:maxLength="6">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="IntegerPatternConstraint" />
+                    </property>
+                </bean>
+                <bean parent="testNameComponent" />
             </list>
         </property>
     </bean>

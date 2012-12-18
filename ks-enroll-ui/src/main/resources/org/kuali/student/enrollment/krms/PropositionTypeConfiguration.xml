@@ -78,7 +78,7 @@
     <bean id="course.offering.drop.instructor.permission.required" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.offering.drop.instructor.permission.required'}">
         <property name="items">
             <list>
-                <bean parent="course-parent"/>
+                <bean parent="singleCourse-parent"/>
             </list>
         </property>
     </bean>
@@ -87,7 +87,7 @@
     <bean id="course.drop.org.permission.required" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.course.drop.org.permission.required'}">
         <property name="items">
             <list>
-                <bean parent="org-parent"/>
+                <bean parent="administeringOrgComponent"/>
             </list>
         </property>
     </bean>
@@ -144,7 +144,7 @@
     <bean id="max.limit.courses.at.org.for.program" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.max.limit.courses.at.org.for.program'}">
         <property name="items">
             <list>
-                <bean parent="org-parent"/>
+                <bean parent="administeringOrgComponent"/>
             </list>
         </property>
     </bean>
@@ -153,7 +153,7 @@
     <bean id="max.limit.courses.at.org.duration.for.program" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program'}">
         <property name="items">
             <list>
-                <bean parent="org-parent"/>
+                <bean parent="administeringOrgComponent"/>
             </list>
         </property>
     </bean>
@@ -178,7 +178,7 @@
     <bean id="success.compl.course.as.of.term" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.compl.course.as.of.term'}">
         <property name="items">
             <list>
-                <bean parent="course-parent"/>
+                <bean parent="singleCourse-parent"/>
             </list>
         </property>
     </bean>
@@ -195,7 +195,7 @@
     <bean id="success.compl.course.between.terms" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.compl.course.between.terms'}">
         <property name="items">
             <list>
-                <bean parent="course-parent"/>
+                <bean parent="singleCourse-parent"/>
             </list>
         </property>
     </bean>
@@ -213,7 +213,7 @@
     <bean id="success.course.courseset.completed.nof" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.course.courseset.completed.nof'}">
         <property name="items">
             <list>
-                <bean parent="courseList-parent"/>
+                <bean parent="multipleCourse-Section"/>
             </list>
         </property>
     </bean>
@@ -222,7 +222,7 @@
     <bean id="success.course.courseset.completed.all" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.course.courseset.completed.all'}">
         <property name="items">
             <list>
-                <bean parent="courseList-parent"/>
+                <bean parent="multipleCourse-Section"/>
             </list>
         </property>
     </bean>
@@ -239,7 +239,7 @@
     <bean id="success.credit.courseset.completed.nof.org" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.success.credit.courseset.completed.nof.org'}">
         <property name="items">
             <list>
-                <bean parent="org-parent"/>
+                <bean parent="administeringOrgComponent"/>
             </list>
         </property>
     </bean>
@@ -448,7 +448,7 @@
     <bean id="admitted.to.program.org" parent="proposition-group" p:render="@{#np.proposition.type eq 'kuali.krms.proposition.type.admitted.to.program.org'}">
         <property name="items">
             <list>
-                <bean parent="org-parent"/>
+                <bean parent="administeringOrgComponent"/>
             </list>
         </property>
     </bean>
