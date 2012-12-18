@@ -2204,6 +2204,13 @@
         REF_OBJECT_URI="http://student.kuali.org/wsdl/state/StatePropagationInfo"
         SERVICE_URI="http://student.kuali.org/wsdl/state/StateService"
         TYPE_KEY="kuali.state.propagation.type" VER_NBR="0"/>
+    <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20121217000000"
+        DESCR_FORMATTED="Delete State Propagation Type"
+        DESCR_PLAIN="Delete State Propagation Type"
+        NAME="Delete State Propagation Type"
+        REF_OBJECT_URI="http://student.kuali.org/wsdl/state/StatePropagationInfo"
+        SERVICE_URI="http://student.kuali.org/wsdl/state/StateService"
+        TYPE_KEY="kuali.state.propagation.type.delete" VER_NBR="0"/>
     <KSEN_TYPE CREATEID="SYSTEMLOADER" CREATETIME="20120301000000"
         DESCR_FORMATTED="Type specifies which types can go together"
         DESCR_PLAIN="Type specifies which types can go together"
