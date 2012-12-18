@@ -59,6 +59,9 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     private boolean withinPortal = true;
 
+    private boolean editAuthz;
+
+
     public CourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
@@ -293,5 +296,11 @@ public class CourseOfferingManagementForm extends UifFormBase {
 
     public void setCourseOfferingEditWrapper(CourseOfferingEditWrapper courseOfferingEditWrapper) {
         this.courseOfferingEditWrapper = courseOfferingEditWrapper;
+    }
+    public boolean getEditAuthz(){
+        return editAuthz;
+    }
+    public void setEditAuthz(boolean editAuthz){
+        this.editAuthz=editAuthz;
     }
 }

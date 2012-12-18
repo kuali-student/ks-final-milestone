@@ -118,8 +118,9 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-InputField" p:propertyName="selectedOfferingAction" p:label="Selected Course Offering Actions" p:labelPlacement="TOP">
+                            <property name="readOnly" value="false"/>
                             <property name="control">
-                                <bean parent="Uif-DropdownControl" p:disabled="@{#parent.readOnly}"/>
+                                <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
                             </property>
                             <property name="optionsFinder">
                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingActionsKeyValues"/>

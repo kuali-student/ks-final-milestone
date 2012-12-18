@@ -5,6 +5,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -97,8 +98,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if (form.getView() != null) {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
             checkViewAuthorization(theForm, methodToCall);
-
+            theForm.setEditAuthz(checkEditViewAuthz(theForm));
         }
+
 
         // check if the view is invoked within portal or not
         inputValue = request.getParameter("withinPortal");
@@ -176,12 +178,16 @@ public class CourseOfferingManagementController extends UifControllerBase  {
                     if(orgIds !=null && !orgIds.isEmpty()){
                         theForm.setAdminOrg(orgIds.get(0));
                     }
+                    CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
                 } else { // just one course offering is returned
                     CourseOfferingInfo coToShow = getCourseOfferingService().getCourseOffering(theForm.getCourseOfferingResultList().get(0).getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
                     theForm.setCourseOfferingCode(coToShow.getCourseOfferingCode());
                     return _prepareManageAOsModelAndView(theForm, coToShow);
                 }
             }
+            //
+            theForm.setEditAuthz(checkEditViewAuthz(theForm));
             if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()){
                 return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_CO_PAGE);
             }else{
@@ -212,6 +218,8 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         theForm.setNoOfActivityOfferings(null);
         getViewHelperService(theForm).loadActivityOfferingsByCourseOffering(coToShow, theForm);
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm, coToShow);
+
+        theForm.setEditAuthz(checkEditViewAuthz(theForm));
 
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_AO_PAGE);
     }
@@ -998,6 +1006,11 @@ public class CourseOfferingManagementController extends UifControllerBase  {
 
         }
         return organizationService;
+    }
+
+    private boolean checkEditViewAuthz(CourseOfferingManagementForm theForm){
+        Person user = GlobalVariables.getUserSession().getPerson();
+        return theForm.getView().getAuthorizer().canEditView(theForm.getView(),theForm,user);
     }
 
 }
