@@ -323,8 +323,6 @@
 
     <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
 
-    <bean id="mockGlobalResourceLoader" class="org.kuali.student.common.test.mock.MockGlobalResourceLoader"/>
-
     <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
 </beans>
