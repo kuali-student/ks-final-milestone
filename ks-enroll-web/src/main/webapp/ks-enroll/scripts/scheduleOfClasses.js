@@ -15,17 +15,17 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
         image.attr("src", openImage);
 
         // Temporal solution to display 2 AO lists simultaneously.
-        var displayCoId = jQuery('span[id=displayCoId]').text().trim();
+        var displayCoId = jQuery('span[id=displayCoId_control]').text().trim();
         if (courseOfferingId == displayCoId) {
-            jQuery('span[id=displayCoId]').text('');
+            jQuery('span[id=displayCoId_control]').text('');
         } else {
-            jQuery('span[id=displayCoIdAdd]').text('');
+            jQuery('span[id=displayCoIdAdd_control]').text('');
         }
     }
     else {
         // Temporal solution to display 2 AO lists simultaneously.
-        var displayCoId = jQuery('span[id=displayCoId]').text().trim();
-        var displayCoIdAdd = jQuery('span[id=displayCoIdAdd]').text().trim();
+        var displayCoId = jQuery('span[id=displayCoId_control]').text().trim();
+        var displayCoIdAdd = jQuery('span[id=displayCoIdAdd_control]').text().trim();
 
         var kradRequest = new KradRequest();
 
@@ -48,7 +48,7 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
             descPara.html(description);
             div.prepend(descPara);
 
-            // Calculate the height of the row containing the new div           
+            // Calculate the height of the row containing the new div
             var tr = jQuery(jQuery('#' + courseOfferingId)).parents('tr');
             var td = jQuery(jQuery('#' + courseOfferingId)).parents('td');
             td = jQuery(td).next();
@@ -67,8 +67,8 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
             image.attr("src", closeImage);
         }
 
-         // Temporal solution to display 2 AO lists simultaneously.
-        var courseOfferingIdAdd = jQuery('span[id=displayCoIdAdd]').text().trim();
+        // Temporal solution to display 2 AO lists simultaneously.
+        var courseOfferingIdAdd = jQuery('span[id=displayCoIdAdd_control]').text().trim();
         var divTempIdAdd = 'findThisId_' + courseOfferingIdAdd;
 
         if (courseOfferingIdAdd != null && courseOfferingIdAdd.length > 0 && jQuery('#scheduleOfClassesSearchResultsAdd').length > 0) {
