@@ -300,11 +300,11 @@ function showFixedOptions(textBox, url, courseTypeKey) {
 
 function removeHeaderForRemovedColumns(isReadOnly, columns, componentId) {
     if (isReadOnly) {
-        var div = jQuery(componentId);
+        var div = jQuery('#' + componentId);
         var table = jQuery(div).find('table');
         var tableId = jQuery(table).attr('id');
 
-        jQuery.each(columns, function(index, column) {
+        jQuery.each(columns, function (index, column) {
             var columIndex = column - index
             var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + columIndex + ')');
             jQuery(th).remove();
@@ -314,8 +314,91 @@ function removeHeaderForRemovedColumns(isReadOnly, columns, componentId) {
             var tf = jQuery('#' + tableId + ' tfoot tr').find('th:nth-child(' + columIndex + ')');
             jQuery(tf).remove();
         });
-
     }
+}
+
+function addActionColumn(componentId) {
+    // Find the table
+    var div = jQuery('#' + componentId);
+    var table = jQuery(div).find('table');
+    var tableId = jQuery(table).attr('id');
+
+    // Create the header
+    var thHeader = jQuery('<th scope="col" colspan="1" rowspan="1" class="infoline sorting_disabled" role="columnheader" aria-label="ACTIONS"/>');
+    var spanHeader = jQuery('<span id="action_manage_header_span" class="infoline"/>');
+    var labelHeader = jQuery('<label id="action_manage_header_label" for="">ACTIONS</label>');
+    spanHeader.append(labelHeader);
+    thHeader.append(spanHeader);
+
+    // Add the Header
+    jQuery('#' + tableId + ' thead tr').append(thHeader);
+
+    jQuery('#' + tableId + ' tbody tr').each(function () {
+
+        var firstColumnDiv = jQuery(this).find('td').find('div');
+        var fristColumnId = jQuery(firstColumnDiv).attr('id');
+        var index = fristColumnId.substring(fristColumnId.lastIndexOf('_line') + '_line'.length, fristColumnId.length);
+
+        // Create the body
+        var tdBody = jQuery('<td role="presentation" colspan="1" rowspan="1" class="uif-field uif-fieldGroup uif-horizontalFieldGroup" style="text-align: left;"/>');
+        var bodyDiv1 = jQuery('<div id="bodyDiv1_line' + index + '" class="uif-field uif-fieldGroup uif-horizontalFieldGroup" style="text-align: left;" data-parent="' + componentId + '" data-label="ACTIONS" data-group="bodyDiv2_line' + index + '"/>');
+        tdBody.append(bodyDiv1);
+        var bodyFieldset = jQuery('<fieldset aria-labelledby="bodyDiv1_line' + index + '_label" id="bodyDiv1_line' + index + '_fieldset"/>');
+        bodyDiv1.append(bodyFieldset);
+        var bodyLegend = jQuery('<legend style="display: none">ACTIONS</legend>');
+        bodyFieldset.append(bodyLegend);
+        var bodyDiv2 = jQuery('<div id="bodyDiv2_line' + index + '" class="uif-group uif-boxGroup uif-horizontalBoxGroup" style="text-align: left;" data-parent="bodyDiv1_line' + index + '"/>');
+        bodyFieldset.append(bodyDiv2);
+        var bodyDiv3 = jQuery('<div id="bodyDiv3_line' + index + '" class="uif-validationMessages uif-groupValidationMessages"style="display: none;" data-messagesfor="bodyDiv2_line' + index + '"/>');
+        bodyDiv2.append(bodyDiv3);
+        var bodyDiv4 = jQuery('<div id="bodyDiv4_line' + index + '_boxLayout" class="uif-boxLayout uif-horizontalBoxLayout clearfix"/>');
+        bodyDiv2.append(bodyDiv4);
+        var bodyAnchor = jQuery('<a id="bodyAnchor_line' + index + '" onclick="return false;" class="uif-action uif-actionLink uif-navigationActionLink" tabindex="0" data-ajaxreturntype="update-component" data-loadingmessage="Loading..." data-disableblocking="false" data-ajaxsubmit="false" data-refreshid="' + componentId + '" data-validate="false">Manage</a>');
+        bodyDiv4.append(bodyAnchor);
+
+        jQuery(this).append(tdBody);
+
+        jQuery('#bodyAnchor_line' + index).data('submitData', {
+            "methodToCall":"loadAOs",
+            "actionParameters[selectedCollectionPath]":"courseOfferingResultList",
+            "actionParameters[selectedLineIndex]":index,
+            "showHistory":"false",
+            "showHome":"false",
+            "jumpToId":componentId
+        });
+
+        jQuery('#' + 'bodyAnchor_line' + index).click(function (e) {
+            e.preventDefault();
+            if (jQuery(this).hasClass('disabled')) {
+                return false;
+            }
+            if (checkDirty(e) == false) {
+                actionInvokeHandler(this);
+            }
+        });
+
+        jQuery('#bodyDiv2_line' + index).data('validationMessages', {
+            summarize:true,
+            displayMessages:true,
+            collapseFieldMessages:true,
+            displayLabel:true,
+            hasOwnMessages:false,
+            pageLevel:false,
+            forceShow:true,
+            sections:[],
+            order:[],
+            serverErrors:[],
+            serverWarnings:[],
+            serverInfo:[]
+        });
+
+    });
+    // Create the footer
+    var thFooter = jQuery('<th rowspan="1" colspan="1"/>');
+
+    // Add the Footer
+    jQuery('#' + tableId + ' tfoot tr').append(thFooter);
+
 }
 
 /*
