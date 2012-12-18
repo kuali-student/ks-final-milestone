@@ -17,19 +17,27 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<!-- This context requires that a spring Transaction Manager named 'transactionManager' 
-		be defined -->
 	<import resource="classpath:ks-data-dictionary-services-configuration.xml" />
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
-	<!-- Add the myplan data dictionaries -->
 
-	<bean id="academicPlanService"
-		class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl">
-		<property name="learningPlanDao" ref="learningPlanDao" />
-		<property name="learningPlanTypeDao" ref="learningPlanTypeDao" />
-		<property name="planItemDao" ref="planItemDao" />
-		<property name="planItemTypeDao" ref="planItemTypeDao" />
-	</bean>
+    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
+
+    <bean id="academicPlanServicePersistence" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl">
+        <property name="learningPlanDao" ref="learningPlanDao"/>
+        <property name="learningPlanTypeDao" ref="learningPlanTypeDao"/>
+        <property name="planItemDao" ref="planItemDao"/>
+        <property name="planItemTypeDao" ref="planItemTypeDao"/>
+        <property name="courseService" ref="ksLumCourseService"/>
+        <property name="atpService" ref="ksCoreAtpService" />
+    </bean>
+
+    <bean id="academicPlanServiceValidator" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceValidationDecorator">
+        <property name="nextDecorator" ref="academicPlanServicePersistence"/>
+        <property name="validator" ref="validator"/>
+        <property name="dataDictionaryService" ref="dataDictionaryServiceForAcademicPlanService"/>
+    </bean>
+
+    <alias name="academicPlanServiceValidator" alias="academicPlanService" />
 
 	<bean id="ks.exp.academicPlanService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
 		<property name="serviceDefinition">
@@ -116,5 +124,27 @@
 			</bean>
 		</property>
 	</bean>
+
+	<!-- Exception mapping. This is needed because many operations are proxied 
+		and do not throw exceptions until a later time -->
+	<bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">
+		<property name="defaultException"
+			value="org.kuali.student.r2.common.exceptions.OperationFailedException" />
+		<property name="exceptionMapping">
+			<map>
+				<entry key="javax.persistence.EntityExistsException"
+					value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
+				<entry key="org.hibernate.exception.ConstraintViolationException"
+					value="org.kuali.student.r2.common.exceptions.AlreadyExistsException" />
+			</map>
+		</property>
+	</bean>
+	<aop:config>
+		<aop:aspect id="dataAccessToBusinessException" ref="mapExceptionAdvisor">
+			<aop:after-throwing
+				pointcut="execution(* org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl.*(..))"
+				method="afterThrowing" throwing="ex" />
+		</aop:aspect>
+	</aop:config>
 
 </beans>

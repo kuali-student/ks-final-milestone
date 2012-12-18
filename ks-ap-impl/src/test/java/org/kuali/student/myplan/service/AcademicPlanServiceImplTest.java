@@ -1,6 +1,7 @@
 package org.kuali.student.myplan.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -109,7 +110,7 @@ public class AcademicPlanServiceImplTest {
 	}
 
 	@Test
-	public void addLearningPlan() {
+	public void addLearningPlan() throws Throwable {
 		LearningPlanInfo learningPlan = new LearningPlanInfo();
 		learningPlan
 				.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
@@ -127,13 +128,8 @@ public class AcademicPlanServiceImplTest {
 		learningPlan
 				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
 
-		LearningPlanInfo newLearningPlan = null;
-		try {
-			newLearningPlan = academicPlanService.createLearningPlan(
+		LearningPlanInfo newLearningPlan = academicPlanService.createLearningPlan(
 					learningPlan, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
 
 		assertNotNull(newLearningPlan);
 		assertEquals(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN,
@@ -150,10 +146,7 @@ public class AcademicPlanServiceImplTest {
 	}
 
 	@Test
-	public void updateLearningPlanTimestamp() throws InvalidParameterException,
-			DataValidationErrorException, MissingParameterException,
-			DoesNotExistException, PermissionDeniedException,
-			OperationFailedException {
+	public void updateLearningPlanTimestamp() throws Throwable {
 
 		// Create a new learning plan so that all the meta data is properly
 		// initialized.
@@ -186,13 +179,13 @@ public class AcademicPlanServiceImplTest {
 
 		// FIXME: Implement state.
 		plan.setStateKey("fixme");
+		Thread.sleep(2000L);
 		plan = academicPlanService.updateLearningPlan(plan.getId(), plan,
 				context);
 		Date updated2 = plan.getMeta().getUpdateTime();
 		assertNotNull(updated2);
 
-		// TODO: fix expectations for
-		// assertFalse(updated1.equals(updated2));
+		assertFalse(updated1.equals(updated2));
 	}
 
 	@Test(expected = DoesNotExistException.class)
@@ -265,7 +258,7 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setLearningPlanId(planId);
 		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
-		String courseId = "02711400-c66d-4ecb-aca5-565118f167cf";
+		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
 		planItem.setRefObjectId(courseId);
@@ -276,12 +269,8 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
-		PlanItem newPlanItem = null;
-		try {
-			newPlanItem = academicPlanService.createPlanItem(planItem, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		PlanItem newPlanItem = academicPlanService.createPlanItem(planItem,
+				context);
 		assertNotNull(newPlanItem);
 		assertNotNull(newPlanItem.getId());
 		assertEquals(planId, newPlanItem.getLearningPlanId());
@@ -304,9 +293,7 @@ public class AcademicPlanServiceImplTest {
 	}
 
 	@Test
-	public void addAndGetPlanItemPlannedCourse()
-			throws InvalidParameterException, MissingParameterException,
-			DoesNotExistException, OperationFailedException {
+	public void addAndGetPlanItemPlannedCourse() throws Throwable {
 		String planId = "lp1";
 
 		// Create a new plan item.
@@ -324,11 +311,11 @@ public class AcademicPlanServiceImplTest {
 
 		// Set some ATP info since this is a planned course.
 		List<String> planPeriods = new ArrayList<String>();
-		planPeriods.add("kuali.uw.atp.2011.1");
-		planPeriods.add("kuali.uw.atp.2011.4");
+		planPeriods.add("20111");
+		planPeriods.add("20114");
 		planItem.setPlanPeriods(planPeriods);
 
-		String courseId = "02711400-c66d-4ecb-aca5-565118f167cf";
+		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
 		planItem.setRefObjectId(courseId);
@@ -337,12 +324,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		// Verify the object returned by createPlanItem.
-		PlanItem newPlanItem = null;
-		try {
-			newPlanItem = academicPlanService.createPlanItem(planItem, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		PlanItem newPlanItem = academicPlanService.createPlanItem(planItem,
+				context);
 		assertNotNull(newPlanItem);
 		assertNotNull(newPlanItem.getId());
 		assertEquals(planId, newPlanItem.getLearningPlanId());
@@ -369,9 +352,7 @@ public class AcademicPlanServiceImplTest {
 	}
 
 	@Test
-	public void updatePlanItemPlannedCoursePlanPeriods()
-			throws InvalidParameterException, MissingParameterException,
-			DoesNotExistException, OperationFailedException {
+	public void updatePlanItemPlannedCoursePlanPeriods() throws Throwable {
 
 		String planId = "lp1";
 
@@ -390,11 +371,11 @@ public class AcademicPlanServiceImplTest {
 
 		// Set some ATP info since this is a planned course.
 		List<String> planPeriods = new ArrayList<String>();
-		planPeriods.add("kuali.uw.atp.2011.1");
-		planPeriods.add("kuali.uw.atp.2011.4");
+		planPeriods.add("20111");
+		planPeriods.add("20114");
 		planItemInfo.setPlanPeriods(planPeriods);
 
-		String courseId = "02711400-c66d-4ecb-aca5-565118f167cf";
+		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
 		planItemInfo.setRefObjectId(courseId);
@@ -406,13 +387,8 @@ public class AcademicPlanServiceImplTest {
 				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		// Save the plan item
-		PlanItemInfo newPlanItem = null;
-		try {
-			newPlanItem = academicPlanService.createPlanItem(planItemInfo,
-					context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		PlanItemInfo newPlanItem = academicPlanService.createPlanItem(
+				planItemInfo, context);
 		String planItemId = newPlanItem.getId();
 
 		// Verify the object returned by getPlanItem().
@@ -431,19 +407,14 @@ public class AcademicPlanServiceImplTest {
 		assertNotNull(fetchedPlanItem.getMeta().getUpdateTime());
 
 		// Save meta data info.
-		newPlanItem.getMeta().getUpdateTime();
+		Date originalUpdateDate = newPlanItem.getMeta().getUpdateTime();
 
 		// Update the plan item and save.
-		fetchedPlanItem.getPlanPeriods().remove("kuali.uw.atp.2011.1");
+		fetchedPlanItem.getPlanPeriods().remove("20111");
 		assertEquals(1, fetchedPlanItem.getPlanPeriods().size());
 
-		PlanItemInfo updatedPlanItem = null;
-		try {
-			updatedPlanItem = academicPlanService.updatePlanItem(planItemId,
-					fetchedPlanItem, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		PlanItemInfo updatedPlanItem = academicPlanService.updatePlanItem(
+				planItemId, fetchedPlanItem, context);
 
 		assertNotNull(updatedPlanItem);
 		assertEquals(planItemId, updatedPlanItem.getId());
@@ -453,10 +424,8 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(courseId, updatedPlanItem.getRefObjectId());
 		assertEquals(courseType, updatedPlanItem.getRefObjectType());
 		assertEquals(1, updatedPlanItem.getPlanPeriods().size());
-		assertTrue(updatedPlanItem.getPlanPeriods().contains(
-				"kuali.uw.atp.2011.4"));
-		// TODO: fix expectations for
-		// assertFalse(originalUpdateDate.equals(updatedPlanItem.getMeta().getUpdateTime()));
+		assertTrue(updatedPlanItem.getPlanPeriods().contains("20114"));
+		assertFalse(originalUpdateDate.equals(updatedPlanItem.getMeta().getUpdateTime()));
 	}
 
 	@Test(expected = AlreadyExistsException.class)
@@ -481,11 +450,11 @@ public class AcademicPlanServiceImplTest {
 
 		// Set some ATP info since this is a planned course.
 		List<String> planPeriods = new ArrayList<String>();
-		planPeriods.add("kuali.uw.atp.2011.1");
-		planPeriods.add("kuali.uw.atp.2011.4");
+		planPeriods.add("20111");
+		planPeriods.add("20114");
 		planItem.setPlanPeriods(planPeriods);
 
-		String courseId = "02711400-c66d-4ecb-aca5-565118f167cf";
+		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
 		planItem.setRefObjectId(courseId);
@@ -494,16 +463,14 @@ public class AcademicPlanServiceImplTest {
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
 		academicPlanService.createPlanItem(planItem, context);
-		
+
 		// Now violate the plan, type, course id uniqiue constraint by re-adding
 		// the course.
 		academicPlanService.createPlanItem(planItem, context);
 	}
 
 	@Test
-	public void addPlannedCourseWithoutPlanPeriod()
-			throws InvalidParameterException, MissingParameterException,
-			DoesNotExistException, OperationFailedException {
+	public void addPlannedCourseWithoutPlanPeriod() throws Throwable {
 
 		String planId = "lp1";
 
@@ -535,16 +502,14 @@ public class AcademicPlanServiceImplTest {
 		// Create the plan item
 		try {
 			academicPlanService.createPlanItem(planItemInfo, context);
-		} catch (Exception e) {
-			// TODO: Verify the correct exception was thrown.
-			return;
+			fail("A validation exception should have been thrown.");
+		} catch (DataValidationErrorException e) {
+			// OK
 		}
-
-		fail("A validation exception should have been thrown.");
 	}
 
 	@Test
-	public void addPlanItemNullCourseType() {
+	public void addPlanItemNullCourseType() throws Throwable {
 		String planId = "lp1";
 
 		PlanItemInfo planItem = new PlanItemInfo();
@@ -558,7 +523,7 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setLearningPlanId(planId);
 		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
-		String courseId = "02711400-c66d-4ecb-aca5-565118f167cf";
+		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = null;
 
 		planItem.setRefObjectId(courseId);
@@ -568,18 +533,17 @@ public class AcademicPlanServiceImplTest {
 		try {
 			academicPlanService.createPlanItem(planItem, context);
 		} catch (DataValidationErrorException dvee) {
+			dvee.printStackTrace();
 			assertEquals(1, dvee.getValidationResults().size());
 			ValidationResultInfo resultInfo = dvee.getValidationResults()
 					.get(0);
 			assertEquals("refObjectType", resultInfo.getElement());
 			assertEquals("error.required", resultInfo.getMessage());
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
 		}
 	}
 
 	@Test
-	public void addPlanItemNullLearningPlan() {
+	public void addPlanItemNullLearningPlan() throws Throwable {
 		String planId = null;
 
 		PlanItemInfo planItem = new PlanItemInfo();
@@ -594,7 +558,7 @@ public class AcademicPlanServiceImplTest {
 		planItem.setLearningPlanId(planId);
 		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
 
-		String courseId = "02711400-c66d-4ecb-aca5-565118f167cf";
+		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
 		planItem.setRefObjectId(courseId);
@@ -604,13 +568,12 @@ public class AcademicPlanServiceImplTest {
 		try {
 			academicPlanService.createPlanItem(planItem, context);
 		} catch (DataValidationErrorException dvee) {
+			dvee.printStackTrace();
 			assertEquals(1, dvee.getValidationResults().size());
 			ValidationResultInfo resultInfo = dvee.getValidationResults()
 					.get(0);
 			assertEquals("learningPlanId", resultInfo.getElement());
 			assertEquals("error.required", resultInfo.getMessage());
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
 		}
 	}
 
@@ -651,8 +614,7 @@ public class AcademicPlanServiceImplTest {
 
 	@Test
 	public void addPlanItemToSavedCoursesListWithDuplicateCourseId()
-			throws InvalidParameterException, MissingParameterException,
-			DoesNotExistException, OperationFailedException {
+			throws Throwable {
 		String planId = "lp1";
 
 		// Create a new plan item.
@@ -667,7 +629,7 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setLearningPlanId(planId);
 		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
-		String courseId = "02711400-c66d-4ecb-aca5-565118f167cf";
+		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
 		planItem.setRefObjectId(courseId);
@@ -675,11 +637,7 @@ public class AcademicPlanServiceImplTest {
 
 		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
-		try {
-			academicPlanService.createPlanItem(planItem, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		academicPlanService.createPlanItem(planItem, context);
 
 		// Make sure the item was saved.
 		List<PlanItemInfo> savedCourses = academicPlanService
@@ -779,20 +737,12 @@ public class AcademicPlanServiceImplTest {
 	}
 
 	@Test
-	public void validatePlanItemForPlannedItem()
-			throws InvalidParameterException, MissingParameterException,
-			AlreadyExistsException, DoesNotExistException,
-			OperationFailedException {
+	public void validatePlanItemForPlannedItem() throws Throwable {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
-		planItemInfo.setRefObjectId("006c881f-2250-4844-8e57-c297049c61f3");
+		planItemInfo.setRefObjectId("XX");
 		planItemInfo.setTypeKey("kuali.academicplan.item.planned");
-		List<ValidationResultInfo> validationResultInfos = null;
-		try {
-			validationResultInfos = academicPlanService.validatePlanItem(
-					"FULL_VALIDATION", planItemInfo, context);
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
+		List<ValidationResultInfo> validationResultInfos = academicPlanService
+				.validatePlanItem("FULL_VALIDATION", planItemInfo, context);
 		assertEquals("error.required", validationResultInfos.get(0)
 				.getMessage());
 		assertEquals("refObjectType", validationResultInfos.get(0).getElement());
@@ -803,7 +753,7 @@ public class AcademicPlanServiceImplTest {
 		assertEquals("error.required", validationResultInfos.get(2)
 				.getMessage());
 		assertEquals("stateKey", validationResultInfos.get(2).getElement());
-		assertEquals("Could not find course with ID [006c881f-2250-4844-8e57-c297049c61f3].",
+		assertEquals("Could not find course with ID [XX].",
 				validationResultInfos.get(3).getMessage());
 		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
 		assertEquals(
