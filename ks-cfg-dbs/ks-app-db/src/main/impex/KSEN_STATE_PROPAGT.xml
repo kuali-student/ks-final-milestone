@@ -32,6 +32,13 @@
         UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
     <KSEN_STATE_PROPAGT CREATEID="SYSTEMLOADER"
         CREATETIME="19700101000000"
+        ID="kuali.statepropagation.atpToMilestone.draft.official"
+        STATE_PROPAGT_STATE="kuali.state.propagation.state.active"
+        STATE_PROPAGT_TYPE="kuali.state.propagation.type"
+        TARGET_STATE_CHG_ID="kuali.statechange.milestone.draft.official"
+        UPDATEID="SYSTEMLOADER" UPDATETIME="19700101000000" VER_NBR="1"/>
+    <KSEN_STATE_PROPAGT CREATEID="SYSTEMLOADER"
+        CREATETIME="19700101000000"
         ID="kuali.statepropagation.fotoco.draft.planned"
         STATE_PROPAGT_STATE="kuali.state.propagation.state.active"
         STATE_PROPAGT_TYPE="kuali.state.propagation.type"

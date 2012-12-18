@@ -317,6 +317,18 @@
         DESCR_PLAIN="The facility is online and consumable by business processes"
         ID="kuali.room.facility.state.online"
         LIFECYCLE_KEY="kuali.room.facility.lifecycle" NAME="Online" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121217000000"
+        DESCR_FORMATTED="The schedule is active"
+        DESCR_PLAIN="The schedule is active"
+        ID="kuali.room.responsible.org.state.active"
+        LIFECYCLE_KEY="kuali.room.responsible.org.lifecycle"
+        NAME="Active" VER_NBR="0"/>
+    <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121217000000"
+        DESCR_FORMATTED="The schedule is inactive"
+        DESCR_PLAIN="The schedule is inactive"
+        ID="kuali.room.responsible.org.state.inactive"
+        LIFECYCLE_KEY="kuali.room.responsible.org.lifecycle"
+        NAME="Inactive" VER_NBR="0"/>
     <KSEN_STATE CREATEID="SYSTEMLOADER" CREATETIME="20121211000000"
         DESCR_FORMATTED="The room is offline and unavailable for use"
         DESCR_PLAIN="The room is offline and unavailable for use"
