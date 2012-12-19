@@ -457,12 +457,32 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public StateChangeInfo updateStateChange(String stateChangeId,StateChangeInfo stateChangeInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        StateChangeEntity entity = stateChangeDao.find(stateChangeId);
+
+        if (entity == null) {
+            throw new DoesNotExistException(stateChangeId);
+        }
+
+        entity.fromDTO(stateChangeInfo);
+        entity.setEntityUpdated(contextInfo);
+
+        stateChangeDao.merge(entity);
+        return entity.toDto();
     }
 
     @Override
     public StatusInfo deleteStateChange( String stateChangeId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        StateChangeEntity entity = stateChangeDao.find(stateChangeId);
+
+        if (entity == null) {
+            throw new DoesNotExistException(stateChangeId);
+        }
+
+        stateChangeDao.remove(entity);
+        StatusInfo deleteStatus = new StatusInfo();
+        deleteStatus.setSuccess(true);
+
+        return deleteStatus;
     }
 
     @Override

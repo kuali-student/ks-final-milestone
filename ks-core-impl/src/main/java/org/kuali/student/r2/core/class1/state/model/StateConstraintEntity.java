@@ -19,6 +19,7 @@ package org.kuali.student.r2.core.class1.state.model;
 import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo;
 import org.kuali.student.r2.core.class1.state.infc.StateConstraint;
 import org.kuali.student.r2.core.class1.state.infc.StateConstraintOperator;
@@ -59,7 +60,7 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
     @ElementCollection
     @CollectionTable(name ="KSEN_STATE_CNSTRNT_ROS",joinColumns = @JoinColumn(name = "STATE_CNSTRNT_ID"))
     @Column(name="REL_OBJ_STATE_ID")
-    private List<String> relatedObjectStateKeys;
+    private List<String> relatedObjectStateKeys = new ArrayList<String>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval=true)
     private Set<StateConstraintAttributeEntity> attributes = new HashSet<StateConstraintAttributeEntity>();
@@ -75,21 +76,22 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
     }
 
     public void fromDto(StateConstraint stateConstraint) {
-        List<Object> orphansToDelete = new ArrayList<Object>();
-
         this.agendaId = stateConstraint.getAgendaId();
         this.stateConstraintOperator = stateConstraint.getStateConstraintOperator();
         this.stateConstraintTypeKey = stateConstraint.getTypeKey();
         this.stateConstraintStateKey = stateConstraint.getStateKey();
-        this.relatedObjectStateKeys = stateConstraint.getRelatedObjectStateKeys();
-        if (stateConstraint.getRelatedObjectStateKeys() != null) {
-            relatedObjectStateKeys = new ArrayList<String>(stateConstraint.getRelatedObjectStateKeys());
+
+        getRelatedObjectStateKeys().clear();
+        getRelatedObjectStateKeys().addAll(stateConstraint.getRelatedObjectStateKeys());
+        if (getAttributes() == null){
+            this.setAttributes(new HashSet<StateConstraintAttributeEntity>());
         } else {
-            relatedObjectStateKeys = null;
+            this.getAttributes().clear();
         }
 
-        // Merge attributes into entity and add leftovers to be deleted
-        orphansToDelete.addAll(TransformUtility.mergeToEntityAttributes(StateConstraintAttributeEntity.class, stateConstraint, this));
+        for (Attribute att : stateConstraint.getAttributes()) {
+            this.getAttributes().add(new StateConstraintAttributeEntity(att, this));
+        }
     }
 
     public StateConstraintInfo toDto() {
