@@ -185,7 +185,7 @@
             <bean parent="FixedPointPatternConstraint" p:precision="2" p:scale="1" p:allowNegative="false"/>
         </property>
     </bean>
-    <bean id="department-parent" parent="Uif-InputField-LabelTop" p:propertyName="orgDepartmentSuggest">
+    <bean id="department-parent" parent="Uif-InputField-LabelTop" >
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
@@ -198,6 +198,13 @@
                 </property>
             </bean>
         </property>
+        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.DepartmentInfo"/>
+        <property name="quickfinder.quickfinderAction">
+            <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
+        </property>
+        <property name="quickfinder.lightBoxLookup">
+            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+        </property>
     </bean>
 
     <bean id="departmentComponent" parent="Uif-VerticalBoxSection">
@@ -206,11 +213,16 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="department-parent" p:label="Department" p:required="true"/>
+                            <bean parent="department-parent" p:label="Department" p:propertyName="orgDepartment" p:required="true">
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="longName" value="orgDepartment"/>
+                                    </map>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" />
             </list>
         </property>
     </bean>
@@ -221,11 +233,16 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="department-parent" p:label="Organization" p:required="true"/>
+                            <bean parent="department-parent" p:label="Organization" p:propertyName="administeringOrg" p:required="true">
+                                <property name="quickfinder.fieldConversions">
+                                    <map>
+                                        <entry key="longName" value="administeringOrg"/>
+                                    </map>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" />
             </list>
         </property>
     </bean>

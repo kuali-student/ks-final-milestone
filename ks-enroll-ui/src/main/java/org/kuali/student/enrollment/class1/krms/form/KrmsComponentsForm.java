@@ -34,7 +34,9 @@ public class KrmsComponentsForm extends UifFormBase {
 
     private float gpa;
 
-    private String orgDepartmentSuggest;
+    private String orgDepartment;
+
+    private String administeringOrg;
 
     private String tests;
 
@@ -71,14 +73,21 @@ public class KrmsComponentsForm extends UifFormBase {
     public void setGpa(float gpa) {
         this.gpa = gpa;
     }
-    public String getOrgDepartmentSuggest() {
-        return orgDepartmentSuggest;
+    public String getOrgDepartment() {
+        return orgDepartment;
     }
 
-    public void setOrgDepartmentSuggest(String orgDepartmentSuggest) {
-        this.orgDepartmentSuggest = orgDepartmentSuggest;
+    public void setOrgDepartment(String orgDepartment) {
+        this.orgDepartment = orgDepartment;
     }
 
+    public String getAdministeringOrg() {
+        return administeringOrg;
+    }
+
+    public void setAdministeringOrg(String administeringOrg) {
+        this.administeringOrg = administeringOrg;
+    }
     public String getTests() {
         return tests;
     }
