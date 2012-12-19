@@ -16,30 +16,18 @@
 package org.kuali.student.r2.core.class1.state.service.impl;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
-import org.kuali.student.r2.core.class1.state.dto.StateChangeInfo;
-import org.kuali.student.r2.core.class1.state.dto.StateConstraintInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
-import org.kuali.student.r2.core.class1.state.infc.StateConstraintOperator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:state-test-context.xml"})
