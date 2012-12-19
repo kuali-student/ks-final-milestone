@@ -640,6 +640,20 @@ public class CourseOfferingManagementController extends UifControllerBase  {
     }
 
     /*
+    * Method used to invoke the Edit CO screen from Manage Course Offering screen while search input is Course Offering
+    * Code (04a screen)
+    */
+    @RequestMapping(params = "methodToCall=editTheCO")
+    public ModelAndView editTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
+        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+        String controllerPath = KRADConstants.Maintenance.REQUEST_MAPPING_MAINTENANCE;
+        return super.performRedirect(theForm,controllerPath, urlParameters);
+    }
+
+    /*
      * Method used to edit a selected CO or AO
      */
     @RequestMapping(params = "methodToCall=edit")
@@ -651,8 +665,9 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         if (selectedObject instanceof CourseOfferingListSectionWrapper) {
             CourseOfferingListSectionWrapper coWrapper =  (CourseOfferingListSectionWrapper)selectedObject;
             CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-
             urlParameters = _buildCOURLParameters(courseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+            String controllerPath = KRADConstants.Maintenance.REQUEST_MAPPING_MAINTENANCE;
+            return super.performRedirect(theForm,controllerPath, urlParameters);
         } else if(selectedObject instanceof ActivityOfferingWrapper) {
 
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)selectedObject;
@@ -662,12 +677,10 @@ public class CourseOfferingManagementController extends UifControllerBase  {
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, theForm.getTheCourseOffering().getId());
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
             urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+            return super.performRedirect(theForm, "activityOffering", urlParameters);
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
-
-        return super.performRedirect(theForm, "activityOffering", urlParameters);
-
     }
 
     /*
@@ -893,20 +906,6 @@ public class CourseOfferingManagementController extends UifControllerBase  {
         CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
         Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,KRADConstants.START_METHOD);
         String controllerPath = KRADConstants.PARAM_MAINTENANCE_VIEW_MODE_INQUIRY;
-        return super.performRedirect(theForm,controllerPath, urlParameters);
-    }
-
-    /*
-     * Method used to invoke the Edit CO screen from Manage Course Offering screen while search input is Course Offering
-     * Code (04a screen)
-     */
-    @RequestMapping(params = "methodToCall=editTheCO")
-    public ModelAndView editTheCO(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
-        CourseOfferingInfo theCourseOfferingInfo = theForm.getTheCourseOffering();
-        Properties urlParameters = _buildCOURLParameters(theCourseOfferingInfo,KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
-        String controllerPath = KRADConstants.Maintenance.REQUEST_MAPPING_MAINTENANCE;
         return super.performRedirect(theForm,controllerPath, urlParameters);
     }
 
