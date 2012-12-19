@@ -180,7 +180,7 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
 
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
-        <property name="items">
+        <property name="page.items">
             <list>
                 <ref bean="KS-CourseOfferingEdit-Term"/>
                 <ref bean="KSDocumentPageFooter_SubmitCancel"/>
