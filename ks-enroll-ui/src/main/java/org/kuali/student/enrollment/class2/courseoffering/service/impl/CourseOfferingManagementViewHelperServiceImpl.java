@@ -6,6 +6,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -115,8 +116,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     }
                     else if("courseOfferingCreditOption".equals(cellInfo.getKey())){
                         coListWrapper.setCourseOfferingCreditOptionKey(value);
-                        coListWrapper.setCourseOfferingCreditOptionDisplay(getCreditCount(value, getLrcService(),contextInfo));
-
+                        CourseOfferingTransformer courseOfferingTransformer = new CourseOfferingTransformer();
+                        coListWrapper.setCourseOfferingCreditOptionDisplay(courseOfferingTransformer.getCreditCount(value, "", null, null, getLrcService(), contextInfo));
                     }
                     else if("courseOfferingGradingOption".equals(cellInfo.getKey())){
                         coListWrapper.setCourseOfferingGradingOptionKey(value);
@@ -489,51 +490,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
     }
 
-    public static String getCreditCount(String creditOptionId, LRCService lrcService, ContextInfo contextInfo) {
-
-        String creditCount="";
-        try{
-
-            if(creditOptionId != null){
-                ResultValuesGroupInfo resultValuesGroupInfo = lrcService.getResultValuesGroup(creditOptionId, contextInfo);
-                String typeKey = resultValuesGroupInfo.getTypeKey();
-                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                    //Get the actual values with a service call
-                    List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
-                    creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
-                    //Use the min/max values from the RVG
-                    creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
-                            trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
-                    //Get the actual values with a service call
-                    List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
-                    if (!resultValueInfos.isEmpty()) {
-                        //Convert to floats and sort
-                        List<Float> creditValuesF = new ArrayList<Float>();
-                        for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
-                            creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
-                        }
-                        Collections.sort(creditValuesF); //Do the sort
-
-                        //Convert back to strings and concatenate to one field
-                        for (Float creditF : creditValuesF ){
-                            creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
-                        }
-                        if(creditCount.length() >=  2)  {
-                            creditCount =  creditCount.substring(2);  //trim leading ", "
-                        }
-                    }
-                } else {
-                    //no credit option
-                    creditCount = "N/A";
-                }
-            }
-            return creditCount;
-        }catch (Exception e){
-            throw new RuntimeException("Error getting credit count for course offering", e);
-        }
-    }
     public static String trimTrailing0(String creditValue){
         if (creditValue.indexOf(".0") > 0) {
             return creditValue.substring(0, creditValue.length( )- 2);
