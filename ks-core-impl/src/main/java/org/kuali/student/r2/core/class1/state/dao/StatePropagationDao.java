@@ -29,7 +29,7 @@ public class StatePropagationDao extends GenericEntityDao<StatePropagationEntity
 
     public List<String> getStatePropagationIdsByType(String statePropagationTypeKey) {
         return (List<String>) em.createQuery("select spe.id from StatePropagationEntity spe where spe.typeKey = :statePropagationTypeKey")
-                .setParameter("typeKey", statePropagationTypeKey)
+                .setParameter("statePropagationTypeKey", statePropagationTypeKey)
                 .getResultList();
     }
 
