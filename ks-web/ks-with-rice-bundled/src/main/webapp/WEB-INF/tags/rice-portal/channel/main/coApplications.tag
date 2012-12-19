@@ -12,8 +12,6 @@
         <li><portal:portalLink displayTitle="true" title="Release to Departments" url="${ConfigProperties.application.url}/kr-krad/courseOfferingRollover?viewId=courseOfferingRolloverManagementView&pageId=releaseToDepts&methodToCall=start"/></li>
         <br>
         <li><a class="portal_link" target="_blank" href="${ConfigProperties.application.url}/kr-krad/registrationGroupManagement?viewId=manageRegistrationGroupsView&coInfo.id=b62cf549-ba85-4f85-9679-51155eeff8ae&methodToCall=start&withinPortal=false">Manage Registration Group (seperate form)</a></li>
-        <li><a class="portal_link" target="_blank" href="${ConfigProperties.application.url}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&pageId=searchInputPage&methodToCall=start&withinPortal=false&adminOrg=50">Manage Course Offerings for Authorization (preset Org=English)</a></li>
-        <li><a class="portal_link" target="_blank" href="${ConfigProperties.application.url}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&pageId=searchInputPage&methodToCall=start&withinPortal=false&adminOrg=68">Manage Course Offerings for Authorization (preset Org=Chemistry)</a></li>
     </ul>
     <strong>Basic DTO Lookup and Inquiry</strong>
     <ul class="chan">
@@ -36,6 +34,7 @@
         <!-- WARNING: "Course Offering (New)" link is duplicated in "EnrollmentHomeView.xml" -->
         <li><portal:portalLink displayTitle="true" title="Course Offering (New)" url="${ConfigProperties.application.url}/kr-krad/courseOffering?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
         <li><portal:portalLink displayTitle="true" title="Course Offering (Edit)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&coInfo.id=34a0303d-af3a-467a-83b1-8a1cdd391cc1&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+        <li><portal:portalLink displayTitle="true" title="Activity Offering (Edit)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper&aoInfo.id=52db8718-7932-45ad-9a8a-3ce1146a35d7&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
         <li><portal:portalLink displayTitle="true" title="Enrollment Fee Info (New)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.fee.dto.EnrollmentFeeInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
         <li><portal:portalLink displayTitle="true" title="Format Offering Info (New)" url="${ConfigProperties.application.url}/kr-krad/maintenance?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
