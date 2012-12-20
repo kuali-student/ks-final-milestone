@@ -260,11 +260,10 @@
                 </property>
             </bean>
         </property>
-        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
+        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.TestSetInfo"/>
         <property name="quickfinder.fieldConversions">
             <map>
-                <entry key="id" value="holdIssueId"/>
-                <entry key="name" value="holdName"/>
+                <entry key="name" value="tests"/>
             </map>
         </property>
         <property name="quickfinder.quickfinderAction">
