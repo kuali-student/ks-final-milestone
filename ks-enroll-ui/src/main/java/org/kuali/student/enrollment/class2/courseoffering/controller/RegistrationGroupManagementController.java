@@ -1,8 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -284,6 +286,16 @@ public class RegistrationGroupManagementController extends UifControllerBase {
                             aoCluster.getId(), aoCluster, ContextUtils.createDefaultContextInfo());
                     selectedClusterWrapper.setAoCluster(aoCluster);
                     selectedClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
+
+                    //After rename an AOC, reload the main RG screen to correctly display the warning messages
+                    Properties urlParameters = new Properties();
+                    urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
+                    urlParameters.put("coInfo.id", theForm.getTheCourseOffering().getId());
+                    urlParameters.put(UifParameters.VIEW_ID, RegistrationGroupConstants.RG_VIEW);
+                    urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+                    urlParameters.put("withinPortal", BooleanUtils.toStringTrueFalse(theForm.isWithinPortal()));
+                    String controllerPath = RegistrationGroupConstants.RG_CONTROLLER_PATH;
+                    return super.performRedirect(theForm,controllerPath, urlParameters);
                 } else {
                     GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
                 }

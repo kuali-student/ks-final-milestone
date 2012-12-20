@@ -89,9 +89,9 @@ public class HoldServiceImpl
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<String> searchForAppliedHoldIds(QueryByCriteria criteria,
-            ContextInfo context)
+     @Transactional(readOnly = true)
+     public List<String> searchForAppliedHoldIds(QueryByCriteria criteria,
+                                                 ContextInfo context)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
