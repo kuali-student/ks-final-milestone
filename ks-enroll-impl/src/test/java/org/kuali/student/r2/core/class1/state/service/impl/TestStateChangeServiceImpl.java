@@ -88,7 +88,7 @@ public class TestStateChangeServiceImpl extends TestStateServiceMockImpl{
 
     @Override
     public void testDeleteStatePropagation() throws Exception {
-        super.testDeleteStatePropagation();    //To change body of overridden methods use File | Settings | File Templates.
+        super.testDeleteStatePropagation();
     }
 
     private void loadStateData()throws Exception{
