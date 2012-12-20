@@ -283,8 +283,12 @@ public class AtpServiceImpl implements AtpService {
     @Override
     public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO
-        return new ArrayList<AtpInfo>();
+        List<AtpEntity> atpEntities = atpDao.getByCode(code);
+        List<AtpInfo> atpInfos = new ArrayList<AtpInfo>(atpEntities.size());
+        for(AtpEntity e : atpEntities) {
+            atpInfos.add(e.toDto());
+        }
+        return atpInfos;
     }
 
     @Override
@@ -441,7 +445,8 @@ public class AtpServiceImpl implements AtpService {
         List<MilestoneInfo> list = this.getMilestonesForAtp(atpId, contextInfo);
         List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(list.size());
         for (MilestoneInfo info : list) {
-            results.add(info);
+            if (info.getTypeKey().equals(milestoneTypeKey))
+                results.add(info);
         }
         return results;
     }

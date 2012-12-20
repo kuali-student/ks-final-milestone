@@ -180,7 +180,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<String> getAcademicCalendarIdsByType(String academicCalendarTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<String>();
+        return atpService.getAtpIdsByType(academicCalendarTypeKey, context);
     }
 
     @Override
@@ -1606,7 +1606,17 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<TermInfo> getTermsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<AtpInfo> atpList = atpService.getAtpsByCode(code, contextInfo);
+        List<TermInfo> termList = new ArrayList<TermInfo>(atpList.size());
+        for ( AtpInfo atp : atpList ){
+            TermInfo term = null;
+            try {
+                termList.add(termAssembler.assemble(atp, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+        return termList;
     }
 
     @Override
@@ -1655,7 +1665,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<String> getKeyDateIdsByTypeForTerm(String keyDateTypeKey, String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO
-        return null;
+        List<MilestoneInfo> keyDates = atpService.getMilestonesByTypeForAtp(termId, keyDateTypeKey, contextInfo);
+        List<String> ids = new ArrayList<String>(keyDates.size());
+        for (MilestoneInfo m : keyDates) {
+            ids.add(m.getId());
+        }
+        return ids;
     }
 
     @Override
