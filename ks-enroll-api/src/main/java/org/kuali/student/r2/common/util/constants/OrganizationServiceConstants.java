@@ -47,8 +47,24 @@ public class OrganizationServiceConstants {
 
     /**
      * Organization types (https://wiki.kuali.org/display/STUDENT/Organization+Types#)
-     * KSENROLL-3877
+     * KSENROLL-3877., KSENROLL-4436
      */
     public static final String ORGANIZATION_COLLEGE_TYPE_KEY = "kuali.org.College";
     public static final String ORGANIZATION_DEPARTMENT_TYPE_KEY = "kuali.org.Department";
+    public static final String ORGANIZATION_DIVISION_TYPE_KEY = "kuali.org.Division";
+    public static final String ORGANIZATION_SENATE_TYPE_KEY = "kuali.org.Senate";
+    public static final String ORGANIZATION_PROGRAM_TYPE_KEY = "kuali.org.Program";
+    public static final String ORGANIZATION_SCHOOL_TYPE_KEY = "kuali.org.School";
+    public static final String ORGANIZATION_CENTER_TYPE_KEY = "kuali.org.Center";
+    public static final String ORGANIZATION_TESTING_SERVICE_TYPE_KEY = "kuali.org.TestingService";
+    public static final String ORGANIZATION_COMMITTEE_TYPE_KEY = "kuali.org.Committee";
+    public static final String ORGANIZATION_ADVISORY_GROUP_TYPE_KEY = "kuali.org.AdvisoryGroup";
+    public static final String ORGANIZATION_ACCREDITING_BODY_TYPE_KEY = "kuali.org.AccreditingBody";
+    public static final String ORGANIZATION_CAMPUS_TYPE_KEY = "kuali.org.Campus";
+    public static final String ORGANIZATION_ACADEMIC_INSTRUCTIONAL_RESEARCH_SUPPORT_TYPE_KEY = "kuali.org.AcademicInstructionalResearchSupport";
+    public static final String ORGANIZATION_ACADEMIC_ADMINISTRATIVE_SUPPORT_TYPE_KEY = "kuali.org.AcademicAdministrativeSupport";
+    public static final String ORGANIZATION_ACADEMIC_OUTREACH_TYPE_KEY = "kuali.org.AcademicOutreach";
+    public static final String ORGANIZATION_UNIVERSITY_SUPPORT_TYPE_KEY = "kuali.org.UniversitySupport";
+    public static final String ORGANIZATION_SUB_DEPARTMENT_TYPE_KEY = "kuali.org.SubDepartment";
+    public static final String ORGANIZATION_INSTITUTION_TYPE_KEY = "kuali.org.Institution";
 }
