@@ -13,16 +13,16 @@
           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <bean id="coreConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+    <bean id="apConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
         <property name="configLocations">
             <list>
-                <value>classpath:META-INF/ks-core-config.xml</value>
+                <value>classpath:META-INF/ks-ap-config.xml</value>
             </list>
         </property>
     </bean>
     
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="properties" value="#{coreConfig.getProperties()}" />
+        <property name="properties" value="#{apConfig.getProperties()}" />
     </bean>
 
 	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>

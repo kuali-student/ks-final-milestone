@@ -125,6 +125,10 @@
 		</property>
 	</bean>
 
+    <bean id="coursePreReqSearch" class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
+        <property name="cluService" ref="ksLumCluService"/>
+    </bean>
+
 	<!-- Exception mapping. This is needed because many operations are proxied 
 		and do not throw exceptions until a later time -->
 	<bean id="mapExceptionAdvisor" class="org.kuali.student.common.util.ExceptionMappingAdvice">

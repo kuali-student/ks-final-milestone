@@ -5,17 +5,18 @@ import static org.junit.Assert.assertFalse;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.myplan.course.service.CoursePreReqSearch;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:myplan-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:ks-ap-test-context.xml"})
 public class CoursePreReqSearchTest {
 
     public static final String principalId = "student1";
@@ -27,7 +28,7 @@ public class CoursePreReqSearchTest {
         context.setPrincipalId(principalId);
     }
 
-    @Autowired
+    @Resource
     private CoursePreReqSearch coursePreReqSearch;
 
     public CoursePreReqSearch getCoursePreReqSearch() {
@@ -43,7 +44,7 @@ public class CoursePreReqSearchTest {
     public void testCoursePreReqSearch() throws Exception {
         System.out.println( "testCoursePreReqSearch" );
         CoursePreReqSearch search = getCoursePreReqSearch();
-        List<String> cluList = search.getCoursePreReqBySubject( "A A", context );
+        List<String> cluList = search.getCoursePreReqBySubject( "PHIL", context );
         assertFalse( cluList.isEmpty() );
     }
 
@@ -51,7 +52,7 @@ public class CoursePreReqSearchTest {
     public void testCoursePreReqSearchAndRange() throws Exception {
         System.out.println( "testCoursePreReqSearchAndRange" );
         CoursePreReqSearch search = getCoursePreReqSearch();
-        List<String> cluList = search.getCoursePreReqBySubjectAndRange( "A A", "5xx", context );
+        List<String> cluList = search.getCoursePreReqBySubjectAndRange( "PHIL", "8xx", context );
         assertFalse( cluList.isEmpty() );
     }
 
@@ -60,8 +61,8 @@ public class CoursePreReqSearchTest {
         System.out.println( "testCoursePreReqWithExclusions" );
         CoursePreReqSearch search = getCoursePreReqSearch();
         HashSet<String> excludeSet = new HashSet<String>();
-        excludeSet.add( "545" );
-        List<String> cluList = search.getCoursePreReqWithExclusions( "A A", "54x", excludeSet, context );
+        excludeSet.add( "868" );
+        List<String> cluList = search.getCoursePreReqWithExclusions( "PHIL", "8xx", excludeSet, context );
         assertFalse( cluList.isEmpty() );
     }
 
