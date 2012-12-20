@@ -115,7 +115,7 @@ public class CourseOfferingTransformer {
 
         //retrieve a list of ResultValuesGroupInfo by a list of result value group key and generate the map of rvg key to ResultValuesGroupInfo
         List<String>totalResultValueGroupKeyList = new ArrayList<String>(totalResultValueGroupKeySet);
-        List<ResultValuesGroupInfo> rvgList = lrcService.getResultValuesGroupsByKeys(totalResultValueGroupKeyList, context);
+        List<ResultValuesGroupInfo> rvgList = getLrcService().getResultValuesGroupsByKeys(totalResultValueGroupKeyList, context);
         for (ResultValuesGroupInfo rvg : rvgList) {
             // store all of the result value groups
             rvgKeyToResultValueGroupMap.put(rvg.getKey(), rvg);
@@ -125,7 +125,7 @@ public class CourseOfferingTransformer {
 
         //retrieve a list of ResultValueInfo by a list of result value key and generate the map of result value key to ResultValueInfo
         List<String> totalResultValueKeyList = new ArrayList<String>(totalResultValueKeySet);
-        List<ResultValueInfo> resultValues = lrcService.getResultValuesByKeys(totalResultValueKeyList, context);
+        List<ResultValueInfo> resultValues = getLrcService().getResultValuesByKeys(totalResultValueKeyList, context);
         if (resultValues != null && resultValues.size() > 0) {
             for (ResultValueInfo resultValueInfo : resultValues) {
                 resultValueKeyToResultValueMap.put(resultValueInfo.getKey(), resultValueInfo);
@@ -331,7 +331,7 @@ public class CourseOfferingTransformer {
                 co.setCreditOptionId(resultValueGroupKey);
             }
         }
-        co.setCreditCnt(getCreditCount(co.getCreditOptionId(), "", null, null, lrcService, context));
+        co.setCreditCnt(getCreditCount(co.getCreditOptionId(), "", null, null, getLrcService(), context));
 
         if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
             co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
@@ -411,14 +411,14 @@ public class CourseOfferingTransformer {
                 if (rvgMap!= null) {  //where the function is called from
                     resultValuesGroupInfo = rvgMap.get(creditOptionId);
                 } else {
-                    resultValuesGroupInfo = lrcService.getResultValuesGroup(creditOptionId, contextInfo);
+                    resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
                 }
                 String typeKey = resultValuesGroupInfo.getTypeKey();
                 if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                     if (resultValueMap != null) {  //where the function is called from
                         resultValueInfos = getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), resultValueMap);
                     } else {
-                        resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                        resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
                     }
                     creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
@@ -430,7 +430,7 @@ public class CourseOfferingTransformer {
                     if (resultValueMap != null) {  //where the function is called from
                         resultValueInfos = getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), resultValueMap);
                     } else {
-                        resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                        resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
                     }
                     if (!resultValueInfos.isEmpty()) {
                         //Convert to floats and sort
