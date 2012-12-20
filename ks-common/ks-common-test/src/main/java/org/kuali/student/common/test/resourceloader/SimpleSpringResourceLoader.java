@@ -35,7 +35,7 @@ import java.util.Map;
  *
  * @author haroon rafique
  */
-public class SimpleSpringResourceLoader implements ApplicationContextAware, ServiceLocator {
+public class SimpleSpringResourceLoader implements ServiceLocator {
 
     private static ConfigurationService configurationService = new ConfigurationService() {
         @Override public String getPropertyValueAsString(String key) { return "{0} message"; }
@@ -43,30 +43,35 @@ public class SimpleSpringResourceLoader implements ApplicationContextAware, Serv
         @Override public Map<String, String> getAllProperties() { return null; }
     };
 
-    private static KualiModuleService kualiModuleService = new KualiModuleServiceImpl();
+    private static KualiModuleServiceImpl kualiModuleService = new KualiModuleServiceImpl();
 
     private ApplicationContext applicationContext;
+
+    public SimpleSpringResourceLoader(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+        
+        kualiModuleService.setApplicationContext(applicationContext);
+    }
 
     public Object getService(QName qname) {
         if (qname == null || StringUtils.isEmpty(qname.toString())) {
             throw new IllegalArgumentException("The service name must be non-null.");
         }
 
-        String localServiceName = qname.toString();
+        String qualifiedServiceName = qname.toString();
 
-        if (KRADServiceLocator.KUALI_CONFIGURATION_SERVICE.equals(localServiceName)) {
+        if (KRADServiceLocator.KUALI_CONFIGURATION_SERVICE.equals(qualifiedServiceName)) {
             return configurationService;
-        } else if (KRADServiceLocatorWeb.KUALI_MODULE_SERVICE.equals(localServiceName)) {
+        } else if (KRADServiceLocatorWeb.KUALI_MODULE_SERVICE.equals(qualifiedServiceName)) {
             return kualiModuleService;
         } else {
-            return applicationContext.getBean(localServiceName);
+            
+            String localBeanName = qname.getLocalPart();
+            return applicationContext.getBean(localBeanName);
         }
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+   
 
     @Override
     public String getContents(String indent, boolean servicePerLine) {
