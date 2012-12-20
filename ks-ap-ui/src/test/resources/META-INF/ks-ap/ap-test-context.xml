@@ -13,117 +13,49 @@
           http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
-
-    <!-- Default JPA EntityManagerFactory -->
-    <bean id="apDefaultEntityManagerFactory" abstract="true"
-    		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="databasePlatform"
-                          value="${ks.ap.jpa.DatabasePlatform}" />
-                <property name="showSql" value="${ks.ap.jpa.showSql}" />
-                <property name="generateDdl" value="${ks.ap.jpa.generateDdl}" />
-            </bean>
-        </property>
-        <property name="jpaPropertyMap">
-            <map>
-                <entry key="hibernate.transaction.manager_lookup_class" value="${ks.ap.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
-                <entry key="hibernate.hbm2ddl.auto" value="${ks.ap.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
-                <entry key="hibernate.connection.release_mode" value="${ks.ap.jpa.JpaProperties.hibernate.connection.release_mode}"/>
-            </map>
-        </property>
+	<!-- Copy per-module to src/test/resources/META-INF/ks-ap/ap-test-context.xml
+		
+		This context file is intentionally left blank in ks-ap-framework,
+		populate with delivered services for unit testing in other modules.
+		
+		/mwfyffe 2012-12-16
+	-->
+	
+	<bean id="ksLumCluService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="ksLumCluService"/>
     </bean>
 
-    <bean id="lpEntityManagerFactory" parent="apDefaultEntityManagerFactory" autowire-candidate="false" autowire="no">
-        <property name="persistenceUnitName" value="LearningPlan"/>
-        <property name="persistenceXmlLocation" value="classpath:META-INF/lp-persistence.xml"/>
-        <property name="dataSource" ref="apDataSource"/>
+	<bean id="ksCoreAtpService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="ksCoreAtpService"/>
     </bean>
 
-    <bean id="lpEntityManager" class="org.springframework.orm.jpa.support.SharedEntityManagerBean"
-          autowire-candidate="false" autowire="no">
-        <property name="entityManagerFactory" ref="lpEntityManagerFactory"/>
+	<bean id="ksEnrollCourseOfferingService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="ksEnrollCourseOfferingService"/>
     </bean>
 
-    <bean id="learningPlanDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanDao">
-        <property name="em" ref="lpEntityManager"/>
+	<bean id="ksEnrollAcalService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="ksEnrollAcalService"/>
     </bean>
 
-    <bean id="learningPlanRichTextDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanRichTextDao">
-        <property name="em" ref="lpEntityManager"/>
+	<bean id="academicPlanService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="academicPlanService"/>
     </bean>
 
-    <bean id="learningPlanTypeDao" class="org.kuali.student.myplan.academicplan.dao.LearningPlanTypeDao">
-        <property name="em" ref="lpEntityManager"/>
-    </bean>
-
-    <bean id="planItemDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemDao">
-        <property name="em" ref="lpEntityManager"/>
-    </bean>
-
-    <bean id="planItemTypeDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemTypeDao">
-        <property name="em" ref="lpEntityManager"/>
-    </bean>
-
-    <bean id="planItemRichTextDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemRichTextDao">
-        <property name="em" ref="lpEntityManager"/>
-    </bean>
-
-    <bean id="academicPlanServicePersistence" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl">
-        <property name="learningPlanDao" ref="learningPlanDao"/>
-        <property name="learningPlanTypeDao" ref="learningPlanTypeDao"/>
-        <property name="planItemDao" ref="planItemDao"/>
-        <property name="planItemTypeDao" ref="planItemTypeDao"/>
-        <property name="courseService" ref="courseClient"/>
-        <property name="atpService" ref="atpClient" />
-    </bean>
-
-    <!-- Academic Plan Service Decorators -->
-    <bean id="academicPlanServiceValidator" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceValidationDecorator">
-        <property name="nextDecorator" ref="academicPlanServicePersistence"/>
-        <property name="validator" ref="validator"/>
-        <property name="dataDictionaryService" ref="dataDictionaryServiceForAcademicPlanService"/>
-    </bean>
-
-    <alias name="academicPlanServiceValidator" alias="academicPlanService" />
-
-    <bean id="searchController" class="org.kuali.student.myplan.course.controller.CourseSearchController">
-        <property name="cluService" ref="cluClient"/>
-        <property name="atpService" ref="atpClient"/>
-        <property name="courseOfferingService" ref="courseOfferingClient"/>
-        <property name="academicCalendarService" ref="acalClient"/>
+	<bean id="searchController" class="org.kuali.student.myplan.course.controller.CourseSearchController">
+        <property name="cluService" ref="ksLumCluService"/>
+        <property name="atpService" ref="ksCoreAtpService"/>
+        <property name="courseOfferingService" ref="ksEnrollCourseOfferingService"/>
+        <property name="academicCalendarService" ref="ksEnrollAcalService"/>
         <property name="atpTypeComparator" ref="atpTypeComparator"/>
     </bean>
 
-    <bean id="atpTypeComparator" class="org.kuali.student.myplan.course.controller.DefaultAtpTypeComparator" />
+	<bean id="atpTypeComparator" class="org.kuali.student.myplan.course.controller.DefaultAtpTypeComparator"/>
 
-    <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategy">
-        <property name="cluService" ref="cluClient"/>
-    </bean>
-
-    <bean id="coursePreReqSearch" class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
-        <property name="cluService" ref="cluClient"/>
-    </bean>
-
-    <bean id="courseDetailsInquiryViewHelperService" class="org.kuali.student.myplan.course.service.CourseDetailsInquiryViewHelperServiceImpl">
-        <property name="atpService" ref="atpClient"/>
-        <property name="courseOfferingService" ref="courseOfferingClient"/>
-        <property name="academicCalendarService" ref="acalClient"/>
-        <property name="courseService" ref="courseClient"/>
-        <property name="academicPlanService" ref="academicPlanService"/>
-    </bean>
-
-    <bean id="degreeAuditService" class="org.kuali.student.myplan.audit.service.DegreeAuditServiceImpl">
-    </bean>
-
-    <bean id="degreeAuditController" class="org.kuali.student.myplan.audit.controller.DegreeAuditController">
-        <property name="degreeAuditService" ref="degreeAuditService" />
-    </bean>
-
-    <bean id="planController" class="org.kuali.student.myplan.plan.controller.PlanController">
-        <property name="courseDetailsInquiryService" ref="courseDetailsInquiryViewHelperService"/>
-        <property name="academicPlanService" ref="academicPlanService"/>
-    </bean>
-
+    <bean id="courseSearchStrategy" class="org.kuali.student.myplan.course.controller.CourseSearchStrategy" />
+	
 </beans>

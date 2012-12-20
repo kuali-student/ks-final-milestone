@@ -1,15 +1,14 @@
 package org.kuali.student.ap.framework.config;
 
-import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
-import javax.transaction.UserTransaction;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.context.KsapContext;
+import org.kuali.student.ap.framework.course.CourseSearchAdaptor;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -65,6 +64,24 @@ public final class KsapFrameworkServiceLocator {
 	}
 
 	/**
+	 * Get the ks-core remote organization service.
+	 * 
+	 * @return The ks-core remote organization service.
+	 */
+	public static OrganizationService getOrganizationService() {
+		return getLocalService("ksCoreOrganizationService");
+	}
+
+	/**
+	 * Get the ks-core remote enumeration service.
+	 * 
+	 * @return The ks-core remote enumeration service.
+	 */
+	public static EnumerationManagementService getEnumerationManagementService() {
+		return getLocalService("ksCoreEnumerationManagementService");
+	}
+
+	/**
 	 * Get the ks-enroll remote course offering service.
 	 * 
 	 * @return The ks-enroll remote course offering service.
@@ -107,6 +124,15 @@ public final class KsapFrameworkServiceLocator {
 	 */
 	public static KsapContext getContext() {
 		return getLocalService("ksapContext");
+	}
+
+	/**
+	 * Get the course search adaptor.
+	 * 
+	 * @return The course search adaptor.
+	 */
+	public static CourseSearchAdaptor getCourseSearchAdaptor() {
+		return getLocalService("ksapCourseSearchAdaptor");
 	}
 
 }

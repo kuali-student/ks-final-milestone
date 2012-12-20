@@ -9,6 +9,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.myplan.course.util.CourseSearchConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -49,19 +50,6 @@ public class OrgHelper {
         OrgHelper.orgTypeCache = orgTypeCache;
     }
 
-    public static OrganizationService getOrganizationService() {
-        if (OrgHelper.organizationService == null) {
-            //   TODO: Use constants for namespace.
-            OrgHelper.organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization", "orgService"));
-        }
-        return OrgHelper.organizationService;
-    }
-
-    public static void setOrganizationService(OrganizationService organizationService) {
-        OrgHelper.organizationService = organizationService;
-    }
-
-
     public static List<OrgInfo> getOrgInfo(String param, String searchRequestKey, String paramKey, ContextInfo context) {
         if (OrgHelper.getOrgTypeCache() != null && OrgHelper.getOrgTypeCache().containsKey(param)) {
             return getOrgTypeCache().get(param);
@@ -71,7 +59,7 @@ public class OrgHelper {
             searchRequest.addParam(paramKey, param);
             SearchResult searchResult = new SearchResultInfo();
             try {
-                searchResult = getOrganizationService().search(searchRequest, context);
+                searchResult = KsapFrameworkServiceLocator.getOrganizationService().search(searchRequest, context);
             } catch (MissingParameterException e) {
                 logger.error("Search Failed to get the Organization Data ", e);
 			} catch (InvalidParameterException e) {
@@ -101,7 +89,7 @@ public class OrgHelper {
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseSearchConstants.ORG_QUERY_SEARCH_SUBJECT_AREAS);
         SearchResult searchResult = new SearchResultInfo();
         try {
-            searchResult = getOrganizationService().search(searchRequest, context);
+            searchResult = KsapFrameworkServiceLocator.getOrganizationService().search(searchRequest, context);
         } catch (MissingParameterException e) {
             logger.error("Search Failed to get the Organization Data ", e);
 		} catch (InvalidParameterException e) {
@@ -123,7 +111,7 @@ public class OrgHelper {
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseSearchConstants.ORG_QUERY_SEARCH_SUBJECT_AREAS);
         SearchResult searchResult = new SearchResultInfo();
         try {
-            searchResult = getOrganizationService().search(searchRequest, context);
+            searchResult = KsapFrameworkServiceLocator.getOrganizationService().search(searchRequest, context);
         } catch (MissingParameterException e) {
             logger.error("Search Failed to get the Organization Data ", e);
 		} catch (InvalidParameterException e) {

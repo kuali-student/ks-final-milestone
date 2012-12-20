@@ -25,6 +25,8 @@
         <property name="configLocations">
             <list>
                 <value>classpath:META-INF/ks-core-config.xml</value>
+                <value>classpath:META-INF/ks-ap/ksap-core-config.xml</value>
+                <value>classpath:META-INF/ks-ap/ks-core-config-override.xml</value>
             </list>
         </property>
     </bean>
@@ -37,13 +39,49 @@
 
     <import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
 
-	<!-- Statement service is not used by ks-ap, and has tight coupling to ks-lum
+	<!-- TODO: Statement service is not used by ks-ap, and has tight coupling to ks-lum
 		override here to break that coupling. -->
     <bean id="statementServiceImpl"
           class="org.kuali.student.r1.core.statement.service.impl.StatementServiceImpl">
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="searchManager" ref="statementSearchManager"/>
+        <!-- TODO: restore these references without tight coupling
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
+        <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
+        <property name="validatorFactory" ref="lumValidatorFactory"/>
+         -->
+    </bean>
+
+    <bean id="orgSearchManager"
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:META-INF/ks-ap/ksap-org-search-config.xml" />
+        <property name="dao" ref="orgSearchableDao"/>
+    </bean>
+
+    <bean id="defaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpaCore"/>
+        <property name="predicateTransforms">
+            <list>
+                <ref bean="keyword2LikeTransform"/>
+                <ref bean="descrTransform"/>
+                <ref bean="metaTransform"/> 
+                <ref bean="attributeTransform"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="orgServiceImpl" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
+        <property name="organizationDao" ref="orgDao" />
+        <property name="extendedOrgDao" ref="extendedOrgDao" />
+        <property name="searchManager" ref="orgSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
+        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
+        <property name="searchOperations">
+            <map>
+                <entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" value-ref="organizationSearch"/>
+            </map>
+        </property>
     </bean>
 
 	<bean id="coreDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">

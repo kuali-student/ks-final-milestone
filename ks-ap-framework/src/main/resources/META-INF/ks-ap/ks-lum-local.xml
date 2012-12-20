@@ -57,6 +57,14 @@
         <property name="serviceName" value="statementServiceImpl"/>
     </bean>
 
+    <bean id="luSearchManager"
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
+        <constructor-arg index="0"
+                         value="classpath:META-INF/ks-ap/ksap-lu-search-config.xml"/>
+        <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
+        <property name="dao" ref="luSearchableDao"/>
+    </bean>
+
 	<bean id="lumDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">
 		<property name="preferredDataSourceParams">
 			<list>

@@ -56,7 +56,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
     //  Global context info for use in service methods which need caching, but don't use the context argument.
     public static final ContextInfo CONTEXT_INFO = new ContextInfo();
 
-    public static final String TERM_ID_PREFIX = "kuali.uw.atp.";
+    //public static final String TERM_ID_PREFIX = "kuali.uw.atp.";
     public static final String FOCUS_ATP_ID_KEY = "focusAtpId";
 
     //  {atp} will be replaced by an ATP ID and {label} will be replaced with the link text at runtime.

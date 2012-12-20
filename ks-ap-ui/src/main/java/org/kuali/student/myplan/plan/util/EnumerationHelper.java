@@ -3,14 +3,10 @@ package org.kuali.student.myplan.plan.util;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.myplan.course.util.CourseSearchConstants;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,8 +18,6 @@ import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManage
 public class EnumerationHelper {
 
     private static final Logger logger = Logger.getLogger(EnumerationHelper.class);
-
-    private static transient EnumerationManagementService enumService;
 
     private static HashMap<String, List<EnumeratedValueInfo>> enumServiceCache;
 
@@ -37,15 +31,6 @@ public class EnumerationHelper {
     public static void setEnumServiceCache(HashMap<String, List<EnumeratedValueInfo>> enumServiceCache) {
         EnumerationHelper.enumServiceCache = enumServiceCache;
     }
-
-    protected static synchronized EnumerationManagementService getEnumerationService() {
-        if (EnumerationHelper.enumService == null) {
-            EnumerationHelper.enumService = (EnumerationManagementService) GlobalResourceLoader
-                    .getService(new QName(CourseSearchConstants.ENUM_SERVICE_NAMESPACE, "EnumerationManagementService"));
-        }
-        return EnumerationHelper.enumService;
-    }
-
 
     public static EnumeratedValueInfo getGenEdReqEnumInfo(String key, ContextInfo context) {
         EnumeratedValueInfo enumValueInfo = null;
@@ -73,7 +58,9 @@ public class EnumerationHelper {
     public static List<EnumeratedValueInfo> getEnumerationValueInfoList(String param, ContextInfo context) {
         List<EnumeratedValueInfo> enumeratedValueInfoList = null;
         try {
-            enumeratedValueInfoList = getEnumerationService().getEnumeratedValues(param, null, null, null, context);
+			enumeratedValueInfoList = KsapFrameworkServiceLocator
+					.getEnumerationManagementService().getEnumeratedValues(
+							param, null, null, null, context);
             getEnumServiceCache().put(param, enumeratedValueInfoList);
         } catch (Exception e) {
             logger.error("No Values for campuses found", e);
@@ -123,7 +110,7 @@ public class EnumerationHelper {
                 }
             }
         } catch (Exception e) {
-            logger.error("Could not load genEdReqValue");
+            throw new IllegalStateException("Failed to load genEdReqValue", e);
         }
         return enumAbbrValue;
 
@@ -147,7 +134,7 @@ public class EnumerationHelper {
                 }
             }
         } catch (Exception e) {
-            logger.error("Could not load genEdReqValue");
+            throw new IllegalStateException("Failed to load genEdReqValue", e);
         }
         return enumCode;
 

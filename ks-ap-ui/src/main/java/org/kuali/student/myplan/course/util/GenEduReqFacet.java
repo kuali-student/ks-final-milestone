@@ -55,14 +55,21 @@ public class GenEduReqFacet extends AbstractFacet {
                 if(key.contains("&amp;")){
                     key=key.replace("&amp;","&");
                 }
-                if (isNewFacetKey(FACET_KEY_DELIMITER + key + FACET_KEY_DELIMITER)) {
-                    EnumeratedValueInfo e = EnumerationHelper.getGenEdReqEnumInfo(EnumerationHelper.getEnumCodeForAbbrVal(key, context), context);
-                    key = e.getAbbrevValue();
-                    String title = e.getValue();
-                    if (!StringUtils.isEmpty(title)) {
-                        itemFacet.setTitle(title);
-                        itemFacet.setKey(FACET_KEY_DELIMITER + key + FACET_KEY_DELIMITER);
-                        itemFacet.setDisplayName(key);
+				if (isNewFacetKey(FACET_KEY_DELIMITER + key
+						+ FACET_KEY_DELIMITER)) {
+					EnumeratedValueInfo e = EnumerationHelper
+							.getGenEdReqEnumInfo(EnumerationHelper
+									.getEnumCodeForAbbrVal(key, context),
+									context);
+					if (e == null)
+						continue;
+					key = e.getAbbrevValue();
+					String title = e.getValue();
+					if (!StringUtils.isEmpty(title)) {
+						itemFacet.setTitle(title);
+						itemFacet.setKey(FACET_KEY_DELIMITER + key
+								+ FACET_KEY_DELIMITER);
+                    itemFacet.setDisplayName(key);
                         facetItems.add(itemFacet);
                     }
                 }

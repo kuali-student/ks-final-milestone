@@ -1,0 +1,5 @@
+<config>
+
+	<param name="rice.ksap.additionalSpringFiles">classpath:META-INF/ks-ap/ks-ap-ui-context.xml</param>
+
+</config>

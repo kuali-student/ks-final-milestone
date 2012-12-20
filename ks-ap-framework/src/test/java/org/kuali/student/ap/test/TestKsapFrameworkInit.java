@@ -11,6 +11,8 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -53,8 +55,8 @@ public class TestKsapFrameworkInit {
 
 	@Test
 	public void testAcalService() throws Throwable {
-		AcademicCalendarInfo ac = KsapFrameworkServiceLocator.getAcademicCalendarService()
-				.getAcademicCalendar(
+		AcademicCalendarInfo ac = KsapFrameworkServiceLocator
+				.getAcademicCalendarService().getAcademicCalendar(
 						"19841985ACADEMICCALENDAR",
 						KsapFrameworkServiceLocator.getContext()
 								.getContextInfo());

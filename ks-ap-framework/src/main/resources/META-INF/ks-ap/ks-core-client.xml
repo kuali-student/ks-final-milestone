@@ -40,4 +40,16 @@
         <property name="serviceName" value="AtpService"/>
     </bean>
 
+    <bean id="ksCoreOrganizationService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceNamespace" value="http://student.kuali.org/wsdl/organization"/>
+        <property name="serviceName" value="OrganizationService"/>
+    </bean>
+
+    <bean id="ksCoreEnumerationManagementService"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceNamespace" value="http://student.kuali.org/wsdl/enumerationmanagement"/>
+        <property name="serviceName" value="EnumerationManagementService"/>
+    </bean>
+
 </beans>

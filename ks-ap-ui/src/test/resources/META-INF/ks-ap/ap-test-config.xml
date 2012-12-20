@@ -5,7 +5,11 @@
 
 	<param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
 	<param name="config.location">classpath:META-INF/common-config-locations.xml</param>
-	<param name="config.location">classpath:META-INF/ks-ap-config.xml</param>
+
+	<param name="config.location">classpath:META-INF/ks-ap/ks-ap-config.xml</param>
+	<param name="config.location">classpath:META-INF/ks-ap/ks-ap-impl-config.xml</param>
+	<param name="config.location">classpath:META-INF/ks-ap/ks-ap-ui-config.xml</param>
+	<param name="config.location">classpath:META-INF/ks-ap-web/ks-config.xml</param>
 
 	<param name="core.mode">LOCAL</param>
 	<param name="ksb.mode">LOCAL</param>
@@ -14,8 +18,14 @@
 	<param name="kim.mode">LOCAL</param>
 	<param name="kew.mode">LOCAL</param>
 	<param name="location.mode">LOCAL</param>
+	<param name="ksap.mode">LOCAL</param>
+	<param name="kscore.mode">LOCAL</param>
+	<param name="kslum.mode">LOCAL</param>
+	<param name="ksenroll.mode">LOCAL</param>
 
 	<param name="application.id">KSAPUI-TEST</param>
+
+	<param name="ksb.dev.mode">true</param>
 
 	<param name="datasource.ojb.platform">Oracle9i</param>
 	<param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.Oracle9iDatabasePlatform</param>

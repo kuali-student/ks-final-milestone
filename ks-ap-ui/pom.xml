@@ -38,6 +38,11 @@
             <version>${ks.ap.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-framework</artifactId>
+            <version>${ks.ap.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-util</artifactId>
             <version>${ks.core.version}</version>

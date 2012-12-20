@@ -51,6 +51,7 @@ public class AtpHelper {
     public static String getCurrentAtpId() {
         //   The first arg here is "usageKey" which isn't used.
         List<TermInfo> inProgressTerms = new ArrayList<TermInfo>();
+        
         try {
             inProgressTerms = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.INPROGRESS)), CourseSearchConstants.CONTEXT_INFO);
         } catch (Exception e) {
@@ -75,10 +76,19 @@ public class AtpHelper {
     public static String getLastScheduledAtpId() {
         //   The first arg here is "usageKey" which isn't used.
         List<TermInfo> scheduledTerms = new ArrayList<TermInfo>();
+        
+        // TODO: This logic of PUBLISHED and IN_PROGRESS does not appear to apply to AcademicCalendarService
+        // other than at UW.  KS will need to implement these concepts before a general solution can be
+        // achieved. /mwfyffe
         try {
-            scheduledTerms = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.PUBLISHED)), CourseSearchConstants.CONTEXT_INFO);
+			scheduledTerms = getAcademicCalendarService().searchForTerms(
+					QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
+							"query", PlanConstants.PUBLISHED)),
+					CourseSearchConstants.CONTEXT_INFO);
         } catch (Exception e) {
-            logger.error("Query to Academic Calendar Service failed.", e);
+        	// TODO: This should be a runtime error, and the "populateAtpIdFromCalendar" logic discarded
+        	// once a general data-based solution for this logic is available /mwfyffe
+            logger.debug("Query to Academic Calendar Service failed.", e);
             /*If SWS Fails to load up scheduled Terms then current atp Id in TermInfo is populated from the calender month and year and set to the scheduledTerms list*/
             scheduledTerms=populateAtpIdFromCalender();
         }
@@ -121,36 +131,30 @@ public class AtpHelper {
      */
 
     public static String getFirstAtpIdOfAcademicYear(String atpId) {
-        String firstAtpId = null;
-        String atpSuffix = atpId.replace(PlanConstants.TERM_ID_PREFIX, "");
-        String[] termYear = atpSuffix.split("\\.");
+        String[] termYear = atpIdToTermAndYear(atpId);
         String year = termYear[0];
         String term = termYear[1];
 
         //   If the term is not Autumn/4 then the beginning of the academic year is (year - 1) . 4
         if (term.equals("4")) {
-            firstAtpId = atpId;
+            return atpId;
         } else {
             String y = String.valueOf(Integer.valueOf(year) - 1);
-            firstAtpId = AtpHelper.getAtpFromNumTermAndYear("4", y);
+            return AtpHelper.getAtpFromNumTermAndYear("4", y);
         }
-        return firstAtpId;
     }
 
     /**
      * Returns an String[] {term, year} given an ATP ID.
      */
     public static String[] atpIdToTermAndYear(String atpId) {
-        String atpSuffix = atpId.replace(PlanConstants.TERM_ID_PREFIX, "");
-
         //  See if the ATP ID is nearly sane.
-        if (!atpSuffix.matches("[0-9]{4}\\.[1-4]{1}")) {
+        if (!isAtpIdFormatValid(atpId)) {
             throw new RuntimeException(String.format("ATP ID [%s] isn't formatted correctly.", atpId));
         }
 
-        String[] termYear = atpSuffix.split("\\.");
-        String year = termYear[0];
-        String term = termYear[1];
+        String year = atpId.substring(0,4);
+        String term = atpId.substring(4,5);
         return new String[]{term, year};
     }
 
@@ -177,7 +181,7 @@ public class AtpHelper {
         return new String[]{term, year};
     }
 
-    /*  Retuns ATP ID in format kuali.uw.atp.1991.1 for term="Winter" and year = 1991*/
+    /*  Retuns ATP ID in format 19911 for term="Winter" and year = 1991*/
     public static String getAtpIdFromTermAndYear(String term, String year) {
         int termVal = 0;
         if (term.equalsIgnoreCase(term1)) {
@@ -193,14 +197,14 @@ public class AtpHelper {
             termVal = 4;
         }
         StringBuffer newAtpId = new StringBuffer();
-        newAtpId = newAtpId.append(PlanConstants.TERM_ID_PREFIX).append(year).append(".").append(termVal);
+        newAtpId = newAtpId.append(year).append(termVal);
         return newAtpId.toString();
     }
 
-    /* Returns ATP ID as kuali.uw.atp.1991.1 for term=1 and year = 1991 */
+    /* Returns ATP ID as 19911 for term=1 and year = 1991 */
     public static String getAtpFromNumTermAndYear(String term, String year) {
         StringBuffer newAtpId = new StringBuffer();
-        newAtpId = newAtpId.append(PlanConstants.TERM_ID_PREFIX).append(year).append(".").append(term);
+        newAtpId = newAtpId.append(year).append(term);
         return newAtpId.toString();
     }
 
@@ -281,7 +285,7 @@ public class AtpHelper {
     }
 
     public static boolean isAtpIdFormatValid(String atpId) {
-        return atpId.matches(PlanConstants.TERM_ID_PREFIX + "[0-9]{4}\\.[1-4]{1}");
+        return atpId.matches("[0-9]{4}[1-4]{1}");
     }
 
     public static void addServiceError(String propertyName) {

@@ -1059,46 +1059,6 @@
     </bean>
 
  
-
-    <!-- Org Service -->
-    <bean id="orgServiceImplNew" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
-        <property name="organizationDao" ref="orgDao" />
-        <property name="extendedOrgDao" ref="extendedOrgDao" />
-        <property name="searchManager" ref="orgSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
-        <property name="criteriaLookupService" ref="defaultCriteriaLookupService"/>
-        <property name="searchOperations">
-            <map>
-                <entry key="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" value-ref="organizationHierarchySearch"/>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="organizationHierarchySearch"
-          class="org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationHierarchySearch">
-        <property name="organizationDao" ref="orgDao"/>
-    </bean>
-
-    <bean id="orgSearchManager"
-          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:organization-search-config.xml" />
-        <property name="dao" ref="enrollSearchableDao"/>
-    </bean>
-
-    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-        <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
-                <property name="jaxWsService" value="true" />
-                <property name="service" ref="orgServiceImplNew" />
-                <property name="serviceInterface" value="org.kuali.student.r2.core.organization.service.OrganizationService" />
-                <property name="localServiceName" value="OrganizationService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/organization" />
-                <property name="busSecurity" value="${ks.enroll.bus.security}" />
-            </bean>
-        </property>
-    </bean>
-
-
     <!-- Scheduling Service -->
 
     <bean id="schedulingServiceImpl" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceImpl">
