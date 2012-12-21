@@ -25,7 +25,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperMaintainableImpl" />
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
         <property name="singlePageView" value="true"/>
-        <property name="items">
+        <property name="page.items">
             <list>
                 <ref bean="KS-PopulationWrapper-LinkSection"/>
                 <ref bean="KS-PopulationWrapper-CreateByRule"/>
