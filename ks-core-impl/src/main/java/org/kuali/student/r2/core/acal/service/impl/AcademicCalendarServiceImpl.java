@@ -250,11 +250,23 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public AcademicCalendarInfo updateAcademicCalendar(String academicCalendarId, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
+        AtpInfo existingOne;
         try {
-            AtpInfo existingOne = atpService.getAtp(academicCalendarId,context);
+            existingOne = atpService.getAtp(academicCalendarId,context);
             if (!StringUtils.equals(existingOne.getStateKey(),academicCalendarInfo.getStateKey())){
                  throw new OperationFailedException("It's not possible to update the state with this call. Please use changeAcademicCalendarState() instead");
             }
+        } catch (Exception e) {
+            throw new OperationFailedException("Unexpected", e);
+        }
+
+        long dtoVersion = Long.parseLong(academicCalendarInfo.getMeta().getVersionInd());
+        long currentVersion = Long.parseLong(existingOne.getMeta().getVersionInd());
+        if (currentVersion > dtoVersion){
+            throw new VersionMismatchException("Data exists in the DB is newer than the DTO.");
+        }
+
+        try {
             AtpInfo toUpdate = acalAssembler.disassemble(academicCalendarInfo, context);
             AtpInfo updated = atpService.updateAtp(academicCalendarId, toUpdate, context);
             try {
