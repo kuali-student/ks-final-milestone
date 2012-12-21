@@ -104,6 +104,7 @@
         <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.ActivityOfferingRule" />
         <property name="documentTypeName" value="ActivityOfferingInfoMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.student.enrollment.main.view.KsMaintenanceAuthorizerBase"/>
         <property name="lockingKeys">
             <list>
                 <value>aoInfo.id</value>

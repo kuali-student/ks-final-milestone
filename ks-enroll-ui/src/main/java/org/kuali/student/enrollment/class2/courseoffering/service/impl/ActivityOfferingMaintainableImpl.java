@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
@@ -166,6 +167,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
             wrapper.setReadOnlyView(readOnlyView);
 
+            wrapper.setAdminOrg(courseOfferingInfo.getUnitsDeploymentOrgIds().get(0));
             document.getNewMaintainableObject().setDataObject(wrapper);
             document.getOldMaintainableObject().setDataObject(wrapper);
             document.getDocumentHeader().setDocumentDescription("Edit AO - " + info.getActivityCode());
@@ -200,8 +202,19 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             getScheduleHelper().loadSchedules(wrapper);
 
+            Person user = GlobalVariables.getUserSession().getPerson();
+
+            boolean canOpenView = this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,user);
+            if (!canOpenView) {
+                throw new AuthorizationException(user.getPrincipalName(), "open", null,
+                        "User '" + user.getPrincipalName() + "' is not authorized to open view", null);
+            }
+
             return wrapper;
         } catch (Exception e) {
+            if(e instanceof AuthorizationException){
+                throw new AuthorizationException(null,null,null,null);
+            }
             throw new RuntimeException(e);
         }
     }

@@ -67,6 +67,8 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private boolean schedulesRevised;
 
+    private String adminOrg;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -580,6 +582,13 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setSocInfo(SocInfo socInfo) {
         this.socInfo = socInfo;
+    }
+
+    public String getAdminOrg(){
+        return adminOrg;
+    }
+    public void setAdminOrg(String adminOrg){
+        this.adminOrg=adminOrg;
     }
 
 }
