@@ -36,6 +36,7 @@ import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelp
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -109,6 +110,15 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         return super.start(form, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=reload")
+    public ModelAndView reload(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) {
+        String acalId = acalForm.getAcademicCalendarInfo().getId();
+        getAcalViewHelperService(acalForm).populateAcademicCalendar(acalId, acalForm);
+        acalForm.setReload(false);
+        return getUIFModelAndView(acalForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
     }
 
     /**
@@ -619,9 +629,13 @@ public class AcademicCalendarController extends UifControllerBase {
                 processHolidayCalendars(academicCalendarForm);
                 acalInfo = viewHelperService.createAcademicCalendar(academicCalendarForm);
                 academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.createContextInfo()));
-                // 2. create new events if any                                                 Unable to save or update academic calendar
+                // 2. create new events if any
                 createEvents(acalInfo.getId(), academicCalendarForm);
             }
+        } catch (VersionMismatchException e){
+            academicCalendarForm.setReload(true);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM,"You are saving an older version of this calendar. Please click on the reload button to get the newer version.");
+            return getUIFModelAndView(academicCalendarForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         } catch(Exception e) {
             if (LOG.isDebugEnabled()){
                 LOG.error("Add/update Academic calendar failed - " + e.getMessage());

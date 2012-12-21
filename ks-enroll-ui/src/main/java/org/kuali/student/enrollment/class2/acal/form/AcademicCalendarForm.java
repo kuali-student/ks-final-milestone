@@ -52,6 +52,7 @@ public class AcademicCalendarForm extends UifFormBase {
 
     private List<AcalEventWrapper> eventsToDeleteOnSave;
     private List<AcademicTermWrapper> termsToDeleteOnSave;
+    private boolean reload;
 
     public AcademicCalendarForm() {
         super();
@@ -292,6 +293,19 @@ public class AcademicCalendarForm extends UifFormBase {
             return StringUtils.equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,academicCalendarInfo.getStateKey());
         }
         return false;
+    }
+
+    /**
+     *
+     * @return true if the user needs to load the latest version
+     */
+    @SuppressWarnings("unused")
+    public boolean isReload() {
+        return reload;
+    }
+
+    public void setReload(boolean reload) {
+        this.reload = reload;
     }
 
     /**

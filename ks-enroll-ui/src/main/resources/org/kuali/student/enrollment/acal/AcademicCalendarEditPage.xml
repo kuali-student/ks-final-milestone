@@ -28,7 +28,7 @@ limitations under the License.
 
         Term edit page at AcademicTermPage.xml
     -->
-    <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false">
+    <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false" p:readOnly="@{reload}">
         <property name="id" value="academicCalendarEditPage"/>
         <property name="headerText" value="@{!newCalendar ? academicCalendarInfo.name : 'New Academic Calendar'}"/>
         <property name="header">
@@ -66,16 +66,18 @@ limitations under the License.
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:render="@{!#view.readOnly}"
+                        <bean parent="Uif-PrimaryActionButton" p:render="@{!#view.readOnly and !reload}"
                               p:methodToCall="@{officialCalendar ? 'save' : 'makeAcalOfficial'}"
                               p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
-                              p:disabled="@{newCalendar}" p:performClientSideValidation="true" />
+                              p:disabled="@{newCalendar}" p:performClientSideValidation="true"/>
                         <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
-                              p:performClientSideValidation="true" p:render="@{!officialCalendar and !#view.readOnly}"/>
+                              p:performClientSideValidation="true" p:render="@{!officialCalendar and !#view.readOnly and !reload}" p:disabled="@{reload}"/>
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
+                              p:performClientSideValidation="true" p:render="@{reload}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="delete"
                               p:actionLabel="Delete Draft"
                               p:preSubmitCall="return confirm('Are you sure you want to delete this academic calendar?')"
-                              p:render="@{!newCalendar and !#view.readOnly and !officialUI}"/>
+                              p:render="@{!reload and !newCalendar and !#view.readOnly and !officialUI}"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()" p:render="@{!#view.readOnly}"/>
                     </list>
                 </property>
