@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
@@ -448,9 +449,20 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), contextInfo());
     //            formObject.setStateName(state.getName());
+                Person user = GlobalVariables.getUserSession().getPerson();
+
+                boolean canOpenView = this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,user);
+                if (!canOpenView) {
+                    throw new AuthorizationException(user.getPrincipalName(), "open", null,
+                            "User '" + user.getPrincipalName() + "' is not authorized to open view", null);
+                }
+
                 return formObject;
             }
         } catch (Exception e) {
+            if(e instanceof AuthorizationException){
+                throw new AuthorizationException(null,null,null,null);
+            }
             throw new RuntimeException(e);
         }
         return null;

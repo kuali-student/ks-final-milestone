@@ -23,7 +23,9 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class //TODO ...
@@ -224,6 +226,13 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public String getTermName(){
         return termName;
+    }
+
+    public Map<String,String> getAdminOrg(){
+        String org=  getOrganizationNames().get(0).getId();
+        Map<String,String> temp = new HashMap<String,String>();
+        temp.put("org",org);
+        return  temp;
     }
 }
 

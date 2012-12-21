@@ -41,6 +41,8 @@
           p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditInquirableImpl"
         >
+
+
         <property name="page.header">
             <!-- suppress Expand/Collapse buttons -->
             <ref bean="KSHeader_Empty" />
@@ -178,6 +180,7 @@
     <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KSMaintenanceView">
         <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.coInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.coInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.coInfo.creditCnt} Credits)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
+       <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
 
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
@@ -625,6 +628,7 @@
         <property name="maintainableClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl"/>
         <property name="businessRulesClass" value="org.kuali.student.enrollment.class2.courseoffering.rule.CourseOfferingEditRule" />
         <property name="documentTypeName" value="CourseOfferingEditMaintenanceDocument"/>
+        <property name="documentAuthorizerClass" value="org.kuali.student.enrollment.main.view.KsMaintenanceAuthorizerBase"/>
         <property name="lockingKeys">
             <list>
                 <value>coInfo.id</value>
