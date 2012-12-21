@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.state.dto.StatePropagationInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -55,6 +56,48 @@ public class TestStateServiceImpl {
         callContext = new ContextInfo();
         callContext.setPrincipalId(PRINCIPAL_ID);
         callContext.setCurrentDate(new Date());
+    }
+
+    @Test
+    public void testGetStatePropagationIdsByType() throws Exception {
+
+        // create the life-cycle
+        LifecycleInfo life = new LifecycleInfo();
+
+        // create a number of state-propagation entities
+        int numberOfEntitiesToCreateWithSameType = 3;
+        String statePropagationTypeKey = "test.type.key.test";
+        createStatePropagationEntitiesHavingSameType( numberOfEntitiesToCreateWithSameType, statePropagationTypeKey, callContext );
+
+        // validate
+        List<String> result = stateService.getStatePropagationIdsByType( statePropagationTypeKey, callContext );
+        assertEquals(numberOfEntitiesToCreateWithSameType, result.size());
+    }
+
+    private List<StatePropagationInfo> createStatePropagationEntitiesHavingSameType( int numberEntitiesToCreate, String type, ContextInfo contextInfo )
+        throws Exception {
+        List<StatePropagationInfo> result = new ArrayList<StatePropagationInfo>();
+
+        String id, state, targetId;
+        for( int i = 0 ; i < numberEntitiesToCreate ; i++ ) {
+            id = "id_" + i;
+            state = "state_" + i;
+            targetId = "targetId_" + i;
+            result.add( createStatePropagationEntity(id, state, type, targetId, contextInfo) );
+        }
+
+        return result;
+    }
+
+    private StatePropagationInfo createStatePropagationEntity( String id, String state, String type, String targetId, ContextInfo contextInfo )
+        throws Exception {
+        StatePropagationInfo info = new StatePropagationInfo();
+        info.setId(id);
+        info.setStateKey(state);
+        info.setTypeKey(type);
+        info.setTargetStateChangeId(targetId);
+
+        return stateService.createStatePropagation( targetId, type, info, contextInfo );
     }
 
     @Test
@@ -266,4 +309,5 @@ public class TestStateServiceImpl {
             // expected
         }
     }
+
 }
