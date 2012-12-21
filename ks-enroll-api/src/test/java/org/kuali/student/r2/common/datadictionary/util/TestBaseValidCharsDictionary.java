@@ -378,9 +378,52 @@ public class TestBaseValidCharsDictionary {
         assertNull(test(vccp, vc, "X\r"));
         assertNull(test(vccp, vc, "X\t"));
 
+        id = "MultiLineText";
+        vc = vccs.get(id);
+        assertNotNull(vc);
+        assertNull(test(vccp, vc, "a"));
+        assertNull(test(vccp, vc, "A"));
+        assertNull(test(vccp, vc, "Z"));
+        assertNull(test(vccp, vc, "Z"));
+        assertNull(test(vccp, vc, "!"));
+        assertNull(test(vccp, vc, "@"));
+        assertNull(test(vccp, vc, "#"));
+        assertNull(test(vccp, vc, "$"));
+        assertNull(test(vccp, vc, "%"));
+        assertNull(test(vccp, vc, "&"));
+        assertNull(test(vccp, vc, "*"));
+        assertNull(test(vccp, vc, "("));
+        assertNull(test(vccp, vc, ")"));
+        assertNull(test(vccp, vc, "_"));
+        assertNull(test(vccp, vc, "+"));
+        assertNull(test(vccp, vc, "-"));
+        assertNull(test(vccp, vc, "="));
+        assertNull(test(vccp, vc, "{"));
+        assertNull(test(vccp, vc, "}"));
+        assertNull(test(vccp, vc, "["));
+        assertNull(test(vccp, vc, "]"));
+        assertNull(test(vccp, vc, "|"));
+        assertNull(test(vccp, vc, "\\"));
+        assertNull(test(vccp, vc, ","));
+        assertNull(test(vccp, vc, "."));
+        assertNull(test(vccp, vc, "/"));
+        assertNull(test(vccp, vc, "<"));
+        assertNull(test(vccp, vc, ">"));
+        assertNull(test(vccp, vc, "?"));
+        assertNull(test(vccp, vc, "~"));
+        assertNull(test(vccp, vc, "`"));
+        assertNull(test(vccp, vc, "zzzzz"));
+        assertNull(test(vccp, vc,"abcdefghijklmnopqrstuvwxyz"));
+        assertNull(test(vccp, vc,"ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+        assertNull(test(vccp, vc, "1"));
+        assertNull(test(vccp, vc, "0"));
+        assertNull(test(vccp, vc, "X\n"));
+        assertNull(test(vccp, vc, "X\r"));
+        assertNull(test(vccp, vc, "X\t"));
+
         // If you get this error -- don't just change the number
         // also add a unit test for new valid chars definition that you must have added into the base dictionary!
-        assertEquals(13, vccs.size());
+        assertEquals(14, vccs.size());
     }
 }
 
