@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.enrollment.class1.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -29,6 +30,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -73,6 +75,9 @@ public class TestCourseOfferingServiceImpl {
     @Resource
     protected CourseOfferingServiceTestDataLoader dataLoader;
 
+    @Resource(name = "LrcService")
+    protected LRCService lrcService;
+
     public static String principalId = "123";
     public ContextInfo callContext = null;
 
@@ -84,6 +89,7 @@ public class TestCourseOfferingServiceImpl {
         // load in custom dates for use in the courses
         TermInfo fall2012 = dataLoader.createTerm("2012FA", "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), callContext);
         createCourseCHEM123(fall2012, callContext);
+        new MockLrcTestDataLoader(this.lrcService).loadData();
     }
 
     private void createCourseCHEM123(TermInfo term, ContextInfo context) throws Exception {

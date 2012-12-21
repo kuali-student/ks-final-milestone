@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.class1.lrc.service.util.MockLrcTestDataLoader;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
 import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
 import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
@@ -32,6 +33,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -61,6 +63,8 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
     protected AcademicCalendarService acalService;
     @Resource(name = "atpService")
     protected AtpService atpService;
+    @Resource(name = "LrcService")
+    protected LRCService lrcService;
 
     @Before
     public void setUp() {
@@ -74,6 +78,7 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
             AcalTestDataLoader acalLoader = new AcalTestDataLoader(this.atpService);
             acalLoader.loadTerm("testAtpId1", "test1", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "description 1");
             new MockAcalTestDataLoader(this.acalService).loadData();
+            new MockLrcTestDataLoader(this.lrcService).loadData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

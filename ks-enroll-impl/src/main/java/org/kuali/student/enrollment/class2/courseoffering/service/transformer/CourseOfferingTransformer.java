@@ -233,7 +233,7 @@ public class CourseOfferingTransformer {
             throw new NullPointerException("This course offering ("+co.getCourseOfferingCode()+") is invalid. Credit option must have a value. ");
         }
 
-        co.setCreditCnt(getCreditCount(co.getCreditOptionId(), co.getCourseId(), cluResultListMap, rvgMap, resultValueMap));
+        co.setCreditCnt(getCreditCount(co.getCreditOptionId(), co.getCourseId(), rvgMap, resultValueMap, null));
 
         if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
             co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
@@ -331,7 +331,7 @@ public class CourseOfferingTransformer {
                 co.setCreditOptionId(resultValueGroupKey);
             }
         }
-        co.setCreditCnt(getCreditCount(co.getCreditOptionId(), co.getCourseId(), context));
+        co.setCreditCnt(getCreditCount(co.getCreditOptionId(), "", null, null, context));
 
         if ( co.getGradingOptionId() != null ) {//TODO why are we doing substrings of keys?
             co.setGradingOption(co.getGradingOptionId().substring(co.getGradingOptionId().lastIndexOf('.') + 1));
@@ -393,18 +393,32 @@ public class CourseOfferingTransformer {
     }
 
     //get credit count from persisted COInfo
-    private String getCreditCount(String creditOptionId, String courseId, Map<String, List<CluResultInfo>> cluResultListMap, Map<String, ResultValuesGroupInfo> rvgMap, Map<String, ResultValueInfo>resultValueMap) {
+    public String getCreditCount(String creditOptionId,
+                                  String courseId,
+                                  Map<String, ResultValuesGroupInfo> rvgMap,
+                                  Map<String, ResultValueInfo>resultValueMap,
+                                  ContextInfo contextInfo) {
         String creditCount="";
+        ResultValuesGroupInfo resultValuesGroupInfo;
+        List<ResultValueInfo> resultValueInfos;
         try{
             //Lookup persisted values (if the CO has a Credit set use that, otherwise the CO is invalid)
             if(creditOptionId == null || creditOptionId.equals("")){
                 LOG.info("Credit is missing for this course offering");
                 return creditCount = "N/A";
             } else {
-                ResultValuesGroupInfo resultValuesGroupInfo = rvgMap.get(creditOptionId);
+                if (rvgMap!= null) {  //where the function is called from
+                    resultValuesGroupInfo = rvgMap.get(creditOptionId);
+                } else {
+                    resultValuesGroupInfo = getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
+                }
                 String typeKey = resultValuesGroupInfo.getTypeKey();
                 if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                    List<ResultValueInfo> resultValueInfos = getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), resultValueMap);
+                    if (resultValueMap != null) {  //where the function is called from
+                        resultValueInfos = getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), resultValueMap);
+                    } else {
+                        resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                    }
                     creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
                     //Use the min/max values from the RVG
@@ -412,7 +426,11 @@ public class CourseOfferingTransformer {
                             trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                     //Get the actual values with a service call
-                    List<ResultValueInfo> resultValueInfos = getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), resultValueMap);
+                    if (resultValueMap != null) {  //where the function is called from
+                        resultValueInfos = getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), resultValueMap);
+                    } else {
+                        resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+                    }
                     if (!resultValueInfos.isEmpty()) {
                         //Convert to floats and sort
                         List<Float> creditValuesF = new ArrayList<Float>();
@@ -432,78 +450,6 @@ public class CourseOfferingTransformer {
                 } else {
                     //no credit option
                     LOG.info("Credit is missing for course id" + courseId);
-                    creditCount = "N/A";
-                }
-            }
-            return creditCount;
-        }catch (Exception e){
-            throw new RuntimeException("Error getting credit count for course offering", e);
-        }
-    }
-
-
-
-    //get credit count from persisted COInfo or from CourseInfo
-    public String getCreditCount(String creditOptionId, String courseId, ContextInfo contextInfo) {
-
-        String creditCount="N/A";
-        try{
-            //Lookup persisted values (if the CO has a Credit set use that, otherwise look at the RVG of Course/Clu
-            if (creditOptionId == null && courseId != null && cluService!=null ) {//TODO fix the tests and inject clu service then remove this line
-                List<CluResultInfo> cluResults = getCluService().getCluResultByClu(courseId, contextInfo);
-                for(CluResultInfo cluResultInfo : cluResults){
-                    if(CourseAssemblerConstants.COURSE_RESULT_TYPE_CREDITS.equals(cluResultInfo.getTypeKey())){
-                        creditOptionId = cluResultInfo.getResultOptions().get(0).getResultComponentId();
-                        return getCreditCount(creditOptionId, getLrcService(),contextInfo);
-                    }
-                }
-            }
-
-        } catch (Exception e){
-            throw new RuntimeException("Error getting credit count for course offering", e);
-        }
-
-        return creditCount;
-
-    }
-
-    public static String getCreditCount(String creditOptionId, LRCService lrcService, ContextInfo contextInfo) {
-
-        String creditCount="";
-        try{
-
-            if(creditOptionId != null){
-                ResultValuesGroupInfo resultValuesGroupInfo = lrcService.getResultValuesGroup(creditOptionId, contextInfo);
-                String typeKey = resultValuesGroupInfo.getTypeKey();
-                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                    //Get the actual values with a service call
-                    List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
-                    creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
-                    //Use the min/max values from the RVG
-                    creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
-                            trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
-                    //Get the actual values with a service call
-                    List<ResultValueInfo> resultValueInfos = lrcService.getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
-                    if (!resultValueInfos.isEmpty()) {
-                        //Convert to floats and sort
-                        List<Float> creditValuesF = new ArrayList<Float>();
-                        for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
-                            creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
-                        }
-                        Collections.sort(creditValuesF); //Do the sort
-
-                        //Convert back to strings and concatenate to one field
-                        for (Float creditF : creditValuesF ){
-                            creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
-                        }
-                        if(creditCount.length() >=  2)  {
-                            creditCount =  creditCount.substring(2);  //trim leading ", "
-                        }
-                    }
-                } else {
-                    //no credit option
                     creditCount = "N/A";
                 }
             }

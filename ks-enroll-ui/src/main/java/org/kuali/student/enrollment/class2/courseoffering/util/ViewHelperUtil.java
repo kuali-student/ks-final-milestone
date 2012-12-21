@@ -68,65 +68,6 @@ public class ViewHelperUtil {
         }
     }
 
-
-    //get credit count from persisted COInfo or from CourseInfo
-    public static String getCreditCount(CourseOfferingInfo coInfo, CourseInfo courseInfo) throws Exception{
-
-        String creditCount="";
-
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-        ResultValuesGroupInfo resultValuesGroupInfo;
-
-        //Lookup persisted values (if the CO has a Credit set use that, otherwise look at the RVG of Course/Clu
-        if (coInfo.getCreditOptionId() != null) {
-            resultValuesGroupInfo = getLrcService().getResultValuesGroup(coInfo.getCreditOptionId(), contextInfo);
-        }else{
-            if (courseInfo == null) {
-                //Lookup the course if none was passed in
-                courseInfo = getCourseService().getCourse(coInfo.getCourseId(), contextInfo);
-            }
-            resultValuesGroupInfo = courseInfo.getCreditOptions().get(0);
-        }
-        if(resultValuesGroupInfo!=null){
-            String typeKey = resultValuesGroupInfo.getTypeKey();
-            if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                //Get the actual values with a service call
-                List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
-                creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
-            } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
-                //Use the min/max values from the RVG
-                creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
-                        trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMaxValue());
-            } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
-                //Get the actual values with a service call
-                List<ResultValueInfo> resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
-                if (!resultValueInfos.isEmpty()) {
-                    //Convert to floats and sort
-                    List<Float> creditValuesF = new ArrayList<Float>();
-                    for (ResultValueInfo resultValueInfo : resultValueInfos ) {  //convert String to Float for sorting
-                        creditValuesF.add(Float.valueOf(resultValueInfo.getValue()));
-                    }
-                    Collections.sort(creditValuesF); //Do the sort
-
-                    //Convert back to strings and concatenate to one field
-                    //FindBugs - it is fine as is
-                    for (Float creditF : creditValuesF ){
-                        creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
-                    }
-                    if(creditCount.length() >=  2)  {
-                        creditCount =  creditCount.substring(2);  //trim leading ", "
-                    }
-                }
-            } else {
-                //no credit option
-                LOG.info("Credit is missing for subject course " + coInfo.getCourseCode());
-                creditCount = "N/A";
-            }
-        }
-        return creditCount;
-    }
-
     public static LRCService getLrcService() {
         return CourseOfferingResourceLoader.loadLrcService();
     }
