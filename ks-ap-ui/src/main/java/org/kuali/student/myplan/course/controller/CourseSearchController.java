@@ -39,6 +39,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -68,8 +69,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -78,7 +77,6 @@ import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -176,7 +174,7 @@ public class CourseSearchController extends UifControllerBase {
 					AtpHelper.getLastScheduledAtpId());
 			;
 
-			searchResult = getCluService().search(searchRequest, context);
+			searchResult = KsapFrameworkServiceLocator.getCluService().search(searchRequest, context);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -285,7 +283,7 @@ public class CourseSearchController extends UifControllerBase {
 					"myplan.course.info.credits.details");
 			List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
 			searchRequest.setParams(params);
-			SearchResult searchResult = getCluService().search(searchRequest,
+			SearchResult searchResult = KsapFrameworkServiceLocator.getCluService().search(searchRequest,
 					context);
 			for (SearchResultRow row : searchResult.getRows()) {
 				String id = getCellValue(row, "credit.id");
@@ -511,7 +509,7 @@ public class CourseSearchController extends UifControllerBase {
 			// TODO: Fix when version issue for course is addressed
 			// request.addParam("currentTerm", AtpHelper.getCurrentAtpId());
 
-			searchResult = getCluService().search(request, context);
+			searchResult = KsapFrameworkServiceLocator.getCluService().search(request, context);
 
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -550,7 +548,7 @@ public class CourseSearchController extends UifControllerBase {
 		for (SearchRequestInfo request : requests) {
 			SearchResult searchResult;
 			try {
-				searchResult = getCluService().search(request, context);
+				searchResult = KsapFrameworkServiceLocator.getCluService().search(request, context);
 			} catch (InvalidParameterException e) {
 				throw new IllegalArgumentException(
 						"Invalid course ID or CLU lookup error", e);
@@ -595,7 +593,7 @@ public class CourseSearchController extends UifControllerBase {
 		 * in the selected term. Note: In the UW implementation of the Course
 		 * Offering service, course id is actually course code.
 		 */
-		CourseOfferingService service = getCourseOfferingService();
+		CourseOfferingService service = KsapFrameworkServiceLocator.getCourseOfferingService();
 
 		String subject = course.getSubject();
 		List<String> codes = service.getCourseOfferingIdsByTermAndSubjectArea(
@@ -613,14 +611,14 @@ public class CourseSearchController extends UifControllerBase {
 		try {
 			logger.info("Start of method loadScheduledTerms of CourseSearchController:"
 					+ System.currentTimeMillis());
-			AcademicCalendarService atpService = getAcademicCalendarService();
+			AcademicCalendarService atpService = KsapFrameworkServiceLocator.getAcademicCalendarService();
 
 			List<TermInfo> terms = atpService.searchForTerms(
 					QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
 							"query", PlanConstants.PUBLISHED)),
 					CourseSearchConstants.CONTEXT_INFO);
 
-			CourseOfferingService offeringService = getCourseOfferingService();
+			CourseOfferingService offeringService = KsapFrameworkServiceLocator.getCourseOfferingService();
 
 			// If the course is offered in the term then add the term info to
 			// the scheduled terms list.
@@ -658,7 +656,7 @@ public class CourseSearchController extends UifControllerBase {
 		List<String> termsOffered = new ArrayList<String>();
 		SearchResult result;
 		try {
-			result = getCluService().search(request, context);
+			result = KsapFrameworkServiceLocator.getCluService().search(request, context);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException(
 					"Invalid course ID or CLU lookup error", e);
@@ -673,7 +671,7 @@ public class CourseSearchController extends UifControllerBase {
 			// Don't add the terms that are not found
 			AtpInfo atp;
 			try {
-				atp = getAtpService().getAtp(id, context);
+				atp = KsapFrameworkServiceLocator.getAtpService().getAtp(id, context);
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException("Invalid ATP ID " + id, e);
 			} catch (InvalidParameterException e) {
@@ -706,7 +704,7 @@ public class CourseSearchController extends UifControllerBase {
 		List<String> reqs = new ArrayList<String>();
 		SearchResult result;
 		try {
-			result = getCluService().search(request, context);
+			result = KsapFrameworkServiceLocator.getCluService().search(request, context);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException(
 					"Invalid course ID or CLU lookup error", e);
@@ -795,7 +793,7 @@ public class CourseSearchController extends UifControllerBase {
 		request.addParam("courseID", courseId);
 		SearchResult result;
 		try {
-			result = getCluService().search(request, context);
+			result = KsapFrameworkServiceLocator.getCluService().search(request, context);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException(
 					"Invalid course ID or CLU lookup error", e);
@@ -904,7 +902,7 @@ public class CourseSearchController extends UifControllerBase {
 			SearchRequestInfo request = new SearchRequestInfo(
 					"myplan.distinct.clu.divisions");
 
-			SearchResult result = getCluService().search(request, context);
+			SearchResult result = KsapFrameworkServiceLocator.getCluService().search(request, context);
 
 			for (SearchResultRow row : result.getRows()) {
 				for (SearchResultCell cell : row.getCells()) {
@@ -974,63 +972,6 @@ public class CourseSearchController extends UifControllerBase {
 			genEdsOut.append(req);
 		}
 		return genEdsOut.toString();
-	}
-
-	protected CluService getCluService() {
-		if (this.cluService == null) {
-			this.cluService = (CluService) GlobalResourceLoader
-					.getService(new QName(CluServiceConstants.CLU_NAMESPACE,
-							"LuService"));
-		}
-		return this.cluService;
-	}
-
-	protected AtpService getAtpService() {
-		if (this.atpService == null) {
-			// TODO: Namespace should not be hard-coded.
-			this.atpService = (AtpService) GlobalResourceLoader
-					.getService(new QName("http://student.kuali.org/wsdl/atp",
-							"AtpService"));
-		}
-		return this.atpService;
-	}
-
-	protected CourseOfferingService getCourseOfferingService() {
-		if (this.courseOfferingService == null) {
-			this.courseOfferingService = (CourseOfferingService) GlobalResourceLoader
-					.getService(new QName(
-							CourseOfferingServiceConstants.NAMESPACE,
-							CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-		}
-		return this.courseOfferingService;
-	}
-
-	protected AcademicCalendarService getAcademicCalendarService() {
-		if (this.academicCalendarService == null) {
-			this.academicCalendarService = (AcademicCalendarService) GlobalResourceLoader
-					.getService(new QName(
-							AcademicCalendarServiceConstants.NAMESPACE,
-							AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
-		}
-		return this.academicCalendarService;
-	}
-
-	public void setCluService(CluService luService) {
-		this.cluService = luService;
-	}
-
-	public void setAtpService(AtpService atpService) {
-		this.atpService = atpService;
-	}
-
-	public void setCourseOfferingService(
-			CourseOfferingService courseOfferingService) {
-		this.courseOfferingService = courseOfferingService;
-	}
-
-	public void setAcademicCalendarService(
-			AcademicCalendarService academicCalendarService) {
-		this.academicCalendarService = academicCalendarService;
 	}
 
 	public Comparator<String> getAtpTypeComparator() {

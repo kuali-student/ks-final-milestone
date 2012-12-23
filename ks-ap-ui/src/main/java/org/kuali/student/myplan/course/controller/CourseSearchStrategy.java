@@ -81,7 +81,8 @@ public class CourseSearchStrategy {
 		assert campusLocations != null : "Failed to build campus location cache";
 
 		List<String> sel = form.getCampusSelect();
-		assert sel != null : "Null campus select list";
+		if (sel == null)
+			sel = new java.util.ArrayList<String>(1);
 		Iterator<String> seli = sel.iterator();
 		while (seli.hasNext())
 			if (!campusLocations.contains(seli.next()))

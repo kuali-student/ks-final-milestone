@@ -17,11 +17,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<import resource="classpath:ks-data-dictionary-services-configuration.xml" />
-	<import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
-
-    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
-
     <bean id="academicPlanServicePersistence" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceImpl">
         <property name="learningPlanDao" ref="learningPlanDao"/>
         <property name="learningPlanTypeDao" ref="learningPlanTypeDao"/>
@@ -124,10 +119,6 @@
 			</bean>
 		</property>
 	</bean>
-
-    <bean id="coursePreReqSearch" class="org.kuali.student.myplan.course.service.CoursePreReqSearch">
-        <property name="cluService" ref="ksLumCluService"/>
-    </bean>
 
 	<!-- Exception mapping. This is needed because many operations are proxied 
 		and do not throw exceptions until a later time -->

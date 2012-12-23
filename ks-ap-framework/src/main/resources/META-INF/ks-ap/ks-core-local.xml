@@ -35,6 +35,10 @@
         <property name="properties" value="#{coreConfig.getProperties()}" />
     </bean>
 
+	<import resource="classpath:ks-data-dictionary-services-configuration.xml" />
+	<import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
+	
 	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
 
     <import resource="classpath:ksb/ks-core-no-tx-context.xml"/>

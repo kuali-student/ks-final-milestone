@@ -99,10 +99,13 @@
                             <property name="onDocumentReadyScript" value="if (jQuery('#text_searchQuery_control').val() != '') jQuery('button.course-search-submit').click();"/>
                             <property name="onLoadScript" value="jQuery(this).blur();"/>
                             <property name="onKeyUpScript" value="
+	                            var sb = jQuery('button.course-search-submit');
                                 if (jQuery(this).val().length > 0) {
-                                    jQuery('button.course-search-submit').attr('disabled', false);
+                                    sb.attr('disabled', false);
+                                    sb.removeClass('disabled');
                                 } else {
-                                    jQuery('button.course-search-submit').attr('disabled', true);
+                                    sb.attr('disabled', true);
+                                    sb.addClass('disabled');
                                 }"/>
                             <property name="onKeyPressScript" value="
                                 var code = (e.keyCode ? e.keyCode : e.which);

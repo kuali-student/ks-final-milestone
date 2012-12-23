@@ -25,6 +25,8 @@
         <property name="configLocations">
             <list>
                 <value>classpath:META-INF/ks-lum-config.xml</value>
+                <value>classpath:META-INF/ks-ap/ksap-lum-config.xml</value>
+                <value>classpath:META-INF/ks-ap/ks-lum-config-override.xml</value>
             </list>
         </property>
     </bean>

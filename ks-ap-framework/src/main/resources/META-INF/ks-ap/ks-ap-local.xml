@@ -17,6 +17,7 @@
         <property name="configLocations">
             <list>
                 <value>classpath:META-INF/ks-ap-config.xml</value>
+                <value>classpath:META-INF/ks-ap/ks-ap-config-override.xml</value>
             </list>
         </property>
     </bean>
@@ -32,6 +33,11 @@
     <!-- NOTE: local run mode requires ks-ap-impl -->
     <import resource="classpath:ks-transaction-context.xml" />
     <import resource="classpath:META-INF/ks-ap/ks-ap-no-tx-context.xml" />
+
+    <bean id="validator"
+          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="validator"/>
+    </bean>
 
 	<bean id="apDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">
 		<property name="preferredDataSourceParams">

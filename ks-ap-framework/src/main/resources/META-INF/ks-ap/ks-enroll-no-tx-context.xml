@@ -28,8 +28,6 @@
     	/mwfyffe 2012-12-17
      -->
 
-  <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
-  <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
   <import resource="classpath:enrollDao.xml" />
   <import resource="classpath:ks-enroll-mock-room-data-context.xml"/>
 

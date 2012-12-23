@@ -53,7 +53,8 @@ public class AtpHelper {
         List<TermInfo> inProgressTerms = new ArrayList<TermInfo>();
         
         try {
-            inProgressTerms = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.INPROGRESS)), CourseSearchConstants.CONTEXT_INFO);
+//            inProgressTerms = getAcademicCalendarService().searchForTerms(QueryByCriteria.Builder.fromPredicates(equalIgnoreCase("query", PlanConstants.INPROGRESS)), CourseSearchConstants.CONTEXT_INFO);
+            inProgressTerms=populateAtpIdFromCalender();
         } catch (Exception e) {
             logger.error("Query to Academic Calendar Service failed.", e);
             /*If SWS Fails to load up scheduled Terms then current atp Id in TermInfo is populated from the calender month and year and set to the scheduledTerms list*/
@@ -81,10 +82,12 @@ public class AtpHelper {
         // other than at UW.  KS will need to implement these concepts before a general solution can be
         // achieved. /mwfyffe
         try {
-			scheduledTerms = getAcademicCalendarService().searchForTerms(
-					QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
-							"query", PlanConstants.PUBLISHED)),
-					CourseSearchConstants.CONTEXT_INFO);
+        	// TODO: Broken, and spring-tx triggers rollback on the error. This logic needs to be corrected.
+//			scheduledTerms = getAcademicCalendarService().searchForTerms(
+//					QueryByCriteria.Builder.fromPredicates(equalIgnoreCase(
+//							"query", PlanConstants.PUBLISHED)),
+//					CourseSearchConstants.CONTEXT_INFO);
+            scheduledTerms=populateAtpIdFromCalender();
         } catch (Exception e) {
         	// TODO: This should be a runtime error, and the "populateAtpIdFromCalendar" logic discarded
         	// once a general data-based solution for this logic is available /mwfyffe
