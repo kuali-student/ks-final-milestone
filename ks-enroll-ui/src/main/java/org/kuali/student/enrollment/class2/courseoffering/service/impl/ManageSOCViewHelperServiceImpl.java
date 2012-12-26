@@ -330,8 +330,8 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         }
 
         ContextInfo contextInfo = createContextInfo();
-        CourseOfferingSetPublishingHelper mpeHelper = (CourseOfferingSetPublishingHelper)getHelper("publishHelper");
-
+//        CourseOfferingSetPublishingHelper mpeHelper = (CourseOfferingSetPublishingHelper)getHelper("org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper");
+        CourseOfferingSetPublishingHelper mpeHelper =  new CourseOfferingSetPublishingHelper();
         try {
             //  First state change the SOC to state "publishing"
             getCourseOfferingSetService().updateSocState(socForm.getSocInfo().getId(), CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, contextInfo);
