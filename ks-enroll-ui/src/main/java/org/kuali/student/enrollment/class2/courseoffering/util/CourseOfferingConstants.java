@@ -73,4 +73,9 @@ public class CourseOfferingConstants {
     public static final String DELIVERY_FORMAT_SECTION_ID = "KS-Catalog-FormatOfferingSubSection";
     public static final String DELIVERY_FORMAT_REQUIRED_ERROR = "error.courseoffering.create.deliveryformat.required";
 
+    public static final String COURSEOFFERING_ERROR_MSG_COPY_FAIL = "error.enroll.courseoffering.copy.failed";
+    /**
+     * Course Offering Informational Constants
+     */
+    public static final String COURSEOFFERING_INFO_COPIED_SUCCESSFULLY = "info.enroll.courseoffering.copied.successful";
 }

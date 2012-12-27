@@ -15,6 +15,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -247,7 +248,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 contextInfo);
 
         getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
-
+        GlobalVariables.getMessageMap().addGrowlMessage("", CourseOfferingConstants.COURSEOFFERING_INFO_COPIED_SUCCESSFULLY);
         return getUIFModelAndView(form);
 
     }
