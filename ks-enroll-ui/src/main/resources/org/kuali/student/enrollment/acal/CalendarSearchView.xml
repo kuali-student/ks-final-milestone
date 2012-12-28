@@ -97,7 +97,10 @@
                                         <bean parent="Uif-InputField-LabelTop" p:label="Year" p:fieldLabel.renderColon="false"
                                             p:propertyName="year" >
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:watermarkText="Year" p:size="4"/>
+                                                <bean parent="Uif-TextControl" p:watermarkText="Year" p:size="4" p:maxLength="4"/>
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="YearPatternConstraint" />
                                             </property>
                                         </bean>
 
