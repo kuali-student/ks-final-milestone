@@ -61,21 +61,23 @@ public class TestStateServiceImpl {
     @Test
     public void testGetStatePropagationIdsByType() throws Exception {
 
-        // create the life-cycle
-        LifecycleInfo life = new LifecycleInfo();
+        // populate some decoy data to make sure we are only getting what we're looking for
+        createStatePropagationEntity( "id_DECOY", "state_DECOY", "test.type.key.DECOY.test", "targetID_DECOY", callContext );
+        assertEquals( 1, stateService.getStatePropagationIdsByType( "test.type.key.DECOY.test", callContext ).size() );
 
-        // create a number of state-propagation entities
+        // populate some target data
         int numberOfEntitiesToCreateWithSameType = 3;
         String statePropagationTypeKey = "test.type.key.test";
         createStatePropagationEntitiesHavingSameType( numberOfEntitiesToCreateWithSameType, statePropagationTypeKey, callContext );
 
         // validate
-        List<String> result = stateService.getStatePropagationIdsByType( statePropagationTypeKey, callContext );
-        assertEquals(numberOfEntitiesToCreateWithSameType, result.size());
+        List<String> results = stateService.getStatePropagationIdsByType( statePropagationTypeKey, callContext );
+        assertEquals( numberOfEntitiesToCreateWithSameType, results.size() );
+
     }
 
     private List<StatePropagationInfo> createStatePropagationEntitiesHavingSameType( int numberEntitiesToCreate, String type, ContextInfo contextInfo )
-        throws Exception {
+            throws Exception {
         List<StatePropagationInfo> result = new ArrayList<StatePropagationInfo>();
 
         String id, state, targetId;
@@ -90,7 +92,7 @@ public class TestStateServiceImpl {
     }
 
     private StatePropagationInfo createStatePropagationEntity( String id, String state, String type, String targetId, ContextInfo contextInfo )
-        throws Exception {
+            throws Exception {
         StatePropagationInfo info = new StatePropagationInfo();
         info.setId(id);
         info.setStateKey(state);
@@ -192,7 +194,7 @@ public class TestStateServiceImpl {
         Date effDate = new Date();
         orig.setEffectiveDate(effDate);
         Calendar cal = Calendar.getInstance();
-        cal.set(2022, 8, 23);
+        cal.set(2022, Calendar.SEPTEMBER, 23);
         orig.setExpirationDate(cal.getTime());
         attr = new AttributeInfo();
         attr.setKey("attribute.key");
@@ -262,7 +264,7 @@ public class TestStateServiceImpl {
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<StateInfo> allStates = stateService.searchForStates(qBuilder.build(), callContext);
         assertEquals (1, allStates.size());
-        
+
         qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
         pList.add(PredicateFactory.equal("keywordSearch", "xyzzy"));
@@ -271,30 +273,30 @@ public class TestStateServiceImpl {
         qBuilder.setPredicates(PredicateFactory.and(preds));
         List<StateInfo> nostates = stateService.searchForStates(qBuilder.build(), callContext);
         assertEquals (0, nostates.size());
-        
+
         qBuilder = QueryByCriteria.Builder.create();
         List<LifecycleInfo> allLifecycles = stateService.searchForLifecycles(qBuilder.build(), callContext);
         assertEquals (1, allLifecycles.size());
-        LifecycleInfo lf = (LifecycleInfo) allLifecycles.get(0);
+        LifecycleInfo lf = allLifecycles.get(0);
         assertEquals (lf.getName(), infoLife.getName());
-        
-        
+
+
         pList = new ArrayList<Predicate>();
         pList.add (PredicateFactory.equal("keywordSearch", "testing"));
         preds = pList.toArray(new Predicate[pList.size()]);
-        qBuilder.setPredicates(preds);        
+        qBuilder.setPredicates(preds);
         List<LifecycleInfo> matchingLifecycles = stateService.searchForLifecycles(qBuilder.build(), callContext);
         assertEquals (1, matchingLifecycles.size());
-        lf = (LifecycleInfo) matchingLifecycles.get(0);
+        lf = matchingLifecycles.get(0);
         assertEquals (lf.getName(), infoLife.getName());
-        
+
         StateInfo atpDraftState = info;
 
         // delete state
         StatusInfo result = stateService.deleteState(atpDraftState.getKey(), callContext);
         assertEquals(true, result.getIsSuccess());
         try {
-            info = stateService.getState(atpDraftState.getKey(), callContext);
+            stateService.getState(atpDraftState.getKey(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
             // expected
@@ -303,7 +305,7 @@ public class TestStateServiceImpl {
         result = stateService.deleteLifecycle(atpLife.getKey(), callContext);
         assertEquals(true, result.getIsSuccess());
         try {
-            infoLife = stateService.getLifecycle(atpLife.getKey(), callContext);
+            stateService.getLifecycle(atpLife.getKey(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
             // expected
