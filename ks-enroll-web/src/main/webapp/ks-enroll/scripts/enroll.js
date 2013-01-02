@@ -402,6 +402,42 @@ function addActionColumn(isReadOnly, componentId) {
     }
 }
 
+
+/**
+ * Fix for KSENROLL-4394 as suggested by Brian. We need to remove this method once we get the same in next rice upgrade 2.2.1-M1
+ *
+ * In KRAD it's not checking that sectionData != null so that check is added below.  Overwriting method in krad.validate.js
+ */
+function displayHeaderMessageCount(sectionId, sectionData) {
+    var sectionHeader = jQuery("[data-headerFor='" + sectionId + "']").find("> :header, > label");
+
+    if(errorImage == undefined){
+        setupImages();
+    }
+
+    if (sectionHeader.length && sectionData && sectionData.messageTotal) {
+
+        var countMessage = generateCountString(sectionData.errorTotal, sectionData.warningTotal, sectionData.infoTotal);
+        var image = "";
+        if (sectionData.errorTotal) {
+            image = errorImage;
+        }
+        else if (sectionData.warningTotal) {
+            image = warningImage;
+        }
+        else if (sectionData.infoTotal) {
+            image = infoImage;
+        }
+
+        jQuery(sectionHeader).find("div." + kradVariables.MESSAGE_COUNT_CLASS).remove();
+
+        if (countMessage != "") {
+            jQuery("<div class='" + kradVariables.MESSAGE_COUNT_CLASS + "'>[" + image + " " + countMessage + "]</div>").appendTo(sectionHeader);
+        }
+    }
+}
+
+
 /*
  function updateCollectionAndRelatedItem(jqObject, collectionGroupId, updateAfterId){
  if(jqObject && collectionGroupId){
