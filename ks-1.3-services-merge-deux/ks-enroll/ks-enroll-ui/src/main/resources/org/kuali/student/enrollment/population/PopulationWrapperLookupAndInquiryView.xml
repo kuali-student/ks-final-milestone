@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="PopulationInfo" parent="PopulationInfo-parent">
+        <property name="titleAttribute" value="id"/>
+    </bean>
+
+    <bean id="PopulationWrapper" parent="PopulationWrapper-parentBean"/>
+    <bean id="PopulationWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="PopulationWrapper.id"/>
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="PopulationWrapper.populationInfo"/>
+                <ref bean="PopulationWrapper.populationRuleInfo"/>
+            </list>
+        </property>
+        <property name="objectLabel" value="Population"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Attribute Definitions -->
+    <bean id="PopulationWrapper.id" parent="PopulationInfo.id" p:name="id" p:label="ID"/>
+
+    <bean id="PopulationWrapper.populationInfo" parent="ComplexAttributeDefinition">
+        <property name="name" value="populationInfo"/>
+        <property name="dataObjectEntry" ref="PopulationInfo"/>
+    </bean>
+
+    <bean id="PopulationWrapper.populationRuleInfo" parent="ComplexAttributeDefinition">
+        <property name="name" value="populationRuleInfo"/>
+        <property name="dataObjectEntry" ref="PopulationRuleInfo"/>
+    </bean>
+
+
+    <!-- LookupView -->
+    <bean id="KS-Population-LookupView" parent="KSLookupView">
+        <property name="headerText" value="Manage Populations" />
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
+        <property name="maintenanceUrlMapping" value="population"/>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" />
+                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationRuleInfo.typeKey"
+                      p:label="Type" p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
+                    </property>
+                </bean>-->
+
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="populationInfo.stateKey"
+                      p:label="State" p:labelPlacement="TOP" p:required="true" p:defaultValue="kuali.population.population.state.active">
+                    <property name="control">
+                        <bean parent="Uif-HorizontalRadioControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationStateKeyValues" p:addBlankOption="false" />
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="populationInfo.name">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" p:inquiryParameters="id" />
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="populationInfo.descr.plain" p:label="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="populationRuleTypeKeyName"  p:label="Type"/>
+                <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
+            </list>
+        </property>
+        <!-- use KS-LookupView-ResultActions to display edit link only -->
+        <property name="resultsActionsFieldGroup">
+            <bean parent="Uif-FieldGroupBase">
+                <property name="label" value="Actions"/>
+                <property name="group">
+                    <bean parent="KS-LookupView-ResultActions"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- InquiryView -->
+    <bean id="KS-Population-InquiryView" parent="KSInquiryView">
+        <property name="headerText" value="View Population"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperInquirableImpl"/>
+        <property name="Items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <!--<property name="layoutManager.numberOfColumns" value="2"/>-->
+                    <!--<property name="headerText" value="CourseOfferingInfo Inquiry"/>-->
+                    <property name="items">
+                        <list>
+                            <!--<bean parent="Uif-InputField" p:propertyName="populationInfo.id"/>-->
+                            <bean parent="Uif-InputField" p:propertyName="populationInfo.name" p:labelPlacement="TOP"/>
+                            <bean parent="Uif-InputField" p:propertyName="populationInfo.descr.plain" p:label="Description" p:labelPlacement="TOP"/>
+                            <bean parent="Uif-InputField" p:propertyName="populationInfo.stateKey"
+                                  p:label="State" p:labelPlacement="TOP">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationStateKeyValues" />
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.typeKey"
+                                  p:label="Operation" p:labelPlacement="TOP">
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.name" p:label="Rule" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" />
+                            <bean parent="Uif-InputField" p:propertyName="referencePopulation.name" p:label="Reference Population" p:labelPlacement="TOP" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.exclusion'}" />
+
+                            <bean  parent="Uif-TableCollectionSection" p:layoutManager.style="width: 100%; display:block;" p:render="@{!#dp.childPopulations.empty}">
+                                <property name="headerText" value="Population(s)" />
+                                <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
+                                <property name="propertyName" value="childPopulations" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.separateAddLine" value="false" />
+                                <property name="layoutManager.richTable.render" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="false" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="Items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:label="Name" p:propertyName="name" />
+                                    </list>
+                                </property>
+                            </bean>
+                            <!--<bean parent="Uif-MessageField" p:label="Additional Population(s)" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="No Child Population(s)" p:render="@{#dp.childPopulations.empty}"/>-->
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/security 
+           http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+
+	<import resource="ksss-auth-common.xml"/>
+	
+	<security:http auto-config="false"> 
+    	<security:intercept-url pattern="/logout.html*" filters="none"/>
+    	<security:intercept-url pattern="/services/**" filters="none"/>
+    	<security:intercept-url pattern="/favicon.ico" filters="none"/>
+    	<security:intercept-url pattern="/admin/**" access="ROLE_KS_ADMIN"/>
+    	<!-- used for backdoor login 		-->
+    	<security:intercept-url pattern="/j_spring_security_switch_user*" access="ROLE_KS_BACKDOOR"/>
+        <security:intercept-url pattern="/org.kuali.student.lum.lu.ui.main.LUMMain/**" access="ROLE_KS_USER,ROLE_KS_ADMIN"/>               
+        <security:intercept-url pattern="/login.jsp*" filters="none"/>        
+		<security:form-login login-page="/login.jsp" />		    			    
+    </security:http>
+    
+    <bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter">
+    	<security:custom-filter position="LOGOUT_FILTER"/>
+  	</bean>
+  	
+  	<!--List of Custom Providers that can be registered with the default authentication manager -->
+  	
+  	<bean id="daoAuthenticationProvider" 
+      	class="org.kuali.student.security.kim.KimAuthenticationProvider">
+      	<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
+    	<security:custom-authentication-provider />
+   	</bean>
+   	
+   	<bean id="daoAuthenticationProvider2" 
+      	class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+      	<property name="userDetailsService" ref="ksUserDetailsService"/>
+    	<security:custom-authentication-provider />
+   	</bean>
+   	
+   	<bean id="exceptionTranslationFilter"
+     class="org.springframework.security.ui.ExceptionTranslationFilter">
+	  <property name="authenticationEntryPoint" ref="authenticationEntryPoint"/>
+	  <property name="accessDeniedHandler" ref="accessDeniedHandler"/>
+	</bean>
+
+	<bean id="authenticationEntryPoint"
+	     class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+	  <property name="loginFormUrl" value="/login.jsp"/>
+	</bean>
+	
+	<bean id="accessDeniedHandler"
+	     class="org.springframework.security.ui.AccessDeniedHandlerImpl">
+	  <property name="errorPage" value="/login.jsp"/>
+	</bean>
+   	
+ <bean id="switchUserProcessingFilter" class="org.springframework.security.ui.switchuser.SwitchUserProcessingFilter">
+  <security:custom-filter after="FILTER_SECURITY_INTERCEPTOR" />
+     <property name="userDetailsService" ref="ksRiceUserDetailsService" />
+     <property name="switchUserUrl" value="/j_spring_security_switch_user" />
+     <property name="exitUserUrl" value="/j_spring_security_exit_user" />
+     <property name="targetUrl" value="${application.url}/" />
+  </bean>
+    
+</beans>
