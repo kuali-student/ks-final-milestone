@@ -21,6 +21,8 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.uif.util.GrowlIcon;
+import org.kuali.student.enrollment.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -248,7 +250,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 contextInfo);
 
         getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
-        GlobalVariables.getMessageMap().addGrowlMessage("", CourseOfferingConstants.COURSEOFFERING_INFO_COPIED_SUCCESSFULLY, createWrapper.getCatalogCourseCode(), createWrapper.getTargetTermCode());
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.COURSEOFFERING_INFO_COPIED_SUCCESSFULLY, createWrapper.getCatalogCourseCode(), createWrapper.getTargetTermCode());
         return getUIFModelAndView(form);
 
     }
