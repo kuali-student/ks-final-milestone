@@ -365,6 +365,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                         //Default the value
                         creditOption.setTypeKey(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED);
                         creditOption.setFixedCredit(creditOption.getCourseFixedCredits());
+                        creditOption.getAllowedCredits().add(creditOption.getCourseFixedCredits());
                     } else {
                         //This is either range or multiple
 

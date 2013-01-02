@@ -323,7 +323,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.MultipleCreditOptionsKeyValues" p:addBlankOption="true" />
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.MultipleCreditOptionsKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
                 <!-- Fixed Type for variable -->
