@@ -248,7 +248,7 @@ public class CourseOfferingController extends MaintenanceDocumentController {
                 contextInfo);
 
         getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
-        GlobalVariables.getMessageMap().addGrowlMessage("", CourseOfferingConstants.COURSEOFFERING_INFO_COPIED_SUCCESSFULLY);
+        GlobalVariables.getMessageMap().addGrowlMessage("", CourseOfferingConstants.COURSEOFFERING_INFO_COPIED_SUCCESSFULLY, createWrapper.getCatalogCourseCode(), createWrapper.getTargetTermCode());
         return getUIFModelAndView(form);
 
     }
