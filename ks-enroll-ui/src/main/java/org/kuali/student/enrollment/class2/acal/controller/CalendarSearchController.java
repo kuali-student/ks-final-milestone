@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.acal.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -24,18 +25,19 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
+import org.kuali.student.enrollment.class2.acal.keyvalue.AtpStateKeyValues;
+import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
-import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.mock.utilities.TestHelper;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -110,7 +112,7 @@ public class CalendarSearchController  extends UifControllerBase {
         } else {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
         }
-
+       populateStateName(searchForm);
        return getUIFModelAndView(searchForm, null);
     }
 
@@ -297,5 +299,47 @@ public class CalendarSearchController  extends UifControllerBase {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return acalService;
+    }
+
+    private void populateStateName(CalendarSearchForm searchForm){
+        AtpStateKeyValues atpStateKeyValues = new AtpStateKeyValues();
+        List <KeyValue> keyValues = atpStateKeyValues.getKeyValues(searchForm);
+        String atpType = searchForm.getCalendarType();
+
+        try {
+            if(atpType.equals(CalendarConstants.HOLIDAYCALENDER)){
+                List<HolidayCalendarInfo> holidayCalendars = searchForm.getHolidayCalendars();
+                for(HolidayCalendarInfo holidayCalendar : holidayCalendars){
+                    for(KeyValue keyValue : keyValues){
+                        if(holidayCalendar.getStateKey().equals(keyValue.getKey())){
+                            holidayCalendar.setStateName(keyValue.getValue());
+                            break;
+                        }
+                    }
+                }
+            }else if(atpType.equals(CalendarConstants.ACADEMICCALENDER)) {
+                List<AcademicCalendarInfo> academicCalendars = searchForm.getAcademicCalendars();
+                for(AcademicCalendarInfo academicCalendar : academicCalendars){
+                    for(KeyValue keyValue : keyValues){
+                        if(academicCalendar.getStateKey().equals(keyValue.getKey())){
+                            academicCalendar.setStateName(keyValue.getValue());
+                            break;
+                        }
+                    }
+                }
+            }else if(atpType.equals(CalendarConstants.TERM)){
+                List<TermInfo> terms = searchForm.getTerms();
+                for(TermInfo term : terms){
+                    for(KeyValue keyValue : keyValues){
+                        if(term.getStateKey().equals(keyValue.getKey())){
+                            term.setStateName(keyValue.getValue());
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
