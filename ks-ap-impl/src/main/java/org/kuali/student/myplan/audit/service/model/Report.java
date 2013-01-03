@@ -1,7 +1,5 @@
 package org.kuali.student.myplan.audit.service.model;
 
-import org.apache.regexp.RE;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +19,7 @@ public class Report {
 
     private boolean complete = false;
 
-    public void setGraduationDate( String graduationDate ) {
+    public void setGraduationDate(String graduationDate) {
         this.graduationDate = graduationDate;
     }
 
@@ -30,7 +28,9 @@ public class Report {
     }
 
 
-    public String getDegreeProgram() { return degreeProgram; }
+    public String getDegreeProgram() {
+        return degreeProgram;
+    }
 
     public void setDegreeProgram(String degreeProgram) {
         this.degreeProgram = degreeProgram;
@@ -40,12 +40,11 @@ public class Report {
         return datePrepared;
     }
 
-    public void setDatePrepared( String datePrepared ) {
+    public void setDatePrepared(String datePrepared) {
         this.datePrepared = datePrepared;
     }
 
-    public void setEntryDateProgram( String entryDateProgram )
-    {
+    public void setEntryDateProgram(String entryDateProgram) {
         this.entryDateProgram = entryDateProgram;
     }
 
@@ -64,32 +63,31 @@ public class Report {
     }
 
 
-    public Requirement newRequirement()
-    {
+    public Requirement newRequirement() {
         Requirement requirement = new Requirement();
         Section section = null;
-        if( sectionList.isEmpty() )
-        {
+        if (sectionList.isEmpty()) {
             section = newSection();
-            section.setCaption( "(Oops)" );
+            section.setCaption("(Oops)");
         }
 
-        section = sectionList.get( sectionList.size() - 1 );
-        section.addRequirement( requirement );
+        section = sectionList.get(sectionList.size() - 1);
+        section.addRequirement(requirement);
         return requirement;
     }
 
 
+    public String getWebTitle() {
+        return webTitle;
+    }
 
-
-    public String getWebTitle() { return webTitle; }
     public void setWebTitle(String webTitle) {
         this.webTitle = webTitle;
     }
 
 
-    public void addAdvisory( String advisory ) {
-        advisoryList.add( advisory );
+    public void addAdvisory(String advisory) {
+        advisoryList.add(advisory);
     }
 
     public List<String> getAdvisoryList() {
@@ -97,7 +95,7 @@ public class Report {
     }
 
 
-    public void setComplete( boolean complete ) {
+    public void setComplete(boolean complete) {
         this.complete = complete;
     }
 

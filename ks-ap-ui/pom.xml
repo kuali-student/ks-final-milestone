@@ -40,6 +40,12 @@
         <dependency>
             <groupId>org.kuali.student.ap</groupId>
             <artifactId>ks-ap-framework</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.kuali.student.api</groupId>
+                    <artifactId>ks-ap-api</artifactId>
+                </exclusion>
+            </exclusions>
             <version>${ks.ap.version}</version>
         </dependency>
         <dependency>
@@ -137,7 +143,16 @@
             <groupId>org.kuali.student.ap</groupId>
             <artifactId>ks-ap-impl</artifactId>
             <version>${ks.ap.version}</version>
-						<scope>test</scope>
+                    <exclusions>
+                        <exclusion>
+                            <groupId>org.kuali.student.api</groupId>
+                            <artifactId>ks-ap-api</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>org.kuali.student.api</groupId>
+                            <artifactId>ks-ap-framework</artifactId>
+                        </exclusion>
+                    </exclusions>
         </dependency>
     </dependencies>
 

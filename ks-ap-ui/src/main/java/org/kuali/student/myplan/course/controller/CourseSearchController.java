@@ -104,8 +104,8 @@ public class CourseSearchController extends UifControllerBase {
 
 	private transient AcademicCalendarService academicCalendarService;
 
-	@Autowired
-	private Comparator<String> atpTypeComparator;
+	//@Autowired
+	//private Comparator<String> atpTypeComparator;
 
 	@Autowired
 	private CourseSearchStrategy searcher = new CourseSearchStrategy();
@@ -180,6 +180,7 @@ public class CourseSearchController extends UifControllerBase {
 		}
 		for (SearchResultRow row : searchResult.getRows()) {
 			courseId = getCellValue(row, "lu.resultColumn.cluId");
+
 		}
 		if (courseId.equalsIgnoreCase("")) {
 			response.sendRedirect("/student/myplan/course?searchQuery="
@@ -279,6 +280,7 @@ public class CourseSearchController extends UifControllerBase {
 		HashMap<String, Credit> creditMap = new HashMap<String, Credit>();
 
 		try {
+
 			SearchRequestInfo searchRequest = new SearchRequestInfo(
 					"myplan.course.info.credits.details");
 			List<SearchParamInfo> params = new ArrayList<SearchParamInfo>();
@@ -687,7 +689,7 @@ public class CourseSearchController extends UifControllerBase {
 			}
 		}
 
-		Collections.sort(termsOffered, getAtpTypeComparator());
+		//Collections.sort(termsOffered, getAtpTypeComparator());
 		course.setTermInfoList(termsOffered);
 		logger.info("End of method loadTermsOffered of CourseSearchController:"
 				+ System.currentTimeMillis());
@@ -975,11 +977,12 @@ public class CourseSearchController extends UifControllerBase {
 	}
 
 	public Comparator<String> getAtpTypeComparator() {
-		return atpTypeComparator;
+		//return atpTypeComparator;
+        return null;
 	}
 
 	public void setAtpTypeComparator(Comparator<String> atpTypeComparator) {
-		this.atpTypeComparator = atpTypeComparator;
+		//this.atpTypeComparator = atpTypeComparator;
 	}
 
 	public CourseSearchStrategy getSearcher() {
