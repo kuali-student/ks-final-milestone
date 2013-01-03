@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+     Copyright 2007-2012 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <!-- Appointment Window Edit Page -->
+    <bean id="KS-RegistrationWindowsManagement-EditPage" parent="Uif-Page" p:disclosure.render="false" p:id="registrationWindowsEditPage"
+          p:headerText="@{termInfo.name != null? termInfo.name : 'No Term'}">
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-TabSection" >
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-RegistrationWindows-EditSection"/>
+                            <!--<ref bean="KS-RegistrationAppointments-EditSection"/>-->
+                        </list>
+                    </property>
+                    <!--<property name="tabsWidget.templateOptionsJSString">-->
+                    <!--<value> { selected: @{defaultSelectedTabIndex} } </value>-->
+                    <!--</property>-->
+                </bean>
+            </list>
+        </property>
+
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:performClientSideValidation="true" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Appointment Window Edit Section -->
+    <bean id="KS-RegistrationWindows-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:style="min-width:70em;"
+            p:headerText="Registration Windows">
+        <property name="items">
+            <list>
+                <ref bean="KS-RegistrationWindows-PeriodSection"/>
+                <ref bean="KS-RegistrationWindows-AddWindowsSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Appointment Window Period Selection Section. Used to select a period for a term. Windows are then attached to the period. -->
+    <bean id="KS-RegistrationWindows-PeriodSection" parent="Uif-VerticalBoxSection" p:headerText="" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:label="Period"
+                                  p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                                  p:propertyName="periodId" p:fieldLabel.style="display:block;">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodKeyDatesFinder"/>
+                                </property>
+                            </bean>
+                            <!-- This action will (1) set the period you are working with, and (2) load the persisted windows attached to the period-->
+                            <bean parent="Uif-PrimaryActionButton" p:methodToCall="show" p:actionLabel="Show" p:performClientSideValidation="true" />
+                        </list>
+                   </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="@{periodInfoDetails}" p:cssClasses="font-light12"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- This is a collection of AppointmentWindows -->
+    <bean id="KS-RegistrationWindows-AddWindowsSection" parent="Uif-Disclosure-TableCollectionSection"
+          p:layoutManager.numberOfColumns="12" p:render="@{showAddWindows}"
+            p:headerText="Add Windows" p:collectionObjectClass="org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper"
+            p:propertyName="appointmentWindows" p:layoutManager.renderSequenceField="false"
+            p:layoutManager.generateAutoSequence="false"
+            p:layoutManager.separateAddLine="false"
+            p:layoutManager.richTable.disableTableSort="true"
+            p:addLineLabel.labelText=""
+            p:layoutManager.richTable.render="false"
+            p:layoutManager.applyAlternatingRowStyles="false">
+
+        <property name="cssClasses">
+            <list merge="true">
+                <!-- used for custom line separators -->
+                <value>ks-appointmentWindow-table</value>
+            </list>
+        </property>
+        <!--<property name="layoutManager.sequencePropertyName" value="name" />-->
+        <!--<property name="collectionLookup.quickfinderAction.render" value="false" />-->
+        <property name="collectionLookup" >
+            <null/>
+        </property>
+
+        <property name="items">
+            <list>
+                <!-- period, name, student group, start date, start time, am/pm -->
+                <bean parent="Uif-InputField" p:label="Period" p:propertyName="periodKey" p:required="true" p:style="font-weight:bold;" p:render="@{periodId =='all' and #isAddLine }">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.PeriodForAppWindowKeyDatesFinder"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:label="Period" p:propertyName="periodName" p:required="true" p:readOnly="true"
+                      p:style="font-weight:bold;" p:render="@{periodId != 'all' or !#isAddLine}" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="appointmentWindowInfo.name" p:required="true" p:style="font-weight:bold;"
+                      p:render="@{#isAddLine or (!#isAddLine and #line.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"
+                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField"  p:label="Window"  p:propertyName="windowName" p:required="true" p:style="font-weight:bold;"
+                      p:render="@{!#isAddLine and #line.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"
+                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField"  p:label="Student Group"  p:propertyName="assignedPopulationName" p:required="true"
+                      p:style="font-weight:bold;white-space:nowrap;" p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="16" />
+                    </property>
+                    <!--<property name="quickfinder.render" value="true"/>-->
+                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
+                    <property name="quickfinder.fieldConversions">
+                        <map>
+                            <entry key="populationInfo.name" value="assignedPopulationName" />
+                            <entry key="populationInfo.id" value="appointmentWindowInfo.assignedPopulationId" />
+                        </map>
+                    </property>
+                    <!--<property name="suggest.render" value="true" />-->
+                    <!--<property name="suggest.sourcePropertyName" value="name" />-->
+                    <!--<property name="suggest.suggestQuery.dataObjectClassName"-->
+                              <!--value="org.kuali.student.enrollment.class2.appointment.dto.StudentGroupWrapper" />-->
+
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:style="font-weight:normal;white-space:nowrap;" p:readOnlyDisplayReplacementPropertyName="startDateUI"
+                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" >
+                            <property name="allowedFormats">
+                                <list>
+                                    <!-- Override the allowed formats since JQuery datepicker does not allow hyphens -->
+                                    <value>MM/dd/yy</value>
+                                    <value>MM/dd/yyyy</value>
+                                </list>
+                            </property>
+                         </bean>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:label="Start Time" p:labelPlacement="LEFT"
+                      p:forceSessionPersistence="true" p:required="true" p:style="font-weight:normal;" p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:forceSessionPersistence="true" p:style="font-weight:normal;" p:required="true"
+                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:propertyName="endDate" p:label="Last Date"  p:style="font-weight:normal;white-space:nowrap;"
+                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" >
+                            <property name="allowedFormats">
+                                <list>
+                                    <!-- Override the allowed formats since JQuery datepicker does not allow hyphens -->
+                                    <value>MM/dd/yy</value>
+                                    <value>MM/dd/yyyy</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTime" p:label="Closing Time" p:labelPlacement="LEFT" p:style="font-weight:normal;"
+                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+                    </property>
+
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm"  p:style="font-weight:normal;"
+                      p:readOnly="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField" p:label="Slot Allocation Method" p:propertyName="windowTypeKey" p:required="true" p:style="font-weight:bold;"
+                      p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.RegWindowTypeKeyValues" />
+                    </property>
+                </bean>
+                <!--<bean parent="Uif-InputField"  p:label="Slot Allocation Method"  p:propertyName="windowTypeName" p:required="true" p:readOnly="true"-->
+                      <!--p:render="{!#isAddLine}" p:style="font-weight:bold;">-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-TextControl" p:size="30" />-->
+                    <!--</property>-->
+                <!--</bean>-->
+                <bean parent="Uif-InputField"  p:label="Max #"  p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
+                      p:refreshWhenChangedPropertyNames="#lp.windowTypeKey"  p:required="@{#lp.windowTypeKey =='kuali.appointment.window.type.slotted.max'}"
+                      p:readOnly = "@{#lp.windowTypeKey !='kuali.appointment.window.type.slotted.max' or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}"  p:style="font-weight:bold;">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5" />
+                    </property>
+                </bean>
+
+                <!-- bean entry for dropdown Appt rule type-->
+                <bean parent="Uif-InputField" p:label="Appt. Rule Type/Interval" p:propertyName="slotRuleEnumType" p:style="font-weight:bold;"  p:refreshWhenChangedPropertyNames="#lp.windowTypeKey"
+                      p:required="@{#lp.windowTypeKey !='kuali.appointment.window.type.one.slot' and #lp.windowTypeKey !='' }"
+                      p:readOnly="@{#lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned' or #lp.windowTypeKey =='kuali.appointment.window.type.one.slot'}" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.appointment.keyvalue.SlotRuleForAppWindowKeyValuesFinder" >
+                            <property name="enumerationKey" value="kuali.enum.type.slotrule"/>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="assignStudents" p:actionLabel="Assign Students" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.draft'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="breakAppointments" p:actionLabel="Break Appointments" p:render="@{!#isAddLine and #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}" p:disabled = "@{#lp.appointmentWindowInfo.id == null }" />
+                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="X" p:render="@{!#isAddLine}" />
+            </list>
+        </property>
+
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:style="white-space:nowrap;" p:align="center" p:required="false" p:label="Actions" p:shortLabel="Actions"/>
+        </property>
+    </bean>
+
+
+    <!--<bean id="KS-RegistrationAppointments-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:style="min-width:70em;" >-->
+        <!--<property name="headerText" value="Registration Appointments" />-->
+        <!--<property name="items">-->
+            <!--<list>-->
+                <!--<bean parent="Uif-Message" p:messageText="This is the Registration Appointments tab" p:cssClasses="font-light12"/>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+</beans>

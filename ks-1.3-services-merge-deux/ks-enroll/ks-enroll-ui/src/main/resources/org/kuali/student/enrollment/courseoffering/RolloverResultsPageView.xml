@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+        <!--
+         Copyright 2007-2012 The Kuali Foundation
+
+         Licensed under the Educational Community License, Version 2.0 (the "License");
+         you may not use this file except in compliance with the License.
+         You may obtain a copy of the License at
+
+         http://www.opensource.org/licenses/ecl2.php
+
+         Unless required by applicable law or agreed to in writing, software
+         distributed under the License is distributed on an "AS IS" BASIS,
+
+         WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+         See the License for the specific language governing permissions and
+         limitations under the License.
+        -->
+        <bean id="KS-RolloverResultsPage-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
+              p:id="selectTermForRolloverDetails"
+              p:headerText="Rollover Details">
+            <property name="header">
+                <bean parent="Uif-HeaderTwo"/>
+            </property>
+            <property name="items">
+                <list>
+                   <bean parent="Uif-VerticalBoxGroup">
+                        <property name="items">
+                            <list>
+                                 <bean parent="Uif-Message" p:messageText="Specify a term to review the details of the associated rollover."/>
+                                 <bean parent="Uif-HorizontalBoxGroup">
+                                      <property name="items">
+                                           <list>
+                                             <bean parent="Uif-InputField" p:propertyName="rolloverTargetTermCode" p:label="Term" p:required="true">
+                                                <property name="control">
+                                                   <bean parent="Uif-TextControl" p:size="5" p:watermarkText="20132" p:minLength="5" p:maxLength="5"/>
+                                                </property>
+
+                                             </bean>
+                                             <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Go" p:methodToCall="showRolloverResults" p:valign="bottom"/>
+                                             <bean parent="Uif-Message" p:messageText="Enter Valid Term" p:render="@{rolloverSourceTermDesc=='' and rolloverTargetTermCode!=''}" p:style="color:red;"/>
+                                           </list>
+                                      </property>
+                                 </bean>
+                                 <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:headerText="@{rolloverTargetTermDesc!=''?rolloverTargetTermDesc: 'Enter valid Term'} Rollover"
+                                       p:layoutManager.numberOfColumns="3" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:style="background-color:#C0C0C0;">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="Uif-DataField" p:label="Status"
+                                                              p:propertyName="statusField">
+                                                        </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <!-- Displays Release to Depts button and Re-do Rollover -->
+                                            <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="Uif-Message" p:render="@{!socReleasedToDepts}"
+                                                              p:messageText="Currently, only central administrators are able to make changes to course offering information in this term's course schedule. To grant departmental administrators access to copy and edit functions, you must first release the term to departments. Doing so will disable future Rollovers to this term."/>
+                                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}"
+                                                              p:messageText="Course offerings for @{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} have been released to the departments."/>
+                                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled}">
+                                                            <property name="items">
+                                                                <list>
+                                                                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
+                                                                          p:methodToCall="confirmReleaseToDepts"/>
+                                                                    <bean parent="Uif-ActionLink" p:actionLabel="Re-do Rollover" p:methodToCall="redoRollover"/>
+                                                                </list>
+                                                            </property>
+                                                        </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <!-- Source term display -->
+                                            <bean parent="Uif-HorizontalBoxSubSection">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="Uif-GridSubSection" p:layoutManager.applyDefaultCellWidths="false">
+                                                            <property name="items">
+                                                                <list>
+                                                                    <bean parent="Uif-DataField" p:label="Source Term"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="rolloverSourceTermDesc"/>
+                                                                    <bean parent="Uif-DataField" p:label="Date Initiated"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="dateInitiated"/>
+                                                                    <bean parent="Uif-DataField" p:label="Date Completed"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="dateCompleted"/>
+                                                                    <bean parent="Uif-DataField" p:label="Rollover Duration"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="rolloverDuration"/>
+                                                                    <bean parent="Uif-DataField" p:label="Course Offerings"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="courseOfferingsAllowed"/>
+                                                                    <bean parent="Uif-DataField" p:label="Activity Offerings"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="activityOfferingsAllowed"/>
+                                                                </list>
+                                                            </property>
+                                                        </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <bean parent="Uif-HorizontalBoxSubSection">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="Uif-InputField" p:labelPlacement="TOP"
+                                                              p:propertyName="displayedTargetTermCode"
+                                                              p:fieldLabel.renderColon="false" p:label="Configuration Options">
+                                                            <property name="control">
+                                                                <bean parent="Uif-VerticalCheckboxesControl" p:disabled="@{isConfigurationOptionsDisabled}">
+                                                                    <property name="options">
+                                                                        <list>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox1" p:value="Exclude canceled course offerings"/>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox2" p:value="Refresh rollover with catalog versions"/>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox3" p:value="Exclude scheduling information"/>
+                                                                            <bean parent="Uif-KeyLabelPair" p:key="checkBox4" p:value="Exclude instructor information"/>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                            </property>
+                                                        </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                 </bean>   <!-- grid section-->
+                                 <bean parent="Uif-TableCollectionSection" p:headerText="Non-Transitioned Course Offerings"
+                                       p:layoutManager.numberOfColumns="3" p:renderAddLine="false"
+                                       p:renderLineActions="false" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+
+                                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper"/>
+                                     <property name="propertyName" value="socRolloverResultItems"/>
+                                     <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                     <property name="layoutManager.renderSequenceField" value="false" />
+                                     <property name="layoutManager.applyDefaultCellWidths" value="true" />
+                                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                     <property name="layoutManager.richTable.templateOptions">
+                                         <map merge="true">
+                                             <entry key="iDisplayLength" value="20"/>
+                                         </map>
+                                     </property>
+                                     <property name="items">
+                                       <list>
+
+                                                 <bean parent="Uif-DataField" p:propertyName="course" p:label="Course"/>
+                                                 <bean parent="Uif-DataField" p:propertyName="stateName" p:label="Reason"/>
+                                                 <bean parent="Uif-DataField" p:propertyName="message" p:label="Details"/>
+                                       </list>
+                                   </property>
+                                 </bean>  <!-- grid section -->
+                                 <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled and rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                     <property name="items">
+                                        <list>
+                                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
+                                                  p:methodToCall="confirmReleaseToDepts"/>
+                                            <bean parent="Uif-ActionLink" p:actionLabel="Re-do Rollover" p:methodToCall="redoRollover"/>
+                                        </list>
+                                     </property>
+                                 </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </list>
+            </property>
+       </bean>
+    </beans>

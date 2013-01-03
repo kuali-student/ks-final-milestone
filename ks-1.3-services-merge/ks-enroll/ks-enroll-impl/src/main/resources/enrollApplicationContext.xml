@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+  <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
+  <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+  <import resource="classpath:enrollDao.xml" />
+  <!-- Infrastructure code which handles invocation for all service impls -->
+  <bean id="layeringAspects" class="org.kuali.student.enrollment.class1.lpr.service.aspect.ServiceAspects">
+    <property name="includeThrowableClassList">
+      <list>
+        <ref bean="kualiInvalidParamException" />
+        <ref bean="kualiReadOnlyException" />
+        <ref bean="kualiOperationFailedException" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="lprServiceOnBus" parent="lprServiceAuthorization" />
+  <bean id="luiServiceOnBus" parent="luiService" />
+  <bean id="atpServiceOnBus" parent="atpServiceValidation" />
+  <bean id="acalServiceOnBus" parent="acalServiceValidation" />
+  <bean id="courseOfferingServiceOnBus" parent="courseOfferingValidation" />
+  <bean id="holdServiceOnBus" parent="holdValidation" />
+
+  <!-- declare beans here -->
+  <!-- declare impls here -->
+  <bean id="lprService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LprServiceImpl">
+    <property name="lprDao" ref="lprDao" />
+    <property name="lprTransactionDao" ref="lprTrasactionDao" />
+    <property name="lprTransactionItemDao" ref="lprTrasactionItemDao" />
+  </bean>
+
+
+
+
+  <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl" />
+
+  <bean id="courseOfferingValidation"
+    class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
+<!-- TODO: configure this with the validator and persistence impl like in the comment 
+      I just noticed that it has no configuration when removing references to the dictionary service 
+        and figured I would note the potential issue
+        Note: I did a serach on this file enrollApplicationContext and didn't find it being used anywhere!
+    <property name="nextDecorator" ref="coService" />
+    <property name="validator" ref="validator" />-->
+  </bean>
+
+  <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+    <property name="atpDao" ref="atpEnrDao" />
+    <property name="atpRelDao" ref="atpAtpRelationDao" />
+    <!-- <property name="atpRelTypeDao" ref="atpAtpRelationTypeDao"/> -->
+    <property name="milestoneDao" ref="milestoneDao" />
+    <!-- <property name="milestoneTypeDao" ref="milestoneTypeDao"/> -->
+    <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
+    <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
+  </bean>
+
+  <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
+    <property name="stateDao" ref="stateDao" />
+    <property name="lifecycleDao" ref="lifecycleDao" />
+  </bean>
+
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.TypeServiceImpl">
+        <property name="typeDao" ref="typeDao"/>
+        <property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
+    </bean>
+
+    <bean id="typeMockService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl">
+    </bean>
+
+  <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
+    <property name="atpService" ref="atpEnrService" />
+    <property name="stateService" ref="stateService" />
+    <property name="typeService" ref="typeService" />
+    <property name="acalAssembler" ref="acalAssembler" />
+    <property name="termAssembler" ref="termAssembler" />
+    <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
+    <property name="holidayAssembler" ref="holidayAssembler" />
+    <property name="keyDateAssembler" ref="keyDateAssembler" />
+    <property name="acalEventAssembler" ref = "acalEventAssembler" />
+  </bean>
+
+  <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
+    <property name="atpService" ref="atpEnrService" />
+  </bean>
+
+  <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
+
+ <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
+
+  <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
+
+  <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
+
+ <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
+
+  <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
+    <property name="lprService" ref="lprServiceOnBus" />
+    <property name="courseOfferingService" ref="courseOfferingServiceOnBus" />
+  </bean>
+
+
+
+  <!-- declare all service exceptions here or in KS core -->
+  <bean id="kualiInvalidParamException" class="org.kuali.student.r2.common.exceptions.InvalidParameterException" />
+  <bean id="kualiOperationFailedException" class="org.kuali.student.r2.common.exceptions.OperationFailedException" />
+  <bean id="kualiReadOnlyException" class="org.kuali.student.r2.common.exceptions.ReadOnlyException" />
+
+
+  <bean id="permissionService" class="org.kuali.rice.kim.impl.permission.PermissionServiceImpl" />
+
+  <!-- decorators -->
+  <bean id="lprServiceValidation" class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceValidationDecorator">
+    <property name="nextDecorator" ref="lprService" />
+  </bean>
+
+  <bean id="lprServiceAuthorization"
+    class="org.kuali.student.enrollment.class1.lpr.service.decorators.LprServiceAuthorizationDecorator">
+    <property name="nextDecorator" ref="lprServiceValidation" />
+    <property name="permissionService" ref="permissionService" />
+  </bean>
+
+  <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
+    <property name="nextDecorator" ref="atpEnrService" />
+    <property name="validator" ref="validator" />
+  </bean>
+
+  <bean id="acalServiceValidation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
+    <property name="nextDecorator" ref="acalServiceCalculationDecorator" />
+    <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
+    <property name="validator" ref="validator" />
+  </bean>
+ <bean id="acalServiceDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceDecorator">
+    <property name="atpService" ref="atpEnrService" />
+  </bean>
+
+   <bean id="acalServiceCalculationDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
+    <property name="nextDecorator" ref="acalService" />
+  </bean>
+
+    <bean id="enrollmentFeeDao" class="org.kuali.student.r2.core.fee.dao.EnrollmentFeeDao"/>
+    <bean id="feeService" class="org.kuali.student.r2.core.fee.service.impl.FeeServiceImpl">
+        <property name="enrollmentFeeDao" ref="enrollmentFeeDao"/>
+    </bean>
+
+    <!-- TODO: this is a duplicate definition -->
+    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+        <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+    </bean>
+
+    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl">
+        <property name="socDao" ref="socDao" />
+        <property name="socRorDao" ref="socRolloverResultDao" />
+        <property name="socRorItemDao" ref="socRolloverResultItemDao" />
+        <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    </bean>
+
+
+  <!-- end of decorators -->
+
+
+  <aop:config>
+    <aop:aspect id="serviceLayeringAspect" ref="layeringAspects">
+      <!-- For exceptions use expression = "execution() and !execution()" -->
+      <aop:pointcut id="commonBeforeConcerns" expression="execution(* org.kuali.student.enrollment.*.service.impl..*.*(..))" />
+      <aop:before pointcut-ref="commonBeforeConcerns" method="beforeInvokingService" />
+      <aop:pointcut id="lprExceptionPointCut" expression="execution(* org.kuali.student.enrollment.*.service..*.*(..))" />
+      <aop:after-throwing pointcut-ref="lprExceptionPointCut" throwing="ex" method="handleExceptions" />
+    </aop:aspect>
+  </aop:config>
+
+</beans>

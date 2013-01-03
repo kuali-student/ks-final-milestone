@@ -1,0 +1,91 @@
+package org.kuali.student.krms.termresolver;
+
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.kuali.rice.krms.api.repository.context.ContextDefinition;
+import org.kuali.rice.krms.impl.repository.ContextBoService;
+import org.kuali.rice.krms.impl.type.KrmsTypeResolver;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
+
+import static org.junit.Assert.assertNotNull;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:ks-krms-test-context.xml"})
+@Ignore
+public class TestKSKRMSTermResolvers {
+	private KrmsTypeResolver typeResolver;
+	
+//	@Resource(name = "termBoService")
+//	private TermBoService termBoService;
+	
+	@Resource(name = "contextBoService")
+	public ContextBoService contextRepository;
+    public ContextInfo callContext = null;
+    
+    @Resource(name = "ksKRMSTermResolverTypeService")
+    public KSTermResolverTypeService ksKRMSTermResolverTypeService;
+
+    @Before
+    public void setUp() {
+//    	this.setClearTables(false);
+        callContext = new ContextInfo();
+//        termBoService = KrmsRepositoryServiceLocator.getTermBoService();
+//        contextRepository = KrmsRepositoryServiceLocator.getContextBoService();
+
+    }
+    
+
+    @Test
+    public void testKSKRMSTermResolverTypeServiceNotNull() {
+        assertNotNull(ksKRMSTermResolverTypeService);
+//        assertNotNull(contextRepository);
+//        assertNotNull(termBoService);
+    }
+
+    @Test
+    public void testHello() {
+        System.out.println("Test Hello");
+        assertNotNull(ksKRMSTermResolverTypeService);
+//        TermResolverDefinition termResolverDefinition = null;
+//		this.ksKRMSTermResolverTypeService.loadTermResolver(termResolverDefinition);
+    }
+    
+//    private void getAllTermResolverDefinitions(TermResolverDefinition contextDefinition) {
+//		
+//		List<TermResolverDefinition> termResolverDefs = 
+//				termBoService.getTermResolversByNamespace(contextDefinition.getNamespace());
+//			
+//			List<TermResolver<?>> termResolvers = new ArrayList<TermResolver<?>>();
+//
+//			if (!CollectionUtils.isEmpty(termResolverDefs)) for (TermResolverDefinition termResolverDef : termResolverDefs) {
+//				if (termResolverDef != null) {
+//					TermResolver<?> termResolver = translateTermResolver(termResolverDef);
+//					if (termResolver != null) termResolvers.add(termResolver);
+//				}
+//			}
+//
+//	}
+    
+	private ContextDefinition getKRMSContext(String context) {
+		return contextRepository.getContextByNameAndNamespace(
+				context, "KR-RULE-TEST");
+	}
+	//
+	// KRMS
+	//
+//	private Lifecycle getLoadApplicationLifecycle() {
+//	    if (krmsTestResourceLoader == null) {
+//	        krmsTestResourceLoader = new SpringResourceLoader(new QName("KRMSTestHarnessApplicationResourceLoader"), "classpath:KRMSTestHarnessSpringBeans.xml", null);
+//	        krmsTestResourceLoader.setParentSpringResourceLoader(getTestHarnessSpringResourceLoader());
+//	        getTestHarnessSpringResourceLoader().addResourceLoader(krmsTestResourceLoader);
+//	    }
+//    	return krmsTestResourceLoader;
+//	}
+}
+
