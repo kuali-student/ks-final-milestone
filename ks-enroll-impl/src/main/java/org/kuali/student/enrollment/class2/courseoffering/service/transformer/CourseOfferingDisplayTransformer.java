@@ -33,6 +33,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -60,12 +62,12 @@ public class CourseOfferingDisplayTransformer {
     public static interface RelatedData {
 
         /**
-         * Get the AtpInfo for the termId specified
+         * Get the TermInfo for the termId specified
          * @param termId
-         * @return the Atp
+         * @return the Term
          * @throws OperationFailedException  unable to complete request
          */
-        AtpInfo getAtp(String termId) throws OperationFailedException;
+        TermInfo getTerm(String termId) throws OperationFailedException;
         
         /**
          * Get the TypeInfo for the typeKey specified
@@ -90,7 +92,7 @@ public class CourseOfferingDisplayTransformer {
      * Transform a list of CourseOffering objects into a list of CourseOfferingDisplay objects.
      * 
      * @param courseOfferings The list of CourseOffering objects to transform
-     * @param atpService the AtpService
+     * @param acalService the AcademicCalendarService
      * @param stateService the StateService
      * @param typeService the TypeService
      * @param contextInfo           information containing the principalId and
@@ -99,7 +101,7 @@ public class CourseOfferingDisplayTransformer {
      * @return the list of CourseOfferingDisplay objects.
      * @throws OperationFailedException  unable to complete request
      */
-    public static List<CourseOfferingDisplayInfo>cos2coDisplays(List<CourseOfferingInfo>courseOfferings, final AtpService atpService,
+    public static List<CourseOfferingDisplayInfo>cos2coDisplays(List<CourseOfferingInfo>courseOfferings, final AcademicCalendarService acalService,
             final StateService stateService,
             final TypeService typeService,
             final ContextInfo contextInfo) throws OperationFailedException {
@@ -113,7 +115,7 @@ public class CourseOfferingDisplayTransformer {
             
             Set<String>stateKeys = new HashSet<String>();
             
-            final Map<String, AtpInfo>atpMap = new HashMap<String, AtpInfo>();
+            final Map<String, TermInfo>termMap = new HashMap<String, TermInfo>();
             
             final Map<String, TypeInfo>typeMap = new  HashMap<String, TypeInfo>();
             
@@ -126,13 +128,13 @@ public class CourseOfferingDisplayTransformer {
                 stateKeys.add(courseOfferingInfo.getStateKey());
             }
             
-            List<AtpInfo>atps = atpService.getAtpsByIds(new ArrayList<String>(termIds), contextInfo);
+            List<TermInfo> terms = acalService.getTermsByIds(new ArrayList<String>(termIds), contextInfo);
             
             
             
-            for (AtpInfo atpInfo : atps) {
+            for (TermInfo termInfo : terms) {
                 
-                atpMap.put(atpInfo.getId(), atpInfo);
+                termMap.put(termInfo.getId(), termInfo);
                 
             }
             
@@ -163,8 +165,8 @@ public class CourseOfferingDisplayTransformer {
                 }
                 
                 @Override
-                public AtpInfo getAtp(String termId) throws OperationFailedException {
-                    return atpMap.get(termId);
+                public TermInfo getTerm(String termId) throws OperationFailedException {
+                    return termMap.get(termId);
                 }
             };
             
@@ -184,7 +186,7 @@ public class CourseOfferingDisplayTransformer {
         
     }
     public static CourseOfferingDisplayInfo co2coDisplay(CourseOfferingInfo coInfo,
-                                                         final AtpService atpService,
+                                                         final AcademicCalendarService acalService,
                                                          final StateService stateService,
                                                          final TypeService typeService,
                                                          LRCService lrcService,
@@ -194,9 +196,9 @@ public class CourseOfferingDisplayTransformer {
         return transformData(coInfo, new RelatedData() {
 
             @Override
-            public AtpInfo getAtp(String termId) throws OperationFailedException {
+            public TermInfo getTerm(String termId) throws OperationFailedException {
                 try {
-                    return atpService.getAtp(termId, context);
+                    return acalService.getTerm(termId, context);
                 } catch (Exception e) {
                     throw new OperationFailedException("co2coDisplay: failed to get atp for id =" + termId, e);
                 }
@@ -251,9 +253,9 @@ public class CourseOfferingDisplayTransformer {
         // subjectArea,
         displayInfo.setSubjectArea(coInfo.getSubjectArea());
         // termName, termCode
-        AtpInfo atpInfo = data.getAtp(coInfo.getTermId());
-        displayInfo.setTermName(atpInfo.getName());
-        displayInfo.setTermCode(atpInfo.getCode());
+        TermInfo termInfo = data.getTerm(coInfo.getTermId());
+        displayInfo.setTermName(termInfo.getName());
+        displayInfo.setTermCode(termInfo.getCode());
 
         // gradingOptionName, creditOptionName,
         displayInfo.setGradingOption(new KeyNameInfo(coInfo.getGradingOptionId(), coInfo.getGradingOptionName()));

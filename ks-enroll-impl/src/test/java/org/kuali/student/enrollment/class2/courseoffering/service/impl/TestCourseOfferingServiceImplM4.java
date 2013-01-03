@@ -7,7 +7,7 @@ import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
 import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader;
-import org.kuali.student.enrollment.class2.acal.util.AcalTestDataLoader;
+import org.kuali.student.enrollment.class2.acal.util.MockAcalTestDataLoader;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -17,7 +17,6 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -33,7 +32,8 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -52,6 +52,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 
 /*
@@ -61,7 +62,6 @@ import static org.junit.Assert.assertNotNull;
  *
  * See TestLprServiceImpl for an example.
  *
- * Once the tests can be run this should be unignored.
  *
  */
 
@@ -77,25 +77,31 @@ public class TestCourseOfferingServiceImplM4 {
     @Resource
     private LuiService luiService;
     @Resource
-    private AtpService atpService;
+    private AcademicCalendarService acalService;
+    @Resource
+    private TypeService typeService;
 
-    //private SeatPoolDefinitionDao seatPoolDefinitionDao;
     private ContextInfo contextInfo;
 
     @Resource
     protected LuiServiceDataLoader dataLoader = new LuiServiceDataLoader();
 
-    private AcalTestDataLoader acalTestDataLoader;
+    private MockAcalTestDataLoader acalTestDataLoader;
 
     private void before() {
         if(contextInfo == null) {
             contextInfo = ContextUtils.createDefaultContextInfo();
             contextInfo.setPrincipalId("admin");
             contextInfo.setAuthenticatedPrincipalId("admin");
-            acalTestDataLoader = new AcalTestDataLoader(atpService);
+
+            acalTestDataLoader = new MockAcalTestDataLoader(acalService);
+
         }
         try {
-            acalTestDataLoader.loadDataOneRecord();
+
+            acalTestDataLoader.loadTerm("atpId5", "atpId5", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 101");
+            acalTestDataLoader.loadTerm("atpId8", "atpId8", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 101");
+
             dataLoader.loadData();
             FormatOfferingInfo foInfo = coServiceImpl.getFormatOffering("Lui-6", contextInfo);
             if (foInfo.getActivityOfferingTypeKeys() == null |
@@ -126,19 +132,6 @@ public class TestCourseOfferingServiceImplM4 {
         seatPoolDefinitionInfo.setSeatLimit(50);
         seatPoolDefinitionInfo.setProcessingPriority(3);
         return seatPoolDefinitionInfo;
-    }
-
-    private List<SeatPoolDefinitionInfo> _constructSeatPoolDefinitionInfoByIdList() {
-        SeatPoolDefinitionInfo ref = _constructSeatPoolDefinitionInfoById(2);
-        SeatPoolDefinitionInfo three = _constructSeatPoolDefinitionInfoById(3);
-        SeatPoolDefinitionInfo four = _constructSeatPoolDefinitionInfoById(4);
-        SeatPoolDefinitionInfo five = _constructSeatPoolDefinitionInfoById(5);
-        List<SeatPoolDefinitionInfo> poolList = new ArrayList<SeatPoolDefinitionInfo>();
-        poolList.add(ref);
-        poolList.add(three);
-        poolList.add(four);
-        poolList.add(five);
-        return poolList;
     }
 
     private PopulationInfo _constructPopulationInfo(Integer val) {
@@ -229,19 +222,6 @@ public class TestCourseOfferingServiceImplM4 {
         return registrationGroupInfo;
     }
 
-    private List<RegistrationGroupInfo> _constructRegistrationGroupInfoByIdList() {
-        RegistrationGroupInfo ref = _constructRegistrationGroupInfoById(2);
-        RegistrationGroupInfo three = _constructRegistrationGroupInfoById(3);
-        RegistrationGroupInfo four = _constructRegistrationGroupInfoById(4);
-        RegistrationGroupInfo five = _constructRegistrationGroupInfoById(5);
-        List<RegistrationGroupInfo> rgList = new ArrayList<RegistrationGroupInfo>();
-        rgList.add(ref);
-        rgList.add(three);
-        rgList.add(four);
-        rgList.add(five);
-        return rgList;
-    }
-
     private List<String> extractActivityOfferingIds(List<ActivityOfferingSetInfo> aoList) {
         List<String> idList = new ArrayList<String>();
 
@@ -309,8 +289,8 @@ public class TestCourseOfferingServiceImplM4 {
         try {
             String foId = "Lui-6";
             String aocId = "Aoc-1";
-            RegistrationGroupInfo created = coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
-            RegistrationGroupInfo created2 = coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info2, contextInfo);
+            coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info, contextInfo);
+            coServiceImpl.createRegistrationGroup(foId, aocId, LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, info2, contextInfo);
 
             List<RegistrationGroupInfo> rgInfos = coServiceImpl.getRegistrationGroupsByFormatOffering(foId, contextInfo);
             assertEquals(2, rgInfos.size());
@@ -360,8 +340,6 @@ public class TestCourseOfferingServiceImplM4 {
             Assert.assertEquals(created.getCourseOfferingId(), fetched.getCourseOfferingId());
             Assert.assertEquals(created.getId(), fetched.getId());
 
-            List<LuiLuiRelationInfo> llrs = luiService.getLuiLuiRelationsByLui(fetched.getId(), contextInfo);
-
             List<String> activityOfferingIds = new ArrayList<String>();
             activityOfferingIds.add("Lui-2");
             activityOfferingIds.add("Lui-Lab2");
@@ -371,18 +349,15 @@ public class TestCourseOfferingServiceImplM4 {
             fetched.setFormatOfferingId("Lui-7");
             RegistrationGroupInfo updated = coServiceImpl.updateRegistrationGroup(fetched.getId(), fetched, contextInfo);
 
-            List<LuiLuiRelationInfo> llrs1 = luiService.getLuiLuiRelationsByLui(updated.getId(), contextInfo);
             coServiceImpl.deleteRegistrationGroup(updated.getId(), contextInfo);
 
-            List<LuiLuiRelationInfo> llrsAfter = luiService.getLuiLuiRelationsByLui(updated.getId(), contextInfo);
             try {
-                RegistrationGroupInfo fetchedAfterDelete = coServiceImpl.getRegistrationGroup(updated.getId(), contextInfo);
+                coServiceImpl.getRegistrationGroup(updated.getId(), contextInfo);
                 //This should throw an exception since the reg group was deleted
                 assert (false);
             } catch (DoesNotExistException e) {
                 assert (true);
             }
-            // System.out.println("here");
         } catch (Exception e) {
             e.printStackTrace();
             assert (false);
@@ -437,7 +412,7 @@ public class TestCourseOfferingServiceImplM4 {
             Assert.assertEquals(info.getProcessingPriority(), fetched.getProcessingPriority());
         } catch (Exception e) {
             e.printStackTrace();
-            assert (false);
+            fail(e.getMessage());
         }
     }
 
@@ -490,7 +465,7 @@ public class TestCourseOfferingServiceImplM4 {
 
         } catch (Exception e) {
             e.printStackTrace();
-            assert (false);
+            fail(e.getMessage());
         }
     }
 
@@ -560,7 +535,7 @@ public class TestCourseOfferingServiceImplM4 {
         }
 
         // check that the union of activity id's matches what we declared
-        new ListOfStringTester().checkExistsAnyOrder(Arrays.asList(new String[]{"Lui-5", "Lui-Lab2", "Lui-8"}),
+        new ListOfStringTester().checkExistsAnyOrder(Arrays.asList("Lui-5", "Lui-Lab2", "Lui-8"),
                 extractActivityOfferingIds(actual.getActivityOfferingSets()), true);
 
         //test getRegistrationGroupsByActivityOfferingCluster

@@ -6,8 +6,6 @@ import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDaoApi;
@@ -66,7 +64,8 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
@@ -393,7 +392,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         CourseOfferingInfo coInfo = getCourseOffering(courseOfferingId, context);
         CourseOfferingDisplayInfo displayInfo =
-                CourseOfferingDisplayTransformer.co2coDisplay(coInfo, atpService, stateService, typeService, lrcService, context);
+                CourseOfferingDisplayTransformer.co2coDisplay(coInfo, acalService, stateService, typeService, lrcService, context);
 
         return displayInfo;
     }
@@ -403,7 +402,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public List<CourseOfferingDisplayInfo> getCourseOfferingDisplaysByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CourseOfferingInfo> coList = getCourseOfferingsByIds(courseOfferingIds, context);
 
-        return CourseOfferingDisplayTransformer.cos2coDisplays(coList, atpService, stateService, typeService, context);
+        return CourseOfferingDisplayTransformer.cos2coDisplays(coList, acalService, stateService, typeService, context);
 
     }
 
@@ -475,7 +474,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         acalService.getTerm(termId, context);
         List<LuiInfo> luis = luiService.getLuisByAtpAndClu(courseId, termId, context);
         List<String> luiIds = new ArrayList<String>();
-        CourseOfferingTransformer transformer = new CourseOfferingTransformer();
+
         for (LuiInfo lui : luis) {
             if (StringUtils.equals(lui.getTypeKey(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)) {
                 luiIds.add(lui.getId());
@@ -1011,8 +1010,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ao.setCourseOfferingCode(coCode);
         ao.setCourseOfferingTitle(coLongName);
 
-        AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(), context);
-        ao.setTermCode(termAtp.getCode());
+        TermInfo term = getAcalService().getTerm(ao.getTermId(), context);
+        ao.setTermCode(term.getCode());
     }
 
     @Override
@@ -1146,10 +1145,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ao.setFormatOfferingName(fo.getShortName());
         ao.setCourseOfferingCode(co.getCourseOfferingCode());
         ao.setCourseOfferingTitle(co.getCourseOfferingTitle());
-        AtpService localAtpService = getAtpService();
         String aoTermId = ao.getTermId();
-        AtpInfo termAtp = localAtpService.getAtp(aoTermId, context);
-        ao.setTermCode(termAtp.getCode());
+        TermInfo term = getAcalService().getTerm(aoTermId, context);
+        ao.setTermCode(term.getCode());
         return ao;
     }
 
@@ -1480,8 +1478,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ao.setFormatOfferingName(foInfo.getName());
         ao.setCourseOfferingCode(coInfo.getCourseOfferingCode());
         ao.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
-        AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(), context);
-        ao.setTermCode(termAtp.getCode());
+        TermInfo term = getAcalService().getTerm(ao.getTermId(), context);
+        ao.setTermCode(term.getCode());
         return ao;
     }
 
@@ -2037,7 +2035,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                         hasTimeSlotRequested = true;
                     }
 
-                    if (hasTimeSlotActual == true || hasTimeSlotRequested == true) {
+                    if (hasTimeSlotActual || hasTimeSlotRequested ) {
                         for (Map.Entry<String, Map<String, List<String>>> innerEntry : aoTimeSlotMap.entrySet()) {
                             boolean hasTimeSlotActualCompared = false, hasTimeSlotRequestedCompared = false;
 
@@ -2276,11 +2274,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             aoTypeSetCopy.removeAll(foAoTypes);
             if (!aoTypeSetCopy.isEmpty()) {
                 // There are aoTypes in the cluster, which do not appear in the fo's ao types
-                StringBuffer error = new StringBuffer();
+                StringBuilder error = new StringBuilder();
                 for (String aoType: aoTypeSetCopy) {
-                    error.append(aoType + " ");
+                    error.append(aoType).append(" ");
                 }
-                error.append("not valid AO types for FO (" + foId + ")");
+                error.append("not valid AO types for FO (").append(foId).append(")");
                 throw new InvalidParameterException(error.toString());
             } else {
                 // All cluster AO types exist in FO but some are missing, so fill in missing ones
