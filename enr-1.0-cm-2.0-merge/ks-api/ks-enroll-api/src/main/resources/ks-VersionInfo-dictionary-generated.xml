@@ -1,0 +1,195 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- VersionInfo-->
+	<bean id="VersionInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="versionInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
+		<property name="objectLabel" value="Version"/>
+		<property name="objectDescription">
+			<value>
+Version object
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>versionIndId</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="VersionInfo.versionIndId"/>
+				<ref bean="VersionInfo.sequenceNumber"/>
+				<ref bean="VersionInfo.currentVersionStart"/>
+				<ref bean="VersionInfo.currentVersionEnd"/>
+				<ref bean="VersionInfo.versionComment"/>
+				<ref bean="VersionInfo.versionedFromId"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="VersionInfo.versionIndId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="versionIndId"/>
+		<property name="shortLabel" value="Version Ind Id"/>
+		<property name="summary">
+			<value>
+Version independent Id that remains the same across all versions
+			</value>
+		</property>
+		<property name="label" value="Version Independent Id"/>
+		<property name="description">
+			<value>
+Version independent Id that remains the same across all versions
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="VersionInfo.sequenceNumber-generated" abstract="true" parent="BaseKuali.long">
+		<property name="name" value="sequenceNumber"/>
+		<property name="shortLabel" value="Sequence Number"/>
+		<property name="summary">
+			<value>
+The sequence number of the version
+			</value>
+		</property>
+		<property name="label" value="Sequence Number"/>
+		<property name="description">
+			<value>
+The sequence number of the version
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="VersionInfo.currentVersionStart-generated" abstract="true" parent="BaseKuali.start">
+		<property name="name" value="currentVersionStart"/>
+		<property name="shortLabel" value="Current Version Start"/>
+		<property name="summary">
+			<value>
+The date and time this version became current.
+			</value>
+		</property>
+		<property name="label" value="Current Version Start Date"/>
+		<property name="description">
+			<value>
+The date and time this version became current.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="VersionInfo.currentVersionEnd-generated" abstract="true" parent="BaseKuali.end">
+		<property name="name" value="currentVersionEnd"/>
+		<property name="shortLabel" value="Current Version End"/>
+		<property name="summary">
+			<value>
+The date and time when this version stopped being current.
+			</value>
+		</property>
+		<property name="label" value="Current Version End Date"/>
+		<property name="description">
+			<value>
+The date and time when this version stopped being current.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="VersionInfo.versionComment-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="versionComment"/>
+		<property name="shortLabel" value="Version Comment"/>
+		<property name="summary">
+			<value>
+Comments associated with the version
+			</value>
+		</property>
+		<property name="label" value="Version Comment"/>
+		<property name="description">
+			<value>
+Comments associated with the version
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="VersionInfo.versionedFromId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="versionedFromId"/>
+		<property name="shortLabel" value="Versioned From Id"/>
+		<property name="summary">
+			<value>
+Version from which this version was created
+			</value>
+		</property>
+		<property name="label" value="Versioned From Id"/>
+		<property name="description">
+			<value>
+Version from which this version was created
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+</beans>
