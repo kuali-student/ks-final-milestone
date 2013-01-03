@@ -15,24 +15,23 @@
 
 package org.kuali.student.r2.core.acal.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AcademicCalendarInfo", propOrder = { 
-                "id", "typeKey", "stateKey", "name", "descr", 
+                "id", "typeKey", "stateKey", "stateName", "name", "descr",
                 "holidayCalendarIds", "adminOrgId", "startDate", "endDate", 
 		"meta", "attributes", "_futureElements" })
 
@@ -53,6 +52,8 @@ public class AcademicCalendarInfo
     
     @XmlElement
     private Date endDate;
+
+    private String stateName;
     
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -127,5 +128,13 @@ public class AcademicCalendarInfo
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 }
