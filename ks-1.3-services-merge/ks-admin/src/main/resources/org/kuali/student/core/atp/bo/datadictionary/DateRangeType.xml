@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="DateRangeType" parent="DateRangeType-parentBean" />
+    <bean id="DateRangeType-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.student.core.atp.bo.DateRangeType" />
+        <property name="titleAttribute" value="id" />
+        <property name="objectLabel" value="Date Range Type" />
+        <property name="lookupDefinition">
+            <ref bean="DateRangeType-lookupDefinition" />
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="DateRangeType-inquiryDefinition" />
+        </property>
+        <property name="attributes">
+            <list>
+                <ref bean="DateRangeType-id" />
+                <ref bean="DateRangeType-name" />
+                <ref bean="DateRangeType-description" />
+                <ref bean="DateRangeType-activeFromDate" />
+                <ref bean="DateRangeType-activeToDate" />
+                <ref bean="DateRangeType-active" />
+            </list>
+        </property>
+    </bean>
+
+    <alias alias="DateRangeType-id" name="CoreTypeReference-id" />
+    <alias alias="DateRangeType-name" name="CoreTypeReference-name" />
+    <alias alias="DateRangeType-description" name="CoreTypeReference-description" />
+    <alias alias="DateRangeType-activeFromDate" name="CoreTypeReference-activeFromDate" />
+    <alias alias="DateRangeType-activeToDate" name="CoreTypeReference-activeToDate" />
+    <alias alias="DateRangeType-active" name="CoreTypeReference-active" />
+
+
+    <bean id="DateRangeType-lookupDefinition" parent="DateRangeType-lookupDefinition-parentBean" />
+    <bean id="DateRangeType-lookupDefinition-parentBean" abstract="true" parent="CoreTypeReference-lookupDefinition">
+    	<property name="title" value="Date Range Type Lookup" />
+    </bean>
+    
+
+    <bean id="DateRangeType-inquiryDefinition" parent="DateRangeType-inquiryDefinition-parentBean" />
+    <bean id="DateRangeType-inquiryDefinition-parentBean" abstract="true" parent="CoreTypeReference-inquiryDefinition">
+        <property name="title" value="Date Range Type Inquiry" />
+    </bean>
+    
+</beans>

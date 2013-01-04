@@ -1,0 +1,13 @@
+INSERT
+INTO
+    KSEN_LUI_RELATED_LUI_TYPES
+    (
+        KSEN_LUI_RELATED_LUI_TYPES.RELATED_LUI_TYPE,
+        KSEN_LUI_RELATED_LUI_TYPES.LUI_ID
+    )
+    VALUES
+    (
+        'kuali.lui.type.activity.offering.lecture',
+        '956b41a2-de25-4572-8bd7-fa958522407a'
+    )
+/

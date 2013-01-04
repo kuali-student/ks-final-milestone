@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:dd="http://rice.kuali.org/dd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://rice.kuali.org/dd
+                           http://rice.kuali.org/dd/dd.xsd">
+
+  <bean id="DateRangeTypeMaintenanceDocument" parent="DateRangeTypeMaintenanceDocument-parentBean"/>
+  <bean id="DateRangeTypeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
+        p:businessObjectClass="org.kuali.student.core.atp.bo.DateRangeType"
+        p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
+    <property name="documentTypeName" value="DateRangeTypeMaintenanceDocument"/>
+    <property name="maintainableSections">
+      <list>
+        <ref bean="DateRangeTypeMaintenanceDocument-dateRangeType"/>
+      </list>
+    </property>
+    <property name="lockingKeys">
+      <list>
+        <value>id</value>
+      </list>
+    </property>
+  </bean>
+
+  <!-- Maintenance Section Definitions -->
+
+  <bean id="DateRangeTypeMaintenanceDocument-dateRangeType" parent="DateRangeTypeMaintenanceDocument-dateRangeType-parentBean"/>
+  <bean id="DateRangeTypeMaintenanceDocument-dateRangeType-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="Date Range Type Maintenance"/>
+    <property name="maintainableItems">
+      <list>
+        <bean parent="MaintainableFieldDefinition" p:name="id" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="name" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="description" />
+        <bean parent="MaintainableFieldDefinition" p:name="activeFromDate" />
+        <bean parent="MaintainableFieldDefinition" p:name="activeToDate" />
+      </list>
+    </property>
+  </bean>
+
+</beans>

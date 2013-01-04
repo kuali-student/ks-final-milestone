@@ -1,0 +1,325 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Thu May 10 16:45:14 EDT 2012
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- HolidayCalendarInfo-->
+	<bean id="HolidayCalendarInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="holidayCalendarInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo"/>
+		<property name="objectLabel" value="Holiday Calendar"/>
+		<property name="objectDescription">
+			<value>
+Information about a Holiday Calendar. A Holiday Calendar is used
+for holidays and other non-instructional days. A Holiday Calendar
+is used to share those special days among AcademicCalendars.
+			</value>
+		</property>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="HolidayCalendarInfo.id"/>
+				<ref bean="HolidayCalendarInfo.typeKey"/>
+				<ref bean="HolidayCalendarInfo.stateKey"/>
+				<ref bean="HolidayCalendarInfo.name"/>
+				<ref bean="HolidayCalendarInfo.adminOrgId"/>
+				<ref bean="HolidayCalendarInfo.startDate"/>
+				<ref bean="HolidayCalendarInfo.endDate"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="HolidayCalendarInfo.descr"/>
+				<ref bean="HolidayCalendarInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+A description of the entity.
+			</value>
+		</property>
+		<property name="label" value="Description"/>
+		<property name="description">
+			<value>
+A description of the entity.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Description"/>
+				<property name="objectDescription">
+					<value>
+A description of the entity.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="HolidayCalendarInfo.descr.plain"/>
+						<ref bean="HolidayCalendarInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.campusKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="campusKeys"/>
+		<property name="shortLabel" value="Campus Keys"/>
+		<property name="summary">
+			<value>
+The campuses to which this calendar pertains.
+			</value>
+		</property>
+		<property name="label" value="Campus Keys"/>
+		<property name="elementLabel" value="Campus Key"/>
+		<property name="description">
+			<value>
+The campuses to which this calendar pertains.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.adminOrgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="adminOrgId"/>
+		<property name="shortLabel" value="Admin Org Id"/>
+		<property name="summary">
+			<value>
+The administrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="label" value="AdminOrg Id"/>
+		<property name="description">
+			<value>
+The administrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
+		<property name="name" value="startDate"/>
+		<property name="shortLabel" value="Start Date"/>
+		<property name="summary">
+			<value>
+Date and time the holiday calendar became effective. 
+			</value>
+		</property>
+		<property name="label" value="Start Date"/>
+		<property name="description">
+			<value>
+Date and time the holiday calendar became effective. This
+does not provide a bound on date ranges or milestones
+associated with this time period, but instead indicates the
+time period proper. This is a similar concept to the effective
+date on enumerated values. When an expiration date has been
+specified, this field must be less than or equal to the
+expiration date.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
+		<property name="name" value="endDate"/>
+		<property name="shortLabel" value="End Date"/>
+		<property name="summary">
+			<value>
+Date and time the holiday calendar expires. 
+			</value>
+		</property>
+		<property name="label" value="End Date"/>
+		<property name="description">
+			<value>
+Date and time the holiday calendar expires. This does not
+provide a bound on date ranges or milestones associated with
+this time period, but instead indicates the time period
+proper. If specified, this must be greater than or equal to the
+effective date. If this field is not specified, then no
+expiration date has been currently defined and should
+automatically be considered greater than the effective date.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="HolidayCalendarInfo.meta.versionInd"/>
+						<ref bean="HolidayCalendarInfo.meta.createTime"/>
+						<ref bean="HolidayCalendarInfo.meta.createId"/>
+						<ref bean="HolidayCalendarInfo.meta.updateTime"/>
+						<ref bean="HolidayCalendarInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+</beans>

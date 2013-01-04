@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="Requisites-ManageView" parent="KSFormView">
+        <property name="id" value="manageRequisitesView"/>
+        <property name="headerText" value="Manage Enrollment Eligibility"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class1.krms.form.RequisitesForm"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.RequisitesViewHelperServiceImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="theme">
+            <bean parent="Uif-KradTheme"/>
+        </property>
+        <property name="page">
+            <bean parent="Uif-Page"/>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="Requisites-ManageSection"/>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/common.js</value>
+                <value>krms/scripts/agendaTree.js</value>
+                <value>krms/scripts/ruleStudentTree.js</value>
+                <value>krms/scripts/requiredAlerts.js</value>
+                <value>krms/scripts/disableButtons.js</value>
+                <value>krms/scripts/countdownInputs.js</value>
+            </list>
+        </property>
+
+    </bean>
+
+    <bean id="Requisites-ManageSection" parent="Uif-VerticalBoxSection">
+        <!--<property name="disclosure.render" value="false"/>-->
+        <!--<property name="style" value="margin-bottom:0;"/>-->
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-MessageField" p:messageText="@{courseName}"/>
+
+                <bean parent="Uif-InputField-LabelTop" p:label="Select Agenda" p:propertyName="agendaType">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.RequisiteAgendaTypeKeyValues"/>
+                    </property>
+                </bean>
+
+                <bean id="RequisitesRuleType-ManageSection" parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+
+                            <bean parent="Uif-InputField-LabelTop" p:label="Select Rule" p:propertyName="ruleType"
+                                  p:optionsFinderClass="org.kuali.student.enrollment.class1.krms.keyvalues.RuleTypeKeyValues"
+                                  p:refreshWhenChangedPropertyNames="agendaType">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl"/>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-InputField-LabelTop">
+                                <property name="propertyName" value="activeSelections"/>
+                                <property name="label" value="Activate / Deactivate Rule"/>
+                                <property name="control">
+                                    <bean parent="Uif-VerticalCheckboxesControl">
+                                        <property name="options">
+                                            <list>
+                                                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Canonical Rule"/>
+                                                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Course Offering Rule"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="Enrollment-Eligibility-TabSection" parent="Uif-TabSection"
+                      p:progressiveRender="@{ruleType ne null and ruleType ne '0'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Preview-Section"/>
+                            <bean parent="Edit-With-Object-Section"/>
+                            <bean parent="Edit-With-Logic-Section"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Preview-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Preview" p:header.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" abstract="true" p:style="margin-bottom:1em;">
+                    <property name="messageText">
+                        <value>
+                            Conditions that will restrict student enrollment, addressing restrictions to majors,
+                            locations, credit level requirements, etc. or courses, with or without grade requirements,
+                            which a student must have completed in order to enroll.
+                        </value>
+                    </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton-Small">
+                    <property name="actionLabel" value="See Example"/>
+                    <property name="actionScript" value="alert('click');"/>
+                </bean>
+                <ref bean="propositionGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Edit-With-Object-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Edit with Object" p:header.render="false">
+        <property name="items">
+            <list>
+                <bean parent="propositionStudentSection-parent" p:style=""/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Edit-With-Logic-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Edit with Logic" p:header.render="false">
+        <property name="items">
+            <list>
+                <!--<ref bean="propositionGroup"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="propositionGroup" parent="Uif-GridGroup">
+        <property name="headerText" value="Rule"/>
+    </bean>
+
+</beans>
